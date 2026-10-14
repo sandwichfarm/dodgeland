@@ -20,7 +20,7 @@ const ready = new Promise((resolve, reject) => {
 let browser, darkRuntime;
 const evidence = { artifact: 'single self-contained HTML; forbidden surfaces absent', frames: [], waveFrames: [], scenarios: [], runtime: 'Paja; opaque sandbox allow-scripts', errors: [] };
 try {
-  await ready; browser = await chromium.launch({ headless: true }); const page = await browser.newPage({ viewport: { width: 1400, height: 900 } });
+  await ready; browser = await chromium.launch({ headless: true, args: ['--mute-audio'] }); const page = await browser.newPage({ viewport: { width: 1400, height: 900 } });
   await page.clock.install();
   await page.addInitScript(() => {
     const native = window.AudioContext;

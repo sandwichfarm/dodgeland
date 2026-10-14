@@ -106,7 +106,7 @@ const moduleReady = new Promise(resolve => moduleServer.listen(0, '127.0.0.1', r
 after(async () => { await browser?.close(); await new Promise(resolve => moduleServer.close(resolve)); });
 async function audioPage() {
   await moduleReady;
-  browser ??= await chromium.launch();
+  browser ??= await chromium.launch({ args: ['--mute-audio'] });
   const page = await browser.newPage();
   await page.goto(`http://127.0.0.1:${moduleServer.address().port}`);
   await page.setContent('<button id="unlock">Enable sound</button>');

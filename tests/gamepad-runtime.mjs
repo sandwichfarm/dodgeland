@@ -59,7 +59,7 @@ await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const evidence = { artifact: 'unchanged production module in opaque allow-scripts iframe', shell: 'canonical NAP-GAMEPAD PR #108 snapshot fixture; no physical-controller or Kehto claim', scenarios: [], errors: [], external: [] };
 let browser;
 try {
-  browser = await chromium.launch();
+  browser = await chromium.launch({ args: ['--mute-audio'] });
   const page = await browser.newPage({ viewport: { width: 1000, height: 700 } });
   page.setDefaultTimeout(8000); await page.clock.install();
   const cdp = await page.context().newCDPSession(page), contexts = new Map();

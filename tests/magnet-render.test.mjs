@@ -13,7 +13,7 @@ const server = createServer((request, response) => {
   response.end(source ?? '<!doctype html><style>body{margin:0}canvas{display:block}</style><canvas width="720" height="500"></canvas>');
 });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
-const browser = await chromium.launch();
+const browser = await chromium.launch({ args: ['--mute-audio'] });
 after(async () => { await browser.close(); await new Promise(resolve => server.close(resolve)); });
 
 test('real canvas shows the coin approaching the duck and disappearing only at arrival', async () => {

@@ -12,7 +12,7 @@ const server = createServer((request, response) => {
   response.end(source ?? '<!doctype html><style>body{margin:0}canvas{display:block;width:100vw;height:100vh}</style><canvas></canvas>');
 });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
-const browser = await chromium.launch();
+const browser = await chromium.launch({ args: ['--mute-audio'] });
 after(async () => { await browser.close(); await new Promise(resolve => server.close(resolve)); });
 
 test('real spilled models match market geometry, tumble above the floor, and remain visible after settling', async () => {

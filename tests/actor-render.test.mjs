@@ -12,7 +12,7 @@ const server = createServer((request, response) => {
   response.end(source ?? '<!doctype html><canvas width="900" height="600"></canvas>');
 });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
-const browser = await chromium.launch();
+const browser = await chromium.launch({ args: ['--mute-audio'] });
 after(async () => { await browser.close(); await new Promise(resolve => server.close(resolve)); });
 
 test('traffic models preserve old cars and share visible chassis bounds in either direction', async () => {

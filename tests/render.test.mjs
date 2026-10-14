@@ -13,7 +13,7 @@ const server = createServer((request, response) => {
   response.end(source ?? '<!doctype html><style>body{margin:0;background:#f4f2df}canvas{display:block}</style><canvas id="scene" width="720" height="500"></canvas>');
 });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
-const browser = await chromium.launch();
+const browser = await chromium.launch({ args: ['--mute-audio'] });
 after(async () => { await browser.close(); await new Promise(resolve => server.close(resolve)); });
 const page = await browser.newPage({ viewport: { width: 720, height: 500 }, deviceScaleFactor: 1 });
 await page.goto(`http://127.0.0.1:${server.address().port}`);

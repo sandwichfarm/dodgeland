@@ -146,7 +146,11 @@ let browser;
 const errors = [], external = [];
 try {
   const browserType = process.env.DOWN_TO_DUCK_AUDIO_BROWSER === 'firefox' ? firefox : chromium;
-  browser = await browserType.launch();
+  browser = await browserType.launch(browserType === firefox
+    // Firefox applies this string preference at the device output, after the
+    // WebAudio graph, preserving live analysers and OfflineAudioContext PCM.
+    ? { firefoxUserPrefs: { 'media.volume_scale': '0.0' } }
+    : { args: ['--mute-audio'] });
   const page = await browser.newPage({ viewport: { width: 1000, height: 720 } });
   page.setDefaultTimeout(5_000);
   page.on('pageerror', error => errors.push(error.message));

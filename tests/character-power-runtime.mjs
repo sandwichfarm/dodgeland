@@ -29,7 +29,7 @@ const evidence = { artifact: 'Production artifact in an opaque allow-scripts ifr
 await mkdir(new URL('../artifacts/', import.meta.url), { recursive: true });
 let browser;
 try {
-  browser = await chromium.launch();
+  browser = await chromium.launch({ args: ['--mute-audio'] });
   const page = await browser.newPage({ viewport: { width: 1000, height: 700 } });
   page.setDefaultTimeout(8000); await page.clock.install();
   page.on('pageerror', error => evidence.errors.push(error.message));

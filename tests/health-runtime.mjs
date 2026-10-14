@@ -62,7 +62,7 @@ const evidence = { artifact: 'unmodified production module; opaque allow-scripts
   scenarios: [], frames: [], errors: [], external: [] };
 let browser;
 try {
-  browser = await chromium.launch();
+  browser = await chromium.launch({ args: ['--mute-audio'] });
   const page = await browser.newPage({ viewport: { width: 1000, height: 700 } });
   page.setDefaultTimeout(8000);
   await page.clock.install();

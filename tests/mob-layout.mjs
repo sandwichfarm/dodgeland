@@ -7,7 +7,7 @@ import { chromium } from 'playwright';
 const output = new URL('../artifacts/', import.meta.url);
 await mkdir(output, { recursive: true });
 const evidence = { runtime: 'Paja 5197, opaque allow-scripts iframe', fixture: 'CDP stages score 480 and an isolated three-species render fixture above the gameplay cap: quiet walking, warned windup, and eased strike; browser clock controlled', frames: [], errors: [] };
-const browser = await chromium.launch();
+const browser = await chromium.launch({ args: ['--mute-audio'] });
 try {
   const page = await browser.newPage({ viewport: { width: 1400, height: 900 } });
   await page.clock.install();
