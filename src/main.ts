@@ -199,7 +199,7 @@ function releaseNativeKeyboard(): void {
   keyboardInput?.suspend();
 }
 function activateNativeKeyboard(): void {
-  if (nativeKeyboardActive) return;
+  if (nativeKeyboardActive) { keyboardInput?.resume([...observedNativeKeys]); return; }
   nativeKeyboardActive = true;
   keyboardInput?.resume([...observedNativeKeys]);
   suspendOverlappingShellShortcuts();
