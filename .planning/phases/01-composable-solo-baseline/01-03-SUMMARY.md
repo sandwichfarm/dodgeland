@@ -130,6 +130,7 @@ status: complete
 - `node --test tests/mode-rules.test.mjs tests/market-engine.test.mjs tests/market-capacity.test.mjs tests/magnet.test.mjs tests/log-coin-gravity.test.mjs tests/mobs.test.mjs tests/soundscape.test.mjs tests/render.test.mjs` — 110 passed, 0 failed, 0 skipped.
 - `pnpm test:solo-parity` — 21 passed, 0 failed against pinned immutable `a310a81ed6c76df4b265c9012c23b8c83f4802e5`.
 - `pnpm type-check` — passed.
+- `pnpm build`, `pnpm test:guidance`, and `pnpm test:conformance` — passed; conformance reported 5 passed, 0 failed, and 5 evidence skips (unresolved manifest checks, no emitted wire envelopes, and unmeasured teardown).
 - `git diff --exit-code -- pnpm-lock.yaml` — passed; no dependency or lockfile change.
 
 ## Known Stubs
