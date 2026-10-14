@@ -274,6 +274,34 @@ test('the built opaque iframe drives Local Play through the injected shell-actio
     await frame.evaluate(() => window.localSessionFixture.releaseHydration());
     await frame.waitForFunction(() => window.localSessionFixture.hydrated && typeof window.localSessionFixture.handlers['puddlehop.forward-w'] === 'function');
     assert.match((await seatRows(frame)).find(player => player.seat === 'p1')?.text ?? '', /Butter/, 'delayed hydration cannot replace an active primary traveler');
+
+    const disposedSeats = await seatRows(frame);
+    const registrations = await frame.evaluate(() => {
+      const fixture = window.localSessionFixture;
+      const retainedMoves = [fixture.handlers['puddlehop.forward-w'], fixture.handlers['puddlehop.forward']];
+      const ids = fixture.actions.map(action => action.id).sort();
+      // Exercise the real disposal handler twice, including a stale delivery
+      // already queued by the shell before the subscriptions were closed.
+      window.dispatchEvent(new PageTransitionEvent('pagehide'));
+      window.dispatchEvent(new PageTransitionEvent('pagehide'));
+      retainedMoves.forEach(handler => handler());
+      return ids;
+    });
+    await frame.waitForFunction(() => Object.keys(window.localSessionFixture.handlers).length === 0);
+    assert.deepEqual(await frame.evaluate(() => [...window.localSessionFixture.unregistered].sort()), registrations,
+      'repeated pagehide unregisters each owned shortcut exactly once');
+    const disposedScene = await sceneSnapshot(frame);
+    await page.waitForTimeout(180);
+    assert.deepEqual(await seatRows(frame), disposedSeats, 'queued movement cannot change either disposed seat');
+    assert.equal(await sceneSnapshot(frame), disposedScene, 'disposal cancels the shared animation loop');
+
+    await page.goto(`http://127.0.0.1:${serverPort}`);
+    frame = await (await page.locator('iframe').elementHandle()).contentFrame();
+    await frame.waitForFunction(() => typeof window.localSessionFixture.handlers['puddlehop.forward-w'] === 'function');
+    assert.equal(await frame.locator('#session-seats').isHidden(), true, 'a new instance starts in the default solo flow');
+    await frame.locator('#play').click();
+    await shellAction('puddlehop.forward-w');
+    await frame.waitForFunction(() => document.querySelector('#score')?.textContent === '1');
     assert.deepEqual(errors, [], 'the built opaque iframe reports no boot errors');
   } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); }
 });
