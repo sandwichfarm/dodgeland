@@ -4,11 +4,20 @@ import { createServer } from 'node:http';
 import test, { after } from 'node:test';
 import { chromium } from 'playwright';
 import { compileSources } from './source-loader.mjs';
+import { extractPinnedBaseline } from './solo-baseline.mjs';
 
 // A small independent Canvas fixture; no game server, shell, network assets, or timing luck.
 const modules = await compileSources('render', { sourceDirectory: process.env.DOWN_TO_DUCK_RENDER_SOURCE_DIR });
+// Keep the historical artifact option for legacy fixtures, but always compare
+// the real working tree against independently archived modules in the new gate.
+const currentModules = process.env.DOWN_TO_DUCK_RENDER_SOURCE_DIR ? await compileSources('render') : modules;
+const pinned = await extractPinnedBaseline();
+let baselineModules;
+try { baselineModules = await compileSources('render', { sourceDirectory: pinned.sourceDirectory }); }
+finally { await pinned.dispose(); }
 const server = createServer((request, response) => {
-  const source = modules.get(request.url);
+  const source = request.url.startsWith('/baseline/') ? baselineModules.get(request.url.slice('/baseline'.length))
+    : request.url.startsWith('/current/') ? currentModules.get(request.url.slice('/current'.length)) : modules.get(request.url);
   response.setHeader('Content-Type', source ? 'text/javascript' : 'text/html');
   response.end(source ?? '<!doctype html><style>body{margin:0;background:#f4f2df}canvas{display:block}</style><canvas id="scene" width="720" height="500"></canvas>');
 });
@@ -510,5 +519,111 @@ test('decorative hop lowers beside a car without moving the collision position',
     if (r.reduced) assert.equal(r.lift, 0);
     else if (r.carX === 0) assert.ok(r.lift > 0 && r.lift < .13, 'low arc keeps a glancing impact visually connected');
     else assert.equal(r.lift, .36, 'open-ground hop retains full bounce');
+  }
+});
+
+test('default Arcade and Stroll pixels exactly match the independently archived renderer', async () => {
+  const results = await page.evaluate(async () => {
+    const [beforeRender, beforeGame, afterRender, afterGame] = await Promise.all([
+      import('/baseline/render.js'), import('/baseline/game.js'),
+      import('/current/render.js'), import('/current/game.js'),
+    ]);
+    if (beforeGame.Game === afterGame.Game || beforeRender.Renderer === afterRender.Renderer) throw new Error('Pixel parity requires independent production modules.');
+    window.soloParityFrames = [];
+    const results = [];
+    for (const mode of ['arcade', 'stroll']) for (const state of ['ready', 'grounded', 'mid-hop']) {
+      for (const reduced of [false, true]) for (const theme of ['light', 'dark']) {
+        const draw = (gameModule, renderModule) => {
+          const canvas = document.createElement('canvas'); canvas.width = 720; canvas.height = 500;
+          const renderer = new renderModule.Renderer(canvas);
+          renderer.width = 720; renderer.height = 500; renderer.scale = 64; renderer.reduced = reduced;
+          renderer.backdrop = theme === 'dark' ? '#173b31' : '#f4f2df';
+          const game = new gameModule.Game(73, 'pond', mode);
+          // Preserve real generated scenery outside the controlled landing row.
+          for (const row of [0, 1]) Object.assign(game.rows.get(row), { kind: 'meadow', blocked: [], decorations: [], coin: null });
+          game.waveRow = -1.6;
+          if (state !== 'ready') {
+            game.move('forward');
+            game.update(state === 'mid-hop' ? .035 : .14);
+          }
+          renderer.draw(game, 'butter', 0);
+          return { canvas, pixels: renderer.ctx.getImageData(0, 0, 720, 500).data };
+        };
+        const before = draw(beforeGame, beforeRender), after = draw(afterGame, afterRender);
+        let differentBytes = 0, opaque = 0;
+        const colors = new Set();
+        for (let index = 0; index < before.pixels.length; index++) if (before.pixels[index] !== after.pixels[index]) differentBytes++;
+        for (let index = 0; index < after.pixels.length; index += 4) {
+          if (after.pixels[index + 3] === 255) opaque++;
+          colors.add(`${after.pixels[index]},${after.pixels[index + 1]},${after.pixels[index + 2]}`);
+        }
+        results.push({ mode, state, reduced, theme, differentBytes, opaque, colors: colors.size });
+        if (state === 'mid-hop' && !reduced) {
+          window.soloParityFrames.push(
+            { canvas: before.canvas, label: `${mode} / ${theme} / original a310a81` },
+            { canvas: after.canvas, label: `${mode} / ${theme} / working tree` },
+          );
+        }
+      }
+    }
+    return results;
+  });
+  assert.equal(results.length, 24);
+  for (const result of results) {
+    const label = `${result.mode}/${result.state}/${result.reduced}/${result.theme}`;
+    assert.equal(result.differentBytes, 0, `${label}: every RGBA byte equals the original renderer`);
+    assert.equal(result.opaque, 720 * 500, `${label}: the scene actually fills the canvas`);
+    assert.ok(result.colors > 30, `${label}: real terrain and character are drawn, not a uniform blank frame`);
+  }
+  await writeFile(new URL('solo-render-parity.json', artifacts), JSON.stringify({ baseline: pinned.sha, results }, null, 2));
+  const contactSheet = await page.evaluate(() => {
+    const canvas = document.createElement('canvas'); canvas.width = 720; canvas.height = 4 * 278;
+    const ctx = canvas.getContext('2d'); ctx.fillStyle = '#fff0c5'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    window.soloParityFrames.forEach((frame, index) => {
+      const x = index % 2 * 360, y = Math.floor(index / 2) * 278;
+      ctx.fillStyle = '#173b31'; ctx.font = '14px sans-serif'; ctx.fillText(frame.label, x + 8, y + 19);
+      ctx.drawImage(frame.canvas, x, y + 28, 360, 250);
+    });
+    return canvas.toDataURL('image/png').split(',')[1];
+  });
+  await writeFile(new URL('solo-render-parity.png', artifacts), Buffer.from(contactSheet, 'base64'));
+});
+
+test('custom hop duration and pursuit visibility drive the actual rendered character and wave', async () => {
+  const results = await page.evaluate(async () => {
+    const [{ Renderer }, { Game }, { composeModeDefinition }] = await Promise.all([
+      import('/current/render.js'), import('/current/game.js'), import('/current/mode-rules.js'),
+    ]);
+    return ['arcade', 'stroll'].flatMap(mode => [false, true].map(reduced => {
+      const visible = mode === 'stroll';
+      const definition = composeModeDefinition({ id: `render-${mode}`, movement: { hopDuration: .28 },
+        pursuit: { strategy: 'wave' }, presentation: { pursuitVisible: visible }, pursuers: { enabled: false } });
+      const game = new Game(73, 'pond', mode, false, [], 'butter', { definition });
+      for (const lane of game.rows.values()) Object.assign(lane, { kind: 'meadow', blocked: [], decorations: [], coin: null });
+      game.waveRow = -2;
+      const moved = game.move('forward'); game.update(.07);
+      const canvas = document.createElement('canvas'); canvas.width = 720; canvas.height = 500;
+      const renderer = new Renderer(canvas);
+      renderer.width = 720; renderer.height = 500; renderer.scale = 80; renderer.reduced = reduced;
+      let drawn, waves = 0;
+      const model = renderer.turnedModel.bind(renderer), wave = renderer.wave.bind(renderer);
+      renderer.turnedModel = (...args) => { drawn = { x: args[1], row: args[2], lift: args[3] }; return model(...args); };
+      renderer.wave = (...args) => { waves++; return wave(...args); };
+      renderer.draw(game, 'butter', 0);
+      const pixels = renderer.ctx.getImageData(0, 0, 720, 500).data;
+      return { mode, reduced, visible, moved, groundX: game.groundX, groundY: game.groundY, hop: game.hop,
+        drawn, waves, opaque: pixels.filter((value, index) => index % 4 === 3 && value === 255).length };
+    }));
+  });
+  for (const result of results) {
+    assert.equal(result.moved, true);
+    assert.ok(Math.abs(result.hop - .21) < 1e-12);
+    assert.equal(result.drawn.x, result.groundX);
+    assert.equal(result.drawn.row, result.groundY);
+    assert.ok(Math.abs(result.groundY - .25) < 1e-12);
+    const expectedLift = result.reduced ? 0 : Math.sin(.75 * Math.PI) * .36;
+    assert.ok(Math.abs(result.drawn.lift - expectedLift) < 1e-12, `${result.mode}: custom duration drives the visible hop arc`);
+    assert.equal(result.waves, Number(result.visible), `${result.mode}: visibility follows the definition, not the stored mode`);
+    assert.equal(result.opaque, 720 * 500);
   }
 });

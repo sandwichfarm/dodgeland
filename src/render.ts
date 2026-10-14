@@ -1,6 +1,6 @@
 import { box, characterById, TRAIN_MODEL } from './content.js';
 import type { Model, Voxel } from './content.js';
-import { coinPosition, HOP_TIME, laneActors, laneDirection, platformSupports, platformSurface, random, trainPhase, vehicleBounds } from './game.js';
+import { coinPosition, laneActors, laneDirection, platformSupports, platformSurface, random, trainPhase, vehicleBounds } from './game.js';
 import type { Game, Lane } from './game.js';
 import { crossingSignal } from './soundscape.js';
 import { mobDefinition } from './mobs.js';
@@ -231,7 +231,7 @@ export class Renderer {
       }
       ctx.restore();
     }
-    const showWave = game.mode === 'arcade' && game.state !== 'ready';
+    const showWave = game.rules.presentation.pursuitVisible && game.state !== 'ready';
     if (showWave) this.wave(game.waveRow, game.time);
     const objects: { x: number; y: number; draw: () => void }[] = [];
     const platforms: typeof objects = [];
@@ -312,7 +312,7 @@ export class Renderer {
         this.turnedModel(model, pose.x, pose.y, pose.z + .015, pose.yaw, pose.tilt, true);
       } });
     }
-    const f = game.hop / HOP_TIME;
+    const f = game.hop / game.rules.movement.hopDuration;
     const px = game.groundX, py = game.groundY;
     const landingSurface = platformSurface(game.lane);
     // Ground travel and changing platform heights convey collisions, even when
