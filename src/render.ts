@@ -14,6 +14,7 @@ import type { CosmeticDefinition } from './market/types.js';
 import { spillPose } from './death-spill.js';
 import { coinDenomination } from './coin-denominations.js';
 import { coinPickupModel } from './coin-models.js';
+import type { PlayerRender, SharedWorld } from './session.js';
 const looseModels = new WeakMap<CosmeticDefinition, Model>();
 const spillCoins: Model[] = Array.from({ length: 4 }, (_, pile) => Array.from({ length: pile + 1 }, (_, i) => [
   box(i % 2 * .04, i * .07, 0, .23, .055, .28, '#f1cd64'),
@@ -32,10 +33,12 @@ function looseModel(item: CosmeticDefinition): Model {
   return model;
 }
 type Point = [number, number];
+type SceneObject = { x: number; y: number; draw: () => void };
+type TravelerScene = Pick<Game, 'deathSpill' | 'hop' | 'rules' | 'groundX' | 'groundY' | 'lane' | 'rows' | 'fromY' | 'powerRescue' | 'x' | 'time' | 'mobs' | 'run' | 'hurtRemaining' | 'powerFlash' | 'power' | 'state' | 'caughtByWave'>;
 function shade(hex: string, amount: number): string { const n = parseInt(hex.slice(1), 16); return `rgb(${Math.max(0, Math.min(255, (n >> 16) + amount))},${Math.max(0, Math.min(255, (n >> 8 & 255) + amount))},${Math.max(0, Math.min(255, (n & 255) + amount))})`; }
 function polygon(ctx: CanvasRenderingContext2D, points: Point[], color: string): void { ctx.fillStyle = color; ctx.beginPath(); points.forEach(([x, y], i) => i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)); ctx.closePath(); ctx.fill(); }
 /** A brief whole-body look to the side, using the run clock so pausing freezes it. */
-export function characterYaw(game: Game, character: string, reduced = false): number {
+export function characterYaw(game: Pick<Game, 'time'>, character: string, reduced = false): number {
   if (reduced || character !== 'butter') return 0;
   const phase = game.time % 6;
   const ease = (t: number): number => (1 - Math.cos(Math.PI * t)) / 2;
@@ -215,8 +218,17 @@ export class Renderer {
     }
   }
   draw(game: Game, character: string, dt: number): void {
+    this.drawScene(game, character, dt);
+  }
+
+  private drawScene(game: Game, character: string, dt: number, players?: readonly PlayerRender[]): void {
     if (!this.width) return;
-    this.camera = this.reduced ? game.maxY : this.camera + (game.maxY - this.camera) * Math.min(1, dt * 8);
+    const leader = players?.filter(player => player.state === 'playing')
+      .sort((a, b) => b.groundY - a.groundY || a.seat.localeCompare(b.seat))[0];
+    // Solo retains its historical frontier target and exact smoothing arithmetic.
+    // A session follows actual interpolated travel and keeps its last camera if no seat is active.
+    const cameraTarget = players ? leader?.groundY ?? this.camera : game.maxY;
+    this.camera = this.reduced ? cameraTarget : this.camera + (cameraTarget - this.camera) * Math.min(1, dt * 8);
     const ctx = this.ctx; ctx.clearRect(0, 0, this.width, this.height); ctx.fillStyle = this.backdrop; ctx.fillRect(0, 0, this.width, this.height);
     const rows = [...game.rows.values()].sort((a, b) => b.index - a.index);
     for (const lane of rows) this.lane(lane, game.time);
@@ -231,9 +243,9 @@ export class Renderer {
       }
       ctx.restore();
     }
-    const showWave = game.rules.presentation.pursuitVisible && game.state !== 'ready';
+    const showWave = game.rules.presentation.pursuitVisible && (players ? players.some(player => player.state !== 'ready') : game.state !== 'ready');
     if (showWave) this.wave(game.waveRow, game.time);
-    const objects: { x: number; y: number; draw: () => void }[] = [];
+    const objects: SceneObject[] = [];
     const platforms: typeof objects = [];
     const markers: typeof objects = [];
     for (const lane of rows) {
@@ -304,6 +316,32 @@ export class Renderer {
         ctx.restore();
       } });
     }
+    const travelerOverlays: (() => void)[] = [];
+    if (players) {
+      for (const player of [...players].sort((a, b) => a.seat.localeCompare(b.seat))) {
+        const lane = game.rows.get(player.y);
+        if (!lane) continue;
+        const traveler: TravelerScene = { ...player, lane, rows: game.rows, rules: game.rules, time: game.time, mobs: game.mobs };
+        travelerOverlays.push(this.appendTraveler(traveler, player.characterId, rows, objects, markers, showWave, player.label));
+      }
+    } else {
+      travelerOverlays.push(this.appendTraveler(game, character, rows, objects, markers, showWave));
+    }
+    // Low river surfaces must be below riders regardless of their centers. Tall
+    // scenery and traffic keep their normal depth order, including in front of Pip.
+    for (const layer of [platforms, markers, objects]) {
+      layer.sort((a, b) => this.project(a.x, a.y)[1] - this.project(b.x, b.y)[1]);
+      for (const object of layer) { const [x, y] = this.project(object.x, object.y); if (x > -this.scale * 8 && x < this.width + this.scale * 8 && y > -this.scale * 3 && y < this.height + this.scale * 3) object.draw(); }
+    }
+    for (const overlay of travelerOverlays) overlay();
+    // These are intentional overlays: neither traveler nor scenery may hide
+    // preparation for a strike. Their ground paths remain below the bodies.
+    for (const mob of game.mobs) this.mobWindupWarning(mob);
+  }
+
+  /** Queue each body, trail, rescue, and spill in the same layers as the world. */
+  private appendTraveler(game: TravelerScene, character: string, rows: readonly Lane[], objects: SceneObject[], markers: SceneObject[], showWave: boolean, label?: string): () => void {
+    const ctx = this.ctx;
     if (game.deathSpill) for (const drop of game.deathSpill.drops) {
       const pose = spillPose(drop, game.deathSpill.age, this.reduced);
       const model = drop.kind === 'coin' ? spillCoins[Math.min(3, Math.floor(Math.log2(drop.amount)))]! : looseModel(drop.item!);
@@ -389,23 +427,29 @@ export class Renderer {
       }
       ctx.restore();
     } });
-    // Low river surfaces must be below riders regardless of their centers. Tall
-    // scenery and traffic keep their normal depth order, including in front of Pip.
-    for (const layer of [platforms, markers, objects]) {
-      layer.sort((a, b) => this.project(a.x, a.y)[1] - this.project(b.x, b.y)[1]);
-      for (const object of layer) { const [x, y] = this.project(object.x, object.y); if (x > -this.scale * 8 && x < this.width + this.scale * 8 && y > -this.scale * 3 && y < this.height + this.scale * 3) object.draw(); }
-    }
-    if (showWave && game.caughtByWave) {
-      // A frozen splash marks the contact point and leaves the traveler readable.
-      for (const side of [-1, 1]) {
-        this.cube(box(0, 0, .03, .27, .18, .12, '#b8f0dc'), px + side * .38, py - .03);
-        this.cube(box(0, 0, .04, .16, .12, .2, '#f2ffde'), px + side * .52, py + .08);
+    return () => {
+      if (showWave && game.caughtByWave) {
+        // A frozen splash marks the contact point and leaves the traveler readable.
+        for (const side of [-1, 1]) {
+          this.cube(box(0, 0, .03, .27, .18, .12, '#b8f0dc'), px + side * .38, py - .03);
+          this.cube(box(0, 0, .04, .16, .12, .2, '#f2ffde'), px + side * .52, py + .08);
+        }
+        this.cube(box(0, 0, .02, .64, .12, .1, '#f2ffde'), px, py - .29);
       }
-      this.cube(box(0, 0, .02, .64, .12, .1, '#f2ffde'), px, py - .29);
-    }
-    // These are intentional overlays: neither traveler nor scenery may hide
-    // preparation for a strike. Their ground paths remain below the bodies.
-    for (const mob of game.mobs) this.mobWindupWarning(mob);
+      if (label) {
+        const [x, y] = this.project(px, py, lift + 1.1);
+        ctx.save();
+        ctx.font = `bold ${Math.max(10, this.scale * .22)}px sans-serif`;
+        ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+        ctx.lineWidth = Math.max(2, this.scale * .045); ctx.strokeStyle = '#263c38'; ctx.strokeText(label, x, y);
+        ctx.fillStyle = '#fff8d8'; ctx.fillText(label, x, y); ctx.restore();
+      }
+    };
+  }
+
+  /** One course, one camera, and one shared depth ordering for every traveler. */
+  drawSession(world: SharedWorld, players: readonly PlayerRender[], dt: number): void {
+    this.drawScene(world.host, world.host.characterId, dt, players);
   }
 }
 export function modelThumbnail(model: Model): string { const canvas = document.createElement('canvas'); canvas.width = 160; canvas.height = 140; const renderer = new Renderer(canvas); renderer.width = 160; renderer.height = 140; renderer.scale = 82; renderer.camera = 0; renderer.shadow(0, 0); renderer.model(model.map(v => ({ ...v, x: -v.x, y: -v.y })), 0, 0); return canvas.toDataURL(); }

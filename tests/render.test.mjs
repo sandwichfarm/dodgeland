@@ -669,3 +669,102 @@ test('rendered crossing lamps and actual bell events share a custom active-world
     assert.deepEqual(result.bells, [.08, .2, .4], 'bells strike on lit beats; reduced motion changes only the lamps');
   }
 });
+
+test('shared travelers use world depth ordering, platform height, and persistent identity labels', async () => {
+  const results = await page.evaluate(async () => {
+    const [{ Renderer }, { Game, platformSurface }, { LocalSession }, { worldById, characterById, box }] = await Promise.all([
+      import('/current/render.js'), import('/current/game.js'), import('/current/session.js'), import('/current/content.js'),
+    ]);
+    return ['foreground', 'river'].map(kind => {
+      const game = new Game(113, 'pond', 'stroll');
+      const scenery = [box(0, 0, 0, .58, .5, .9, '#cc4466')];
+      const world = { ...worldById('pond'), scenery: [scenery] };
+      for (const lane of game.rows.values()) Object.assign(lane, { world, kind: 'meadow', blocked: [], decorations: [], coin: null, coinPull: undefined });
+      const session = LocalSession.stage(game, { secondaryCharacterId: 'pip' }).commit();
+      const [first, second] = session.players;
+      Object.assign(first, { x: -2, fromX: -2, y: 0, fromY: 0, hop: 0 });
+      Object.assign(second, { x: 0, fromX: 0, y: 0, fromY: 0, hop: 0 });
+      const lane = game.rows.get(0);
+      if (kind === 'foreground') lane.decorations = [{ x: .23, variant: 0 }];
+      else Object.assign(lane, { kind: 'river', speed: 0, spacing: 20, length: 2, phase: .25, variant: 1, actors: undefined });
+      const canvas = document.querySelector('#scene');
+      const renderer = new Renderer(canvas);
+      renderer.width = 720; renderer.height = 500; renderer.scale = 120; renderer.reduced = true;
+      const calls = [], labels = [];
+      const model = renderer.model.bind(renderer), fillText = renderer.ctx.fillText.bind(renderer.ctx);
+      renderer.model = (parts, x, y, lift, ...rest) => {
+        if (parts === characterById('pip').model) calls.push({ kind: 'pip', x, y, lift });
+        if (parts === scenery) calls.push({ kind: 'scenery', x, y });
+        return model(parts, x, y, lift, ...rest);
+      };
+      renderer.ctx.fillText = (label, ...args) => { labels.push(label); return fillText(label, ...args); };
+      renderer.drawSession(session.world, session.views(), 0);
+      const pixels = renderer.ctx.getImageData(0, 0, 720, 500).data;
+      const expected = document.createElement('canvas'); expected.width = 720; expected.height = 500;
+      const reference = new Renderer(expected); reference.width = 720; reference.height = 500; reference.scale = 120;
+      const surface = kind === 'river' ? platformSurface(lane) : 0;
+      reference.model(characterById('pip').model, 0, 0, surface);
+      const mask = reference.ctx.getImageData(0, 0, 720, 500).data;
+      let opaque = 0, obscured = 0;
+      for (let y = 1; y < 499; y++) for (let x = 1; x < 719; x++) {
+        const i = (y * 720 + x) * 4;
+        if ([i, i - 4, i + 4, i - 720 * 4, i + 720 * 4].some(p => mask[p + 3] !== 255)) continue;
+        opaque++;
+        if ([0, 1, 2].some(channel => Math.abs(pixels[i + channel] - mask[i + channel]) > 2)) obscured++;
+      }
+      const image = canvas.toDataURL('image/png');
+      renderer.drawSession(session.world, session.views().reverse(), 0);
+      const reversed = renderer.ctx.getImageData(0, 0, 720, 500).data;
+      return { kind, calls, labels, surface, opaque, obscured, image, stable: pixels.every((value, index) => value === reversed[index]) };
+    });
+  });
+  await mkdir('artifacts', { recursive: true });
+  for (const result of results) {
+    assert.ok(result.opaque > 100, 'the independently rendered second character has a visible pixel mask');
+    assert.equal(result.stable, true, 'roster array order cannot change the scene');
+    assert.ok(result.labels.includes('P1 · Butter'));
+    assert.ok(result.labels.includes('P2 · Pip'));
+    const pip = result.calls.find(call => call.kind === 'pip');
+    assert.ok(pip, 'the actual Pip voxel model enters the shared scene');
+    assert.equal(pip.lift, result.surface);
+    if (result.kind === 'foreground') {
+      assert.ok(result.calls.findIndex(call => call.kind === 'pip') < result.calls.findIndex(call => call.kind === 'scenery'), 'foreground scenery draws after the second player');
+      assert.ok(result.obscured > 100, 'foreground scenery visibly occludes the second player');
+    } else {
+      assert.ok(result.surface > 0, 'river case exercises a raised platform');
+      assert.equal(result.obscured, 0, 'the full second-player body appears at the platform surface');
+    }
+    await writeFile(`artifacts/local-session-render-${result.kind}.png`, Buffer.from(result.image.split(',')[1], 'base64'));
+  }
+});
+
+test('shared camera follows the leading active interpolated traveler once per frame', async () => {
+  const results = await page.evaluate(async () => {
+    const [{ Renderer }, { Game }, { LocalSession }] = await Promise.all([
+      import('/current/render.js'), import('/current/game.js'), import('/current/session.js'),
+    ]);
+    return [false, true].map(reduced => {
+      const game = new Game(113, 'pond', 'stroll');
+      for (const lane of game.rows.values()) Object.assign(lane, { kind: 'meadow', blocked: [], decorations: [], coin: null });
+      const session = LocalSession.stage(game, { secondaryCharacterId: 'pip' }).commit();
+      const [first, second] = session.players;
+      first.maxY = 100; // Historical frontier must not pull the multiplayer camera.
+      Object.assign(second, { y: 2, fromY: 1, hop: game.rules.movement.hopDuration / 2 });
+      const canvas = document.createElement('canvas'); canvas.width = 720; canvas.height = 500;
+      const renderer = new Renderer(canvas); renderer.width = 720; renderer.height = 500; renderer.scale = 60; renderer.reduced = reduced;
+      renderer.drawSession(session.world, session.views(), 1 / 16);
+      const leading = renderer.camera;
+      second.state = 'dead';
+      renderer.drawSession(session.world, session.views(), 1 / 16);
+      const surviving = renderer.camera;
+      first.state = 'dead';
+      renderer.drawSession(session.world, session.views(), 1 / 16);
+      return { reduced, leading, surviving, settled: renderer.camera };
+    });
+  });
+  for (const result of results) {
+    assert.equal(result.leading, result.reduced ? 1.5 : .75, 'one smoothing step follows the secondary player halfway through its hop');
+    assert.equal(result.surviving, result.reduced ? 0 : .375, 'a dead leader no longer controls the camera');
+    assert.equal(result.settled, result.surviving, 'all-terminal scene retains its last camera');
+  }
+});
