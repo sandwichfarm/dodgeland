@@ -22,6 +22,7 @@ import type { ActorPattern, LaneActor } from './actors.js';
 import { vehicleModel, vehicleModelWidth } from './vehicle-models.js';
 import { SOLO_ARCADE_MODE, isModeDefinition, soloModeDefinition } from './mode-rules.js';
 import type { ModeDefinition, ModeRules, SoloLifecycleEventName, SoloMode } from './mode-rules.js';
+import { SharedWorld, SessionPlayer } from './session.js';
 export type { LaneActor } from './actors.js';
 export { difficulty, random, wrap };
 export const HALF_WIDTH = 5;
@@ -142,6 +143,9 @@ export function platformSupports(lane: Lane, x: number, time: number): boolean {
   });
 }
 export class Game {
+  /** Compatibility facade owners; private methods below keep their exact solo order. */
+  readonly world: SharedWorld;
+  readonly player: SessionPlayer;
   readonly run: RunInventory;
   readonly runSeed: RunSeed | null;
   readonly seedCode: string | null;
@@ -192,6 +196,10 @@ export class Game {
     this.run = new RunInventory(seed, definitions.filter(item => !item.modes || item.modes.includes(mode)), this.rules.economy);
     this.seed = seed; this.home = home; this.mode = mode; this.gentle = gentle; this.ensureRows();
     this.mobDirector = new MobDirector(random(seed ^ 0x76ab41c3));
+    // The session objects adopt these exact fields. No world, inventory, actor
+    // stream, or player state is copied while a Game remains the solo facade.
+    this.world = new SharedWorld(this);
+    this.player = new SessionPlayer(this.world, 'p1', 'keyboard-a', this.characterId, true);
   }
   static fromSeed(code: string, definitions: readonly ItemDefinition[] = [], characterId = DEFAULT_CHARACTER): Game {
     return new Game(decodeRunSeed(code), undefined, undefined, undefined, definitions, characterId);

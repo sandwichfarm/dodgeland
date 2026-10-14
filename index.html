@@ -8,6 +8,7 @@
     <canvas id="scene" tabindex="-1" aria-label="Crossing world. Tap to hop forward, swipe to move in any direction."></canvas>
     <div class="hud">
       <div class="score-block"><span class="micro">DISTANCE</span><strong id="score">0</strong><span id="best" class="best">BEST 0</span></div>
+      <div id="session-seats" role="status" aria-label="Local players" hidden></div>
       <div class="hud-tools">
         <div class="hud-right"><span class="coin-count" title="Run coins: spend at a market every 100 points. Lost on death." aria-label="Run coins"><span aria-hidden="true">◆</span> <b id="coins">0</b></span><button id="sound-toggle" aria-label="Mute sounds" title="Mute sounds" aria-pressed="false">♪</button><button id="pause" aria-label="Pause game" title="Pause game">Ⅱ</button><button id="collection" aria-label="Travelers and worlds" title="Travelers, worlds and sounds">▦</button></div>
         <div id="pluck" role="meter" aria-label="Pluck" aria-valuemin="0" aria-valuemax="3" aria-valuenow="3" aria-valuetext="3 of 3 feathers" title="Pluck: rear bumps cost 1 feather; side hits cost 2. Recover half a feather every 100 hops.">
@@ -66,7 +67,8 @@
         </section>
       </div>
       <button id="play" class="primary">Let’s hop <span aria-hidden="true">↗</span></button>
-      <div class="panel-bottom"><button id="choose">Travelers</button><button id="mode" title="Switch between Arcade and a slower Stroll">Arcade ↔</button></div>
+      <div id="local-session-setup" class="local-session-setup" hidden><span>Local Play · P1 WASD · P2 arrows</span><button id="local-session-start" type="button">Start two travelers</button><button id="local-session-back" type="button">Back to solo</button></div>
+      <div class="panel-bottom"><button id="choose">Travelers</button><button id="local-play" type="button">Local Play</button><button id="mode" title="Switch between Arcade and a slower Stroll">Arcade ↔</button></div>
       <p id="goal" class="goal"></p>
     </section>
     <div class="bottom-bar"><span id="hint">Tap anywhere to begin</span><div class="play-controls"><button id="character-call" aria-label="Make Butter quack">Quack</button><div class="dpad" aria-label="Direction controls"><button data-direction="left" aria-label="Hop left">←</button><button data-direction="back" aria-label="Hop backward">↓</button><button data-direction="forward" aria-label="Hop forward">↑</button><button data-direction="right" aria-label="Hop right">→</button></div></div></div>

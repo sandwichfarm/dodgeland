@@ -11,6 +11,7 @@ import type { Direction, Progress } from './game.js';
 import { soloModeDefinition } from './mode-rules.js';
 import { installHealthMeter, readyPursuitCopy, updateChaseMeter, updateHealthMeter } from './solo-ui.js';
 import { Renderer, modelThumbnail } from './render.js';
+import { LocalSession } from './session.js';
 import { GameAudio } from './audio.js';
 import { Soundscape } from './soundscape.js';
 import { createSoundSettings } from './sound-settings.js';
@@ -33,6 +34,8 @@ const el = <T extends HTMLElement = HTMLElement>(id: string): T => document.getE
 const renderer = new Renderer(el<HTMLCanvasElement>('scene'));
 let progress: Progress = freshProgress();
 let game = new Game(1, undefined, undefined, undefined, ITEM_CATALOG);
+let localStage: ReturnType<typeof LocalSession.stage> | undefined;
+let localSession: LocalSession | undefined;
 let preparedLaunch: GameLaunch | undefined;
 let shortLosses = 0, previousState = '', chapter = 0, toastUntil = 0, toastMessage = '';
 let restoreAfterDrawer = false, disposed = false, raf = 0;
@@ -168,6 +171,8 @@ function runGoal(): string {
   switch (progress.runs % 3) { case 0: return 'Little goal: reach 25 hops this run.'; case 1: return 'Little goal: find 3 coins this run.'; default: return 'Little goal: reach the next world at 32 hops.'; }
 }
 function reset(launch?: GameLaunch): void {
+  localSession?.stop(); localSession = undefined; localStage = undefined;
+  el<HTMLDivElement>('local-session-setup').hidden = true;
   preparedLaunch = launch;
   if (import.meta.env.DEV) sandboxRun = false;
   handPausedPlay = false; hand.close();
@@ -251,6 +256,15 @@ function receiveGameIntent(delivery: unknown): void {
   notify(launch.seed ? 'Shared course ready. Let’s hop when you’re ready.' : `${game.mode === 'arcade' ? 'Arcade' : 'Stroll'} ready. Let’s hop when you’re ready.`);
 }
 function updateHud(): void {
+  const seats = el('session-seats');
+  seats.hidden = !localSession?.running;
+  if (localSession?.running) {
+    seats.replaceChildren(...localSession.views().map(player => {
+      const label = document.createElement('span'); label.dataset.seat = player.seat;
+      label.textContent = `${player.marker} ${characterById(player.characterId).name} · ${player.y}`;
+      return label;
+    }));
+  }
   el('score').textContent = String(game.maxY); el('coins').textContent = String(game.run.wallet);
   el('best').textContent = `${game.mode === 'stroll' ? 'STROLL BEST' : 'BEST'} ${game.mode === 'stroll' ? progress.strollBest : progress.best}`;
   const currentChapter = Math.floor(game.maxY / 32);
@@ -342,6 +356,30 @@ function play(): void {
   if (game.state === 'paused') game.resume(); else game.start();
   updateHud();
 }
+/** Explicit Local Play staging leaves the ready solo Game untouched until commit. */
+function openLocalPlay(): void {
+  if ((game.state !== 'ready' && game.state !== 'playing') || localSession || !el('drawer').hidden) return;
+  try { localStage = LocalSession.stage(game); }
+  catch { notify('Local Play needs a safe second starting spot on this course.'); return; }
+  el<HTMLDivElement>('local-session-setup').hidden = false;
+}
+/** Back to solo cancels the staged adoption without rebuilding its world or traveler. */
+function backToSolo(): void {
+  if (!localStage) return;
+  game = localStage.cancel(); localStage = undefined;
+  el<HTMLDivElement>('local-session-setup').hidden = true;
+  el('local-play').focus({ preventScroll: true }); updateHud();
+}
+function startLocalPlay(): void {
+  if (!localStage) return;
+  localSession = localStage.commit(); localStage = undefined;
+  el<HTMLDivElement>('local-session-setup').hidden = true;
+  audio.unlock(); updateHud();
+}
+function moveLocal(seat: 'p1' | 'p2', direction: Direction): void {
+  if (!localSession?.running) { move(direction); return; }
+  audio.unlock(); if (localSession.dispatch({ seat, direction })) audio.play('hop'); updateHud();
+}
 function move(direction: Direction): void {
   if (import.meta.env.DEV && devTools?.isOpen) return;
   if (hand.isOpen() || (game.state === 'playing' && hand.containsFocus())) { hand.navigate(direction); return; }
@@ -383,6 +421,7 @@ function backMenu(): void {
   else { game.pause(); updateHud(); }
 }
 el('play').addEventListener('click', play); el('pause').addEventListener('click', togglePause); el('collection').addEventListener('click', openDrawer); el('choose').addEventListener('click', openDrawer); el('close-drawer').addEventListener('click', closeDrawer);
+el('local-play').addEventListener('click', openLocalPlay); el('local-session-back').addEventListener('click', backToSolo); el('local-session-start').addEventListener('click', startLocalPlay);
 el('character-call').addEventListener('click', callCharacter);
 el('character-call').addEventListener('pointerdown', () => audio.unlock());
 el('mode').addEventListener('click', () => { changedPreferences.add('mode'); progress.mode = game.mode === 'arcade' ? 'stroll' : 'arcade'; reset(); persist(); });
@@ -400,7 +439,11 @@ let last = performance.now(), accumulator = 0;
 function frame(now: number): void {
   const dt = Math.min((now - last) / 1000, .05); last = now;
   gamepad.update(now);
-  if (game.state === 'playing') {
+  if (localSession?.running && game.state === 'playing') {
+    const fixedStep = localSession.definition.rules.simulation.fixedStep;
+    accumulator += dt;
+    while (accumulator >= fixedStep) { localSession.update(fixedStep); accumulator -= fixedStep; }
+  } else if (game.state === 'playing') {
     const fixedStep = game.rules.simulation.fixedStep;
     accumulator += dt;
     while (accumulator >= fixedStep) { game.update(fixedStep); accumulator -= fixedStep; }
@@ -410,7 +453,8 @@ function frame(now: number): void {
     !progress.muted && !document.hidden && localFocus && !game.run.isOpen && el('drawer').hidden && innerWidth >= 240 && innerHeight >= 240,
     progress.reduced || mediaQuery.matches);
   soundscape.update(game, !progress.muted && !document.hidden && !game.run.isOpen && el('drawer').hidden && innerWidth >= 240 && innerHeight >= 240);
-  renderer.reduced = progress.reduced || mediaQuery.matches; renderer.draw(game, progress.selected, dt);
+  renderer.reduced = progress.reduced || mediaQuery.matches;
+  if (localSession?.running) renderer.drawSession(localSession.world, localSession.views(), dt); else renderer.draw(game, progress.selected, dt);
   updateHud(); el('toast').textContent = now < toastUntil && !(game.state === 'playing' && game.warning) ? toastMessage : '';
   if (import.meta.env.DEV) devTools?.update();
   raf = requestAnimationFrame(frame);
@@ -468,7 +512,7 @@ async function boot(): Promise<void> {
     try { applyTheme(await themeGet()); const off = themeOnChanged(applyTheme); if (disposed) off.close(); else bindings.push(off); } catch { notify('Using the local color palette.'); }
   }
   if (runtimeHasDomain('keys')) {
-    const actions: [string, string, () => void][] = [['forward', 'ArrowUp', () => move('forward')], ['back', 'ArrowDown', () => move('back')], ['left', 'ArrowLeft', () => move('left')], ['right', 'ArrowRight', () => move('right')], ['forward-w', 'w', () => move('forward')], ['back-s', 's', () => move('back')], ['left-a', 'a', () => move('left')], ['right-d', 'd', () => move('right')], ['play', 'Enter', confirmMenu], ['pause', 'p', () => !el('drawer').hidden ? closeDrawer() : togglePause()], ['call', 'q', callCharacter], ['market', 'm', () => market.toggle()], ['back-menu', 'Escape', backMenu]];
+    const actions: [string, string, () => void][] = [['forward', 'ArrowUp', () => moveLocal('p2', 'forward')], ['back', 'ArrowDown', () => moveLocal('p2', 'back')], ['left', 'ArrowLeft', () => moveLocal('p2', 'left')], ['right', 'ArrowRight', () => moveLocal('p2', 'right')], ['forward-w', 'w', () => moveLocal('p1', 'forward')], ['back-s', 's', () => moveLocal('p1', 'back')], ['left-a', 'a', () => moveLocal('p1', 'left')], ['right-d', 'd', () => moveLocal('p1', 'right')], ['play', 'Enter', confirmMenu], ['pause', 'p', () => !el('drawer').hidden ? closeDrawer() : togglePause()], ['call', 'q', callCharacter], ['market', 'm', () => market.toggle()], ['back-menu', 'Escape', backMenu]];
     for (const [id, defaultKey, handler] of actions) {
       if (disposed) return;
       try {
