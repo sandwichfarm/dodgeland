@@ -149,3 +149,34 @@ The checkpoint does not complete ARCH-03, INPUT-02, UI-01, or UI-02 in full.
 Wave2 model, controller, and keyboard executors now own their reviewed plans;
 final phase acceptance must resolve these defects and all remaining UI/input
 requirements.
+
+## Wave 2 adversarial review
+
+The permanent player contexts now pass the nested reward callback and P2
+regeneration regressions. Model commit `d7863f7` also captures pre-update ground
+samples and advances pursuit from the shared frontier. Root's
+`tests/session-world.test.mjs` (`4dc82fc`) proves actual post-grace wave motion
+for 1/2/4 seats, composed world-clock rules, Flow behavior, fractional ground
+sampling, and shared terrain/traffic independence from personal cards.
+
+That test file also records two production failures at `d7863f7`: P1's freeze
+power stops the shared mob director, and a terminal P1 at row 0 culls mobs next
+to a living P2 at row 12. Both belong to the shared director policy fix.
+`tests/session-lifecycle.test.mjs` (`40417e4`) independently exposes movement
+after device loss, reclaiming an occupied device, and notification of the first
+death before the second participant's terminal statistics/status have settled.
+
+The immutable solo comparison at `d7863f7` completed with **20 passes and one
+failure**, not a timeout: after a fatal wasp contact, the second mob advances
+one extra fixed step. Trace: command 1, step 195,
+`trace.game.mobs.actors[1].phaseLeft`; baseline
+`0.18333333333342527`, current `0.17500000000009241`.
+Restore the original solo early return; keep all-participant resolution only
+on the multiplayer path. Log: `/tmp/down-to-duck-phase2-world-parity.log`.
+
+Plan 02-03 is complete with 28 transport/router tests plus muted transport-only
+iframe evidence. Its input requirements remain pending until 02-05 integrates
+the router into the actual main loop and 02-06 passes the full phase gate.
+Keyboard editor visual review found pale text on the pale board and truncated
+profile labels; 02-04 owns correction and fresh compact/regular screenshots.
+No multiplayer mode or Phase 2 completion is claimed at this checkpoint.
