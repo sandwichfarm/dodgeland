@@ -18,6 +18,9 @@ Solo remains a one-gesture experience and keeps its established behavior.
   input and cannot also move, confirm a purchase, or activate an item.
 - Survive Together allows live drop-in and dropout on either base ruleset.
   Existing players, course, clocks, scores, seed, and purchases cannot reset.
+  Confirming co-op setup from an already playing solo run adopts that live
+  world/player state. Cancel returns to unchanged solo; discovering another
+  controller alone cannot silently start a fresh run.
 - Controller loss is a mode-owned event. A disconnected ghost cannot collide,
   take damage, advance progress, or claim items. It retains its slot and inventory.
   Reclaim and deliberate departure are distinct from death and new-player join.

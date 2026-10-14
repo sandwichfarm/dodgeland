@@ -37,3 +37,17 @@ validation contract now explicitly require exact `powerReadyAt`, `powerNotice`,
 `laneSpeeds` base/applied snapshots after every operation and step. Collision-latch
 and live actor-speed-rebase arenas must exercise that state. Final independent re-review passed: all identified blockers are closed and the
 four dependency-ordered plans are ready for execution.
+
+## Execution strengthening
+
+Before renderer extraction, root strengthened Plan 01-02 Task 2 to compare
+default Arcade/Stroll canvas pixels directly with the same immutable baseline
+in one browser. The existing task/file ownership and dependencies are unchanged;
+nonblank-scene assertions prevent an empty-frame pass. This complements exact
+semantic parity with direct rendered evidence.
+
+During Plan 01 execution, root review required stronger reachability assertions
+for hazard and economy/actor/mob paths. Task 3 is split across separate economy
+and actor/mob test files, with one shared exact differential runner. Legacy
+current-only tests cannot substitute for the required paired comparisons. The
+plan remains incomplete until all scenario groups pass with reached-state proof.

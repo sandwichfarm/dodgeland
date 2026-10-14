@@ -5,15 +5,15 @@ milestone_name: milestone
 current_phase: 01
 current_phase_name: composable-solo-baseline
 status: executing
-stopped_at: Roadmap, state, and requirement traceability are ready; phase 1 can be planned.
-last_updated: "2026-10-14T19:28:48.723Z"
+stopped_at: Phase 01 plan 01 verified; starting plan 02 core rule extraction.
+last_updated: "2026-10-14T20:13:47.458789+00:00"
 last_activity: 2026-10-14
-last_activity_desc: Phase 01 execution started
+last_activity_desc: Full immutable solo gate passes (20 tests); core rule extraction is next.
 progress:
-  total_phases: 2
+  total_phases: 7
   completed_phases: 0
-  total_plans: 4
-  completed_plans: 0
+  total_plans: 10
+  completed_plans: 1
 ---
 
 # Project State
@@ -28,29 +28,29 @@ See: `.planning/PROJECT.md` (updated 2026-10-14)
 ## Current Position
 
 Phase: 01 (composable-solo-baseline) — EXECUTING
-Plan: 1 of 4
+Plan: 2 of 4
 Status: Executing Phase 01
-Last activity: 2026-10-14 — Phase 01 execution started
+Last activity: 2026-10-14 — Plan 01-01 committed and verified: 20 differential tests, 1,176 identity combinations, build/type-check pass.
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [█░░░░░░░░░] 10% of currently planned tasks
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 0
-- Average duration: -
-- Total execution time: 0 hours
+- Total plans completed: 1
+- Average duration: 38 min
+- Total execution time: 38 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
+| 01 | 1/4 | 38 min | 38 min |
 
 **Recent Trend:**
 
-- Last 5 plans: -
+- Last 5 plans: 01-01
 - Trend: Not established
 
 ## Accumulated Context
@@ -62,11 +62,15 @@ Recent decisions affecting current work:
 - [Phase 1]: Preserve exact fixed-step solo behavior against immutable baseline `a310a81`; route only policy constants through typed rules.
 - [Phase 2]: One session owns terrain, simulation time, RNG, pickup claims, and camera policy; player slots own movement, health, inventory, powers, and stats.
 - [Phase 3]: Keep existing 100-block innate powers separate from personal 250-tile revival and Revival/Flare consumables.
+- [Phase 3]: Actual death clears only that player's run inventory; revival restores the character, while disconnect ghosts retain inventory.
+- [Phase 3]: Joining Survive Together from solo adopts the existing world/player state; setup cancel resumes unchanged solo.
 - [Phase 5]: Keep four seats, Flow as existing Stroll, and a 500-tile/180-second Race as validated provisional settings pending product confirmation/playtest.
 
 ### Pending Todos
 
-None yet.
+- Execute Plan 01-02 under the committed exact differential gate, including paired same-browser default render pixels.
+- Phase 2 plans independently pass; execute only after verified Phase 1, preserving per-seat call cues/cooldowns.
+- Phase 3 UI contract independently approved; plan its implementation against completed Phase 1/2 interfaces.
 
 ### Blockers/Concerns
 
@@ -83,5 +87,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-10-14
-Stopped at: Roadmap, state, and requirement traceability are ready; phase 1 can be planned.
+Stopped at: Phase 01 plan 01 verified; starting plan 02 core rule extraction.
 Resume file: None

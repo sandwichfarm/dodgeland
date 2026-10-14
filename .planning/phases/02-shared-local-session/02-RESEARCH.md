@@ -359,20 +359,11 @@ draw(game: Game, character: string, dt: number): void {
 | A2 | A shared mob can deterministically target nearest eligible player and evaluate impacts against all eligible players. | Explicit policies | Phase 3 may need a different cooperative target/aggression contract. |
 | A3 | Phase 3 quick join should choose lowest open seat and first unlocked unused character before asking the mode for safe spawn. | Roster entry policy | Product may prefer an explicit selection even for live co-op. |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **What exact Phase 1 type and construction signature shipped?**
-   - What we know: plans promise immutable `Game.definition` / `Game.rules`, presets, a trailing options object, and preserved positional construction.
-   - What's unclear: exact exported names/field nesting until `01-02-SUMMARY.md` and `01-03-SUMMARY.md` exist.
-   - Recommendation: begin Phase 2 with a contract-read task against the completed summaries and source; change only the adapter names, never duplicate/normalize rule configuration.
-2. **How should the first shared-world mode settle a player death before Survive Together exists?**
-   - What we know: Phase 2 owns foundation/UI while survival/death/revival behavior belongs to Phase 3.
-   - What's unclear: whether the Phase 2 demo session allows only setup/controlled movement or needs a temporary mode lifecycle.
-   - Recommendation: make session emit `player-death` and display reserved state; let Phase 3 install the actual co-op lifecycle instead of inventing a universal game-over rule.
-3. **Will the target shell forward native iframe keyboard events after movement/call registrations are closed?**
-   - What we know: local SDK types support register/unregister, not rebinding; no native-event delivery guarantee exists.
-   - What's unclear: target-shell behavior.
-   - Recommendation: add the required built-fixture case and retain an explicit unavailable keyboard profile state; do not claim unsupported shell remapping.
+1. **Phase 1 contract:** Phase 2 cannot begin until Phase 1 summaries, verification, and gates pass. Plan 02-01 reconciles shipped definition/options/step exports against actual source before editing. Exact names remain an execution dependency, not a second configuration design; the original `a310a81` oracle stays pinned.
+2. **Phase 2 death policy:** The foundation executes per-player death spill and inventory cleanup, then emits terminal lifecycle records and displays actual seat state. It does not invent a universal team result or revival policy. Phase 3 installs Survive Together settlement/recovery; later modes own their terminal handlers.
+3. **Native keyboard availability:** A profile becomes available only after an actual supported key arrives following closure of overlapping app-owned registrations. If a shell withholds events, the profile stays unavailable with a clear explanation and pointer/controller fallbacks. Plan 02-04 proves real delivery, single dispatch, and restoration in the built opaque-iframe fixture; it never claims unsupported shell rebinding.
 
 ## Environment Availability
 

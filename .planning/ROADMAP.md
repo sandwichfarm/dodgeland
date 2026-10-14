@@ -34,7 +34,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 4 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Establish the immutable a310a81 differential harness and complete solo scenario matrix.
+- [x] 01-01-PLAN.md — Establish the immutable a310a81 differential harness and complete solo scenario matrix.
 - [ ] 01-02-PLAN.md — Introduce validated immutable rule composition and route core Game/render behavior through it.
 - [ ] 01-03-PLAN.md — Route economy, collection, pursuers, and timing consumers through active rules.
 - [ ] 01-04-PLAN.md — Preserve one-step app entry, document real authoring, and run the strict phase gate.
@@ -49,8 +49,16 @@ Plans:
   3. Players can mix controllers with default shared-keyboard seats; the in-game binding editor validates conflicts, remaps and resets bindings, and independent held/repeated input remains safe through focus changes, stale snapshots, index reuse, and teardown.
   4. Controller loss, replacement, and missing shell gamepad support leave actionable player state and working keyboard/pointer controls; modes receive the lifecycle event rather than a blanket device-disconnect pause.
   5. Each on-screen character remains visibly distinct with a persistent player mark and individual health, power, revival, item, turn, and leader cues as those mechanics become available.
-**Plans**: TBD
+**Plans**: 6 reviewed plans (execution depends on verified Phase 1)
 **UI hint**: yes
+
+Plans:
+- [ ] 02-01-PLAN.md — Extract shared world/player ownership with a live two-player tracer, solo adoption, and immutable parity.
+- [ ] 02-02-PLAN.md — Prove deterministic shared simulation, pickup ownership, lifecycle, and per-player state.
+- [ ] 02-03-PLAN.md — Route independent controllers through the existing authorized snapshot transport.
+- [ ] 02-04-PLAN.md — Implement shared-keyboard routing, binding capture, conflicts, reset, and persistence.
+- [ ] 02-05-PLAN.md — Integrate setup, controller/keyboard input, multi-character scene, HUD, and responsive proofs.
+- [ ] 02-06-PLAN.md — Establish selected-owner hand/market routing and run the shared-session evidence gate.
 
 ### Phase 3: Survive Together & Consumables
 **Goal**: Friends can join a live Arcade or Flow run, recover safely from setbacks, and use deterministic cooperative consumables without disrupting the shared course.
@@ -121,8 +129,8 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Composable Solo Baseline | 0/TBD | Not started | - |
-| 2. Shared Local Session | 0/TBD | Not started | - |
+| 1. Composable Solo Baseline | 1/4 | In progress | - |
+| 2. Shared Local Session | 0/6 | Reviewed; awaits Phase 1 | - |
 | 3. Survive Together & Consumables | 0/TBD | Not started | - |
 | 4. Relay | 0/TBD | Not started | - |
 | 5. Race | 0/TBD | Not started | - |

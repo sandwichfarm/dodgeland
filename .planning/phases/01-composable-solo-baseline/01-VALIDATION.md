@@ -17,6 +17,7 @@ requirements:
 
 1. `01-01` establishes the immutable baseline differential harness before any product edit.
 2. Every later product task runs its focused behavioral tests and `pnpm test:solo-parity` before completion.
+   Plan 01-02 also compares real default Arcade/Stroll canvas pixels with the archived baseline in the same browser; nonblank scene assertions prevent empty-frame false passes.
 3. `01-04` runs the complete model gate, muted browser evidence, type/build/guidance/conformance checks, and records the exact results in its SUMMARY.
 
 No AST, source-text search, type-check, or snapshot-file presence is sufficient evidence for a gameplay requirement. Those checks may support a behavioral test but cannot replace execution of production Game, RunInventory, MobDirector, development reconstruction, Renderer, Soundscape, or the built opaque iframe. Parity-only visibility stays in test adapters; production getters/debug hooks created solely for the harness are forbidden.
