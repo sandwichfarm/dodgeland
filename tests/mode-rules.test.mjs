@@ -114,21 +114,37 @@ test('custom economy rules drive live invitations, capacity, and baseline coin c
   assert.equal(game.run.cardCapacity, 4, 'the instance policy changes the actual hand bound');
   game.run.advanceScore(6); assert.equal(game.run.market, null);
   game.run.advanceScore(7); assert.equal(game.run.market.remaining, 2, 'the live market opens at the configured cadence');
-  game.run.tick(2); assert.equal(game.run.market, null, 'the configured invitation window actually expires');
   const reward = game.rows.get(0);
   reward.coin = .7;
   game.update(0);
   assert.equal(game.run.effects.coinRadius, .4);
   assert.ok(reward.coinPull, 'the non-default baseline reach captures a real separated coin');
+  assert.equal(game.openMarket(), true);
+  let offer = 0;
+  const buy = id => {
+    const item = ITEM_CATALOG.find(candidate => candidate.id === id);
+    const stock = { id: `custom-${offer++}`, itemId: item.id, price: item.price, sold: false };
+    game.run.market.offers.push(stock); game.run.creditCoins(item.price);
+    return game.run.buy(stock.id);
+  };
+  const pocket = buy('extra-pocket'); assert.equal(pocket.ok, true);
+  const firstMagnet = buy('magnet'); assert.equal(firstMagnet.ok, true);
+  assert.equal(game.run.effects.coinRadius, 1.15, 'the card modifier adds to the configured base exactly once');
+  assert.equal(game.run.sell(firstMagnet.cards[0].id).ok, true);
+  assert.equal(game.run.effects.coinRadius, .4, 'selling restores this run’s configured baseline');
+  assert.equal(buy('magnet').ok, true); assert.equal(buy('magnet').ok, true); assert.equal(buy('magnet').ok, true);
+  assert.equal(game.run.cards.length, 4);
+  assert.match(buy('magnet').message, /Hand full/, 'the configured hard limit caps an expanding slot card at four');
+  game.closeMarket(); game.run.tick(2); assert.equal(game.run.market, null, 'the configured invitation window actually expires');
 });
 
 test('custom pursuer rules drive real unlocks, cadence, and population bounds', () => {
   const definition = customRules({ pursuers: {
     enabled: true, introductionThresholds: [5, 10, 15], firstSpawnTime: 0,
     minimumSpawnProgress: 1, spawnInterval: 3, minimumSpawnInterval: 2,
-    intervalProgress: 5, populationCap: 2,
+    intervalProgress: 5, populationCap: 3,
   } });
-  assert.deepEqual(mobPacing(15, definition.rules.pursuers), { interval: 2, cap: 2 });
+  assert.deepEqual(mobPacing(15, definition.rules.pursuers), { interval: 2, cap: 3 });
   const game = new Game(19, 'pond', 'arcade', false, [], 'butter', { definition });
   game.state = 'playing'; game.x = game.fromX = 0; game.y = game.fromY = game.maxY = 5; game.time = 0;
   game.ensureRows();
@@ -139,11 +155,19 @@ test('custom pursuer rules drive real unlocks, cadence, and population bounds', 
   game.y = game.fromY = game.maxY = 10; game.ensureRows(); game.time = 2.99;
   for (const lane of game.rows.values()) Object.assign(lane, { kind: 'meadow', blocked: [], decorations: [], coin: null });
   game.update(0); assert.deepEqual(spawned, ['slime'], 'the configured spawn interval holds');
-  game.time = 3; game.update(0); assert.deepEqual(spawned, ['slime', 'crab'], 'the next configured species unlocks after one earned row');
+  game.time = 3; game.update(0); assert.deepEqual(spawned, ['slime', 'crab'], 'the next configured species unlocks once progress permits another encounter');
   game.y = game.fromY = game.maxY = 15; game.ensureRows(); game.time = 5;
   for (const lane of game.rows.values()) Object.assign(lane, { kind: 'meadow', blocked: [], decorations: [], coin: null });
   game.update(0); assert.deepEqual(spawned, ['slime', 'crab', 'wasp']);
-  game.time = 99; game.update(0); assert.equal(game.mobs.length, 2, 'the configured maximum population remains bounded');
+  game.y = game.fromY = game.maxY = 16; game.ensureRows(); game.time = 7;
+  for (const lane of game.rows.values()) Object.assign(lane, { kind: 'meadow', blocked: [], decorations: [], coin: null });
+  game.update(0); assert.equal(game.mobs.length, 3, 'a non-default cap admits its third pursuer');
+  const capped = spawned.length;
+  // Keep the already-created bodies inside the director's visible rear bound;
+  // this isolates cap policy from the independent stale-body cleanup rule.
+  for (const mob of game.mobs) mob.y = mob.fromY = mob.targetY = 16;
+  game.y = game.fromY = game.maxY = 17; game.ensureRows(); game.time = 99; game.update(0);
+  assert.equal(game.mobs.length, 3); assert.equal(spawned.length, capped, 'the configured cap blocks a fourth pursuer after progress and time gates clear');
   const disabled = new Game(19, 'pond', 'arcade', false, [], 'butter', { definition: customRules({ pursuers: { enabled: false } }) });
   disabled.state = 'playing'; disabled.y = disabled.fromY = disabled.maxY = 1000; disabled.time = 1000; disabled.ensureRows();
   for (const lane of disabled.rows.values()) Object.assign(lane, { kind: 'meadow', blocked: [], decorations: [], coin: null });
