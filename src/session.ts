@@ -149,8 +149,13 @@ export class SessionPlayer {
     this.powerRescue = null; this.powerReadyAt = 0; this.powerNotice = 0; this.powerLandingGrace = 0; this.healedMilestone = 0; this.touchingCars = new Set();
   }
 
-  get groundX(): number { return this.x + (this.fromX - this.x) * this.hop / this.world.rules.movement.hopDuration; }
-  get groundY(): number { return this.y + (this.fromY - this.y) * this.hop / this.world.rules.movement.hopDuration; }
+  private get rescueFraction(): number {
+    if (!this.powerRescue) return 0;
+    const t = this.powerRescue.remaining / this.powerRescue.power.duration;
+    return t * t * (3 - 2 * t);
+  }
+  get groundX(): number { return this.powerRescue ? this.x + (this.powerRescue.fromX - this.x) * this.rescueFraction : this.x + (this.fromX - this.x) * this.hop / this.world.rules.movement.hopDuration; }
+  get groundY(): number { return this.powerRescue ? this.y + (this.powerRescue.fromY - this.y) * this.rescueFraction : this.y + (this.fromY - this.y) * this.hop / this.world.rules.movement.hopDuration; }
   get power(): CharacterPower { return this.primary ? this.world.host.power : characterPower(this.characterId); }
   get powerFlash(): number { return this.primary ? this.world.host.powerFlash : Math.min(1, this.powerNotice / .9); }
   render(): PlayerRender { return { seat: this.seat, marker: this.marker, label: this.label, characterId: this.characterId, x: this.x, y: this.y, groundX: this.groundX, groundY: this.groundY, hop: this.hop, fromY: this.fromY, state: this.state, run: this.run, hurtRemaining: this.hurtRemaining, powerRescue: this.powerRescue, powerFlash: this.powerFlash, power: this.power, caughtByWave: this.caughtByWave, deathSpill: this.deathSpill }; }
@@ -179,7 +184,12 @@ export class SessionPlayer {
   }
 
   update(dt: number): void {
-    if (this.primary || this.state !== 'playing') return;
+    if (this.primary) return;
+    if (this.state === 'dead') {
+      if (this.deathSpill && Number.isFinite(dt) && dt > 0) this.deathSpill.age = Math.min(3, this.deathSpill.age + dt);
+      return;
+    }
+    if (this.state !== 'playing') return;
     this.run.tick(dt); this.idle += dt; this.hop = Math.max(0, this.hop - dt); this.hurtRemaining = Math.max(0, this.hurtRemaining - dt);
     this.powerNotice = Math.max(0, this.powerNotice - dt); this.powerLandingGrace = Math.max(0, this.powerLandingGrace - dt);
   }
