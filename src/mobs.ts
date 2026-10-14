@@ -1,4 +1,5 @@
 import type { Game } from './game.js';
+import type { PursuerRules } from './mode-rules.js';
 
 export type MobKind = 'slime' | 'crab' | 'wasp';
 export interface Mob {
@@ -17,9 +18,18 @@ export const MOB_TYPES: readonly { id: MobKind; name: string; unlock: number; hi
 export const MOB_SPAWN_GRACE = 1.8;
 export const MOB_FIRST_SPAWN_TIME = 45;
 export const MOB_MIN_SPAWN_PROGRESS = 24;
+const DEFAULT_PURSUER_RULES: PursuerRules = {
+  enabled: true, introductionThresholds: [160, 320, 480], firstSpawnTime: MOB_FIRST_SPAWN_TIME,
+  minimumSpawnProgress: MOB_MIN_SPAWN_PROGRESS, spawnInterval: 18, minimumSpawnInterval: 14,
+  intervalProgress: 160, populationCap: 2,
+};
 /** Encounter pacing is separate from the aggression of an existing pursuer. */
-export function mobPacing(score: number): { interval: number; cap: number } {
-  return { interval: Math.max(14, 18 - Math.max(0, score - 160) / 160), cap: score < 160 ? 0 : score < 480 ? 1 : 2 };
+export function mobPacing(score: number, rules: PursuerRules = DEFAULT_PURSUER_RULES): { interval: number; cap: number } {
+  const first = rules.introductionThresholds[0]!, final = rules.introductionThresholds.at(-1)!;
+  return {
+    interval: Math.max(rules.minimumSpawnInterval, rules.spawnInterval - Math.max(0, score - first) / rules.intervalProgress),
+    cap: score < first ? 0 : score < final ? Math.min(1, rules.populationCap) : rules.populationCap,
+  };
 }
 /** Rendering and body collisions use the very same eased position. */
 export function mobMotionProgress(kind: MobKind, phase: Mob['phase'], fraction: number): number {
@@ -130,11 +140,12 @@ export class MobDirector {
   }
 
   private spawn(game: Game): void {
-    const available = MOB_TYPES.filter(definition => game.maxY >= definition.unlock);
-    const pacing = mobPacing(game.maxY);
+    const rules = game.rules.pursuers;
+    const available = MOB_TYPES.filter((_definition, index) => game.maxY >= rules.introductionThresholds[index]!);
+    const pacing = mobPacing(game.maxY, rules);
     if (!available.length || this.mobs.length >= pacing.cap || game.hop > 0 || game.warning || game.run.market ||
-      game.time < Math.max(MOB_FIRST_SPAWN_TIME, this.nextSpawn, this.retryAt, this.modifierRetryAt) ||
-      game.maxY - this.lastSpawnScore < MOB_MIN_SPAWN_PROGRESS) return;
+      game.time < Math.max(rules.firstSpawnTime, this.nextSpawn, this.retryAt, this.modifierRetryAt) ||
+      game.maxY - this.lastSpawnScore < rules.minimumSpawnProgress) return;
     // A new species gets priority only after the normal breathing room. Wait
     // for a meadow landing so a new threat never stacks onto a crossing.
     if (game.lane?.kind !== 'meadow' || game.mobHazard(game.x, game.y, game.x, game.y, game.time, game.time, .23)) return;
@@ -162,7 +173,7 @@ export class MobDirector {
   }
 
   update(game: Game, dt: number, previousX: number, previousY: number): void {
-    if (game.mode === 'stroll') { this.mobs.length = 0; return; }
+    if (!game.rules.pursuers.enabled) { this.mobs.length = 0; return; }
     const delay = game.run.effects.mobSpawnDelay;
     if (delay !== this.spawnDelay) {
       const change = delay - this.spawnDelay;

@@ -8,8 +8,9 @@ const { Soundscape, crossingSignal } = await sources.import('soundscape');
 const { musicHarmonyAt } = await sources.import('harmony');
 const { laneActors } = await sources.import('game');
 const { generateLane: generateVariedLane } = await sources.import('levels/v2');
-function fixture(world = 'pond', mode = 'stroll') {
-  const game = new Game(0, world, mode); game.state = 'playing'; game.rows.clear();
+const { composeModeDefinition } = await sources.import('mode-rules');
+function fixture(world = 'pond', mode = 'stroll', definition) {
+  const game = new Game(0, world, mode, false, [], 'butter', { definition }); game.state = 'playing'; game.rows.clear();
   const plays = [], frames = [];
   const sink = { play(cue, options) { plays.push({ cue, ...options, time: game.time }); }, syncLoops(loops) { frames.push(structuredClone(loops)); } };
   const scene = new Soundscape(sink);
@@ -332,4 +333,45 @@ test('repeated render frames at a frozen simulation time do not change the scene
   f.game.pause(); f.at(0); assert.deepEqual(f.frames.at(-1), []);
   f.game.resume(); assert.deepEqual(f.at(0), first);
   assert.equal(f.plays.length, events, 'resuming does not replay the same car horn');
+});
+
+test('custom world speed drives the real music and bell clocks independently of stored solo identity', () => {
+  for (const mode of ['arcade', 'stroll']) {
+    const definition = composeModeDefinition({ id: `audio-clock-${mode}`,
+      simulation: { worldTimeScale: .4 }, pursuers: { enabled: false } });
+    const f = fixture('pond', mode, definition);
+    f.add(1, 'rail', { warning: 3 });
+    f.at(0);
+    // Drive the production Game clock at its actual fixed step. The traveler
+    // stays on safe meadow, while the nearby crossing remains in its warning.
+    for (let step = 1; step <= 122; step++) {
+      f.game.update(1 / 120);
+      const loops = f.at(f.game.time);
+      assert.ok(Math.abs(cue(loops, 'music').offset - step / 120) < 1e-10,
+        `${mode}: music follows active elapsed time rather than the stored mode`);
+    }
+    const bells = f.plays.filter(play => play.cue === 'train').map(play => play.time);
+    assert.equal(bells.length, 3, `${mode}: one bell per half active second`);
+    bells.forEach((time, index) => assert.ok(Math.abs(time - index * .2) < 1e-10));
+    const playing = cue(f.frames.at(-1), 'music');
+    f.game.pause(); f.at(f.game.time);
+    assert.deepEqual(f.frames.at(-1), []);
+    f.game.resume();
+    assert.deepEqual(cue(f.at(f.game.time), 'music'), playing, 'resume retains the music position');
+  }
+});
+
+test('custom world speed keeps urgent wave warnings at their active-second cadence', () => {
+  for (const mode of ['arcade', 'stroll']) {
+    const definition = composeModeDefinition({ id: `warning-clock-${mode}`,
+      simulation: { worldTimeScale: .4 }, pursuers: { enabled: false } });
+    const f = fixture('pond', mode, definition);
+    f.game.waveRow = -.2;
+    f.at(5);
+    assert.equal(count(f.plays, 'idle'), 1, 'fixture is inside the urgent wave warning');
+    f.at(5 + .52 * .4 - .000001);
+    assert.equal(count(f.plays, 'idle'), 1, 'no early warning');
+    f.at(5 + .52 * .4);
+    assert.equal(count(f.plays, 'idle'), 2, 'active scale schedules the next warning');
+  }
 });

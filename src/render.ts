@@ -2,7 +2,7 @@ import { box, characterById, TRAIN_MODEL } from './content.js';
 import type { Model, Voxel } from './content.js';
 import { coinPosition, laneActors, laneDirection, platformSupports, platformSurface, random, trainPhase, vehicleBounds } from './game.js';
 import type { Game, Lane } from './game.js';
-import { crossingSignal } from './soundscape.js';
+import { crossingSignalAtScale } from './soundscape.js';
 import { mobDefinition } from './mobs.js';
 import type { Mob } from './mobs.js';
 import { mobPose } from './mob-models.js';
@@ -262,7 +262,7 @@ export class Renderer {
       }
       if (lane.kind === 'rail') {
         const train = trainPhase(lane, game.time);
-        const signal = crossingSignal(lane, game.time, game.mode);
+        const signal = crossingSignalAtScale(lane, game.time, game.rules.simulation.worldTimeScale);
         for (const x of [-5.8, 5.8]) objects.push({ x, y, draw: () => { this.cube(box(0, 0, 0, .1, .1, .8, '#677261'), x, y); this.cube(box(0, 0, .8, .28, .23, .15, (this.reduced ? signal.active : signal.lit) ? '#f27459' : '#d6b972'), x, y); } });
         if (train.x !== null) { const x = train.x; objects.push({ x, y, draw: () => { for (const voxel of TRAIN_MODEL) this.cube(voxel, x, y); } }); }
       }

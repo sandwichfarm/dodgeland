@@ -23,8 +23,17 @@ export interface EconomyRules {
   readonly inventoryLimit: number;
   readonly baseCoinGravity: number;
 }
-/** Reserved for the pursuer extraction in Plan 03; Game can only disable the existing director. */
-export interface PursuerRules { readonly enabled: boolean; readonly introductionThresholds: readonly number[] }
+/** Spawn pacing is bounded independently from each mob's own movement tuning. */
+export interface PursuerRules {
+  readonly enabled: boolean;
+  readonly introductionThresholds: readonly number[];
+  readonly firstSpawnTime: number;
+  readonly minimumSpawnProgress: number;
+  readonly spawnInterval: number;
+  readonly minimumSpawnInterval: number;
+  readonly intervalProgress: number;
+  readonly populationCap: number;
+}
 export interface PresentationRules { readonly pursuitVisible: boolean }
 export interface LifecycleRules {
   readonly onStart?: SoloLifecycleObserver;
@@ -57,7 +66,11 @@ const defaults: ModeRules = {
   pursuit: { strategy: 'wave', grace: 4, speed: .65, waveTrail: 6, trailingLimit: 7, warningSeconds: 5 },
   retention: { rowsBehind: 10, rowsAhead: 28, pickupBindingAhead: 8, captureDistance: .5, pullCompletionDistance: .2 },
   economy: { marketInterval: 100, marketWindowSeconds: 15, inventoryCapacity: 3, inventoryLimit: 6, baseCoinGravity: .1 },
-  pursuers: { enabled: true, introductionThresholds: [160, 320, 480] },
+  pursuers: {
+    enabled: true, introductionThresholds: [160, 320, 480], firstSpawnTime: 45,
+    minimumSpawnProgress: 24, spawnInterval: 18, minimumSpawnInterval: 14,
+    intervalProgress: 160, populationCap: 2,
+  },
   presentation: { pursuitVisible: true },
   lifecycle: {},
 };
@@ -67,7 +80,8 @@ const keys: { readonly [K in keyof ModeRules]: readonly (keyof ModeRules[K])[] }
   health: ['maxHealth', 'rearDamage', 'sideDamage', 'frontDamage', 'hurtRecovery', 'regenerationInterval', 'regenerationAmount'],
   pursuit: ['strategy', 'grace', 'speed', 'waveTrail', 'trailingLimit', 'warningSeconds'],
   retention: ['rowsBehind', 'rowsAhead', 'pickupBindingAhead', 'captureDistance', 'pullCompletionDistance'],
-  economy: ['marketInterval', 'marketWindowSeconds', 'inventoryCapacity', 'inventoryLimit', 'baseCoinGravity'], pursuers: ['enabled', 'introductionThresholds'],
+  economy: ['marketInterval', 'marketWindowSeconds', 'inventoryCapacity', 'inventoryLimit', 'baseCoinGravity'],
+  pursuers: ['enabled', 'introductionThresholds', 'firstSpawnTime', 'minimumSpawnProgress', 'spawnInterval', 'minimumSpawnInterval', 'intervalProgress', 'populationCap'],
   presentation: ['pursuitVisible'], lifecycle: ['onStart', 'onProgress', 'onPause', 'onResume', 'onTerminal'],
 };
 type Mutable<T> = { -readonly [K in keyof T]: Mutable<T[K]> };
@@ -136,8 +150,16 @@ export function composeModeDefinition(input: ModeDefinitionInput = {}): ModeDefi
   e.inventoryLimit = numberAt(e.inventoryLimit, 'economy.inventoryLimit', 1, 12, true);
   if (e.inventoryCapacity > e.inventoryLimit) fail('economy.inventoryCapacity', 'cannot exceed inventoryLimit.');
   e.baseCoinGravity = numberAt(e.baseCoinGravity, 'economy.baseCoinGravity', 0, 1.25);
-  if (typeof rules.pursuers.enabled !== 'boolean') fail('pursuers.enabled', 'must be boolean.');
-  if (!Array.isArray(rules.pursuers.introductionThresholds) || rules.pursuers.introductionThresholds.length !== 3 || rules.pursuers.introductionThresholds.some((value, index, values) => !Number.isSafeInteger(value) || value < 1 || (index > 0 && value <= values[index - 1]!))) fail('pursuers.introductionThresholds', 'must be three increasing positive integers.');
+  const u = rules.pursuers;
+  if (typeof u.enabled !== 'boolean') fail('pursuers.enabled', 'must be boolean.');
+  if (!Array.isArray(u.introductionThresholds) || u.introductionThresholds.length !== 3 || u.introductionThresholds.some((value, index, values) => !Number.isSafeInteger(value) || value < 1 || (index > 0 && value <= values[index - 1]!))) fail('pursuers.introductionThresholds', 'must be three increasing positive integers.');
+  u.firstSpawnTime = numberAt(u.firstSpawnTime, 'pursuers.firstSpawnTime', 0, 600);
+  u.minimumSpawnProgress = numberAt(u.minimumSpawnProgress, 'pursuers.minimumSpawnProgress', 1, 1_000, true);
+  u.spawnInterval = numberAt(u.spawnInterval, 'pursuers.spawnInterval', 1, 120);
+  u.minimumSpawnInterval = numberAt(u.minimumSpawnInterval, 'pursuers.minimumSpawnInterval', 1, 120);
+  if (u.minimumSpawnInterval > u.spawnInterval) fail('pursuers.minimumSpawnInterval', 'cannot exceed spawnInterval.');
+  u.intervalProgress = numberAt(u.intervalProgress, 'pursuers.intervalProgress', 1, 100_000, true);
+  u.populationCap = numberAt(u.populationCap, 'pursuers.populationCap', 1, 4, true);
   if (typeof rules.presentation.pursuitVisible !== 'boolean') fail('presentation.pursuitVisible', 'must be boolean.');
   for (const key of ['onStart', 'onProgress', 'onPause', 'onResume', 'onTerminal'] as const) if (rules.lifecycle[key] !== undefined && typeof rules.lifecycle[key] !== 'function') fail(`lifecycle.${key}`, 'must be a function.');
   const definition = freeze({ id: input.id ?? 'custom', rules }) as ModeDefinition;

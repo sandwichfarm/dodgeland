@@ -627,3 +627,45 @@ test('custom hop duration and pursuit visibility drive the actual rendered chara
     assert.equal(result.opaque, 720 * 500);
   }
 });
+
+test('rendered crossing lamps and actual bell events share a custom active-world clock', async () => {
+  const results = await page.evaluate(async () => {
+    const [{ Renderer }, { Game }, { Soundscape }, { composeModeDefinition }] = await Promise.all([
+      import('/current/render.js'), import('/current/game.js'),
+      import('/current/soundscape.js'), import('/current/mode-rules.js'),
+    ]);
+    return ['arcade', 'stroll'].flatMap(mode => [false, true].map(reduced => {
+      const definition = composeModeDefinition({ id: `crossing-${mode}`,
+        simulation: { worldTimeScale: .4 }, pursuers: { enabled: false } });
+      const game = new Game(73, 'pond', mode, false, [], 'butter', { definition });
+      for (const lane of game.rows.values()) Object.assign(lane, { kind: 'meadow', blocked: [], decorations: [], coin: null });
+      Object.assign(game.rows.get(1), { kind: 'rail', phase: 0, period: 8, warning: 3, speed: 1 });
+      game.state = 'playing';
+      const canvas = document.createElement('canvas'); canvas.width = 720; canvas.height = 500;
+      const renderer = new Renderer(canvas);
+      renderer.width = 720; renderer.height = 500; renderer.scale = 50; renderer.reduced = reduced;
+      let lamps = [];
+      const cube = renderer.cube.bind(renderer);
+      renderer.cube = (voxel, ...args) => {
+        if (voxel.z === .8 && voxel.w === .28 && voxel.d === .23 && voxel.h === .15) lamps.push(voxel.color);
+        return cube(voxel, ...args);
+      };
+      const bells = [], frames = [];
+      const scene = new Soundscape({ syncLoops() {}, play(cue) { if (cue === 'train') bells.push(game.time); } });
+      for (const time of [.08, .12, .2, .3, .4]) {
+        game.time = time; lamps = [];
+        scene.update(game); renderer.draw(game, 'butter', 0);
+        frames.push({ time, lamps: [...lamps] });
+      }
+      return { mode, reduced, frames, bells };
+    }));
+  });
+  for (const result of results) {
+    const lit = [true, false, true, false, true];
+    result.frames.forEach((frame, index) => {
+      const color = result.reduced || lit[index] ? '#f27459' : '#d6b972';
+      assert.deepEqual(frame.lamps, [color, color], `${result.mode}/${result.reduced}/${frame.time}: both actual lamps use the active clock`);
+    });
+    assert.deepEqual(result.bells, [.08, .2, .4], 'bells strike on lit beats; reduced motion changes only the lamps');
+  }
+});

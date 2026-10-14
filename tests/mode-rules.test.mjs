@@ -9,6 +9,7 @@ const {
   composeModeDefinition, soloModeDefinition, SOLO_ARCADE_MODE, SOLO_STROLL_MODE,
 } = await sources.import('mode-rules');
 const { ITEM_CATALOG } = await sources.import('market/catalog');
+const { mobPacing } = await sources.import('mobs');
 
 function customRules(overrides = {}) {
   return composeModeDefinition({
@@ -52,6 +53,11 @@ test('composer rejects invalid numeric, policy, retention, and fixed-world input
     [{ retention: { rowsBehind: 9 } }, /retention\.rowsBehind/],
     [{ retention: { rowsAhead: 1e6 } }, /retention\.rowsAhead/],
     [{ pursuers: { enabled: 'yes' } }, /pursuers\.enabled/],
+    [{ pursuers: { firstSpawnTime: -1 } }, /pursuers\.firstSpawnTime/],
+    [{ pursuers: { minimumSpawnInterval: 19 } }, /pursuers\.minimumSpawnInterval/],
+    [{ pursuers: { populationCap: 5 } }, /pursuers\.populationCap/],
+    [{ economy: { inventoryCapacity: 7, inventoryLimit: 6 } }, /economy\.inventoryCapacity/],
+    [{ economy: { baseCoinGravity: 1.5 } }, /economy\.baseCoinGravity/],
     [{ pursuit: { trailingLimit: 11 } }, /pursuit\.trailingLimit/],
     [{ movement: { halfWidth: 4 } }, /movement\.halfWidth/],
     [{ simulation: { impossible: 1 } }, /simulation\.impossible/],
@@ -114,6 +120,34 @@ test('custom economy rules drive live invitations, capacity, and baseline coin c
   game.update(0);
   assert.equal(game.run.effects.coinRadius, .4);
   assert.ok(reward.coinPull, 'the non-default baseline reach captures a real separated coin');
+});
+
+test('custom pursuer rules drive real unlocks, cadence, and population bounds', () => {
+  const definition = customRules({ pursuers: {
+    enabled: true, introductionThresholds: [5, 10, 15], firstSpawnTime: 0,
+    minimumSpawnProgress: 1, spawnInterval: 3, minimumSpawnInterval: 2,
+    intervalProgress: 5, populationCap: 2,
+  } });
+  assert.deepEqual(mobPacing(15, definition.rules.pursuers), { interval: 2, cap: 2 });
+  const game = new Game(19, 'pond', 'arcade', false, [], 'butter', { definition });
+  game.state = 'playing'; game.x = game.fromX = 0; game.y = game.fromY = game.maxY = 5; game.time = 0;
+  game.ensureRows();
+  for (const lane of game.rows.values()) Object.assign(lane, { kind: 'meadow', blocked: [], decorations: [], coin: null });
+  const spawned = []; game.onMobSpawn = mob => spawned.push(mob.kind);
+  game.update(0); assert.deepEqual(spawned, ['slime'], 'the configured first active second and unlock are consumed');
+  game.mobs.length = 0;
+  game.y = game.fromY = game.maxY = 10; game.ensureRows(); game.time = 2.99;
+  for (const lane of game.rows.values()) Object.assign(lane, { kind: 'meadow', blocked: [], decorations: [], coin: null });
+  game.update(0); assert.deepEqual(spawned, ['slime'], 'the configured spawn interval holds');
+  game.time = 3; game.update(0); assert.deepEqual(spawned, ['slime', 'crab'], 'the next configured species unlocks after one earned row');
+  game.y = game.fromY = game.maxY = 15; game.ensureRows(); game.time = 5;
+  for (const lane of game.rows.values()) Object.assign(lane, { kind: 'meadow', blocked: [], decorations: [], coin: null });
+  game.update(0); assert.deepEqual(spawned, ['slime', 'crab', 'wasp']);
+  game.time = 99; game.update(0); assert.equal(game.mobs.length, 2, 'the configured maximum population remains bounded');
+  const disabled = new Game(19, 'pond', 'arcade', false, [], 'butter', { definition: customRules({ pursuers: { enabled: false } }) });
+  disabled.state = 'playing'; disabled.y = disabled.fromY = disabled.maxY = 1000; disabled.time = 1000; disabled.ensureRows();
+  for (const lane of disabled.rows.values()) Object.assign(lane, { kind: 'meadow', blocked: [], decorations: [], coin: null });
+  disabled.update(0); assert.equal(disabled.mobs.length, 0, 'disabled pursuers cannot create an encounter');
 });
 
 test('legacy construction, constants, fromSeed, and baseline presets retain their exact public values', () => {
