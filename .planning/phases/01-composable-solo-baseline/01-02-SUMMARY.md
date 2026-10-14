@@ -112,7 +112,7 @@ status: complete
 
 - `node --test tests/mode-rules.test.mjs tests/render.test.mjs tests/devtools.test.mjs` — 29 passed.
 - `pnpm test:solo-parity` — 21 passed against pinned `a310a81`.
-- `pnpm type-check`, `pnpm build`, `pnpm test:guidance`, and `pnpm test:conformance` — passed; conformance reported 5 passed and 0 failed.
+- `pnpm type-check`, `pnpm build`, `pnpm test:guidance`, and `pnpm test:conformance` — passed; conformance reported 5 passed, 0 failed, and 5 evidence skips (unresolved manifest checks, no emitted wire envelopes, and unmeasured teardown). These skips do not prove the skipped behavior.
 - `git diff --exit-code -- pnpm-lock.yaml` — passed.
 
 ## Known Stubs

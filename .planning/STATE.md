@@ -5,15 +5,15 @@ milestone_name: milestone
 current_phase: 01
 current_phase_name: composable-solo-baseline
 status: executing
-stopped_at: Phase 01 plan 01 verified; starting plan 02 core rule extraction.
-last_updated: "2026-10-14T20:13:47.458789+00:00"
+stopped_at: Phase 01 plan 02 verified; executing plan 03 economy and pursuer rule extraction.
+last_updated: "2026-10-14T20:38:53.017295+00:00"
 last_activity: 2026-10-14
-last_activity_desc: Full immutable solo gate passes (20 tests); core rule extraction is next.
+last_activity_desc: Core rules, renderer and dev jumps verified; economy and pursuer extraction is active.
 progress:
   total_phases: 7
   completed_phases: 0
   total_plans: 10
-  completed_plans: 1
+  completed_plans: 2
 ---
 
 # Project State
@@ -28,29 +28,29 @@ See: `.planning/PROJECT.md` (updated 2026-10-14)
 ## Current Position
 
 Phase: 01 (composable-solo-baseline) — EXECUTING
-Plan: 2 of 4
+Plan: 3 of 4
 Status: Executing Phase 01
-Last activity: 2026-10-14 — Plan 01-01 committed and verified: 20 differential tests, 1,176 identity combinations, build/type-check pass.
+Last activity: 2026-10-14 — Plan 01-02 committed and verified: 29 focused tests, 21 differential tests, 24 exact pixel cases, type-check/build/guidance/conformance pass.
 
-Progress: [█░░░░░░░░░] 10% of currently planned tasks
+Progress: [██░░░░░░░░] 20% of currently planned tasks
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 1
-- Average duration: 38 min
-- Total execution time: 38 min
+- Total plans completed: 2
+- Average duration: 51.5 min
+- Total execution time: 103 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01 | 1/4 | 38 min | 38 min |
+| 01 | 2/4 | 103 min | 51.5 min |
 
 **Recent Trend:**
 
-- Last 5 plans: 01-01
+- Last 5 plans: 01-01, 01-02
 - Trend: Not established
 
 ## Accumulated Context
@@ -68,13 +68,13 @@ Recent decisions affecting current work:
 
 ### Pending Todos
 
-- Execute Plan 01-02 under the committed exact differential gate, including paired same-browser default render pixels.
+- Execute Plan 01-03 under the immutable differential and renderer gates; expand bounded economy/pursuer rule groups with real non-default consumers.
 - Phase 2 plans independently pass; execute only after verified Phase 1, preserving per-seat call cues/cooldowns.
-- Phase 3 UI contract independently approved; plan its implementation against completed Phase 1/2 interfaces.
+- Phase 3 UI contract independently approved; seven implementation plans are under independent review, with Phase 1/2 API reconciliation required before execution.
 
 ### Blockers/Concerns
 
-- Phase 1 must establish the immutable-baseline differential harness before multiplayer refactoring begins.
+- Phase 1 must finish all rule consumers and independent verification before multiplayer refactoring begins; the immutable-baseline harness is established.
 - NAP-GAMEPAD remains an authorized draft adapter; no native controller polling. Missing gamepad support must leave keyboard/pointer play available.
 - Race fog tuning and the provisional seat/race defaults require later product confirmation, but no requested capability is deferred.
 
@@ -87,5 +87,5 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-10-14
-Stopped at: Phase 01 plan 01 verified; starting plan 02 core rule extraction.
+Stopped at: Phase 01 plan 02 verified; executing plan 03 economy and pursuer rule extraction.
 Resume file: None

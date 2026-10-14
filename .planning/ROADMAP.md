@@ -35,7 +35,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 Plans:
 - [x] 01-01-PLAN.md — Establish the immutable a310a81 differential harness and complete solo scenario matrix.
-- [ ] 01-02-PLAN.md — Introduce validated immutable rule composition and route core Game/render behavior through it.
+- [x] 01-02-PLAN.md — Introduce validated immutable rule composition and route core Game/render behavior through it.
 - [ ] 01-03-PLAN.md — Route economy, collection, pursuers, and timing consumers through active rules.
 - [ ] 01-04-PLAN.md — Preserve one-step app entry, document real authoring, and run the strict phase gate.
 
@@ -129,7 +129,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Composable Solo Baseline | 1/4 | In progress | - |
+| 1. Composable Solo Baseline | 2/4 | In progress | - |
 | 2. Shared Local Session | 0/6 | Reviewed; awaits Phase 1 | - |
 | 3. Survive Together & Consumables | 0/TBD | Not started | - |
 | 4. Relay | 0/TBD | Not started | - |
