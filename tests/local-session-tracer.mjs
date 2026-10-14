@@ -121,12 +121,19 @@ test('one LocalSession advances one shared world while dispatching two stable se
 });
 
 function installLocalRuntime() {
-  const fixture = window.localSessionFixture = { hydrated: false, actions: [], handlers: {}, writes: [], unregistered: [] };
+  const delayedHydration = window.name === 'delayed-local-session-hydration';
+  const savedProgress = { mode: 'arcade', coins: 1_000, runs: 0, muted: true, selected: 'pip', travelerVersion: 2 };
+  let releaseStorage;
+  const storedProgress = delayedHydration ? new Promise(resolve => { releaseStorage = resolve; }) : Promise.resolve(JSON.stringify({ ...savedProgress, coins: 0, selected: 'butter' }));
+  const fixture = window.localSessionFixture = {
+    hydrated: false, actions: [], handlers: {}, writes: [], unregistered: [], delayedHydration,
+    releaseHydration(value = savedProgress) { releaseStorage?.(JSON.stringify(value)); },
+  };
   const themeListeners = new Set();
   const currentTheme = { colors: { background: '#242b32', text: '#f0eee5', primary: '#9fc28a' } };
   window.napplet = {
     storage: {
-      async getItem() { fixture.hydrated = true; return JSON.stringify({ mode: 'arcade', coins: 0, runs: 0, muted: true, selected: 'butter', travelerVersion: 2 }); },
+      async getItem() { const value = await storedProgress; fixture.hydrated = true; return value; },
       async setItem(key, value) { fixture.writes.push({ key, value }); },
     },
     theme: {
@@ -143,7 +150,7 @@ function installLocalRuntime() {
 
 const json = value => JSON.stringify(value).replaceAll('<', '\\u003c');
 const injected = `<script>(${installLocalRuntime.toString()})();</script>`;
-const harness = `<!doctype html><body style="margin:0"><iframe title="Local session tracer" sandbox="allow-scripts" style="border:0;width:900px;height:600px"></iframe><script>document.querySelector('iframe').srcdoc=${json(built.replace('<head>', '<head>' + injected))};</script>`;
+const harness = `<!doctype html><body style="margin:0"><iframe title="Local session tracer" sandbox="allow-scripts" style="border:0;width:900px;height:600px"></iframe><script>const frame = document.querySelector('iframe'); if (location.search.includes('delayed-hydration')) frame.name = 'delayed-local-session-hydration'; frame.srcdoc=${json(built.replace('<head>', '<head>' + injected))};</script>`;
 const server = createServer((_request, response) => { response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); response.end(harness); });
 
 function seatRows(frame) {
@@ -153,7 +160,9 @@ function seatRows(frame) {
   }));
 }
 
-test('the built opaque iframe drives actual Local Play setup and shell keyboard actions', async () => {
+const sceneSnapshot = frame => frame.locator('#scene').evaluate(canvas => canvas.toDataURL());
+
+test('the built opaque iframe drives Local Play through the injected shell-action fixture', async () => {
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   const serverPort = server.address().port;
   const browser = await chromium.launch({ args: ['--mute-audio'] });
@@ -164,7 +173,7 @@ test('the built opaque iframe drives actual Local Play setup and shell keyboard 
     page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
     await page.goto(`http://127.0.0.1:${serverPort}`);
     const iframe = page.locator('iframe');
-    const frame = await (await iframe.elementHandle()).contentFrame();
+    let frame = await (await iframe.elementHandle()).contentFrame();
     assert.ok(frame);
     assert.equal(await iframe.getAttribute('sandbox'), 'allow-scripts');
     assert.equal(await frame.evaluate(() => location.origin), 'null');
@@ -173,25 +182,98 @@ test('the built opaque iframe drives actual Local Play setup and shell keyboard 
     assert.equal(actions.find(action => action.id === 'puddlehop.forward-w')?.defaultKey, 'w');
     assert.equal(actions.find(action => action.id === 'puddlehop.forward')?.defaultKey, 'ArrowUp');
 
+    const shellAction = id => frame.evaluate(id => window.localSessionFixture.handlers[id](), id);
+    await frame.locator('#play').click();
+    await shellAction('puddlehop.forward-w');
+    await frame.waitForFunction(() => document.querySelector('#score')?.textContent === '1');
+    await page.waitForTimeout(240);
+    const progressedScore = await frame.locator('#score').textContent();
+    await frame.locator('#pause').click();
+    await frame.waitForFunction(() => document.querySelector('#app')?.dataset.runState === 'paused');
     await frame.locator('#local-play').click();
     assert.equal(await frame.locator('#local-session-setup').isHidden(), false);
+    assert.equal(await frame.locator('#local-session-setup').getAttribute('role'), 'dialog');
+    await frame.locator('#local-session-start').press('Tab');
+    assert.equal(await frame.evaluate(() => document.activeElement?.id), 'local-session-back', 'setup Tab moves from Start to Back');
+    await frame.locator('#local-session-back').press('Tab');
+    assert.equal(await frame.evaluate(() => document.activeElement?.id), 'local-session-start', 'setup Tab wraps within staged Local Play controls');
+    await page.screenshot({ path: resolve(root, 'artifacts/local-session-setup.png') });
     await frame.locator('#local-session-back').click();
     assert.equal(await frame.locator('#local-session-setup').isHidden(), true, 'Back to solo cancels real staged setup');
+    assert.equal(await frame.locator('#score').textContent(), progressedScore, 'cancel preserves the live primary score');
 
     await frame.locator('#local-play').click();
     await frame.locator('#local-session-start').click();
     await frame.locator('#session-seats [data-seat="p1"]').waitFor();
+    await page.screenshot({ path: resolve(root, 'artifacts/local-session-active.png') });
+    assert.equal(await frame.locator('#score').textContent(), progressedScore, 'commit adopts the live primary score without rebuilding it');
     const before = await seatRows(frame);
     assert.deepEqual(before.map(player => player.seat), ['p1', 'p2']);
     assert.ok(before.every(player => /^P[12] /.test(player.text)), 'the actual HUD retains marker and P-number labels');
 
-    const shellAction = id => frame.evaluate(id => window.localSessionFixture.handlers[id](), id);
     await shellAction('puddlehop.forward-w');
     await shellAction('puddlehop.forward');
-    await frame.waitForFunction(() => [...document.querySelectorAll('#session-seats [data-seat]')].every(node => Number(node.textContent?.split('·').at(-1)?.trim()) === 1));
+    const expectedRows = before.map(player => ({ seat: player.seat, y: player.y + 1 }));
+    await frame.waitForFunction(expected => [...document.querySelectorAll('#session-seats [data-seat]')].every(node => {
+      const y = Number(node.textContent?.split('·').at(-1)?.trim());
+      return expected.find(player => player.seat === node.dataset.seat)?.y === y;
+    }), expectedRows);
     const after = await seatRows(frame);
 
-    assert.deepEqual(after.map(player => player.y), before.map(player => player.y + 1), 'W routes P1 and ArrowUp routes P2 through the real shell action handlers');
+    assert.deepEqual(after.map(player => player.y), before.map(player => player.y + 1), 'W routes P1 and ArrowUp route through the real shell action handlers');
+
+    await frame.locator('#pause').click();
+    await frame.waitForFunction(() => document.querySelector('#app')?.dataset.runState === 'paused');
+    const paused = await seatRows(frame);
+    const pausedScene = await sceneSnapshot(frame);
+    await page.waitForTimeout(180);
+    assert.deepEqual(await seatRows(frame), paused, 'pause freezes both live seat observations');
+    assert.equal(await sceneSnapshot(frame), pausedScene, 'pause freezes the shared world rendering as well as both seats');
+    await shellAction('puddlehop.forward');
+    await page.waitForTimeout(80);
+    assert.deepEqual(await seatRows(frame), paused, 'P2 actions are ignored while the shared session is paused');
+
+    await frame.locator('#play').click();
+    await frame.waitForFunction(() => document.querySelector('#app')?.dataset.runState === 'playing');
+    await frame.evaluate(() => window.dispatchEvent(new Event('blur')));
+    await frame.waitForFunction(() => document.querySelector('#app')?.dataset.runState === 'paused');
+    const blurred = await seatRows(frame);
+    await shellAction('puddlehop.forward');
+    await page.waitForTimeout(80);
+    assert.deepEqual(await seatRows(frame), blurred, 'P2 actions are ignored after the iframe blurs');
+
+    await frame.evaluate(() => window.dispatchEvent(new Event('focus')));
+    await frame.locator('#play').click();
+    await frame.waitForFunction(() => document.querySelector('#app')?.dataset.runState === 'playing');
+    await page.locator('iframe').evaluate(node => { node.style.width = '200px'; node.style.height = '160px'; });
+    await frame.waitForFunction(() => innerWidth < 240 || innerHeight < 240);
+    const undersized = await seatRows(frame);
+    await shellAction('puddlehop.forward');
+    await page.waitForTimeout(80);
+    assert.deepEqual(await seatRows(frame), undersized, 'P2 actions are ignored below the playable frame size');
+
+    await page.goto(`http://127.0.0.1:${serverPort}?delayed-hydration`);
+    frame = await (await page.locator('iframe').elementHandle()).contentFrame();
+    assert.ok(frame);
+    await frame.locator('#local-play').waitFor();
+    await frame.locator('#local-play').click();
+    await frame.waitForFunction(() => !document.querySelector('#local-session-setup')?.hasAttribute('hidden'));
+    await frame.evaluate(() => window.localSessionFixture.releaseHydration());
+    await frame.waitForFunction(() => window.localSessionFixture.hydrated && typeof window.localSessionFixture.handlers['puddlehop.forward-w'] === 'function');
+    await frame.locator('#local-session-start').click();
+    await frame.locator('#session-seats [data-seat="p1"]').waitFor();
+    assert.match((await seatRows(frame)).find(player => player.seat === 'p1')?.text ?? '', /Butter/, 'delayed hydration cannot replace a staged primary traveler before commit');
+
+    await page.goto(`http://127.0.0.1:${serverPort}?delayed-hydration`);
+    frame = await (await page.locator('iframe').elementHandle()).contentFrame();
+    assert.ok(frame);
+    await frame.locator('#local-play').waitFor();
+    await frame.locator('#local-play').click();
+    await frame.locator('#local-session-start').click();
+    await frame.locator('#session-seats [data-seat="p1"]').waitFor();
+    await frame.evaluate(() => window.localSessionFixture.releaseHydration());
+    await frame.waitForFunction(() => window.localSessionFixture.hydrated && typeof window.localSessionFixture.handlers['puddlehop.forward-w'] === 'function');
+    assert.match((await seatRows(frame)).find(player => player.seat === 'p1')?.text ?? '', /Butter/, 'delayed hydration cannot replace an active primary traveler');
     assert.deepEqual(errors, [], 'the built opaque iframe reports no boot errors');
   } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); }
 });

@@ -36,6 +36,7 @@ let progress: Progress = freshProgress();
 let game = new Game(1, undefined, undefined, undefined, ITEM_CATALOG);
 let localStage: ReturnType<typeof LocalSession.stage> | undefined;
 let localSession: LocalSession | undefined;
+let sessionPaused = false;
 let preparedLaunch: GameLaunch | undefined;
 let shortLosses = 0, previousState = '', chapter = 0, toastUntil = 0, toastMessage = '';
 let restoreAfterDrawer = false, disposed = false, raf = 0;
@@ -94,7 +95,7 @@ const powerUI = createCharacterPowerUI();
 const market = createMarketUI({
   getRun: () => game.run,
   getCharacter: () => characterById(progress.selected),
-  canOpen: () => !disposed && !(import.meta.env.DEV && devTools?.isOpen) && !document.hidden && localFocus && innerWidth >= 240 && innerHeight >= 240 && el('drawer').hidden && (game.state === 'playing' || (game.state === 'paused' && !!game.run.pendingPack)) && !!game.run.market,
+  canOpen: () => !localStage && !disposed && !(import.meta.env.DEV && devTools?.isOpen) && !document.hidden && localFocus && innerWidth >= 240 && innerHeight >= 240 && el('drawer').hidden && (game.state === 'playing' || (game.state === 'paused' && !!game.run.pendingPack)) && !!game.run.market,
   open: () => { if (!game.openMarket()) return false; handPausedPlay = false; hand.close(); audio.stop(); return true; },
   close: resume => {
     const allowed = resume && !disposed && !document.hidden && localFocus && innerWidth >= 240 && innerHeight >= 240;
@@ -107,7 +108,7 @@ const market = createMarketUI({
 });
 const gamepad = createGamepadControls({
   enabled: () => !disposed && !(import.meta.env.DEV && devTools?.isOpen) && !document.hidden && innerWidth >= 240 && innerHeight >= 240,
-  context: () => `${game.state}:${hand.isOpen() ? 'hand' : game.run.isOpen ? 'market' : el('drawer').hidden ? `run:${el('app').dataset.runMenuPage ?? el('app').dataset.pausePage ?? ''}` : `collection:${el('drawer').dataset.collectionTab}:${el('drawer').dataset.collectionView}`}`,
+  context: () => `${localStage ? 'setup' : localSession ? sessionPaused ? 'session-paused' : 'session' : 'solo'}:${game.state}:${hand.isOpen() ? 'hand' : game.run.isOpen ? 'market' : el('drawer').hidden ? `run:${el('app').dataset.runMenuPage ?? el('app').dataset.pausePage ?? ''}` : `collection:${el('drawer').dataset.collectionTab}:${el('drawer').dataset.collectionView}`}`,
   direction: move,
   confirm: confirmMenu,
   pause: () => hand.isOpen() ? hand.close() : game.run.isOpen ? market.close() : !el('drawer').hidden ? closeDrawer() : game.state === 'ready' ? play() : togglePause(),
@@ -146,7 +147,7 @@ function applyTheme(theme: Theme): void {
 }
 function readyPreview(): void {
   const c = characterById(progress.selected);
-  game.setCharacter(c.id);
+  if (!localSession && !localStage) game.setCharacter(c.id);
   el<HTMLImageElement>('traveler-image').src = modelThumbnail(c.model);
   el('traveler-name').textContent = c.name; el('traveler-note').textContent = c.note;
   el('mode').textContent = game.mode === 'arcade' ? 'Arcade ↔' : 'Stroll ↔';
@@ -163,7 +164,7 @@ function updateCallControl(): void {
 }
 function callCharacter(): void {
   if (import.meta.env.DEV && devTools?.isOpen) return;
-  if (disposed || document.hidden || game.run.isOpen || !el('drawer').hidden || progress.muted || innerWidth < 240 || innerHeight < 240 || (game.state !== 'ready' && game.state !== 'playing')) return;
+  if (localStage || (localSession && sessionPaused) || disposed || !localFocus || document.hidden || game.run.isOpen || !el('drawer').hidden || progress.muted || innerWidth < 240 || innerHeight < 240 || (game.state !== 'ready' && game.state !== 'playing')) return;
   const now = performance.now(); if (now - lastCall < 450) return;
   audio.unlock(); audio.play(characterById(progress.selected).call); lastCall = now;
 }
@@ -171,7 +172,7 @@ function runGoal(): string {
   switch (progress.runs % 3) { case 0: return 'Little goal: reach 25 hops this run.'; case 1: return 'Little goal: find 3 coins this run.'; default: return 'Little goal: reach the next world at 32 hops.'; }
 }
 function reset(launch?: GameLaunch): void {
-  localSession?.stop(); localSession = undefined; localStage = undefined;
+  localSession?.stop(); localSession = undefined; localStage?.cancel(); localStage = undefined; sessionPaused = false;
   el<HTMLDivElement>('local-session-setup').hidden = true;
   preparedLaunch = launch;
   if (import.meta.env.DEV) sandboxRun = false;
@@ -247,13 +248,22 @@ function receiveGameIntent(delivery: unknown): void {
   const { launch } = request;
   // Opening an existing instance is navigation, not a request to restart it.
   if (!launch.seed && !launch.mode) return;
-  if ((game.state !== 'ready' && game.state !== 'dead') || presentingDeathSpill() || (import.meta.env.DEV && devTools?.isOpen)) {
+  if (localSession || localStage || (game.state !== 'ready' && game.state !== 'dead') || presentingDeathSpill() || (import.meta.env.DEV && devTools?.isOpen)) {
     notify('Finish this run, then open the game link again.'); return;
   }
   restoreAfterDrawer = false;
   el('drawer').hidden = true; collectionUI.update();
   reset(launch);
   notify(launch.seed ? 'Shared course ready. Let’s hop when you’re ready.' : `${game.mode === 'arcade' ? 'Arcade' : 'Stroll'} ready. Let’s hop when you’re ready.`);
+}
+function frameAvailable(): boolean {
+  return !disposed && !document.hidden && localFocus && innerWidth >= 240 && innerHeight >= 240 && !(import.meta.env.DEV && devTools?.isOpen);
+}
+function displayedRunState(): typeof game.state {
+  if (localStage) return 'paused';
+  if (!localSession?.running) return game.state;
+  if (sessionPaused || game.state === 'paused') return 'paused';
+  return localSession.players.some(player => player.state === 'playing') ? 'playing' : 'dead';
 }
 function updateHud(): void {
   const seats = el('session-seats');
@@ -275,26 +285,29 @@ function updateHud(): void {
   powerUI.update(game, progress.reduced || mediaQuery.matches);
   updateRunPowers();
   updateChaseHud();
-  const state = game.state;
-  hand.update({ visible: game.run.alive && (state === 'playing' || state === 'paused') && (game.run.cards.length > 0 || game.run.isOpen) && !(import.meta.env.DEV && devTools?.isOpen), reduced: progress.reduced || mediaQuery.matches });
+  const state = displayedRunState();
+  hand.update({ visible: !localStage && game.run.alive && (state === 'playing' || state === 'paused') && (game.run.cards.length > 0 || game.run.isOpen) && !(import.meta.env.DEV && devTools?.isOpen), reduced: progress.reduced || mediaQuery.matches });
   seedUI.update(state === 'dead' && !presentingDeathSpill() ? game.seedCode : null);
   el<HTMLButtonElement>('character-call').disabled = progress.muted || (state !== 'ready' && state !== 'playing');
-  const viewState = `${state}:${Boolean(game.run.pendingPack)}`;
+  const viewState = `${state}:${Boolean(game.run.pendingPack)}:${Boolean(localStage)}:${Boolean(localSession)}`;
   if (viewState !== previousState) {
     if (state === 'paused') audio.stop();
     previousState = viewState;
     el('app').dataset.runState = state;
     el('run-panel').hidden = state === 'playing';
-    el('ready-content').hidden = state !== 'ready'; el('result-content').hidden = state !== 'dead'; el('pause-content').hidden = state !== 'paused';
+    el('ready-content').hidden = state !== 'ready'; el('result-content').hidden = state !== 'dead'; el('pause-content').hidden = state !== 'paused' || !!localStage;
     el('play').innerHTML = `${state === 'dead' ? 'Hop again' : state === 'paused' ? game.run.pendingPack ? 'Choose cards' : 'Keep hopping' : 'Let’s hop'} <span aria-hidden="true">↗</span>`;
-    el('mode').hidden = state === 'paused'; el('goal').hidden = state !== 'ready';
+    el('play').hidden = !!localStage; el('choose').hidden = !!localStage;
+    el('local-play').hidden = !!localStage || !!localSession || state === 'dead';
+    el('mode').hidden = state === 'paused' || !!localSession; el('goal').hidden = state !== 'ready';
+    el<HTMLButtonElement>('collection').disabled = !!localStage;
     const pause = el<HTMLButtonElement>('pause'); pause.textContent = state === 'paused' ? '▷' : 'Ⅱ'; pause.setAttribute('aria-label', state === 'paused' ? 'Resume game' : 'Pause game'); pause.title = state === 'paused' ? 'Resume game' : 'Pause game'; pause.disabled = state === 'dead' || state === 'ready';
     el('hint').textContent = state === 'playing' ? controllerConnected ? 'Stick / D-pad · A hop · X call · Start pause' : 'Tap ↑ · Swipe to dodge' : state === 'paused' ? 'Paused · take your time' : state === 'dead' ? 'Every run is a new path' : 'Tap anywhere to begin';
   }
   el('run-panel').hidden = state === 'playing' || presentingDeathSpill() || game.run.isOpen || !el('drawer').hidden || (hand.isOpen() && handPausedPlay);
   el('app').dataset.modalOpen = String((!el('run-panel').hidden || !el('drawer').hidden || hand.isOpen()) && !(import.meta.env.DEV && devTools?.isOpen));
   el('app').classList.toggle('ui-less-motion', progress.reduced || mediaQuery.matches);
-  pauseUI.update(state === 'paused' && !el('run-panel').hidden && !(import.meta.env.DEV && devTools?.isOpen), progress.reduced || mediaQuery.matches);
+  pauseUI.update(!localStage && state === 'paused' && !el('run-panel').hidden && !(import.meta.env.DEV && devTools?.isOpen), progress.reduced || mediaQuery.matches);
   runMenuUI.update({
     state: state === 'dead' ? 'dead' : 'ready', distance: game.maxY, earnedCoins: game.coins,
     activeSeconds: game.time / game.rules.simulation.worldTimeScale,
@@ -348,59 +361,97 @@ function updateChaseHud(): void {
 }
 function play(): void {
   if (import.meta.env.DEV && devTools?.isOpen) return;
-  if (!el('drawer').hidden || game.run.isOpen || document.hidden || innerWidth < 240 || innerHeight < 240) return;
+  if (localStage || !el('drawer').hidden || game.run.isOpen || !frameAvailable()) return;
   if (presentingDeathSpill()) return;
   if (game.run.pendingPack) { market.toggle(); return; }
   audio.unlock();
+  if (localSession?.running && localSession.players.some(player => player.state === 'playing' || player.state === 'paused')) {
+    sessionPaused = false; game.resume(); accumulator = 0; updateHud(); return;
+  }
   if (game.state === 'dead') reset();
   if (game.state === 'paused') game.resume(); else game.start();
   updateHud();
 }
-/** Explicit Local Play staging leaves the ready solo Game untouched until commit. */
+/** Setup freezes the existing loop without advancing or rebuilding its owners. */
 function openLocalPlay(): void {
-  if ((game.state !== 'ready' && game.state !== 'playing') || localSession || !el('drawer').hidden) return;
+  if (!frameAvailable() || localStage || localSession || game.state === 'dead' || !el('drawer').hidden || hand.isOpen() || game.run.isOpen || game.run.pendingPack) return;
   try { localStage = LocalSession.stage(game); }
   catch { notify('Local Play needs a safe second starting spot on this course.'); return; }
-  el<HTMLDivElement>('local-session-setup').hidden = false;
+  accumulator = 0; pointer = null; audio.stop();
+  const setup = el<HTMLDivElement>('local-session-setup');
+  setup.hidden = false; setup.setAttribute('role', 'dialog'); setup.setAttribute('aria-modal', 'true'); setup.setAttribute('aria-label', 'Local Play');
+  updateHud(); el('local-session-start').focus({ preventScroll: true });
 }
-/** Back to solo cancels the staged adoption without rebuilding its world or traveler. */
+/** Back to solo restores the same run, including its previous paused/playing state. */
 function backToSolo(): void {
   if (!localStage) return;
   game = localStage.cancel(); localStage = undefined;
+  accumulator = 0;
   el<HTMLDivElement>('local-session-setup').hidden = true;
-  el('local-play').focus({ preventScroll: true }); updateHud();
+  updateHud();
+  el(game.state === 'playing' ? 'scene' : 'local-play').focus({ preventScroll: true });
 }
 function startLocalPlay(): void {
-  if (!localStage) return;
+  if (!localStage || !frameAvailable()) return;
   localSession = localStage.commit(); localStage = undefined;
+  game.resume(); sessionPaused = false; accumulator = 0;
   el<HTMLDivElement>('local-session-setup').hidden = true;
-  audio.unlock(); updateHud();
+  audio.unlock(); updateHud(); el('scene').focus({ preventScroll: true });
 }
 function moveLocal(seat: 'p1' | 'p2', direction: Direction): void {
-  if (!localSession?.running) { move(direction); return; }
+  if (!frameAvailable()) return;
+  if (!localSession?.running || localStage || hand.isOpen() || hand.containsFocus() || game.run.isOpen || !el('drawer').hidden || displayedRunState() !== 'playing') { move(direction); return; }
   audio.unlock(); if (localSession.dispatch({ seat, direction })) audio.play('hop'); updateHud();
 }
+function localSetupKeydown(event: KeyboardEvent): void {
+  if (!localStage || disposed || event.key !== 'Tab') return;
+  const buttons = [el('local-session-start'), el('local-session-back')];
+  const current = buttons.indexOf(document.activeElement as HTMLElement);
+  event.preventDefault();
+  buttons[(current + (event.shiftKey ? -1 : 1) + buttons.length) % buttons.length]!.focus({ preventScroll: true });
+}
+document.addEventListener('keydown', localSetupKeydown, true);
 function move(direction: Direction): void {
-  if (import.meta.env.DEV && devTools?.isOpen) return;
+  if (!frameAvailable()) return;
+  if (localStage) {
+    const buttons = [el('local-session-start'), el('local-session-back')];
+    const current = buttons.indexOf(document.activeElement as HTMLElement);
+    buttons[(current + 1) % buttons.length]!.focus({ preventScroll: true }); return;
+  }
   if (hand.isOpen() || (game.state === 'playing' && hand.containsFocus())) { hand.navigate(direction); return; }
   if (game.run.isOpen) { market.navigate(direction); return; }
   if (!el('drawer').hidden) { collectionUI.navigate(direction); return; }
   if (innerWidth < 240 || innerHeight < 240) return;
-  if (game.state === 'dead' || game.state === 'ready') { runMenuUI.navigate(direction); return; }
-  if (game.state === 'paused') { pauseUI.navigate(direction); return; }
-  audio.unlock(); if (game.move(direction)) audio.play('hop'); updateHud();
+  const state = displayedRunState();
+  if (state === 'dead' || state === 'ready') { runMenuUI.navigate(direction); return; }
+  if (state === 'paused') { pauseUI.navigate(direction); return; }
+  audio.unlock(); if (localSession?.running ? localSession.dispatch({ seat: 'p1', direction }) : game.move(direction)) audio.play('hop'); updateHud();
 }
 function confirmMenu(): void {
+  if (!frameAvailable()) return;
+  if (localStage) {
+    if (document.activeElement === el('local-session-back')) backToSolo(); else startLocalPlay();
+    return;
+  }
   if (hand.isOpen() || hand.containsFocus()) { hand.confirm(); return; }
   if (game.run.isOpen) market.confirm();
   else if (!el('drawer').hidden) collectionUI.confirm();
-  else if (game.state === 'paused') pauseUI.confirm();
-  else if (game.state === 'playing') move('forward'); else runMenuUI.confirm();
+  else if (displayedRunState() === 'paused') pauseUI.confirm();
+  else if (displayedRunState() === 'playing') move('forward'); else runMenuUI.confirm();
 }
-function togglePause(): void { if (import.meta.env.DEV && devTools?.isOpen) return; if (hand.close()) return; if (game.run.isOpen) { market.close(); return; } if (!el('drawer').hidden) return; if (game.state === 'paused') play(); else game.pause(); updateHud(); }
-function suspendPlay(): void { audio.stop(); handPausedPlay = false; hand.close(); game.closeMarket(false); game.pause(); restoreAfterDrawer = false; restoreModalFocus = false; updateHud(); restoreModalFocus = true; }
+function togglePause(): void {
+  if (!frameAvailable() || localStage) return;
+  if (hand.close()) return;
+  if (game.run.isOpen) { market.close(); return; }
+  if (!el('drawer').hidden) return;
+  if (displayedRunState() === 'paused') play();
+  else if (localSession?.running) { sessionPaused = true; accumulator = 0; audio.stop(); }
+  else game.pause();
+  updateHud();
+}
+function suspendPlay(): void { if (localSession) sessionPaused = true; pointer = null; audio.stop(); handPausedPlay = false; hand.close(); game.closeMarket(false); game.pause(); restoreAfterDrawer = false; restoreModalFocus = false; updateHud(); restoreModalFocus = true; }
 function openDrawer(): void {
-  if (import.meta.env.DEV && devTools?.isOpen) return;
+  if (localStage || !frameAvailable()) return;
   const wasPlaying = handPausedPlay || game.state === 'playing'; handPausedPlay = false; hand.close();
   if (game.run.isOpen) market.close(false);
   audio.stop(); restoreAfterDrawer = wasPlaying; game.pause();
@@ -413,12 +464,13 @@ function closeDrawer(): void {
   el(game.state === 'playing' ? 'collection' : 'play').focus({ preventScroll: true });
 }
 function backMenu(): void {
+  if (localStage) { backToSolo(); return; }
   if (hand.close()) return;
   if (game.run.isOpen) market.close();
   else if (!el('drawer').hidden) { if (!collectionUI.back()) closeDrawer(); }
-  else if (game.state === 'paused') { if (!pauseUI.back()) play(); }
-  else if (game.state === 'ready' || game.state === 'dead') runMenuUI.back();
-  else { game.pause(); updateHud(); }
+  else if (displayedRunState() === 'paused') { if (!pauseUI.back()) play(); }
+  else if (displayedRunState() === 'ready' || displayedRunState() === 'dead') runMenuUI.back();
+  else togglePause();
 }
 el('play').addEventListener('click', play); el('pause').addEventListener('click', togglePause); el('collection').addEventListener('click', openDrawer); el('choose').addEventListener('click', openDrawer); el('close-drawer').addEventListener('click', closeDrawer);
 el('local-play').addEventListener('click', openLocalPlay); el('local-session-back').addEventListener('click', backToSolo); el('local-session-start').addEventListener('click', startLocalPlay);
@@ -439,22 +491,29 @@ let last = performance.now(), accumulator = 0;
 function frame(now: number): void {
   const dt = Math.min((now - last) / 1000, .05); last = now;
   gamepad.update(now);
-  if (localSession?.running && game.state === 'playing') {
-    const fixedStep = localSession.definition.rules.simulation.fixedStep;
-    accumulator += dt;
-    while (accumulator >= fixedStep) { localSession.update(fixedStep); accumulator -= fixedStep; }
-  } else if (game.state === 'playing') {
+  const sessionUnblocked = frameAvailable() && !localStage && displayedRunState() !== 'paused' && !hand.isOpen() && el('drawer').hidden && !game.run.isOpen && !game.run.pendingPack;
+  const sessionAdvancing = sessionUnblocked && displayedRunState() === 'playing';
+  if (localSession?.running) {
+    if (sessionAdvancing) {
+      const fixedStep = localSession.definition.rules.simulation.fixedStep;
+      accumulator += dt;
+      while (accumulator >= fixedStep) { localSession.update(fixedStep); accumulator -= fixedStep; }
+    } else accumulator = 0;
+  } else if (!localStage && game.state === 'playing') {
     const fixedStep = game.rules.simulation.fixedStep;
     accumulator += dt;
     while (accumulator >= fixedStep) { game.update(fixedStep); accumulator -= fixedStep; }
   } else accumulator = 0;
-  if (!document.hidden && localFocus && innerWidth >= 240 && innerHeight >= 240) game.advanceDeathVisuals(dt);
+  if (!document.hidden && localFocus && innerWidth >= 240 && innerHeight >= 240) {
+    if (localSession?.running) { if (sessionUnblocked) localSession.advanceDeathVisuals(dt); }
+    else game.advanceDeathVisuals(dt);
+  }
   spillAudio.update(game.state === 'dead' ? game.deathSpill : null,
     !progress.muted && !document.hidden && localFocus && !game.run.isOpen && el('drawer').hidden && innerWidth >= 240 && innerHeight >= 240,
     progress.reduced || mediaQuery.matches);
   soundscape.update(game, !progress.muted && !document.hidden && !game.run.isOpen && el('drawer').hidden && innerWidth >= 240 && innerHeight >= 240);
   renderer.reduced = progress.reduced || mediaQuery.matches;
-  if (localSession?.running) renderer.drawSession(localSession.world, localSession.views(), dt); else renderer.draw(game, progress.selected, dt);
+  if (localSession?.running) renderer.drawSession(localSession.world, localSession.views(), sessionAdvancing ? dt : 0); else renderer.draw(game, progress.selected, localStage ? 0 : dt);
   updateHud(); el('toast').textContent = now < toastUntil && !(game.state === 'playing' && game.warning) ? toastMessage : '';
   if (import.meta.env.DEV) devTools?.update();
   raf = requestAnimationFrame(frame);
@@ -490,7 +549,7 @@ async function boot(): Promise<void> {
       sounds.sync();
       if (!CHARACTERS.some(c => c.id === progress.selected && unlocked(c))) progress.selected = DEFAULT_CHARACTER;
       if (!['home', 'shuffle', ...WORLDS.map(w => w.id)].includes(progress.world)) progress.world = 'home';
-      if (game.state === 'ready' && !(import.meta.env.DEV && sandboxRun)) reset(); else readyPreview();
+      if (!localStage && !localSession && game.state === 'ready' && !(import.meta.env.DEV && sandboxRun)) reset(); else readyPreview();
       collectionUI.update();
       el('storage-status').textContent = 'Progress saved by your shell';
       // Save the traveler migration through the queue after hydration. This
@@ -536,5 +595,5 @@ async function boot(): Promise<void> {
     }
   }
 }
-window.addEventListener('pagehide', () => { disposed = true; if (import.meta.env.DEV) devTools?.dispose(); game.closeMarket(false); gamepad.close(); market.dispose(); pauseUI.dispose(); runMenuUI.dispose(); collectionUI.dispose(); hand.dispose(); seedUI.dispose(); sounds.dispose(); cancelAnimationFrame(raf); observer.disconnect(); bindings.forEach(b => b.close()); });
+window.addEventListener('pagehide', () => { if (disposed) return; disposed = true; localSession?.stop(); localStage?.cancel(); localStage = undefined; document.removeEventListener('keydown', localSetupKeydown, true); if (import.meta.env.DEV) devTools?.dispose(); game.closeMarket(false); gamepad.close(); market.dispose(); pauseUI.dispose(); runMenuUI.dispose(); collectionUI.dispose(); hand.dispose(); seedUI.dispose(); sounds.dispose(); cancelAnimationFrame(raf); observer.disconnect(); bindings.forEach(b => b.close()); });
 void boot();
