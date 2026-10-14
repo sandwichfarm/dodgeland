@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { test, after } from 'node:test';
 import { loadSources } from './source-loader.mjs';
+import { semanticValue } from './solo-parity-snapshot.mjs';
 const source = await loadSources(['devtools-state', 'market/catalog']);
 after(() => source.dispose());
 const { Game, WAVE_TRAIL } = await source.import('game');
@@ -10,6 +11,7 @@ const { generateSeedLane } = await source.import('levels/index');
 const { jumpDevelopmentRun, loadDevelopmentRun, developmentScore, developmentDiagnostics } = await source.import('devtools-state');
 const { ITEM_CATALOG } = await source.import('market/catalog');
 const { WORLDS } = await source.import('content');
+const developmentSnapshot = game => JSON.stringify(semanticValue(game));
 
 test('development score accepts only bounded whole finite values', () => {
   for (const [input, expected] of [[-1, 0], [NaN, 0], [Infinity, 0], [-Infinity, 0], [99.9, 99], [1e9, 100000]]) assert.equal(developmentScore(input), expected);
@@ -82,10 +84,10 @@ test('jump retains a custom definition through seeded and unregistered-world rec
 });
 test('diagnostics expose useful state without changing the run', () => {
   const game = jumpDevelopmentRun(new Game(77), 320);
-  const before = JSON.stringify(game);
+  const before = developmentSnapshot(game);
   const output = developmentDiagnostics(game, true);
   for (const label of ['SANDBOX', 'records disabled', 'score 320', 'seed 77', 'code ph3-0000004d-pond-a-n', 'chapter 11', 'time 144.00s', 'health', 'wallet', 'market 300', 'mobs none', 'rows 39']) assert.ok(output.includes(label), label);
-  assert.equal(JSON.stringify(game), before);
+  assert.equal(developmentSnapshot(game), before);
 });
 
 test('jump preserves all captured schema identities and their copied codes recreate the courses', () => {
@@ -110,7 +112,7 @@ test('loading a copied seed creates a paused fresh sandbox candidate with the fu
   const callbacks = ['onCoin', 'onEnd', 'onMobSpawn', 'onMobAttack', 'onHurt', 'onHeal'];
   let calls = 0;
   for (const name of callbacks) current[name] = () => calls++;
-  const before = JSON.stringify(current);
+  const before = developmentSnapshot(current);
   for (const schema of [1, 2, 3]) {
     const target = new Game(createRunSeed(42, 'orchard', 'arcade', true, schema), undefined, undefined, undefined, ITEM_CATALOG);
     const loaded = loadDevelopmentRun(current, ` ${target.seedCode}\n`, ITEM_CATALOG);
@@ -121,14 +123,14 @@ test('loading a copied seed creates a paused fresh sandbox candidate with the fu
     assert.deepEqual([...loaded.run.catalog.keys()], [...target.run.catalog.keys()]);
     assert.ok(loaded.run.catalog.size > current.run.catalog.size, 'Arcade-only items return when loading from a Stroll run');
     for (const name of callbacks) assert.equal(loaded[name], current[name]);
-    assert.equal(calls, 0); assert.equal(JSON.stringify(current), before);
+    assert.equal(calls, 0); assert.equal(developmentSnapshot(current), before);
   }
 });
 
 test('an invalid copied seed does not alter the current run or invoke callbacks', () => {
   const current = new Game(9, 'frost', 'stroll', false, ITEM_CATALOG);
   let calls = 0; current.onCoin = current.onEnd = () => calls++;
-  const before = JSON.stringify(current);
+  const before = developmentSnapshot(current);
   for (const code of ['', 'ph4-00000009-frost-s-n', 'ph1-00000009-unknown-s-n']) assert.throws(() => loadDevelopmentRun(current, code, ITEM_CATALOG));
-  assert.equal(calls, 0); assert.equal(JSON.stringify(current), before);
+  assert.equal(calls, 0); assert.equal(developmentSnapshot(current), before);
 });

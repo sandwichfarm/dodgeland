@@ -23,6 +23,16 @@ export function semanticValue(value, seen = new WeakSet()) {
 }
 
 const mobTracks = new WeakMap();
+/**
+ * The archived oracle keeps all state on Game. The current one-player facade
+ * forwards the same baseline state to its permanent shared-world and primary
+ * player owners. Keep that translation test-side so product code gains no
+ * parity-only access surface and every moved future-state field stays covered.
+ */
+function semanticOwners(game) {
+  return { world: game.world ?? game, player: game.player ?? game };
+}
+
 function ensureMobRngTrack(game) {
   const director = game.mobDirector;
   if (!director) return { seed: (game.seed ^ 0x76ab41c3) >>> 0, draws: 0 };
@@ -61,34 +71,35 @@ function inventorySnapshot(run) {
 }
 
 export function snapshotGame(game, gameModule) {
-  const rng = ensureMobRngTrack(game), director = game.mobDirector;
+  const { world, player } = semanticOwners(game);
+  const rng = ensureMobRngTrack(world), director = world.mobDirector;
   return semanticValue({
-    state: game.state, seed: game.seed, seedCode: game.seedCode, runSeed: game.runSeed,
-    home: game.home, mode: game.mode, gentle: game.gentle, characterId: game.characterId,
-    x: game.x, y: game.y, fromX: game.fromX, fromY: game.fromY, groundX: game.groundX,
-    groundY: game.groundY, hop: game.hop, maxY: game.maxY, time: game.time, idle: game.idle,
-    coins: game.coins, waveRow: game.waveRow, caughtByWave: game.caughtByWave,
-    health: game.health, maxHealth: game.maxHealth, hurtRemaining: game.hurtRemaining,
-    deathCause: game.deathCause, reason: game.reason, power: game.power,
+    state: player.state, seed: world.seed, seedCode: world.seedCode, runSeed: world.runSeed,
+    home: world.home, mode: world.mode, gentle: world.gentle, characterId: player.characterId,
+    x: player.x, y: player.y, fromX: player.fromX, fromY: player.fromY, groundX: game.groundX,
+    groundY: game.groundY, hop: player.hop, maxY: player.maxY, time: world.time, idle: player.idle,
+    coins: player.coins, waveRow: world.waveRow, caughtByWave: player.caughtByWave,
+    health: player.health, maxHealth: player.maxHealth, hurtRemaining: player.hurtRemaining,
+    deathCause: player.deathCause, reason: player.reason, power: game.power,
     powerRemaining: game.powerRemaining, powerReady: game.powerReady, powerFlash: game.powerFlash,
     powerAvoidsMobs: game.powerAvoidsMobs, powerRescue: game.powerRescue, warning: game.warning,
-    waveGap: game.waveGap, waveSeconds: game.waveSeconds, deathSpill: game.deathSpill,
-    rows: laneSnapshot(game, gameModule),
+    waveGap: game.waveGap, waveSeconds: game.waveSeconds, deathSpill: player.deathSpill,
+    rows: laneSnapshot(world, gameModule),
     // Pulled rewards can outlive their source terrain. Keep their complete
     // lane/coin state even after pruning removes them from `rows`.
-    attractedCoins: [...game.attractedCoins.entries()].map(([row, lane], order) => ({ row, order,
+    attractedCoins: [...world.attractedCoins.entries()].map(([row, lane], order) => ({ row, order,
       retained: semanticValue({ index: lane.index, kind: lane.kind, coin: lane.coin,
         coinDenomination: lane.coinDenomination, coinActor: lane.coinActor, coinPull: lane.coinPull,
-        actors: lane.actors, actorSamples: gameModule.laneActors(lane, game.time) }),
+        actors: lane.actors, actorSamples: gameModule.laneActors(lane, world.time) }),
     })),
     gameFuture: {
-      powerReadyAt: game.powerReadyAt, powerNotice: game.powerNotice,
-      powerLandingGrace: game.powerLandingGrace, healedMilestone: game.healedMilestone,
-      touchingCars: [...(game.touchingCars ?? [])],
-      laneSpeeds: [...game.rows.entries()].map(([row, lane], order) => ({ row, order, index: lane.index,
-        speed: semanticValue(game.laneSpeeds?.get(lane)) })),
+      powerReadyAt: player.powerReadyAt, powerNotice: player.powerNotice,
+      powerLandingGrace: player.powerLandingGrace, healedMilestone: player.healedMilestone,
+      touchingCars: [...(player.touchingCars ?? [])],
+      laneSpeeds: [...world.rows.entries()].map(([row, lane], order) => ({ row, order, index: lane.index,
+        speed: semanticValue(world.laneSpeeds?.get(lane)) })),
     },
-    inventory: inventorySnapshot(game.run),
+    inventory: inventorySnapshot(player.run),
     mobs: { rngSeed: rng.seed, rngDrawPosition: rng.draws, nextId: director?.nextId,
       nextSpawn: director?.nextSpawn, lastSpawnScore: director?.lastSpawnScore,
       retryAt: director?.retryAt, spawnDelay: director?.spawnDelay,
