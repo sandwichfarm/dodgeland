@@ -307,7 +307,9 @@ test('shield protection and expiration pass through every real hazard collision 
     ['mob', g => g.mobs.push(mob('slime', { x: 0, fromX: 0, targetX: 1, phase: 'walking', phaseLeft: 1, phaseDuration: 1 }))],
   ];
   for (const [cause, setup] of hazards) {
-    const g = arena('arcade');
+    // Mode policy is selected at construction. Mutating the serialized mode
+    // name after constructing Arcade must not replace its active rules.
+    const g = arena(cause === 'trail' ? 'stroll' : 'arcade');
     if (cause === 'water' || cause === 'swept') g.setCharacter('sunny');
     buy(g, 'power-shield'); setup(g); g.update(0);
     assert.equal(g.state, 'playing', `${cause} shielded`); assert.equal(g.health, 3); assert.equal(g.caughtByWave, false);
