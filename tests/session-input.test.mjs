@@ -109,3 +109,65 @@ test('malformed transport states clear held repeat instead of retaining a stuck 
   assert.equal(actions.length, 1);
   wire.controls.close();
 });
+
+test('replacement at one index disconnects the old lease before seeing its new identity', () => {
+  const lifecycle = [];
+  const router = new GamepadRouter({ context: () => 'play', dispatch: () => true, lifecycle: event => lifecycle.push(event) });
+  router.receive(snapshot([pad(2, { id: 'Alpha' })]), 0);
+  assert.equal(router.assign({ index: 2, id: 'Alpha' }, 'p1'), true);
+  router.receive(snapshot([pad(2, { id: 'Beta', pressed: [12] })]), 1);
+  assert.deepEqual(lifecycle.map(event => `${event.type}:${event.device.id}`), [
+    'seen:Alpha', 'assigned:Alpha', 'disconnected:Alpha', 'seen:Beta',
+  ]);
+});
+
+test('same-id return offers a seeded explicit reclaim and requires release before actions', () => {
+  const actions = [], reclaimRequests = [];
+  const router = new GamepadRouter({
+    context: () => 'play',
+    dispatch: action => { actions.push(action); return true; },
+    requestReclaim: (device, seat) => reclaimRequests.push({ device, seat }),
+  });
+  router.receive(snapshot([pad(3, { id: 'Alpha' })]), 0);
+  router.assign({ index: 3, id: 'Alpha' }, 'p1');
+  router.receive(snapshot([]), 1);
+  router.receive(snapshot([pad(3, { id: 'Alpha', pressed: [12] })]), 2);
+  assert.deepEqual(reclaimRequests, [], 'a held return never reclaims itself');
+  router.receive(snapshot([pad(3, { id: 'Alpha' })]), 3);
+  router.receive(snapshot([pad(3, { id: 'Alpha', pressed: [0] })]), 4);
+  assert.equal(reclaimRequests.length, 1);
+  assert.equal(router.reclaim({ index: 3, id: 'Alpha' }), true);
+  router.receive(snapshot([pad(3, { id: 'Alpha', pressed: [0] })]), 5);
+  assert.deepEqual(actions, [], 'assignment seeds the held state');
+  router.receive(snapshot([pad(3, { id: 'Alpha' })]), 6);
+  router.receive(snapshot([pad(3, { id: 'Alpha', pressed: [12] })]), 7);
+  assert.deepEqual(actions.map(action => action.seat), ['p1']);
+});
+
+test('device loss is mode-facing while focused frame loss stays globally safe', () => {
+  const lifecycle = [], global = [];
+  const router = new GamepadRouter({
+    context: () => 'play', dispatch: () => true,
+    lifecycle: event => lifecycle.push(event), onFrameSafetyLost: () => global.push('pause'),
+  });
+  router.receive(snapshot([pad(0)]), 0);
+  router.assign({ index: 0, id: 'Fixture controller 0' }, 'p1');
+  router.receive(snapshot([]), 1);
+  assert.deepEqual(lifecycle.map(event => event.type), ['seen', 'assigned', 'disconnected']);
+  assert.deepEqual(global, []);
+  router.receive(snapshot([], false), 2);
+  router.receive(snapshot([], false), 3);
+  assert.deepEqual(global, ['pause']);
+});
+
+test('capacity-full device activity is consumed without a new local-play request', () => {
+  const requests = [];
+  const router = new GamepadRouter({
+    context: () => 'setup', dispatch: () => true,
+    acceptsDevice: () => false,
+    requestLocalPlay: device => requests.push(device),
+  });
+  router.receive(snapshot([pad(7)]), 0);
+  router.receive(snapshot([pad(7, { pressed: [0] })]), 1);
+  assert.deepEqual(requests, []);
+});

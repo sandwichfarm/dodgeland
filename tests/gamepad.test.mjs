@@ -167,6 +167,17 @@ test('complete injected binding wins over wire fallback and closes its subscript
   controls.close(); controls.close(); handler(state([pad([0])])); assert.equal(closed, 1); assert.equal(calls.at(-1), 'connected:false');
 });
 
+test('snapshot consumer receives every standard pad without changing the solo adapter', () => {
+  const received = [], env = environment({});
+  const { api } = actions();
+  const controls = createGamepadControls(api, env.host, env.page, () => 7, (state, now) => received.push({ state, now }));
+  env.send(state([pad([12], [], 4), pad([15], [], 9)]));
+  assert.equal(received.length, 1);
+  assert.deepEqual(received[0].state.pads.map(pad => pad?.index), [4, 9]);
+  assert.equal(received[0].now, 7);
+  controls.close();
+});
+
 test('blur and hidden documents cancel repeat and require fresh releases after returning', () => {
   const env = environment({}), { api, calls } = actions();
   const controls = createGamepadControls(api, env.host, env.page, () => 0);
