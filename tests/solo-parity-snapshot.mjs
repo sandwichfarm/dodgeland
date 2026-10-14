@@ -74,7 +74,13 @@ export function snapshotGame(game, gameModule) {
     powerAvoidsMobs: game.powerAvoidsMobs, powerRescue: game.powerRescue, warning: game.warning,
     waveGap: game.waveGap, waveSeconds: game.waveSeconds, deathSpill: game.deathSpill,
     rows: laneSnapshot(game, gameModule),
-    attractedCoins: [...game.attractedCoins.entries()].map(([row, lane]) => [row, lane.index]),
+    // Pulled rewards can outlive their source terrain. Keep their complete
+    // lane/coin state even after pruning removes them from `rows`.
+    attractedCoins: [...game.attractedCoins.entries()].map(([row, lane], order) => ({ row, order,
+      retained: semanticValue({ index: lane.index, kind: lane.kind, coin: lane.coin,
+        coinDenomination: lane.coinDenomination, coinActor: lane.coinActor, coinPull: lane.coinPull,
+        actors: lane.actors, actorSamples: gameModule.laneActors(lane, game.time) }),
+    })),
     gameFuture: {
       powerReadyAt: game.powerReadyAt, powerNotice: game.powerNotice,
       powerLandingGrace: game.powerLandingGrace, healedMilestone: game.healedMilestone,
@@ -151,37 +157,59 @@ async function loadIndependentEngines() {
 
 function invoke(game, command, fixedStep) {
   if (command.kind === 'move') return game.move(command.direction);
-  if (command.kind === 'call') return game[command.method](...(command.args ?? []));
+  if (command.kind === 'call') return (command.target === 'run' ? game.run : game)[command.method](...(command.args ?? []));
   if (command.kind === 'step') return game.update(fixedStep);
   throw new Error(`Unsupported solo parity command: ${command.kind}`);
 }
 
 /** Runs one tape through independently compiled pinned and working engines. */
-export async function runDifferentialScenario({ name, seed, home = 'pond', mode = 'arcade', gentle = false, characterId,
-  tape, fixedStep = 1 / 120, perturbCurrent }) {
-  const loaded = await loadIndependentEngines();
-  const { baselineModules, currentModules, baselineGame, currentGame } = loaded;
-  try {
-    const baseline = new baselineGame.Game(seed, home, mode, gentle, [], characterId);
-    const current = new currentGame.Game(seed, home, mode, gentle, [], characterId);
-    const baselineCallbacks = attachCallbackRecorder(baseline), currentCallbacks = attachCallbackRecorder(current);
-    let points = 0;
-    for (let commandIndex = 0; commandIndex < tape.length; commandIndex += 1) {
-      const command = tape[commandIndex], repetitions = command.kind === 'step' ? command.count : 1;
-      for (let step = 0; step < repetitions; step += 1) {
-        const baselineResult = invoke(baseline, command, fixedStep), currentResult = invoke(current, command, fixedStep);
-        if (perturbCurrent && perturbCurrent.command === commandIndex && perturbCurrent.step === step) {
-          currentCallbacks.push({ name: perturbCurrent.callback, payload: { injected: true }, at: callbackState(current) });
-        }
-        compareTracePoint({ scenario: name, command: commandIndex, step,
-          baseline: { result: semanticValue(baselineResult), game: snapshotGame(baseline, baselineGame), callbacks: baselineCallbacks },
-          current: { result: semanticValue(currentResult), game: snapshotGame(current, currentGame), callbacks: currentCallbacks },
-        });
-        points += 1;
-      }
+async function runLoadedScenario(loaded, { name, seed, home = 'pond', mode = 'arcade', gentle = false, characterId,
+  definitions = [], tape, fixedStep = 1 / 120, perturbCurrent, setup }) {
+  const { baselineGame, currentGame } = loaded;
+  const baseline = new baselineGame.Game(seed, home, mode, gentle, definitions, characterId);
+  const current = new currentGame.Game(seed, home, mode, gentle, definitions, characterId);
+  ensureMobRngTrack(baseline);
+  ensureMobRngTrack(current);
+  if (setup) { setup(baseline, baselineGame); setup(current, currentGame); }
+  const baselineCallbacks = attachCallbackRecorder(baseline), currentCallbacks = attachCallbackRecorder(current);
+  let points = 0, last;
+  const results = [];
+  const compare = (command, step, baselineResult, currentResult) => {
+    if (perturbCurrent && perturbCurrent.command === command && perturbCurrent.step === step) {
+      currentCallbacks.push({ name: perturbCurrent.callback, payload: { injected: true }, at: callbackState(current) });
     }
-    return { baselineSha: PINNED_BASELINE_SHA, points };
+    const baselineTrace = { result: semanticValue(baselineResult), game: snapshotGame(baseline, baselineGame), callbacks: baselineCallbacks };
+    const currentTrace = { result: semanticValue(currentResult), game: snapshotGame(current, currentGame), callbacks: currentCallbacks };
+    compareTracePoint({ scenario: name, command, step, baseline: baselineTrace, current: currentTrace });
+    last = currentTrace;
+    results.push({ command, step, result: currentTrace.result });
+    points += 1;
+  };
+  compare(-1, 0, undefined, undefined);
+  for (let commandIndex = 0; commandIndex < tape.length; commandIndex += 1) {
+    const command = tape[commandIndex], repetitions = command.kind === 'step' ? command.count : 1;
+    for (let step = 0; step < repetitions; step += 1) {
+      compare(commandIndex, step, invoke(baseline, command, fixedStep), invoke(current, command, fixedStep));
+    }
+  }
+  return { baselineSha: PINNED_BASELINE_SHA, points, final: last, results };
+}
+
+export async function runDifferentialScenario(options) {
+  const loaded = await loadIndependentEngines();
+  try {
+    return await runLoadedScenario(loaded, options);
   } finally {
-    await Promise.all([baselineModules.dispose(), currentModules.dispose()]);
+    await Promise.all([loaded.baselineModules.dispose(), loaded.currentModules.dispose()]);
+  }
+}
+
+/** Load once, then run a bounded matrix while retaining independent constructors. */
+export async function runDifferentialMatrix(scenarios) {
+  const loaded = await loadIndependentEngines();
+  try {
+    return await Promise.all(scenarios.map(scenario => runLoadedScenario(loaded, scenario)));
+  } finally {
+    await Promise.all([loaded.baselineModules.dispose(), loaded.currentModules.dispose()]);
   }
 }
