@@ -34,18 +34,18 @@ unclaimed → selecting → ready → active ⇄ device-lost
                                       └→ finished (Race)
 ```
 
-`device-lost` is an input condition, not a death. The mode decides whether to pause, ghost, skip, or eliminate the slot. The slot retains its character, run statistics, owned consumables, and revival state until its mode's result is final.
+`device-lost` is an input condition, not a death. The mode decides whether to pause, ghost, skip, or eliminate the slot. A ghosted slot retains its character, inventory, run statistics, and revival state. Actual death follows the existing per-player spill and inventory-clear economy; the slot identity and earned statistics survive until the mode's result is final.
 
 ### Resources and saves are deliberately separate
 
 | Resource | Owner | Trigger | Default rule | Must not become |
 |---|---|---|---|---|
 | Innate character hazard save | Existing character system | Its existing 100-tile cadence | Preserve exactly as it works today. It remains independent of multiplayer rules. | A multiplayer life or item charge. |
-| Self-revive charge | Individual player | Player death | Each player holds at most one charge. A used charge becomes available again only after the shared run frontier advances 250 tiles; it never transfers to another slot. **Clarified requested behavior.** | A shared life pool or automatic teammate revival. |
+| Self-revive charge | Individual player | Player death | Each player holds at most one charge. A used charge becomes available again only after the shared run frontier advances 250 tiles; it never transfers to another slot. Shared-frontier measurement is an implementation assumption, not a separate user confirmation. | A shared life pool or automatic teammate revival. |
 | Revival consumable | Individual inventory | Deliberate target selection | Revives one eliminated teammate at a valid return point; it does not affect the owner's self-revive cooldown. | A renamed character power. |
 | Flare consumable | Individual inventory | Deliberate activation | Revives every currently eliminated teammate and relocates every active/returned teammate to the user's current safe position. | A reusable teleport or a fog immunity item. |
 
-When a player dies with a self-revive charge, show a brief non-pausing “revive yourself” prompt. If they accept, consume the charge and return them at the nearest safe position at or behind the live group frontier. If they decline or do nothing, the charge remains; a teammate can later use a consumable Revival or Flare. This prevents the player resource from silently acting as a shared automatic life.
+When a player dies with a self-revive charge, show a brief non-pausing “revive yourself” prompt. If they accept, consume the charge and return them at the nearest safe position at or behind the live group frontier. If they decline or the configured confirmation window expires, the charge remains but the pending offer closes; a living teammate can later use a consumable Revival or Flare. A retained charge without a pending offer cannot keep a finished team run open indefinitely. This prevents the player resource from silently acting as a shared automatic life.
 
 ### Collectible generation and attraction
 
@@ -82,7 +82,7 @@ Survive Together is co-op on either Stroll (currently referred to as Flow) or Ar
 
 **Dropout and rejoin:** On controller loss, the avatar immediately becomes a visible, non-colliding ghost at its last safe location. It blocks neither lanes nor pickups, takes no hazard/fog damage, and cannot advance or collect. The run continues for everyone else. When the original slot is explicitly reclaimed, it returns at the first safe location no farther ahead than the current group frontier. A disconnected player can also be revived only after the returning controller is present; items are not spent on an unavailable slot. A newly discovered controller may create a new slot only while the team has a free seat and an unused character.
 
-**Revival:** Death moves an active player to `eliminated`; it does not destroy their slot, character, earned statistics, or unspent inventory. Self-revive, a teammate's Revival, and a Flare are three distinct paths back to `active`. All returns must find a safe tile; if none exists this update, defer to the next safe-tile evaluation instead of spawning inside a hazard.
+**Revival:** Death moves an active player to `eliminated`; it does not destroy their slot, character, or earned statistics. Preserve the user's existing death economy: that player's wallet and cosmetics spill, and their run inventory clears; other players' inventories remain intact. A revival restores the player, not lost purchases. Self-revive, a teammate's Revival, and a Flare are three distinct paths back to `active`. All returns must find a safe tile; if none exists this update, defer to the next safe-tile evaluation instead of spawning inside a hazard.
 
 **Outcome:** The end screen centers the shared team distance/time and gives every character a contribution card (furthest distance, deaths, self-revives used, teammates revived, consumables collected/used, and time ghosted). The podium is a team podium: survivors share the result; it does not invent first through fourth places inside a co-op result.
 
