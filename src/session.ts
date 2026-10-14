@@ -80,10 +80,12 @@ export class SharedWorld {
 
   get mobs() { return this.host.mobs; }
   update(dt: number, continueWithoutPrimary = false): void {
-    const priorState = this.host.state;
-    if (continueWithoutPrimary && priorState !== 'playing') this.host.state = 'playing';
-    this.host.update(dt);
-    if (continueWithoutPrimary && priorState !== 'playing') this.host.state = priorState;
+    if (this.host.state === 'playing') this.host.update(dt);
+    else if (continueWithoutPrimary) {
+      // A living companion keeps the course clock moving, but never revives
+      // the terminal solo facade just to re-run its collision/reward hooks.
+      this.time += dt * this.rules.simulation.worldTimeScale;
+    }
     this.simulationTick++;
   }
   view(): SharedWorld { return this; }
