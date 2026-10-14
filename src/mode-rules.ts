@@ -15,8 +15,14 @@ export interface MovementRules { readonly hopDuration: number; readonly halfWidt
 export interface HealthRules { readonly maxHealth: number; readonly rearDamage: number; readonly sideDamage: number; readonly frontDamage: number; readonly hurtRecovery: number; readonly regenerationInterval: number; readonly regenerationAmount: number }
 export interface PursuitRules { readonly strategy: PursuitStrategy; readonly grace: number; readonly speed: number; readonly waveTrail: number; readonly trailingLimit: number; readonly warningSeconds: number }
 export interface RetentionRules { readonly rowsBehind: number; readonly rowsAhead: number; readonly pickupBindingAhead: number; readonly captureDistance: number; readonly pullCompletionDistance: number }
-/** Reserved for the economy extraction in Plan 03; it has no mutable runtime authority. */
-export interface EconomyRules { readonly marketInterval: number; readonly marketWindowSeconds: number; readonly inventoryCapacity: number }
+/** Per-run economy settings; seed rolls and terrain geometry remain fixed. */
+export interface EconomyRules {
+  readonly marketInterval: number;
+  readonly marketWindowSeconds: number;
+  readonly inventoryCapacity: number;
+  readonly inventoryLimit: number;
+  readonly baseCoinGravity: number;
+}
 /** Reserved for the pursuer extraction in Plan 03; Game can only disable the existing director. */
 export interface PursuerRules { readonly enabled: boolean; readonly introductionThresholds: readonly number[] }
 export interface PresentationRules { readonly pursuitVisible: boolean }
@@ -50,7 +56,7 @@ const defaults: ModeRules = {
   health: { maxHealth: 3, rearDamage: 1, sideDamage: 2, frontDamage: 3, hurtRecovery: 1, regenerationInterval: 100, regenerationAmount: .5 },
   pursuit: { strategy: 'wave', grace: 4, speed: .65, waveTrail: 6, trailingLimit: 7, warningSeconds: 5 },
   retention: { rowsBehind: 10, rowsAhead: 28, pickupBindingAhead: 8, captureDistance: .5, pullCompletionDistance: .2 },
-  economy: { marketInterval: 100, marketWindowSeconds: 15, inventoryCapacity: 3 },
+  economy: { marketInterval: 100, marketWindowSeconds: 15, inventoryCapacity: 3, inventoryLimit: 6, baseCoinGravity: .1 },
   pursuers: { enabled: true, introductionThresholds: [160, 320, 480] },
   presentation: { pursuitVisible: true },
   lifecycle: {},
@@ -61,7 +67,7 @@ const keys: { readonly [K in keyof ModeRules]: readonly (keyof ModeRules[K])[] }
   health: ['maxHealth', 'rearDamage', 'sideDamage', 'frontDamage', 'hurtRecovery', 'regenerationInterval', 'regenerationAmount'],
   pursuit: ['strategy', 'grace', 'speed', 'waveTrail', 'trailingLimit', 'warningSeconds'],
   retention: ['rowsBehind', 'rowsAhead', 'pickupBindingAhead', 'captureDistance', 'pullCompletionDistance'],
-  economy: ['marketInterval', 'marketWindowSeconds', 'inventoryCapacity'], pursuers: ['enabled', 'introductionThresholds'],
+  economy: ['marketInterval', 'marketWindowSeconds', 'inventoryCapacity', 'inventoryLimit', 'baseCoinGravity'], pursuers: ['enabled', 'introductionThresholds'],
   presentation: ['pursuitVisible'], lifecycle: ['onStart', 'onProgress', 'onPause', 'onResume', 'onTerminal'],
 };
 type Mutable<T> = { -readonly [K in keyof T]: Mutable<T[K]> };
@@ -127,6 +133,9 @@ export function composeModeDefinition(input: ModeDefinitionInput = {}): ModeDefi
   e.marketInterval = numberAt(e.marketInterval, 'economy.marketInterval', 1, 10_000, true);
   e.marketWindowSeconds = numberAt(e.marketWindowSeconds, 'economy.marketWindowSeconds', 1, 600);
   e.inventoryCapacity = numberAt(e.inventoryCapacity, 'economy.inventoryCapacity', 1, 12, true);
+  e.inventoryLimit = numberAt(e.inventoryLimit, 'economy.inventoryLimit', 1, 12, true);
+  if (e.inventoryCapacity > e.inventoryLimit) fail('economy.inventoryCapacity', 'cannot exceed inventoryLimit.');
+  e.baseCoinGravity = numberAt(e.baseCoinGravity, 'economy.baseCoinGravity', 0, 1.25);
   if (typeof rules.pursuers.enabled !== 'boolean') fail('pursuers.enabled', 'must be boolean.');
   if (!Array.isArray(rules.pursuers.introductionThresholds) || rules.pursuers.introductionThresholds.length !== 3 || rules.pursuers.introductionThresholds.some((value, index, values) => !Number.isSafeInteger(value) || value < 1 || (index > 0 && value <= values[index - 1]!))) fail('pursuers.introductionThresholds', 'must be three increasing positive integers.');
   if (typeof rules.presentation.pursuitVisible !== 'boolean') fail('presentation.pursuitVisible', 'must be boolean.');

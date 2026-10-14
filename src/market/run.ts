@@ -2,6 +2,7 @@ import type {
   ActivePower, CardComponent, CardDefinition, CosmeticDefinition, CosmeticSlot, HeldCard,
   ItemDefinition, MarketOffer, MarketResult, MarketWindow, PackDraft, PackPreview, Rarity, RunModifiers,
 } from './types';
+import type { EconomyRules } from '../mode-rules';
 
 export const RARITIES: readonly Rarity[] = ['common', 'uncommon', 'rare', 'epic', 'legendary'];
 export const DEFAULT_CARD_CAPACITY = 3;
@@ -16,9 +17,9 @@ export function cosmeticSlot(item: CosmeticDefinition): CosmeticSlot {
 }
 
 /** Baseline coin pull is always available; cards add to these starting effects. */
-export function defaultModifiers(): RunModifiers {
+export function defaultModifiers(baseCoinGravity = DEFAULT_COIN_GRAVITY): RunModifiers {
   return {
-    coinRadius: DEFAULT_COIN_GRAVITY, coinMultiplier: 1, roadCoinBonus: 0, riverCoinBonus: 0,
+    coinRadius: baseCoinGravity, coinMultiplier: 1, roadCoinBonus: 0, riverCoinBonus: 0,
     trafficSpeed: 1, trafficSpacing: 1, riverSpeed: 1, platformLength: 1,
     trainPeriod: 1, trainWarning: 0, rearDamage: 1, sideDamage: 1,
     hurtRecovery: 1, regenBonus: 0, waveSpeed: 1, waveTrail: 0,
@@ -38,9 +39,9 @@ const BOUNDS: Record<keyof RunModifiers, readonly [number, number]> = {
 };
 
 export function reduceItems(
-  catalog: ReadonlyMap<string, ItemDefinition>, components: readonly CardComponent[], powers: readonly ActivePower[] = [],
+  catalog: ReadonlyMap<string, ItemDefinition>, components: readonly CardComponent[], powers: readonly ActivePower[] = [], baseCoinGravity = DEFAULT_COIN_GRAVITY,
 ): RunModifiers {
-  const result = defaultModifiers();
+  const result = defaultModifiers(baseCoinGravity);
   for (const component of components) {
     const item = catalog.get(component.itemId);
     if (item?.kind === 'card' && Number.isFinite(component.potency) && component.potency > 0) item.modify?.(result, component.potency);
@@ -55,10 +56,17 @@ export function reduceItems(
   }
   for (const key of Object.keys(BOUNDS) as (keyof RunModifiers)[]) {
     const [low, high] = BOUNDS[key];
-    result[key] = Number.isFinite(result[key]) ? Math.max(low, Math.min(high, result[key])) : defaultModifiers()[key];
+    result[key] = Number.isFinite(result[key]) ? Math.max(low, Math.min(high, result[key])) : defaultModifiers(baseCoinGravity)[key];
   }
   return result;
 }
+
+/** Public direct construction keeps the released economy unless Game supplies rules. */
+export type RunEconomyPolicy = Pick<EconomyRules, 'marketInterval' | 'marketWindowSeconds' | 'inventoryCapacity' | 'inventoryLimit' | 'baseCoinGravity'>;
+const DEFAULT_ECONOMY_POLICY: RunEconomyPolicy = Object.freeze({
+  marketInterval: 100, marketWindowSeconds: 15, inventoryCapacity: DEFAULT_CARD_CAPACITY,
+  inventoryLimit: INVENTORY_LIMIT, baseCoinGravity: DEFAULT_COIN_GRAVITY,
+});
 
 /** Seeded, run-only economy. No browser, persistence, engine or Vite dependency. */
 export class RunInventory {
@@ -79,7 +87,7 @@ export class RunInventory {
   private state: number;
   private equipped: Partial<Record<CosmeticSlot, string>> = {};
 
-  constructor(seed: number, definitions: readonly ItemDefinition[] = []) {
+  constructor(seed: number, definitions: readonly ItemDefinition[] = [], private readonly policy: RunEconomyPolicy = DEFAULT_ECONOMY_POLICY) {
     const catalog = new Map<string, ItemDefinition>();
     for (const item of definitions) {
       if (catalog.has(item.id)) throw new Error(`Duplicate market item: ${item.id}`);
@@ -96,6 +104,7 @@ export class RunInventory {
     }
     this.catalog = catalog;
     this.state = (seed ^ 0x6d61726b) >>> 0;
+    this.effects = reduceItems(this.catalog, [], [], this.policy.baseCoinGravity);
   }
 
   /** The legacy cosmetic is the equipped effect; wearable slots are independent. */
@@ -148,9 +157,9 @@ export class RunInventory {
       const amount = definition.scoreCoins?.({ previous, score: this.maxScore }, 1) ?? 0;
       if (Number.isFinite(amount) && amount > 0) income += amount;
     }
-    const milestone = Math.floor(this.maxScore / 100) * 100;
-    if (milestone > 0 && milestone > Math.floor(previous / 100) * 100) {
-      this.market = { milestone, remaining: 15, offers: this.makeOffers(milestone) };
+    const milestone = Math.floor(this.maxScore / this.policy.marketInterval) * this.policy.marketInterval;
+    if (milestone > 0 && milestone > Math.floor(previous / this.policy.marketInterval) * this.policy.marketInterval) {
+      this.market = { milestone, remaining: this.policy.marketWindowSeconds, offers: this.makeOffers(milestone) };
       this.revision++;
     }
     return income;
@@ -276,12 +285,12 @@ export class RunInventory {
     this.changed();
   }
 
-  private changed(): void { this.effects = reduceItems(this.catalog, this.cards.flatMap(card => card.components), this.powers); this.revision++; }
+  private changed(): void { this.effects = reduceItems(this.catalog, this.cards.flatMap(card => card.components), this.powers, this.policy.baseCoinGravity); this.revision++; }
   private capacityFor(cards: readonly Pick<HeldCard, 'components'>[]): number {
     // Slots come only from held cards. A temporary power cannot expire into an
     // overflowing hand while the player is away from the market.
     const slots = reduceItems(this.catalog, cards.flatMap(card => card.components)).cardSlots;
-    return Math.max(1, Math.min(INVENTORY_LIMIT, Math.floor(DEFAULT_CARD_CAPACITY + slots)));
+    return Math.max(1, Math.min(this.policy.inventoryLimit, Math.floor(this.policy.inventoryCapacity + slots)));
   }
   private canTrade(): boolean { return this.alive && this.isOpen && !this.pendingPack && Boolean(this.market && this.market.remaining > 0); }
   private fail(message: string): MarketResult { return { ok: false, message }; }

@@ -2,12 +2,13 @@ import assert from 'node:assert/strict';
 import test, { after } from 'node:test';
 import { loadSources } from './source-loader.mjs';
 
-const sources = await loadSources(['game', 'mode-rules']);
+const sources = await loadSources(['game', 'mode-rules', 'market/catalog']);
 after(() => sources.dispose());
 const { Game, HOP_TIME, MAX_HEALTH, WAVE_TRAIL } = await sources.import('game');
 const {
   composeModeDefinition, soloModeDefinition, SOLO_ARCADE_MODE, SOLO_STROLL_MODE,
 } = await sources.import('mode-rules');
+const { ITEM_CATALOG } = await sources.import('market/catalog');
 
 function customRules(overrides = {}) {
   return composeModeDefinition({
@@ -95,6 +96,24 @@ test('custom retention bounds are reached by real row streaming without widening
   assert.equal(Math.min(...game.rows.keys()), 1);
   assert.equal(Math.max(...game.rows.keys()), 42);
   assert.equal(game.rules.movement.halfWidth, 5);
+});
+
+test('custom economy rules drive live invitations, capacity, and baseline coin capture', () => {
+  const definition = customRules({ economy: {
+    marketInterval: 7, marketWindowSeconds: 2, inventoryCapacity: 4, inventoryLimit: 4, baseCoinGravity: .4,
+  } });
+  const game = new Game(52, 'pond', 'arcade', false, ITEM_CATALOG, 'butter', { definition });
+  game.state = 'playing';
+  for (const lane of game.rows.values()) Object.assign(lane, { kind: 'meadow', blocked: [], decorations: [], coin: null });
+  assert.equal(game.run.cardCapacity, 4, 'the instance policy changes the actual hand bound');
+  game.run.advanceScore(6); assert.equal(game.run.market, null);
+  game.run.advanceScore(7); assert.equal(game.run.market.remaining, 2, 'the live market opens at the configured cadence');
+  game.run.tick(2); assert.equal(game.run.market, null, 'the configured invitation window actually expires');
+  const reward = game.rows.get(0);
+  reward.coin = .7;
+  game.update(0);
+  assert.equal(game.run.effects.coinRadius, .4);
+  assert.ok(reward.coinPull, 'the non-default baseline reach captures a real separated coin');
 });
 
 test('legacy construction, constants, fromSeed, and baseline presets retain their exact public values', () => {

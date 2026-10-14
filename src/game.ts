@@ -189,7 +189,7 @@ export class Game {
     this.rules = this.definition.rules;
     this.maxHealth = this.rules.health.maxHealth; this.health = this.maxHealth;
     this.seedCode = this.runSeed ? encodeRunSeed(this.runSeed) : null;
-    this.run = new RunInventory(seed, definitions.filter(item => !item.modes || item.modes.includes(mode)));
+    this.run = new RunInventory(seed, definitions.filter(item => !item.modes || item.modes.includes(mode)), this.rules.economy);
     this.seed = seed; this.home = home; this.mode = mode; this.gentle = gentle; this.ensureRows();
     this.mobDirector = new MobDirector(random(seed ^ 0x76ab41c3));
   }
