@@ -33,6 +33,8 @@ export interface GamepadRouterOptions {
   action?(seat: SeatId, action: GamepadControlAction): void;
   /** A fresh unassigned-device edge enters setup and is always consumed. */
   requestLocalPlay?(device: GamepadDevice): void;
+  /** The owning roster can reject a full or mode-locked device before setup opens. */
+  acceptsDevice?(device: GamepadDevice): boolean;
   /** A remembered same-id return needs explicit mode/UI confirmation before reassignment. */
   requestReclaim?(device: GamepadDevice, seat: SeatId): void;
   /** Mode-facing device state; this router never chooses a global pause outcome. */
@@ -208,7 +210,7 @@ export class GamepadRouter {
     if (!lease.seat) {
       if (!freshButtons.length && !freshDirection) return;
       if (lease.reclaimSeat) this.options.requestReclaim?.(lease.device, lease.reclaimSeat);
-      else this.options.requestLocalPlay?.(lease.device);
+      else if (this.options.acceptsDevice?.(lease.device) !== false) this.options.requestLocalPlay?.(lease.device);
       this.seed(lease);
       return;
     }
