@@ -176,6 +176,8 @@ export class Game {
   private laneSpeeds = new WeakMap<Lane, { base: number; applied: number }>();
   readonly definition: ModeDefinition;
   readonly rules: ModeRules;
+  /** Scoped only while LocalSession reuses this facade's production operations. */
+  private activeSessionPlayer: SessionPlayer | null = null;
   constructor(seed: number | RunSeed, home = 'pond', mode: Mode = 'arcade', gentle = false, definitions: readonly ItemDefinition[] = [], characterId = DEFAULT_CHARACTER, options: GameOptions = {}) {
     this.characterId = characterById(characterId).id;
     if (typeof seed !== 'number') {
@@ -204,6 +206,82 @@ export class Game {
   static fromSeed(code: string, definitions: readonly ItemDefinition[] = [], characterId = DEFAULT_CHARACTER): Game {
     return new Game(decodeRunSeed(code), undefined, undefined, undefined, definitions, characterId);
   }
+  /**
+   * Run an existing facade operation against a session player's own state.
+   * The shared terrain fields remain on SharedWorld; only the established
+   * personal field set is rebound for the synchronous operation.
+   */
+  private withSessionPlayer<T>(player: SessionPlayer, operation: () => T): T {
+    const fields = ['run', 'state', 'x', 'y', 'maxY', 'idle', 'hop', 'fromX', 'fromY', 'coins', 'caughtByWave', 'health', 'maxHealth', 'hurtRemaining', 'deathCause', 'deathSpill', 'reason', 'characterId', 'powerRescue', 'powerReadyAt', 'powerNotice', 'powerLandingGrace', 'healedMilestone', 'touchingCars'] as const;
+    const callbacks = ['onCoin', 'onEnd', 'onMobSpawn', 'onMobAttack', 'onHurt', 'onHeal', 'onPower'] as const;
+    const host = this as unknown as Record<string, unknown>;
+    const source = player as unknown as Record<string, unknown>;
+    const saved = fields.map(field => [field, Object.getOwnPropertyDescriptor(this, field)] as const);
+    const savedCallbacks = callbacks.map(callback => [callback, Object.getOwnPropertyDescriptor(this, callback)] as const);
+    const prior = this.activeSessionPlayer;
+    this.activeSessionPlayer = player;
+    for (const field of fields) {
+      Object.defineProperty(this, field, {
+        configurable: true,
+        enumerable: saved.find(([name]) => name === field)?.[1]?.enumerable ?? true,
+        get: () => source[field],
+        set: value => { source[field] = value; },
+      });
+    }
+    // Legacy callbacks are attached to the solo facade. Route the per-player
+    // lifecycle subset to P2 instead of exposing its temporary facade state.
+    if (!player.primary) {
+      const routed: Record<string, (...args: never[]) => void> = {
+        onCoin: amount => player.onCoin(amount as unknown as number),
+        onEnd: () => player.onEnd({ reason: player.reason, cause: player.deathCause! }),
+        onHurt: event => player.onHurt(event as unknown as HurtEvent),
+        onPower: event => player.onPower(event as unknown as { power: CharacterPower; cause: DeathCause }),
+        onMobSpawn: () => {}, onMobAttack: () => {},
+      };
+      for (const callback of callbacks) Object.defineProperty(this, callback, { configurable: true, enumerable: true, value: routed[callback] });
+    }
+    try { return operation(); }
+    finally {
+      for (const [field, descriptor] of saved) {
+        if (descriptor) Object.defineProperty(this, field, descriptor);
+        else delete host[field];
+      }
+      for (const [callback, descriptor] of savedCallbacks) {
+        if (descriptor) Object.defineProperty(this, callback, descriptor);
+        else delete host[callback];
+      }
+      this.activeSessionPlayer = prior;
+    }
+  }
+  /** Session-only adapter over the released start transition. */
+  startPlayer(player: SessionPlayer): boolean { return player.primary ? this.start() : this.withSessionPlayer(player, () => this.start()); }
+  /** Session-only adapter over the released movement/progress transition. */
+  movePlayer(player: SessionPlayer, direction: Direction): boolean { return player.primary ? this.move(direction) : this.withSessionPlayer(player, () => this.move(direction)); }
+  /** Apply the elected seat's run effects once before a world-only tick. */
+  syncSharedEffects(player: SessionPlayer): void { if (player.primary) this.syncEffects(); else this.withSessionPlayer(player, () => this.syncEffects()); }
+  /** Rendering uses this explicit path to age each player's terminal visual once. */
+  advancePlayerDeathVisuals(player: SessionPlayer, dt: number): void { if (player.primary) this.advanceDeathVisuals(dt); else this.withSessionPlayer(player, () => this.advanceDeathVisuals(dt)); }
+  /** Advance terrain/actor time once; player resolution happens separately. */
+  advanceSharedWorld(dt: number): number {
+    const previousTime = this.time;
+    this.time += dt * this.rules.simulation.worldTimeScale;
+    return previousTime;
+  }
+  /**
+   * Resolve one participant after LocalSession has advanced SharedWorld.
+   * `drivesWorld` elects one stable living seat for wave and director work.
+   */
+  updateSessionPlayer(player: SessionPlayer, dt: number, previousTime: number, drivesWorld: boolean): void {
+    if (player.primary) { this.update(dt); return; }
+    this.withSessionPlayer(player, () => {
+      if (this.state === 'dead') return;
+      if (this.state !== 'playing' || this.run.isOpen || this.run.pendingPack) return;
+      this.run.tick(dt);
+      const previousX = this.groundX, previousY = this.groundY;
+      const riding = this.hop === 0 && platformSupports(this.lane, this.x, previousTime);
+      this.finishPlayerUpdate(dt, previousTime, previousX, previousY, riding, drivesWorld);
+    });
+  }
   get mobs(): Mob[] { return this.mobDirector.mobs; }
   get lane(): Lane { return this.rows.get(this.y)!; }
   get groundX(): number { return this.powerRescue ? this.x + (this.powerRescue.fromX - this.x) * this.rescueFraction : this.x + (this.fromX - this.x) * this.hop / this.rules.movement.hopDuration; }
@@ -213,7 +291,8 @@ export class Game {
     return t * t * (3 - 2 * t);
   }
   get power(): CharacterPower { return characterPower(this.characterId); }
-  get powerRemaining(): number { return Math.max(0, Math.ceil(this.powerReadyAt - this.maxY)); }
+  private get currentScore(): number { return this.activeSessionPlayer && !this.activeSessionPlayer.primary ? this.activeSessionPlayer.earnedDistance : this.maxY; }
+  get powerRemaining(): number { return Math.max(0, Math.ceil(this.powerReadyAt - this.currentScore)); }
   get powerReady(): boolean { return this.powerRemaining === 0 && !this.powerRescue; }
   get powerFlash(): number { return Math.min(1, this.powerNotice / .9); }
   get powerAvoidsMobs(): boolean { return !!this.powerRescue || this.powerLandingGrace > 0; }
@@ -223,7 +302,8 @@ export class Game {
   get waveSeconds(): number { return Math.max(0, this.rules.pursuit.grace - this.time) + Math.max(0, this.waveGap) / (this.rules.pursuit.speed * this.run.effects.waveSpeed); }
   get warning(): boolean { return this.rules.pursuit.strategy === 'wave' && this.waveSeconds <= this.rules.pursuit.warningSeconds; }
   ensureRows(): void {
-    for (let i = this.maxY - this.rules.retention.rowsBehind; i <= this.maxY + this.rules.retention.rowsAhead; i++) if (!this.rows.has(i)) {
+    const frontier = this.world?.sessionActive ? this.world.frontier : this.maxY;
+    for (let i = frontier - this.rules.retention.rowsBehind; i <= frontier + this.rules.retention.rowsAhead; i++) if (!this.rows.has(i)) {
       const lane = this.runSeed ? generateSeedLane(this.runSeed, i) : generateLane(this.seed, i, this.home, this.gentle), effects = this.run.effects;
       const rng = random((this.runSeed?.seed ?? this.seed) ^ Math.imul(i + 100, 0x19ab61f));
       if (lane.kind === 'road') lane.spacing = lane.length + (lane.spacing - lane.length) * effects.trafficSpacing;
@@ -249,9 +329,9 @@ export class Game {
       }
       this.rows.set(i, lane);
     }
-    for (const i of this.rows.keys()) if (i < this.maxY - this.rules.retention.rowsBehind) this.rows.delete(i);
+    for (const i of this.rows.keys()) if (i < frontier - this.rules.retention.rowsBehind) this.rows.delete(i);
     this.syncEffects();
-    for (const lane of this.rows.values()) if (lane.coinActor === null && lane.index <= this.maxY + this.rules.retention.pickupBindingAhead) {
+    for (const lane of this.rows.values()) if (lane.coinActor === null && lane.index <= frontier + this.rules.retention.pickupBindingAhead) {
       // Rows are generated 28 ahead. Bind near the visible approach so a log
       // reward has not already left the world before its lane can be reached.
       lane.coinActor = lane.actors
@@ -300,7 +380,12 @@ export class Game {
     const ny = this.y + (direction === 'forward' ? 1 : direction === 'back' ? -1 : 0);
     if (nx < -HALF_WIDTH || nx > HALF_WIDTH || !this.rows.has(ny) || this.rows.get(ny)!.blocked.includes(Math.round(nx))) return false;
     this.fromX = this.x; this.fromY = this.y; this.x = nx; this.y = ny; this.hop = this.rules.movement.hopDuration;
-    if (ny > this.maxY) { this.maxY = ny; this.idle = 0; this.awardCoins(this.run.advanceScore(ny)); this.ensureRows(); this.regenerate(); this.lifecycle('progress'); }
+    if (ny > this.maxY) {
+      this.maxY = ny; this.idle = 0;
+      if (this.activeSessionPlayer && !this.activeSessionPlayer.primary) this.activeSessionPlayer.earnedDistance++;
+      this.world?.noteProgress(ny);
+      this.awardCoins(this.run.advanceScore(this.currentScore)); this.ensureRows(); this.regenerate(); this.lifecycle('progress');
+    }
     return true;
   }
   end(reason: string, cause: DeathCause = 'traffic', face?: 'front' | 'rear' | 'side'): void {
@@ -342,7 +427,7 @@ export class Game {
     candidates.sort((a, b) => a.cost - b.cost || b.y - a.y || a.x - b.x);
     const target = candidates[0];
     if (!target) return false;
-    this.powerReadyAt = this.maxY + power.cooldown;
+    this.powerReadyAt = this.currentScore + power.cooldown;
     this.powerNotice = 1.8;
     this.powerRescue = { fromX: x, fromY: y, remaining: power.duration, power };
     this.x = this.fromX = target.x; this.y = this.fromY = target.y; this.hop = 0;
@@ -354,7 +439,7 @@ export class Game {
     return true;
   }
   private regenerate(): void {
-    const milestone = Math.floor(this.maxY / this.rules.health.regenerationInterval);
+    const milestone = Math.floor(this.currentScore / this.rules.health.regenerationInterval);
     if (milestone <= this.healedMilestone) return;
     const before = this.health;
     this.health = Math.min(this.maxHealth, this.health + (milestone - this.healedMilestone) * (this.rules.health.regenerationAmount + this.run.effects.regenBonus));
@@ -445,6 +530,10 @@ export class Game {
     const previousX = this.groundX, previousY = this.groundY;
     const riding = this.hop === 0 && platformSupports(this.lane, this.x, previousTime);
     this.time += dt * this.rules.simulation.worldTimeScale;
+    this.finishPlayerUpdate(dt, previousTime, previousX, previousY, riding, true);
+  }
+  /** The original per-player fixed-step tail, shared with LocalSession seats. */
+  private finishPlayerUpdate(dt: number, previousTime: number, previousX: number, previousY: number, riding: boolean, drivesWorld: boolean): void {
     this.idle += dt;
     this.hurtRemaining = Math.max(0, this.hurtRemaining - dt);
     this.powerNotice = Math.max(0, this.powerNotice - dt);
@@ -453,24 +542,26 @@ export class Game {
     if (this.powerRescue) {
       // World motion continues during the escape, but no old swept contact or
       // collectible can intersect this protected airborne path.
-      if (this.rules.pursuit.strategy === 'wave') {
+      if (drivesWorld && this.rules.pursuit.strategy === 'wave') {
         const chaseTime = Math.max(0, this.time - this.rules.pursuit.grace) - Math.max(0, previousTime - this.rules.pursuit.grace);
         this.waveRow = Math.max(this.waveRow + chaseTime * this.rules.pursuit.speed * this.run.effects.waveSpeed, this.maxY - this.rules.pursuit.waveTrail - this.run.effects.waveTrail);
       }
       this.powerRescue.remaining = Math.max(0, this.powerRescue.remaining - dt);
-      this.updateMobs(this.time - previousTime, previousX, previousY);
+      if (drivesWorld) this.updateMobs(this.time - previousTime, previousX, previousY);
       if (this.powerRescue.remaining === 0) { this.powerRescue = null; this.powerLandingGrace = .45; }
       return;
     }
     if (this.rules.pursuit.strategy === 'wave') {
-      const chaseTime = Math.max(0, this.time - this.rules.pursuit.grace) - Math.max(0, previousTime - this.rules.pursuit.grace);
-      this.waveRow = Math.max(this.waveRow + chaseTime * this.rules.pursuit.speed * this.run.effects.waveSpeed, this.maxY - this.rules.pursuit.waveTrail - this.run.effects.waveTrail);
+      if (drivesWorld) {
+        const chaseTime = Math.max(0, this.time - this.rules.pursuit.grace) - Math.max(0, previousTime - this.rules.pursuit.grace);
+        this.waveRow = Math.max(this.waveRow + chaseTime * this.rules.pursuit.speed * this.run.effects.waveSpeed, this.maxY - this.rules.pursuit.waveTrail - this.run.effects.waveTrail);
+      }
       // Use the same ground position as the drawing, including while airborne.
       if (this.waveGap <= 0 && this.run.effects.shield <= 0) { this.caughtByWave = true; this.end('The wave caught you. Hop forward to stay ahead.', 'wave'); return; }
     } else if (this.y < this.maxY - this.rules.pursuit.trailingLimit) { this.end('The trail moved on. Keep hopping forward!', 'trail'); return; }
     this.collideVehicles(previousX, previousY, previousTime);
     if (this.state !== 'playing' || this.powerRescue) return;
-    if (this.hop > 0) { this.collectCoins(this.time - previousTime, false); this.updateMobs(this.time - previousTime, previousX, previousY); return; }
+    if (this.hop > 0) { this.collectCoins(this.time - previousTime, false); if (drivesWorld) this.updateMobs(this.time - previousTime, previousX, previousY); return; }
     const lane = this.lane;
     if (lane.kind === 'river') {
       // Carry an existing rider before testing the platform's new position. A
@@ -481,17 +572,21 @@ export class Game {
     }
     if (this.powerRescue) return;
     if (this.state === 'playing') this.collectCoins(this.time - previousTime, true);
-    if (this.state === 'playing') this.updateMobs(this.time - previousTime, previousX, previousY);
+    if (this.state === 'playing' && drivesWorld) this.updateMobs(this.time - previousTime, previousX, previousY);
   }
   /** Captured coins accelerate visibly toward the duck; pay only on safe contact. */
   private collectCoins(dt: number, landed: boolean): void {
     const lane = this.lane, x = this.groundX, y = this.groundY, gravity = this.run.effects.coinRadius;
+    const sessionSeat = this.world?.sessionActive ? this.activeSessionPlayer?.seat ?? 'p1' : undefined;
     for (const rewardLane of new Set([...this.rows.values(), ...this.attractedCoins.values()])) {
+      const pickupOwner = sessionSeat ? this.world.pickupOwners.get(rewardLane.index) : undefined;
+      if (pickupOwner && pickupOwner !== sessionSeat) continue;
       // Stroll can outrun attraction. Retire only rewards whose actual position
       // has left the retained trail, never a visible coin's original lane.
       if (rewardLane.coinPull && rewardLane.coinPull.y < this.maxY - this.rules.retention.rowsBehind) {
         rewardLane.coin = null; delete rewardLane.coinPull; delete rewardLane.coinDenomination;
         this.attractedCoins.delete(rewardLane.index);
+        if (sessionSeat) this.world.pickupOwners.delete(rewardLane.index);
         continue;
       }
       const coin = coinPosition(rewardLane, this.time);
@@ -511,7 +606,11 @@ export class Game {
           if (!landed || Math.hypot(coin.x - x, coin.y - y) > this.rules.retention.captureDistance + gravity) continue;
           rewardLane.coinPull = { ...coin, z: platformSurface(rewardLane), speed: 0 };
           this.attractedCoins.set(rewardLane.index, rewardLane);
+          if (sessionSeat) this.world.pickupOwners.set(rewardLane.index, sessionSeat);
         }
+        // Adoption may begin while a solo pull is in flight. The first active
+        // seat to process it owns the continuation for this and later ticks.
+        if (sessionSeat && !pickupOwner) this.world.pickupOwners.set(rewardLane.index, sessionSeat);
         advanceCoinPull(rewardLane.coinPull, x, y, platformSurface(lane), dt);
         if (!landed || Math.hypot(rewardLane.coinPull.x - x, rewardLane.coinPull.y - y) > this.rules.retention.pullCompletionDistance) continue;
       }
@@ -520,12 +619,14 @@ export class Game {
       delete rewardLane.coinDenomination;
       delete rewardLane.coinPull;
       this.attractedCoins.delete(rewardLane.index);
+      if (sessionSeat) this.world.pickupOwners.delete(rewardLane.index);
       const bonus = lane.kind === 'road' ? this.run.effects.roadCoinBonus : lane.kind === 'river' ? this.run.effects.riverCoinBonus : 0;
       this.awardCoins(value + bonus);
     }
   }
   private updateMobs(dt: number, previousX: number, previousY: number): void { if (this.rules.pursuers.enabled || this.mode === 'stroll') this.mobDirector.update(this, dt, previousX, previousY); }
   private lifecycle(type: SoloLifecycleEventName): void {
+    if (this.activeSessionPlayer && !this.activeSessionPlayer.primary) return;
     const observer = type === 'start' ? this.rules.lifecycle.onStart : type === 'progress' ? this.rules.lifecycle.onProgress : type === 'pause' ? this.rules.lifecycle.onPause : type === 'resume' ? this.rules.lifecycle.onResume : this.rules.lifecycle.onTerminal;
     observer?.({ type, game: this });
   }

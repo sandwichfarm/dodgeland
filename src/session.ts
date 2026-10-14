@@ -1,6 +1,6 @@
 import { CHARACTERS, DEFAULT_CHARACTER, characterById } from './content.js';
 import { platformSupports } from './game.js';
-import type { Direction, Game, Lane, RunState } from './game.js';
+import type { DeathCause, Direction, Game, HurtEvent, Lane, RunState } from './game.js';
 import type { ModeDefinition, ModeRules } from './mode-rules.js';
 import { RunInventory } from './market/run.js';
 import { characterPower } from './character-powers.js';
@@ -11,6 +11,14 @@ export type SeatId = 'p1' | 'p2';
 export type DeviceId = 'keyboard-a' | 'keyboard-b';
 
 export interface SeatAction { seat: SeatId; direction: Direction }
+
+/** Per-seat lifecycle delivery never shares the legacy solo facade callbacks. */
+export interface SessionPlayerCallbacks {
+  onCoin(amount: number): void;
+  onHurt(event: HurtEvent): void;
+  onEnd(event: { reason: string; cause: DeathCause }): void;
+  onPower(event: { power: CharacterPower; cause: DeathCause }): void;
+}
 
 export interface PlayerRender {
   readonly seat: SeatId;
@@ -58,6 +66,11 @@ export class SharedWorld {
   readonly rules: ModeRules;
   readonly host: Game;
   simulationTick = 0;
+  /** Furthest live course row. This is terrain retention, never a player's score. */
+  frontier: number;
+  sessionActive = false;
+  /** One seat owns each in-flight pickup pull until it resolves or leaves. */
+  readonly pickupOwners = new Map<number, string>();
   declare rows: Map<number, Lane>;
   declare attractedCoins: Map<number, Lane>;
   declare time: number;
@@ -75,18 +88,27 @@ export class SharedWorld {
     this.host = game;
     this.definition = game.definition;
     this.rules = game.rules;
+    this.frontier = game.maxY;
     alias(this, game, ['rows', 'attractedCoins', 'time', 'waveRow', 'seed', 'home', 'mode', 'gentle', 'runSeed', 'seedCode', 'mobDirector', 'laneSpeeds']);
   }
 
   get mobs() { return this.host.mobs; }
-  update(dt: number, continueWithoutPrimary = false): void {
-    if (this.host.state === 'playing') this.host.update(dt);
-    else if (continueWithoutPrimary) {
-      // A living companion keeps the course clock moving, but never revives
-      // the terminal solo facade just to re-run its collision/reward hooks.
-      this.time += dt * this.rules.simulation.worldTimeScale;
+  noteProgress(row: number): void { this.frontier = Math.max(this.frontier, row); }
+  update(dt: number, primary?: SessionPlayer, driver?: SessionPlayer): number {
+    const previousTime = this.time;
+    // Keep the released primary facade path verbatim while it owns a living
+    // seat. Once it is terminal, a surviving seat advances the shared clock.
+    if (primary?.state === 'playing') this.host.update(dt);
+    else {
+      if (driver) this.host.syncSharedEffects(driver);
+      this.host.advanceSharedWorld(dt);
     }
     this.simulationTick++;
+    return previousTime;
+  }
+  releaseInactivePickupClaims(players: readonly SessionPlayer[]): void {
+    const activeSeats = new Set(players.filter(player => player.state === 'playing').map(player => player.seat));
+    for (const [row, seat] of this.pickupOwners) if (!activeSeats.has(seat as SeatId)) this.pickupOwners.delete(row);
   }
   view(): SharedWorld { return this; }
 }
@@ -96,9 +118,12 @@ export class SessionPlayer {
   readonly seat: SeatId;
   readonly device: DeviceId;
   readonly marker: string;
-  readonly label: string;
   readonly world: SharedWorld;
   readonly primary: boolean;
+  onCoin: SessionPlayerCallbacks['onCoin'] = () => {};
+  onHurt: SessionPlayerCallbacks['onHurt'] = () => {};
+  onEnd: SessionPlayerCallbacks['onEnd'] = () => {};
+  onPower: SessionPlayerCallbacks['onPower'] = () => {};
   declare run: RunInventory;
   declare state: RunState;
   declare x: number;
@@ -113,7 +138,7 @@ export class SessionPlayer {
   declare health: number;
   declare maxHealth: number;
   declare hurtRemaining: number;
-  declare deathCause: unknown;
+  declare deathCause: DeathCause | null;
   declare deathSpill: Game['deathSpill'];
   declare reason: string;
   declare characterId: string;
@@ -129,7 +154,6 @@ export class SessionPlayer {
     this.world = world; this.seat = seat; this.device = device; this.marker = seat === 'p1' ? 'P1' : 'P2';
     this.primary = primary;
     const character = characterById(characterId);
-    this.label = `${this.marker} · ${character.name}`;
     if (primary) {
       alias(this, world.host, ['run', 'state', 'x', 'y', 'maxY', 'idle', 'hop', 'fromX', 'fromY', 'coins', 'caughtByWave', 'health', 'maxHealth', 'hurtRemaining', 'deathCause', 'deathSpill', 'reason', 'characterId', 'powerRescue', 'powerReadyAt', 'powerNotice', 'powerLandingGrace', 'healedMilestone', 'touchingCars']);
       return;
@@ -143,11 +167,13 @@ export class SessionPlayer {
       return x >= -5 && x <= 5 && !!lane && !lane.blocked.includes(Math.round(x)) && (lane.kind !== 'river' || platformSupports(lane, x, world.time));
     });
     if (spawn === undefined) throw new Error('No safe distinct seat is available on the live solo course.');
-    this.state = 'ready'; this.x = spawn; this.y = anchorY; this.maxY = world.host.maxY; this.idle = 0; this.hop = 0; this.fromX = spawn; this.fromY = anchorY; this.coins = 0;
+    this.state = 'ready'; this.x = spawn; this.y = anchorY; this.maxY = anchorY; this.idle = 0; this.hop = 0; this.fromX = spawn; this.fromY = anchorY; this.coins = 0;
     this.caughtByWave = false; this.health = world.host.maxHealth; this.maxHealth = world.host.maxHealth; this.hurtRemaining = 0;
     this.deathCause = null; this.deathSpill = null; this.reason = ''; this.characterId = character.id;
     this.powerRescue = null; this.powerReadyAt = 0; this.powerNotice = 0; this.powerLandingGrace = 0; this.healedMilestone = 0; this.touchingCars = new Set();
   }
+
+  get label(): string { return `${this.marker} · ${characterById(this.characterId).name}`; }
 
   private get rescueFraction(): number {
     if (!this.powerRescue) return 0;
@@ -157,41 +183,21 @@ export class SessionPlayer {
   get groundX(): number { return this.powerRescue ? this.x + (this.powerRescue.fromX - this.x) * this.rescueFraction : this.x + (this.fromX - this.x) * this.hop / this.world.rules.movement.hopDuration; }
   get groundY(): number { return this.powerRescue ? this.y + (this.powerRescue.fromY - this.y) * this.rescueFraction : this.y + (this.fromY - this.y) * this.hop / this.world.rules.movement.hopDuration; }
   get power(): CharacterPower { return this.primary ? this.world.host.power : characterPower(this.characterId); }
+  get powerRemaining(): number { return Math.max(0, Math.ceil(this.powerReadyAt - (this.primary ? this.maxY : this.earnedDistance))); }
+  get powerReady(): boolean { return this.powerRemaining === 0 && !this.powerRescue; }
   get powerFlash(): number { return this.primary ? this.world.host.powerFlash : Math.min(1, this.powerNotice / .9); }
   render(): PlayerRender { return { seat: this.seat, marker: this.marker, label: this.label, characterId: this.characterId, x: this.x, y: this.y, groundX: this.groundX, groundY: this.groundY, hop: this.hop, fromY: this.fromY, state: this.state, run: this.run, hurtRemaining: this.hurtRemaining, powerRescue: this.powerRescue, powerFlash: this.powerFlash, power: this.power, caughtByWave: this.caughtByWave, deathSpill: this.deathSpill }; }
 
   start(): boolean {
-    if (this.primary) return this.world.host.start();
-    if (this.state !== 'ready') return false;
-    this.state = 'playing'; return true;
+    return this.world.host.startPlayer(this);
   }
 
   move(direction: Direction): boolean {
-    if (this.primary) return this.world.host.move(direction);
-    if (this.state === 'ready') this.start();
-    if (this.state !== 'playing' || this.hop > 0) return false;
-    const nx = this.x + (direction === 'left' ? -1 : direction === 'right' ? 1 : 0);
-    const ny = this.y + (direction === 'forward' ? 1 : direction === 'back' ? -1 : 0);
-    const lane = this.world.rows.get(ny);
-    if (!lane || nx < -5 || nx > 5 || lane.blocked.includes(Math.round(nx))) return false;
-    this.fromX = this.x; this.fromY = this.y; this.x = nx; this.y = ny; this.hop = this.world.rules.movement.hopDuration;
-    if (ny > this.maxY) {
-      this.maxY = ny; this.idle = 0; this.earnedDistance++;
-      const amount = this.run.creditCoins(this.run.advanceScore(this.earnedDistance) * this.run.effects.coinMultiplier);
-      this.coins += amount;
-    }
-    return true;
+    return this.world.host.movePlayer(this, direction);
   }
 
-  update(dt: number): void {
-    if (this.primary) return;
-    if (this.state === 'dead') {
-      if (this.deathSpill && Number.isFinite(dt) && dt > 0) this.deathSpill.age = Math.min(3, this.deathSpill.age + dt);
-      return;
-    }
-    if (this.state !== 'playing') return;
-    this.run.tick(dt); this.idle += dt; this.hop = Math.max(0, this.hop - dt); this.hurtRemaining = Math.max(0, this.hurtRemaining - dt);
-    this.powerNotice = Math.max(0, this.powerNotice - dt); this.powerLandingGrace = Math.max(0, this.powerLandingGrace - dt);
+  update(dt: number, previousTime: number, drivesWorld: boolean): void {
+    this.world.host.updateSessionPlayer(this, dt, previousTime, drivesWorld);
   }
 }
 
@@ -215,15 +221,24 @@ export class LocalSession {
     return new LocalSessionStage(game, new LocalSession(world, [primary, secondary]));
   }
 
-  start(): void { for (const player of this.players) player.start(); this.active = true; }
+  start(): void { for (const player of this.players) player.start(); this.world.sessionActive = true; this.active = true; }
   dispatch(action: SeatAction): boolean { const player = this.players.find(candidate => candidate.seat === action.seat); return !!player && this.active && player.move(action.direction); }
   update(dt: number): void {
     if (!this.active) return;
     // There is exactly one course advance per fixed tick. Seat iteration is
     // deterministic only for personal timers, never as world authority.
-    this.world.update(dt, this.players.some(player => !player.primary && player.state === 'playing'));
-    for (const player of this.players) player.update(dt);
+    const activePlayers = this.players.filter(player => player.state === 'playing');
+    if (!activePlayers.length) return;
+    const primary = activePlayers.find(player => player.primary);
+    this.world.releaseInactivePickupClaims(this.players);
+    const previousTime = this.world.update(dt, primary, activePlayers[0]);
+    for (const player of this.players) {
+      if (player.primary) continue;
+      player.update(dt, previousTime, !primary && player === activePlayers[0]);
+    }
   }
+  /** Rendering owns this clock so each terminal spill ages once per frame. */
+  advanceDeathVisuals(dt: number): void { for (const player of this.players) this.world.host.advancePlayerDeathVisuals(player, dt); }
   get running(): boolean { return this.active; }
   views(): PlayerRender[] { return this.players.map(player => player.render()); }
   stop(): void { this.active = false; }
