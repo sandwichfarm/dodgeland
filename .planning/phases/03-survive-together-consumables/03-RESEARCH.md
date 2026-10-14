@@ -28,7 +28,7 @@
 
 ### the agent's Discretion
 
-Research proposes monotonic shared-frontier measurement for revival recharge, a bounded manual self-revive offer, and safe return no farther ahead than the living group. These are implementation assumptions, not additional user answers. Represent durations, protection, capacity, prices, and target policy as validated rules; choose readable defaults during the phase and test boundary transitions.
+The approved policy uses each player's monotonic earned personal frontier for revival recharge, a bounded eight-active-second manual self-revive offer, and safe return no farther ahead than the living group. Backtracking, reclaim/rejoin, deliberate departure/new join, and recovery relocation grant no progress. The chosen defaults are four active seats, two active simulation seconds of return protection, one held Revival plus one held Flare, and market prices 24/36 respectively; tests cover every boundary transition.
 
 ### Deferred Ideas (OUT OF SCOPE)
 
@@ -55,7 +55,7 @@ None stated in CONTEXT.md.
 
 ## Summary
 
-Implement Phase 3 on the Phase 2 shared-world seam: the world owns simulation, pickup records, and common effects; a seat owns its own health, progress frontier, `RunInventory`, consumables, revival charge, lifecycle status, and contribution statistics. Do not copy `Game` per player or add a second ticking RNG. The exact class and method names are provisional until the Phase 1 parity and Phase 2 session summaries land; reconcile names at the first implementation task. [VERIFIED: `src/game.ts`; VERIFIED: `02-RESEARCH.md`; ASSUMED: final Phase 1/2 exported names]
+Implement Phase 3 on the Phase 2 shared-world seam: the world owns simulation and common effects; the composed Survive handler/session installs and owns one world-bound pickup capability/ledger only after adoption commits; a seat owns its own health, progress frontier, `RunInventory`, consumables, revival charge, lifecycle status, and contribution statistics. Ordinary Arcade/Flow without that capability allocates/serializes/renders and executes no item state or work. Keep the capability definition-driven so later modes may opt in without a Game mode-ID branch. Do not copy `Game` per player or add a second ticking RNG. The exact class and method names are provisional until the Phase 1 parity and Phase 2 session summaries land; reconcile names at the first implementation task. [VERIFIED: `src/game.ts`; VERIFIED: `02-RESEARCH.md`; ASSUMED: final Phase 1/2 exported names]
 
 Use a separate, versioned, pure item-drop stream keyed by the captured course seed and pickup anchor. Its 2,500 buckets make Revival bucket `0`, Flare buckets `1` and `2`, and no item every other bucket. That is mutually exclusive, gives 1/2500 and 2/2500 (=1/1250) rates, and cannot consume terrain, coin, market, or mob randomness. [VERIFIED: `docs/seeds.md`; VERIFIED: `src/game.ts`; VERIFIED: REQUIREMENTS.md]
 
@@ -159,7 +159,7 @@ type HeldConsumable = { id: ConsumableId; charges: number };
 
 ### Pattern 2: Exact independent sampler
 
-For each eligible pickup anchor, compute a pure `itemRollV1(seed, anchorKey, retry)` from an item-only salt/schema. Map its validated bucket with inclusive lower/exclusive upper boundaries: `0 <= bucket < 1` is Revival; `1 <= bucket < 3` is Flare; `3 <= bucket < 2500` is none. The rejection step, if the hash source needs it to produce an unbiased 0–2499 bucket, uses only the same item stream. [ASSUMED: hash implementation and rejection detail; VERIFIED: locked odds and RNG isolation in CONTEXT.md]
+For each eligible pickup anchor, compute a pure item-only roll keyed by the literal schema identity `item-drop-schema-1`, course seed, anchor key, and item-local retry. Map its validated bucket with inclusive lower/exclusive upper boundaries: `0 <= bucket < 1` is Revival; `1 <= bucket < 3` is Flare; `3 <= bucket < 2500` is none. The rejection step, if the hash source needs it to produce an unbiased 0–2499 bucket, uses only the same item stream. The final exported function name is chosen only after the Phase 1/2 API preflight. [ASSUMED: hash implementation and rejection detail; VERIFIED: locked odds and RNG isolation in CONTEXT.md]
 
 ```ts
 function sampleDrop(bucket: number): ConsumableId | null {
@@ -170,11 +170,11 @@ function sampleDrop(bucket: number): ConsumableId | null {
 }
 ```
 
-The world pickup ID should include `item-drop-v1`, course seed, row/anchor, and definition ID. Generate it from the read-only captured lane plus the pure item stream; never call the terrain generator RNG, `coinDenominationForRow`, `RunInventory.random`, or mob RNG. Keep coin state independent so an item does not remove or reroll a released coin. [VERIFIED: `src/game.ts`; VERIFIED: `docs/seeds.md`; ASSUMED: final key encoding]
+The world pickup ID should include `item-drop-schema-1`, course seed, row/anchor, and definition ID. Generate it from the read-only captured lane plus the pure item stream; never call the terrain generator RNG, `coinDenominationForRow`, `RunInventory.random`, or mob RNG. Keep coin state independent so an item does not remove or reroll a released coin. [VERIFIED: `src/game.ts`; VERIFIED: `docs/seeds.md`; ASSUMED: final key encoding]
 
 ### Pattern 3: Stable one-claim pickup ledger
 
-The shared world owns an unclaimed `WorldConsumablePickup` record. Gather all eligible active-player contacts for a fixed tick, then choose the minimum tuple `(contactFraction, distanceSquared, seatId)`, mark the pickup claimed, and credit exactly that seat. Ghosts, dead seats, and departed seats are not candidates. [VERIFIED: CONTEXT.md; VERIFIED: `02-RESEARCH.md`; ASSUMED: exact contact-fraction API]
+The handler-installed, session-owned world capability owns each unclaimed `WorldConsumablePickup` record and advances it once with the shared world. If the capability is absent, no ledger/state/render node exists and no item sampler/update/pull/claim/prune path runs. With it installed, gather all eligible active-player contacts for a fixed tick, then choose the minimum tuple `(contactFraction, distanceSquared, seatId)`, mark the pickup claimed, and credit exactly that seat. Ghosts, dead seats, and departed seats are not candidates. [VERIFIED: CONTEXT.md; VERIFIED: `02-RESEARCH.md`; ASSUMED: exact final handler-extension API and contact-fraction API]
 
 Use the current pull/contact rules with a fixed `DEFAULT_COIN_GRAVITY` value, `groundX/groundY`, `platformSurface`, and platform-safe river contact. Do not pass the owner’s `effects.coinRadius`; magnets and powers may still affect coins according to existing solo rules, but never consumable capture range. [VERIFIED: `src/game.ts`; VERIFIED: `src/market/run.ts`; VERIFIED: `src/coin-pull.ts`]
 
@@ -192,7 +192,7 @@ Revival requires another eligible dead teammate. Flare requires at least one eli
 
 ### Pattern 5: Separate personal revival from character powers
 
-Keep automatic character hazard powers in the existing character-power path. Store personal revival separately as `{ charged, nextFrontier, pendingOffer }` on the player record. Advance its high-water mark only when that same active seat reaches a new forward progress value; initialize/rejoin from its retained record, never from a session maximum or a backward move. A charge is earned when the monotonic frontier reaches `nextFrontier`, then the next threshold moves by 250. [VERIFIED: `src/game.ts`; VERIFIED: CONTEXT.md; ASSUMED: exact seat-progress field]
+Keep automatic character hazard powers in the existing character-power path. Store personal revival separately from contribution stats. The minimal run-local provenance owns `{ grantId, charged, personalHighWater, nextFrontier, aliases }`; a pending offer remains on the current death-generation record and cannot cross departure/new join. Reclaim and same-participant deliberate leave/new-join retain provenance even though the latter uses new-join UI. Resolve a stable participant ID before device/character aliases when Phase 2 supplies one. Without stronger identity, a known device or reacquired character conservatively reuses the provenance. A demonstrably different participant gets a new provenance and never inherits the archived charge. Advance high-water only when that participant reaches a new forward value, so leaving, changing seats/devices/characters, backtracking, and recovery relocation cannot reset a spent charge or partial progress. A charge is earned when the personal monotonic frontier reaches `nextFrontier`, then the next threshold moves by 250. [VERIFIED: `src/game.ts`; VERIFIED: CONTEXT.md; ASSUMED: exact final identity/progress field names]
 
 On an actual death, perform the existing spill-and-clear first. If that player has a charge, create one short, manual, expiring self-revive offer; using it spends the charge and restores the empty player safely. An innate power that prevents `end()` is not a death and therefore creates neither spill nor personal offer. [VERIFIED: `src/game.ts`; VERIFIED: CONTEXT.md; ASSUMED: offer duration]
 
@@ -200,7 +200,7 @@ On an actual death, perform the existing spill-and-clear first. If that player h
 
 Use `active`, `ghost`, `dead`, `departed`, and `recovery-pending` as mode states, rather than treating controller loss as death. A ghost retains seat and inventory but is excluded from collision, damage, movement, progress, and claims. Only a fresh explicit reclaim action binds a replacement controller back to that seat; a join allocates a new free seat and unique character and consumes its triggering input. [VERIFIED: CONTEXT.md; VERIFIED: `02-UI-SPEC.md]
 
-An explicit departure is neither death nor reclaim: preserve immutable contribution data and release the running seat according to the mode policy; do not emit a death spill or transfer/refund its inventory. Whether a deliberately departed player may later reclaim the archived record is not locked; default to a later join being a new player, and lock that policy before implementation. [ASSUMED]
+An explicit departure is neither death nor reclaim: preserve immutable contribution statistics, release the running seat/character, and do not emit a death spill or transfer/refund its inventory. The archive is not reclaimable; later participation uses new-join state. The run-local recovery provenance remains able to recognize the same participant/character/device evidence so deliberate leave cannot manufacture another initial personal charge. [VERIFIED: approved Phase 3 policy]
 
 The team remains alive only while an active seat exists or an eligible dead seat has an unexpired pending recovery offer. A ghost, a dead player with merely a stored charge but no offered recovery, or a late input after result finalization cannot keep the run open. On expiry, make one immutable shared result with per-character contribution snapshots. [VERIFIED: CONTEXT.md]
 
@@ -233,7 +233,7 @@ Each mode must state its policy: solo retains its current single-owner behavior;
 
 ### Pitfall 1: Drop generation changes a released course
 **What goes wrong:** A random draw during lane generation shifts terrain/coin output, or row-retention order changes drops.  
-**How to avoid:** Use a pure versioned keyed item stream and an item pickup ledger; assert terrain/coin golden snapshots are byte-for-byte unchanged. [VERIFIED: `docs/seeds.md`; VERIFIED: `src/game.ts`]
+**How to avoid:** Use a pure versioned keyed item stream only inside the installed mode capability; assert ordinary Arcade/Flow has no ledger or item work and that terrain/coin/state/next-output golden snapshots remain byte-for-byte unchanged. [VERIFIED: `docs/seeds.md`; VERIFIED: `src/game.ts`]
 
 ### Pitfall 2: Personal revival is confused with innate power
 **What goes wrong:** A 100-tile character power becomes a 250-tile revive, or power prevention triggers a death spill.  
@@ -289,26 +289,25 @@ The plan must include every Flare target and every safe placement before commit.
 
 | # | Claim | Section | Risk if Wrong |
 |---|-------|---------|---------------|
-| A1 | The final Phase 1/2 session APIs can host the described world/seat seams without an adapter redesign. | Summary / project structure | First implementation task must reconcile completed summaries. |
-| A2 | A bounded manual self-revive offer is the intended use of personal 250-tile charge. | Personal revival | UX could require a different explicit activation flow. |
-| A3 | Explicit departure archives contribution state without death spill and a later return is a new join. | Lifecycle | Product may intend a reclaimable voluntary leave. |
-| A4 | Best-of, non-stacking active-seat aggregation is the fair default for shared-world card properties. | Shared-effect resolver | Some modifiers may need a different documented benefit direction. |
+| A1 | Final Phase 1/2 exported names are intentionally unknown until those phases ship. Phase 3 must read all summaries, reconcile live exports, and halt before product edits on an incompatible seam. | Summary / project structure | Prevents plans from presenting provisional names as shipped APIs. |
+| A2 | Personal revival uses one eight-active-second offer; pause freezes active time, and only an unexpired valid offer may delay all-dead settlement. | Personal revival | Chosen and covered by exact expiry/decline/pause/terminal tests. |
+| A3 | Explicit departure archives contribution statistics without death spill/refund/transfer; the archive is not reclaimable, later entry is a new join, and retained run-local recovery provenance prevents charge or partial-progress reset without transferring it to a demonstrably different participant. | Lifecycle | Chosen and covered across participant/character/device aliases and seat reassignment. |
+| A4 | Active-seat shared-world aggregation is descriptor-owned, best-benefit, non-stacking, with lower-seat tie-breaking; owner-local properties remain private. | Shared-effect resolver | Chosen with an exhaustive descriptor-key test against the actual final modifier type. |
 | A5 | The item stream can use a pure keyed hash plus rejection to produce a 2,500 bucket. | Exact sampler | Hash implementation needs reproducibility tests and a pinned schema. |
 
-## Open Questions
+## Resolved Questions
 
-1. **Which exact Phase 1/2 types and events ship?**
+1. **[RESOLVED] Which exact Phase 1/2 types and events ship?**
    - What we know: Phase 2 specifies lifecycle events, one tick, claims, owner routing, and `quickJoin` as a seam. [VERIFIED: `02-RESEARCH.md`]
-   - What's unclear: exported names and immutable rules nesting while Phase 1/2 work is active. [VERIFIED: parent task context]
-   - Recommendation: start Phase 3 with a contract-read/reconciliation task; do not duplicate Phase 2 state or invent compatibility NAP APIs.
-2. **Voluntary departure inventory disposition.**
+   - Resolution: exported names remain provisional until Phase 1/2 complete. Every Phase 3 implementation plan begins with a blocking summary/live-export reconciliation and must halt before production edits on mismatch. It composes the APIs that actually shipped and does not duplicate Phase 2 state or invent compatibility NAP APIs.
+2. **[RESOLVED] Voluntary departure inventory disposition and later return.**
    - What we know: actual death clears and spills; ghost retains inventory; departure is distinct. [VERIFIED: CONTEXT.md]
-   - What's unclear: whether an explicit departure can later reclaim the archive.
-   - Recommendation: make the lifecycle policy explicit and test it before UI copy is finalized.
-3. **Shared-world modifier directions.**
+   - Resolution: deliberate departure archives immutable contribution statistics, releases the live seat/character, and creates neither death spill nor refund/transfer. Its inventory is not reclaimable. Later participation is a new join. A minimal run-local provenance retains immutable grant ID, charge state, personal high-water/next threshold, and observed aliases. Stable participant identity wins; without one, known device or reacquired character conservatively matches. This prevents reset across seat/device/character changes while a demonstrably different participant gets independent provenance and never receives the archived charge.
+3. **[RESOLVED] Shared-world modifier directions.**
    - What we know: current modifiers include actor, lane, spawn, pickup and player-facing values. [VERIFIED: `src/market/types.ts`]
-   - What's unclear: which existing cards should be enabled in each multiplayer mode and what “best” means for every field.
-   - Recommendation: add a small per-property descriptor table, review it with the phase owner, and default Race to no shared card stacking.
+   - Resolution: build one exhaustive descriptor table against the actual final `RunModifiers` keys. Owner-local properties include card slots, shield, damage/recovery/regen, coin radius/multiplier, and owner coin awards. For shared-world fields, lower is beneficial for traffic/river/wave/mob speeds; higher is beneficial for traffic spacing, platform length, train period/warning, wave trail, mob windup/recovery/spawn delay, coin chance, scenery clearance, and the generation component of any split-use river coin modifier. Select one best active-seat contribution per descriptor, tie by lower seat, and never stack. A split-use modifier gets separate shared-generation and owner-award projections; one active player deep-equals existing solo effects.
+4. **[RESOLVED] Concrete working defaults.**
+   - Resolution: capacity is four active seats; personal offers last eight active-play seconds; return protection lasts two active simulation seconds; each player may hold one Revival and one Flare; Revival costs 24 and Flare costs 36. Safe placement is deterministic and at/below the living frontier, with own-last-safe fallback for all-dead personal recovery. These remain named validated rules rather than magic UI constants.
 
 ## Environment Availability
 

@@ -41,7 +41,7 @@ unclaimed → selecting → ready → active ⇄ device-lost
 | Resource | Owner | Trigger | Default rule | Must not become |
 |---|---|---|---|---|
 | Innate character hazard save | Existing character system | Its existing 100-tile cadence | Preserve exactly as it works today. It remains independent of multiplayer rules. | A multiplayer life or item charge. |
-| Self-revive charge | Individual player | Player death | Each player holds at most one charge. A used charge becomes available again only after the shared run frontier advances 250 tiles; it never transfers to another slot. Shared-frontier measurement is an implementation assumption, not a separate user confirmation. | A shared life pool or automatic teammate revival. |
+| Self-revive charge | Individual player | Player death | Each player holds at most one charge. A used charge becomes available again only after that player earns 250 new forward tiles; it never transfers to another slot. Backtracking, rejoin, Flare, and baton repositioning grant no cooldown progress. This per-player policy supersedes the initial shared-frontier assumption and matches the Phase 3 UI contract. | A shared life pool or automatic teammate revival. |
 | Revival consumable | Individual inventory | Deliberate target selection | Revives one eliminated teammate at a valid return point; it does not affect the owner's self-revive cooldown. | A renamed character power. |
 | Flare consumable | Individual inventory | Deliberate activation | Revives every currently eliminated teammate and relocates every active/returned teammate to the user's current safe position. | A reusable teleport or a fog immunity item. |
 

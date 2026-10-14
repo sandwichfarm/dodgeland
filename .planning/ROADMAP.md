@@ -70,8 +70,17 @@ Plans:
   3. Each player has at most one separate self-revival charge that recharges only after 250 new forward tiles, while living teammates can explicitly restore eligible dead teammates at safe protected positions and the run ends only when no recovery path remains.
   4. Players can acquire and deliberately use mode-eligible Revival and Flare consumables from shop or world pickups: a mutually exclusive seeded sampler yields Revival at 1:2500 and Flare at 1:1250, awards contested pickups once deterministically, and preserves default pickup gravity regardless of coin-magnet cards.
   5. The multiplayer hand, market, inventory, pricing, and consumable targeting always identify the selected owner and retain every player/run state across menus.
-**Plans**: TBD
+**Plans**: 7 reviewed plans (execution depends on verified Phase 2)
 **UI hint**: yes
+
+Plans:
+- [ ] 03-01-PLAN.md — Verify prior gates and integrate live solo adoption, joins and participant lifecycle.
+- [ ] 03-02-PLAN.md — Add personal recovery, earned progress, safe return and team results.
+- [ ] 03-03-PLAN.md — Define validated consumable contracts, inventory and isolated seeded probability rolls.
+- [ ] 03-04-PLAN.md — Integrate mode-owned world pickups, atomic use and death clearing/spill.
+- [ ] 03-05-PLAN.md — Add owner-aware item economy and deterministic shared card effects.
+- [ ] 03-06-PLAN.md — Connect lifecycle, recovery and team results to the runtime interface.
+- [ ] 03-07-PLAN.md — Complete the single hand/market tree and run the complete browser/model gate.
 
 ### Phase 4: Relay
 **Goal**: A local group can play one continuous, turn-based Relay run with deliberate transfers, closed roster rules, and leg-by-leg results.
@@ -131,8 +140,8 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 |-------|----------------|--------|-----------|
 | 1. Composable Solo Baseline | 2/4 | In progress | - |
 | 2. Shared Local Session | 0/6 | Reviewed; awaits Phase 1 | - |
-| 3. Survive Together & Consumables | 0/TBD | Not started | - |
-| 4. Relay | 0/TBD | Not started | - |
-| 5. Race | 0/TBD | Not started | - |
+| 3. Survive Together & Consumables | 0/7 | Reviewed; awaits Phase 2 | - |
+| 4. Relay | 0/TBD | UI approved; planning | - |
+| 5. Race | 0/TBD | Researching | - |
 | 6. Cross-Mode Presentation | 0/TBD | Not started | - |
 | 7. Release Evidence & PR | 0/TBD | Not started | - |

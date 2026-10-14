@@ -52,7 +52,9 @@ Solo remains a one-gesture experience and keeps its established behavior.
 
 ## Implementation choices to validate
 
-Research proposes monotonic shared-frontier measurement for revival recharge,
+Use each player's monotonic earned forward frontier for revival recharge;
+backtracking, rejoin, and forced repositioning award no cooldown progress.
+This replaces the initial shared-frontier research assumption. Research proposes
 a bounded manual self-revive offer, and safe return no farther ahead than the
 living group. These are implementation assumptions, not additional user answers.
 Represent durations, protection, capacity, prices, and target policy as validated
