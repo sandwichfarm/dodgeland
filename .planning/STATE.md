@@ -5,10 +5,10 @@ milestone_name: milestone
 current_phase: 02
 current_phase_name: shared-local-session
 status: executing
-stopped_at: "Phase 01 verified; starting Phase 02 plan 01 shared-world tracer."
+stopped_at: "Phase 02 plan 01 in progress; shared-player behavior and rendered adoption integration remain open."
 last_updated: "2026-10-14T22:03:31.626Z"
 last_activity: 2026-10-14
-last_activity_desc: Phase 01 passed independent verification; Phase 02 execution begins.
+last_activity_desc: Phase 02 tracer audit identified concrete shared-simulation, rendering, and lifecycle gaps; executor resumed fixes.
 progress:
   total_phases: 7
   completed_phases: 1
@@ -29,8 +29,8 @@ See: `.planning/PROJECT.md` (updated 2026-10-14)
 
 Phase: 02 — Shared Local Session
 Plan: 1 of 6
-Status: Starting execution
-Last activity: 2026-10-14 — Phase 01 verified 12/12; 21 exact comparisons plus 270 regressions pass. All four summaries are committed.
+Status: Executing Plan 02-01; acceptance not yet met
+Last activity: 2026-10-14 — Audited the actual tracer and built-runtime test. Recorded world-continuation, earned-progress, depth-ordering, live-adoption, and suspension gaps in 02-01-INTEGRATION-NOTES.md; executor resumed implementation.
 
 Progress: [█░░░░░░░░░] 13% of currently planned plans
 
@@ -76,6 +76,7 @@ Recent decisions affecting current work:
 ### Blockers/Concerns
 
 - Phase 1 is verified. The original `a310a81` model/render oracle remains immutable throughout multiplayer extraction.
+- Phase 2 Plan 01 is incomplete: independent hazards/progress, shared-world continuation, common render ordering/camera, progressed app adoption, and global safety require production fixes and behavioral proof. See `phases/02-shared-local-session/02-01-INTEGRATION-NOTES.md`.
 - NAP-GAMEPAD remains an authorized draft adapter; no native controller polling. Missing gamepad support must leave keyboard/pointer play available.
 - Race fog tuning and the provisional seat/race defaults require later product confirmation, but no requested capability is deferred.
 
@@ -88,5 +89,5 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-10-14
-Stopped at: Phase 01 verified; starting Phase 02 plan 01 shared-world tracer.
+Stopped at: Phase 02 Plan 01 in progress; implementation and behavioral proof continue. No multiplayer mode is complete yet.
 Resume file: None
