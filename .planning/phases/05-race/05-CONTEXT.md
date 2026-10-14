@@ -76,3 +76,27 @@ visual proofs must include setup, simultaneous racers, fog exposure/damage,
 offense/defense, disconnect/reclaim, personal recovery, markets, timeout, and
 ranked podiums in both themes. Retain exact original solo parity and all earlier
 mode gates; test names or source scans alone do not prove behavior.
+
+## Resolved launch policies from research
+
+- Fog exposure and offensive range use actual visible ground coordinates; a
+  racer who backtracks into fog takes damage even with a higher personal record.
+  The boundary captures all genuine movement-earned frontiers from the tick
+  before death/disconnect exclusion and never retreats.
+- Fatal hazards settle before finish detection; living same-tick finishers tie
+  and finish beats timeout on the same tick. All-dead eligible personal offers
+  continue on the ordinary active session/Race clock; timeout closes them.
+- A disconnected racer has 12 active seconds of reclaim grace. A validated
+  replacement device may reclaim the reserved original seat, preserving health,
+  items, charge, progress, exposure, cooldowns and existing protection deadline.
+  Reclaim grants no fresh protection or other resource; placement must be safe.
+- Initial Race consumables are Mud Splash (offense) and Fog Lantern (defense),
+  each priced at 30 and sampled at 1:1250 from an isolated versioned stream.
+  Personal revival remains available. Common Revival/Flare are Race-ineligible.
+- Existing cards, temporary powers and packs are denied by explicit Race
+  eligibility metadata at launch; cosmetics affect appearance only. Earlier
+  modes retain their existing offers and effects. This is a provisional Race
+  balance policy, not removal of the card system or its future eligibility seam.
+- Numeric balance remains configurable/versioned and receives a focused Race
+  playtest. Only actual API reconciliation after verified Phase 3 remains an
+  execution dependency; the above defaults need no further design permission.
