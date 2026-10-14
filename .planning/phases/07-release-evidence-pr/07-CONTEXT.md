@@ -24,6 +24,10 @@ the goal complete while any required behavior or evidence remains missing.
   lifecycle and results. Set and enforce explicit high thresholds, review every
   meaningful uncovered branch, and include adversarial boundary/ordering cases.
   Do not raise percentages with tests that merely repeat implementation details.
+  Read `../../research/COVERAGE-PROBE.md`: the current temporary/data-URL loaders
+  can yield empty or harness-only 100% reports. Preserve correct source maps
+  through glob expansion, inventory expected production modules, calibrate the
+  executable-line denominator, and fail on missing source coverage.
 - Run the exact canonical gates from each verified phase. Required final gates
   include type-check, production build, guidance and conformance; model/legacy
   and deterministic course regressions; original solo differential and pixel
