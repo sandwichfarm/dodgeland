@@ -176,8 +176,10 @@ export class Game {
   private laneSpeeds = new WeakMap<Lane, { base: number; applied: number }>();
   readonly definition: ModeDefinition;
   readonly rules: ModeRules;
-  /** Scoped only while LocalSession reuses this facade's production operations. */
-  private activeSessionPlayer: SessionPlayer | null = null;
+  /** A permanent operation facade per secondary seat; the host always remains P1. */
+  private readonly playerOperations = new WeakMap<SessionPlayer, Game>();
+  /** Present only on fixed secondary facades, never changed on the host Game. */
+  private operationPlayer: SessionPlayer | null = null;
   constructor(seed: number | RunSeed, home = 'pond', mode: Mode = 'arcade', gentle = false, definitions: readonly ItemDefinition[] = [], characterId = DEFAULT_CHARACTER, options: GameOptions = {}) {
     this.characterId = characterById(characterId).id;
     if (typeof seed !== 'number') {
@@ -207,60 +209,45 @@ export class Game {
     return new Game(decodeRunSeed(code), undefined, undefined, undefined, definitions, characterId);
   }
   /**
-   * Run an existing facade operation against a session player's own state.
-   * The shared terrain fields remain on SharedWorld; only the established
-   * personal field set is rebound for the synchronous operation.
+   * Build a stable receiver whose personal fields target one player while every
+   * shared field delegates to the immutable host Game. Unlike the old bridge,
+   * it never changes host descriptors or host callbacks during an operation.
    */
-  private withSessionPlayer<T>(player: SessionPlayer, operation: () => T): T {
-    const fields = ['run', 'state', 'x', 'y', 'maxY', 'idle', 'hop', 'fromX', 'fromY', 'coins', 'caughtByWave', 'health', 'maxHealth', 'hurtRemaining', 'deathCause', 'deathSpill', 'reason', 'characterId', 'powerRescue', 'powerReadyAt', 'powerNotice', 'powerLandingGrace', 'healedMilestone', 'touchingCars'] as const;
-    const callbacks = ['onCoin', 'onEnd', 'onMobSpawn', 'onMobAttack', 'onHurt', 'onHeal', 'onPower'] as const;
+  private operationFor(player: SessionPlayer): Game {
+    if (player.primary) return this;
+    const existing = this.playerOperations.get(player);
+    if (existing) return existing;
+    const fields = ['run', 'state', 'x', 'y', 'maxY', 'idle', 'hop', 'fromX', 'fromY', 'coins', 'caughtByWave', 'health', 'maxHealth', 'hurtRemaining', 'deathCause', 'deathSpill', 'reason', 'characterId', 'powerRescue', 'powerReadyAt', 'powerNotice', 'powerLandingGrace', 'healedMilestone', 'touchingCars', 'onCoin', 'onEnd', 'onHurt', 'onHeal', 'onPower'] as const;
+    const personal = new Set<string>(fields);
+    const context = Object.create(Object.getPrototypeOf(this)) as Game;
     const host = this as unknown as Record<string, unknown>;
     const source = player as unknown as Record<string, unknown>;
-    const saved = fields.map(field => [field, Object.getOwnPropertyDescriptor(this, field)] as const);
-    const savedCallbacks = callbacks.map(callback => [callback, Object.getOwnPropertyDescriptor(this, callback)] as const);
-    const prior = this.activeSessionPlayer;
-    this.activeSessionPlayer = player;
-    for (const field of fields) {
-      Object.defineProperty(this, field, {
-        configurable: true,
-        enumerable: saved.find(([name]) => name === field)?.[1]?.enumerable ?? true,
-        get: () => source[field],
-        set: value => { source[field] = value; },
+    for (const field of Reflect.ownKeys(this)) {
+      if (typeof field !== 'string' || field === 'operationPlayer') continue;
+      const descriptor = Object.getOwnPropertyDescriptor(this, field);
+      Object.defineProperty(context, field, {
+        configurable: false, enumerable: descriptor?.enumerable ?? true,
+        get: () => personal.has(field) ? source[field] : host[field],
+        set: value => { if (personal.has(field)) source[field] = value; else host[field] = value; },
       });
     }
-    // Legacy callbacks are attached to the solo facade. Route the per-player
-    // lifecycle subset to P2 instead of exposing its temporary facade state.
-    if (!player.primary) {
-      const routed: Record<string, (...args: never[]) => void> = {
-        onCoin: amount => player.onCoin(amount as unknown as number),
-        onEnd: () => player.onEnd({ reason: player.reason, cause: player.deathCause! }),
-        onHurt: event => player.onHurt(event as unknown as HurtEvent),
-        onPower: event => player.onPower(event as unknown as { power: CharacterPower; cause: DeathCause }),
-        onMobSpawn: () => {}, onMobAttack: () => {},
-      };
-      for (const callback of callbacks) Object.defineProperty(this, callback, { configurable: true, enumerable: true, value: routed[callback] });
-    }
-    try { return operation(); }
-    finally {
-      for (const [field, descriptor] of saved) {
-        if (descriptor) Object.defineProperty(this, field, descriptor);
-        else delete host[field];
-      }
-      for (const [callback, descriptor] of savedCallbacks) {
-        if (descriptor) Object.defineProperty(this, callback, descriptor);
-        else delete host[callback];
-      }
-      this.activeSessionPlayer = prior;
-    }
+    Object.defineProperty(context, 'operationPlayer', { configurable: false, enumerable: false, value: player });
+    this.playerOperations.set(player, context);
+    return context;
+  }
+  /** Run released Game formulas through the seat's fixed receiver. */
+  private inPlayerOperation<T>(player: SessionPlayer, operation: (context: Game) => T): T {
+    const context = this.operationFor(player);
+    return operation(context);
   }
   /** Session-only adapter over the released start transition. */
-  startPlayer(player: SessionPlayer): boolean { return player.primary ? this.start() : this.withSessionPlayer(player, () => this.start()); }
+  startPlayer(player: SessionPlayer): boolean { return this.inPlayerOperation(player, context => context.start()); }
   /** Session-only adapter over the released movement/progress transition. */
-  movePlayer(player: SessionPlayer, direction: Direction): boolean { return player.primary ? this.move(direction) : this.withSessionPlayer(player, () => this.move(direction)); }
+  movePlayer(player: SessionPlayer, direction: Direction): boolean { return this.inPlayerOperation(player, context => context.move(direction)); }
   /** Apply the elected seat's run effects once before a world-only tick. */
-  syncSharedEffects(player: SessionPlayer): void { if (player.primary) this.syncEffects(); else this.withSessionPlayer(player, () => this.syncEffects()); }
+  syncSharedEffects(player: SessionPlayer): void { this.inPlayerOperation(player, context => context.syncEffects()); }
   /** Rendering uses this explicit path to age each player's terminal visual once. */
-  advancePlayerDeathVisuals(player: SessionPlayer, dt: number): void { if (player.primary) this.advanceDeathVisuals(dt); else this.withSessionPlayer(player, () => this.advanceDeathVisuals(dt)); }
+  advancePlayerDeathVisuals(player: SessionPlayer, dt: number): void { this.inPlayerOperation(player, context => context.advanceDeathVisuals(dt)); }
   /** Advance terrain/actor time once; player resolution happens separately. */
   advanceSharedWorld(dt: number): number {
     const previousTime = this.time;
@@ -272,15 +259,20 @@ export class Game {
    * `drivesWorld` elects one stable living seat for wave and director work.
    */
   updateSessionPlayer(player: SessionPlayer, dt: number, previousTime: number, drivesWorld: boolean): void {
-    if (player.primary) { this.update(dt); return; }
-    this.withSessionPlayer(player, () => {
-      if (this.state === 'dead') return;
-      if (this.state !== 'playing' || this.run.isOpen || this.run.pendingPack) return;
-      this.run.tick(dt);
-      const previousX = this.groundX, previousY = this.groundY;
-      const riding = this.hop === 0 && platformSupports(this.lane, this.x, previousTime);
-      this.finishPlayerUpdate(dt, previousTime, previousX, previousY, riding, drivesWorld);
+    this.inPlayerOperation(player, context => {
+      if (context.state === 'dead') return;
+      if (context.state !== 'playing' || context.run.isOpen || context.run.pendingPack) return;
+      context.run.tick(dt);
+      const previousX = context.groundX, previousY = context.groundY;
+      const riding = context.hop === 0 && platformSupports(context.lane, context.x, previousTime);
+      context.finishPlayerUpdate(dt, previousTime, previousX, previousY, riding, drivesWorld);
     });
+  }
+  /** Award a shared-world pickup only after SharedWorld's deterministic arbitration. */
+  awardSessionPickup(player: SessionPlayer, raw: number): number { return this.inPlayerOperation(player, context => context.awardCoins(raw)); }
+  /** The one director remains world-owned; a stable seat supplies its shared policy view. */
+  updateSessionMobs(player: SessionPlayer, dt: number, previousX: number, previousY: number): void {
+    this.inPlayerOperation(player, context => context.updateMobs(dt, previousX, previousY));
   }
   get mobs(): Mob[] { return this.mobDirector.mobs; }
   get lane(): Lane { return this.rows.get(this.y)!; }
@@ -291,7 +283,7 @@ export class Game {
     return t * t * (3 - 2 * t);
   }
   get power(): CharacterPower { return characterPower(this.characterId); }
-  private get currentScore(): number { return this.activeSessionPlayer && !this.activeSessionPlayer.primary ? this.activeSessionPlayer.earnedDistance : this.maxY; }
+  private get currentScore(): number { return this.operationPlayer && !this.operationPlayer.primary ? this.operationPlayer.earnedDistance : this.maxY; }
   get powerRemaining(): number { return Math.max(0, Math.ceil(this.powerReadyAt - this.currentScore)); }
   get powerReady(): boolean { return this.powerRemaining === 0 && !this.powerRescue; }
   get powerFlash(): number { return Math.min(1, this.powerNotice / .9); }
@@ -382,7 +374,7 @@ export class Game {
     this.fromX = this.x; this.fromY = this.y; this.x = nx; this.y = ny; this.hop = this.rules.movement.hopDuration;
     if (ny > this.maxY) {
       this.maxY = ny; this.idle = 0;
-      if (this.activeSessionPlayer && !this.activeSessionPlayer.primary) this.activeSessionPlayer.earnedDistance++;
+      if (this.operationPlayer && !this.operationPlayer.primary) this.operationPlayer.earnedDistance++;
       this.world?.noteProgress(ny);
       this.awardCoins(this.run.advanceScore(this.currentScore)); this.ensureRows(); this.regenerate(); this.lifecycle('progress');
     }
@@ -577,7 +569,7 @@ export class Game {
   /** Captured coins accelerate visibly toward the duck; pay only on safe contact. */
   private collectCoins(dt: number, landed: boolean): void {
     const lane = this.lane, x = this.groundX, y = this.groundY, gravity = this.run.effects.coinRadius;
-    const sessionSeat = this.world?.sessionActive ? this.activeSessionPlayer?.seat ?? 'p1' : undefined;
+    const sessionSeat = this.world?.sessionActive ? this.world.resolvingPlayer?.seat ?? 'p1' : undefined;
     for (const rewardLane of new Set([...this.rows.values(), ...this.attractedCoins.values()])) {
       const pickupOwner = sessionSeat ? this.world.pickupOwners.get(rewardLane.index) : undefined;
       if (pickupOwner && pickupOwner !== sessionSeat) continue;
@@ -615,18 +607,23 @@ export class Game {
         if (!landed || Math.hypot(rewardLane.coinPull.x - x, rewardLane.coinPull.y - y) > this.rules.retention.pullCompletionDistance) continue;
       }
       const value = coinDenomination(rewardLane.coinDenomination).value;
+      const bonus = lane.kind === 'road' ? this.run.effects.roadCoinBonus : lane.kind === 'river' ? this.run.effects.riverCoinBonus : 0;
+      const resolvingPlayer = this.world?.resolvingPlayer;
+      if (resolvingPlayer && this.world.sessionActive) {
+        this.world.claimPickup(resolvingPlayer, rewardLane, 0, Math.hypot(coin.x - x, coin.y - y), value + bonus);
+        continue;
+      }
       rewardLane.coin = null;
       delete rewardLane.coinDenomination;
       delete rewardLane.coinPull;
       this.attractedCoins.delete(rewardLane.index);
       if (sessionSeat) this.world.pickupOwners.delete(rewardLane.index);
-      const bonus = lane.kind === 'road' ? this.run.effects.roadCoinBonus : lane.kind === 'river' ? this.run.effects.riverCoinBonus : 0;
       this.awardCoins(value + bonus);
     }
   }
   private updateMobs(dt: number, previousX: number, previousY: number): void { if (this.rules.pursuers.enabled || this.mode === 'stroll') this.mobDirector.update(this, dt, previousX, previousY); }
   private lifecycle(type: SoloLifecycleEventName): void {
-    if (this.activeSessionPlayer && !this.activeSessionPlayer.primary) return;
+    if (this.operationPlayer && !this.operationPlayer.primary) return;
     const observer = type === 'start' ? this.rules.lifecycle.onStart : type === 'progress' ? this.rules.lifecycle.onProgress : type === 'pause' ? this.rules.lifecycle.onPause : type === 'resume' ? this.rules.lifecycle.onResume : this.rules.lifecycle.onTerminal;
     observer?.({ type, game: this });
   }
