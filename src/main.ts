@@ -1,5 +1,6 @@
 import './styles.css';
 import './game-ui.css';
+import './session-ui.css';
 import { storage, themeGet, themeOnChanged, keys, intent } from '@napplet/sdk';
 import type { Theme } from '@napplet/sdk';
 import { runtimeHasDomain, runtimeHasMethod } from './domain-availability.js';
@@ -12,6 +13,11 @@ import { soloModeDefinition } from './mode-rules.js';
 import { installHealthMeter, readyPursuitCopy, updateChaseMeter, updateHealthMeter } from './solo-ui.js';
 import { Renderer, modelThumbnail } from './render.js';
 import { LocalSession } from './session.js';
+import type { SeatId } from './session.js';
+import { createKeyboardInput, DEFAULT_KEYBOARD_BINDINGS } from './keyboard-input.js';
+import { createKeyboardBindingStore } from './keyboard-input.js';
+import type { BindingValidation, KeyboardBindings, KeyboardBindingStore, KeyboardInput } from './keyboard-input.js';
+import { createSessionKeyboardEditor } from './session-ui.js';
 import { GameAudio } from './audio.js';
 import { Soundscape } from './soundscape.js';
 import { createSoundSettings } from './sound-settings.js';
@@ -52,7 +58,14 @@ const soundscape = new Soundscape(audio);
 const spillAudio = new DeathSpillAudio(audio);
 const sounds = createSoundSettings(audio, () => progress, (fields, save = true) => { fields.forEach(key => changedPreferences.add(key)); updateCallControl(); if (save) persist(); });
 let lastCall = -Infinity, callShortcut = '', marketShortcut = '', controllerConnected = false, localFocus = true, restoreModalFocus = true;
+const sessionCalls = new Map<SeatId, number>();
+let keyboardBindings: KeyboardBindings = DEFAULT_KEYBOARD_BINDINGS;
+let keyboardInput: KeyboardInput | undefined;
+let keyboardStore: KeyboardBindingStore | undefined;
+const observedNativeKeys = new Set<string>();
 const bindings: { close: () => void }[] = [];
+const shellShortcutLeases = new Map<string, { close: () => void }>();
+let nativeKeyboardActive = false;
 let featherClips: SVGRectElement[] = [];
 let displayedHealth = -1;
 const mediaQuery = matchMedia('(prefers-reduced-motion: reduce)');
@@ -168,11 +181,106 @@ function callCharacter(): void {
   const now = performance.now(); if (now - lastCall < 450) return;
   audio.unlock(); audio.play(characterById(progress.selected).call); lastCall = now;
 }
+/** Session calls deliberately resolve the assigned seat, never saved solo choice. */
+function callSessionCharacter(seat: SeatId): void {
+  if (import.meta.env.DEV && devTools?.isOpen) return;
+  if (!localSession?.running || localStage || sessionPaused || disposed || !localFocus || document.hidden || game.run.isOpen || !el('drawer').hidden || progress.muted || innerWidth < 240 || innerHeight < 240 || displayedRunState() !== 'playing') return;
+  const player = localSession.players.find(candidate => candidate.seat === seat);
+  if (!player || player.state !== 'playing') return;
+  const now = performance.now(), last = sessionCalls.get(seat) ?? -Infinity;
+  if (now - last < 450) return;
+  audio.unlock(); audio.play(characterById(player.characterId).call); sessionCalls.set(seat, now);
+}
+function moveSessionCharacter(seat: SeatId, direction: Direction): void {
+  if (!frameAvailable() || !localSession?.running || localStage || hand.isOpen() || hand.containsFocus() || game.run.isOpen || !el('drawer').hidden || displayedRunState() !== 'playing') return;
+  audio.unlock(); if (localSession.dispatch({ seat, direction })) audio.play('hop'); updateHud();
+}
+function releaseNativeKeyboard(): void {
+  keyboardInput?.suspend();
+}
+function activateNativeKeyboard(): void {
+  if (nativeKeyboardActive) return;
+  nativeKeyboardActive = true;
+  keyboardInput?.resume([...observedNativeKeys]);
+  suspendOverlappingShellShortcuts();
+}
+function deactivateNativeKeyboard(): void {
+  keyboardInput?.suspend();
+  if (!nativeKeyboardActive) return;
+  nativeKeyboardActive = false;
+  void restoreOverlappingShellShortcuts();
+}
+function replaceKeyboardInput(next: KeyboardBindings): void {
+  keyboardInput?.dispose();
+  keyboardBindings = next;
+  keyboardInput = createKeyboardInput({ move: moveSessionCharacter, call: callSessionCharacter }, keyboardBindings);
+  if (nativeKeyboardActive) keyboardInput.resume([...observedNativeKeys]); else keyboardInput.suspend();
+}
+async function commitKeyboardBindings(next: KeyboardBindings): Promise<BindingValidation> {
+  const result = await (keyboardStore?.commit(next) ?? Promise.resolve({ ok: true, bindings: next } as const));
+  if (result.ok) replaceKeyboardInput(result.bindings);
+  return result;
+}
+const sessionKeyboardEditor = createSessionKeyboardEditor({
+  root: el('local-session-setup'),
+  bindings: () => keyboardBindings,
+  commit: commitKeyboardBindings,
+  capture: active => active ? keyboardInput?.beginCapture() : keyboardInput?.endCapture([...observedNativeKeys]),
+});
+type ShellShortcutDefinition = { id: string; defaultKey: string; handler: () => void };
+const shellShortcutDefinitions: readonly ShellShortcutDefinition[] = [
+  { id: 'forward', defaultKey: 'ArrowUp', handler: () => moveLocal('p2', 'forward') },
+  { id: 'back', defaultKey: 'ArrowDown', handler: () => moveLocal('p2', 'back') },
+  { id: 'left', defaultKey: 'ArrowLeft', handler: () => moveLocal('p2', 'left') },
+  { id: 'right', defaultKey: 'ArrowRight', handler: () => moveLocal('p2', 'right') },
+  { id: 'forward-w', defaultKey: 'w', handler: () => moveLocal('p1', 'forward') },
+  { id: 'back-s', defaultKey: 's', handler: () => moveLocal('p1', 'back') },
+  { id: 'left-a', defaultKey: 'a', handler: () => moveLocal('p1', 'left') },
+  { id: 'right-d', defaultKey: 'd', handler: () => moveLocal('p1', 'right') },
+  { id: 'play', defaultKey: 'Enter', handler: confirmMenu },
+  { id: 'pause', defaultKey: 'p', handler: () => !el('drawer').hidden ? closeDrawer() : togglePause() },
+  { id: 'call', defaultKey: 'q', handler: callCharacter },
+  { id: 'market', defaultKey: 'm', handler: () => market.toggle() },
+  { id: 'back-menu', defaultKey: 'Escape', handler: backMenu },
+];
+const overlappingShortcutIds = new Set(['forward', 'back', 'left', 'right', 'forward-w', 'back-s', 'left-a', 'right-d', 'call']);
+function guardedShellShortcut(definition: ShellShortcutDefinition): void {
+  if (import.meta.env.DEV && devTools?.isOpen) return;
+  if (definition.id !== 'back-menu' && game.state === 'dead' && el('run-seed').contains(document.activeElement)) {
+    if (definition.id === 'play' && (document.activeElement === el('copy-seed') || document.activeElement === el('run-seed-code'))) (document.activeElement as HTMLElement).click();
+    return;
+  }
+  const focused = document.activeElement;
+  if (!el('drawer').hidden && definition.id !== 'back-menu' &&
+      ((focused instanceof HTMLInputElement && focused.type === 'text') || focused instanceof HTMLSelectElement)) return;
+  definition.handler();
+}
+async function registerShellShortcut(definition: ShellShortcutDefinition): Promise<void> {
+  if (disposed || shellShortcutLeases.has(definition.id) || !runtimeHasDomain('keys')) return;
+  try {
+    const lease = await keys.register({ id: `puddlehop.${definition.id}`, label: definition.id === 'call' ? 'Make your traveler call' : `Down to Duck ${definition.id}`, defaultKey: definition.defaultKey }, () => guardedShellShortcut(definition));
+    if (disposed || (nativeKeyboardActive && overlappingShortcutIds.has(definition.id))) { lease.close(); return; }
+    shellShortcutLeases.set(definition.id, lease);
+    if (definition.id === 'call') { callShortcut = (lease.binding || definition.defaultKey).toUpperCase(); updateCallControl(); }
+    if (definition.id === 'market') { marketShortcut = (lease.binding || definition.defaultKey).toUpperCase(); market.update(); }
+  } catch { notify('Keyboard shortcuts unavailable. Use the on-screen controls.'); }
+}
+function suspendOverlappingShellShortcuts(): void {
+  for (const id of overlappingShortcutIds) {
+    const lease = shellShortcutLeases.get(id);
+    if (lease) { lease.close(); shellShortcutLeases.delete(id); }
+  }
+}
+async function restoreOverlappingShellShortcuts(): Promise<void> {
+  await Promise.all(shellShortcutDefinitions.filter(definition => overlappingShortcutIds.has(definition.id)).map(registerShellShortcut));
+}
 function runGoal(): string {
   switch (progress.runs % 3) { case 0: return 'Little goal: reach 25 hops this run.'; case 1: return 'Little goal: find 3 coins this run.'; default: return 'Little goal: reach the next world at 32 hops.'; }
 }
 function reset(launch?: GameLaunch): void {
+  deactivateNativeKeyboard(); sessionCalls.clear();
   localSession?.stop(); localSession = undefined; localStage?.cancel(); localStage = undefined; sessionPaused = false;
+  sessionKeyboardEditor.close();
   el<HTMLDivElement>('local-session-setup').hidden = true;
   preparedLaunch = launch;
   if (import.meta.env.DEV) sandboxRun = false;
@@ -366,7 +474,7 @@ function play(): void {
   if (game.run.pendingPack) { market.toggle(); return; }
   audio.unlock();
   if (localSession?.running && localSession.players.some(player => player.state === 'playing' || player.state === 'paused')) {
-    sessionPaused = false; game.resume(); accumulator = 0; updateHud(); return;
+    sessionPaused = false; game.resume(); accumulator = 0; activateNativeKeyboard(); updateHud(); return;
   }
   if (game.state === 'dead') reset();
   if (game.state === 'paused') game.resume(); else game.start();
@@ -380,6 +488,7 @@ function openLocalPlay(): void {
   accumulator = 0; pointer = null; audio.stop();
   const setup = el<HTMLDivElement>('local-session-setup');
   setup.hidden = false; setup.setAttribute('role', 'dialog'); setup.setAttribute('aria-modal', 'true'); setup.setAttribute('aria-label', 'Local Play');
+  sessionKeyboardEditor.open();
   updateHud(); el('local-session-start').focus({ preventScroll: true });
 }
 /** Back to solo restores the same run, including its previous paused/playing state. */
@@ -387,6 +496,7 @@ function backToSolo(): void {
   if (!localStage) return;
   game = localStage.cancel(); localStage = undefined;
   accumulator = 0;
+  sessionKeyboardEditor.close();
   el<HTMLDivElement>('local-session-setup').hidden = true;
   updateHud();
   el(game.state === 'playing' ? 'scene' : 'local-play').focus({ preventScroll: true });
@@ -395,22 +505,39 @@ function startLocalPlay(): void {
   if (!localStage || !frameAvailable()) return;
   localSession = localStage.commit(); localStage = undefined;
   game.resume(); sessionPaused = false; accumulator = 0;
+  sessionKeyboardEditor.close();
   el<HTMLDivElement>('local-session-setup').hidden = true;
-  audio.unlock(); updateHud(); el('scene').focus({ preventScroll: true });
+  activateNativeKeyboard(); audio.unlock(); updateHud(); el('scene').focus({ preventScroll: true });
 }
-function moveLocal(seat: 'p1' | 'p2', direction: Direction): void {
+function moveLocal(seat: SeatId, direction: Direction): void {
   if (!frameAvailable()) return;
   if (!localSession?.running || localStage || hand.isOpen() || hand.containsFocus() || game.run.isOpen || !el('drawer').hidden || displayedRunState() !== 'playing') { move(direction); return; }
   audio.unlock(); if (localSession.dispatch({ seat, direction })) audio.play('hop'); updateHud();
 }
 function localSetupKeydown(event: KeyboardEvent): void {
   if (!localStage || disposed || event.key !== 'Tab') return;
-  const buttons = [el('local-session-start'), el('local-session-back')];
+  const buttons = [...el('local-session-setup').querySelectorAll<HTMLElement>('button:not([hidden]):not(:disabled)')].filter(button => !button.closest('[hidden]'));
+  if (!buttons.length) return;
   const current = buttons.indexOf(document.activeElement as HTMLElement);
   event.preventDefault();
   buttons[(current + (event.shiftKey ? -1 : 1) + buttons.length) % buttons.length]!.focus({ preventScroll: true });
 }
 document.addEventListener('keydown', localSetupKeydown, true);
+function isNativeKeyboardTarget(target: EventTarget | null): boolean {
+  return !(target instanceof HTMLInputElement || target instanceof HTMLSelectElement || target instanceof HTMLTextAreaElement || target instanceof HTMLButtonElement);
+}
+function nativeKeyboardKeydown(event: KeyboardEvent): void {
+  if (!nativeKeyboardActive || !isNativeKeyboardTarget(event.target)) return;
+  observedNativeKeys.add(event.key);
+  if (keyboardInput?.keydown(event.key)) { event.preventDefault(); event.stopPropagation(); }
+}
+function nativeKeyboardKeyup(event: KeyboardEvent): void {
+  observedNativeKeys.delete(event.key);
+  if (!nativeKeyboardActive || !isNativeKeyboardTarget(event.target)) return;
+  if (keyboardInput?.keyup(event.key)) { event.preventDefault(); event.stopPropagation(); }
+}
+document.addEventListener('keydown', nativeKeyboardKeydown);
+document.addEventListener('keyup', nativeKeyboardKeyup);
 function move(direction: Direction): void {
   if (!frameAvailable()) return;
   if (localStage) {
@@ -449,7 +576,7 @@ function togglePause(): void {
   else game.pause();
   updateHud();
 }
-function suspendPlay(): void { if (localSession) sessionPaused = true; pointer = null; audio.stop(); handPausedPlay = false; hand.close(); game.closeMarket(false); game.pause(); restoreAfterDrawer = false; restoreModalFocus = false; updateHud(); restoreModalFocus = true; }
+function suspendPlay(): void { releaseNativeKeyboard(); if (localSession) sessionPaused = true; pointer = null; audio.stop(); handPausedPlay = false; hand.close(); game.closeMarket(false); game.pause(); restoreAfterDrawer = false; restoreModalFocus = false; updateHud(); restoreModalFocus = true; }
 function openDrawer(): void {
   if (localStage || !frameAvailable()) return;
   const wasPlaying = handPausedPlay || game.state === 'playing'; handPausedPlay = false; hand.close();
@@ -558,6 +685,8 @@ async function boot(): Promise<void> {
     } catch { if (!disposed) sounds.sync(); el('storage-status').textContent = 'Save unavailable — progress lasts this session'; notify('Saved progress is unavailable. This session still works.'); } })();
     await hydration;
   }
+  keyboardStore = createKeyboardBindingStore(runtimeHasDomain('storage') ? storage : undefined);
+  replaceKeyboardInput(await keyboardStore.load());
   if (disposed) return;
   // The runtime retains initial deliveries until registration. Subscribe after
   // saved preferences settle, so hydration cannot overwrite a shared course.
@@ -570,30 +699,7 @@ async function boot(): Promise<void> {
   if (runtimeHasDomain('theme')) {
     try { applyTheme(await themeGet()); const off = themeOnChanged(applyTheme); if (disposed) off.close(); else bindings.push(off); } catch { notify('Using the local color palette.'); }
   }
-  if (runtimeHasDomain('keys')) {
-    const actions: [string, string, () => void][] = [['forward', 'ArrowUp', () => moveLocal('p2', 'forward')], ['back', 'ArrowDown', () => moveLocal('p2', 'back')], ['left', 'ArrowLeft', () => moveLocal('p2', 'left')], ['right', 'ArrowRight', () => moveLocal('p2', 'right')], ['forward-w', 'w', () => moveLocal('p1', 'forward')], ['back-s', 's', () => moveLocal('p1', 'back')], ['left-a', 'a', () => moveLocal('p1', 'left')], ['right-d', 'd', () => moveLocal('p1', 'right')], ['play', 'Enter', confirmMenu], ['pause', 'p', () => !el('drawer').hidden ? closeDrawer() : togglePause()], ['call', 'q', callCharacter], ['market', 'm', () => market.toggle()], ['back-menu', 'Escape', backMenu]];
-    for (const [id, defaultKey, handler] of actions) {
-      if (disposed) return;
-      try {
-        const binding = await keys.register({ id: `puddlehop.${id}`, label: id === 'call' ? 'Make your traveler call' : `Down to Duck ${id}`, defaultKey }, () => {
-          if (import.meta.env.DEV && devTools?.isOpen) return;
-          // A selected seed belongs to the browser's copy/selection controls.
-          // Shell shortcuts must not turn Enter or arrow keys into a retry.
-          if (id !== 'back-menu' && game.state === 'dead' && el('run-seed').contains(document.activeElement)) {
-            if (id === 'play' && (document.activeElement === el('copy-seed') || document.activeElement === el('run-seed-code'))) (document.activeElement as HTMLElement).click();
-            return;
-          }
-          // Typing and native selection belong to the active menu field.
-          const focused = document.activeElement;
-          if (!el('drawer').hidden && id !== 'back-menu' &&
-              ((focused instanceof HTMLInputElement && focused.type === 'text') || focused instanceof HTMLSelectElement)) return;
-          handler();
-        });
-        if (disposed) binding.close();
-        else { bindings.push(binding); if (id === 'call') { callShortcut = (binding.binding || defaultKey).toUpperCase(); updateCallControl(); } if (id === 'market') { marketShortcut = (binding.binding || defaultKey).toUpperCase(); market.update(); } }
-      } catch { notify('Keyboard shortcuts unavailable. Use the on-screen controls.'); break; }
-    }
-  }
+  if (runtimeHasDomain('keys')) await Promise.all(shellShortcutDefinitions.map(registerShellShortcut));
 }
-window.addEventListener('pagehide', () => { if (disposed) return; disposed = true; localSession?.stop(); localStage?.cancel(); localStage = undefined; document.removeEventListener('keydown', localSetupKeydown, true); if (import.meta.env.DEV) devTools?.dispose(); game.closeMarket(false); gamepad.close(); market.dispose(); pauseUI.dispose(); runMenuUI.dispose(); collectionUI.dispose(); hand.dispose(); seedUI.dispose(); sounds.dispose(); cancelAnimationFrame(raf); observer.disconnect(); bindings.forEach(b => b.close()); });
+window.addEventListener('pagehide', () => { if (disposed) return; disposed = true; deactivateNativeKeyboard(); localSession?.stop(); localStage?.cancel(); localStage = undefined; document.removeEventListener('keydown', localSetupKeydown, true); document.removeEventListener('keydown', nativeKeyboardKeydown); document.removeEventListener('keyup', nativeKeyboardKeyup); sessionKeyboardEditor.dispose(); if (import.meta.env.DEV) devTools?.dispose(); game.closeMarket(false); gamepad.close(); market.dispose(); pauseUI.dispose(); runMenuUI.dispose(); collectionUI.dispose(); hand.dispose(); seedUI.dispose(); sounds.dispose(); cancelAnimationFrame(raf); observer.disconnect(); bindings.forEach(b => b.close()); for (const lease of shellShortcutLeases.values()) lease.close(); shellShortcutLeases.clear(); });
 void boot();

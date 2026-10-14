@@ -127,6 +127,45 @@ export function serializeKeyboardBindings(bindings: KeyboardBindings): string {
   return JSON.stringify(parsed.bindings);
 }
 
+/** Minimal SDK-shaped storage boundary; callers pass only @napplet/sdk storage. */
+export interface KeyboardBindingStorage {
+  getItem(key: string): Promise<string | null>;
+  setItem(key: string, value: string): Promise<void>;
+}
+
+export interface KeyboardBindingStore {
+  load(): Promise<KeyboardBindings>;
+  commit(next: KeyboardBindings): Promise<BindingValidation>;
+  current(): KeyboardBindings;
+}
+
+/**
+ * Storage failure is never a reason to leave controls unusable. The in-memory
+ * map remains the source of truth for this iframe until a later reload.
+ */
+export function createKeyboardBindingStore(storage?: KeyboardBindingStorage): KeyboardBindingStore {
+  let active = cloneBindings(DEFAULT_KEYBOARD_BINDINGS);
+  return {
+    async load() {
+      if (!storage) return active;
+      try { active = parseStoredKeyboardBindings(await storage.getItem(KEYBOARD_STORAGE_KEY)); }
+      catch { active = cloneBindings(DEFAULT_KEYBOARD_BINDINGS); }
+      return active;
+    },
+    async commit(next) {
+      const parsed = validateKeyboardBindings(next);
+      if (!parsed.ok) return parsed;
+      if (storage) {
+        try { await storage.setItem(KEYBOARD_STORAGE_KEY, serializeKeyboardBindings(parsed.bindings)); }
+        catch { active = parsed.bindings; return { ok: true, bindings: active }; }
+      }
+      active = parsed.bindings;
+      return { ok: true, bindings: active };
+    },
+    current: () => active,
+  };
+}
+
 export interface KeyboardInputSink {
   move(seat: SeatId, direction: Direction): void;
   call(seat: SeatId): void;
