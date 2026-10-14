@@ -36,6 +36,8 @@ export interface GamepadActions {
   /** Pause the run when the shell or browser takes live controller focus away. */
   onFocusLost?(): void;
 }
+/** A validated complete snapshot belongs to the policy layer, never the shell bridge. */
+export type GamepadSnapshotConsumer = (state: GamepadState, now: number) => void;
 export const GAMEPAD_DEADZONE = .5;
 export const GAMEPAD_RELEASE_ZONE = .3;
 export const GAMEPAD_REPEAT_DELAY = 280;
@@ -157,26 +159,37 @@ export interface GamepadControls { readonly supported: boolean; update(now: numb
  * A complete injected binding wins. A marker-only exposed domain uses the draft
  * wire messages until packages catch up. Missing domain means no probe and no input.
  */
-export function createGamepadControls(actions: GamepadActions, host: Window = window, page: Document = document, now: () => number = () => performance.now()): GamepadControls {
+export function createGamepadControls(actions: GamepadActions, host: Window = window, page: Document = document, now: () => number = () => performance.now(), onSnapshot?: GamepadSnapshotConsumer): GamepadControls {
   const domain = (host as Window & { napplet?: Record<string, unknown> }).napplet?.gamepad;
-  const input = new GamepadInput(actions);
+  const input = onSnapshot ? null : new GamepadInput(actions);
   let closed = false, localFocus = true, latest: GamepadState | null = null;
   let binding: { close(): void } | undefined, wire = false;
   const supported = record(domain);
   const receive = (raw: unknown): void => {
     if (closed) return;
     const state = parseGamepadState(raw);
-    if (!state) { input.suspend(); return; }
+    if (!state) {
+      input?.suspend();
+      onSnapshot?.({ available: false, focused: false, pads: [] }, now());
+      return;
+    }
     latest = state;
-    input.receive({ ...state, focused: state.focused && localFocus && !page.hidden }, now());
+    const focused = state.focused && localFocus && !page.hidden;
+    const delivered = { ...state, focused };
+    if (onSnapshot) onSnapshot(delivered, now());
+    else input!.receive(delivered, now());
   };
   const message = (event: MessageEvent): void => {
     if (event.source !== host.parent || !record(event.data) || event.data.type !== 'gamepad.state' || 'id' in event.data) return;
     receive(event.data);
   };
-  const blur = (): void => { localFocus = false; input.suspend(); };
+  const suspend = (): void => {
+    input?.suspend();
+    onSnapshot?.(latest ? { ...latest, focused: false } : { available: true, focused: false, pads: [] }, now());
+  };
+  const blur = (): void => { localFocus = false; suspend(); };
   const focus = (): void => { localFocus = true; if (latest) receive(latest); };
-  const visibility = (): void => { if (page.hidden) input.suspend(); else if (latest) receive(latest); };
+  const visibility = (): void => { if (page.hidden) suspend(); else if (latest) receive(latest); };
   const close = (): void => {
     if (closed) return;
     closed = true;
@@ -185,7 +198,7 @@ export function createGamepadControls(actions: GamepadActions, host: Window = wi
     page.removeEventListener('visibilitychange', visibility);
     try { binding?.close(); } catch { /* Optional runtime teardown must not break the game. */ }
     if (wire) { try { host.parent.postMessage({ type: 'gamepad.unsubscribe' }, '*'); } catch { /* Parent may already be gone. */ } }
-    input.close(); latest = null;
+    input?.close(); onSnapshot?.({ available: false, focused: false, pads: [] }, now()); latest = null;
   };
   if (supported) {
     host.addEventListener('blur', blur); host.addEventListener('focus', focus); host.addEventListener('pagehide', close);
@@ -201,5 +214,5 @@ export function createGamepadControls(actions: GamepadActions, host: Window = wi
       try { host.parent.postMessage({ type: 'gamepad.subscribe' }, '*'); wire = true; } catch { close(); }
     }
   }
-  return { supported, update: tick => { if (!closed && !page.hidden && localFocus) input.update(tick); }, close };
+  return { supported, update: tick => { if (!closed && !page.hidden && localFocus) input?.update(tick); }, close };
 }
