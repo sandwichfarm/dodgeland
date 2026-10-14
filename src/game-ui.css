@@ -1,0 +1,101 @@
+/* One material and type language for the game's menus and controls.
+   The intentionally large game UI overrides the applet starter's tool density. */
+@font-face { font-family: 'Lilita One'; src: url('./fonts/LilitaOne-Regular.ttf') format('truetype'); font-style: normal; font-weight: 400; font-display: swap; }
+#app {
+  --game-wood: color-mix(in srgb, #77512f 91%, var(--bg));
+  --game-edge: color-mix(in srgb, #3e3423 92%, var(--fg));
+  --game-paper: color-mix(in srgb, #fff0c5 95%, var(--bg));
+  --game-ink: color-mix(in srgb, #233e32 95%, var(--fg));
+  --game-gold: color-mix(in srgb, #f2cb73 95%, var(--primary));
+  --game-green: color-mix(in srgb, #365d48 94%, var(--primary));
+  --game-font: 'Lilita One', ui-rounded, system-ui, sans-serif;
+  --pause-wood: var(--game-wood); --pause-edge: var(--game-edge);
+  --pause-paper: var(--game-paper); --pause-ink: var(--game-ink); --pause-gold: var(--game-gold);
+}
+#app .game-board {
+  position: absolute; z-index: 7; inset: 50% auto auto 50%; transform: translate(-50%, -50%);
+  border: 8px solid var(--game-wood); border-radius: 8px;
+  background: repeating-linear-gradient(0deg, transparent 0 70px, #8768430b 71px 73px), var(--game-paper);
+  color: var(--game-ink); font: 400 22px/1.3 var(--game-font);
+  box-shadow: 0 8px 0 var(--game-edge), 0 0 0 3px var(--game-edge), inset 0 0 0 3px #b6955d, 0 24px 70px #061d2c70;
+  animation: game-board-in .18s ease-out both;
+}
+#app .game-board::before, #app .game-board::after { content: ''; position: absolute; top: 10px; width: 8px; height: 8px; background: #e4bc72; border: 2px solid #573d25; box-shadow: 0 0 0 1px #b28c56; pointer-events: none; }
+#app .game-board::before { left: 10px; } #app .game-board::after { right: 10px; }
+#app .game-board button, #app .game-button {
+  min-width: 44px; min-height: 48px; padding: 8px 14px; border: 3px solid var(--game-edge); border-radius: 6px;
+  background: var(--game-gold); color: var(--game-ink); font: 400 22px/1.1 var(--game-font);
+  box-shadow: inset 0 3px 0 #fff7cc80, 0 4px 0 var(--game-edge);
+}
+#app .game-board button:hover, #app .game-button:hover { background: color-mix(in srgb, var(--game-gold) 80%, white); }
+#app .game-board button:active, #app .game-button:active { transform: translateY(2px); box-shadow: inset 0 1px 0 #fff7cc80, 0 2px 0 var(--game-edge); }
+#app .game-board :is(button, input, select, textarea):focus-visible, #app .game-button:focus-visible { outline: 3px solid #4b8b7a; outline-offset: 3px; }
+#app[data-modal-open="true"] .game-surface::after { content: ''; position: absolute; inset: 0; z-index: 6; pointer-events: none; background: color-mix(in srgb, var(--bg) 30%, #173b31b8); backdrop-filter: blur(3px) saturate(.6); }
+#app[data-modal-open="true"] .game-surface > :not(#scene):not(#run-panel):not(#market):not(#drawer):not(#run-inventory) { visibility: hidden; }
+#app.ui-less-motion .game-board { animation: none; }
+@keyframes game-board-in { from { opacity: 0; transform: translate(-50%, calc(-50% + 12px)) scale(.97); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+@media (prefers-reduced-motion: reduce) { #app .game-board { animation: none; } #app .game-board button:active, #app .game-button:active { transform: none; } }
+
+/* During play the material is smaller and tucked into the edges, while every
+   actionable control remains a 44px target. */
+.hud, .bottom-bar, .world-label, #toast, .idle { font-family: var(--game-font); font-weight: 400; }
+.hud .score-block { background: var(--game-paper); color: var(--game-ink); border: 3px solid var(--game-wood); box-shadow: 0 3px 0 var(--game-edge); border-radius: 5px; }
+.score-block .micro, .score-block .best { font-size: 12px; letter-spacing: .5px; color: var(--game-ink); font-weight: 400; }
+.score-block strong { font-weight: 400; font-size: clamp(32px, 5vw, 56px); }
+.hud-right { gap: 6px; }
+#active-run-powers { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px; max-width: min(300px, calc(100vw - 90px)); }
+#active-run-powers span { padding: 3px 6px; border: 2px solid var(--game-wood); border-radius: 4px; background: var(--game-paper); color: var(--game-ink); font: 400 14px/1.2 var(--game-font); box-shadow: 0 2px 0 var(--game-edge); }
+#app .hud-right button, #app .dpad button, #app #character-call { min-width: 44px; min-height: 44px; height: 44px; padding: 0 8px; border: 2px solid var(--game-edge); color: var(--game-ink); background: var(--game-gold); font: 400 24px/1 var(--game-font); box-shadow: inset 0 2px 0 #fff7cc80, 0 3px 0 var(--game-edge); border-radius: 5px; }
+#app .hud-right button { width: 44px; padding: 0; }
+#app #character-call { font-size: 18px; min-width: 64px; max-width: 120px; }
+.coin-count { padding: 7px 10px; border: 2px solid var(--game-wood); background: var(--game-paper); color: var(--game-ink); font-size: 21px; line-height: 1; box-shadow: 0 3px 0 var(--game-edge); }
+.coin-count b { font-weight: 400; } .coin-count > span { color: #906426; font-size: 20px; }
+#pluck { color: #916a32; background: var(--game-paper); border: 2px solid var(--game-wood); height: 31px; }
+.pluck-label { color: var(--game-ink); font: 400 12px/1 var(--game-font); letter-spacing: .4px; }
+#pluck-value { font: 400 15px/1 var(--game-font); color: var(--game-ink); }
+#character-power { background: var(--game-paper); border: 2px solid var(--game-wood); color: var(--game-ink); width: 184px; }
+.character-power-line, #character-power-name { font: 400 12px/1.2 var(--game-font); }
+#character-power-icon { color: #80602c; } #character-power-status { font-size: 12px; }
+#character-power.ready #character-power-status { color: var(--game-green); font-weight: 400; }
+.world-label { font-size: 15px; padding: 5px 10px; color: var(--game-paper); background: var(--game-green); border: 2px solid var(--game-edge); box-shadow: 0 3px 0 var(--game-edge); }
+.world-dot { background: var(--game-gold); } #chapter-label { color: var(--game-paper); font-size: 12px; font-weight: 400; }
+#hint { font-size: 16px; color: var(--game-paper); background: var(--game-green); }
+#toast, .idle { color: var(--game-ink); background: var(--game-paper); border: 3px solid var(--game-wood); box-shadow: 0 3px 0 var(--game-edge); font-size: 18px; }
+#toast { top: 152px; }
+.idle { top: 152px; width: min(300px, calc(100% - 24px)); }
+.chase-heading { font-weight: 400; } #chase-action { font-size: 15px; } #chase-time { font-size: 23px; }
+@media (max-width: 899px) { .world-label { left: 16px; top: 125px; transform: none; } }
+@media (max-width: 479px) {
+  .score-block .micro, .score-block .best { font-size: 10px; }
+  .hud .score-block { padding: 5px; }
+  .hud-right { gap: 4px; }
+  .coin-count { padding: 7px; }
+  .world-label { top: 140px; left: 8px; font-size: 13px; }
+  #toast, .idle { top: 180px; }
+  .play-controls { gap: 8px; }
+}
+@media (max-width: 359px) {
+  .hud-right .coin-count { position: absolute; top: 76px; left: 0; font-size: 19px; }
+  .hud .score-block { min-width: 60px; }
+  #character-power { max-width: calc(100vw - 90px); }
+  .world-label { top: 138px; }
+}
+@media (max-width: 299px) {
+  .play-controls { width: 100%; gap: 4px; }
+  .dpad { gap: 0; }
+  #app #character-call { min-width: 44px; max-width: 44px; font-size: 13px; padding: 0 1px; }
+  #app .dpad button { padding: 0; width: 44px; }
+}
+@media (max-height: 419px) {
+  .world-label { display: none; }
+  #toast, .idle { top: 132px; font-size: 16px; }
+  #toast { padding: 4px 8px; }
+}
+@media (max-height: 319px) {
+  .hud { top: 6px; }
+  .hud-tools { gap: 4px; }
+  #character-power { padding-block: 2px; }
+  #toast { top: 125px; max-width: calc(100% - 16px); }
+  .idle { top: 124px; padding: 4px 8px; font-size: 15px; }
+  #chase-action { font-size: 13px; } #chase-time { font-size: 18px; }
+}

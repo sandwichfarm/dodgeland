@@ -1,0 +1,49 @@
+/* The hand has one permanent screen position. Menus and touch controls reserve
+   its shelf instead of covering it or making owned cards a separate destination. */
+#app[data-hand-visible="true"] #market { bottom: var(--hand-space); }
+#app[data-hand-visible="true"] .bottom-bar { bottom: calc(var(--hand-space) + 8px); }
+#app[data-hand-visible="true"] .market-invitation { bottom: calc(var(--hand-space) + 60px); }
+#app[data-hand-visible="true"] #run-panel,
+#app[data-hand-visible="true"] #drawer.collection-board {
+  top: calc((100% - var(--hand-space)) / 2);
+  max-height: calc(100% - var(--hand-space) - 24px);
+}
+#app[data-hand-visible="true"] #drawer.collection-board { height: min(680px, calc(100% - var(--hand-space) - 24px)); }
+#app[data-hand-visible="true"][data-pause-open="true"][data-pause-page]:not([data-pause-page="home"]) #run-panel { height: min(500px, calc(100% - var(--hand-space) - 24px)); }
+
+@media (max-height: 749px) {
+  #app[data-hand-visible="true"][data-pause-open="true"] .pause-overview,
+  #app[data-hand-visible="true"][data-pause-open="true"] .pause-feather { display: none; }
+  #app[data-hand-visible="true"][data-pause-open="true"] #pause-heading { margin: 0 0 16px; }
+  #app[data-hand-visible="true"][data-pause-open="true"] .pause-topics { display: flex; gap: 10px; }
+  #app[data-hand-visible="true"][data-pause-open="true"] .pause-topics button { flex: 1; padding: 6px; }
+  #app[data-hand-visible="true"] #drawer.collection-board { grid-template-rows: auto minmax(0, 1fr) auto; }
+  #app[data-hand-visible="true"] #collection-tabs { display: none; }
+  #app[data-hand-visible="true"] #drawer .collection-description { display: none; }
+  #app[data-hand-visible="true"] #drawer .collection-showcase { grid-template-columns: minmax(0, 1fr); }
+  #app[data-hand-visible="true"] #drawer .collection-setting-note { display: none; }
+}
+@media (max-height: 399px) {
+  #app[data-hand-visible="true"][data-pause-open="true"] #run-panel { padding: 6px 10px; gap: 6px; border-width: 4px; }
+  #app[data-hand-visible="true"][data-pause-open="true"] #pause-heading { font-size: 26px; margin: 0 0 6px; }
+  #app[data-hand-visible="true"][data-pause-open="true"] #run-panel button,
+  #app[data-hand-visible="true"][data-pause-open="true"] #run-panel #play { min-height: 44px; font-size: 18px; padding: 4px; margin: 0; }
+  #app[data-hand-visible="true"][data-pause-open="true"][data-pause-page="home"] #run-panel { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #app[data-hand-visible="true"][data-pause-open="true"][data-pause-page="home"] #pause-content { grid-column: 1 / -1; }
+  #app[data-hand-visible="true"][data-pause-open="true"][data-pause-page="home"] .panel-bottom { display: flex; }
+  #app[data-hand-visible="true"][data-pause-open="true"] #run-panel #choose { min-height: 44px; font-size: 17px; padding: 4px; }
+  #app[data-hand-visible="true"][data-pause-open="true"] #run-panel #play { font-size: 0; gap: 0; }
+  #app[data-hand-visible="true"][data-pause-open="true"] #run-panel #play::before { content: 'Hop on'; font-size: 18px; }
+  #app[data-hand-visible="true"][data-pause-open="true"] #pause-reader { gap: 4px; }
+  #app[data-hand-visible="true"][data-pause-open="true"] #pause-reader-heading { font-size: 24px; }
+  #app[data-hand-visible="true"][data-pause-open="true"] #pause-reader-copy { font-size: 16px; line-height: 1.2; }
+  #app[data-hand-visible="true"] #drawer.collection-board { padding: 4px; gap: 4px; border-width: 4px; max-height: calc(100% - var(--hand-space) - 16px); height: calc(100% - var(--hand-space) - 16px); }
+  #app[data-hand-visible="true"] #drawer .collection-display h3 { font-size: 18px; }
+  #app[data-hand-visible="true"] #drawer .collection-showcase { gap: 3px; }
+  #app[data-hand-visible="true"] #drawer .collection-showcase > button { min-height: 44px; font-size: 16px; }
+  #app[data-hand-visible="true"] #drawer .collection-display { flex-direction: row; }
+  #app[data-hand-visible="true"] #drawer .collection-display img { width: 35%; height: 100%; }
+  #app[data-hand-visible="true"] #drawer [data-sound-page], #app[data-hand-visible="true"] #drawer [data-camp-page] { gap: 4px; }
+  #app[data-hand-visible="true"] #drawer [data-sound-page] h3, #app[data-hand-visible="true"] #drawer [data-camp-page] h3 { display: none; }
+  #app[data-hand-visible="true"] #drawer #collection-reader-copy { font-size: 16px; line-height: 1.2; }
+}

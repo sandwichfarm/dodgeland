@@ -1,0 +1,169 @@
+/* Ready and results use the same physical board and controls as pause. */
+#app[data-run-menu-open="true"] #run-panel {
+  display: flex; flex-direction: column; gap: 12px; width: min(810px, calc(100% - 56px));
+  max-height: calc(100% - 44px); padding: 24px 30px; overflow: visible;
+}
+#app[data-run-menu-open="true"] #ready-content, #app[data-run-menu-open="true"] #result-content { min-height: 0; overflow: visible; }
+#app[data-run-menu-open="true"] h2 { color: var(--game-ink); font: 400 44px/1.05 'Lilita One', ui-rounded, sans-serif; letter-spacing: 0; }
+#app[data-run-menu-open="true"] .run-menu-label { display: block; font-size: 18px; line-height: 1.15; color: #725332; }
+#app[data-run-menu-open="true"] .traveler-preview { display: flex; gap: 24px; justify-content: center; }
+#app[data-run-menu-open="true"] .traveler-preview img { width: 144px; height: 128px; object-fit: contain; image-rendering: auto; }
+#app[data-run-menu-open="true"] #traveler-name { margin: 6px 0; font-size: 48px; }
+#app[data-run-menu-open="true"] #traveler-note { display: block; font-size: 20px; line-height: 1.3; color: var(--game-ink); }
+#app[data-run-menu-open="true"] .ready-overview { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 18px; }
+#app[data-run-menu-open="true"] #ready-power, #app[data-run-menu-open="true"] .instructions { display: block; margin: 0; padding: 0; border: 0; color: var(--game-ink); font-size: 20px; line-height: 1.35; }
+#app[data-run-menu-open="true"] #ready-power strong { color: #78512b; font: inherit; font-size: 22px; }
+#app[data-run-menu-open="true"] #ready-power span { color: inherit; margin-top: 10px; }
+#app[data-run-menu-open="true"] #gamepad-help { grid-column: 1 / -1; font-size: 18px; }
+#app[data-run-menu-open="true"] #result-content { text-align: center; }
+#app[data-run-menu-open="true"] #result-kicker { text-transform: none; letter-spacing: .5px; }
+#app[data-run-menu-open="true"] #result-heading { display: flex; align-items: baseline; justify-content: center; gap: 12px; margin: 0; }
+#app[data-run-menu-open="true"] #result-score { font-size: 72px; color: #84602b; }
+#app[data-run-menu-open="true"] .result-distance-label { font-size: 30px; }
+#app[data-run-menu-open="true"] #reason { display: block; margin: 2px 0 14px; font-size: 22px; line-height: 1.15; color: var(--game-ink); }
+#app[data-run-menu-open="true"] .run-stats { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 14px; margin: 0; text-align: center; }
+#app[data-run-menu-open="true"] .run-stats > div { border-top: 2px solid #a8925c66; padding-top: 10px; min-width: 0; }
+#app[data-run-menu-open="true"] .run-stats dt { font-size: 17px; color: #725332; line-height: 1.2; }
+#app[data-run-menu-open="true"] .run-stats dd { margin: 4px 0 0; font-size: 32px; line-height: 1.1; overflow-wrap: anywhere; }
+#app[data-run-menu-open="true"] #result-route { display: block; font-size: 18px; line-height: 1.2; margin: 12px 0 4px; }
+#app[data-run-menu-open="true"] #run-reward { display: block; font-size: 16px; line-height: 1.25; font-weight: 400; margin: 0; color: #725332; }
+#app[data-run-menu-open="true"] #play { flex-shrink: 0; display: flex; justify-content: center; gap: 16px; margin: 0; min-height: 58px; font-size: 28px; }
+#app[data-run-menu-open="true"] .panel-bottom { display: flex; flex-shrink: 0; margin: 0; gap: 12px; }
+#app[data-run-menu-open="true"] .panel-bottom button { min-height: 48px; font-size: 22px; }
+#app[data-run-menu-open="true"] #choose { flex: 1; background: #365d48; color: var(--game-paper); }
+#app[data-run-menu-open="true"] #mode { background: #e6d39f; color: var(--game-ink); }
+#app[data-run-menu-open="true"] #goal { display: none; }
+#app[data-run-menu-open="true"] .run-menu-topics { display: none; gap: 8px; }
+#app[data-run-menu-open="true"] .run-menu-topics button { flex: 1; min-width: 0; font-size: 20px; padding: 6px; background: #e6d39f; }
+#app[data-run-menu-open="true"] .run-options-button { display: none; }
+#app[data-run-menu-open="true"] #run-menu-reader { order: -1; display: grid; grid-template-rows: auto minmax(0,1fr) auto; flex: 1; min-height: 0; gap: 14px; }
+#app[data-run-menu-open="true"] .run-menu-reader-heading { display: flex; align-items: center; gap: 12px; }
+#app[data-run-menu-open="true"] #run-menu-heading { margin: 0; font-size: 34px; }
+#app[data-run-menu-open="true"] #run-menu-copy { display: block; margin: 0; min-height: 0; font-size: 23px; line-height: 1.3; overflow-wrap: break-word; }
+#app[data-run-menu-open="true"] #run-menu-pages { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+#app[data-run-menu-open="true"] #run-menu-page-count { font-size: 20px; }
+#app[data-run-menu-open="true"][data-run-menu-page]:not([data-run-menu-page="home"]) #run-panel { height: min(500px,calc(100% - 44px)); }
+#app[data-run-menu-open="true"][data-run-menu-page]:not([data-run-menu-page="home"]):not([data-run-menu-page="options"]) .panel-bottom { display: none; }
+#app[data-run-menu-open="true"][data-run-menu-page="stats"] #run-menu-stat-page { display: grid; grid-template-columns: 1fr; align-items: center; }
+#app[data-run-menu-open="true"] #run-menu-stat-page > div { padding: 0; border: 0; }
+#app[data-run-menu-open="true"] #run-menu-stat-page dt { font-size: 22px; }
+#app[data-run-menu-open="true"] #run-menu-stat-page dd { font-size: 42px; }
+#app[data-run-menu-open="true"][data-run-menu-page="seed"] #run-menu-reader { flex: 0; grid-template-rows: auto; }
+#app[data-run-menu-open="true"][data-run-menu-page="seed"] #result-content { flex: 1; display: flex; align-items: center; }
+#app[data-run-menu-open="true"][data-run-menu-page="options"] #run-menu-reader { grid-template-rows: auto; align-content: start; }
+#app[data-run-menu-open="true"][data-run-menu-page="options"] #run-menu-copy { display: none; }
+
+@media (max-width: 899px), (max-height: 599px) {
+  #app[data-run-menu-open="true"] #run-panel { width: min(500px,calc(100% - 36px)); padding: 20px; gap: 14px; max-height: calc(100% - 36px); }
+  #app[data-run-menu-open="true"] .ready-overview { display: none; }
+  #app[data-run-menu-open="true"] .traveler-preview { flex-direction: column; gap: 10px; text-align: center; }
+  #app[data-run-menu-open="true"] .traveler-preview img { width: 130px; height: 120px; }
+  #app[data-run-menu-open="true"] #traveler-name { font-size: 40px; }
+  #app[data-run-menu-open="true"] #traveler-note { font-size: 18px; }
+  #app[data-run-menu-open="true"] .run-menu-topics { display: flex; margin-top: 16px; }
+  #app[data-run-menu-open="true"] .run-menu-topics button { min-height: 48px; }
+  #app[data-run-menu-open="true"] #result-stats, #app[data-run-menu-open="true"] #result-route, #app[data-run-menu-open="true"] #run-reward { display: none; }
+  #app[data-run-menu-open="true"] #result-heading { margin: 10px 0; }
+  #app[data-run-menu-open="true"] #result-score { font-size: 80px; }
+  #app[data-run-menu-open="true"] #result-kicker { font-size: 18px; }
+  #app[data-run-menu-open="true"] #reason { margin: 4px 0 18px; font-size: 22px; }
+  #app[data-run-menu-open="true"] #play { font-size: 25px; min-height: 56px; }
+  #app[data-run-menu-open="true"] .panel-bottom button { font-size: 20px; padding: 6px 8px; }
+  #app[data-run-menu-open="true"] #run-menu-copy { font-size: 20px; line-height: 1.35; }
+  #app[data-run-menu-open="true"] #run-menu-heading { font-size: 30px; }
+}
+@media (max-height: 459px) {
+  #app[data-run-menu-open="true"] #run-panel { width: min(570px,calc(100% - 32px)); padding: 12px 18px; gap: 10px; max-height: calc(100% - 28px); }
+  #app[data-run-menu-open="true"] .traveler-preview { flex-direction: row; text-align: left; gap: 12px; }
+  #app[data-run-menu-open="true"] .traveler-preview img { width: 70px; height: 60px; }
+  #app[data-run-menu-open="true"] #traveler-name { font-size: 32px; margin: 0; }
+  #app[data-run-menu-open="true"] #traveler-note { display: none; }
+  #app[data-run-menu-open="true"] .run-menu-label { font-size: 16px; }
+  #app[data-run-menu-open="true"] #result-heading { margin: 0; }
+  #app[data-run-menu-open="true"] #result-score { font-size: 48px; }
+  #app[data-run-menu-open="true"] #reason { font-size: 18px; margin: 2px 0 6px; }
+  #app[data-run-menu-open="true"] .run-menu-topics { margin-top: 8px; }
+  #app[data-run-menu-open="true"] .run-menu-topics button, #app[data-run-menu-open="true"] #play { min-height: 44px; font-size: 20px; }
+  #app[data-run-menu-open="true"] .panel-bottom { display: none; }
+  #app[data-run-menu-open="true"] .run-options-button { display: block; }
+  #app[data-run-menu-open="true"][data-run-menu-page="options"] .panel-bottom { display: flex; }
+  #app[data-run-menu-open="true"][data-run-menu-page]:not([data-run-menu-page="home"]) #run-panel { height: calc(100% - 28px); }
+  #app[data-run-menu-open="true"] #run-menu-reader { gap: 8px; }
+  #app[data-run-menu-open="true"] #run-menu-copy { font-size: 20px; line-height: 1.25; }
+  #app[data-run-menu-open="true"] #run-menu-heading { font-size: 27px; }
+  #app[data-run-menu-open="true"] #run-menu-stat-page dt { font-size: 18px; }
+  #app[data-run-menu-open="true"] #run-menu-stat-page dd { font-size: 28px; }
+}
+@media (max-width: 319px), (max-height: 319px) {
+  #app[data-run-menu-open="true"] #run-panel { width: calc(100% - 24px); max-height: calc(100% - 24px); padding: 8px; gap: 6px; }
+  #app[data-run-menu-open="true"] .traveler-preview { display: flex; flex-direction: row; text-align: left; gap: 6px; }
+  #app[data-run-menu-open="true"] .traveler-preview img { width: 60px; height: 56px; }
+  #app[data-run-menu-open="true"] #traveler-name { font-size: 28px; margin: 0; }
+  #app[data-run-menu-open="true"] #traveler-note, #app[data-run-menu-open="true"] .traveler-preview .run-menu-label { display: none; }
+  #app[data-run-menu-open="true"] #result-kicker { display: none; }
+  #app[data-run-menu-open="true"] #reason { display: none; }
+  #app[data-run-menu-open="true"] #result-heading { margin: 0; }
+  #app[data-run-menu-open="true"] #result-score { font-size: 42px; }
+  #app[data-run-menu-open="true"] .result-distance-label { font-size: 23px; }
+  #app[data-run-menu-open="true"] .run-menu-topics { margin-top: 6px; gap: 6px; }
+  #app[data-run-menu-open="true"] .run-menu-topics button, #app[data-run-menu-open="true"] #play, #app[data-run-menu-open="true"] #run-menu-reader button, #app[data-run-menu-open="true"] .panel-bottom button { min-height: 44px; min-width: 44px; padding: 5px; font-size: 18px; }
+  #app[data-run-menu-open="true"] .panel-bottom { display: none; }
+  #app[data-run-menu-open="true"] .run-options-button { display: block; }
+  #app[data-run-menu-open="true"][data-run-menu-page="options"] .panel-bottom { display: flex; gap: 6px; }
+  #app[data-run-menu-open="true"][data-run-menu-page]:not([data-run-menu-page="home"]) #run-panel { height: calc(100% - 24px); }
+  #app[data-run-menu-open="true"] #run-menu-reader { gap: 6px; }
+  #app[data-run-menu-open="true"] .run-menu-reader-heading { gap: 8px; }
+  #app[data-run-menu-open="true"] #run-menu-heading { font-size: 24px; }
+  #app[data-run-menu-open="true"] #run-menu-copy { font-size: 18px; line-height: 1.25; }
+  #app[data-run-menu-open="true"] #run-menu-stat-page dt { font-size: 17px; }
+  #app[data-run-menu-open="true"] #run-menu-stat-page dd { font-size: 24px; }
+  #app[data-run-menu-open="true"] #run-menu-page-count { font-size: 18px; }
+}
+@media (min-width: 900px) and (min-height: 600px) {
+  #app[data-run-menu-open="true"] #run-panel { padding: 20px 28px; }
+  #app[data-run-menu-open="true"] #result-content .run-menu-home { display: grid; grid-template-columns: minmax(180px, .8fr) minmax(0, 1.7fr); column-gap: 24px; align-items: center; }
+  #app[data-run-menu-open="true"] #result-kicker { grid-column: 1 / -1; margin-bottom: 10px; font-size: 20px; }
+  #app[data-run-menu-open="true"] #result-heading { grid-column: 1; grid-row: 2; }
+  #app[data-run-menu-open="true"] #reason { grid-column: 1; grid-row: 3; margin: 0; font-size: 20px; }
+  #app[data-run-menu-open="true"] #result-stats { grid-column: 2; grid-row: 2 / 4; grid-template-columns: 1fr 1fr; gap: 12px; }
+  #app[data-run-menu-open="true"] #result-stats > div { padding-top: 7px; }
+  #app[data-run-menu-open="true"] #result-route, #app[data-run-menu-open="true"] #run-reward { grid-column: 1 / -1; }
+  #app[data-run-menu-open="true"] .traveler-preview img { width: 112px; height: 100px; }
+  #app[data-run-menu-open="true"] #traveler-name { font-size: 44px; }
+  #app[data-run-menu-open="true"] .ready-overview { gap: 20px; margin-top: 14px; }
+  #app[data-run-menu-open="true"] #gamepad-help { display: none; }
+  #app[data-run-menu-open="true"] #ready-content .run-menu-topics { display: flex; }
+  #app[data-run-menu-open="true"] #ready-content .ready-overview { display: none; }
+}
+@media (max-width: 319px), (max-height: 319px) {
+  #app[data-run-menu-open="true"] #run-panel { border-width: 4px; }
+}
+.result-heading-small { display: none; }
+@media (max-width: 319px), (max-height: 319px) {
+  #app[data-run-menu-open="true"] #result-heading { flex-wrap: wrap; gap: 0 8px; }
+  #app[data-run-menu-open="true"] .result-heading-small { display: block; flex-basis: 100%; font-size: 19px; }
+}
+.run-label-short { display: none; }
+@media (max-width: 319px), (max-height: 319px) {
+  #app[data-run-menu-open="true"] .run-menu-topics button { padding-inline: 2px; }
+  #app[data-run-menu-open="true"] .run-label-full { display: none; }
+  #app[data-run-menu-open="true"] .run-label-short { display: inline; }
+}
+/* Empty source sections never consume a gap on an information page. */
+#app[data-run-menu-open="true"][data-run-menu-page]:not([data-run-menu-page="home"]) #ready-content,
+#app[data-run-menu-open="true"][data-run-menu-page]:not([data-run-menu-page="home"]):not([data-run-menu-page="seed"]) #result-content { display: none; }
+@media (max-width: 319px), (max-height: 319px) {
+  #app[data-run-menu-open="true"][data-run-menu-page="stats"] #run-panel { padding-block: 4px; }
+}
+@media (max-width: 319px), (max-height: 319px) {
+  #app[data-run-menu-open="true"][data-run-menu-page="seed"] #run-panel { padding-block: 4px; }
+}
+@media (max-height: 459px) {
+  #app[data-run-menu-open="true"] .run-label-full { display: none; }
+  #app[data-run-menu-open="true"] .run-label-short { display: inline; }
+}
+#app[data-run-menu-open="true"][data-run-menu-page="seed"] #run-menu-reader { flex: 0 0 auto; min-height: 44px; }
+@media (max-width: 359px) and (min-height: 460px) {
+  #app[data-run-menu-open="true"] .traveler-preview img { width: 112px; height: 100px; }
+}
+#app[data-run-menu-open="true"] #result-score { line-height: 1.15; }

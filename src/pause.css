@@ -1,0 +1,84 @@
+/* Shared font, timber, paper, controls and backdrop live in game-ui.css. */
+#app[data-run-state="paused"][data-pause-open="true"] #run-panel {
+  display: flex; flex-direction: column; gap: 16px; width: min(790px, calc(100% - 64px)); max-height: calc(100% - 48px);
+  padding: 26px 32px 28px; overflow: visible;
+}
+#app[data-pause-open="true"] #pause-content { min-height: 0; overflow: visible; }
+#app[data-pause-open="true"] #pause-home { text-align: center; }
+#app[data-pause-open="true"] #pause-heading { display: block; margin: 0 0 24px; font: 400 48px/1.05 'Lilita One', ui-rounded, sans-serif; letter-spacing: 0; color: var(--pause-ink); text-shadow: 0 2px 0 #ffffff80; }
+.pause-feather { display: none; }
+.pause-heading-small { display: none; }
+#app[data-pause-open="true"] .pause-overview { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; text-align: left; }
+#app[data-pause-open="true"] .pause-rule-sheet h3 { font: inherit; margin: 0 0 12px; font-size: 24px; }
+#app[data-pause-open="true"] #pause-rules { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+#app[data-pause-open="true"] #pause-rules b { display: inline-block; width: 46px; text-align: center; color: #80562d; font-weight: inherit; }
+#app[data-pause-open="true"] .pause-rule-sheet p { display: block; font-size: 20px; line-height: 1.3; margin: 14px 0 0; }
+#app[data-pause-open="true"] #pause-power { display: block; margin: 0; padding: 0 0 0 24px; border: 0; border-left: 2px solid #a8925c55; font-size: 22px; line-height: 1.3; }
+#app[data-pause-open="true"] #pause-power strong { color: #78512b; font-size: 24px; font-weight: inherit; }
+#app[data-pause-open="true"] #pause-power span { display: block; margin-top: 12px; color: var(--pause-ink); font-size: 20px; }
+#app[data-pause-open="true"] #run-panel button { min-width: 44px; min-height: 56px; border: 3px solid var(--pause-edge); border-radius: 6px; padding: 8px 16px; font: 400 26px/1.1 'Lilita One', ui-rounded, sans-serif; color: var(--pause-ink); background: var(--pause-gold); box-shadow: inset 0 3px 0 #fff7cc80, 0 4px 0 var(--pause-edge); }
+#app[data-pause-open="true"] #run-panel button:hover { background: color-mix(in srgb, var(--pause-gold) 80%, white); }
+#app[data-pause-open="true"] #run-panel button:active { transform: translateY(2px); box-shadow: inset 0 1px 0 #fff7cc80, 0 2px 0 var(--pause-edge); }
+#app[data-pause-open="true"] #run-panel button:focus-visible { outline: 3px solid #4b8b7a; outline-offset: 4px; }
+#app[data-pause-open="true"] #run-panel #play { display: flex; flex-shrink: 0; justify-content: center; gap: 18px; margin-top: 8px; min-height: 64px; font-size: 30px; }
+#app[data-pause-open="true"] .panel-bottom { display: flex; margin: 0; flex-shrink: 0; }
+#app[data-pause-open="true"] #run-panel #choose { width: 100%; background: color-mix(in srgb, #365d48 94%, var(--primary)); color: var(--pause-paper); font-size: 23px; }
+#app[data-pause-open="true"] .pause-topics { display: none; }
+#app[data-pause-open="true"][data-pause-page]:not([data-pause-page="home"]) #run-panel #play, #app[data-pause-open="true"][data-pause-page]:not([data-pause-page="home"]) .panel-bottom { display: none; }
+#app[data-pause-open="true"][data-pause-page]:not([data-pause-page="home"]) #run-panel { height: min(500px, calc(100% - 48px)); }
+#app[data-pause-open="true"][data-pause-page]:not([data-pause-page="home"]) #pause-content { flex: 1; }
+#app[data-pause-open="true"] #pause-reader { display: grid; height: 100%; min-height: 0; grid-template-rows: auto minmax(0, 1fr) auto; gap: 20px; }
+#app[data-pause-open="true"] .pause-reader-heading { display: flex; gap: 12px; align-items: center; }
+#app[data-pause-open="true"] #pause-reader-heading { display: block; margin: 0; font: 400 40px/1.05 'Lilita One', ui-rounded, sans-serif; letter-spacing: 0; }
+#app[data-pause-open="true"] #pause-reader-copy { display: block; margin: 0; min-height: 0; font-size: 24px; line-height: 1.35; overflow-wrap: break-word; }
+#app[data-pause-open="true"] #pause-pages { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+#app[data-pause-open="true"] #pause-page-count { font-size: 20px; }
+
+@media (max-width: 899px), (max-height: 599px) {
+  #app[data-run-state="paused"][data-pause-open="true"] #run-panel { width: min(510px, calc(100% - 40px)); padding: 20px; gap: 14px; border-width: 6px; }
+  #app[data-pause-open="true"] #pause-heading { margin: 12px 0 24px; font-size: 40px; }
+  #app[data-pause-open="true"] .pause-feather { display: block; width: 60px; height: 60px; margin: 0 auto; fill: #d6ab5f; stroke: #876132; stroke-width: 3px; }
+  #app[data-pause-open="true"] .pause-overview { display: none; }
+  #app[data-pause-open="true"] .pause-topics { display: flex; gap: 10px; }
+  #app[data-pause-open="true"] .pause-topics button { flex: 1; min-width: 0; min-height: 48px; font-size: 20px; padding: 6px; background: #e7d6a2; }
+  #app[data-pause-open="true"] #run-panel #play { min-height: 56px; font-size: 25px; margin-top: 6px; gap: 10px; padding-inline: 12px; }
+  #app[data-pause-open="true"] #run-panel #choose { min-height: 48px; font-size: 21px; }
+  #app[data-pause-open="true"] #pause-reader-heading { font-size: 30px; }
+  #app[data-pause-open="true"] #pause-reader-copy { font-size: 20px; line-height: 1.35; }
+  #app[data-pause-open="true"] #pause-reader { gap: 16px; }
+  #app[data-pause-open="true"] #pause-reader button { min-height: 48px; padding: 4px 10px; }
+}
+@media (max-height: 459px) {
+  #app[data-run-state="paused"][data-pause-open="true"] #run-panel { width: min(570px, calc(100% - 40px)); max-height: calc(100% - 32px); padding: 14px 20px; gap: 12px; }
+  #app[data-pause-open="true"] .pause-feather { display: none; }
+  #app[data-pause-open="true"] #pause-heading { margin: 0 0 16px; font-size: 34px; }
+  #app[data-pause-open="true"] #run-panel #play { margin-top: 0; min-height: 48px; }
+  #app[data-pause-open="true"] #run-panel button { min-height: 44px; }
+  #app[data-pause-open="true"][data-pause-page]:not([data-pause-page="home"]) #run-panel { height: calc(100% - 32px); }
+  #app[data-pause-open="true"] #pause-reader { gap: 10px; }
+  #app[data-pause-open="true"] #pause-reader-copy { font-size: 20px; line-height: 1.25; }
+  #app[data-pause-open="true"] #pause-reader-heading { font-size: 30px; }
+  #app[data-pause-open="true"] #pause-reader button { min-height: 44px; }
+}
+@media (min-height: 460px) and (max-width: 359px) {
+  #app[data-pause-open="true"] .pause-feather { width: 48px; height: 48px; }
+  #app[data-pause-open="true"] #pause-heading { font-size: 36px; }
+}
+@media (max-width: 319px), (max-height: 319px) {
+  #app[data-run-state="paused"][data-pause-open="true"] #run-panel { width: calc(100% - 24px); max-height: calc(100% - 24px); padding: 10px; gap: 8px; border-width: 4px; }
+  #app[data-pause-open="true"] #pause-heading { font-size: 28px; margin: 0 0 8px; }
+  #app[data-pause-open="true"] .pause-heading-full { display: none; }
+  #app[data-pause-open="true"] .pause-heading-small { display: inline; }
+  #app[data-pause-open="true"] .pause-feather { display: none; }
+  #app[data-pause-open="true"] #run-panel button, #app[data-pause-open="true"] #run-panel #play, #app[data-pause-open="true"] #run-panel #choose { min-height: 44px; font-size: 19px; padding: 5px 7px; }
+  #app[data-pause-open="true"] .pause-topics { gap: 8px; }
+  #app[data-pause-open="true"] .pause-topics button { font-size: 18px; }
+  #app[data-pause-open="true"][data-pause-page]:not([data-pause-page="home"]) #run-panel { height: calc(100% - 24px); }
+  #app[data-pause-open="true"] #pause-reader { gap: 8px; }
+  #app[data-pause-open="true"] #pause-reader-heading { font-size: 26px; }
+  #app[data-pause-open="true"] #pause-reader-copy { font-size: 18px; line-height: 1.25; }
+  #app[data-pause-open="true"] #pause-page-count { font-size: 18px; }
+}
+@keyframes pause-board-in { from { opacity: 0; transform: translate(-50%, calc(-50% + 12px)) scale(.97); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+#app[data-run-state="paused"].pause-less-motion #run-panel { animation: none; }
+@media (prefers-reduced-motion: reduce) { #app[data-run-state="paused"][data-pause-open="true"] #run-panel { animation: none; } }

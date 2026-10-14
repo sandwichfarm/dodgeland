@@ -1,0 +1,33 @@
+# Dependencies and build output
+node_modules/
+/dist/
+/dist-dev/
+.pnpm-store/
+.vite/
+*.tsbuildinfo
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+.npmrc
+*.local
+/.napplet/*
+!/.napplet/config.example.json
+
+# Generated test evidence, previews and caches
+/artifacts/
+/coverage/
+/test-results/
+/playwright-report/
+/.playwright-mcp/
+/preview.png
+/compact-preview.png
+/*-paja.png
+.turbo/
+.cache/
+*.log
+
+# Operating-system files
+.DS_Store
+Thumbs.db

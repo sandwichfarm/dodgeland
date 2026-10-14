@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#f4f2df"><title>Down to Duck</title></head>
+<body>
+<div id="app">
+  <div class="too-small" role="status">Needs 240×240 to play — enlarge this pane.</div>
+  <main class="game-surface">
+    <canvas id="scene" tabindex="-1" aria-label="Crossing world. Tap to hop forward, swipe to move in any direction."></canvas>
+    <div class="hud">
+      <div class="score-block"><span class="micro">DISTANCE</span><strong id="score">0</strong><span id="best" class="best">BEST 0</span></div>
+      <div class="hud-tools">
+        <div class="hud-right"><span class="coin-count" title="Run coins: spend at a market every 100 points. Lost on death." aria-label="Run coins"><span aria-hidden="true">◆</span> <b id="coins">0</b></span><button id="sound-toggle" aria-label="Mute sounds" title="Mute sounds" aria-pressed="false">♪</button><button id="pause" aria-label="Pause game" title="Pause game">Ⅱ</button><button id="collection" aria-label="Travelers and worlds" title="Travelers, worlds and sounds">▦</button></div>
+        <div id="pluck" role="meter" aria-label="Pluck" aria-valuemin="0" aria-valuemax="3" aria-valuenow="3" aria-valuetext="3 of 3 feathers" title="Pluck: rear bumps cost 1 feather; side hits cost 2. Recover half a feather every 100 hops.">
+          <span class="pluck-label">PLUCK</span><span id="pluck-feathers" aria-hidden="true"></span><span id="pluck-value" aria-hidden="true">3</span>
+        </div>
+        <div id="character-power" class="ready" role="meter" aria-label="Character power" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" aria-valuetext="Ready. Activates automatically to avert danger.">
+          <span class="character-power-line" aria-hidden="true"><span id="character-power-icon"></span><strong id="character-power-name"></strong><span id="character-power-status">Ready</span></span>
+          <span class="character-power-track" aria-hidden="true"><span id="character-power-fill"></span></span>
+        </div>
+        <div id="active-run-powers" role="group" aria-label="Active timed powers" hidden></div>
+      </div>
+    </div>
+    <div class="world-label"><span class="world-dot"></span><span id="world-label">Apricot Grove</span><span id="chapter-label">CHAPTER 1</span></div>
+    <div id="toast" role="status" aria-live="polite"></div>
+    <div id="idle" class="idle" hidden>
+      <div class="chase-heading"><span id="chase-message" role="status" aria-live="polite">Wave closing in</span><strong id="chase-time" aria-hidden="true"></strong></div>
+      <span id="chase-action">Hop ↑ forward to escape</span>
+      <div id="chase-meter" role="progressbar" aria-label="Time before the wave catches you" aria-valuemin="0" aria-valuemax="5" aria-valuenow="5"><span id="chase-fill"></span></div>
+    </div>
+    <section id="run-panel" class="run-panel game-board" aria-label="Run controls">
+      <div id="ready-content">
+        <div class="run-menu-home" data-run-home>
+          <div class="traveler-preview"><img id="traveler-image" alt=""><div><span class="run-menu-label">Your traveler</span><h2 id="traveler-name">Butter</h2><span id="traveler-note">A little duck. A very big adventure.</span></div></div>
+          <div class="ready-overview"><p id="ready-power" class="power-description"></p><p class="instructions" id="ready-instructions">Tap to hop. Swipe to dodge.<br>Ride the logs. Mind the trains.<br><span id="chase-instructions">Outrun the wave. Pursuers appear later.</span><br>Market every 100 hops · spend this run’s coins.</p><p id="gamepad-help" class="instructions" hidden>Stick / D-pad to dodge · A to hop<br>X to call · Start to pause · Y for collection<br>LB to visit a market</p></div>
+          <div class="run-menu-topics"><button type="button" data-run-topic="help" aria-label="How to play"><span class="run-label-full">How to play</span><span class="run-label-short">Help</span></button><button type="button" data-run-topic="power">Power</button><button type="button" data-run-topic="options" class="run-options-button" aria-label="More run options"><span class="run-label-full">Options</span><span class="run-label-short" aria-hidden="true">•••</span></button></div>
+        </div>
+      </div>
+      <div id="result-content" hidden>
+        <div class="run-menu-home" data-run-home>
+          <span id="result-kicker" class="run-menu-label">A little further next time</span><h2 id="result-heading"><span class="result-heading-small">Run over</span><span id="result-score">0</span><span class="result-distance-label">hops</span></h2><p id="reason"></p>
+          <dl id="result-stats" class="run-stats"><div><dt>Coins found</dt><dd id="result-coins">0</dd></div><div><dt>Active time</dt><dd id="result-time">0:00</dd></div><div><dt id="result-best-label">Arcade best</dt><dd id="result-best">0</dd></div><div><dt>Chapter</dt><dd id="result-chapter">1</dd></div></dl>
+          <p id="result-route"></p><p id="run-reward" class="reward"></p>
+          <div class="run-menu-topics"><button type="button" data-run-topic="stats">Stats</button><button type="button" data-run-topic="seed">Seed</button><button type="button" data-run-topic="options" class="run-options-button" aria-label="More run options"><span class="run-label-full">Options</span><span class="run-label-short" aria-hidden="true">•••</span></button></div>
+        </div>
+        <div id="run-seed" hidden><div class="run-seed-heading"><label for="run-seed-code">Run seed · tap to copy</label><button id="copy-seed" type="button">Copy seed</button></div><textarea id="run-seed-code" readonly rows="2" spellcheck="false" data-napplet-select="text" aria-label="Run seed. Activate to copy." aria-describedby="copy-seed-status"></textarea><span id="copy-seed-status" role="status" aria-live="polite"></span></div>
+      </div>
+      <section id="run-menu-reader" aria-labelledby="run-menu-heading" hidden>
+        <div class="run-menu-reader-heading"><button id="run-menu-back" type="button" aria-label="Back to run menu">←</button><h2 id="run-menu-heading"></h2></div>
+        <p id="run-menu-copy"></p><dl id="run-menu-stat-page" class="run-stats" hidden></dl>
+        <div id="run-menu-pages"><button id="run-menu-prev" type="button" aria-label="Previous information page">←</button><span id="run-menu-page-count" aria-live="polite"></span><button id="run-menu-next" type="button" aria-label="Next information page">→</button></div>
+      </section>
+      <div id="pause-content" hidden>
+        <div id="pause-home">
+          <svg class="pause-feather" viewBox="0 0 64 64" aria-hidden="true"><path d="M12 44 15 25 35 8 57 5 58 26 38 46 21 49Z"/><path d="m8 58 33-33m-8 8 0-13m-7 20 14 0"/></svg>
+          <h2 id="pause-heading"><span class="pause-heading-full">Take a breather.</span><span class="pause-heading-small">Paused.</span></h2>
+          <div class="pause-overview">
+            <section class="pause-rule-sheet" aria-labelledby="pause-rules-heading"><h3 id="pause-rules-heading">Mind your feathers</h3><ul id="pause-rules"><li><b>−1</b> Rear bump</li><li><b>−2</b> Side hit</li><li><b>+½</b> Every 100 hops</li></ul><p>Fatal hazards end the run unless your power saves you.</p></section>
+            <p id="pause-power" class="power-description"></p>
+          </div>
+          <div class="pause-topics"><button type="button" data-pause-topic="rules">Rules</button><button type="button" data-pause-topic="power">Power</button></div>
+        </div>
+        <section id="pause-reader" aria-labelledby="pause-reader-heading" hidden>
+          <div class="pause-reader-heading"><button id="pause-back" type="button" aria-label="Back to pause menu">←</button><h2 id="pause-reader-heading"></h2></div>
+          <p id="pause-reader-copy"></p>
+          <div id="pause-pages"><button id="pause-prev" type="button" aria-label="Previous information page">←</button><span id="pause-page-count" aria-live="polite"></span><button id="pause-next" type="button" aria-label="Next information page">→</button></div>
+        </section>
+      </div>
+      <button id="play" class="primary">Let’s hop <span aria-hidden="true">↗</span></button>
+      <div class="panel-bottom"><button id="choose">Travelers</button><button id="mode" title="Switch between Arcade and a slower Stroll">Arcade ↔</button></div>
+      <p id="goal" class="goal"></p>
+    </section>
+    <div class="bottom-bar"><span id="hint">Tap anywhere to begin</span><div class="play-controls"><button id="character-call" aria-label="Make Butter quack">Quack</button><div class="dpad" aria-label="Direction controls"><button data-direction="left" aria-label="Hop left">←</button><button data-direction="back" aria-label="Hop backward">↓</button><button data-direction="forward" aria-label="Hop forward">↑</button><button data-direction="right" aria-label="Hop right">→</button></div></div></div>
+    <div class="market-invitation"><button id="market-open" hidden>Market</button><span id="market-announcement" class="market-announcement" role="status" aria-live="polite"></span></div>
+    <div id="run-inventory" aria-label="Your hand" hidden></div>
+    <section id="market" role="dialog" aria-modal="true" aria-labelledby="market-heading" hidden>
+      <canvas id="market-scene" aria-hidden="true"></canvas>
+      <div class="market-toolbar"><h2 id="market-heading">Market</h2><button id="market-picks-back" type="button" data-market-action="picks-back" data-market-key="picks-back" aria-label="Back to pack choices" hidden>←</button><span id="market-wallet" aria-label="Run coins">0 ◆</span><button id="market-skip" type="button" data-market-action="skip" data-market-key="skip" aria-label="Skip pack. Keep no cards; coins are not refunded." title="Keep no cards; coins are not refunded." hidden>Skip<span class="market-skip-label"> pack</span></button><button id="market-close" type="button" data-market-action="close" data-market-key="close" aria-label="Leave market and keep hopping"><span class="market-close-label">Hop on </span><span aria-hidden="true">↗</span></button></div>
+      <p id="market-window" class="market-meta"></p>
+      <section id="market-traveler" aria-labelledby="market-traveler-name">
+        <div id="market-traveler-model" tabindex="0" data-market-key="traveler-preview" aria-label="Rotate your current traveler"></div>
+        <div class="market-traveler-details"><span class="market-traveler-label">Your traveler</span><strong id="market-traveler-name"></strong><p id="market-traveler-outfit"></p></div>
+      </section>
+      <div class="market-view-tabs" role="group" aria-label="Market sections">
+        <button id="market-shop-tab" type="button" data-market-action="view" data-market-key="view:shop" data-id="shop" aria-pressed="true" aria-controls="market-table"><span>Market</span><span id="market-tab-wallet" aria-hidden="true">0 ◆</span></button>
+        <button id="market-wardrobe-tab" type="button" data-market-action="view" data-market-key="view:wardrobe" data-id="wardrobe" aria-pressed="false" aria-controls="market-wardrobe">Wardrobe</button>
+      </div>
+      <div class="market-view-heading"><h3 id="market-view-heading">Choose a find</h3></div>
+      <div class="market-workspace">
+        <section id="market-table" aria-label="Market stock"><div id="market-offers"></div></section>
+        <section id="market-wardrobe" aria-label="Your wardrobe" hidden><div id="market-wardrobe-items"></div></section>
+        <section id="market-draft" aria-labelledby="market-draft-heading" hidden>
+          <div class="market-draft-heading"><h3 id="market-draft-heading">Choose your card</h3><span id="market-bonus" hidden>✦ BONUS</span><p id="market-draft-rule"></p></div>
+          <div id="market-choices" class="market-hand" role="group" aria-label="Cards in this pack"></div>
+        </section>
+        <section id="market-inspect" aria-labelledby="market-inspect-name" hidden>
+          <div id="market-inspect-art" aria-hidden="true"></div>
+          <div class="market-inspect-copy"><span id="market-inspect-kind"></span><h3 id="market-inspect-name"></h3><p id="market-inspect-description"></p><p id="market-inspect-note" role="status" aria-live="polite"></p></div>
+          <div class="market-inspect-actions"><button id="market-inspect-back" type="button" data-market-action="back" data-market-key="back">← Back</button><button id="market-inspect-action" type="button"></button></div>
+        </section>
+      </div>
+      <div class="market-bottom">
+        <div id="market-pagination" aria-label="Item pages" hidden><button id="market-prev" type="button" data-market-action="page" data-market-key="page:prev" data-id="prev" aria-label="Previous items">←</button><span id="market-page-count" aria-live="polite"></span><button id="market-next" type="button" data-market-action="page" data-market-key="page:next" data-id="next" aria-label="Next items">→</button></div>
+        <div id="market-draft-footer" class="market-draft-footer" hidden><span id="market-pick-count" role="status" aria-live="polite">0 of 1 selected</span><button id="market-claim" type="button" data-market-action="claim" data-market-key="claim" disabled>Keep 1 card</button></div>
+        <div id="market-reveal" aria-live="polite" hidden></div><p id="market-status" role="status" aria-live="polite"></p><span class="market-loss-note">Finds last this run.</span>
+      </div>
+    </section>
+    <aside id="drawer" class="game-board collection-board" role="dialog" aria-modal="true" aria-labelledby="collection-heading" aria-owns="run-inventory" hidden>
+      <div class="collection-top"><button id="collection-sections" type="button" aria-label="Choose collection section">☰</button><h2 id="collection-heading">Travelers</h2><button id="close-drawer" type="button" aria-label="Close collection">×</button></div>
+      <nav id="collection-tabs" aria-label="Collection sections"><button id="travelers-tab" type="button" aria-pressed="true">Travelers</button><button id="worlds-tab" type="button" aria-pressed="false">Worlds</button><button id="sounds-tab" type="button" aria-pressed="false">Sounds</button><button id="camp-tab" type="button" aria-pressed="false">Camp</button></nav>
+      <div id="collection-menu" hidden><button type="button" data-collection-tab="travelers">Travelers</button><button type="button" data-collection-tab="worlds">Worlds</button><button type="button" data-collection-tab="sounds">Sounds</button><button type="button" data-collection-tab="camp">Camp</button></div>
+      <div id="collection-body">
+        <section id="traveler-grid" class="collection-showcase" aria-label="Traveler"><div class="collection-display"><img id="collection-traveler-image" alt=""><h3 id="collection-traveler-name"></h3></div><div class="collection-description"><p id="collection-traveler-note"></p><h3 id="collection-power-name"></h3><p id="collection-power-copy"></p><p id="collection-unlock"></p></div><button id="collection-traveler-select" type="button"></button></section>
+        <section id="world-grid" class="collection-showcase" aria-label="World" hidden><div class="collection-display"><img id="collection-world-image" alt=""><h3 id="collection-world-name"></h3></div><div class="collection-description"><p id="collection-world-note"></p><p>Your choice sets the beginning of your next run. New places unfold as you hop.</p></div><button id="collection-world-select" type="button"></button></section>
+        <section id="sound-panel" aria-label="Sound settings" hidden>
+          <div data-sound-page="pack"><h3>Sound pack</h3><select id="sound-pack" aria-label="Sound pack"></select><p class="collection-setting-note">A whole new sound for your adventure.</p></div>
+          <div data-sound-page="mute" hidden><h3>Quiet time</h3><label class="collection-check"><input type="checkbox" id="sound-muted"> Mute sounds</label><p class="collection-setting-note">Keep your mix for when sound returns.</p></div>
+          <div data-sound-page="music" hidden><h3>Music</h3><label for="music-volume">Music <output id="music-volume-value" for="music-volume">60%</output></label><input id="music-volume" type="range" min="0" max="100" value="60"></div>
+          <div data-sound-page="ambience" hidden><h3>World sounds</h3><label for="ambience-volume">Ambience <output id="ambience-volume-value" for="ambience-volume">65%</output></label><input id="ambience-volume" type="range" min="0" max="100" value="65"></div>
+          <div data-sound-page="effects" hidden><h3>Hops &amp; horns</h3><label for="effects-volume">Effects <output id="effects-volume-value" for="effects-volume">100%</output></label><input id="effects-volume" type="range" min="0" max="100" value="100"></div>
+          <div data-sound-page="preview" hidden><h3>Try a sound</h3><select id="sound-preview-cue" aria-label="Sound to preview"></select><button id="sound-preview" type="button">Play sound</button></div>
+          <div data-sound-page="shared" id="sound-form" hidden><h3>Shared pack</h3><input id="sound-address" type="text" aria-label="Shared sound pack address" placeholder="Paste pack address…" maxlength="2000" autocomplete="off" spellcheck="false" data-napplet-select="text"><button id="sound-load" type="button">Load pack</button></div>
+          <div data-sound-page="status" class="collection-source" hidden><p id="sound-availability" hidden>Shared packs are unavailable in this shell. Built-in packs work offline.</p><p id="sound-status" role="status">Built-in sounds work offline. Missing sounds use Pond.</p></div>
+          <div data-sound-page="credits" class="collection-source" hidden><p id="sound-credits">“Duck Quack” by qubodup, adapted from dobroide’s “20130403_duck.04.wav” (CC BY 3.0 or later). Trimmed, faded and resampled for Butter; Pocket Arcade adds light processing. freesound.org/s/442820/ · freesound.org/s/185134/ · creativecommons.org/licenses/by/3.0/</p></div>
+        </section>
+        <section id="collection-camp" hidden><div data-camp-page="motion"><h3>A gentler view</h3><label class="collection-check"><input type="checkbox" id="reduced-motion"> Less motion</label><p class="collection-setting-note">Quiet the camera and keep animations still.</p></div><div data-camp-page="storage" class="collection-source" hidden><p id="storage-status">Progress lasts for this session</p></div></section>
+        <section id="collection-reader" hidden><p id="collection-reader-copy" data-napplet-select="text"></p></section>
+      </div>
+      <div id="collection-footer"><button id="collection-prev" type="button" aria-label="Previous item">←</button><button id="collection-info" type="button">Power &amp; story</button><span id="collection-count" aria-live="polite" hidden></span><button id="collection-next" type="button" aria-label="Next item">→</button></div>
+    </aside>
+  </main>
+</div>
+<script type="module" src="/src/main.ts"></script>
+</body>
+</html>

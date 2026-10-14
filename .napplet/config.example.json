@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "sourceDir": ".",
+  "relays": [
+    "wss://nos.lol",
+    "wss://relay.primal.net",
+    "wss://relay.damus.io"
+  ],
+  "blossomServers": [
+    "https://blssm.us",
+    "https://cdn.hzrd149.com",
+    "https://nostr.download",
+    "https://blossom.primal.net"
+  ],
+  "defaultTarget": "named",
+  "named": [
+    "puddlehop"
+  ],
+  "discover": {
+    "enabled": true,
+    "roots": [
+      "."
+    ]
+  },
+  "conformance": {
+    "command": "napplet-conformance"
+  },
+  "paja": {
+    "command": "kehto"
+  },
+  "metadata": {
+    "name": "puddlehop",
+    "title": "Down to Duck",
+    "description": "An endless voxel crossing adventure. Hop through changing worlds, collect travelers, and chase your best run.",
+    "archetypes": [
+      {
+        "slug": "game",
+        "convention": "napplet:game/open",
+        "params": [
+          "seed",
+          "mode"
+        ]
+      }
+    ],
+    "optional": [
+      "intent"
+    ]
+  },
+  "zapstore": {
+    "id": "farm.sandwich.puddlehop",
+    "name": "Down to Duck"
+  }
+}
