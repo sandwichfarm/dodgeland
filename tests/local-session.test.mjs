@@ -137,3 +137,18 @@ test('device loss, reclaim, and departure preserve personal inventory and emit d
   assert.deepEqual(session.lifecycle.map(record => [record.previous, record.next]), [['active', 'device-lost'], ['device-lost', 'device-lost'], ['device-lost', 'active'], ['active', 'departed']]);
   assert.ok(session.lifecycle.every(record => record.sessionId === session.id && record.playerId === `${session.id}:p2`));
 });
+
+test('player death spills and clears only the terminal player before its lifecycle record', () => {
+  const { game, session, players } = roster(2);
+  const [p1, p2] = players;
+  p1.run.wallet = 3; p2.run.wallet = 7; p2.coins = 7; p2.health = 1;
+  const lane = game.rows.get(0);
+  Object.assign(lane, { kind: 'road', blocked: [], coin: null, phase: 0, speed: 0, spacing: 20, length: 1.15 });
+  p2.x = p2.fromX = 0; p2.y = p2.fromY = 0;
+  session.update(0);
+  assert.equal(p2.state, 'dead'); assert.ok(p2.deathSpill);
+  assert.equal(p2.run.wallet, 0); assert.equal(p1.run.wallet, 3);
+  const death = session.lifecycle.at(-1);
+  assert.equal(death.type, 'player-death'); assert.equal(death.seat, 'p2');
+  assert.equal(p2.statistics.deaths, 1); assert.equal(p2.statistics.deathCause, 'traffic');
+});
