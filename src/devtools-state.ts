@@ -1,4 +1,4 @@
-import { Game, WAVE_TRAIL } from './game.js';
+import { Game } from './game.js';
 import type { ItemDefinition } from './market/types.js';
 
 /** This module is reachable only from the compile-time development import. */
@@ -28,8 +28,8 @@ export function jumpDevelopmentRun(current: Game, value: number): Game {
   const score = developmentScore(value);
   const definitions = [...current.run.catalog.values()];
   const next = current.runSeed
-    ? new Game(current.runSeed, undefined, undefined, undefined, definitions)
-    : new Game(current.seed, current.home, current.mode, current.gentle, definitions);
+    ? new Game(current.runSeed, undefined, undefined, undefined, definitions, current.characterId, { definition: current.definition })
+    : new Game(current.seed, current.home, current.mode, current.gentle, definitions, current.characterId, { definition: current.definition });
   next.time = score * .45;
   next.rows.clear();
   next.y = next.fromY = next.maxY = Math.max(0, score - 1);
@@ -43,7 +43,7 @@ export function jumpDevelopmentRun(current: Game, value: number): Game {
   delete landing.actors;
   if (score > 0) next.move('forward');
   next.hop = 0; next.fromX = next.x = 0; next.fromY = next.y = score;
-  next.waveRow = score - WAVE_TRAIL;
+  next.waveRow = score - next.rules.pursuit.waveTrail;
   next.state = 'paused';
   return copyCallbacks(current, next);
 }

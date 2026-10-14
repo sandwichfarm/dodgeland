@@ -4,10 +4,12 @@ import { loadSources } from './source-loader.mjs';
 const source = await loadSources(['devtools-state', 'market/catalog']);
 after(() => source.dispose());
 const { Game, WAVE_TRAIL } = await source.import('game');
+const { composeModeDefinition, SOLO_STROLL_MODE } = await source.import('mode-rules');
 const { createRunSeed } = await source.import('run-seed');
 const { generateSeedLane } = await source.import('levels/index');
 const { jumpDevelopmentRun, loadDevelopmentRun, developmentScore, developmentDiagnostics } = await source.import('devtools-state');
 const { ITEM_CATALOG } = await source.import('market/catalog');
+const { WORLDS } = await source.import('content');
 
 test('development score accepts only bounded whole finite values', () => {
   for (const [input, expected] of [[-1, 0], [NaN, 0], [Infinity, 0], [-Infinity, 0], [99.9, 99], [1e9, 100000]]) assert.equal(developmentScore(input), expected);
@@ -41,6 +43,42 @@ test('jump initializes real heal and market milestone bookkeeping without callba
   next.resume(); assert.equal(next.move('forward'), true);
   assert.equal(next.health, 1.5, 'next milestone heals once rather than all skipped hundreds');
   assert.equal(next.run.market.milestone, 1000); assert.equal(events, 1);
+});
+
+test('jump retains a custom definition through seeded and unregistered-world reconstruction, while replay loading resets to its decoded preset', () => {
+  const definition = composeModeDefinition({
+    id: 'devtools-custom',
+    simulation: { worldTimeScale: .5 },
+    movement: { hopDuration: .31 },
+    pursuit: { waveTrail: 11 },
+  });
+  const extension = { ...WORLDS[0], id: 'devtools-extension', patterns: [['road', 'river', 'meadow']] };
+  WORLDS.push(extension);
+  try {
+    for (const original of [
+      new Game(21, 'pond', 'arcade', false, ITEM_CATALOG, 'sunny', { definition }),
+      new Game(22, extension.id, 'arcade', false, ITEM_CATALOG, 'sunny', { definition }),
+    ]) {
+      const next = jumpDevelopmentRun(original, 320);
+      assert.equal(next.definition, definition);
+      assert.equal(next.rules.pursuit.waveTrail, 11);
+      assert.equal(next.waveRow, 309, 'teleport placement follows the active trail rule');
+      assert.equal(next.characterId, 'sunny');
+      assert.deepEqual([...next.run.catalog.keys()], [...original.run.catalog.keys()]);
+      assert.deepEqual(next.runSeed, original.runSeed, 'the constructor keeps the matching identity path');
+      next.resume();
+      assert.equal(next.move('left'), true);
+      assert.equal(next.hop, .31, 'post-jump movement still uses the custom definition');
+      next.update(.2);
+      assert.equal(next.time, 144.1, 'post-jump simulation still uses the custom time scale');
+    }
+
+    const replay = new Game(23, 'pond', 'stroll', false, ITEM_CATALOG);
+    const loaded = loadDevelopmentRun(new Game(24, 'pond', 'arcade', false, ITEM_CATALOG, 'butter', { definition }), replay.seedCode, ITEM_CATALOG);
+    assert.equal(loaded.definition, SOLO_STROLL_MODE, 'a decoded replay intentionally selects its released preset');
+  } finally {
+    WORLDS.pop();
+  }
 });
 test('diagnostics expose useful state without changing the run', () => {
   const game = jumpDevelopmentRun(new Game(77), 320);
