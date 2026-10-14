@@ -7,12 +7,13 @@ This milestone first turns the exact solo game into validated, composable rules 
 ## Phases
 
 **Phase Numbering:**
+
 - Integer phases (1, 2, 3): Planned milestone work
 - Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Composable Solo Baseline** - Route Arcade and Flow through typed mode rules while proving exact baseline parity.
+- [x] **Phase 1: Composable Solo Baseline** - Route Arcade and Flow through typed mode rules while proving exact baseline parity. (completed 2026-10-14)
 - [ ] **Phase 2: Shared Local Session** - Let distinct locally controlled characters share one world, input system, renderer, and setup flow.
 - [ ] **Phase 3: Survive Together & Consumables** - Deliver drop-in co-op, distinct recovery mechanics, and deterministic cooperative items.
 - [ ] **Phase 4: Relay** - Deliver locked-roster, turn-based continuity with mode-owned handoffs and results.
@@ -23,36 +24,44 @@ Decimal phases appear between their surrounding integers in numeric order.
 ## Phase Details
 
 ### Phase 1: Composable Solo Baseline
+
 **Goal**: Solo players retain the exact familiar Arcade and Flow experience while the game exposes reusable, validated mode rules and lifecycle seams for future modes.
 **Depends on**: Nothing (first phase)
 **Requirements**: ARCH-01, ARCH-04, SOLO-01, SOLO-02, SOLO-03, TEST-01
 **Success Criteria** (what must be TRUE):
+
   1. A player can start Arcade or Flow exactly as before, and the composed mode produces identical fixed-step state, callbacks, hazards, economy, pauses, deaths, seed behavior, and visible gameplay to the immutable `a310a81` baseline.
   2. Existing seed links, saved data, intent contracts, market/cards, sound packs, shortcuts, and terrain schemas continue to load and behave compatibly after migration.
   3. A developer can define a mode by combining validated rule groups and lifecycle handlers, with a documented example, without adding mode-name branches across input or rendering.
   4. A solo player still reaches play in one step; multiplayer setup is not shown unless they deliberately select it or another device requests local play.
+
 **Plans**: 4 plans
 
 Plans:
+
 - [x] 01-01-PLAN.md — Establish the immutable a310a81 differential harness and complete solo scenario matrix.
 - [x] 01-02-PLAN.md — Introduce validated immutable rule composition and route core Game/render behavior through it.
 - [x] 01-03-PLAN.md — Route economy, collection, pursuers, and timing consumers through active rules.
-- [ ] 01-04-PLAN.md — Preserve one-step app entry, document real authoring, and run the strict phase gate.
+- [x] 01-04-PLAN.md — Preserve one-step app entry, document real authoring, and run the strict phase gate.
 
 ### Phase 2: Shared Local Session
+
 **Goal**: Local players can form a readable, uniquely identified roster and control simultaneous characters in one advancing world.
 **Depends on**: Phase 1
 **Requirements**: ARCH-03, INPUT-01, INPUT-02, INPUT-03, INPUT-04, INPUT-05, INPUT-06, UI-01, UI-02
 **Success Criteria** (what must be TRUE):
+
   1. Multiple characters can move simultaneously in one shared course while terrain, actors, RNG, pickups, camera policy, and simulation time advance once per fixed tick.
   2. A second deliberately active standard controller opens Local Play setup, where a default four-seat roster can select only unique characters and receives clear ready/join guidance without interrupting a solo run silently.
   3. Players can mix controllers with default shared-keyboard seats; the in-game binding editor validates conflicts, remaps and resets bindings, and independent held/repeated input remains safe through focus changes, stale snapshots, index reuse, and teardown.
   4. Controller loss, replacement, and missing shell gamepad support leave actionable player state and working keyboard/pointer controls; modes receive the lifecycle event rather than a blanket device-disconnect pause.
   5. Each on-screen character remains visibly distinct with a persistent player mark and individual health, power, revival, item, turn, and leader cues as those mechanics become available.
+
 **Plans**: 6 reviewed plans (execution depends on verified Phase 1)
 **UI hint**: yes
 
 Plans:
+
 - [ ] 02-01-PLAN.md — Extract shared world/player ownership with a live two-player tracer, solo adoption, and immutable parity.
 - [ ] 02-02-PLAN.md — Prove deterministic shared simulation, pickup ownership, lifecycle, and per-player state.
 - [ ] 02-03-PLAN.md — Route independent controllers through the existing authorized snapshot transport.
@@ -61,19 +70,23 @@ Plans:
 - [ ] 02-06-PLAN.md — Establish selected-owner hand/market routing and run the shared-session evidence gate.
 
 ### Phase 3: Survive Together & Consumables
+
 **Goal**: Friends can join a live Arcade or Flow run, recover safely from setbacks, and use deterministic cooperative consumables without disrupting the shared course.
 **Depends on**: Phase 2
 **Requirements**: COOP-01, COOP-02, COOP-03, COOP-04, COOP-05, ITEM-01, ITEM-02, ITEM-03, ITEM-04, ITEM-05, UI-03
 **Success Criteria** (what must be TRUE):
+
   1. Two to four distinct characters can survive Arcade or Flow together, each with independent movement, collisions, health, innate power, inventory, and statistics in the same world.
   2. A player can safely join or deliberately leave a live co-op run without resetting its course, elapsed time, score, or other players' inventories; lost, ghosted, eliminated, returned, and departed states remain visibly distinct and preserve the original slot/character when applicable.
   3. Each player has at most one separate self-revival charge that recharges only after 250 new forward tiles, while living teammates can explicitly restore eligible dead teammates at safe protected positions and the run ends only when no recovery path remains.
   4. Players can acquire and deliberately use mode-eligible Revival and Flare consumables from shop or world pickups: a mutually exclusive seeded sampler yields Revival at 1:2500 and Flare at 1:1250, awards contested pickups once deterministically, and preserves default pickup gravity regardless of coin-magnet cards.
   5. The multiplayer hand, market, inventory, pricing, and consumable targeting always identify the selected owner and retain every player/run state across menus.
+
 **Plans**: 7 reviewed plans (execution depends on verified Phase 2)
 **UI hint**: yes
 
 Plans:
+
 - [ ] 03-01-PLAN.md — Verify prior gates and integrate live solo adoption, joins and participant lifecycle.
 - [ ] 03-02-PLAN.md — Add personal recovery, earned progress, safe return and team results.
 - [ ] 03-03-PLAN.md — Define validated consumable contracts, inventory and isolated seeded probability rolls.
@@ -83,19 +96,23 @@ Plans:
 - [ ] 03-07-PLAN.md — Complete the single hand/market tree and run the complete browser/model gate.
 
 ### Phase 4: Relay
+
 **Goal**: A local group can play one continuous, turn-based Relay run with deliberate transfers, closed roster rules, and leg-by-leg results.
 **Depends on**: Phase 3
 **Requirements**: RELAY-01, RELAY-02, RELAY-03, RELAY-04, RELAY-05
 **Success Criteria** (what must be TRUE):
+
   1. Players can configure a Relay order and segment length, defaulting to 50 tiles, before starting a shared course.
   2. Crossing a segment boundary visibly starts a safe baton handoff; the next eligible runner continues the identical live world, course, progress, clocks, pickups, and inventory without duplicated backward progress or a reset.
   3. Once Relay starts, new entrants cannot join, while an existing player can reclaim their same roster slot after reconnecting.
   4. Active and inactive controller losses follow clear Relay-owned outcomes: reclaim, skip to the next eligible runner, or finish the run if no runner remains, with no ambiguous no-controller state.
   5. The Relay result presents the shared outcome and each character's legs, distance, time, coins, pickups, revives, skips, and other outcomes in a dedicated breakdown and podium.
+
 **Plans**: 6 reviewed plans (execution depends on verified Phase 3)
 **UI hint**: yes
 
 Plans:
+
 - [ ] 04-01-PLAN.md — Reconcile completed APIs and build Relay setup with a real continuity tracer.
 - [ ] 04-02-PLAN.md — Settle exact boundaries and transfer the single live world safely.
 - [ ] 04-03-PLAN.md — Implement Relay disconnect, reclaim, skip, leave, recovery, and waiting policy.
@@ -104,19 +121,23 @@ Plans:
 - [ ] 04-06-PLAN.md — Inspect responsive proofs and run the complete inherited gate.
 
 ### Phase 5: Race
+
 **Goal**: Players can race a common timed course with fair pressure, contextual tactics, and deterministic competitive outcomes.
 **Depends on**: Phase 3
 **Requirements**: ARCH-02, ITEM-06, RACE-01, RACE-02, RACE-03, RACE-04, RACE-05, RACE-06, UI-06
 **Success Criteria** (what must be TRUE):
+
   1. A locked local roster can configure and start a shared Race, initially using a provisional 500-tile finish and 180-second limit held in validated mode settings.
   2. The furthest racer advances a monotonic fog boundary; trailing racers can remain inside it but lose feathers at the configured cadence, with readable camera, boundary, health, and warning feedback for both leaders and trailers.
   3. Race disconnects, dropouts, reclaims, deaths, last-survivor cases, simultaneous finishes, ties, and timeout resolve from fixed simulation state without resetting the course or race clock.
   4. Players can use Race-eligible offensive and defensive consumables with visible, muted/reduced-motion-aware feedback; invalid targets, departed players, and ineligible modes cannot spend a charge or corrupt state.
   5. Race results show podium rank including true ties, distance, elapsed/finish time, finish or death status, fog damage, and relevant item/interaction statistics for every character.
+
 **Plans**: 7 reviewed plans (execution depends on verified Phase 3 and delivered Relay integration)
 **UI hint**: yes
 
 Plans:
+
 - [ ] 05-01-PLAN.md — Reconcile prior APIs and implement validated Race setup, tracer, and authoring.
 - [ ] 05-02-PLAN.md — Resolve deterministic fog, finish/timeout precedence, and balance evidence.
 - [ ] 05-03-PLAN.md — Implement recovery, disconnect grace, original-seat reclaim, and waiting.
@@ -126,26 +147,32 @@ Plans:
 - [ ] 05-07-PLAN.md — Inspect the responsive visual matrix and run the complete canonical gates.
 
 ### Phase 6: Cross-Mode Presentation
+
 **Goal**: Every multiplayer mode remains understandable and usable through interruptions, recovery, results, and every supported frame size/theme.
 **Depends on**: Phase 3, Phase 4, Phase 5
 **Requirements**: UI-04, UI-05
 **Success Criteria** (what must be TRUE):
+
   1. Each mode presents an appropriate pause, disconnect, ghost, death, revival, and end-of-game flow that explains the active mode rule without losing player or run context.
   2. Co-op, Relay, and Race results each render their required per-character contribution/breakdown and mode-appropriate podium from immutable result records.
   3. Setup, HUD, hand/market, recovery, and result views use purpose-built compact views with large controls and no accidental scrolling at tiny, compact, regular, wide, and short frames in both runtime themes.
+
 **Plans**: TBD
 **UI hint**: yes
 
 ### Phase 7: Release Evidence & PR
+
 **Goal**: The complete local multiplayer milestone is demonstrated in real built artifacts, fully checked, traceable, and available for review as an open PR.
 **Depends on**: Phase 1, Phase 2, Phase 3, Phase 4, Phase 5, Phase 6
 **Requirements**: TEST-02, TEST-03, TEST-04, TEST-05, SHIP-01
 **Success Criteria** (what must be TRUE):
+
   1. Real production logic has broad model, state-machine, and integration coverage for shared simulation, input/lifecycle, all three modes, revival timing, item odds/range/ownership, and mode results, with explicit thresholds and reviewed uncovered branches.
   2. Built opaque-iframe browser fixtures complete keyboard and injected-gamepad multiplayer flows without runtime errors, prohibited native access, or production-only test hooks.
   3. Inspected visual evidence covers setup, HUD, co-op recovery/items/market, Relay handoff and disconnects, Race fog/items, and all podiums across required sizes and both themes with browser audio muted.
   4. Type-check, build, guidance, conformance, parity/legacy, per-mode, and browser checks are green with evidence skips explicitly distinguished from proven behavior.
   5. The feature branch contains coherent phase evidence and traceability, and an open reviewable PR against `main` links its tests and visual proofs.
+
 **Plans**: TBD
 
 ## Progress
@@ -155,8 +182,8 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Composable Solo Baseline | 3/4 | In progress | - |
-| 2. Shared Local Session | 0/6 | Reviewed; awaits Phase 1 | - |
+| 1. Composable Solo Baseline | 4/4 | Complete    | 2026-10-14 |
+| 2. Shared Local Session | 0/6 | Starting execution | - |
 | 3. Survive Together & Consumables | 0/7 | Reviewed; awaits Phase 2 | - |
 | 4. Relay | 0/6 | Reviewed; awaits Phase 3 | - |
 | 5. Race | 0/7 | Reviewed; awaits dependencies | - |

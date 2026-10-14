@@ -6,13 +6,13 @@
 
 ## Architecture and solo parity
 
-- [ ] **ARCH-01**: Gameplay tuning is represented by typed, validated, composable rule configuration rather than mode-dependent magic numbers embedded in update logic.
+- [x] **ARCH-01**: Gameplay tuning is represented by typed, validated, composable rule configuration rather than mode-dependent magic numbers embedded in update logic.
 - [ ] **ARCH-02**: Each solo/multiplayer mode composes reusable mechanics and explicit lifecycle handlers for join, leave, disconnect, reconnect, death, progress and results.
 - [ ] **ARCH-03**: Shared terrain, actor time, RNG, pickup ownership and camera policy are separated from each player's movement, health, powers, inventory and statistics; world updates occur once per tick.
-- [ ] **ARCH-04**: A new mode can be defined from rule configuration and handlers without editing core input, renderer or adding another hard-coded mode branch throughout the engine; document an example.
-- [ ] **SOLO-01**: Existing Arcade and Stroll/Flow modes migrate with 1:1 gameplay and numerical parity against the committed pre-refactor engine, including hazards, health, wave, mobs, economy, powers, pauses and deaths.
-- [ ] **SOLO-02**: Existing seed schemas, generation snapshots, intent contracts, saves, market/card behavior and sound/shortcut IDs remain compatible.
-- [ ] **SOLO-03**: Default solo play remains one-step and visually uncluttered; extra setup appears only for multiplayer or explicit mode selection.
+- [x] **ARCH-04**: A new mode can be defined from rule configuration and handlers without editing core input, renderer or adding another hard-coded mode branch throughout the engine; document an example.
+- [x] **SOLO-01**: Existing Arcade and Stroll/Flow modes migrate with 1:1 gameplay and numerical parity against the committed pre-refactor engine, including hazards, health, wave, mobs, economy, powers, pauses and deaths.
+- [x] **SOLO-02**: Existing seed schemas, generation snapshots, intent contracts, saves, market/card behavior and sound/shortcut IDs remain compatible.
+- [x] **SOLO-03**: Default solo play remains one-step and visually uncluttered; extra setup appears only for multiplayer or explicit mode selection.
 
 ## Players and input
 
@@ -68,7 +68,7 @@
 
 ## Verification and delivery
 
-- [ ] **TEST-01**: Execute precise baseline-vs-composed-solo differential tests and retain all existing deterministic course and gameplay regressions.
+- [x] **TEST-01**: Execute precise baseline-vs-composed-solo differential tests and retain all existing deterministic course and gameplay regressions.
 - [ ] **TEST-02**: Add broad model/state-machine/integration coverage for each mode, shared simulation, input/lifecycle, revival cooldown, item odds/range/ownership and results; tests exercise real production logic.
 - [ ] **TEST-03**: Exercise complete multiplayer user flows in built opaque-iframe browser fixtures through keyboard and injected runtime gamepad events; assert no runtime errors, native access or production-only test hooks.
 - [ ] **TEST-04**: Capture and inspect visual proofs of all modes, setup, HUD, items/revival, market, disconnect states and podiums across desktop/compact/short sizes and themes.
@@ -83,13 +83,13 @@ behavior is implemented, verified and committed.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| ARCH-01 | Phase 1 | Pending |
+| ARCH-01 | Phase 1 | Complete |
 | ARCH-02 | Phase 5 | Pending |
 | ARCH-03 | Phase 2 | Pending |
-| ARCH-04 | Phase 1 | Pending |
-| SOLO-01 | Phase 1 | Pending |
-| SOLO-02 | Phase 1 | Pending |
-| SOLO-03 | Phase 1 | Pending |
+| ARCH-04 | Phase 1 | Complete |
+| SOLO-01 | Phase 1 | Complete |
+| SOLO-02 | Phase 1 | Complete |
+| SOLO-03 | Phase 1 | Complete |
 | INPUT-01 | Phase 2 | Pending |
 | INPUT-02 | Phase 2 | Pending |
 | INPUT-03 | Phase 2 | Pending |
@@ -124,7 +124,7 @@ behavior is implemented, verified and committed.
 | UI-04 | Phase 6 | Pending |
 | UI-05 | Phase 6 | Pending |
 | UI-06 | Phase 5 | Pending |
-| TEST-01 | Phase 1 | Pending |
+| TEST-01 | Phase 1 | Complete |
 | TEST-02 | Phase 7 | Pending |
 | TEST-03 | Phase 7 | Pending |
 | TEST-04 | Phase 7 | Pending |

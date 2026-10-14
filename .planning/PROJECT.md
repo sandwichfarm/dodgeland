@@ -20,11 +20,12 @@ harder to start or changing its established mechanics.
 - Existing market, three-card hand, run wallet/cosmetics, visible coin attraction,
   death spill, sound packs and SDK-backed persistence/input.
 - Existing responsive game-styled UI and optional single-controller integration.
+- Validated immutable solo mode rules, an executable authoring example, and
+  exact solo state/render parity against `a310a81` — verified in Phase 1.
 
 ### Active
 
-- [ ] Composable, validated mode definitions and lifecycle handlers.
-- [ ] Extract gameplay tuning and migrate solo modes with differential parity.
+- [ ] Extend composed rules with shared-session and multiplayer lifecycle handlers.
 - [ ] Shared local session, distinct characters, multiple devices and keyboard bindings.
 - [ ] Survive Together in Arcade and Flow, dynamic joining/leaving, revival and consumables.
 - [ ] Configurable Relay with closed roster, turn handoffs and dropout continuity.
@@ -51,6 +52,13 @@ harder to start or changing its established mechanics.
   has no gamepad domain export; preserve the existing authorized draft adapter.
 - User values tactile game-like menus, large text/buttons, responsive views without
   scrollbars, consistent hand placement, and visual/audio feedback.
+
+## Current State
+
+Phase 1 is complete and independently verified (12/12 must-haves). The final
+strict gate passed 21 immutable comparisons and 270 regressions; built runtime
+and health checks passed with browser output muted. Phase 2 begins the shared
+world/player extraction. No multiplayer mode is complete yet.
 
 ## Constraints
 
@@ -81,4 +89,4 @@ state. Preserve the original request and record any unresolved gap explicitly.
 Do not mark the milestone complete until the full requirement audit and PR check pass.
 
 ---
-*Last updated: 2026-10-14 after milestone initialization.*
+*Last updated: 2026-10-14 after Phase 1 verification.*
