@@ -39,6 +39,8 @@ export function mobMotionProgress(kind: MobKind, phase: Mob['phase'], fraction: 
   return t < .5 ? 4 * t ** 3 : 1 - (-2 * t + 2) ** 3 / 2;
 }
 export const PLAYER_MOB_RADIUS = .2;
+/** A session supplies fixed per-seat operation views; the director remains singular. */
+export interface MobParticipant { readonly seat: string; readonly game: Game; readonly previousX: number; readonly previousY: number }
 export function mobDefinition(kind: MobKind): typeof MOB_TYPES[number] { return MOB_TYPES.find(definition => definition.id === kind)!; }
 /** Each species ramps from its own debut, then stops accelerating. */
 export function mobTuning(kind: MobKind, score: number): { walkSpeed: number; speed: number; windup: number; recovery: number; range: number } {
@@ -172,7 +174,7 @@ export class MobDirector {
     game.onMobSpawn(mob);
   }
 
-  update(game: Game, dt: number, previousX: number, previousY: number): void {
+  update(game: Game, dt: number, previousX: number, previousY: number, participants: readonly MobParticipant[] = []): void {
     if (!game.rules.pursuers.enabled) { this.mobs.length = 0; return; }
     const delay = game.run.effects.mobSpawnDelay;
     if (delay !== this.spawnDelay) {
@@ -182,7 +184,10 @@ export class MobDirector {
       this.spawnDelay = delay;
     }
     const retained: Mob[] = [];
+    const targets = participants.length ? participants : [{ seat: 'p1', game, previousX, previousY }];
     for (const mob of this.mobs) {
+      const target = [...targets].sort((a, b) => Math.hypot(a.game.groundX - mob.x, a.game.groundY - mob.y) - Math.hypot(b.game.groundX - mob.x, b.game.groundY - mob.y) || a.seat.localeCompare(b.seat))[0]!;
+      const targetGame = target.game;
       const radius = mobDefinition(mob.kind).radius;
       if (mob.y <= game.waveRow + radius || mob.y < game.maxY - 8 || mob.y > game.groundY + 9 || Math.abs(mob.x) > 5.5) continue;
       const frozen = game.run.effects.mobSpeed === 0;
@@ -207,14 +212,16 @@ export class MobDirector {
         }
         const start = dt > 0 ? elapsed / dt : 0, end = !frozen && dt > 0 ? (elapsed + duration) / dt : 1;
         if (mob.y <= game.waveRow + radius || (mob.kind !== 'wasp' && game.mobHazard(oldX, oldY, mob.x, mob.y, game.time - dt + elapsed, frozen ? game.time : game.time - dt + elapsed + duration, radius))) { removed = true; break; }
-        if (!harmless && !game.powerAvoidsMobs && game.run.effects.shield <= 0 && sweptMobContact(oldX, oldY, mob.x, mob.y, previousX + (game.groundX - previousX) * start, previousY + (game.groundY - previousY) * start, previousX + (game.groundX - previousX) * end, previousY + (game.groundY - previousY) * end, radius + PLAYER_MOB_RADIUS)) {
+        if (!harmless) for (const participant of targets) {
+          const player = participant.game;
+          if (player.state !== 'playing' || player.powerAvoidsMobs || player.run.effects.shield > 0) continue;
+          if (!sweptMobContact(oldX, oldY, mob.x, mob.y, participant.previousX + (player.groundX - participant.previousX) * start, participant.previousY + (player.groundY - participant.previousY) * start, participant.previousX + (player.groundX - participant.previousX) * end, participant.previousY + (player.groundY - participant.previousY) * end, radius + PLAYER_MOB_RADIUS)) continue;
           const definition = mobDefinition(mob.kind);
-          game.end(`${definition.name} caught you! ${definition.hint}`, 'mob');
-          return;
+          player.end(`${definition.name} caught you! ${definition.hint}`, 'mob');
         }
         remaining -= duration; elapsed += duration;
         if (!frozen && mob.phaseLeft <= 0) {
-          if (mob.phase === 'spawning' || mob.phase === 'walking' || mob.phase === 'rest') this.plan(game, mob);
+          if (mob.phase === 'spawning' || mob.phase === 'walking' || mob.phase === 'rest') this.plan(targetGame, mob);
           else if (mob.phase === 'windup') {
             mob.phase = 'moving'; mob.motionSpeed = runTuning(game, mob.kind).speed;
             mob.phaseDuration = mob.phaseLeft = Math.max(.001, Math.hypot(mob.targetX - mob.fromX, mob.targetY - mob.fromY) / mob.motionSpeed);

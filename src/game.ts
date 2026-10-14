@@ -4,7 +4,7 @@ import type { CharacterPower } from './character-powers.js';
 import type { LaneKind, Voxel, World } from './content.js';
 import { MobDirector } from './mobs.js';
 import type { Mob } from './mobs.js';
-import { RunInventory } from './market/run.js';
+import { RunInventory, defaultModifiers } from './market/run.js';
 import type { ItemDefinition } from './market/types.js';
 import type { CoinPull } from './coin-pull.js';
 import { createDeathSpill } from './death-spill.js';
@@ -254,6 +254,12 @@ export class Game {
     this.time += dt * this.rules.simulation.worldTimeScale;
     return previousTime;
   }
+  /** Session terrain uses the resolved base definition; player cards stay personal. */
+  advanceSharedPursuit(previousTime: number): void {
+    if (!this.world?.sessionActive || this.rules.pursuit.strategy !== 'wave') return;
+    const chaseTime = Math.max(0, this.time - this.rules.pursuit.grace) - Math.max(0, previousTime - this.rules.pursuit.grace);
+    this.waveRow = Math.max(this.waveRow + chaseTime * this.rules.pursuit.speed, this.world.frontier - this.rules.pursuit.waveTrail);
+  }
   /**
    * Resolve one participant after LocalSession has advanced SharedWorld.
    * `drivesWorld` elects one stable living seat for wave and director work.
@@ -270,9 +276,19 @@ export class Game {
   }
   /** Award a shared-world pickup only after SharedWorld's deterministic arbitration. */
   awardSessionPickup(player: SessionPlayer, raw: number): number { return this.inPlayerOperation(player, context => context.awardCoins(raw)); }
-  /** The one director remains world-owned; a stable seat supplies its shared policy view. */
-  updateSessionMobs(player: SessionPlayer, dt: number, previousX: number, previousY: number): void {
-    this.inPlayerOperation(player, context => context.updateMobs(dt, previousX, previousY));
+  /** One director advances once, with fixed views for every eligible player. */
+  updateSessionMobs(players: readonly SessionPlayer[], dt: number, samples: ReadonlyMap<SessionPlayer, { x: number; y: number }>): void {
+    const participants = players.map(player => ({ seat: player.seat, game: this.operationFor(player), previousX: samples.get(player)!.x, previousY: samples.get(player)!.y }));
+    const primary = participants[0]!;
+    this.mobDirector.update(this, dt, primary.previousX, primary.previousY, participants);
+  }
+  /** Remove player-card lane mutations when a shared world takes ownership. */
+  resetSharedWorldEffects(): void {
+    for (const lane of this.rows.values()) {
+      const motion = this.laneSpeeds.get(lane);
+      if (!motion || lane.speed === motion.base) continue;
+      lane.phase += this.time * (lane.speed - motion.base); lane.speed = motion.base; motion.applied = motion.base;
+    }
   }
   get mobs(): Mob[] { return this.mobDirector.mobs; }
   get lane(): Lane { return this.rows.get(this.y)!; }
@@ -296,7 +312,7 @@ export class Game {
   ensureRows(): void {
     const frontier = this.world?.sessionActive ? this.world.frontier : this.maxY;
     for (let i = frontier - this.rules.retention.rowsBehind; i <= frontier + this.rules.retention.rowsAhead; i++) if (!this.rows.has(i)) {
-      const lane = this.runSeed ? generateSeedLane(this.runSeed, i) : generateLane(this.seed, i, this.home, this.gentle), effects = this.run.effects;
+      const lane = this.runSeed ? generateSeedLane(this.runSeed, i) : generateLane(this.seed, i, this.home, this.gentle), effects = this.world?.sessionActive ? defaultModifiers() : this.run.effects;
       const rng = random((this.runSeed?.seed ?? this.seed) ^ Math.imul(i + 100, 0x19ab61f));
       if (lane.kind === 'road') lane.spacing = lane.length + (lane.spacing - lane.length) * effects.trafficSpacing;
       if (lane.kind === 'river') { const gap = lane.spacing - lane.length; lane.length *= effects.platformLength; lane.spacing = lane.length + gap; }
@@ -322,7 +338,7 @@ export class Game {
       this.rows.set(i, lane);
     }
     for (const i of this.rows.keys()) if (i < frontier - this.rules.retention.rowsBehind) this.rows.delete(i);
-    this.syncEffects();
+    if (this.world?.sessionActive) this.resetSharedWorldEffects(); else this.syncEffects();
     for (const lane of this.rows.values()) if (lane.coinActor === null && lane.index <= frontier + this.rules.retention.pickupBindingAhead) {
       // Rows are generated 28 ahead. Bind near the visible approach so a log
       // reward has not already left the world before its lane can be reached.
@@ -610,7 +626,12 @@ export class Game {
       const bonus = lane.kind === 'road' ? this.run.effects.roadCoinBonus : lane.kind === 'river' ? this.run.effects.riverCoinBonus : 0;
       const resolvingPlayer = this.world?.resolvingPlayer;
       if (resolvingPlayer && this.world.sessionActive) {
-        this.world.claimPickup(resolvingPlayer, rewardLane, 0, Math.hypot(coin.x - x, coin.y - y), value + bonus);
+        const previous = this.world.frame?.playerGround.get(resolvingPlayer);
+        const dx = x - (previous?.x ?? x), dy = y - (previous?.y ?? y);
+        const travelX = coin.x - (previous?.x ?? x), travelY = coin.y - (previous?.y ?? y);
+        const fraction = Math.max(0, Math.min(1, (travelX * dx + travelY * dy) / (dx * dx + dy * dy || 1)));
+        const collisionTime = (this.world.frame?.previousTime ?? this.time) + fraction * (this.time - (this.world.frame?.previousTime ?? this.time));
+        this.world.claimPickup(resolvingPlayer, rewardLane, collisionTime, Math.hypot(coin.x - x, coin.y - y), value + bonus);
         continue;
       }
       rewardLane.coin = null;

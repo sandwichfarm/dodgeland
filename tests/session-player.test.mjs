@@ -133,7 +133,7 @@ test('one session tick advances shared time, effects, wave/director, and pulls o
   const beforeTime = game.time;
   session.update(step);
   assert.equal(game.time, beforeTime + step * game.rules.simulation.worldTimeScale);
-  assert.equal(effects, 1, 'shared lane effects are rebased once');
+  assert.equal(effects, 0, 'player card effects cannot mutate the shared world policy');
   assert.equal(director, 1, 'the current director contract runs once');
 
   game.end('P1 terminal test');

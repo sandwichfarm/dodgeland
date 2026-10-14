@@ -22,10 +22,15 @@ export interface SessionLifecycleRecord {
   readonly type: SessionLifecycleType;
   readonly seat: SeatId;
   readonly device: DeviceId;
+  readonly offeredDevice?: DeviceId;
   readonly previous: SessionParticipation;
   readonly next: SessionParticipation;
   readonly simulationTick: number;
   readonly cause: string;
+}
+export interface WorldFrame {
+  readonly previousTime: number;
+  readonly playerGround: ReadonlyMap<SessionPlayer, Readonly<{ x: number; y: number }>>;
 }
 export type SessionLifecycleHandler = (record: SessionLifecycleRecord) => void;
 
@@ -92,6 +97,7 @@ export class SharedWorld {
   /** The explicit player being resolved, retained as a stack for callback re-entry. */
   private readonly resolvingPlayers: SessionPlayer[] = [];
   private readonly pickupClaims: { player: SessionPlayer; lane: Lane; time: number; distance: number; raw: number }[] = [];
+  frame: WorldFrame | null = null;
   declare rows: Map<number, Lane>;
   declare attractedCoins: Map<number, Lane>;
   declare time: number;
@@ -115,10 +121,13 @@ export class SharedWorld {
 
   get mobs() { return this.host.mobs; }
   noteProgress(row: number): void { this.frontier = Math.max(this.frontier, row); }
-  update(dt: number, driver?: SessionPlayer): number {
+  beginFrame(players: readonly SessionPlayer[]): WorldFrame {
+    return this.frame = Object.freeze({ previousTime: this.time, playerGround: new Map(players.map(player => [player, Object.freeze({ x: player.groundX, y: player.groundY })])) });
+  }
+  update(dt: number): number {
     const previousTime = this.time;
-    if (driver) this.host.syncSharedEffects(driver);
     this.host.advanceSharedWorld(dt);
+    this.host.advanceSharedPursuit(previousTime);
     this.simulationTick++;
     return previousTime;
   }
@@ -284,10 +293,10 @@ export class LocalSession {
     return new LocalSessionStage(game, new LocalSession(world, players, { config: options.config, onLifecycle: options.onLifecycle }));
   }
 
-  start(): void { for (const player of this.players) player.start(); this.world.sessionActive = true; this.active = true; }
+  start(): void { for (const player of this.players) player.start(); this.world.sessionActive = true; this.world.host.resetSharedWorldEffects(); this.active = true; }
   dispatch(action: SeatAction): boolean { const player = this.players.find(candidate => candidate.seat === action.seat); return !!player && this.active && player.move(action.direction); }
-  private emit(type: SessionLifecycleType, player: SessionPlayer, previous: SessionParticipation, next: SessionParticipation, cause: string): void {
-    const record = Object.freeze({ sessionId: this.id, playerId: `${this.id}:${player.seat}`, type, seat: player.seat, device: player.device, previous, next, simulationTick: this.world.simulationTick, cause });
+  private emit(type: SessionLifecycleType, player: SessionPlayer, previous: SessionParticipation, next: SessionParticipation, cause: string, offeredDevice?: DeviceId): void {
+    const record = Object.freeze({ sessionId: this.id, playerId: `${this.id}:${player.seat}`, type, seat: player.seat, device: player.device, offeredDevice, previous, next, simulationTick: this.world.simulationTick, cause });
     this.lifecycleRecords.push(record); this.lifecycleHandler(record);
   }
   get lifecycle(): readonly SessionLifecycleRecord[] { return this.lifecycleRecords; }
@@ -300,8 +309,7 @@ export class LocalSession {
   offerReclaim(seat: SeatId, device: DeviceId): boolean {
     const player = this.players.find(candidate => candidate.seat === seat);
     if (!player || player.participation !== 'device-lost') return false;
-    const priorDevice = player.device; player.device = device;
-    this.emit('reclaim-offered', player, 'device-lost', 'device-lost', 'device-reclaim-offered'); player.device = priorDevice;
+    this.emit('reclaim-offered', player, 'device-lost', 'device-lost', 'device-reclaim-offered', device);
     return true;
   }
   reclaim(seat: SeatId, device: DeviceId): boolean {
@@ -332,20 +340,17 @@ export class LocalSession {
     const activePlayers = this.players.filter(player => player.state === 'playing' && player.participation === 'active');
     if (!activePlayers.length) return;
     this.world.releaseInactivePickupClaims(this.players);
-    const previousTime = this.world.update(dt, activePlayers[0]);
-    const groundBefore = new Map(activePlayers.map(player => [player, { x: player.groundX, y: player.groundY }]));
+    const frame = this.world.beginFrame(activePlayers);
+    const previousTime = this.world.update(dt);
+    const groundBefore = frame.playerGround;
+    const priorStates = new Map(activePlayers.map(player => [player, player.state]));
     for (const player of this.players) {
       if (!activePlayers.includes(player)) continue;
-      const prior = player.state;
       this.world.resolvePlayer(player, () => player.update(dt, previousTime, false));
-      this.collectCompletedState(player, prior);
     }
     this.world.resolvePickups();
-    const driver = this.world.selectMobTarget(activePlayers);
-    if (driver) {
-      const sample = groundBefore.get(driver)!;
-      this.world.host.updateSessionMobs(driver, this.world.time - previousTime, sample.x, sample.y);
-    }
+    this.world.host.updateSessionMobs(activePlayers, this.world.time - previousTime, groundBefore);
+    for (const player of activePlayers) this.collectCompletedState(player, priorStates.get(player)!);
   }
   /** Rendering owns this clock so each terminal spill ages once per frame. */
   advanceDeathVisuals(dt: number): void { for (const player of this.players) this.world.host.advancePlayerDeathVisuals(player, dt); }
