@@ -15,6 +15,7 @@
     "test:conformance": "pnpm build && napplet-conformance ./dist",
     "test:conformance:ui": "napplet-conformance --ui . --exec \"vite build --watch\"",
     "test:game": "node --test tests/game.test.mjs",
+    "test:solo-parity": "node --test tests/solo-parity.test.mjs",
     "test:actors": "node --test tests/actors.test.mjs tests/actor-integration.test.mjs tests/actor-render.test.mjs",
     "test:seeds": "node --test tests/seed.test.mjs",
     "test:seed-runtime": "pnpm build && node tests/seed-copy-runtime.mjs",
