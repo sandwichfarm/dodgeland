@@ -1,6 +1,6 @@
 # Multiplayer Mode Design
 
-**Project:** Crossy Road Clone multiplayer milestone  
+**Project:** Down to Duck multiplayer milestone
 **Researched:** 2026-10-14  
 **Scope:** Rules, state transitions, balance defaults, and validation for local multiplayer modes.  
 **Confidence:** MEDIUM — requested mechanics and established project contracts are authoritative; the numeric defaults below are explicitly marked as proposed tuning, pending playtests and the user's open choices.
@@ -11,7 +11,7 @@ The following are explicit planning defaults, not settled product decisions. The
 
 | Decision | Proposed default | Why this is the best starting point | User decision still needed |
 |---|---|---|---|
-| Entry flow | While in the current Stroll Flow, input from a second unassigned gamepad opens multiplayer setup; it never silently changes a live solo run. | Preserves the existing Flow expectation while making the join intent visible. | Confirm `Flow = current Stroll` as the entry flow. |
+| Entry flow | In every relevant active Arcade and Stroll state, listen to all exposed controller input. Input from a second unassigned gamepad opens multiplayer setup; it never silently changes a live solo run. | Covers local-play entry for both base modes while making join intent visible. `Flow` remains the provisional Stroll alias used for co-op rules. | Confirm only the final UI label for `Flow` / `Stroll`; entry coverage is not mode-restricted. |
 | Simultaneous roster | Four players maximum. | Four distinct characters, readable shared-screen action, and one keyboard profile are practical baseline constraints. The mode registry must make this a mode setting so seven can be evaluated later. | Choose four or seven as the shipped cap. |
 | Race objective | Reach 500 forward tiles; 180 seconds is a hard end condition. | A distance finish creates an actual race; the timer prevents an indefinitely stalled run. | Confirm `500 tiles + 180 s` versus a purely 180-second distance contest. |
 | Race fog buffer | Fog begins 12 tiles behind the advancing race frontier; it removes one feather every 1.0 s of continuous exposure. | Gives the leader a meaningful advantage without a one-row instant kill. **Inferred tuning.** | Tune from playtest telemetry. |
@@ -78,7 +78,7 @@ The Race and Relay restrictions are **inferred launch defaults**, not a claim th
 
 ### Survive Together
 
-Survive Together is co-op on either Flow/Stroll or Arcade course rules. The team result ends when no slot is active and no eliminated player has a self-revive confirmation pending. Ghosted slots do not keep a run alive: they need a returning controller before they can participate again. A new player may join a running game only in this mode.
+Survive Together is co-op on either Stroll (currently referred to as Flow) or Arcade course rules. The team result ends when no slot is active and no eliminated player has a self-revive confirmation pending. Ghosted slots do not keep a run alive: they need a returning controller before they can participate again. A new player may join a running game only in this mode.
 
 **Dropout and rejoin:** On controller loss, the avatar immediately becomes a visible, non-colliding ghost at its last safe location. It blocks neither lanes nor pickups, takes no hazard/fog damage, and cannot advance or collect. The run continues for everyone else. When the original slot is explicitly reclaimed, it returns at the first safe location no farther ahead than the current group frontier. A disconnected player can also be revived only after the returning controller is present; items are not spent on an unavailable slot. A newly discovered controller may create a new slot only while the team has a free seat and an unused character.
 
@@ -121,7 +121,7 @@ Keep all events that feed the result in a structured ledger as they occur. The p
 | ID | Requirement | Evidence / automated validation | Manual or visual evidence |
 |---|---|---|---|
 | MD-01 | Player, controller, and character are separate; active players cannot share a character. | Unit tests for claiming, replacement controller binding, duplicate selection rejection, full roster rejection, and keyboard profile handling. | Setup shows each controller's slot and unique character before start. |
-| MD-02 | Multiplayer entry is explicit from current Stroll Flow and does not mutate a solo run merely because a second device emits input. | Flow-state test: second input opens setup; cancel returns to unchanged solo state. | Repeat with two gamepads and configured keyboard in a live runtime. |
+| MD-02 | In relevant active Arcade and Stroll states, multiplayer entry is explicit and does not mutate a solo run merely because a second device emits input. | Flow-state tests for both base modes: second input opens setup; cancel returns to unchanged solo state. | Repeat with two gamepads and configured keyboard in both modes in a live runtime. |
 | MD-03 | Survive Together supports drop-in, dropout, ghosting, and explicit reclaim without stopping the surviving team. | Scenario test creates a ghost, verifies no collision/pickup/damage/advance, then reclaims at a safe no-ahead position. | Disconnect/reconnect each controller in a 4-player run. |
 | MD-04 | Self-revive, existing 100-tile hazard saves, Revival, and Flare cannot substitute for each other. | Unit table tests cover ownership, max-one charge, 250-tile recharge, target rules, and no shared-pool transfer. | Results cards label each resource separately. |
 | MD-05 | Consumable rates are exactly Flare 1:1,250 and Revival 1:2,500 from one mutually exclusive deterministic sampler. | Seeded statistical/threshold tests, golden deterministic vectors, and a test that terrain/coin RNG outputs are unchanged by sampling. | Inspect representative courses for readable pickups. |
@@ -157,7 +157,7 @@ Keep all events that feed the result in a structured ledger as they occur. The p
 
 ### Open Questions for Product Confirmation
 
-1. Confirm whether the default entry should be the current Stroll Flow and whether it should open setup before any multiplayer run begins.
+1. Confirm only the final UI label for `Flow` / `Stroll`; automatic local-play entry already covers both Stroll and Arcade.
 2. Confirm four-player versus seven-player launch support; this document plans four while keeping the cap configurable.
 3. Confirm the Race target as 500 tiles with a 180-second hard cap versus an exactly 180-second distance contest.
 4. Playtest and tune the inferred Race fog buffer/cadence (`12 tiles`, `1 feather/s`) and the self-revive prompt duration/return positioning.
