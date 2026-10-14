@@ -20,15 +20,17 @@ import { BASE_COIN_CHANCE_V1, difficulty, generateLane as generateLaneV1, random
 import { applyActorEffects, progressiveActors, progressiveCoinPosition } from './actors.js';
 import type { ActorPattern, LaneActor } from './actors.js';
 import { vehicleModel, vehicleModelWidth } from './vehicle-models.js';
+import { SOLO_ARCADE_MODE, isModeDefinition, soloModeDefinition } from './mode-rules.js';
+import type { ModeDefinition, ModeRules, SoloLifecycleEventName, SoloMode } from './mode-rules.js';
 export type { LaneActor } from './actors.js';
 export { difficulty, random, wrap };
 export const HALF_WIDTH = 5;
-export const HOP_TIME = .14;
-export const WAVE_SPEED = .65;
-export const WAVE_GRACE = 4;
-export const WAVE_TRAIL = 6;
-export const MAX_HEALTH = 3;
-export const HURT_RECOVERY = 1;
+export const HOP_TIME = SOLO_ARCADE_MODE.rules.movement.hopDuration;
+export const WAVE_SPEED = SOLO_ARCADE_MODE.rules.pursuit.speed;
+export const WAVE_GRACE = SOLO_ARCADE_MODE.rules.pursuit.grace;
+export const WAVE_TRAIL = SOLO_ARCADE_MODE.rules.pursuit.waveTrail;
+export const MAX_HEALTH = SOLO_ARCADE_MODE.rules.health.maxHealth;
+export const HURT_RECOVERY = SOLO_ARCADE_MODE.rules.health.hurtRecovery;
 export const PLAYER_VEHICLE_RADIUS = .2;
 const BASE_COIN_CHANCE = BASE_COIN_CHANCE_V1;
 export type ImpactFace = 'rear' | 'side' | 'front';
@@ -38,7 +40,8 @@ export interface VehicleContact { fraction: number; normalX: number; normalY: nu
 export interface Lane { index: number; kind: LaneKind; world: World; speed: number; spacing: number; length: number; phase: number; variant: number; blocked: number[]; decorations: { x: number; variant: number }[]; coin: number | null; coinDenomination?: CoinDenominationId; period: number; warning: number; direction?: number; coinActor?: number | null; coinPull?: CoinPull; actors?: ActorPattern }
 /** Freezing an actor must not flip its model or change which bumper is front. */
 export function laneDirection(lane: Lane): number { return lane.speed < 0 ? -1 : lane.speed > 0 ? 1 : lane.direction ?? 1; }
-export type Mode = 'arcade' | 'stroll';
+export type Mode = SoloMode;
+export interface GameOptions { readonly definition?: ModeDefinition }
 export type RunState = 'ready' | 'playing' | 'paused' | 'dead';
 export type DeathCause = 'traffic' | 'train' | 'water' | 'wave' | 'swept' | 'trail' | 'mob';
 export type Direction = 'forward' | 'back' | 'left' | 'right';
@@ -148,7 +151,7 @@ export class Game {
   readonly attractedCoins = new Map<number, Lane>();
   x = 0; y = 0; maxY = 0; time = 0; idle = 0; hop = 0; fromX = 0; fromY = 0; coins = 0;
   waveRow = -4; caughtByWave = false;
-  health = MAX_HEALTH; readonly maxHealth = MAX_HEALTH; hurtRemaining = 0;
+  health: number; readonly maxHealth: number; hurtRemaining = 0;
   deathCause: DeathCause | null = null;
   /** Visual remains only: inventory is still cleared synchronously on death. */
   deathSpill: DeathSpill | null = null;
@@ -167,7 +170,9 @@ export class Game {
   private touchingCars = new Set<string>();
   private mobDirector: MobDirector;
   private laneSpeeds = new WeakMap<Lane, { base: number; applied: number }>();
-  constructor(seed: number | RunSeed, home = 'pond', mode: Mode = 'arcade', gentle = false, definitions: readonly ItemDefinition[] = [], characterId = DEFAULT_CHARACTER) {
+  readonly definition: ModeDefinition;
+  readonly rules: ModeRules;
+  constructor(seed: number | RunSeed, home = 'pond', mode: Mode = 'arcade', gentle = false, definitions: readonly ItemDefinition[] = [], characterId = DEFAULT_CHARACTER, options: GameOptions = {}) {
     this.characterId = characterById(characterId).id;
     if (typeof seed !== 'number') {
       this.runSeed = validateRunSeed(seed);
@@ -179,6 +184,10 @@ export class Game {
       home = home === 'shuffle' || HOME_IDS_V1.some(id => id === home) ? home : worldById(home).id;
       this.runSeed = HOME_IDS_V1.some(id => id === home) ? createRunSeed(seed, home, mode, gentle) : null;
     }
+    if (options.definition !== undefined && !isModeDefinition(options.definition)) throw new TypeError('options.definition must be a validated immutable mode definition.');
+    this.definition = options.definition ?? soloModeDefinition(mode);
+    this.rules = this.definition.rules;
+    this.maxHealth = this.rules.health.maxHealth; this.health = this.maxHealth;
     this.seedCode = this.runSeed ? encodeRunSeed(this.runSeed) : null;
     this.run = new RunInventory(seed, definitions.filter(item => !item.modes || item.modes.includes(mode)));
     this.seed = seed; this.home = home; this.mode = mode; this.gentle = gentle; this.ensureRows();
@@ -189,8 +198,8 @@ export class Game {
   }
   get mobs(): Mob[] { return this.mobDirector.mobs; }
   get lane(): Lane { return this.rows.get(this.y)!; }
-  get groundX(): number { return this.powerRescue ? this.x + (this.powerRescue.fromX - this.x) * this.rescueFraction : this.x + (this.fromX - this.x) * this.hop / HOP_TIME; }
-  get groundY(): number { return this.powerRescue ? this.y + (this.powerRescue.fromY - this.y) * this.rescueFraction : this.y + (this.fromY - this.y) * this.hop / HOP_TIME; }
+  get groundX(): number { return this.powerRescue ? this.x + (this.powerRescue.fromX - this.x) * this.rescueFraction : this.x + (this.fromX - this.x) * this.hop / this.rules.movement.hopDuration; }
+  get groundY(): number { return this.powerRescue ? this.y + (this.powerRescue.fromY - this.y) * this.rescueFraction : this.y + (this.fromY - this.y) * this.hop / this.rules.movement.hopDuration; }
   private get rescueFraction(): number {
     const t = this.powerRescue!.remaining / this.powerRescue!.power.duration;
     return t * t * (3 - 2 * t);
@@ -203,10 +212,10 @@ export class Game {
   /** A wardrobe swap changes the ability but never refills its shared charge. */
   setCharacter(id: string): void { this.characterId = characterById(id).id; }
   get waveGap(): number { return this.groundY - this.waveRow; }
-  get waveSeconds(): number { return Math.max(0, WAVE_GRACE - this.time) + Math.max(0, this.waveGap) / (WAVE_SPEED * this.run.effects.waveSpeed); }
-  get warning(): boolean { return this.mode === 'arcade' && this.waveSeconds <= 5; }
+  get waveSeconds(): number { return Math.max(0, this.rules.pursuit.grace - this.time) + Math.max(0, this.waveGap) / (this.rules.pursuit.speed * this.run.effects.waveSpeed); }
+  get warning(): boolean { return this.rules.pursuit.strategy === 'wave' && this.waveSeconds <= this.rules.pursuit.warningSeconds; }
   ensureRows(): void {
-    for (let i = this.maxY - 10; i <= this.maxY + 28; i++) if (!this.rows.has(i)) {
+    for (let i = this.maxY - this.rules.retention.rowsBehind; i <= this.maxY + this.rules.retention.rowsAhead; i++) if (!this.rows.has(i)) {
       const lane = this.runSeed ? generateSeedLane(this.runSeed, i) : generateLane(this.seed, i, this.home, this.gentle), effects = this.run.effects;
       const rng = random((this.runSeed?.seed ?? this.seed) ^ Math.imul(i + 100, 0x19ab61f));
       if (lane.kind === 'road') lane.spacing = lane.length + (lane.spacing - lane.length) * effects.trafficSpacing;
@@ -232,9 +241,9 @@ export class Game {
       }
       this.rows.set(i, lane);
     }
-    for (const i of this.rows.keys()) if (i < this.maxY - 10) this.rows.delete(i);
+    for (const i of this.rows.keys()) if (i < this.maxY - this.rules.retention.rowsBehind) this.rows.delete(i);
     this.syncEffects();
-    for (const lane of this.rows.values()) if (lane.coinActor === null && lane.index <= this.maxY + 8) {
+    for (const lane of this.rows.values()) if (lane.coinActor === null && lane.index <= this.maxY + this.rules.retention.pickupBindingAhead) {
       // Rows are generated 28 ahead. Bind near the visible approach so a log
       // reward has not already left the world before its lane can be reached.
       lane.coinActor = lane.actors
@@ -271,13 +280,13 @@ export class Game {
   }
   move(direction: Direction): boolean {
     if (this.run.isOpen || this.run.pendingPack) return false;
-    if (this.state === 'ready') this.state = 'playing';
+    if (this.state === 'ready') { this.state = 'playing'; this.lifecycle('start'); }
     if (this.state !== 'playing' || this.hop > 0 || this.powerRescue) return false;
     const nx = this.x + (direction === 'left' ? -1 : direction === 'right' ? 1 : 0);
     const ny = this.y + (direction === 'forward' ? 1 : direction === 'back' ? -1 : 0);
     if (nx < -HALF_WIDTH || nx > HALF_WIDTH || !this.rows.has(ny) || this.rows.get(ny)!.blocked.includes(Math.round(nx))) return false;
-    this.fromX = this.x; this.fromY = this.y; this.x = nx; this.y = ny; this.hop = HOP_TIME;
-    if (ny > this.maxY) { this.maxY = ny; this.idle = 0; this.awardCoins(this.run.advanceScore(ny)); this.ensureRows(); this.regenerate(); }
+    this.fromX = this.x; this.fromY = this.y; this.x = nx; this.y = ny; this.hop = this.rules.movement.hopDuration;
+    if (ny > this.maxY) { this.maxY = ny; this.idle = 0; this.awardCoins(this.run.advanceScore(ny)); this.ensureRows(); this.regenerate(); this.lifecycle('progress'); }
     return true;
   }
   end(reason: string, cause: DeathCause = 'traffic', face?: 'front' | 'rear' | 'side'): void {
@@ -289,7 +298,7 @@ export class Game {
       return item?.kind === 'cosmetic' ? [item] : [];
     });
     this.deathSpill = createDeathSpill(this.run.wallet, cosmetics, this.groundX, this.groundY, 0, this.seed ^ Math.imul(this.maxY, 0x45d9f3b));
-    this.health = 0; this.hurtRemaining = 0; this.reason = reason; this.deathCause = cause; this.state = 'dead'; this.run.clear(); this.onEnd();
+    this.health = 0; this.hurtRemaining = 0; this.reason = reason; this.deathCause = cause; this.state = 'dead'; this.run.clear(); this.onEnd(); this.lifecycle('terminal');
   }
   advanceDeathVisuals(dt: number): void {
     if (this.state === 'dead' && this.deathSpill && Number.isFinite(dt) && dt > 0) this.deathSpill.age = Math.min(3, this.deathSpill.age + dt);
@@ -298,14 +307,14 @@ export class Game {
     const power = this.power;
     if (!this.powerReady || !powerMatches(power, cause, face)) return false;
     const x = this.groundX, y = this.groundY;
-    const landingTime = this.time + power.duration * (this.mode === 'stroll' ? .58 : 1);
-    const wave = this.waveRow + power.duration * WAVE_SPEED * this.run.effects.waveSpeed;
+    const landingTime = this.time + power.duration * this.rules.simulation.worldTimeScale;
+    const wave = this.waveRow + power.duration * this.rules.pursuit.speed * this.run.effects.waveSpeed;
     const candidates: { x: number; y: number; cost: number }[] = [];
     // Seeded relief meadows are at most a few rows away. Landing on land avoids
     // chasing a moving platform or creating invisible support under the player.
     for (const lane of this.rows.values()) {
       if (lane.kind !== 'meadow' || Math.abs(lane.index - y) > 6 || lane.index < this.maxY - 6) continue;
-      if (this.mode === 'arcade' && lane.index <= wave + .85) continue;
+      if (this.rules.pursuit.strategy === 'wave' && lane.index <= wave + .85) continue;
       for (let column = -HALF_WIDTH; column <= HALF_WIDTH; column++) {
         const distance = Math.hypot(column - x, lane.index - y);
         if (distance > 6 || this.mobBlocked(column, lane.index, PLAYER_VEHICLE_RADIUS)) continue;
@@ -331,10 +340,10 @@ export class Game {
     return true;
   }
   private regenerate(): void {
-    const milestone = Math.floor(this.maxY / 100);
+    const milestone = Math.floor(this.maxY / this.rules.health.regenerationInterval);
     if (milestone <= this.healedMilestone) return;
     const before = this.health;
-    this.health = Math.min(MAX_HEALTH, this.health + (milestone - this.healedMilestone) * (.5 + this.run.effects.regenBonus));
+    this.health = Math.min(this.maxHealth, this.health + (milestone - this.healedMilestone) * (this.rules.health.regenerationAmount + this.run.effects.regenBonus));
     this.healedMilestone = milestone;
     if (this.health > before) this.onHeal(this.health - before);
   }
@@ -343,13 +352,13 @@ export class Game {
     const awayX = center + (hit.normalX < 0 ? bounds.minX - PLAYER_VEHICLE_RADIUS - .08 : bounds.maxX + PLAYER_VEHICLE_RADIUS + .08);
     const candidates = hit.normalY ? [[x, lane.index + hit.normalY], [this.fromX, Math.round(this.fromY)]] : [[awayX, lane.index], [this.fromX, Math.round(this.fromY)]];
     candidates.push([x, lane.index - 1], [x, lane.index + 1]);
-    const landingTime = this.time + HOP_TIME * (this.mode === 'stroll' ? .58 : 1);
-    const target = candidates.find(([tx, ty]) => Math.hypot(tx! - x, ty! - y) < 1.6 && !this.mobBlocked(tx!, ty!, PLAYER_VEHICLE_RADIUS) && (this.mode !== 'arcade' || ty! > this.waveRow + .2) && !this.mobHazard(tx!, ty!, tx!, ty!, landingTime, landingTime, PLAYER_VEHICLE_RADIUS));
+    const landingTime = this.time + this.rules.movement.hopDuration * this.rules.simulation.worldTimeScale;
+    const target = candidates.find(([tx, ty]) => Math.hypot(tx! - x, ty! - y) < 1.6 && !this.mobBlocked(tx!, ty!, PLAYER_VEHICLE_RADIUS) && (this.rules.pursuit.strategy !== 'wave' || ty! > this.waveRow + .2) && !this.mobHazard(tx!, ty!, tx!, ty!, landingTime, landingTime, PLAYER_VEHICLE_RADIUS));
     // A boxed-in duck retains controls and immunity; moving traffic clears the
     // contact instead of forcing a displacement into another lethal surface.
     this.fromX = x; this.fromY = y;
     this.x = target?.[0] ?? x; this.y = target?.[1] ?? lane.index;
-    this.hop = target ? HOP_TIME : 0;
+    this.hop = target ? this.rules.movement.hopDuration : 0;
   }
   private collideVehicles(previousX: number, previousY: number, previousTime: number): void {
     const x = this.groundX, y = this.groundY;
@@ -374,10 +383,10 @@ export class Game {
       if (this.run.effects.shield > 0) continue;
       if (lane.kind === 'rail') { this.end('Train! Wait for the crossing lights to clear.', 'train'); return; }
       if (this.hurtRemaining > 0) continue;
-      const amount = hit.face === 'rear' ? Math.max(.25, this.run.effects.rearDamage) : hit.face === 'side' ? Math.max(.25, 2 * this.run.effects.sideDamage) : 3;
+      const amount = hit.face === 'rear' ? Math.max(.25, this.rules.health.rearDamage * this.run.effects.rearDamage) : hit.face === 'side' ? Math.max(.25, this.rules.health.sideDamage * this.run.effects.sideDamage) : this.rules.health.frontDamage;
       if (this.health <= amount) { this.end(hit.face === 'front' ? 'Head-on traffic! Stay clear of the front bumper.' : 'Out of pluck! Look for a gap before crossing.', 'traffic', hit.face); return; }
       this.health -= amount;
-      this.hurtRemaining = HURT_RECOVERY * this.run.effects.hurtRecovery;
+      this.hurtRemaining = this.rules.health.hurtRecovery * this.run.effects.hurtRecovery;
       this.recoil(lane, center, bounds, hit, previousX + (x - previousX) * hit.fraction, previousY + (y - previousY) * hit.fraction);
       this.onHurt({ face: hit.face, amount });
       return;
@@ -421,7 +430,7 @@ export class Game {
     const previousTime = this.time;
     const previousX = this.groundX, previousY = this.groundY;
     const riding = this.hop === 0 && platformSupports(this.lane, this.x, previousTime);
-    this.time += dt * (this.mode === 'stroll' ? .58 : 1);
+    this.time += dt * this.rules.simulation.worldTimeScale;
     this.idle += dt;
     this.hurtRemaining = Math.max(0, this.hurtRemaining - dt);
     this.powerNotice = Math.max(0, this.powerNotice - dt);
@@ -430,24 +439,24 @@ export class Game {
     if (this.powerRescue) {
       // World motion continues during the escape, but no old swept contact or
       // collectible can intersect this protected airborne path.
-      if (this.mode === 'arcade') {
-        const chaseTime = Math.max(0, this.time - WAVE_GRACE) - Math.max(0, previousTime - WAVE_GRACE);
-        this.waveRow = Math.max(this.waveRow + chaseTime * WAVE_SPEED * this.run.effects.waveSpeed, this.maxY - WAVE_TRAIL - this.run.effects.waveTrail);
+      if (this.rules.pursuit.strategy === 'wave') {
+        const chaseTime = Math.max(0, this.time - this.rules.pursuit.grace) - Math.max(0, previousTime - this.rules.pursuit.grace);
+        this.waveRow = Math.max(this.waveRow + chaseTime * this.rules.pursuit.speed * this.run.effects.waveSpeed, this.maxY - this.rules.pursuit.waveTrail - this.run.effects.waveTrail);
       }
       this.powerRescue.remaining = Math.max(0, this.powerRescue.remaining - dt);
-      this.mobDirector.update(this, this.time - previousTime, previousX, previousY);
+      this.updateMobs(this.time - previousTime, previousX, previousY);
       if (this.powerRescue.remaining === 0) { this.powerRescue = null; this.powerLandingGrace = .45; }
       return;
     }
-    if (this.mode === 'arcade') {
-      const chaseTime = Math.max(0, this.time - WAVE_GRACE) - Math.max(0, previousTime - WAVE_GRACE);
-      this.waveRow = Math.max(this.waveRow + chaseTime * WAVE_SPEED * this.run.effects.waveSpeed, this.maxY - WAVE_TRAIL - this.run.effects.waveTrail);
+    if (this.rules.pursuit.strategy === 'wave') {
+      const chaseTime = Math.max(0, this.time - this.rules.pursuit.grace) - Math.max(0, previousTime - this.rules.pursuit.grace);
+      this.waveRow = Math.max(this.waveRow + chaseTime * this.rules.pursuit.speed * this.run.effects.waveSpeed, this.maxY - this.rules.pursuit.waveTrail - this.run.effects.waveTrail);
       // Use the same ground position as the drawing, including while airborne.
       if (this.waveGap <= 0 && this.run.effects.shield <= 0) { this.caughtByWave = true; this.end('The wave caught you. Hop forward to stay ahead.', 'wave'); return; }
-    } else if (this.y < this.maxY - 7) { this.end('The trail moved on. Keep hopping forward!', 'trail'); return; }
+    } else if (this.y < this.maxY - this.rules.pursuit.trailingLimit) { this.end('The trail moved on. Keep hopping forward!', 'trail'); return; }
     this.collideVehicles(previousX, previousY, previousTime);
     if (this.state !== 'playing' || this.powerRescue) return;
-    if (this.hop > 0) { this.collectCoins(this.time - previousTime, false); this.mobDirector.update(this, this.time - previousTime, previousX, previousY); return; }
+    if (this.hop > 0) { this.collectCoins(this.time - previousTime, false); this.updateMobs(this.time - previousTime, previousX, previousY); return; }
     const lane = this.lane;
     if (lane.kind === 'river') {
       // Carry an existing rider before testing the platform's new position. A
@@ -458,7 +467,7 @@ export class Game {
     }
     if (this.powerRescue) return;
     if (this.state === 'playing') this.collectCoins(this.time - previousTime, true);
-    if (this.state === 'playing') this.mobDirector.update(this, this.time - previousTime, previousX, previousY);
+    if (this.state === 'playing') this.updateMobs(this.time - previousTime, previousX, previousY);
   }
   /** Captured coins accelerate visibly toward the duck; pay only on safe contact. */
   private collectCoins(dt: number, landed: boolean): void {
@@ -466,7 +475,7 @@ export class Game {
     for (const rewardLane of new Set([...this.rows.values(), ...this.attractedCoins.values()])) {
       // Stroll can outrun attraction. Retire only rewards whose actual position
       // has left the retained trail, never a visible coin's original lane.
-      if (rewardLane.coinPull && rewardLane.coinPull.y < this.maxY - 10) {
+      if (rewardLane.coinPull && rewardLane.coinPull.y < this.maxY - this.rules.retention.rowsBehind) {
         rewardLane.coin = null; delete rewardLane.coinPull; delete rewardLane.coinDenomination;
         this.attractedCoins.delete(rewardLane.index);
         continue;
@@ -485,12 +494,12 @@ export class Game {
       if (!ordinary) {
         if (gravity <= 0) continue;
         if (!rewardLane.coinPull) {
-          if (!landed || Math.hypot(coin.x - x, coin.y - y) > .5 + gravity) continue;
+          if (!landed || Math.hypot(coin.x - x, coin.y - y) > this.rules.retention.captureDistance + gravity) continue;
           rewardLane.coinPull = { ...coin, z: platformSurface(rewardLane), speed: 0 };
           this.attractedCoins.set(rewardLane.index, rewardLane);
         }
         advanceCoinPull(rewardLane.coinPull, x, y, platformSurface(lane), dt);
-        if (!landed || Math.hypot(rewardLane.coinPull.x - x, rewardLane.coinPull.y - y) > .2) continue;
+        if (!landed || Math.hypot(rewardLane.coinPull.x - x, rewardLane.coinPull.y - y) > this.rules.retention.pullCompletionDistance) continue;
       }
       const value = coinDenomination(rewardLane.coinDenomination).value;
       rewardLane.coin = null;
@@ -501,8 +510,13 @@ export class Game {
       this.awardCoins(value + bonus);
     }
   }
-  pause(): void { if (this.state === 'playing') this.state = 'paused'; }
-  resume(): void { if (this.state === 'paused' && !this.run.isOpen && !this.run.pendingPack) this.state = 'playing'; }
+  private updateMobs(dt: number, previousX: number, previousY: number): void { if (this.rules.pursuers.enabled || this.mode === 'stroll') this.mobDirector.update(this, dt, previousX, previousY); }
+  private lifecycle(type: SoloLifecycleEventName): void {
+    const observer = type === 'start' ? this.rules.lifecycle.onStart : type === 'progress' ? this.rules.lifecycle.onProgress : type === 'pause' ? this.rules.lifecycle.onPause : type === 'resume' ? this.rules.lifecycle.onResume : this.rules.lifecycle.onTerminal;
+    observer?.({ type, game: this });
+  }
+  pause(): void { if (this.state === 'playing') { this.state = 'paused'; this.lifecycle('pause'); } }
+  resume(): void { if (this.state === 'paused' && !this.run.isOpen && !this.run.pendingPack) { this.state = 'playing'; this.lifecycle('resume'); } }
 }
 export interface Progress { travelerVersion: 2; best: number; strollBest: number; coins: number; runs: number; selected: string; world: string; mode: Mode; reduced: boolean; muted: boolean; soundPack: string; soundAddress: string; musicVolume: number; ambienceVolume: number; effectsVolume: number }
 export const freshProgress = (): Progress => ({ travelerVersion: 2, best: 0, strollBest: 0, coins: 0, runs: 0, selected: DEFAULT_CHARACTER, world: 'home', mode: 'arcade', reduced: false, muted: false, soundPack: 'pond', soundAddress: '', musicVolume: .6, ambienceVolume: .65, effectsVolume: 1 });

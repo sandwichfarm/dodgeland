@@ -123,7 +123,7 @@ function fatalFixture(cause) {
     // These fixtures only place world state; the following paired update is
     // what detects every fatal cause through production collision/water logic.
     if (cause === 'swept') { game.x = game.fromX = 5.51; setLane(game, 0, 'river', { speed: 1, phase: 5.51, length: 3.5 }); }
-    if (cause === 'trail') { game.mode = 'stroll'; game.maxY = 8; }
+    if (cause === 'trail') game.maxY = 8;
     if (cause === 'mob') game.mobs.push({ id: 1, kind: 'slime', x: 0, y: 0, fromX: 0, fromY: 0,
       targetX: 0, targetY: 0, phase: 'rest', phaseLeft: 1, phaseDuration: 1 });
   };
@@ -138,7 +138,7 @@ test('production collision faces, latches, and fatal hazards reach their named s
   const fatalCauses = ['train', 'water', 'wave', 'swept', 'trail', 'mob'];
   const results = await runDifferentialMatrix([
     ...impactCases,
-    ...fatalCauses.map(cause => ({ name: `${cause} remains fatal during recovery`, seed: 71, characterId: ['water', 'swept'].includes(cause) ? 'sunny' : undefined,
+    ...fatalCauses.map(cause => ({ name: `${cause} remains fatal during recovery`, seed: 71, mode: cause === 'trail' ? 'stroll' : undefined, characterId: ['water', 'swept'].includes(cause) ? 'sunny' : undefined,
       setup: game => { fatalFixture(cause)(game); game.hurtRemaining = .9; }, tape: [{ kind: 'step', count: 1 }] })),
     { name: 'stationary contact latch suppresses repeat harm', seed: 73, keepTrace: true, setup: game => {
       game.state = 'playing'; game.x = game.fromX = .1; setLane(game, 0, 'road', { speed: .1, phase: -.1 });
@@ -155,6 +155,29 @@ test('production collision faces, latches, and fatal hazards reach their named s
   const latch = results.at(-1);
   assert.equal(latch.final.callbacks.filter(event => event.name === 'onHurt').length, 1, 'one retained car contact cannot drain health repeatedly');
   assert.equal(latch.trace.some(point => point.game.gameFuture.touchingCars.length > 0), true, 'the latch changes through actual collision detection');
+});
+
+test('Stroll trail boundary keeps seven trailing rows safe and kills only beyond them', async () => {
+  const distances = [6, 7, 8];
+  const results = await runDifferentialMatrix(distances.map(distance => ({
+    name: `Stroll trail cutoff at ${distance} rows behind`,
+    seed: 71,
+    mode: 'stroll',
+    setup: game => {
+      game.state = 'playing';
+      game.maxY = 20;
+      game.y = game.fromY = 20 - distance;
+      game.ensureRows();
+      setLane(game, game.y);
+    },
+    tape: [{ kind: 'step', count: 1 }],
+  })));
+  for (let index = 0; index < distances.length; index += 1) {
+    const beyond = distances[index] > 7;
+    assert.equal(results[index].final.game.state, beyond ? 'dead' : 'playing');
+    assert.equal(results[index].final.game.deathCause, beyond ? 'trail' : null);
+    assert.equal(results[index].final.callbacks.filter(event => event.name === 'onEnd').length, beyond ? 1 : 0);
+  }
 });
 
 function forwardTape(count) {
