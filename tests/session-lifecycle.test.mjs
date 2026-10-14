@@ -97,7 +97,7 @@ test('simultaneous deaths publish immutable records after all player statistics 
     assert.equal(Object.isFrozen(snapshot.record), true);
     assert.deepEqual(snapshot.participation, ['dead', 'dead']);
     assert.deepEqual(snapshot.deaths, [1, 1]);
-    assert.deepEqual(snapshot.causes, ['mob', 'mob']);
+    assert.deepEqual(snapshot.causes, ['traffic', 'traffic']);
   }
   const deaths = session.lifecycle.filter(record => record.type === 'player-death');
   assert.equal(deaths.length, 2);
