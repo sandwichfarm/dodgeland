@@ -5,15 +5,15 @@ milestone_name: milestone
 current_phase: 02
 current_phase_name: shared-local-session
 status: executing
-stopped_at: "Phase 02 plan 01: common operations and app safety committed; frozen-source final parity gate and acceptance audit pending."
-last_updated: "2026-10-14T23:09:55.999790+00:00"
+stopped_at: "Phase 02 wave 2: model arbitration/context fixes, independent gamepads, and native keyboard/editor executing."
+last_updated: "2026-10-14T23:25:58.021312+00:00"
 last_activity: 2026-10-14
-last_activity_desc: Common player operations committed in 3decf04 (5/5 regressions); app safety committed in fa97764 (built tracer 3/3). Final frozen-source gate pending.
+last_activity_desc: Plan01 tracer checkpoint committed and solo gates green. Wave2 executors own model, gamepad, and keyboard/editor; two confirmed callback defects are mandatory model fixes.
 progress:
   total_phases: 7
   completed_phases: 1
   total_plans: 30
-  completed_plans: 4
+  completed_plans: 5
 ---
 
 # Project State
@@ -28,17 +28,17 @@ See: `.planning/PROJECT.md` (updated 2026-10-14)
 ## Current Position
 
 Phase: 02 — Shared Local Session
-Plan: 1 of 6
-Status: Executing Plan 02-01; acceptance not yet met
-Last activity: 2026-10-14 — Shared rendering committed in ecf28d6 with 19 passing render tests and 24 exact original pixel cases. Built live-adoption/pause/focus/size/hydration/focus-wrap checks passed; screenshots inspected. Common player operations and independent callbacks committed in 3decf04 with 5/5 source tests; app safety/tracer committed in fa97764 with final built tracer 3/3.
+Plan: 2–4 of 6 (wave 2)
+Status: Plan01 tracer checkpoint handed off; executing wave2, phase acceptance pending
+Last activity: 2026-10-14 — Plan01 summary febc076; immutable21/21, regression270/270, render19/19 incl24 exactpixels, builttracer3/3, runtime10/12/8. Wave2 model/input executors active. Confirmed nested-callback routing and P2 regeneration callback defects remain mandatory model fixes.
 
-Progress: [█░░░░░░░░░] 13% of currently planned plans
+Progress: [██░░░░░░░░] 17% of currently planned plans (phase acceptance remains pending)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 4
+- Total plans completed: 5 (Plan01 tracer checkpoint retains explicit model gaps for02-02)
 - Average duration: 57.7 min for Plans 01-01 through 01-03 (Plan 01-04 duration not recorded)
 - Recorded execution time: 173 min for Plans 01-01 through 01-03
 
@@ -50,7 +50,7 @@ Progress: [█░░░░░░░░░] 13% of currently planned plans
 
 **Recent Trend:**
 
-- Last 5 plans: 01-01, 01-02, 01-03, 01-04
+- Last 5 plans: 01-01, 01-02, 01-03, 01-04, 02-01
 - Trend: Not established
 
 ## Accumulated Context
@@ -68,7 +68,7 @@ Recent decisions affecting current work:
 
 ### Pending Todos
 
-- Execute Phase 2 Plan 01: shared world/player ownership, live adoption, two-player tracer, and exact solo preservation.
+- Execute Phase2 wave2: permanent player contexts and arbitration; independent controller routing; native keyboard profiles and editor.
 - Phase 2 plans independently pass; reconcile live Phase 1 APIs and preserve per-seat call cues/cooldowns.
 - Phase 3 UI contract and seven plans independently approved; execute only after verified Phase 2 with current API reconciliation.
 - Relay UI/six plans and Race UI/seven plans independently approved; execution awaits their prior-phase gates.
@@ -76,7 +76,7 @@ Recent decisions affecting current work:
 ### Blockers/Concerns
 
 - Phase 1 is verified. The original `a310a81` model/render oracle remains immutable throughout multiplayer extraction.
-- Phase 2 Plan 01 is incomplete: common player regression tests pass; final immutable parity and acceptance audit on frozen source remain. Renderer and app safety have checkpoint evidence. See `phases/02-shared-local-session/02-01-INTEGRATION-NOTES.md`.
+- Phase2 ARCH-03 remains incomplete: reflected P2 operation context misroutes a nested P1 action; missing P2 onHeal throws at injured99→100. Both are reproduced and mandatory first fixes in02-02. Broad solo gates passed. See `phases/02-shared-local-session/02-01-INTEGRATION-NOTES.md`.
 - NAP-GAMEPAD remains an authorized draft adapter; no native controller polling. Missing gamepad support must leave keyboard/pointer play available.
 - Race fog tuning and the provisional seat/race defaults require later product confirmation, but no requested capability is deferred.
 
@@ -89,5 +89,5 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-10-14
-Stopped at: Phase 02 Plan 01 in progress. Engine/session and root app/runtime changes are committed (3decf04, fa97764). Executor owns one final immutable gate and acceptance audit on frozen source. No multiplayer mode is complete yet.
+Stopped at: Phase02 wave2 dispatched to multiplayer_phase2_model (game/session/mobs), multiplayer_phase2_gamepad (transport/router), multiplayer_phase2_keyboard (main/native profiles/editor). Root coordinates shared index and build/browser reservation. No multiplayer mode is complete yet.
 Resume file: None

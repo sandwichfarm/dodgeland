@@ -126,3 +126,26 @@ multiplayer game mode is complete yet.
   snapshot. Executor is running one final gate against frozen source. This
   checkpoint is not yet Plan 01 completion; architecture/acceptance reconciliation
   and the final parity result remain required.
+
+## Wave2 handoff audit
+
+Frozen production passed immutable21/21, explicit owner-map21/21, final
+solo regression270/270, render19/19 (24 exact original pixel cases), built
+tracer3/3 including double-pagehide cleanup and solo return, runtime10/12/8,
+and type-check. Regression's three devtools failures were test JSON cycles;
+cycle-aware complete snapshots now preserve maps/sets and pass.
+
+Two confirmed model defects remain, assigned as mandatory first fixes to02-02:
+
+1. P2 onCoin dispatching P1 forward moves P2 because Game is temporarily rebound.
+   Game71/Pond/Stroll, meadow rows, P1x2/P2x0 bothy0, coin row0, then update(0):
+   dispatch returns true, P1y0, P2y1. Use permanent player contexts.
+2. P2 regeneration omits its onHeal handler. Set its earnedDistance/maxY/y/fromY
+   to99 and health2; advance world frontier, generate meadow rows, dispatch
+   forward. It throws `this.onHeal is not a function`. Test typed per-player
+   callback delivery at the actual threshold.
+
+The checkpoint does not complete ARCH-03, INPUT-02, UI-01, or UI-02 in full.
+Wave2 model, controller, and keyboard executors now own their reviewed plans;
+final phase acceptance must resolve these defects and all remaining UI/input
+requirements.

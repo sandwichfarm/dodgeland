@@ -21,7 +21,8 @@ key-decisions:
   - "Use one SharedWorld and typed per-seat state; never construct a Game per traveler."
   - "Preserve the immutable solo facade through aliases and a test-side owner map."
   - "Keep all-player MobDirector targeting and permanent operation contexts for Plan 02-02."
-requirements-completed: [INPUT-02, UI-01, UI-02]
+requirements-completed: []
+requirements-advanced: [ARCH-03, INPUT-02, UI-01, UI-02]
 coverage:
   - id: D1
     description: "Two distinct Local Play seats share one fixed-step world and keep independent hazards, powers, inventory, and terminal state."
@@ -30,8 +31,8 @@ coverage:
       - kind: integration
         ref: "tests/session-player.test.mjs"
         status: pass
-    human_judgment: true
-    rationale: "Nested P2 callbacks can re-enter the scoped facade binding; Plan 02-02 must replace it before ARCH-03 is complete."
+    human_judgment: false
+    rationale: "Known reproducible defects: nested P2 callbacks misroute primary actions, and injured P2 regeneration calls missing onHeal. Plan02-02 must fix both; phase architecture acceptance remains pending."
   - id: D2
     description: "Built opaque iframe stages, cancels, starts, pauses, and tears down Local Play through the real app surface."
     requirement: "UI-01"
@@ -101,9 +102,10 @@ status: complete
    - **Verification:** immutable parity 21/21.
    - **Committed in:** `078fd64`.
 
-## Deferred Architecture Hardening
+## Mandatory Next-Plan Corrections
 
 - `withSessionPlayer` temporarily rebinds the Game facade while applying P2 operations. A P2 callback that re-enters through `session.dispatch({ seat: 'p1', ... })` can act against the temporary P2 binding. Reproduction: Game 71/Pond/Stroll with meadow rows, P1 at x2/y0 and P2 at x0/y0, row 0 coin, and `p2.onCoin` dispatching P1 forward; the callback returns true, P1 remains at y0, and P2 moves to y1. Plan 02-02 must replace this bridge with a permanent explicit player/world operation context before claiming final composable ownership.
+- The callback adapter omits `onHeal`: an injured secondary at earnedDistance99, maxY/y/fromY99, health2, with meadow row100 throws `TypeError: this.onHeal is not a function` on its next forward hop. Plan02-02 must add typed independent healing delivery and a regression that crosses the real100-point threshold.
 - All-player/nearest-target MobDirector arbitration, deterministic contested claims, generalized 1/2/4-seat identity types, native keyboard-profile editing, and the full responsive UI matrix remain with Plans 02-02 through 02-05. The Plan 01 browser proof deliberately uses the injected shell-action runtime fixture and does not claim native-key profile coverage.
 
 ## Next Phase Readiness

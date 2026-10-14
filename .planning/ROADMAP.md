@@ -62,7 +62,7 @@ Plans:
 
 Plans:
 
-- [ ] 02-01-PLAN.md — Extract shared world/player ownership with a live two-player tracer, solo adoption, and immutable parity.
+- [x] 02-01-PLAN.md — Commit live two-player tracer, solo adoption, renderer, and immutable parity checkpoint; known callback defects remain mandatory02-02 fixes.
 - [ ] 02-02-PLAN.md — Prove deterministic shared simulation, pickup ownership, lifecycle, and per-player state.
 - [ ] 02-03-PLAN.md — Route independent controllers through the existing authorized snapshot transport.
 - [ ] 02-04-PLAN.md — Implement shared-keyboard routing, binding capture, conflicts, reset, and persistence.
@@ -183,7 +183,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Composable Solo Baseline | 4/4 | Complete    | 2026-10-14 |
-| 2. Shared Local Session | 0/6 | Starting execution | - |
+| 2. Shared Local Session | 1/6 | Wave2 executing; architecture gaps tracked | - |
 | 3. Survive Together & Consumables | 0/7 | Reviewed; awaits Phase 2 | - |
 | 4. Relay | 0/6 | Reviewed; awaits Phase 3 | - |
 | 5. Race | 0/7 | Reviewed; awaits dependencies | - |
