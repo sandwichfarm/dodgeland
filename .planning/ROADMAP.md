@@ -31,7 +31,13 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Existing seed links, saved data, intent contracts, market/cards, sound packs, shortcuts, and terrain schemas continue to load and behave compatibly after migration.
   3. A developer can define a mode by combining validated rule groups and lifecycle handlers, with a documented example, without adding mode-name branches across input or rendering.
   4. A solo player still reaches play in one step; multiplayer setup is not shown unless they deliberately select it or another device requests local play.
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Establish the immutable a310a81 differential harness and complete solo scenario matrix.
+- [ ] 01-02-PLAN.md — Introduce validated immutable rule composition and route core Game/render behavior through it.
+- [ ] 01-03-PLAN.md — Route economy, collection, pursuers, and timing consumers through active rules.
+- [ ] 01-04-PLAN.md — Preserve one-step app entry, document real authoring, and run the strict phase gate.
 
 ### Phase 2: Shared Local Session
 **Goal**: Local players can form a readable, uniquely identified roster and control simultaneous characters in one advancing world.
