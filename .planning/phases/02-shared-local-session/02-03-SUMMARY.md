@@ -21,7 +21,8 @@ key-decisions:
   - "Keep the draft shell bridge transport-only and move multi-device policy into GamepadRouter."
   - "Treat index plus sanitized ID plus epoch as a lease; never treat an index as durable player identity."
   - "Emit structural device lifecycle transitions while Plan 02-05 maps them to mode-owned LocalSession lifecycle methods."
-requirements-completed: [INPUT-01, INPUT-02, INPUT-04, INPUT-05, INPUT-06]
+requirements-completed: []
+requirements-advanced: [INPUT-01, INPUT-02, INPUT-04, INPUT-05, INPUT-06]
 coverage:
   - id: D1
     description: "Complete authorized snapshots route independently leased standard controllers through GamepadRouter into actual LocalSession players."
@@ -132,6 +133,10 @@ None.
 ## Next Phase Readiness
 
 Plan 02-05 can construct the router, feed its snapshot consumer from the authorized transport, update it once per frame, and bridge the documented structural lifecycle callbacks to the current `LocalSession` lifecycle methods. No physical-controller or main-loop integration claim is made by this plan.
+
+The input requirements remain pending in REQUIREMENTS.md until the integrated
+setup/runtime and phase gate prove their complete user-facing behavior. This
+completed plan establishes the transport/router portion of those requirements.
 
 ## Self-Check: PASSED
 
