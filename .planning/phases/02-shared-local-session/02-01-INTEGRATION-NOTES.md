@@ -64,3 +64,65 @@ paths need correction and behavioral evidence before Plan 02-01 is complete:
 On resumption, retained test handle `46838` returned `Unknown process id`.
 This is not a passing test result; recover its log/process result or run the
 appropriate gate after source changes settle.
+
+## Resolved checkpoints and remaining work
+
+- `ecf28d6` moves all traveler bodies, spills, trails, and rescue effects into
+  the common world draw layers. Both travelers have identity labels. The shared
+  camera follows the leading active interpolated position and retains its last
+  position when every traveler is terminal. `node --test tests/render.test.mjs`
+  passed 19/19, including the 24 exact archived/current solo pixel cases.
+  New browser assertions prove secondary foreground occlusion, raised platform
+  support, roster-order invariance, and camera behavior. Root inspected
+  `artifacts/local-session-render-foreground.png` and
+  `artifacts/local-session-render-river.png`.
+- The unsafe temporary reactivation of a terminal primary was removed in
+  `27f1add`. A bounded actual-source audit confirmed that the primary's wallet,
+  idle time, coin callbacks, and death callbacks remain unchanged while the
+  world clock advances with a living companion. Clock-only continuation is
+  still an intermediate implementation: common hazards, wave, and director
+  work must continue through the shared engine.
+- The retained replacement immutable model gate `74766` completed successfully:
+  21 tests, no failures, original baseline `a310a81`. This proves the checkpoint
+  tested; common-operation extraction still needs its own parity result.
+- App-level staging now freezes the existing loop, supports pause → Local Play
+  during a progressed run, restores the same run on cancel, and resumes its
+  adopted primary on commit. Session pause/focus/size/menu guards cover both
+  players independently of primary death. Late preference hydration cannot
+  replace staged or active character/world identity. Setup has a labeled modal
+  role and contained Tab focus, and page teardown stops the session.
+- The built opaque-iframe tracer passes its expanded scenarios: progressed
+  adoption/cancel, shared scene/seat pause, ignored secondary input during
+  pause/blur/undersize, delayed hydration before/after commit, and setup focus
+  wrap. The current suite has three test cases with multiple assertions; this
+  is not a claim of completed phase coverage. The existing built solo smoke
+  test also passed 10 scenarios, 12 frame/theme checks, and 8 wave checks.
+- Root inspected the successful built tracer's 900×600 captures
+  `artifacts/local-session-setup.png` and `artifacts/local-session-active.png`.
+  The staged live course is dimmed, the setup board is centered with visible
+  focus, and both actual travelers have world labels. Plan 02-05 still must fix
+  overlapping seat/world HUD labels and the small, low-contrast setup legend;
+  these captures do not establish final responsive UI acceptance. A later
+  node-only tracer run correctly rejected a stale bundle after the ongoing
+  engine refactor changed production source; retain the earlier passing
+  snapshot as checkpoint evidence, not evidence for those later source edits.
+
+Plan 02-01 remains incomplete. A dedicated executor is extracting common
+player/world operations in `src/game.ts` and `src/session.ts`; the simplified
+secondary movement/timer path must be replaced and independently exercised.
+Plan 02-02 retains ownership of the multi-target MobDirector contract and
+all-player impact arbitration. Neither the shared session plan nor a
+multiplayer game mode is complete yet.
+
+## Committed shared-operation and app checkpoint
+
+- `3decf04` replaces the simplified companion simulation with shared production
+  player operations and typed per-seat callbacks. The new
+  `tests/session-player.test.mjs` passes 5/5 and type-check passes.
+- `fa97764` commits app staging, safety, hydration protection, focus containment,
+  and the expanded tracer. The final `pnpm build && node --test
+  tests/local-session-tracer.mjs` passes 3/3 against the committed core.
+- The earlier long parity process has exited and covered an earlier source
+  snapshot. Executor is running one final gate against frozen source. This
+  checkpoint is not yet Plan 01 completion; architecture/acceptance reconciliation
+  and the final parity result remain required.

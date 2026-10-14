@@ -5,10 +5,10 @@ milestone_name: milestone
 current_phase: 02
 current_phase_name: shared-local-session
 status: executing
-stopped_at: "Phase 02 plan 01 in progress; shared-player behavior and rendered adoption integration remain open."
-last_updated: "2026-10-14T22:03:31.626Z"
+stopped_at: "Phase 02 plan 01: common operations and app safety committed; frozen-source final parity gate and acceptance audit pending."
+last_updated: "2026-10-14T23:09:55.999790+00:00"
 last_activity: 2026-10-14
-last_activity_desc: Phase 02 tracer audit identified concrete shared-simulation, rendering, and lifecycle gaps; executor resumed fixes.
+last_activity_desc: Common player operations committed in 3decf04 (5/5 regressions); app safety committed in fa97764 (built tracer 3/3). Final frozen-source gate pending.
 progress:
   total_phases: 7
   completed_phases: 1
@@ -30,7 +30,7 @@ See: `.planning/PROJECT.md` (updated 2026-10-14)
 Phase: 02 — Shared Local Session
 Plan: 1 of 6
 Status: Executing Plan 02-01; acceptance not yet met
-Last activity: 2026-10-14 — Audited the actual tracer and built-runtime test. Recorded world-continuation, earned-progress, depth-ordering, live-adoption, and suspension gaps in 02-01-INTEGRATION-NOTES.md; executor resumed implementation.
+Last activity: 2026-10-14 — Shared rendering committed in ecf28d6 with 19 passing render tests and 24 exact original pixel cases. Built live-adoption/pause/focus/size/hydration/focus-wrap checks passed; screenshots inspected. Common player operations and independent callbacks committed in 3decf04 with 5/5 source tests; app safety/tracer committed in fa97764 with final built tracer 3/3.
 
 Progress: [█░░░░░░░░░] 13% of currently planned plans
 
@@ -76,7 +76,7 @@ Recent decisions affecting current work:
 ### Blockers/Concerns
 
 - Phase 1 is verified. The original `a310a81` model/render oracle remains immutable throughout multiplayer extraction.
-- Phase 2 Plan 01 is incomplete: independent hazards/progress, shared-world continuation, common render ordering/camera, progressed app adoption, and global safety require production fixes and behavioral proof. See `phases/02-shared-local-session/02-01-INTEGRATION-NOTES.md`.
+- Phase 2 Plan 01 is incomplete: common player regression tests pass; final immutable parity and acceptance audit on frozen source remain. Renderer and app safety have checkpoint evidence. See `phases/02-shared-local-session/02-01-INTEGRATION-NOTES.md`.
 - NAP-GAMEPAD remains an authorized draft adapter; no native controller polling. Missing gamepad support must leave keyboard/pointer play available.
 - Race fog tuning and the provisional seat/race defaults require later product confirmation, but no requested capability is deferred.
 
@@ -89,5 +89,5 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-10-14
-Stopped at: Phase 02 Plan 01 in progress; implementation and behavioral proof continue. No multiplayer mode is complete yet.
+Stopped at: Phase 02 Plan 01 in progress. Engine/session and root app/runtime changes are committed (3decf04, fa97764). Executor owns one final immutable gate and acceptance audit on frozen source. No multiplayer mode is complete yet.
 Resume file: None
