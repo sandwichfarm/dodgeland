@@ -166,18 +166,20 @@ src/
 
 **When to use:** First extraction task, before wiring a second player or any new UI.
 
-**Required update order:**
+**Compatibility constraint, reconciled against Phase 1 source:** The existing solo update starts with `run.tick(dt)` and `syncEffects()`, then captures previous time/ground/riding state, advances world time and personal timers, and resolves pursuit, vehicle, river, coin and mob branches with their existing early returns. Row generation/retention also runs through movement rather than an unconditional world-tick step. Preserve that order and synchronous legacy callback timing in the one-player facade. Moving ownership must not move operations across those boundaries. [VERIFIED: `src/game.ts:Game.update`; `src/game.ts:Game.move`]
+
+**Proposed multiplayer scheduling, subject to the exact solo constraint:**
 
 1. `LocalSession` gates state and captures one `previousWorldTime` and each player's previous ground sample.
 2. `SharedWorld` advances its run-level real-time policy, rebases lane speeds, advances world time once, updates retention/row generation from a deterministic session progress policy, and advances the wave/fog policy once.
 3. Every active player decrements personal real-time clocks, completes rescue/hop movement, resolves vehicle/river/trail/wave hazards against the same world time window, and records candidate pickup contact.
 4. `SharedWorld.resolvePickups()` awards each pickup once, using collision time then distance then stable seat order as a deterministic tie-breaker.
 5. `SharedWorld` updates the mob population once and applies resolved impacts to the targeted/struck player records in stable seat order.
-6. Lifecycle events are delivered after state changes; renderer/HUD observe only the completed tick. [VERIFIED: `.planning/codebase/ARCHITECTURE.md`; VERIFIED: `src/game.ts]
+6. New session lifecycle events are delivered after state changes; renderer/HUD observe only the completed tick. Existing solo callbacks retain their original call sites and order. This list is the multiplayer ownership contract, not a literal description of the legacy solo update. [PROPOSED]
 
 ```ts
 // Proposed Phase 2 seam; names are prescriptive, exact Phase 1 rule fields are provisional.
-// Source basis: src/game.ts update ordering and Phase 1 plans.
+// Conceptual multiplayer scheduling only; preserve actual solo operation order.
 class LocalSession {
   constructor(readonly world: SharedWorld, readonly players: SessionPlayer[]) {}
   update(realDt: number): void {
@@ -226,7 +228,7 @@ class LocalSession {
 
 **What:** Keep `Renderer.draw(game, character, dt)` as a solo wrapper and add a session entry point accepting `WorldRenderView`, `readonly PlayerRenderModel[]`, and one `CameraPolicy` target. Submit terrain, actors, rewards, mobs, player voxel models, and player nameplates into the common depth-sorted list. Draw nameplates as clipped screen overlays after their actor's depth pass, hiding them only when the actor is offscreen. [VERIFIED: `src/render.ts`; VERIFIED: `02-UI-SPEC.md]
 
-**Camera:** Camera policy is world-owned and chooses the furthest active player's interpolated progress with stable seat tie-break; it smooths once per frame. Do not render/calculate a camera per player. Future Race can substitute its rule-defined camera/fog policy without changing the renderer's player list. [ASSUMED]
+**Camera:** Multiplayer camera policy is world-owned and chooses the furthest active player's interpolated progress with stable seat tie-break; it smooths once per frame. The solo adapter keeps its existing `game.maxY` target and exact smoothing/reduced-motion arithmetic, so mid-hop pixels remain identical. Do not render/calculate a camera per player. Future Race can substitute its rule-defined camera/fog policy without changing the renderer's player list. [ASSUMED: multiplayer policy; VERIFIED: solo `src/render.ts:Renderer.draw`]
 
 ### Explicit shared-effect, mob, and pickup policies
 
