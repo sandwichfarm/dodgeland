@@ -52,7 +52,7 @@ function laneSnapshot(game, gameModule) {
 function inventorySnapshot(run) {
   return semanticValue({
     visible: { wallet: run.wallet, cards: run.cards, powers: run.powers, cosmetics: run.cosmetics,
-      effects: run.effects, offers: run.offers, invitation: run.invitation, isOpen: run.isOpen,
+      effects: run.effects, market: run.market, alive: run.alive, isOpen: run.isOpen,
       pendingPack: run.pendingPack, revision: run.revision, cardCapacity: run.cardCapacity,
       equippedCosmetics: run.equippedCosmetics },
     future: { state: run.state, fraction: run.fraction, maxScore: run.maxScore,
@@ -143,35 +143,57 @@ export function compareTracePoint({ scenario, command, step, baseline, current }
 
 async function loadIndependentEngines() {
   await using baseline = await extractPinnedBaseline();
-  const [baselineModules, currentModules] = await Promise.all([loadSources('game', baseline.sourceDirectory), loadSources('game')]);
+  const [baselineModules, currentModules] = await Promise.all([
+    loadSources(['game', 'market/catalog', 'actors'], baseline.sourceDirectory),
+    loadSources(['game', 'market/catalog', 'actors']),
+  ]);
   try {
     if (baselineModules.directory === currentModules.directory) throw new Error('Parity refuses a shared compiled module directory.');
-    const [baselineGame, currentGame] = await Promise.all([baselineModules.import('game'), currentModules.import('game')]);
+    const [baselineGame, currentGame, baselineCatalog, currentCatalog, baselineActors, currentActors] = await Promise.all([
+      baselineModules.import('game'), currentModules.import('game'),
+      baselineModules.import('market/catalog'), currentModules.import('market/catalog'),
+      baselineModules.import('actors'), currentModules.import('actors'),
+    ]);
     if (baselineGame.Game === currentGame.Game) throw new Error('Parity refuses identical Game constructors.');
-    return { baselineModules, currentModules, baselineGame, currentGame };
+    return { baselineModules, currentModules, baselineGame, currentGame, baselineCatalog, currentCatalog, baselineActors, currentActors };
   } catch (error) {
     await Promise.all([baselineModules.dispose(), currentModules.dispose()]);
     throw error;
   }
 }
 
-function invoke(game, command, fixedStep) {
+function invoke(game, gameModule, command, fixedStep) {
   if (command.kind === 'move') return game.move(command.direction);
   if (command.kind === 'call') return (command.target === 'run' ? game.run : game)[command.method](...(command.args ?? []));
-  if (command.kind === 'fixture') return command.apply(game);
+  if (command.kind === 'fixture') return command.apply(game, gameModule);
+  if (command.kind === 'roundtrip') return snapshotGame(gameModule.Game.fromSeed(game.seedCode), gameModule);
   if (command.kind === 'step') return game.update(fixedStep);
   throw new Error(`Unsupported solo parity command: ${command.kind}`);
 }
 
 /** Runs one tape through independently compiled pinned and working engines. */
 async function runLoadedScenario(loaded, { name, seed, home = 'pond', mode = 'arcade', gentle = false, characterId,
-  definitions = [], tape, fixedStep = 1 / 120, perturbCurrent, setup, keepTrace = false }) {
-  const { baselineGame, currentGame } = loaded;
-  const baseline = new baselineGame.Game(seed, home, mode, gentle, definitions, characterId);
-  const current = new currentGame.Game(seed, home, mode, gentle, definitions, characterId);
+  definitions = [], catalogIds, tape, fixedStep = 1 / 120, perturbCurrent, setup, keepTrace = false }) {
+  const { baselineGame, currentGame, baselineCatalog, currentCatalog, baselineActors, currentActors } = loaded;
+  const resolveCatalog = (catalog, side) => {
+    if (!catalogIds) return definitions;
+    const byId = new Map(catalog.ITEM_CATALOG.map(item => [item.id, item]));
+    return catalogIds.map(id => {
+      const item = byId.get(id);
+      if (!item) throw new Error(`${name}: ${side} catalog does not contain ${id}`);
+      return item;
+    });
+  };
+  const baselineDefinitions = resolveCatalog(baselineCatalog, 'baseline');
+  const currentDefinitions = resolveCatalog(currentCatalog, 'current');
+  const baseline = new baselineGame.Game(seed, home, mode, gentle, baselineDefinitions, characterId);
+  const current = new currentGame.Game(seed, home, mode, gentle, currentDefinitions, characterId);
   ensureMobRngTrack(baseline);
   ensureMobRngTrack(current);
-  if (setup) { setup(baseline, baselineGame); setup(current, currentGame); }
+  if (setup) {
+    setup(baseline, baselineGame, baselineCatalog, baselineActors);
+    setup(current, currentGame, currentCatalog, currentActors);
+  }
   const baselineCallbacks = attachCallbackRecorder(baseline), currentCallbacks = attachCallbackRecorder(current);
   let points = 0, last;
   const results = [], trace = keepTrace ? [] : undefined;
@@ -189,7 +211,7 @@ async function runLoadedScenario(loaded, { name, seed, home = 'pond', mode = 'ar
   for (let commandIndex = 0; commandIndex < tape.length; commandIndex += 1) {
     const command = tape[commandIndex], repetitions = command.kind === 'step' ? command.count : 1;
     for (let step = 0; step < repetitions; step += 1) {
-      compare(commandIndex, step, invoke(baseline, command, fixedStep), invoke(current, command, fixedStep));
+      compare(commandIndex, step, invoke(baseline, baselineGame, command, fixedStep), invoke(current, currentGame, command, fixedStep));
     }
   }
   return { baselineSha: PINNED_BASELINE_SHA, points, final: last, results, trace };

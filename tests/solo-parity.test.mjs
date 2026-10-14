@@ -120,7 +120,9 @@ function fatalFixture(cause) {
     if (cause === 'train') setLane(game, 0, 'rail', { period: 9, warning: 1.5, phase: 2.375, length: 13 });
     if (cause === 'water') setLane(game, 0, 'river', { phase: 5, length: 1 });
     if (cause === 'wave') game.waveRow = 0;
-    if (cause === 'swept') { game.x = game.fromX = 5.51; setLane(game, 0, 'river', { speed: 0, phase: 5.51, length: 3.5 }); }
+    // These fixtures only place world state; the following paired update is
+    // what detects every fatal cause through production collision/water logic.
+    if (cause === 'swept') { game.x = game.fromX = 5.51; setLane(game, 0, 'river', { speed: 1, phase: 5.51, length: 3.5 }); }
     if (cause === 'trail') { game.mode = 'stroll'; game.maxY = 8; }
     if (cause === 'mob') game.mobs.push({ id: 1, kind: 'slime', x: 0, y: 0, fromX: 0, fromY: 0,
       targetX: 0, targetY: 0, phase: 'rest', phaseLeft: 1, phaseDuration: 1 });
@@ -236,6 +238,71 @@ test('focused movement, hazard, health, and time arenas execute production paths
   assert.equal(results[3].final.game.rows.some(({ row }) => row === 0), false, 'source terrain prunes through normal forward movement');
   assert.equal(results[3].final.game.attractedCoins.some(({ row }) => row === 0), true, 'the retained pull remains fully compared after pruning');
   assert.equal(results.slice(4).every(result => result.final.callbacks.some(event => event.name === 'onPower')), true, 'every released innate power is driven through Game.end production logic');
+});
+
+function attractionFixture(game, module, { denomination = 'coin', magnet = false, river = false } = {}) {
+  game.state = 'playing';
+  if (river) setLane(game, 0, 'river', { speed: .5, length: 5, phase: 0 });
+  const reward = game.rows.get(1);
+  Object.assign(reward, { kind: 'meadow', blocked: [], decorations: [], speed: 0, phase: 0, spacing: 20, length: 4,
+    coin: 0, coinActor: undefined, coinDenomination: denomination });
+  if (!magnet) return;
+  const item = game.run.catalog.get('magnet');
+  assert.ok(item, 'the independently loaded catalog supplies the real gravity card');
+  game.run.advanceScore(100);
+  assert.equal(game.openMarket(), true);
+  const offer = { id: `fixture-magnet-${game.run.revision}`, itemId: item.id, price: item.price, sold: false };
+  game.run.market.offers.push(offer);
+  game.run.creditCoins(item.price);
+  assert.equal(game.run.buy(offer.id).ok, true);
+  game.closeMarket();
+}
+
+test('denominations, base/card gravity, and safe river landing use paired production pickup traces', async () => {
+  const denominations = [['coin', 1], ['bar', 2], ['small-sack', 5], ['big-sack', 10], ['huge-sack', 25]];
+  const scenarios = [
+    { name: 'base gravity stays bounded outside a one-row pickup', seed: 107,
+      setup: game => attractionFixture(game, null, { magnet: false }), tape: [{ kind: 'step', count: 24 }] },
+    { name: 'magnet gravity safely pulls a bank pickup after river landing', seed: 109, catalogIds: ['magnet'],
+      setup: game => attractionFixture(game, null, { magnet: true, river: true }),
+      tape: [{ kind: 'move', direction: 'forward' }, { kind: 'step', count: 18 }, { kind: 'step', count: 240 }] },
+    ...denominations.map(([denomination]) => ({ name: `magnet exact-once ${denomination} denomination`, seed: 113,
+      catalogIds: ['magnet'], setup: game => attractionFixture(game, null, { magnet: true, denomination }),
+      tape: [{ kind: 'step', count: 240 }] })),
+  ];
+  const results = await runDifferentialMatrix(scenarios);
+  const [base, river, ...paid] = results;
+  assert.equal(base.final.game.coins, 0, 'the base .1 pull never reaches the row-one pickup');
+  assert.equal(base.final.game.rows.find(({ row }) => row === 1).lane.coin, 0, 'base gravity retains the uncollected coin');
+  assert.equal(river.final.game.state, 'playing', 'the real river platform carries the duck safely onto the bank');
+  assert.equal(river.final.game.coins, 1, 'the bought gravity card pulls the bank reward only after safe landing');
+  for (let index = 0; index < paid.length; index += 1) {
+    const [denomination, value] = denominations[index];
+    const events = paid[index].final.callbacks.filter(event => event.name === 'onCoin');
+    assert.equal(paid[index].final.game.coins, value, `${denomination} pays its production denomination value`);
+    assert.deepEqual(events.map(event => event.payload.amount), [value], `${denomination} pays once through the ordered callback`);
+    assert.equal(paid[index].final.game.inventory.visible.wallet, value, `${denomination} credits the exact pickup value after the fixture card purchase`);
+  }
+});
+
+test('extreme generation and every seed schema round-trip through independent archived engines', async () => {
+  const scenarios = [1, 2, 3].map(schema => ({
+    name: `schema ${schema} extreme-distance generated-row and replay roundtrip`,
+    seed: { schema, seed: 0xffffffff, home: 'shuffle', mode: 'stroll', gentle: true },
+    setup: game => {
+      game.state = 'playing';
+      game.maxY = game.y = game.fromY = 1000000;
+      game.ensureRows();
+    },
+    tape: [{ kind: 'roundtrip' }, { kind: 'step', count: 24 }],
+  }));
+  const results = await runDifferentialMatrix(scenarios);
+  for (const result of results) {
+    assert.equal(result.final.game.rows.length, 39, 'extreme generation retains the bounded production row window');
+    assert.equal(result.final.game.rows[0].row, 999990, 'generation prunes exactly behind the extreme active row');
+    assert.equal(result.final.game.rows.at(-1).row, 1000028, 'generation retains exactly the look-ahead boundary');
+    assert.equal(result.results[1].result.seedCode, result.final.game.seedCode, 'Game.fromSeed preserves the encoded schema identity');
+  }
 });
 
 function progressionFixture(row, time = 45) {
