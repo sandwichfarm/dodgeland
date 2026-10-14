@@ -1,9 +1,15 @@
 import assert from 'node:assert/strict';
+import { execFile as execFileCallback } from 'node:child_process';
+import { mkdtemp, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import test from 'node:test';
+import { promisify } from 'node:util';
 import { PINNED_BASELINE_SHA, extractPinnedBaseline } from './solo-baseline.mjs';
 import { runDifferentialMatrix, runDifferentialScenario } from './solo-parity-snapshot.mjs';
 
 const STEP = 1 / 120;
+const execFile = promisify(execFileCallback);
 
 function arcadeTracer() {
   return [
@@ -22,6 +28,17 @@ test('provenance: extracts the exact immutable a310a81 baseline', async () => {
   await using baseline = await extractPinnedBaseline();
   assert.equal(baseline.sha, PINNED_BASELINE_SHA);
   assert.match(baseline.sourceDirectory, /src$/);
+});
+
+test('provenance: missing pinned history fails closed with the SHA and shallow-history remedy', async () => {
+  const repository = await mkdtemp(join(tmpdir(), 'down-to-duck-empty-history-'));
+  try {
+    await execFile('git', ['init', '--quiet'], { cwd: repository });
+    await assert.rejects(() => extractPinnedBaseline(repository), error =>
+      error.message.includes(PINNED_BASELINE_SHA) && error.message.includes('git fetch --unshallow'));
+  } finally {
+    await rm(repository, { recursive: true, force: true });
+  }
 });
 
 test('Arcade tracer: compares independent pinned and working engines at every command and fixed step', async () => {
@@ -44,7 +61,7 @@ test('intentional drift: one-sided callback perturbation fails through the ordin
       mode: 'arcade',
       tape: arcadeTracer(),
       fixedStep: STEP,
-      perturbCurrent: { command: 0, step: 0, callback: 'onCoin' },
+      perturbCurrent: { command: 0, step: 0, callback: 'onCoin', amount: 987 },
     }),
     error => /Arcade intentional callback drift.*command 0.*step 0.*callbacks\[0\]/s.test(error.message),
   );
@@ -83,6 +100,107 @@ function hazardFixture(game, gameModule, kind) {
   game.y = game.fromY = 0;
 }
 
+function setLane(game, row, kind = 'meadow', extra = {}) {
+  game.rows.set(row, { ...game.rows.get(row), index: row, kind, blocked: [], decorations: [], coin: null,
+    phase: 0, speed: 1, spacing: 20, length: 1.15, variant: 0, ...extra });
+}
+
+function impactFixture(face, direction) {
+  return game => {
+    game.state = 'playing';
+    setLane(game, 0, 'road', { speed: direction });
+    if (face === 'side') { game.y = game.fromY = -1; return; }
+    game.x = game.fromX = (1.15 / 2 + .4) * direction * (face === 'rear' ? -1 : 1);
+  };
+}
+
+function fatalFixture(cause) {
+  return game => {
+    game.state = 'playing';
+    if (cause === 'train') setLane(game, 0, 'rail', { period: 9, warning: 1.5, phase: 2.375, length: 13 });
+    if (cause === 'water') setLane(game, 0, 'river', { phase: 5, length: 1 });
+    if (cause === 'wave') game.waveRow = 0;
+    if (cause === 'swept') { game.x = game.fromX = 5.51; setLane(game, 0, 'river', { speed: 0, phase: 5.51, length: 3.5 }); }
+    if (cause === 'trail') { game.mode = 'stroll'; game.maxY = 8; }
+    if (cause === 'mob') game.mobs.push({ id: 1, kind: 'slime', x: 0, y: 0, fromX: 0, fromY: 0,
+      targetX: 0, targetY: 0, phase: 'rest', phaseLeft: 1, phaseDuration: 1 });
+  };
+}
+
+test('production collision faces, latches, and fatal hazards reach their named state transitions', async () => {
+  const impactCases = [];
+  for (const direction of [-1, 1]) for (const face of ['rear', 'side', 'front']) {
+    impactCases.push({ name: `vehicle ${direction}/${face}`, seed: 67, keepTrace: true, setup: impactFixture(face, direction),
+      tape: [{ kind: 'move', direction: face === 'side' ? 'forward' : ((face === 'rear' ? direction : -direction) > 0 ? 'right' : 'left') }, { kind: 'step', count: 18 }] });
+  }
+  const fatalCauses = ['train', 'water', 'wave', 'swept', 'trail', 'mob'];
+  const results = await runDifferentialMatrix([
+    ...impactCases,
+    ...fatalCauses.map(cause => ({ name: `${cause} remains fatal during recovery`, seed: 71, characterId: ['water', 'swept'].includes(cause) ? 'sunny' : undefined,
+      setup: game => { fatalFixture(cause)(game); game.hurtRemaining = .9; }, tape: [{ kind: 'step', count: 1 }] })),
+    { name: 'stationary contact latch suppresses repeat harm', seed: 73, keepTrace: true, setup: game => {
+      game.state = 'playing'; game.x = game.fromX = .1; setLane(game, 0, 'road', { speed: .1, phase: -.1 });
+      setLane(game, -1); setLane(game, 1);
+    }, tape: [{ kind: 'step', count: 144 }] },
+  ]);
+  for (let index = 0; index < impactCases.length; index += 1) {
+    const face = impactCases[index].name.split('/').at(-1);
+    const result = results[index], hurt = result.final.callbacks.filter(event => event.name === 'onHurt');
+    if (face === 'front') assert.equal(result.final.game.deathCause, 'traffic', result.final.game.mode);
+    else assert.deepEqual(hurt.map(event => event.payload.face), [face], `real ${face} contact records one ordered hurt callback`);
+  }
+  for (let index = 0; index < fatalCauses.length; index += 1) assert.equal(results[impactCases.length + index].final.game.deathCause, fatalCauses[index]);
+  const latch = results.at(-1);
+  assert.equal(latch.final.callbacks.filter(event => event.name === 'onHurt').length, 1, 'one retained car contact cannot drain health repeatedly');
+  assert.equal(latch.trace.some(point => point.game.gameFuture.touchingCars.length > 0), true, 'the latch changes through actual collision detection');
+});
+
+function forwardTape(count) {
+  return Array.from({ length: count }, () => [
+    { kind: 'fixture', apply: game => setLane(game, Math.round(game.y) + 1) },
+    { kind: 'move', direction: 'forward' }, { kind: 'step', count: 18 },
+  ]).flat();
+}
+
+test('recovery, regeneration, shield, landing grace, and 100-row power cooldown retain real ordering', async () => {
+  const shield = { id: 'fixture-shield', name: 'Fixture shield', description: 'test only', rarity: 'common', price: 1,
+    icon: 'shield', color: '#fff', kind: 'power', duration: 1, modify: modifiers => { modifiers.shield += 1; } };
+  const recovery = await runDifferentialScenario({ name: 'hurt recovery pause and resume', seed: 79, keepTrace: true,
+    setup: impactFixture('rear', 1), tape: [{ kind: 'move', direction: 'right' }, { kind: 'step', count: 18 },
+      { kind: 'call', method: 'pause' }, { kind: 'step', count: 24 }, { kind: 'call', method: 'resume' }, { kind: 'step', count: 24 }] });
+  assert.equal(recovery.trace[20].game.hurtRemaining, recovery.trace[44].game.hurtRemaining, 'pause freezes real hurt recovery');
+  assert.ok(recovery.final.game.hurtRemaining < recovery.trace[44].game.hurtRemaining, 'resume advances real hurt recovery');
+
+  const regeneration = await runDifferentialScenario({ name: '100-row regeneration milestone', seed: 83, mode: 'stroll',
+    setup: game => { game.state = 'playing'; game.health = 1; }, tape: forwardTape(100) });
+  assert.equal(regeneration.final.game.maxY, 100);
+  assert.equal(regeneration.final.game.health, 1.5, 'real forward progress heals exactly one half at 100 rows');
+  assert.deepEqual(regeneration.final.callbacks.filter(event => event.name === 'onHeal').map(event => event.payload.amount), [.5]);
+  assert.equal(regeneration.final.game.gameFuture.healedMilestone, 1, 'private milestone index advances at the 100-row boundary');
+
+  const shielded = await runDifferentialScenario({ name: 'market shield blocks active traffic danger', seed: 89, definitions: [shield],
+    setup: game => { game.state = 'playing'; setLane(game, 0, 'road', { speed: 0 }); game.run.advanceScore(100); game.openMarket();
+      game.run.creditCoins(1); game.run.market.offers.push({ id: 'shield-offer', itemId: shield.id, price: 1, sold: false }); },
+    tape: [{ kind: 'call', target: 'run', method: 'buy', args: ['shield-offer'] }, { kind: 'call', method: 'closeMarket' }, { kind: 'step', count: 1 }] });
+  assert.equal(shielded.final.game.state, 'playing', 'the purchased shield prevents the active traffic end path');
+  assert.equal(shielded.final.callbacks.some(event => event.name === 'onEnd'), false);
+
+  const grace = await runDifferentialScenario({ name: 'Pip landing grace defers then expires against an overlapping mob', seed: 97, characterId: 'pip', keepTrace: true,
+    setup: game => { fatalFixture('mob')(game); }, tape: [{ kind: 'step', count: 1 }, { kind: 'step', count: 60 },
+      { kind: 'fixture', apply: game => game.mobs.splice(0, game.mobs.length, { id: 5, kind: 'slime', x: game.x, y: game.y,
+        fromX: game.x, fromY: game.y, targetX: game.x, targetY: game.y, phase: 'rest', phaseLeft: 1, phaseDuration: 1 }) },
+      { kind: 'step', count: 1 }, { kind: 'step', count: 60 }] });
+  assert.equal(grace.trace[63].game.state, 'playing', 'landing grace protects the first overlapping mob frame');
+  assert.equal(grace.final.game.deathCause, 'mob', 'grace expires without a new power cooldown');
+
+  const cooldown = await runDifferentialScenario({ name: 'Sunny 100-row innate power cooldown boundary', seed: 101, mode: 'stroll', characterId: 'sunny',
+    setup: game => { game.state = 'playing'; game.x = game.fromX = .975; setLane(game, 0, 'road', { speed: 0 }); },
+    tape: [{ kind: 'move', direction: 'left' }, { kind: 'step', count: 60 }, ...forwardTape(100)] });
+  assert.equal(cooldown.final.game.maxY >= 100, true);
+  assert.equal(cooldown.final.game.powerReady, true, 'the exact 100-row boundary recharges the innate power');
+  assert.equal(cooldown.final.game.gameFuture.powerReadyAt, 100);
+});
+
 function retainedPullFixture(game) {
   const lane = game.rows.get(0);
   lane.coin = .55;
@@ -118,4 +236,42 @@ test('focused movement, hazard, health, and time arenas execute production paths
   assert.equal(results[3].final.game.rows.some(({ row }) => row === 0), false, 'source terrain prunes through normal forward movement');
   assert.equal(results[3].final.game.attractedCoins.some(({ row }) => row === 0), true, 'the retained pull remains fully compared after pruning');
   assert.equal(results.slice(4).every(result => result.final.callbacks.some(event => event.name === 'onPower')), true, 'every released innate power is driven through Game.end production logic');
+});
+
+function progressionFixture(row, time = 45) {
+  return game => {
+    game.state = 'playing';
+    game.maxY = game.y = game.fromY = row;
+    game.time = time;
+    game.ensureRows();
+  };
+}
+
+test('economy, actor, mob, retention, and terminal arenas keep hidden future state and callbacks exact', async () => {
+  const scenarios = [
+    { name: 'market invitation freeze and resume', seed: 41, setup: game => { game.state = 'playing'; }, tape: [
+      { kind: 'call', target: 'run', method: 'advanceScore', args: [100] },
+      { kind: 'call', method: 'openMarket' }, { kind: 'step', count: 12 },
+      { kind: 'call', method: 'closeMarket' }, { kind: 'step', count: 12 },
+    ] },
+    ...[50, 100, 150, 400].map(row => ({ name: `actor progression row ${row}`, seed: 43 + row,
+      setup: progressionFixture(row), tape: [{ kind: 'step', count: 12 }] })),
+    ...[160, 320, 480].map(row => ({ name: `mob progression row ${row}`, seed: 47 + row,
+      setup: progressionFixture(row), tape: [{ kind: 'step', count: 24 }] })),
+    { name: 'terminal spill callback and dead visual clock', seed: 59, setup: game => { game.state = 'playing'; game.run.creditCoins(9); }, tape: [
+      { kind: 'call', method: 'end', args: ['terminal ordering', 'traffic', 'front'] },
+      { kind: 'step', count: 12 }, { kind: 'call', method: 'advanceDeathVisuals', args: [.25] },
+    ] },
+  ];
+  const results = await runDifferentialMatrix(scenarios);
+  const [market, ...rest] = results;
+  const terminal = rest.at(-1);
+  assert.equal(market.final.game.inventory.future.maxScore, 100, 'real RunInventory score advancement is included in the private adapter');
+  assert.equal(market.final.game.inventory.visible.isOpen, false, 'the real market close resumes the paired run');
+  assert.equal(rest.slice(0, 7).every(result => result.final.game.rows.length > 0), true, 'actor and mob progression fixtures generate real retained rows');
+  assert.equal(rest.slice(4, 7).some(result => result.final.game.mobs.actors.length > 0), true, 'MobDirector reaches deterministic production spawn pacing');
+  const onEnd = terminal.final.callbacks.find(event => event.name === 'onEnd');
+  assert.deepEqual(onEnd.payload.inventoryCleared, { wallet: 0, cards: [], powers: [], cosmetics: [] }, 'terminal observers see already-cleared inventory');
+  assert.equal(terminal.final.game.deathSpill.wallet, 9, 'spill capture precedes RunInventory.clear');
+  assert.equal(terminal.final.game.time, 0, 'dead-game visual advancement never advances gameplay time');
 });

@@ -158,13 +158,14 @@ async function loadIndependentEngines() {
 function invoke(game, command, fixedStep) {
   if (command.kind === 'move') return game.move(command.direction);
   if (command.kind === 'call') return (command.target === 'run' ? game.run : game)[command.method](...(command.args ?? []));
+  if (command.kind === 'fixture') return command.apply(game);
   if (command.kind === 'step') return game.update(fixedStep);
   throw new Error(`Unsupported solo parity command: ${command.kind}`);
 }
 
 /** Runs one tape through independently compiled pinned and working engines. */
 async function runLoadedScenario(loaded, { name, seed, home = 'pond', mode = 'arcade', gentle = false, characterId,
-  definitions = [], tape, fixedStep = 1 / 120, perturbCurrent, setup }) {
+  definitions = [], tape, fixedStep = 1 / 120, perturbCurrent, setup, keepTrace = false }) {
   const { baselineGame, currentGame } = loaded;
   const baseline = new baselineGame.Game(seed, home, mode, gentle, definitions, characterId);
   const current = new currentGame.Game(seed, home, mode, gentle, definitions, characterId);
@@ -173,15 +174,14 @@ async function runLoadedScenario(loaded, { name, seed, home = 'pond', mode = 'ar
   if (setup) { setup(baseline, baselineGame); setup(current, currentGame); }
   const baselineCallbacks = attachCallbackRecorder(baseline), currentCallbacks = attachCallbackRecorder(current);
   let points = 0, last;
-  const results = [];
+  const results = [], trace = keepTrace ? [] : undefined;
   const compare = (command, step, baselineResult, currentResult) => {
-    if (perturbCurrent && perturbCurrent.command === command && perturbCurrent.step === step) {
-      currentCallbacks.push({ name: perturbCurrent.callback, payload: { injected: true }, at: callbackState(current) });
-    }
+    if (perturbCurrent && perturbCurrent.command === command && perturbCurrent.step === step) current[perturbCurrent.callback](perturbCurrent.amount ?? 987);
     const baselineTrace = { result: semanticValue(baselineResult), game: snapshotGame(baseline, baselineGame), callbacks: baselineCallbacks };
     const currentTrace = { result: semanticValue(currentResult), game: snapshotGame(current, currentGame), callbacks: currentCallbacks };
     compareTracePoint({ scenario: name, command, step, baseline: baselineTrace, current: currentTrace });
     last = currentTrace;
+    trace?.push(currentTrace);
     results.push({ command, step, result: currentTrace.result });
     points += 1;
   };
@@ -192,7 +192,7 @@ async function runLoadedScenario(loaded, { name, seed, home = 'pond', mode = 'ar
       compare(commandIndex, step, invoke(baseline, command, fixedStep), invoke(current, command, fixedStep));
     }
   }
-  return { baselineSha: PINNED_BASELINE_SHA, points, final: last, results };
+  return { baselineSha: PINNED_BASELINE_SHA, points, final: last, results, trace };
 }
 
 export async function runDifferentialScenario(options) {
