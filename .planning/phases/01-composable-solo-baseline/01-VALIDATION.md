@@ -27,7 +27,7 @@ No AST, source-text search, type-check, or snapshot-file presence is sufficient 
 | Requirement | Required observable evidence | Owning plan/task | Gate |
 |-------------|------------------------------|------------------|------|
 | ARCH-01 | Validated deep-frozen groups reject invalid policy; non-default values change real Game/economy/mob behavior and survive development jump reconstruction | 01-02 T1/T3; 01-03 T1/T2 | `node --test tests/mode-rules.test.mjs tests/devtools.test.mjs` |
-| ARCH-04 | Documented custom definition plus lifecycle observers runs without definition-ID branches in Game input/Renderer and its active rules survive a devtools jump | 01-02 T1/T2/T3; 01-04 T2 | mode-rules/devtools tests + `docs/mode-rules.md` review |
+| ARCH-04 | Documented custom definition plus lifecycle observers runs without definition-ID branches in Game input/Renderer and its active rules survive a devtools jump | 01-02 T1/T2/T3; 01-04 T2 | mode-authoring/mode-rules/devtools tests + `docs/mode-rules.md` review |
 | SOLO-01 | Exact baseline/current visible state, all future-affecting private state, and ordered callback equality after every operation/step for both modes and the full scenario matrix | 01-01 T1/T2/T3; all later tasks | `pnpm test:solo-parity` |
 | SOLO-02 | Pinned schemas/hashes, seed round trips, market/card behavior, intents, saves, sound/shortcut IDs, and optional-domain fallbacks pass | 01-01 T2; 01-04 T1/T2 | `pnpm test:phase1`, `pnpm test:intents`, `pnpm test:runtime` |
 | SOLO-03 | Built default solo reaches active play through the existing first gesture with no setup surface | 01-04 T1 | `pnpm test:runtime` |
@@ -80,7 +80,7 @@ Each command is a separate fail-closed gate. Browser-owning tests must launch Ch
 
 | Command | Evidence |
 |---------|----------|
-| `pnpm test:phase1` | Immutable differential gate followed by focused model regressions; no failed/cancelled/skipped tests |
+| `pnpm test:phase1` | Immutable differential gate followed by focused model regressions, exact documented TypeScript, and strict-runner failure fixtures; no failed/cancelled/skipped/TODO tests |
 | `node --test tests/devtools.test.mjs` | Active custom definition survives real jump reconstruction; default and replay-load behavior stays compatible |
 | `node --test tests/render.test.mjs` | Muted baseline and non-default render/model behavior |
 | `pnpm test:intents` | Muted built schema 1/2/3 and mode intent compatibility |

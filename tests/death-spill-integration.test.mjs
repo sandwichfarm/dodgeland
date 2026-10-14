@@ -8,8 +8,8 @@ const { Game, generateLane, HOP_TIME } = await source.import('game');
 const { ITEM_CATALOG } = await source.import('market/catalog');
 const looks = ITEM_CATALOG.filter(item => item.kind === 'cosmetic');
 
-function arena() {
-  const game = new Game(71, 'pond', 'stroll', false, ITEM_CATALOG);
+function arena(mode = 'stroll') {
+  const game = new Game(71, 'pond', mode, false, ITEM_CATALOG);
   for (const lane of game.rows.values()) Object.assign(lane, { kind: 'meadow', blocked: [], decorations: [], coin: null });
   game.state = 'playing'; return game;
 }
@@ -60,7 +60,7 @@ test('only confirmed death spills belongings: shields, innate rescue and nonfata
 
 test('actual fatal river, traffic, train and wave contacts produce exactly one spill', () => {
   for (const cause of ['water', 'traffic', 'train', 'wave']) {
-    const game = arena(); game.setCharacter('sunny'); game.run.creditCoins(4);
+    const game = arena(cause === 'wave' ? 'arcade' : 'stroll'); game.setCharacter('sunny'); game.run.creditCoins(4);
     // Sunny has no protection against these water/train/wave cases; Butter has no road power.
     if (cause === 'traffic') game.setCharacter('butter');
     let ended = 0; game.onEnd = () => ended++;
@@ -70,7 +70,7 @@ test('actual fatal river, traffic, train and wave contacts produce exactly one s
       game.x = game.fromX = .975; assert.equal(game.move('left'), true);
     }
     if (cause === 'train') game.rows.set(0, { ...generateLane(game.seed, 0, game.home), kind: 'rail', phase: 2.375, period: 9, warning: 1.5, speed: 1, blocked: [], coin: null });
-    if (cause === 'wave') { game.mode = 'arcade'; game.waveRow = game.groundY; }
+    if (cause === 'wave') game.waveRow = game.groundY;
     for (let step = 0; step < 30 && game.state === 'playing'; step++) game.update(1 / 120);
     assert.equal(game.state, 'dead', cause); assert.equal(game.deathCause, cause); assert.equal(ended, 1);
     const spill = game.deathSpill; assert.equal(spill.wallet, 4);
