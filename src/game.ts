@@ -278,9 +278,15 @@ export class Game {
     this.run.close(); this.syncEffects();
     if (wasOpen && resume) this.resume();
   }
+  /** Begin a run without moving; all normal starts emit this lifecycle transition once. */
+  start(): boolean {
+    if (this.state !== 'ready') return false;
+    this.state = 'playing'; this.lifecycle('start');
+    return true;
+  }
   move(direction: Direction): boolean {
     if (this.run.isOpen || this.run.pendingPack) return false;
-    if (this.state === 'ready') { this.state = 'playing'; this.lifecycle('start'); }
+    if (this.state === 'ready') this.start();
     if (this.state !== 'playing' || this.hop > 0 || this.powerRescue) return false;
     const nx = this.x + (direction === 'left' ? -1 : direction === 'right' ? 1 : 0);
     const ny = this.y + (direction === 'forward' ? 1 : direction === 'back' ? -1 : 0);

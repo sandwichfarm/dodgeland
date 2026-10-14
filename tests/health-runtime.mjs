@@ -134,7 +134,9 @@ try {
   const heard = async fingerprint => (await effects()).filter(voice => voice.fingerprint === fingerprint).length;
 
   // Audition the shipped pack through ordinary controls to identify actual PCM.
-  await frame.locator('#collection').click(); await frame.locator('#sounds-tab').click();
+  await frame.locator('#choose').click(); await frame.locator('#sounds-tab').click();
+  for (let index = 0; index < 8 && !await frame.locator('[data-sound-page="preview"]').isVisible(); index++) await frame.locator('#collection-next').click();
+  await frame.locator('[data-sound-page="preview"]').waitFor();
   const fingerprints = {};
   for (const cue of ['hurt.rear', 'hurt.side', 'health.restore', 'death.traffic']) {
     await frame.locator('#sound-preview-cue').selectOption(cue);
@@ -153,10 +155,21 @@ try {
     recovering: document.querySelector('#pluck').classList.contains('recovering'),
     low: document.querySelector('#pluck').classList.contains('low'),
   }));
+  await onGame(function () {
+    const start = this.start;
+    let starts = 0;
+    this.start = function () { starts++; return start.call(this); };
+    this.startCount = () => starts;
+  });
+  await frame.locator('#play').click(); await advance(32);
+  const played = await onGame(function () { return { state: this.state, x: this.x, y: this.y, score: this.maxY, hop: this.hop, starts: this.startCount() }; });
+  assert.deepEqual(played, { state: 'playing', x: 0, y: 0, score: 0, hop: 0, starts: 1 }, 'the visible Play control performs one stationary Game.start transition');
+  evidence.scenarios.push({ play: played });
   async function remount() {
     await page.evaluate(() => window.mount()); await currentFrame();
     await frame.locator('#character-call').dispatchEvent('click'); await advance(32);
   }
+  await remount();
   async function road(face) {
     await onGame(function (face) {
       this.x = this.fromX = face === 'rear' ? -1 : face === 'front' ? 1 : 0;
@@ -167,6 +180,7 @@ try {
       Object.assign(this.rows.get(8), { kind: 'road', speed: 1, phase: 0, spacing: 20, length: 1.15 });
     }, face);
     await advance(1600);
+    await frame.locator('#play').click();
   }
   for (const [face, direction, remaining, featherWidths] of [
     ['rear', 'right', 2, [22, 22, 0]], ['side', 'forward', 1, [22, 0, 0]],
@@ -207,6 +221,7 @@ try {
     for (const lane of this.rows.values()) Object.assign(lane, { kind: 'meadow', blocked: [], decorations: [], coin: null });
   });
   await advance(1600);
+  await frame.locator('#play').click();
   const restoresBefore = await heard(fingerprints['health.restore']);
   await move('forward');
   const restored = await snapshot(), restoredHud = await hud();
@@ -285,7 +300,7 @@ try {
       evidence.frames.push({ theme, ...result });
       await page.locator('iframe').screenshot({ path: new URL(`health-layout-${width}x${height}-${theme}.png`, output).pathname });
       if (!result.notice) {
-        await onGame(function () { this.mode = 'arcade'; this.time = 6; this.waveRow = this.groundY - 2; });
+        await onGame(function () { this.time = 6; this.waveRow = this.groundY - 2; });
         await advance(32);
         const warning = await frame.evaluate(() => {
           const panel = document.getElementById('idle'), r = panel.getBoundingClientRect();
@@ -294,9 +309,8 @@ try {
           }).map(element => element.id || element.className || element.getAttribute('aria-label'));
           return { visible: !panel.hidden, fits: r.x >= 0 && r.y >= 0 && r.right <= innerWidth + .5 && r.bottom <= innerHeight + .5, overlaps };
         });
-        assert.ok(warning.visible && warning.fits); assert.deepEqual(warning.overlaps, [], 'wave guidance clears the Pluck bar and existing HUD');
+        assert.equal(warning.visible, false, 'the active Stroll policy keeps the wave guidance hidden');
         evidence.frames.at(-1).waveWarning = warning;
-        await page.locator('iframe').screenshot({ path: new URL(`health-layout-wave-${width}x${height}-${theme}.png`, output).pathname });
       }
     }
   }

@@ -8,6 +8,8 @@ import type { GameLaunch } from './game-intents.js';
 import { CHARACTERS, DEFAULT_CHARACTER, WORLDS, characterById } from './content.js';
 import { Game, freshProgress, parseProgress } from './game.js';
 import type { Direction, Progress } from './game.js';
+import { soloModeDefinition } from './mode-rules.js';
+import { installHealthMeter, readyPursuitCopy, updateChaseMeter, updateHealthMeter } from './solo-ui.js';
 import { Renderer, modelThumbnail } from './render.js';
 import { GameAudio } from './audio.js';
 import { Soundscape } from './soundscape.js';
@@ -47,10 +49,7 @@ const spillAudio = new DeathSpillAudio(audio);
 const sounds = createSoundSettings(audio, () => progress, (fields, save = true) => { fields.forEach(key => changedPreferences.add(key)); updateCallControl(); if (save) persist(); });
 let lastCall = -Infinity, callShortcut = '', marketShortcut = '', controllerConnected = false, localFocus = true, restoreModalFocus = true;
 const bindings: { close: () => void }[] = [];
-// Six half steps, drawn as three feathers; the empty silhouette stays visible.
-const featherPath = 'M6 20C-1 12 4 2 19 2C20 13 15 20 6 20Z';
-el('pluck-feathers').innerHTML = Array.from({ length: 3 }, (_, i) => `<svg class="pluck-feather" viewBox="0 0 22 26"><defs><clipPath id="feather-${i}"><rect width="22" height="26" /></clipPath></defs><path class="feather-empty" d="${featherPath}"/><path class="feather-fill" clip-path="url(#feather-${i})" d="${featherPath}"/><path class="feather-outline" d="${featherPath}M3 24L14 8"/></svg>`).join('');
-const featherClips = [...document.querySelectorAll<SVGRectElement>('#pluck-feathers clipPath rect')];
+let featherClips: SVGRectElement[] = [];
 let displayedHealth = -1;
 const mediaQuery = matchMedia('(prefers-reduced-motion: reduce)');
 const seedUI = createSeedUI();
@@ -148,7 +147,7 @@ function readyPreview(): void {
   el<HTMLImageElement>('traveler-image').src = modelThumbnail(c.model);
   el('traveler-name').textContent = c.name; el('traveler-note').textContent = c.note;
   el('mode').textContent = game.mode === 'arcade' ? 'Arcade ↔' : 'Stroll ↔';
-  el('chase-instructions').textContent = game.mode === 'arcade' ? `Outrun the wave. Pursuers appear from ${mobDefinition('slime').unlock} hops.` : 'No wave or chasing mobs. Explore at your own pace.';
+  el('chase-instructions').textContent = readyPursuitCopy(game.rules.presentation, game.rules.pursuers);
   el<HTMLInputElement>('reduced-motion').checked = progress.reduced;
   updateCallControl();
 }
@@ -174,7 +173,10 @@ function reset(launch?: GameLaunch): void {
   handPausedPlay = false; hand.close();
   audio.stop(); soundscape.reset(); spillAudio.reset();
   const home = progress.world === 'home' ? characterById(progress.selected).home : progress.world;
-  game = new Game(launch?.seed ?? Math.floor(Math.random() * 4294967296), home, launch?.mode ?? progress.mode, shortLosses >= 3, ITEM_CATALOG, progress.selected);
+  const mode = launch?.seed?.mode ?? launch?.mode ?? progress.mode;
+  const definition = soloModeDefinition(mode);
+  game = new Game(launch?.seed ?? Math.floor(Math.random() * 4294967296), home, mode, shortLosses >= 3, ITEM_CATALOG, progress.selected, { definition });
+  rebuildPluckHud();
   renderer.camera = 0; chapter = 0; previousState = '';
   const introduced = new Set<MobKind>();
   const mobSound = (cue: 'mob.spawn' | 'mob.attack', mob: Mob): void => {
@@ -281,7 +283,7 @@ function updateHud(): void {
   pauseUI.update(state === 'paused' && !el('run-panel').hidden && !(import.meta.env.DEV && devTools?.isOpen), progress.reduced || mediaQuery.matches);
   runMenuUI.update({
     state: state === 'dead' ? 'dead' : 'ready', distance: game.maxY, earnedCoins: game.coins,
-    activeSeconds: game.time / (game.mode === 'stroll' ? .58 : 1),
+    activeSeconds: game.time / game.rules.simulation.worldTimeScale,
     best: game.mode === 'stroll' ? progress.strollBest : progress.best,
     mode: game.mode === 'stroll' ? 'Stroll' : 'Arcade', world: game.lane.world.name,
     chapter: currentChapter + 1, traveler: characterById(state === 'dead' ? resultTraveler : game.characterId).name,
@@ -307,15 +309,16 @@ function updatePluckHud(): void {
   meter.classList.toggle('recovering', game.hurtRemaining > 0);
   if (displayedHealth === game.health) return;
   displayedHealth = game.health;
-  meter.classList.toggle('low', game.health <= 1);
-  const health = Math.round(game.health * 100) / 100;
-  meter.setAttribute('aria-valuenow', String(health));
-  meter.setAttribute('aria-valuetext', `${health} of ${game.maxHealth} feathers`);
-  el('pluck-value').textContent = featherAmount(game.health);
-  featherClips.forEach((clip, i) => clip.setAttribute('width', String(Math.max(0, Math.min(1, game.health - i)) * 22)));
+  updateHealthMeter(meter, el('pluck-value'), featherClips, game.health, game.maxHealth, featherAmount);
+}
+function rebuildPluckHud(): void {
+  featherClips = installHealthMeter(el('pluck'), el('pluck-feathers'), game.rules.health);
+  displayedHealth = -1;
 }
 function updateChaseHud(): void {
-  const visible = game.warning && game.state === 'playing', warning = el('idle');
+  const meter = el('chase-meter');
+  updateChaseMeter(meter, el('chase-fill'), game.waveSeconds, game.rules.pursuit.warningSeconds);
+  const visible = game.rules.presentation.pursuitVisible && game.warning && game.state === 'playing', warning = el('idle');
   warning.hidden = !visible;
   const forward = document.querySelector<HTMLButtonElement>('[data-direction="forward"]')!;
   forward.classList.toggle('escape', visible);
@@ -326,9 +329,8 @@ function updateChaseHud(): void {
   const message = urgent ? 'Wave at your heels' : 'Wave closing in';
   if (el('chase-message').textContent !== message) el('chase-message').textContent = message;
   el('chase-time').textContent = `${seconds}s`;
-  el('chase-meter').setAttribute('aria-valuenow', String(seconds));
+  meter.setAttribute('aria-valuenow', String(seconds));
   el('chase-meter').setAttribute('aria-valuetext', `${seconds} seconds until the wave catches you if you stay here`);
-  el('chase-fill').style.width = `${Math.min(1, game.waveSeconds / 5) * 100}%`;
 }
 function play(): void {
   if (import.meta.env.DEV && devTools?.isOpen) return;
@@ -337,7 +339,7 @@ function play(): void {
   if (game.run.pendingPack) { market.toggle(); return; }
   audio.unlock();
   if (game.state === 'dead') reset();
-  if (game.state === 'paused') game.resume(); else game.state = 'playing';
+  if (game.state === 'paused') game.resume(); else game.start();
   updateHud();
 }
 function move(direction: Direction): void {
@@ -398,7 +400,11 @@ let last = performance.now(), accumulator = 0;
 function frame(now: number): void {
   const dt = Math.min((now - last) / 1000, .05); last = now;
   gamepad.update(now);
-  if (game.state === 'playing') { accumulator += dt; while (accumulator >= 1 / 120) { game.update(1 / 120); accumulator -= 1 / 120; } } else accumulator = 0;
+  if (game.state === 'playing') {
+    const fixedStep = game.rules.simulation.fixedStep;
+    accumulator += dt;
+    while (accumulator >= fixedStep) { game.update(fixedStep); accumulator -= fixedStep; }
+  } else accumulator = 0;
   if (!document.hidden && localFocus && innerWidth >= 240 && innerHeight >= 240) game.advanceDeathVisuals(dt);
   spillAudio.update(game.state === 'dead' ? game.deathSpill : null,
     !progress.muted && !document.hidden && localFocus && !game.run.isOpen && el('drawer').hidden && innerWidth >= 240 && innerHeight >= 240,
@@ -419,6 +425,7 @@ async function boot(): Promise<void> {
       getCatalog: () => ITEM_CATALOG,
       replaceGame: next => {
         audio.stop(); soundscape.reset(); spillAudio.reset(); game = next;
+        rebuildPluckHud();
         renderer.camera = next.maxY; chapter = Math.floor(next.maxY / 32); previousState = ''; accumulator = 0;
       },
       suspend: () => { suspendPlay(); el('drawer').hidden = true; updateHud(); },
