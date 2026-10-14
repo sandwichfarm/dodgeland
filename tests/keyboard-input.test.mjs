@@ -65,3 +65,23 @@ test('versioned storage parser retains defaults for malformed or unavailable val
   assert.deepEqual(parseStoredKeyboardBindings('{not json'), DEFAULT_KEYBOARD_BINDINGS);
   assert.deepEqual(parseStoredKeyboardBindings(serializeKeyboardBindings(DEFAULT_KEYBOARD_BINDINGS)), DEFAULT_KEYBOARD_BINDINGS);
 });
+
+test('binding store persists only accepted complete maps and retains an in-memory fallback', async () => {
+  const { createKeyboardBindingStore, DEFAULT_KEYBOARD_BINDINGS, updateKeyboardBinding } = await sources.import('keyboard-input');
+  const writes = [];
+  const store = createKeyboardBindingStore({
+    async getItem() { return null; },
+    async setItem(key, value) { writes.push({ key, value }); },
+  });
+  assert.deepEqual(await store.load(), DEFAULT_KEYBOARD_BINDINGS);
+  const changed = updateKeyboardBinding(DEFAULT_KEYBOARD_BINDINGS, 'keyboard-a', 'call', 'E');
+  assert.equal((await store.commit(changed)).ok, true);
+  assert.equal(writes.length, 1);
+  const conflicting = updateKeyboardBinding(changed, 'keyboard-b', 'call', 'E');
+  assert.equal((await store.commit(conflicting)).ok, false);
+  assert.equal(writes.length, 1, 'invalid maps never reach durable storage');
+
+  const unavailable = createKeyboardBindingStore(undefined);
+  assert.equal((await unavailable.commit(changed)).ok, true);
+  assert.deepEqual(unavailable.current(), changed, 'storage absence keeps the usable session map');
+});
