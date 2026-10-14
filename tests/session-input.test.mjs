@@ -50,13 +50,25 @@ function transport(onSnapshot) {
   return { controls, send: state => handler(state) };
 }
 
+function trackedRouter(options) {
+  const events = [], lifecycle = options.lifecycle;
+  const router = new GamepadRouter({ ...options, lifecycle: event => { events.push(event); lifecycle?.(event); } });
+  return { router, events };
+}
+
+function issued(events, index) {
+  const event = events.find(candidate => candidate.type === 'seen' && candidate.device.index === index);
+  assert.ok(event, `expected an issued lease at index ${index}`);
+  return event.device;
+}
+
 test('two pads move two session players through the production transport and independent router state', () => {
   const { session, p1, p2 } = startSession();
-  const router = new GamepadRouter({ context: () => 'play', dispatch: action => session.dispatch(action) });
+  const { router, events } = trackedRouter({ context: () => 'play', dispatch: action => session.dispatch(action) });
   const wire = transport((state, now) => router.receive(state, now));
   wire.send(snapshot([pad(0), pad(1)]));
-  router.assign({ index: 0, id: 'Fixture controller 0' }, 'p1');
-  router.assign({ index: 1, id: 'Fixture controller 1' }, 'p2');
+  router.assign(issued(events, 0), 'p1');
+  router.assign(issued(events, 1), 'p2');
   wire.send(snapshot([pad(0), pad(1)]));
   wire.send(snapshot([pad(0, { pressed: [12] }), pad(1, { pressed: [15] })]));
   assert.equal(p1.y, 1);
@@ -82,10 +94,10 @@ test('join consumed ignores idle pads and consumes second-controller activity be
 
 test('independent repeat schedules and unknown mappings never dispatch across devices', () => {
   const actions = [];
-  const router = new GamepadRouter({ context: () => 'play', dispatch: action => { actions.push(action); return true; } });
+  const { router, events } = trackedRouter({ context: () => 'play', dispatch: action => { actions.push(action); return true; } });
   router.receive(snapshot([pad(0), pad(1)]), 0);
-  router.assign({ index: 0, id: 'Fixture controller 0' }, 'p1');
-  router.assign({ index: 1, id: 'Fixture controller 1' }, 'p2');
+  router.assign(issued(events, 0), 'p1');
+  router.assign(issued(events, 1), 'p2');
   router.receive(snapshot([pad(0), pad(1)]), 1);
   router.receive(snapshot([pad(0, { pressed: [12] }), pad(1, { pressed: [15] })]), 2);
   router.update(282);
@@ -98,10 +110,10 @@ test('independent repeat schedules and unknown mappings never dispatch across de
 
 test('malformed transport states clear held repeat instead of retaining a stuck action', () => {
   const actions = [];
-  const router = new GamepadRouter({ context: () => 'play', dispatch: action => { actions.push(action); return true; } });
+  const { router, events } = trackedRouter({ context: () => 'play', dispatch: action => { actions.push(action); return true; } });
   const wire = transport((state, now) => router.receive(state, now));
   wire.send(snapshot([pad(0)]));
-  router.assign({ index: 0, id: 'Fixture controller 0' }, 'p1');
+  router.assign(issued(events, 0), 'p1');
   wire.send(snapshot([pad(0)]));
   wire.send(snapshot([pad(0, { pressed: [12] })]));
   wire.send({ available: true, focused: true, pads: [{ ...pad(0), axes: [Infinity] }] });
@@ -112,9 +124,9 @@ test('malformed transport states clear held repeat instead of retaining a stuck 
 
 test('replacement at one index disconnects the old lease before seeing its new identity', () => {
   const lifecycle = [];
-  const router = new GamepadRouter({ context: () => 'play', dispatch: () => true, lifecycle: event => lifecycle.push(event) });
+  const { router, events } = trackedRouter({ context: () => 'play', dispatch: () => true, lifecycle: event => lifecycle.push(event) });
   router.receive(snapshot([pad(2, { id: 'Alpha' })]), 0);
-  assert.equal(router.assign({ index: 2, id: 'Alpha' }, 'p1'), true);
+  assert.equal(router.assign(issued(events, 2), 'p1'), true);
   router.receive(snapshot([pad(2, { id: 'Beta', pressed: [12] })]), 1);
   assert.deepEqual(lifecycle.map(event => `${event.type}:${event.device.id}`), [
     'seen:Alpha', 'assigned:Alpha', 'disconnected:Alpha', 'seen:Beta',
@@ -123,20 +135,20 @@ test('replacement at one index disconnects the old lease before seeing its new i
 
 test('same-id return offers a seeded explicit reclaim and requires release before actions', () => {
   const actions = [], reclaimRequests = [];
-  const router = new GamepadRouter({
+  const { router, events } = trackedRouter({
     context: () => 'play',
     dispatch: action => { actions.push(action); return true; },
     requestReclaim: (device, seat) => reclaimRequests.push({ device, seat }),
   });
   router.receive(snapshot([pad(3, { id: 'Alpha' })]), 0);
-  router.assign({ index: 3, id: 'Alpha' }, 'p1');
+  router.assign(issued(events, 3), 'p1');
   router.receive(snapshot([]), 1);
   router.receive(snapshot([pad(3, { id: 'Alpha', pressed: [12] })]), 2);
   assert.deepEqual(reclaimRequests, [], 'a held return never reclaims itself');
   router.receive(snapshot([pad(3, { id: 'Alpha' })]), 3);
   router.receive(snapshot([pad(3, { id: 'Alpha', pressed: [0] })]), 4);
   assert.equal(reclaimRequests.length, 1);
-  assert.equal(router.reclaim({ index: 3, id: 'Alpha' }), true);
+  assert.equal(router.reclaim(reclaimRequests[0].device), true);
   router.receive(snapshot([pad(3, { id: 'Alpha', pressed: [0] })]), 5);
   assert.deepEqual(actions, [], 'assignment seeds the held state');
   router.receive(snapshot([pad(3, { id: 'Alpha' })]), 6);
@@ -146,12 +158,12 @@ test('same-id return offers a seeded explicit reclaim and requires release befor
 
 test('device loss is mode-facing while focused frame loss stays globally safe', () => {
   const lifecycle = [], global = [];
-  const router = new GamepadRouter({
+  const { router, events } = trackedRouter({
     context: () => 'play', dispatch: () => true,
     lifecycle: event => lifecycle.push(event), onFrameSafetyLost: () => global.push('pause'),
   });
   router.receive(snapshot([pad(0)]), 0);
-  router.assign({ index: 0, id: 'Fixture controller 0' }, 'p1');
+  router.assign(issued(events, 0), 'p1');
   router.receive(snapshot([]), 1);
   assert.deepEqual(lifecycle.map(event => event.type), ['seen', 'assigned', 'disconnected']);
   assert.deepEqual(global, []);
@@ -170,4 +182,29 @@ test('capacity-full device activity is consumed without a new local-play request
   router.receive(snapshot([pad(7)]), 0);
   router.receive(snapshot([pad(7, { pressed: [0] })]), 1);
   assert.deepEqual(requests, []);
+});
+
+test('stale exact-same-id epochs cannot claim a replacement lease', () => {
+  const { router, events } = trackedRouter({ context: () => 'play', dispatch: () => true });
+  router.receive(snapshot([pad(0, { id: 'Alpha' })]), 0);
+  const first = issued(events, 0);
+  router.receive(snapshot([]), 1);
+  router.receive(snapshot([pad(0, { id: 'Alpha' })]), 2);
+  const second = events.filter(event => event.type === 'seen' && event.device.index === 0).at(-1).device;
+  assert.notEqual(first.epoch, second.epoch);
+  assert.equal(router.assign(first, 'p1'), false);
+  assert.equal(router.assign(second, 'p1'), true);
+});
+
+test('held input received while unfocused is seeded before focus returns', () => {
+  const actions = [];
+  const { router, events } = trackedRouter({ context: () => 'play', dispatch: action => { actions.push(action); return true; } });
+  router.receive(snapshot([pad(0)]), 0);
+  router.assign(issued(events, 0), 'p1');
+  router.receive(snapshot([pad(0, { pressed: [12] })], false), 1);
+  router.receive(snapshot([pad(0, { pressed: [12] })]), 2);
+  assert.deepEqual(actions, []);
+  router.receive(snapshot([pad(0)]), 3);
+  router.receive(snapshot([pad(0, { pressed: [12] })]), 4);
+  assert.deepEqual(actions.map(action => action.direction), ['forward']);
 });

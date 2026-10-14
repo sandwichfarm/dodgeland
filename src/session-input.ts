@@ -109,7 +109,7 @@ export class GamepadRouter {
       return;
     }
     if (!state.focused) {
-      this.seedAll();
+      this.reconcile(state.pads.filter((pad): pad is GamepadSnapshot => !!pad && pad.connected && pad.mapping === 'standard'), now, false);
       if (this.frameSafe) this.options.onFrameSafetyLost?.();
       this.frameSafe = false;
       return;
@@ -119,9 +119,9 @@ export class GamepadRouter {
   }
 
   /** Assign only the currently observed identity; a stale UI selection cannot steal a new epoch. */
-  assign(identity: Pick<GamepadDevice, 'index' | 'id'>, seat: SeatId): boolean {
+  assign(identity: GamepadDevice, seat: SeatId): boolean {
     const lease = this.leases.get(identity.index);
-    if (!lease || lease.device.id !== sanitizeId(identity.id)) return false;
+    if (!lease || lease.device.id !== sanitizeId(identity.id) || lease.device.epoch !== identity.epoch) return false;
     if ([...this.leases.values()].some(candidate => candidate !== lease && candidate.seat === seat)) return false;
     lease.seat = seat;
     lease.reclaimSeat = null;
@@ -132,7 +132,7 @@ export class GamepadRouter {
   }
 
   /** Explicit reclaim is intentionally separate from seeing a same-id snapshot. */
-  reclaim(identity: Pick<GamepadDevice, 'index' | 'id'>): boolean {
+  reclaim(identity: GamepadDevice): boolean {
     const lease = this.leases.get(identity.index);
     return !!lease && !!lease.reclaimSeat && this.assign(identity, lease.reclaimSeat);
   }
@@ -158,7 +158,7 @@ export class GamepadRouter {
     this.leases.clear(); this.latest = null;
   }
 
-  private reconcile(pads: readonly GamepadSnapshot[], now: number): void {
+  private reconcile(pads: readonly GamepadSnapshot[], now: number, dispatch = true): void {
     const byIndex = new Map(pads.map(pad => [pad.index, pad]));
     for (const [index, lease] of [...this.leases]) {
       const next = byIndex.get(index);
@@ -169,7 +169,7 @@ export class GamepadRouter {
       if (!lease) lease = this.createLease(pad);
       lease.pad = pad;
       const context = this.options.context();
-      if (lease.context !== context) { this.seed(lease); continue; }
+      if (!dispatch || lease.context !== context) { this.seed(lease); continue; }
       this.process(lease, now);
     }
   }
