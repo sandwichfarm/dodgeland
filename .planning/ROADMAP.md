@@ -113,8 +113,17 @@ Plans:
   3. Race disconnects, dropouts, reclaims, deaths, last-survivor cases, simultaneous finishes, ties, and timeout resolve from fixed simulation state without resetting the course or race clock.
   4. Players can use Race-eligible offensive and defensive consumables with visible, muted/reduced-motion-aware feedback; invalid targets, departed players, and ineligible modes cannot spend a charge or corrupt state.
   5. Race results show podium rank including true ties, distance, elapsed/finish time, finish or death status, fog damage, and relevant item/interaction statistics for every character.
-**Plans**: TBD
+**Plans**: 7 reviewed plans (execution depends on verified Phase 3 and delivered Relay integration)
 **UI hint**: yes
+
+Plans:
+- [ ] 05-01-PLAN.md — Reconcile prior APIs and implement validated Race setup, tracer, and authoring.
+- [ ] 05-02-PLAN.md — Resolve deterministic fog, finish/timeout precedence, and balance evidence.
+- [ ] 05-03-PLAN.md — Implement recovery, disconnect grace, original-seat reclaim, and waiting.
+- [ ] 05-04-PLAN.md — Add Race-only items, authoritative eligibility, and isolated probability rolls.
+- [ ] 05-05-PLAN.md — Freeze complete results with true competition ranks and unranked DNF groups.
+- [ ] 05-06-PLAN.md — Integrate input, camera, HUD, feedback, and the owner-labelled market.
+- [ ] 05-07-PLAN.md — Inspect the responsive visual matrix and run the complete canonical gates.
 
 ### Phase 6: Cross-Mode Presentation
 **Goal**: Every multiplayer mode remains understandable and usable through interruptions, recovery, results, and every supported frame size/theme.
@@ -150,6 +159,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 2. Shared Local Session | 0/6 | Reviewed; awaits Phase 1 | - |
 | 3. Survive Together & Consumables | 0/7 | Reviewed; awaits Phase 2 | - |
 | 4. Relay | 0/6 | Reviewed; awaits Phase 3 | - |
-| 5. Race | 0/TBD | UI approved; planning | - |
+| 5. Race | 0/7 | Reviewed; awaits dependencies | - |
 | 6. Cross-Mode Presentation | 0/TBD | Not started | - |
 | 7. Release Evidence & PR | 0/TBD | Not started | - |
