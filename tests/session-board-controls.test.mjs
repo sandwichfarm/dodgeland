@@ -122,6 +122,29 @@ test('compact roster lets a player inspect an open seat without jumping back to 
   assert.match(await frame.locator('#session-seat-detail').innerText(), /P3 is open/);
 });
 
+test('live resize preserves the chosen setup page without exposing both compact panels', async t => {
+  const { page, frame } = await setup(t);
+  await frame.locator('.session-seat-chip').nth(1).click();
+  assert.equal(await frame.locator('#session-roster').isVisible(), true);
+  assert.equal(await frame.locator('#session-seat-detail').isVisible(), true);
+  await page.setViewportSize({ width: 320, height: 560 });
+  await frame.waitForFunction(() => innerWidth === 320);
+  assert.equal(await frame.locator('#session-roster').isVisible(), true, 'desktop-to-compact keeps the logical roster page');
+  assert.equal(await frame.locator('#session-seat-detail').isVisible(), false, 'the other panel must hide without clicking another tab');
+  await frame.getByRole('button', { name: 'Traveler', exact: true }).click();
+  assert.equal(await frame.locator('#session-roster').isVisible(), false);
+  assert.equal(await frame.locator('#session-seat-detail').isVisible(), true);
+  await page.setViewportSize({ width: 900, height: 600 });
+  await frame.waitForFunction(() => innerWidth === 900);
+  assert.equal(await frame.locator('#session-roster').isVisible(), true);
+  assert.equal(await frame.locator('#session-seat-detail').isVisible(), true);
+  await page.setViewportSize({ width: 320, height: 560 });
+  await frame.waitForFunction(() => innerWidth === 320);
+  assert.equal(await frame.locator('#session-roster').isVisible(), false, 'returning to compact restores Traveler');
+  assert.equal(await frame.locator('#session-seat-detail').isVisible(), true);
+  assert.equal(await frame.locator('.session-seat-chip').nth(1).getAttribute('aria-pressed'), 'true', 'P2 remains selected across resizing');
+});
+
 test('an unresolved disconnected seat disables Start even when two other players are ready', async t => {
   const { frame } = await setup(t);
   await frame.getByRole('button', { name: 'Add Keyboard A', exact: true }).click();
