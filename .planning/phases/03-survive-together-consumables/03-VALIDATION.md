@@ -111,8 +111,7 @@ Every frame runs in dark and light runtime themes; representative recovery/picku
 Run the complete final bundle gate and read every report:
 
 ```bash
-pnpm test:phase1
-pnpm test:solo-parity
+pnpm test:phase2
 node --test tests/survive-together-tracer.mjs tests/survive-together.test.mjs tests/consumable-drops.test.mjs tests/consumables.test.mjs tests/consumable-world.test.mjs tests/survive-economy.test.mjs
 pnpm test:market
 pnpm test:magnet
@@ -123,10 +122,10 @@ pnpm build
 node --test tests/survive-together-runtime.mjs tests/survive-together-layout.mjs
 pnpm test:guidance
 pnpm test:conformance
-git diff --exit-code -- pnpm-lock.yaml
+git diff --exit-code a310a81ed6c76df4b265c9012c23b8c83f4802e5 -- pnpm-lock.yaml
 ```
 
-Use the actual Phase 1 completion command recorded in its summaries if it differs from `pnpm test:phase1`. Use the complete Phase 2 final gate from `02-VALIDATION.md` before this Phase 3 gate. A conformance skip remains a skip and is named in `03-07-SUMMARY.md`; it is never reported as passed evidence.
+The initial `pnpm test:phase2` is the maintained complete prerequisite gate from `02-VALIDATION.md`; it includes Phase 1, exact archived/current renderer pixels, all current shared-session evidence, and original-baseline lockfile integrity. Do not replace it with a copied subset or repeat solo parity separately without an intervening relevant change. A conformance skip remains a skip and is named in `03-07-SUMMARY.md`; it is never reported as passed evidence.
 
 ## Requirement Evidence Matrix
 
