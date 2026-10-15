@@ -255,3 +255,28 @@ test('skipping a paid pack keeps the offer sold without a refund, reroll, or tea
   assert.equal(session.actCoOpMarket(request(owner, result.context, 'buy', { offerId: offer.id })).ok, false);
   assert.equal(ownerSnapshot(owner, session), after);
 });
+
+test('the real shared market pause permits either living owner to buy while world time stays frozen', () => {
+  for (const seat of ['p1', 'p2']) {
+    const { game, session } = fixture();
+    const owner = session.players.find(player => player.seat === seat);
+    const other = session.players.find(player => player !== owner);
+    owner.run.advanceScore(100); owner.run.creditCoins(24);
+    assert.equal(owner.run.open(), true);
+    // The shipped market UI opens the selected run, then pauses the host.
+    // P1 aliases host.state, whereas a secondary owner keeps its own state.
+    game.pause();
+    assert.equal(game.state, 'paused');
+    const time = game.time;
+    const otherBefore = ownerSnapshot(other, session);
+    const context = contextFor(session, owner);
+    const result = session.actCoOpMarket(request(owner, context, 'buy-consumable', { itemId: 'revival' }));
+    assert.equal(result.ok, true, `${seat}: a shared pause must not disable the owner market`);
+    session.update(1);
+    assert.equal(game.time, time);
+    assert.equal(game.state, 'paused');
+    assert.equal(owner.run.wallet, 0);
+    assert.equal(session.consumableSnapshot().charges.find(value => value.seat === seat).revival, 1);
+    assert.equal(ownerSnapshot(other, session), otherBefore);
+  }
+});
