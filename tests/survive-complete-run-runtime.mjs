@@ -41,7 +41,7 @@ test('one Arcade course survives adoption, four-player recovery, settlement and 
       assert.equal(await frame.locator('#market-next').isEnabled(), true, `${name} has a reachable market page`);
       await frame.locator('#market-next').click(); await settle();
     }
-    await offer.click(); await frame.getByRole('button', { name: `Buy ${name}`, exact: true }).click(); await settle();
+    await offer.click(); await frame.getByRole('button', { name: new RegExp(`^Buy ${name} ·`) }).click(); await settle();
     await frame.locator('#market-close').click(); await advance(300);
   }
   async function die(seats) {
