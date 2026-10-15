@@ -76,3 +76,30 @@ test('a new hand inspection after earning coins can sell on its first confirmati
     assert.deepEqual(evidence.errors, []); assert.deepEqual(evidence.external, []);
   } finally { await app.close(); }
 });
+
+test('an already-open stale sale rejects until a new inspection captures the current inventory', { timeout: 60_000 }, async () => {
+  const evidence = { errors: [], external: [] }, app = await createMarketGameFixture(evidence);
+  const { frame, advance } = app;
+  try {
+    await start(app);
+    const card = p2(await read(app)).cards[0];
+    await frame.locator(`[data-hand-card="${card.id}"]`).click(); await advance(100);
+    // Model a revision change after the inspection has captured its owner.
+    // The confirmation must not silently authorize itself against new state.
+    await earnCoin(app); await advance(80);
+    const current = await read(app);
+    for (let attempt = 0; attempt < 2; attempt++) {
+      await frame.locator('#run-hand-sell').click(); await advance(100);
+      assert.deepEqual(await read(app), current, 'rejection cannot refresh the old confirmation into permission to sell');
+      assert.match(await frame.locator('#run-hand-detail').innerText(), /no longer current/i);
+    }
+    await frame.locator('#run-hand-close').click(); await advance(100);
+    await frame.locator(`[data-hand-card="${card.id}"]`).click(); await advance(100);
+    await frame.locator('#run-hand-sell').click(); await advance(100);
+    const after = await read(app);
+    assert.deepEqual(p2(after).cards, p2(current).cards.filter(held => held.id !== card.id));
+    assert.equal(p2(after).wallet, p2(current).wallet + card.saleValue);
+    assert.deepEqual(after.find(player => player.seat === 'p1'), current.find(player => player.seat === 'p1'));
+    assert.deepEqual(evidence.errors, []); assert.deepEqual(evidence.external, []);
+  } finally { await app.close(); }
+});
