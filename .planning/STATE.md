@@ -5,7 +5,7 @@ milestone_name: milestone
 current_phase: 03
 current_phase_name: survive-together-consumables
 status: executing
-stopped_at: "Phase03 Plans01-06 accepted; Plan07 shop layout and integrated run pass; wardrobe/action matrix and canonical gate remain."
+stopped_at: "Phase03 Plan07 complete with full canonical gate; independent verification pending."
 last_updated: "2026-10-15T20:21:35.861302+00:00"
 last_activity_desc: Co-op market tracer passes; root ownership, fresh-context and responsive regressions drive03-07 fixes.
 progress:
@@ -28,7 +28,7 @@ Full unchanged goal: `.planning/USER-REQUEST.md`, `.planning/PROJECT.md`, `.plan
 
 Plan03-06 accepted at source12f6fba with SUMMARYba7e6a9. Root final gate7110 terminal0 (`/tmp/down-to-duck-03-06-root-final-owner-gate.log`) passed type-check/build,22 named tests,guidance,conformance5pass/0fail/5unmeasured,and unchanged lockfile against immutable solo oracle. Physical controller hardware is separately unmeasured. No unchanged gate rerun needed at07entry;07final canonical inherited gate remains mandatory. Phase03 overall remains incomplete; UI-03 requires07 and independent verification.
 
-Root owns Plan03-07 source, tests, SUMMARY, and the sole build/browser reservation following the executor's completed handoff. All prior executor ownership notes below are historical. Current canonical gate is root session45733, log `/tmp/down-to-duck-root-phase3-resize-gate.log`; poll this exact handle. No independent Phase03 verification or completion yet. Immutable solo oracle and lockfile remain unchanged; no installs/publishing; browsers muted and preview5175 untouched.
+Root owns Plan03-07 source, tests, SUMMARY, and the sole build/browser reservation following the executor's completed handoff. All prior executor ownership notes below are historical. Canonical gate45733 completed exit0, log `/tmp/down-to-duck-root-phase3-resize-gate.log`. No live root process. Plan07 SUMMARY is written; independent Phase03 verification is next. No independent Phase03 verification or completion yet. Immutable solo oracle and lockfile remain unchanged; no installs/publishing; browsers muted and preview5175 untouched.
 
 Root03-07 supplemental `tests/survive-market-pack-owner-runtime.mjs` committedba21d42; final gate includes it in c43d4ba. Actual built RED44739 terminal1 (`/tmp/down-to-duck-03-07-root-pack-red.log`) reaches the P2 full-hand Large Pack inspection, where purchase is disabled. Setup and owner selection succeeded; subsequent paid-pack/switch/sale/claim assertions remain unproven. Browser reservation released to executor, root no live process. Executor own initial RED reports4 existing cases pass/1 new P2Revival case fails at disabled market opener (`/tmp/down-to-duck-03-07-red-p2-revival.log`).
 
@@ -78,7 +78,7 @@ Root took source/build/browser ownership after executor handoff at R67; executor
 
 Root Phase03 suffix45982 passed every focused model group and32/34browsercases; two lifecycle layouts exposed compact `.hud-tools` anchored below a zero-height `.hud`. Root fix `e13d598` anchors toolbar to frame and reserves handspace; focused12009 terminal0 passes inheritedHUDlayout,chargedownerlayout,andbothlifecyclecases4/4 (`/tmp/down-to-duck-root-toolbar-layout.log`). Root inspected corrected320×560 personal-offer image with visible sound/pause/collection controls. Full canonical `pnpm test:phase3` is now running as root session96861 with durable log `/tmp/down-to-duck-root-phase3-final.log`. Re-poll this exacthandle; no competingbuild/browser. No SUMMARY/phasecompletion yet.
 
-Root final gate96861 terminated1: Phase02 prefix and all Phase03 model groups passed; browser33/34 failed tiny Revival focus. Focused diagnostic passed1/1 and layout group4/4, but full browser batch reproduced equivalent Reclaim focus failure33/34. Native resize callback tracing proved the virtual-clock helper could return with BODY focused before app resize observers restored focus. Fixture-only fix67b282b waits for native ResizeObserver delivery and queued microtasks; it never supplies focus and retains all assertions. Instrumented full browser batch92443 passed34/34 (`/tmp/down-to-duck-focus-barrier.log`); temporary diagnostic logging removed. Full canonical gate45733 now running on committed helper, `/tmp/down-to-duck-root-phase3-resize-gate.log`.
+Root final gate96861 terminated1: Phase02 prefix and all Phase03 model groups passed; browser33/34 failed tiny Revival focus. Focused diagnostic passed1/1 and layout group4/4, but full browser batch reproduced equivalent Reclaim focus failure33/34. Native resize callback tracing proved the virtual-clock helper could return with BODY focused before app resize observers restored focus. Fixture-only fix67b282b waits for native ResizeObserver delivery and queued microtasks; it never supplies focus and retains all assertions. Instrumented full browser batch92443 passed34/34 (`/tmp/down-to-duck-focus-barrier.log`); temporary diagnostic logging removed. Full canonical gate45733 completed exit0 on committed helper, `/tmp/down-to-duck-root-phase3-resize-gate.log`; all inherited checks, all Phase03 groups,34/34 final browser cases, guidance and lockfile pass. Both conformance reports5pass/0fail/5unmeasured. Plan07 SUMMARY records exact counts and requirement evidence; independent Phase03 verifier is next.
 
 ## Historical Evidence
 
