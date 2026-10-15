@@ -38,6 +38,10 @@ Root03-07 checkpoint review: executor commitsf5e67c5/4d79334/e338c9c/7c9160d wir
 
 Root new controller-hand ownership test9fc4050 is syntax-checked only; source review found any seat's confirmation still reaches market/hand and assigned-owner D-pad drops. Root also flagged ghost market inspection losing its surface when no eligible transaction context exists, direct oldRun.close bypass, and14px item text below16px contract. Executor has resumed full approved03-07 completion; no SUMMARY accepted. Its inherited reclaim failure is first being reconciled with03-06 explicit confirmation, not worked around with unintended automatic reclaim. Full Task2 acceptance, owner/lifecycle/keyboard/controller/visual matrices and canonical inherited gate remain required.
 
+Root added committed physical-shelf purchase/use7201c75, controller-hand ownership9fc4050, visible ghost explanationd0704b0, and ghost market close/reopena3da5f0; all appear in07 final gate. Root inspected900px pack-sale and ghost-sale artifacts; Items text was small beside cards, and reclaim copy tooltip-only. Executor is fixing UI contract rather than weakening assertions. Source changes currently uncommitted and executor owns build/browser.
+
+Latest reviewed executor checkpoint `/tmp/down-to-duck-03-07-r3-runtime.log` terminal failure:6pass2fail, with inherited recovery-owner+five Survive runtime cases passing; ghost market disabled-state repaint and1000×280 market offer hit-targets still failing. Prior R1 checkpoint report10pass4fail included physical shelf,solo tiny,controller,pack,andghost-sale checks, but final current-source recheck remains required. Inherited local-session reclaim now uses explicit Reclaim dialog, nonowner rejection, then owner confirmation; executor reports that standalone test passes. No root live process. Plan07 full controller/keyboard/pointer/action/lifecycle/visual matrices and Task2 integration/canonical gates remain incomplete; no07SUMMARY accepted.
+
 ## Historical03-06 Tracer and Ownership
 
 The paragraphs below record intermediate failures and their subsequent fixes; current acceptance and ownership above supersede them.
