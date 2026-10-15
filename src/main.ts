@@ -93,9 +93,77 @@ function closeHudInspection(resume = true): void {
   hudDetailsOpen = false; hudInspectWasPlaying = false;
   if (shouldResume) { sessionPaused = false; game.resume(); activateNativeKeyboard(); }
 }
+function itemCharge(seat: SeatId) { return localSession?.consumableSnapshot()?.charges.find(charge => charge.seat === seat); }
+function personalProgress(player: NonNullable<ReturnType<typeof selectedSessionOwner>>): string {
+  const recovery = player.recovery;
+  if (!recovery) return 'Personal revive: —';
+  if (recovery.charge === 'available') return 'Personal revive: Ready';
+  return `Personal revive: ${Math.min(250, Math.max(0, 250 - Math.max(0, recovery.nextRecharge - recovery.personalHighWater)))} / 250 tiles`;
+}
+function lifecycleLabel(player: NonNullable<ReturnType<typeof selectedSessionOwner>>): string {
+  if ((player.recovery?.protectionUntil ?? 0) > (localSession?.world.time ?? Infinity)) return 'Protected';
+  if (player.participation === 'device-lost') return 'Ghost · reclaim-ready';
+  if (player.participation === 'departed') return 'Left run';
+  if (player.participation === 'dead') return player.recovery?.offer ? 'Recovery pending' : 'Down';
+  return player.state === 'paused' ? 'Active · paused' : 'Active';
+}
+function closeRecoveryBoard(resume = false): void {
+  recoveryBoard?.remove(); recoveryBoard = undefined; recoveryBoardOwner = undefined;
+  if (resume && localSession?.running && frameAvailable()) { sessionPaused = false; game.resume(); activateNativeKeyboard(); }
+  updateHud();
+}
+function openRecoveryBoard(ownerSeat: SeatId, itemId?: 'revival' | 'flare'): void {
+  const session = localSession, owner = session?.players.find(player => player.seat === ownerSeat);
+  if (!session || !owner || owner.participation !== 'active') return;
+  if (displayedRunState() === 'playing') { sessionPaused = true; game.pause(); accumulator = 0; audio.stop(); }
+  recoveryBoard?.remove();
+  const initialCharge = itemCharge(ownerSeat);
+  if (!initialCharge) return;
+  const ownerContext = Object.freeze({ participantId: owner.participantId, ownerGeneration: initialCharge.ownerGeneration, inventoryGeneration: initialCharge.inventoryGeneration });
+  const board = document.createElement('section'); board.id = 'survive-recovery-board'; board.className = 'survive-recovery-board'; board.setAttribute('role', 'dialog'); board.setAttribute('aria-modal', 'true');
+  const title = document.createElement('h2'); title.textContent = `Viewing ${ownerSeat.toUpperCase()} · ${characterById(owner.characterId).name}`;
+  const status = document.createElement('p'); status.className = 'survive-recovery-status'; status.setAttribute('aria-live', 'polite');
+  const actions = document.createElement('div'); actions.className = 'survive-recovery-actions';
+  const back = document.createElement('button'); back.type = 'button'; back.textContent = 'Back'; back.addEventListener('click', () => closeRecoveryBoard(false));
+  const choose = (kind: 'revival' | 'flare') => {
+    actions.replaceChildren();
+    const dead = session.players.filter(player => player.participation === 'dead' && player.state === 'dead');
+    const heading = document.createElement('h3'); heading.textContent = kind === 'revival' ? 'Choose a teammate' : 'Bring the flock together?'; actions.append(heading);
+    if (!dead.length) { status.textContent = kind === 'revival' ? 'No teammate can be revived right now.' : 'No teammate needs a flare right now.'; actions.append(back); return; }
+    let target = dead[0]!;
+    let targetDeathGeneration = target.recovery?.deathGeneration;
+    if (kind === 'revival') for (const player of dead) {
+      const option = document.createElement('button'); option.type = 'button'; option.textContent = `Revive ${player.seat.toUpperCase()}`; option.dataset.target = player.seat; option.setAttribute('aria-pressed', String(player === target));
+      option.addEventListener('click', () => { target = player; targetDeathGeneration = player.recovery?.deathGeneration; for (const control of actions.querySelectorAll<HTMLButtonElement>('[data-target]')) control.setAttribute('aria-pressed', String(control.dataset.target === player.seat)); }); actions.append(option);
+    } else { const affected = document.createElement('p'); affected.textContent = `Return ${dead.map(player => player.seat.toUpperCase()).join(', ')} and regroup the flock safely.`; actions.append(affected); }
+    const commit = document.createElement('button'); commit.type = 'button'; commit.className = 'primary'; commit.textContent = kind === 'revival' ? 'Use Revival' : 'Use Flare';
+    commit.addEventListener('click', () => {
+      const currentOwner = session.players.find(player => player.seat === ownerSeat), currentCharge = itemCharge(ownerSeat), currentTarget = session.players.find(player => player.seat === target.seat);
+      if (!currentOwner || currentOwner.participantId !== ownerContext.participantId || !currentCharge || currentCharge.ownerGeneration !== ownerContext.ownerGeneration || currentCharge.inventoryGeneration !== ownerContext.inventoryGeneration || (kind === 'revival' && (currentTarget?.participation !== 'dead' || currentTarget.recovery?.deathGeneration !== targetDeathGeneration))) { status.textContent = 'That recovery choice changed. Choose again.'; return; }
+      const ok = session.useConsumable({ actionId: `ui-recovery-${++recoveryActionId}`, ownerSeat, itemId: kind, targetSeat: kind === 'revival' ? target.seat : undefined, expectedInventoryGeneration: ownerContext.inventoryGeneration, expectedOwnerGeneration: ownerContext.ownerGeneration, expectedTargetDeathGeneration: kind === 'revival' ? targetDeathGeneration : undefined });
+      status.textContent = ok ? kind === 'revival' ? `${ownerSeat.toUpperCase()} revived ${target.seat.toUpperCase()}.` : 'The flock regrouped safely.' : kind === 'revival' ? `${target.seat.toUpperCase()} can’t return safely yet. Revival kept.` : 'The flock can’t regroup safely yet. Flare kept.';
+      if (ok) { notify(status.textContent); closeRecoveryBoard(false); } else updateHud();
+    });
+    actions.append(back, commit); queueMicrotask(() => (kind === 'revival' ? actions.querySelector<HTMLButtonElement>('[data-target]') : back)?.focus({ preventScroll: true }));
+  };
+  if (itemId) choose(itemId); else {
+    const revival = document.createElement('button'); revival.type = 'button'; revival.textContent = `Use Revival ×${initialCharge.revival}`; revival.disabled = !initialCharge.revival; revival.addEventListener('click', () => choose('revival'));
+    const flare = document.createElement('button'); flare.type = 'button'; flare.textContent = `Use Flare ×${initialCharge.flare}`; flare.disabled = !initialCharge.flare; flare.addEventListener('click', () => choose('flare'));
+    actions.append(revival, flare, back); queueMicrotask(() => revival.focus({ preventScroll: true }));
+  }
+  board.append(title, status, actions); el('app').append(board); recoveryBoard = board; recoveryBoardOwner = { seat: ownerSeat, ...ownerContext }; updateHud();
+}
+function usePersonalRevive(seat: SeatId): void {
+  const session = localSession; if (!session) return;
+  const ok = session.recover({ kind: 'personal', ownerSeat: seat });
+  notify(ok ? `${seat.toUpperCase()} returned Protected.` : `${seat.toUpperCase()}'s revive offer ended.`); updateHud();
+}
 let sessionHudRoster = '';
 const controllerDevices = new Map<number, GamepadDevice>();
 let sessionPaused = false;
+let recoveryBoard: HTMLElement | undefined;
+let recoveryActionId = 0;
+let recoveryBoardOwner: { seat: SeatId; participantId: string; ownerGeneration: number; inventoryGeneration: number } | undefined;
 let pointer: { x: number; y: number; id: number } | null = null;
 let preparedLaunch: GameLaunch | undefined;
 let shortLosses = 0, previousState = '', chapter = 0, toastUntil = 0, toastMessage = '';
@@ -488,6 +556,12 @@ function displayedRunState(): typeof game.state {
   return localSession.players.some(player => player.state === 'playing') ? 'playing' : 'dead';
 }
 function updateHud(): void {
+  if (recoveryBoardOwner) {
+    const owner = localSession?.players.find(player => player.seat === recoveryBoardOwner!.seat), charge = owner && itemCharge(owner.seat);
+    if (!owner || owner.participation !== 'active' || owner.participantId !== recoveryBoardOwner.participantId || !charge || charge.ownerGeneration !== recoveryBoardOwner.ownerGeneration || charge.inventoryGeneration !== recoveryBoardOwner.inventoryGeneration) {
+      recoveryBoard?.remove(); recoveryBoard = undefined; recoveryBoardOwner = undefined; notify('Recovery choice changed. Choose again.');
+    }
+  }
   const seats = el('session-seats');
   seats.hidden = !localSession?.running;
   if (localSession?.running) {
@@ -506,8 +580,12 @@ function updateHud(): void {
           updateHud();
         });
         const details = document.createElement('div'); details.className = 'session-hud-details';
-        for (const field of ['device', 'health', 'power', 'wallet', 'revive', 'item'] as const) {
-          const value = document.createElement('span'); value.dataset.sessionHud = field; if (field === 'revive' || field === 'item') value.className = 'session-future'; details.append(value);
+        for (const field of ['device', 'health', 'power', 'wallet', 'revive', 'item', 'lifecycle'] as const) {
+          const value = field === 'revive' || field === 'item' ? document.createElement('button') : document.createElement('span');
+          value.dataset.sessionHud = field; if (value instanceof HTMLButtonElement) { value.type = 'button'; value.className = 'session-future'; }
+          if (field === 'revive') value.addEventListener('click', () => usePersonalRevive(player.seat));
+          if (field === 'item') value.addEventListener('click', () => openRecoveryBoard(player.seat));
+          details.append(value);
         }
         const close = document.createElement('button'); close.type = 'button'; close.className = 'session-hud-close'; close.dataset.sessionHudClose = 'true'; close.textContent = 'Close details'; close.addEventListener('click', () => { closeHudInspection(); updateHud(); queueMicrotask(() => identity.focus({ preventScroll: true })); }); details.append(close);
         tile.append(identity, details); return tile;
@@ -527,10 +605,15 @@ function updateHud(): void {
       const compactDevice = player.device.replace(/^gamepad-(\d+)$/, (_match, index: string) => `Pad ${Number(index) + 1}`);
       tile.querySelector<HTMLElement>('[data-session-hud="device"]')!.textContent = player.participation === 'device-lost' ? 'Waiting to reclaim' : compactHud ? `${character.name} · ${compactDevice}` : player.device;
       tile.querySelector<HTMLElement>('[data-session-hud="health"]')!.textContent = compactHud ? `${player.health}/${player.maxHealth} feathers · ${player.statistics.distance} tiles` : `${player.health} / ${player.maxHealth} feathers · ${player.statistics.distance} tiles`;
-      tile.querySelector<HTMLElement>('[data-session-hud="power"]')!.textContent = `${player.power.name} · ${player.powerReady ? 'Ready' : `${player.powerRemaining} tiles`}`;
+      tile.querySelector<HTMLElement>('[data-session-hud="power"]')!.textContent = `Power: ${player.power.name} · ${player.powerReady ? 'Ready' : `${player.powerRemaining} / 100 tiles`}`;
       tile.querySelector<HTMLElement>('[data-session-hud="wallet"]')!.textContent = `${player.run.wallet} coins · ${player.run.cards.length} cards`;
-      tile.querySelector<HTMLElement>('[data-session-hud="revive"]')!.textContent = 'Revive —';
-      tile.querySelector<HTMLElement>('[data-session-hud="item"]')!.textContent = 'Item —';
+      const revival = tile.querySelector<HTMLButtonElement>('[data-session-hud="revive"]')!;
+      revival.textContent = player.participation === 'dead' && player.recovery?.offer ? 'Use personal revive' : personalProgress(player);
+      revival.disabled = !(player.participation === 'dead' && player.recovery?.offer);
+      const charge = itemCharge(player.seat), items = tile.querySelector<HTMLButtonElement>('[data-session-hud="item"]')!;
+      items.textContent = `Items: ${charge && (charge.revival || charge.flare) ? `${charge.revival ? `Revival ×${charge.revival}` : ''}${charge.revival && charge.flare ? ' · ' : ''}${charge.flare ? `Flare ×${charge.flare}` : ''}` : '—'}`;
+      items.disabled = player.participation !== 'active' || !(charge?.revival || charge?.flare);
+      tile.querySelector<HTMLElement>('[data-session-hud="lifecycle"]')!.textContent = lifecycleLabel(player);
     }
     seats.dataset.sessionHudInspect = String(hudDetailsOpen);
   } else if (sessionHudRoster) { sessionHudRoster = ''; seats.replaceChildren(); }
@@ -676,7 +759,10 @@ function leaveSetupSeat(seat: SeatId): void {
 /** Setup freezes the existing loop without advancing it; roster edits remain UI-only drafts. */
 function openLocalPlay(joining?: GamepadDevice): void {
   if (!frameAvailable() || localStage || localSession || game.state === 'dead' || !el('drawer').hidden || hand.isOpen() || market.isOpen() || selectedOwnerRun().pendingPack) return;
-  stagingSurviveTogether = game.state === 'playing';
+  // The visible Local Play action lives on the paused board, so that board
+  // is a paused live run rather than a fresh setup whenever it was opened
+  // from active play.  The stage keeps the exact course frozen until commit.
+  stagingSurviveTogether = game.state === 'playing' || game.state === 'paused';
   try { localStage = LocalSession.stage(game, { roster: [], mode: stagingSurviveTogether ? createSurviveTogetherDefinition(game.definition) : undefined }); }
   catch { notify('Local Play needs a safe second starting spot on this course.'); return; }
   const primaryDevice: DeviceId = soloGamepad ? markerDevice(soloGamepad) : 'keyboard-a';
