@@ -36,6 +36,7 @@ export function createSessionKeyboardEditor(options: SessionKeyboardEditorOption
   let selected: KeyboardProfileId = 'keyboard-a';
   let capture: { profile: KeyboardProfileId; action: KeyboardAction; origin: HTMLButtonElement } | undefined;
   let reset: KeyboardProfileId | undefined;
+  let page = 0;
   let disposed = false;
   const status = document.createElement('p');
   status.className = 'session-controls-status'; status.setAttribute('aria-live', 'polite');
@@ -48,6 +49,11 @@ export function createSessionKeyboardEditor(options: SessionKeyboardEditorOption
     const conflict = result.conflicts[0];
     return conflict ? `${conflict.key} already controls ${profileSeats[conflict.first.profile]} ${actionLabels[conflict.first.action]}. Choose another key.` : result.reason ?? 'Controls could not be saved.';
   };
+  const focusBinding = (action: KeyboardAction): void => {
+    queueMicrotask(() => [...panel.querySelectorAll<HTMLButtonElement>('.session-binding')]
+      .find(button => button.getAttribute('aria-label')?.startsWith(`${actionLabels[action]}:`))
+      ?.focus({ preventScroll: true }));
+  };
   const render = (message = ''): void => {
     if (disposed) return;
     panel.replaceChildren();
@@ -55,8 +61,11 @@ export function createSessionKeyboardEditor(options: SessionKeyboardEditorOption
     panel.append(heading);
     const profiles = document.createElement('div'); profiles.className = 'session-controls-profiles'; profiles.setAttribute('role', 'tablist');
     for (const profile of ['keyboard-a', 'keyboard-b'] as const) {
-      const tab = document.createElement('button'); tab.type = 'button'; tab.textContent = `${profileSeats[profile]} · ${profileNames[profile]}`; tab.setAttribute('role', 'tab'); tab.setAttribute('aria-selected', String(profile === selected));
-      tab.addEventListener('click', () => { selected = profile; capture = undefined; reset = undefined; options.capture(false); render(); }); profiles.append(tab);
+      const tab = document.createElement('button'); tab.type = 'button';
+      const compact = matchMedia('(max-width: 319px), (max-height: 319px)').matches;
+      tab.textContent = compact ? profileSeats[profile] : `${profileSeats[profile]} · ${profileNames[profile]}`;
+      tab.setAttribute('aria-label', `${profileSeats[profile]} · ${profileNames[profile]}`); tab.setAttribute('role', 'tab'); tab.setAttribute('aria-selected', String(profile === selected));
+      tab.addEventListener('click', () => { selected = profile; capture = undefined; reset = undefined; options.capture(false); render(); queueMicrotask(() => panel.querySelector<HTMLButtonElement>('[role="tab"][aria-selected="true"]')?.focus({ preventScroll: true })); }); profiles.append(tab);
     }
     panel.append(profiles);
     if (reset) {
@@ -64,18 +73,22 @@ export function createSessionKeyboardEditor(options: SessionKeyboardEditorOption
       const copy = document.createElement('p'); copy.id = 'session-controls-reset-copy'; copy.textContent = `Reset ${profileSeats[reset]} to the shared-keyboard defaults?`;
       const keep = document.createElement('button'); keep.type = 'button'; keep.textContent = 'Keep current controls';
       const apply = document.createElement('button'); apply.type = 'button'; apply.className = 'danger'; apply.textContent = 'Reset controls';
-      keep.addEventListener('click', () => { reset = undefined; render(); edit.focus({ preventScroll: true }); });
+      keep.addEventListener('click', () => { reset = undefined; render(); queueMicrotask(() => panel.querySelector<HTMLButtonElement>('.danger')?.focus({ preventScroll: true })); });
       apply.addEventListener('click', async () => {
         const defaults = DEFAULT_KEYBOARD_BINDINGS.profiles[reset!];
         const proposal = { ...options.bindings(), profiles: { ...options.bindings().profiles, [reset!]: { ...defaults } } } as KeyboardBindings;
         const result = await options.commit(proposal);
         if (!result.ok) { reset = undefined; render(errorFor(result)); return; }
-        reset = undefined; render(`${profileNames[selected]} defaults restored.`);
+        reset = undefined; render(`${profileNames[selected]} defaults restored.`); queueMicrotask(() => panel.querySelector<HTMLButtonElement>('.danger')?.focus({ preventScroll: true }));
       });
       confirm.append(copy, keep, apply); panel.append(confirm); queueMicrotask(() => keep.focus({ preventScroll: true }));
     } else {
       const rows = document.createElement('div'); rows.className = 'session-controls-rows';
-      for (const action of KEYBOARD_ACTIONS) {
+      const perPage = 1;
+      const actionPages = Math.ceil(KEYBOARD_ACTIONS.length / perPage);
+      const resetPage = actionPages;
+      const lastPage = resetPage;
+      for (const action of page < actionPages ? KEYBOARD_ACTIONS.slice(page * perPage, page * perPage + perPage) : []) {
         const row = document.createElement('div'); row.className = 'session-controls-row';
         const label = document.createElement('span'); label.textContent = actionLabels[action];
         const key = document.createElement('button'); key.type = 'button'; key.className = 'session-binding';
@@ -86,26 +99,33 @@ export function createSessionKeyboardEditor(options: SessionKeyboardEditorOption
         row.append(label, key); rows.append(row);
       }
       panel.append(rows);
-      const resetButton = document.createElement('button'); resetButton.type = 'button'; resetButton.className = 'danger'; resetButton.textContent = `Reset ${profileNames[selected]}`;
-      resetButton.addEventListener('click', () => { reset = selected; capture = undefined; options.capture(false); render(); });
-      panel.append(resetButton);
+      const pages = document.createElement('div'); pages.className = 'session-controls-pages';
+      const previous = document.createElement('button'); previous.type = 'button'; previous.textContent = 'Back'; previous.disabled = page === 0;
+      const next = document.createElement('button'); next.type = 'button'; next.textContent = page === lastPage ? 'Finish' : 'More';
+      previous.addEventListener('click', () => { capture = undefined; status.textContent = ''; options.capture(false); page--; render(); if (page < actionPages) focusBinding(KEYBOARD_ACTIONS[page * perPage]); }); next.addEventListener('click', () => { if (page < lastPage) { capture = undefined; status.textContent = ''; options.capture(false); page++; render(); if (page < actionPages) focusBinding(KEYBOARD_ACTIONS[page * perPage]); } else { visibleSetup(false); edit.focus({ preventScroll: true }); } });
+      pages.append(previous, next); panel.append(pages);
+      if (page === resetPage) {
+        const resetButton = document.createElement('button'); resetButton.type = 'button'; resetButton.className = 'danger'; resetButton.textContent = `Reset ${profileNames[selected]}`;
+        resetButton.addEventListener('click', () => { reset = selected; capture = undefined; status.textContent = ''; options.capture(false); render(); });
+        panel.append(resetButton);
+      }
     }
     status.textContent = message || status.textContent; panel.append(status);
   };
   const keydown = async (event: KeyboardEvent): Promise<void> => {
     if (!capture || disposed) return;
     if (event.key === 'Escape') {
-      event.preventDefault(); event.stopPropagation(); const origin = capture.origin; capture = undefined; options.capture(false); status.textContent = 'Capture cancelled.'; render(); queueMicrotask(() => origin.focus({ preventScroll: true })); return;
+      event.preventDefault(); event.stopPropagation(); const action = capture.action; capture = undefined; options.capture(false); status.textContent = 'Capture cancelled.'; render(); focusBinding(action); return;
     }
     const key = normalizeKeyboardKey(event.key);
     if (!key) { event.preventDefault(); event.stopPropagation(); status.textContent = 'Use a letter, arrow, or punctuation key.'; return; }
     event.preventDefault(); event.stopPropagation();
     const next = updateKeyboardBinding(options.bindings(), capture.profile, capture.action, key);
     const parsed = validateKeyboardBindings(next);
-    if (!parsed.ok) { const origin = capture.origin; capture = undefined; options.capture(false); render(errorFor(parsed)); queueMicrotask(() => origin.focus({ preventScroll: true })); return; }
-    const origin = capture.origin; const action = capture.action; capture = undefined;
+    if (!parsed.ok) { const action = capture.action; capture = undefined; options.capture(false); render(errorFor(parsed)); focusBinding(action); return; }
+    const action = capture.action; capture = undefined;
     const committed = await options.commit(parsed.bindings); options.capture(false);
-    render(committed.ok ? `${actionLabels[action]} is now ${key}.` : errorFor(committed)); queueMicrotask(() => origin.focus({ preventScroll: true }));
+    render(committed.ok ? `${actionLabels[action]} is now ${key}.` : errorFor(committed)); focusBinding(action);
   };
   root.addEventListener('keydown', keydown, true);
   edit.addEventListener('click', () => { visibleSetup(true); render(); panel.querySelector<HTMLElement>('h3')?.focus({ preventScroll: true }); });
