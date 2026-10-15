@@ -5,10 +5,10 @@ milestone_name: milestone
 current_phase: 02
 current_phase_name: shared-local-session
 status: executing
-stopped_at: "Phase 02 wave 3: first production setup flow passes; full input/HUD/adoption evidence pending."
+stopped_at: "Phase 02 wave 3: production adoption and assigned audio pass; full transport/HUD/layout evidence pending."
 last_updated: "2026-10-15T02:29:36Z"
 last_activity: 2026-10-14
-last_activity_desc: Plan05 second source slice 6f2a36b has a passing four-seat built flow. Actual assigned-call/cooldown audio test passed after hidden-root CSS correction; pause/mute extension awaits rerun. Responsive matrix is RED at240x240; full adoption/transport/HUD checks remain.
+last_activity_desc: Plan05 real audio pause/mute/unmute extension passes. New production adoption runtime8f32820 passes state-identical cancel, owner identities, RNG continuation, resumed solo and independent mixed-keyboard movement. Responsive matrix awaits current compact fixes; full transport/HUD gates remain.
 progress:
   total_phases: 7
   completed_phases: 1
@@ -29,8 +29,8 @@ See: `.planning/PROJECT.md` (updated 2026-10-14)
 
 Phase: 02 — Shared Local Session
 Plan: 5 of 6 (wave 3)
-Status: Plans01–04 complete; Plan05 four-seat flow and call evidence advance, compact layout and remaining integration active
-Last activity: 2026-10-14 — Plan05 source checkpoints 0ce5cf0 and 7d786e4 pass initial built-iframe flow and focused router tests. Root verified pending source fixes: 4/4 real component iframe tests for focus, open seats and mixed keyboard labels; 16/16 router tests including simultaneous joining and pause/confirm isolation. Corrections are committed in6f2a36b and built four-seat flow passes; full built-runtime acceptance remains executor-owned. Source-regex guardabc4812 remains superseded/unaccepted. Full mixed-device/calls/layout/adoption proof still required.
+Status: Plans01–04 complete; Plan05 four-seat/audio/adoption evidence passes, compact layout and remaining integration active
+Last activity: 2026-10-14 — Root production adoption test8f32820 passes in muted opaque iframe (1/1, no skips/errors): progressed fractional-grid solo with owned assets; draft/cancel state equality; resumed solo input; exact Game/world/P1/inventory/terrain/director/RNG identities; next deterministic market and actor draws; independent adopted/new keyboard movement. Evidence: /tmp/down-to-duck-local-session-adoption.log and artifacts/local-session-adoption-runtime.json. Real audio extension de43faa also passes pause/mute/unmute (1/1), /tmp/down-to-duck-local-session-audio.log. Earlier router16/16 and component4/4 pass; fifth component readiness case awaits final rerun. Full Plan05 transport, responsive HUD and integrated gates remain unaccepted.
 
 Progress: [██░░░░░░░░] 27% of currently planned plans (phase acceptance remains pending)
 
