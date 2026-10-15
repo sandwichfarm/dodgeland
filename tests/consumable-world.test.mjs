@@ -304,3 +304,41 @@ test('Flare commits all eligible returns together while ghosts stay untouched an
     'Flare excludes disconnected records from both return placement and inventory mutation');
   assert.equal(charge(session, owner.seat, 'flare'), 0);
 });
+
+test('different held actions may commit in the same simulation tick for their separately selected deaths', async () => {
+  const { game, session } = await ownedWorld({ roster: [
+    { seat: 'p2', device: 'keyboard-b', characterId: 'sunny' },
+    { seat: 'p3', device: 'keyboard-c', characterId: 'pip' },
+    { seat: 'p4', device: 'keyboard-d', characterId: 'petal' },
+  ] });
+  const [firstOwner, secondOwner, firstDead, secondDead] = session.players;
+  const initial = session.consumableSnapshot().pickups.find(pickup => pickup.itemId === 'revival');
+  assert.ok(initial); occupy(firstOwner, initial);
+  for (const player of [secondOwner, firstDead, secondDead]) { player.x = player.fromX = 4; player.y = player.fromY = player.maxY = 0; }
+  session.update(1 / 120);
+  const { sampleConsumableDrop } = await sources.import('consumable-drops');
+  const row = Array.from({ length: 20000 }, (_, index) => index + 30)
+    .find(index => sampleConsumableDrop({ courseSeed: game.seed, row: index, slot: 0 }).itemId === 'revival');
+  assert.ok(row);
+  session.world.noteProgress(row); session.world.activeFloor = row - 1; game.ensureRows(); meadow(game);
+  const future = session.consumableSnapshot().pickups.find(pickup => pickup.row === row);
+  assert.ok(future); occupy(secondOwner, future); firstOwner.x = firstOwner.fromX = 4; firstOwner.y = firstOwner.fromY = row - 1;
+  session.update(1 / 120);
+  assert.equal(charge(session, firstOwner.seat, 'revival'), 1); assert.equal(charge(session, secondOwner.seat, 'revival'), 1);
+  firstDead.x = firstDead.fromX = 4; firstDead.y = firstDead.fromY = firstDead.maxY = row - 2;
+  secondDead.x = secondDead.fromX = 4; secondDead.y = secondDead.fromY = secondDead.maxY = row - 3;
+  deathOnWater(game, session, firstDead); deathOnWater(game, session, secondDead);
+  const firstCharge = session.consumableSnapshot().charges.find(entry => entry.seat === firstOwner.seat);
+  const secondCharge = session.consumableSnapshot().charges.find(entry => entry.seat === secondOwner.seat);
+  const tick = session.world.simulationTick;
+  assert.equal(session.useConsumable({ actionId: 'parallel-first', ownerSeat: firstOwner.seat, itemId: 'revival', targetSeat: firstDead.seat,
+    expectedInventoryGeneration: firstCharge.inventoryGeneration, expectedOwnerGeneration: firstCharge.ownerGeneration,
+    expectedTargetDeathGeneration: firstDead.recovery.deathGeneration }), true);
+  assert.equal(session.useConsumable({ actionId: 'parallel-second', ownerSeat: secondOwner.seat, itemId: 'revival', targetSeat: secondDead.seat,
+    expectedInventoryGeneration: secondCharge.inventoryGeneration, expectedOwnerGeneration: secondCharge.ownerGeneration,
+    expectedTargetDeathGeneration: secondDead.recovery.deathGeneration }), true,
+  'same-tick deduplication is owner-scoped, not a global action lock');
+  assert.equal(session.world.simulationTick, tick);
+  assert.equal(charge(session, firstOwner.seat, 'revival'), 0); assert.equal(charge(session, secondOwner.seat, 'revival'), 0);
+  assert.equal(firstDead.state, 'playing'); assert.equal(secondDead.state, 'playing');
+});
