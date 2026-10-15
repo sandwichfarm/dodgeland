@@ -459,7 +459,10 @@ class ConsumableWorld implements GameWorldExtension {
   clear(player: SessionPlayer): void { const charge = this.charges.get(this.ownerId(player)); if (charge) { charge.revival = 0; charge.flare = 0; charge.inventoryGeneration = this.nextInventoryGeneration++; charge.ownerGeneration++; this.generation++; } }
   snapshot(): ConsumableWorldSnapshot {
     const pickups = [...this.pickups.values()].map(({ z: _z, speed: _speed, actorId: _actorId, ...pickup }) => Object.freeze({ ...pickup })).sort((a, b) => a.id.localeCompare(b.id));
-    const charges = this.session.players.map(player => Object.freeze({ seat: player.seat, ...this.charge(player) })).sort((a, b) => a.seat.localeCompare(b.seat));
+    const charges = this.session.players.map(player => {
+      const charge = this.charges.get(this.ownerId(player));
+      return Object.freeze({ seat: player.seat, ...(charge ?? { ownerGeneration: player.recovery?.deathGeneration ?? 0, inventoryGeneration: 0, revival: 0, flare: 0 }) });
+    }).sort((a, b) => a.seat.localeCompare(b.seat));
     const claims = [...this.claims.entries()].map(([pickupId, seat]) => Object.freeze({ pickupId, seat })).sort((a, b) => a.pickupId.localeCompare(b.pickupId));
     const protectedSeats = this.session.players.filter(player => (player.recovery?.protectionUntil ?? 0) > this.session.world.time).map(player => Object.freeze({ seat: player.seat, until: player.recovery?.protectionUntil ?? 0 }));
     return Object.freeze({ generation: this.generation, pickups: Object.freeze(pickups), charges: Object.freeze(charges), claims: Object.freeze(claims), protected: Object.freeze(protectedSeats) });
