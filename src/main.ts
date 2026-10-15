@@ -148,8 +148,8 @@ function openLifecycleBoard(ownerSeat: SeatId, titleCopy: string, detailCopy: st
   if (lifecycleBoard) closeLifecycleBoard();
   lifecycleWasPlaying = displayedRunState() === 'playing';
   if (lifecycleWasPlaying) { sessionPaused = true; game.pause(); accumulator = 0; audio.stop(); }
-  const board = document.createElement('section'); board.id = 'survive-lifecycle-board'; board.className = 'survive-recovery-board'; board.dataset.lifecycleOwner = ownerSeat; board.setAttribute('role', 'dialog'); board.setAttribute('aria-modal', 'true');
-  const title = document.createElement('h2'); title.textContent = titleCopy;
+  const board = document.createElement('section'); board.id = 'survive-lifecycle-board'; board.className = 'survive-recovery-board'; board.dataset.lifecycleOwner = ownerSeat; board.setAttribute('role', 'dialog'); board.setAttribute('aria-modal', 'true'); board.setAttribute('aria-labelledby', 'survive-lifecycle-title');
+  const title = document.createElement('h2'); title.id = 'survive-lifecycle-title'; title.textContent = titleCopy;
   const detail = document.createElement('p'); detail.className = 'survive-recovery-status'; detail.textContent = detailCopy;
   const actions = document.createElement('div'); actions.className = 'survive-recovery-actions';
   const notNow = document.createElement('button'); notNow.type = 'button'; notNow.textContent = cancelCopy; notNow.addEventListener('click', closeLifecycleBoard);
@@ -181,8 +181,8 @@ function openRecoveryBoard(ownerSeat: SeatId, itemId?: 'revival' | 'flare'): voi
   const initialCharge = itemCharge(ownerSeat);
   if (!initialCharge) return;
   const ownerContext = Object.freeze({ participantId: owner.participantId, ownerGeneration: initialCharge.ownerGeneration, inventoryGeneration: initialCharge.inventoryGeneration });
-  const board = document.createElement('section'); board.id = 'survive-recovery-board'; board.className = 'survive-recovery-board'; board.setAttribute('role', 'dialog'); board.setAttribute('aria-modal', 'true');
-  const title = document.createElement('h2');
+  const board = document.createElement('section'); board.id = 'survive-recovery-board'; board.className = 'survive-recovery-board'; board.setAttribute('role', 'dialog'); board.setAttribute('aria-modal', 'true'); board.setAttribute('aria-labelledby', 'survive-recovery-title');
+  const title = document.createElement('h2'); title.id = 'survive-recovery-title';
   const prefix = document.createElement('span'); prefix.className = 'recovery-heading-prefix'; prefix.textContent = 'Viewing ';
   title.append(prefix, `${ownerSeat.toUpperCase()} · ${characterById(owner.characterId).name}`);
   const subjects = document.createElement('div'); subjects.className = 'survive-recovery-subjects';
@@ -405,7 +405,7 @@ const market = createMarketUI({
   changed: updateHud,
 });
 const router: GamepadRouter = new GamepadRouter({
-  context: () => `${recoveryBoard ? `recovery:${recoveryBoardOwner?.seat ?? ''}:${recoveryBoard.dataset.recoveryPage ?? ''}` : lifecycleBoard ? `lifecycle:${lifecycleBoard.dataset.lifecycleOwner ?? ''}` : !surviveResultsRoot.hidden ? 'survive-results' : localStage ? 'setup' : localSession ? sessionPaused ? 'session-paused' : 'session' : 'solo'}:${game.state}:${hand.isOpen() ? 'hand' : market.isOpen() ? 'market' : el('drawer').hidden ? `run:${el('app').dataset.runMenuPage ?? el('app').dataset.pausePage ?? ''}` : `collection:${el('drawer').dataset.collectionTab}:${el('drawer').dataset.collectionView}`}`,
+  context: () => `${recoveryBoard ? `recovery:${recoveryBoardOwner?.seat ?? ''}:${recoveryBoard.dataset.recoveryPage ?? ''}` : lifecycleBoard ? `lifecycle:${lifecycleBoard.dataset.lifecycleOwner ?? ''}` : hudDetailsOpen ? `hud:${hudSelected}:${el('session-seats').querySelector<HTMLElement>(`[data-seat="${hudSelected}"]`)?.dataset.sessionHudPage ?? ''}` : !surviveResultsRoot.hidden ? 'survive-results' : localStage ? 'setup' : localSession ? sessionPaused ? 'session-paused' : 'session' : 'solo'}:${game.state}:${hand.isOpen() ? 'hand' : market.isOpen() ? 'market' : el('drawer').hidden ? `run:${el('app').dataset.runMenuPage ?? el('app').dataset.pausePage ?? ''}` : `collection:${el('drawer').dataset.collectionTab}:${el('drawer').dataset.collectionView}`}`,
   dispatch: ({ seat, direction }) => {
     if (recoveryBoard) {
       if (seat !== recoveryBoardOwner?.seat) return false;
@@ -414,6 +414,12 @@ const router: GamepadRouter = new GamepadRouter({
     if (lifecycleBoard) {
       if (seat !== lifecycleBoard.dataset.lifecycleOwner) return false;
       navigateModalControls(lifecycleBoard, direction); return true;
+    }
+    if (hudDetailsOpen) {
+      if (seat !== hudSelected) return false;
+      const tile = el('session-seats').querySelector<HTMLElement>(`[data-seat="${hudSelected}"]`);
+      if (tile) navigateModalControls(tile, direction);
+      return true;
     }
     if (!surviveResultsRoot.hidden) { navigateModalControls(surviveResultsRoot, direction); return true; }
     if (localSession?.running) { moveSessionCharacter(seat, direction); return true; }
@@ -434,12 +440,18 @@ const router: GamepadRouter = new GamepadRouter({
       else if (action === 'back') closeLifecycleBoard();
       return;
     }
+    if (hudDetailsOpen) {
+      if (seat !== hudSelected) return;
+      const tile = el('session-seats').querySelector<HTMLElement>(`[data-seat="${hudSelected}"]`);
+      if (action === 'confirm' && tile) confirmModal(tile);
+      else if (action === 'back' || action === 'pause') { closeHudInspection(); updateHud(); }
+      return;
+    }
     if (!surviveResultsRoot.hidden) {
       if (action === 'confirm') confirmModal(surviveResultsRoot);
       else if (action === 'back') navigateModalControls(surviveResultsRoot, 'back');
       return;
     }
-    if (hudDetailsOpen && (action === 'confirm' || action === 'pause' || action === 'back')) { closeHudInspection(); updateHud(); return; }
     if (action === 'call') { localSession?.running ? callSessionCharacter(seat) : callCharacter(); return; }
     if (action === 'confirm') {
       if (displayedRunState() !== 'playing' || localStage || hand.isOpen() || market.isOpen() || !el('drawer').hidden) { confirmMenu(); return; }
