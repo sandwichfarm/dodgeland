@@ -224,3 +224,21 @@ controller's fresh edge is not inherently a second-player edge: main must
 preserve the first solo controller path before offering Local Play for a
 genuine additional controller. The actual main-loop/iframe integration is
 still pending; the unit evidence does not establish that user-facing flow.
+
+## Setup transaction handoff for 02-05
+
+The current `LocalSession.stage(game, { roster: [] })` accepts a one-seat
+stage and preserves the existing primary/world aliases. Use this to freeze
+entry while keeping character/device/seat choices in a separate UI draft.
+Do not reconstruct a `Game` or repeatedly recreate secondary players while
+editing the roster.
+
+On Start, validate the complete draft, preserve P1's current character/device,
+apply the intended values, and create one candidate stage for the final roster.
+If safe placement or validation fails, restore those two primary values and
+retain the original stage. After success, cancel the empty stage and commit
+the candidate once. `setCharacter` only changes the character ID; it must not
+refill powers or replace inventory. Before Start, Back to solo simply cancels
+the empty stage, leaving gameplay state and RNG unchanged. Plan 02-05 must
+prove both the cancel path and successful identity-preserving adoption using
+actual production objects and built runtime evidence.
