@@ -151,12 +151,27 @@ test('four assigned travelers call independently of the saved solo traveler and 
     const twice = await countCalls();
     for (const id of ['sunny', 'butter', 'pip', 'petal']) assert.equal(twice[id], once[id] + 1, `${id} can call again after its own cooldown`);
     assert.equal(twice.rust, before.rust);
+
+    await send(); await frame.locator('#pause').click(); await page.clock.runFor(500);
+    assert.equal(await frame.locator('#app').getAttribute('data-run-state'), 'paused');
+    await callAll();
+    assert.deepEqual(await countCalls(), twice, 'pause blocks calls even after their cooldowns expire');
+    await send(); await frame.locator('#play').click(); await frame.locator('#scene').focus();
+    assert.equal(await frame.locator('#app').getAttribute('data-run-state'), 'playing');
+    await frame.locator('#sound-toggle').click(); await frame.locator('#scene').focus();
+    assert.equal(await frame.locator('#sound-toggle').getAttribute('aria-pressed'), 'true');
+    await page.clock.runFor(500); await callAll();
+    assert.deepEqual(await countCalls(), twice, 'the real mute control suppresses every assigned call');
+    await send(); await frame.locator('#sound-toggle').click(); await frame.locator('#scene').focus();
+    await callAll();
+    const unmuted = await countCalls();
+    for (const id of ['sunny', 'butter', 'pip', 'petal']) assert.equal(unmuted[id], twice[id] + 1, `${id} resumes calling after unmute`);
     assert.deepEqual(errors, []);
     await mkdir(new URL('../artifacts/', import.meta.url), { recursive: true });
     await writeFile(new URL('../artifacts/local-session-audio-runtime.json', import.meta.url), JSON.stringify({
       artifact: 'built opaque iframe, real AudioContext buffers, muted browser',
       assigned: { p1: 'sunny', p2: 'butter', p3: 'pip', p4: 'petal' }, saved: 'rust', fingerprints,
-      scenarios: ['setup call guard', 'four assigned calls', 'independent cooldown', 'held-edge suppression', 'cooldown expiry'], errors,
+      scenarios: ['setup call guard', 'four assigned calls', 'independent cooldown', 'held-edge suppression', 'cooldown expiry', 'pause call guard', 'mute and unmute'], errors,
     }, null, 2));
     await page.close();
   } finally {
