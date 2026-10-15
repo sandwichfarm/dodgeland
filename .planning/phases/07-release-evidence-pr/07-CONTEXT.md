@@ -41,6 +41,10 @@ the goal complete while any required behavior or evidence remains missing.
   teardown or missing wire evidence is not a passing check. Provide fixture
   evidence where feasible and distinguish any physical-controller limitations
   from injected runtime/controller proof without fabricating either.
+  Read `../../research/CONFORMANCE-EVIDENCE.md`: the installed HTML-only CLI
+  cannot accept manifest/lifecycle facts; its engine checks manifest structure,
+  not signatures or built-byte integrity, and predates the authorized controller
+  draft. Supplemental evidence must measure those facts and preserve these scopes.
 - Inspect saved visual proofs for setup, all-character HUD, shared hand/market,
   consumable selection/use, co-op recovery, Relay transfer/loss/wait/reclaim,
   Race fog/offense/defense, and every mode's results and podium.
