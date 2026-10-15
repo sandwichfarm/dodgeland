@@ -341,7 +341,11 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
         await assertFrame('hud', width, height, theme);
         if (width === 240 && height === 240 && theme === 'dark') {
           const identity = frame.locator('#session-seats .session-hud-selected .session-hud-identity');
-          const scoreBeforeInspect = await frame.locator('#score').innerText();
+          const p3Distance = async () => {
+            const text = await frame.locator('#session-seats [data-seat="p3"] [data-session-hud="health"]').innerText();
+            return Number(text.match(/·\s*(\d+)\s*tiles/)?.[1]);
+          };
+          const p3BeforeInspect = await p3Distance();
           await identity.focus();
           await identity.click();
           await frame.waitForFunction(() => document.querySelector('#session-seats')?.dataset.sessionHudInspect === 'true');
@@ -357,9 +361,15 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
           await closeDetails.click();
           await frame.waitForFunction(() => document.querySelector('#session-seats')?.dataset.sessionHudInspect !== 'true' && document.querySelector('#app')?.dataset.runState === 'playing');
           await page.waitForTimeout(80);
-          assert.equal(await frame.locator('#score').innerText(), scoreBeforeInspect, 'held native movement cannot leak through detail close before a neutral edge');
+          assert.equal(await p3Distance(), p3BeforeInspect, 'held P3 native movement cannot leak through detail close before a neutral edge');
           await page.keyboard.up('w');
           assert.equal(await frame.evaluate(() => document.activeElement?.closest('[data-seat]')?.dataset.seat), 'p1', 'closing details restores focus to the inspected identity');
+          await frame.locator('#scene').focus();
+          await frame.locator('#scene').press('w');
+          await frame.waitForFunction(previous => {
+            const text = document.querySelector('#session-seats [data-seat="p3"] [data-session-hud="health"]')?.textContent ?? '';
+            return Number(text.match(/·\s*(\d+)\s*tiles/)?.[1]) > previous;
+          }, p3BeforeInspect);
 
           await identity.click();
           await frame.waitForFunction(() => document.querySelector('#session-seats')?.dataset.sessionHudInspect === 'true');
