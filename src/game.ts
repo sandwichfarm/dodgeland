@@ -280,7 +280,8 @@ export class Game {
   updateSessionMobs(players: readonly SessionPlayer[], dt: number, samples: ReadonlyMap<SessionPlayer, { x: number; y: number }>): void {
     const participants = players.map(player => ({ seat: player.seat, game: this.operationFor(player), previousX: samples.get(player)!.x, previousY: samples.get(player)!.y }));
     const primary = participants[0]!;
-    this.mobDirector.update(this, dt, primary.previousX, primary.previousY, participants);
+    const anchor = [...participants].sort((a, b) => b.game.groundY - a.game.groundY || a.seat.localeCompare(b.seat))[0]!;
+    this.mobDirector.update(this, dt, primary.previousX, primary.previousY, participants, { effects: defaultModifiers(), frontier: this.world.frontier, anchor: anchor.game });
   }
   /** Remove player-card lane mutations when a shared world takes ownership. */
   resetSharedWorldEffects(): void {

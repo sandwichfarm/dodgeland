@@ -39,7 +39,8 @@ export interface SessionPlayerCallbacks {
   onCoin(amount: number): void;
   onHurt(event: HurtEvent): void;
   onHeal(amount: number): void;
-  onEnd(event: { reason: string; cause: DeathCause }): void;
+  /** Legacy Game end callbacks receive no argument; terminal facts live on the player and lifecycle record. */
+  onEnd(): void;
   onPower(event: { power: CharacterPower; cause: DeathCause }): void;
 }
 
@@ -207,11 +208,11 @@ export class SessionPlayer {
   readonly statistics = { distance: 0, coins: 0, pickups: 0, damage: 0, deaths: 0, deviceLostDuration: 0, deathCause: null as DeathCause | null };
 
   constructor(world: SharedWorld, seat: SeatId, device: DeviceId, characterId: string, primary = false) {
-    this.world = world; this.seat = seat; this.device = device; this.marker = seat === 'p1' ? 'P1' : 'P2';
+    this.world = world; this.seat = seat; this.device = device; this.marker = seat.toUpperCase();
     this.primary = primary;
     const character = characterById(characterId);
     if (primary) {
-      alias(this, world.host, ['run', 'state', 'x', 'y', 'maxY', 'idle', 'hop', 'fromX', 'fromY', 'coins', 'caughtByWave', 'health', 'maxHealth', 'hurtRemaining', 'deathCause', 'deathSpill', 'reason', 'characterId', 'powerRescue', 'powerReadyAt', 'powerNotice', 'powerLandingGrace', 'healedMilestone', 'touchingCars']);
+      alias(this, world.host, ['run', 'state', 'x', 'y', 'maxY', 'idle', 'hop', 'fromX', 'fromY', 'coins', 'caughtByWave', 'health', 'maxHealth', 'hurtRemaining', 'deathCause', 'deathSpill', 'reason', 'characterId', 'powerRescue', 'powerReadyAt', 'powerNotice', 'powerLandingGrace', 'healedMilestone', 'touchingCars', 'onCoin', 'onEnd', 'onHurt', 'onHeal', 'onPower']);
       return;
     }
     // Each seat has a run inventory. Course generation, actors, and rewards
@@ -294,7 +295,7 @@ export class LocalSession {
   }
 
   start(): void { for (const player of this.players) player.start(); this.world.sessionActive = true; this.world.host.resetSharedWorldEffects(); this.active = true; }
-  dispatch(action: SeatAction): boolean { const player = this.players.find(candidate => candidate.seat === action.seat); return !!player && this.active && player.move(action.direction); }
+  dispatch(action: SeatAction): boolean { const player = this.players.find(candidate => candidate.seat === action.seat); return !!player && this.active && player.participation === 'active' && player.move(action.direction); }
   private emit(type: SessionLifecycleType, player: SessionPlayer, previous: SessionParticipation, next: SessionParticipation, cause: string, offeredDevice?: DeviceId): void {
     const record = Object.freeze({ sessionId: this.id, playerId: `${this.id}:${player.seat}`, type, seat: player.seat, device: player.device, offeredDevice, previous, next, simulationTick: this.world.simulationTick, cause });
     this.lifecycleRecords.push(record); this.lifecycleHandler(record);
@@ -314,7 +315,7 @@ export class LocalSession {
   }
   reclaim(seat: SeatId, device: DeviceId): boolean {
     const player = this.players.find(candidate => candidate.seat === seat);
-    if (!player || player.participation !== 'device-lost') return false;
+    if (!player || player.participation !== 'device-lost' || this.players.some(candidate => candidate !== player && candidate.participation === 'active' && candidate.device === device)) return false;
     player.device = device; player.participation = 'active';
     player.statistics.deviceLostDuration += Math.max(0, this.world.time - (player.deviceLostAt ?? this.world.time)); player.deviceLostAt = null;
     this.emit('reclaimed', player, 'device-lost', 'active', 'device-reclaimed'); return true;
@@ -325,12 +326,12 @@ export class LocalSession {
     const previous = player.participation; player.participation = 'departed';
     this.emit('departed', player, previous, 'departed', cause); return true;
   }
-  private collectCompletedState(player: SessionPlayer, prior: RunState): void {
+  private collectCompletedState(player: SessionPlayer, prior: RunState): { player: SessionPlayer; previous: SessionParticipation; cause: string } | undefined {
     player.statistics.distance = Math.max(player.statistics.distance, player.primary ? player.maxY : player.earnedDistance);
     player.statistics.coins = player.coins;
     if (prior === 'playing' && player.state === 'dead') {
       const previous = player.participation; player.participation = 'dead'; player.statistics.deaths++; player.statistics.deathCause = player.deathCause;
-      this.emit('player-death', player, previous, 'dead', player.deathCause ?? 'unknown');
+      return { player, previous, cause: player.deathCause ?? 'unknown' };
     }
   }
   update(dt: number): void {
@@ -350,7 +351,11 @@ export class LocalSession {
     }
     this.world.resolvePickups();
     this.world.host.updateSessionMobs(activePlayers, this.world.time - previousTime, groundBefore);
-    for (const player of activePlayers) this.collectCompletedState(player, priorStates.get(player)!);
+    const terminal = activePlayers.flatMap(player => {
+      const transition = this.collectCompletedState(player, priorStates.get(player)!);
+      return transition ? [transition] : [];
+    });
+    for (const transition of terminal) this.emit('player-death', transition.player, transition.previous, 'dead', transition.cause);
   }
   /** Rendering owns this clock so each terminal spill ages once per frame. */
   advanceDeathVisuals(dt: number): void { for (const player of this.players) this.world.host.advancePlayerDeathVisuals(player, dt); }
