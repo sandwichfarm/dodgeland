@@ -168,3 +168,99 @@ test('a disconnected ghost retains its held item and wallet through another play
   assert.equal(charge(session, ghost.seat, 'flare'), 1);
   assert.equal(ghost.run.wallet, wallet);
 });
+
+function killOnWater(game, session, player) {
+  player.powerReadyAt = 10000;
+  const lane = game.rows.get(player.y);
+  Object.assign(lane, { kind: 'river', phase: 10, speed: 0, length: 1, spacing: 20 });
+  session.update(STEP);
+  assert.equal(player.state, 'dead');
+  Object.assign(lane, { kind: 'meadow', phase: 0 });
+}
+
+function observableState(session) {
+  return structuredClone({
+    items: session.consumableSnapshot(),
+    players: session.players.map(player => ({
+      seat: player.seat, state: player.state, participation: player.participation,
+      x: player.x, y: player.y, health: player.health, wallet: player.run.wallet,
+      recovery: player.recovery, statistics: player.statistics,
+    })),
+  });
+}
+
+for (const itemId of ['revival', 'flare']) {
+  test(`${itemId}: a collected charge returns a teammate atomically and rejects replay`, () => {
+    const { game, session } = twoOwnedItems();
+    const owner = session.players.find(player => player.seat === (itemId === 'revival' ? 'p1' : 'p2'));
+    const target = session.players.find(player => player !== owner);
+    killOnWater(game, session, target);
+    const chargeBefore = session.consumableSnapshot().charges.find(value => value.seat === owner.seat);
+    const action = { actionId: `collected-${itemId}`, ownerSeat: owner.seat, itemId,
+      targetSeat: target.seat, expectedInventoryGeneration: chargeBefore.inventoryGeneration };
+    const clock = session.world.time;
+    const tick = session.world.simulationTick;
+    const progress = target.recovery.personalHighWater;
+    const ownerWallet = owner.run.wallet;
+    assert.equal(session.useConsumable(action), true);
+    assert.equal(session.world.time, clock, 'debit and recovery complete without another frame');
+    assert.equal(session.world.simulationTick, tick);
+    assert.equal(charge(session, owner.seat, itemId), 0);
+    assert.equal(target.state, 'playing');
+    assert.equal(target.participation, 'active');
+    assert.equal(target.run.wallet, 0, 'a consumed item cannot restore purchases lost on death');
+    assert.equal(target.run.alive, true);
+    assert.equal(target.recovery.personalHighWater, progress, 'relocation earns no personal progress');
+    assert.ok(target.recovery.protectionUntil > clock);
+    assert.equal(owner.run.wallet, ownerWallet);
+    const afterUse = observableState(session);
+    assert.equal(session.useConsumable(action), false);
+    assert.deepEqual(observableState(session), afterUse, 'replay must change no authoritative state');
+  });
+}
+
+test('invalid item use preserves held charges and every recovery target until safe placement exists', () => {
+  const { game, session } = twoOwnedItems();
+  const owner = session.players.find(player => player.seat === 'p1');
+  const target = session.players.find(player => player.seat === 'p2');
+  killOnWater(game, session, target);
+  const generation = session.consumableSnapshot().charges.find(value => value.seat === owner.seat).inventoryGeneration;
+  const action = { actionId: 'recover-after-rejection', itemId: 'revival', ownerSeat: owner.seat,
+    targetSeat: target.seat, expectedInventoryGeneration: generation };
+  for (const invalid of [
+    { ...action, expectedInventoryGeneration: generation - 1 },
+    { ...action, targetSeat: owner.seat },
+    { ...action, targetSeat: 'p4' },
+    { ...action, ownerSeat: target.seat },
+    { ...action, itemId: 'flare' },
+  ]) {
+    const before = observableState(session);
+    assert.equal(session.useConsumable(invalid), false);
+    assert.deepEqual(observableState(session), before);
+  }
+  // Eliminate all supported landing cells without advancing the simulation or
+  // killing the still-living owner: the placement planner must reject first.
+  for (const lane of game.rows.values()) Object.assign(lane, {
+    kind: 'river', phase: 10, speed: 0, spacing: 20, length: .1,
+  });
+  const before = observableState(session);
+  assert.equal(session.useConsumable(action), false);
+  assert.deepEqual(observableState(session), before, 'failed placement cannot debit or partly return a teammate');
+  for (const lane of game.rows.values()) Object.assign(lane, { kind: 'meadow', phase: 0 });
+  assert.equal(session.useConsumable(action), true, 'a refused intent has not consumed its action ID or charge');
+});
+
+test('a new participant occupying a departed seat cannot inherit the previous owners item', () => {
+  const { session } = twoOwnedItems();
+  const former = session.players.find(player => player.seat === 'p2');
+  assert.equal(charge(session, former.seat, 'flare'), 1);
+  assert.equal(session.depart(former.seat), true);
+  assert.equal(former.run.wallet, 18, 'departure is not death');
+  assert.equal(session.admit({ device: 'keyboard-c', characterId: 'pip' }), true);
+  const newcomer = session.players.find(player => player.seat === former.seat);
+  assert.ok(newcomer);
+  assert.notEqual(newcomer.participantId, former.participantId);
+  session.update(STEP);
+  assert.equal(charge(session, newcomer.seat, 'revival'), 0);
+  assert.equal(charge(session, newcomer.seat, 'flare'), 0, 'seat reuse must not transfer a consumable');
+});
