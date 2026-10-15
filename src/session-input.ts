@@ -11,6 +11,12 @@ import type { SeatAction, SeatId } from './session.js';
 
 export type GamepadControlAction = 'confirm' | 'pause' | 'call' | 'back' | 'menu' | 'market';
 
+/** Fresh menu input from a remembered controller that has not reclaimed yet. */
+export interface GamepadReclaimInput {
+  readonly actions: readonly GamepadControlAction[];
+  readonly direction: GamepadDirection | null;
+}
+
 export interface GamepadDevice {
   readonly index: number;
   readonly id: string;
@@ -38,7 +44,7 @@ export interface GamepadRouterOptions {
   /** The owning roster can reject a full or mode-locked device before setup opens. */
   acceptsDevice?(device: GamepadDevice): boolean;
   /** A remembered same-id return needs explicit mode/UI confirmation before reassignment. */
-  requestReclaim?(device: GamepadDevice, seat: SeatId): void;
+  requestReclaim?(device: GamepadDevice, seat: SeatId, input: GamepadReclaimInput): void;
   /** Mode-facing device state; this router never chooses a global pause outcome. */
   lifecycle?(event: GamepadLifecycle): void;
   /** Browser/shell focus loss is global safety, unlike a single device leaving. */
@@ -249,7 +255,11 @@ export class GamepadRouter {
       }
       if (!freshButtons.length && !freshDirection) return;
       if (lease.reclaimSeat) {
-        this.options.requestReclaim?.(lease.device, lease.reclaimSeat);
+        const input: GamepadReclaimInput = Object.freeze({
+          actions: Object.freeze(actionButtons.filter(([index]) => freshButtons.includes(index)).map(([, action]) => action)),
+          direction: freshDirection ? nextDirection : null,
+        });
+        this.options.requestReclaim?.(lease.device, lease.reclaimSeat, input);
         this.seed(lease);
         return;
       }

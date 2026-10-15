@@ -221,6 +221,37 @@ test('device loss is mode-facing while focused frame loss stays globally safe', 
   assert.deepEqual(global, ['pause']);
 });
 
+test('a returning unassigned controller supplies fresh modal intents without claiming or moving its seat', () => {
+  const requests = [], movement = [], assignedActions = [];
+  let context = 'play';
+  const { router, events } = trackedRouter({
+    context: () => context,
+    dispatch: action => { movement.push(action); return true; },
+    action: (seat, action) => assignedActions.push({ seat, action }),
+    requestReclaim: (device, seat, input) => { requests.push({ device, seat, input }); context = 'reclaim:p2'; },
+  });
+  router.receive(snapshot([pad(1)]), 0); router.assign(issued(events, 1), 'p2');
+  router.receive(snapshot([]), 1); router.receive(snapshot([pad(1, { pressed: [0] })]), 2);
+  assert.equal(requests.length, 0, 'a held reconnect edge cannot open or confirm the modal');
+  router.receive(snapshot([pad(1)]), 3); router.receive(snapshot([pad(1, { pressed: [0] })]), 4);
+  assert.deepEqual(requests[0].input, { actions: ['confirm'], direction: null }, 'the first fresh edge can open an explicit reclaim decision');
+  router.receive(snapshot([pad(1, { pressed: [0] })]), 5); router.update(1000);
+  assert.equal(requests.length, 1, 'holding the opening button cannot confirm that decision');
+  router.receive(snapshot([pad(1)]), 6); router.receive(snapshot([pad(1, { pressed: [15] })]), 7);
+  assert.deepEqual(requests[1].input, { actions: [], direction: 'right' }, 'the unassigned returning pad can navigate its own modal');
+  router.receive(snapshot([pad(1)]), 8); router.receive(snapshot([pad(1, { pressed: [1] })]), 9);
+  assert.deepEqual(requests[2].input, { actions: ['back'], direction: null }, 'cancellation is distinguishable from confirmation');
+  for (const request of requests) {
+    assert.equal(request.seat, 'p2'); assert.equal(Object.isFrozen(request.input), true); assert.equal(Object.isFrozen(request.input.actions), true);
+  }
+  assert.deepEqual(movement, []); assert.deepEqual(assignedActions, [], 'modal intents grant no gameplay authority');
+  assert.equal(router.reclaim(requests[2].device), true, 'only an explicit UI commit assigns the retained lease');
+  router.receive(snapshot([pad(1, { pressed: [1] })]), 10);
+  assert.deepEqual(assignedActions, [], 'assignment consumes the current held edge');
+  router.receive(snapshot([pad(1)]), 11); router.receive(snapshot([pad(1, { pressed: [12] })]), 12);
+  assert.deepEqual(movement, [{ seat: 'p2', direction: 'forward' }]);
+});
+
 test('capacity-full device activity is consumed without a new local-play request', () => {
   const requests = [];
   const router = new GamepadRouter({
