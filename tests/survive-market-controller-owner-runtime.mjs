@@ -46,6 +46,24 @@ test('only the displayed hand owner can navigate, dismiss or confirm a card sale
       assert.equal(await frame.locator('#run-hand-detail').isVisible(), true, 'other player cannot dismiss the inspector');
       assert.equal(await focus(), 'sell', 'other player cannot move owner focus');
     }
+    // A press rejected under P2 must not become a new confirmation when a
+    // pointer switches to P1 while that same physical button stays held.
+    await sendPads([pad(0, [0]), pad(1)]);
+    await frame.locator('#run-hand-detail-owner').click(); await advance(80);
+    assert.equal(await frame.locator('#run-hand-detail').isVisible(), false, 'owner change clears the previous card detail');
+    assert.match(await frame.locator('#run-hand-owner').innerText(), /Viewing P1 /);
+    const p1Card = frozen.players.find(player => player.seat === 'p1').cards[0];
+    await frame.locator(`[data-hand-card="${p1Card.id}"]`).click(); await advance(80);
+    await frame.locator('#run-hand-sell').focus();
+    for (let repeat = 0; repeat < 3; repeat++) {
+      await sendPads([pad(0, [0]), pad(1)]); await advance(80);
+      assert.deepEqual(await read(), frozen, 'held confirmation cannot sell after switching to its owner');
+      assert.equal(await frame.locator('#run-hand-detail').isVisible(), true);
+    }
+    await sendPads([pad(0), pad(1)]);
+    await frame.locator('#run-hand-detail-owner').click(); await advance(80);
+    assert.match(await frame.locator('#run-hand-owner').innerText(), /Viewing P2 /);
+    await frame.locator(`[data-hand-card="${card.id}"]`).click(); await advance(80);
     await frame.locator('#run-hand-close').focus();
     for (let index = 0; index < 12 && await focus() !== 'sell'; index++) {
       const previous = await focus(); await press(1, 15);
