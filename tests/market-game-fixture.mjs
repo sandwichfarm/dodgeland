@@ -23,9 +23,15 @@ export async function createMarketGameFixture(evidence, options = {}) {
         unregisterAction() {},
       },
     };
+    if (options.initialIntent) window.napplet.intent = {
+      onDelivery(listener) {
+        listener(options.initialIntent);
+        return { close() {} };
+      },
+    };
     if (options.gamepads) window.napplet.gamepad = {};
   }
-  const artifact = JSON.stringify(built.replace('<head>', `<head><script>(${installFixture.toString()})(${JSON.stringify({ gamepads: !!options.gamepads })});</script>`)).replaceAll('<', '\\u003c');
+  const artifact = JSON.stringify(built.replace('<head>', `<head><script>(${installFixture.toString()})(${JSON.stringify({ gamepads: !!options.gamepads, initialIntent: options.initialIntent })});</script>`)).replaceAll('<', '\\u003c');
   const harness = `<!doctype html><style>html,body{margin:0;overflow:hidden;background:#111}iframe{display:block;border:0;width:900px;height:600px}</style><iframe title="Market game fixture" sandbox="allow-scripts"></iframe><script>
 const frame=document.querySelector('iframe');
 window.marketPads=(pads,focused=true)=>frame.contentWindow.postMessage({type:'gamepad.state',available:true,focused,pads},'*');
@@ -126,5 +132,6 @@ frame.srcdoc=${artifact};</script>`;
     await advance(40); return offers;
   }
   return { browser, page, frame, iframe, advance, onGame, onSession, sendPads, resize, key, open, stageMarket, stageOffers,
+    refreshOwners() { objectIds.clear(); },
     async close() { await browser.close(); await new Promise(resolve => server.close(resolve)); } };
 }
