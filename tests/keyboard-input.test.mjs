@@ -29,6 +29,24 @@ test('Keyboard A and Keyboard B keep held movement and call edges isolated', asy
   assert.deepEqual(calls, ['p1', 'p2', 'p1']);
 });
 
+test('dynamic Local Play seats ignore unassigned profiles and route Keyboard B to its chosen seat', async () => {
+  const { createKeyboardInput } = await sources.import('keyboard-input');
+  const moves = [], calls = [];
+  const assignments = { 'keyboard-a': undefined, 'keyboard-b': 'p3' };
+  const keyboard = createKeyboardInput({
+    move: (seat, direction) => moves.push({ seat, direction }),
+    call: seat => calls.push(seat),
+    seatForProfile: profile => assignments[profile],
+  });
+
+  assert.equal(keyboard.keydown('w'), false, 'an explicitly unassigned Keyboard A cannot move a controller-owned P1');
+  assert.equal(keyboard.keydown('q'), false, 'an explicitly unassigned Keyboard A cannot call a controller-owned P1');
+  assert.equal(keyboard.keydown('ArrowUp'), true);
+  assert.equal(keyboard.keydown('.'), true);
+  assert.deepEqual(moves, [{ seat: 'p3', direction: 'forward' }]);
+  assert.deepEqual(calls, ['p3']);
+});
+
 test('keyboard map validation rejects duplicate or malformed maps without mutating the active map', async () => {
   const { DEFAULT_KEYBOARD_BINDINGS, validateKeyboardBindings, updateKeyboardBinding } = await sources.import('keyboard-input');
   const original = structuredClone(DEFAULT_KEYBOARD_BINDINGS);

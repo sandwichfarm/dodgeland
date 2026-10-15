@@ -169,6 +169,8 @@ export function createKeyboardBindingStore(storage?: KeyboardBindingStorage): Ke
 export interface KeyboardInputSink {
   move(seat: SeatId, direction: Direction): void;
   call(seat: SeatId): void;
+  /** Setup owns profile assignment; defaults preserve the original P1/P2 map. */
+  seatForProfile?(profile: KeyboardProfileId): SeatId | undefined;
 }
 
 export interface KeyboardInput {
@@ -218,7 +220,8 @@ export function createKeyboardInput(sink: KeyboardInputSink, initial = DEFAULT_K
       const actions = held.get(target.profile)!;
       if (actions.has(target.action)) return false;
       actions.add(target.action);
-      const seat = profileSeats[target.profile];
+      const seat = sink.seatForProfile ? sink.seatForProfile(target.profile) : profileSeats[target.profile];
+      if (!seat) return false;
       if (target.action === 'call') sink.call(seat); else sink.move(seat, directions[target.action]);
       return true;
     },

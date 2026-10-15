@@ -1,5 +1,42 @@
 .local-session-setup { --session-ink: var(--game-ink, #263c38); color: var(--session-ink); font-size: 16px; font-weight: 650; }
 .local-session-setup > button { min-height: 44px; }
+#app:has(#session-board:not([hidden])) #run-panel.run-panel { position: absolute; z-index: 7; inset: 12px; width: auto; max-height: none; padding: 12px; overflow: auto; background: var(--game-paper, var(--bg)); color: var(--session-ink); }
+#app:has(#session-board:not([hidden])) #ready-content,
+#app:has(#session-board:not([hidden])) #play,
+#app:has(#session-board:not([hidden])) .panel-bottom,
+#app:has(#session-board:not([hidden])) #goal { display: none; }
+#session-board { display: grid; grid-template-columns: minmax(180px, .8fr) minmax(240px, 1.2fr); grid-template-areas: 'heading heading' 'subtitle subtitle' 'strip strip' 'roster detail' 'status status' 'actions actions'; align-content: start; gap: 8px; min-height: 100%; color: var(--session-ink); }
+#session-board > h2 { grid-area: heading; } #session-board > .session-subtitle { grid-area: subtitle; } #session-board > .session-roster-strip { grid-area: strip; } #session-roster { grid-area: roster; } #session-seat-detail { grid-area: detail; } #session-status { grid-area: status; } .session-actions { grid-area: actions; }
+#session-board h2, #session-board h3 { margin: 0; font-family: var(--game-font, ui-rounded, system-ui, sans-serif); color: var(--session-ink); }
+#session-board h2 { font-size: 28px; line-height: 1.05; }
+#session-board h3 { font-size: 20px; line-height: 1.15; }
+.session-subtitle, #session-status, .session-seat-card p { margin: 0; font-size: 16px; line-height: 1.3; overflow-wrap: anywhere; }
+.session-roster-strip, .session-actions, .session-setup-pages { display: flex; gap: 8px; flex-wrap: wrap; }
+.session-setup-pages { display: none; }
+.session-seat-chip { min-width: 44px; min-height: 44px; padding: 4px 8px; font-size: 16px; color: var(--session-ink); }
+.session-seat-chip[aria-pressed="true"], .session-character-choices button[aria-pressed="true"] { border-color: var(--primary); box-shadow: inset 0 0 0 2px var(--primary); }
+#session-roster { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.session-seat-card { display: grid; align-content: start; gap: 4px; min-width: 0; min-height: 88px; padding: 8px; border: 3px solid var(--game-wood, var(--border)); background: var(--game-paper, #fff0c5); box-shadow: 3px 3px 0 var(--game-edge, var(--border)); color: var(--session-ink); text-align: left; }
+.session-seat-card[aria-pressed="true"] { outline: 3px solid var(--primary); outline-offset: 1px; }
+.session-seat-card strong, .session-seat-card span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#session-seat-detail { display: grid; align-content: start; gap: 8px; min-width: 0; padding: 8px; border: 3px solid var(--game-wood, var(--border)); background: var(--game-paper, #fff0c5); box-shadow: 3px 3px 0 var(--game-edge, var(--border)); }
+.session-preview { justify-self: center; width: 68px; height: 68px; object-fit: contain; }
+.session-device { font-weight: 700; }
+.session-ready { color: color-mix(in srgb, var(--session-ink) 80%, var(--primary)); }
+.session-character-picker { display: grid; grid-template-columns: minmax(44px, 1fr) minmax(96px, 1.3fr) minmax(44px, 1fr); gap: 8px; align-items: stretch; }
+.session-character-picker button, .session-leave, .session-actions > button, .session-setup-pages button { min-height: 44px; min-width: 44px; color: var(--session-ink); font: 400 16px/1.1 var(--game-font, ui-rounded, system-ui, sans-serif); overflow-wrap: anywhere; }
+.session-character-choice { display: grid; justify-items: center; align-content: center; gap: 4px; }
+.session-character-choice[aria-pressed="true"] { border-color: var(--primary); box-shadow: inset 0 0 0 2px var(--primary); }
+.session-actions > button:first-child { flex: 1 1 160px; }.session-actions > .primary { flex: 2 1 190px; }
+.session-leave { border-color: color-mix(in srgb, #b44738 65%, var(--border)); }
+#session-status { min-height: 22px; }
+.ui-less-motion #session-board *, .ui-less-motion #session-seats * { transition: none !important; animation: none !important; }
+#session-seats { pointer-events: auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; max-width: min(510px, calc(100vw - 150px)); }
+.session-hud-tile { min-width: 0; min-height: 44px; padding: 6px 8px; border: 3px solid var(--game-wood, var(--border)); background: var(--game-paper, #fff0c5); box-shadow: 3px 3px 0 var(--game-edge, var(--border)); color: var(--session-ink); font: 400 16px/1.2 var(--game-font, ui-rounded, system-ui, sans-serif); text-align: left; }
+.session-hud-tile strong, .session-hud-tile span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.session-hud-tile .session-future { color: color-mix(in srgb, var(--session-ink) 70%, var(--primary)); }
+@media (max-width: 479px), (max-height: 419px) { #app:has(#session-board:not([hidden])) #run-panel.run-panel { inset: 8px; padding: 8px; overflow: hidden; } #session-board { grid-template-columns: 1fr; grid-template-areas: 'heading' 'strip' 'pages' 'roster' 'detail' 'status' 'actions'; gap: 6px; } #session-board > .session-subtitle { display: none; } .session-setup-pages { grid-area: pages; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); } #session-board[data-page="roster"] #session-seat-detail, #session-board[data-page="character"] #session-roster { display: none; } #session-roster { grid-template-columns: repeat(2, minmax(0, 1fr)); } .session-seat-card { min-height: 72px; padding: 6px; } #session-seats { grid-template-columns: 1fr; max-width: calc(100vw - 84px); } .session-hud-tile:not(.session-hud-selected) { display: none; } .session-actions { position: sticky; bottom: 0; padding-top: 4px; background: var(--game-paper, var(--bg)); } }
+@media (max-height: 319px) { #session-board { gap: 4px; } #session-board h2 { font-size: 20px; } .session-preview { display: none; } .session-seat-card { padding: 4px; gap: 4px; } .session-actions > button { min-height: 44px; } }
 #session-keyboard-editor { display: grid; gap: 8px; min-width: 0; }
 #app .local-session-setup #session-keyboard-editor h3 { margin: 0; color: var(--session-ink); font: 400 22px/1.2 var(--game-font, ui-rounded, system-ui, sans-serif); }
 .session-controls-profiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }

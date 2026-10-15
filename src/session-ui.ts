@@ -1,5 +1,8 @@
 import { DEFAULT_KEYBOARD_BINDINGS, KEYBOARD_ACTIONS, normalizeKeyboardKey, updateKeyboardBinding, validateKeyboardBindings } from './keyboard-input.js';
 import type { BindingValidation, KeyboardAction, KeyboardBindings, KeyboardProfileId } from './keyboard-input.js';
+import { CHARACTERS, characterById } from './content.js';
+import { modelThumbnail } from './render.js';
+import type { DeviceId, SeatId } from './session.js';
 
 const actionLabels: Record<KeyboardAction, string> = {
   forward: 'Up / forward', left: 'Left', back: 'Down / back', right: 'Right', call: 'Call',
@@ -31,7 +34,10 @@ export function createSessionKeyboardEditor(options: SessionKeyboardEditorOption
   const panel = document.createElement('section');
   panel.id = 'session-keyboard-editor'; panel.hidden = true;
   panel.setAttribute('aria-label', 'Keyboard controls');
-  root.insertBefore(edit, launch); root.append(panel);
+  // The Local Play board owns its action row.  Put the editor trigger beside
+  // the launch action rather than assuming the launch button is a root child.
+  launch.parentElement?.insertBefore(edit, launch);
+  root.append(panel);
 
   let selected: KeyboardProfileId = 'keyboard-a';
   let capture: { profile: KeyboardProfileId; action: KeyboardAction; origin: HTMLButtonElement } | undefined;
@@ -42,6 +48,7 @@ export function createSessionKeyboardEditor(options: SessionKeyboardEditorOption
   status.className = 'session-controls-status'; status.setAttribute('aria-live', 'polite');
 
   const visibleSetup = (visible: boolean): void => {
+    root.querySelector<HTMLElement>('#session-board')!.hidden = visible;
     edit.hidden = visible; launch.hidden = visible; back.hidden = visible; panel.hidden = !visible;
   };
   const errorFor = (result: BindingValidation): string => {
@@ -134,4 +141,143 @@ export function createSessionKeyboardEditor(options: SessionKeyboardEditorOption
     close() { capture = undefined; reset = undefined; options.capture(false); visibleSetup(false); },
     dispose() { disposed = true; options.capture(false); root.removeEventListener('keydown', keydown, true); edit.remove(); panel.remove(); },
   };
+}
+
+export interface SessionSetupSeat {
+  readonly seat: SeatId;
+  readonly device: DeviceId | null;
+  readonly deviceLabel: string;
+  readonly characterId: string | null;
+  readonly disconnected?: boolean;
+}
+
+export interface LocalSessionBoardOptions {
+  readonly root: HTMLElement;
+  readonly capacity: number;
+  readonly seats: () => readonly SessionSetupSeat[];
+  readonly controllerAvailable: () => boolean;
+  readonly onAddKeyboard: () => void;
+  readonly onLeave: (seat: SeatId) => void;
+  readonly onCharacter: (seat: SeatId, characterId: string) => void;
+  readonly onStart: () => void;
+  readonly onBack: () => void;
+}
+
+export interface LocalSessionBoard {
+  render(message?: string): void;
+  focusStart(): void;
+}
+
+const markerFor = (seat: SeatId): string => ({ p1: '▲', p2: '●', p3: '◆', p4: '■' })[seat];
+const seatLabel = (seat: SeatId): string => `P${Number(seat.slice(1))}`;
+
+/**
+ * Setup deliberately holds only a roster draft. Main owns the adoption
+ * transaction, so a character click cannot mutate the staged Game owner.
+ */
+export function createLocalSessionBoard(options: LocalSessionBoardOptions): LocalSessionBoard {
+  const { root } = options;
+  const board = document.createElement('section');
+  board.id = 'session-board';
+  board.setAttribute('aria-labelledby', 'local-session-heading');
+  const heading = document.createElement('h2'); heading.id = 'local-session-heading'; heading.textContent = 'Local Play';
+  const subtitle = document.createElement('p'); subtitle.className = 'session-subtitle'; subtitle.textContent = 'Pick a traveler and a controller for every player.';
+  const strip = document.createElement('div'); strip.className = 'session-roster-strip'; strip.setAttribute('aria-label', 'Player seats');
+  const roster = document.createElement('div'); roster.id = 'session-roster';
+  const detail = document.createElement('section'); detail.id = 'session-seat-detail'; detail.setAttribute('aria-live', 'polite');
+  const pages = document.createElement('div'); pages.className = 'session-setup-pages';
+  const rosterPage = document.createElement('button'); rosterPage.type = 'button'; rosterPage.textContent = 'Roster';
+  const characterPage = document.createElement('button'); characterPage.type = 'button'; characterPage.textContent = 'Traveler';
+  pages.append(rosterPage, characterPage);
+  const status = document.createElement('p'); status.id = 'session-status'; status.setAttribute('aria-live', 'polite');
+  const actions = document.createElement('div'); actions.className = 'session-actions';
+  const addKeyboard = document.createElement('button'); addKeyboard.id = 'session-add-keyboard'; addKeyboard.type = 'button'; addKeyboard.textContent = 'Add Keyboard B';
+  const start = document.createElement('button'); start.id = 'local-session-start'; start.type = 'button'; start.className = 'primary'; start.textContent = 'Start Local Play';
+  const back = document.createElement('button'); back.id = 'local-session-back'; back.type = 'button'; back.textContent = 'Back to solo';
+  actions.append(addKeyboard, start, back); board.append(heading, subtitle, strip, pages, roster, detail, status, actions); root.replaceChildren(board);
+
+  let selected: SeatId = 'p1';
+  let page: 'roster' | 'character' = 'roster';
+  let message = '';
+  const ready = (seat: SessionSetupSeat): boolean => !!seat.device && !!seat.characterId && !seat.disconnected;
+  const compact = (): boolean => matchMedia('(max-width: 479px), (max-height: 419px)').matches;
+  const render = (nextMessage = message): void => {
+    message = nextMessage;
+    const seats = options.seats();
+    const bySeat = new Map(seats.map(seat => [seat.seat, seat]));
+    if (!bySeat.has(selected)) selected = seats[0]?.seat ?? 'p1';
+    board.dataset.page = compact() ? page : 'both';
+    rosterPage.setAttribute('aria-pressed', String(page === 'roster'));
+    characterPage.setAttribute('aria-pressed', String(page === 'character'));
+    characterPage.disabled = !bySeat.has(selected);
+    strip.replaceChildren();
+    for (let index = 1; index <= options.capacity; index++) {
+      const seat = `p${index}` as SeatId;
+      const chip = document.createElement('button'); chip.type = 'button'; chip.className = 'session-seat-chip'; chip.textContent = `${markerFor(seat)} ${index}`;
+      chip.setAttribute('aria-label', `${seatLabel(seat)} ${bySeat.has(seat) ? 'selected seat' : 'open seat'}`);
+      chip.setAttribute('aria-pressed', String(selected === seat));
+      chip.addEventListener('click', () => { selected = seat; if (compact() && bySeat.has(seat)) page = 'character'; render(); }); strip.append(chip);
+    }
+    roster.replaceChildren();
+    for (let index = 1; index <= options.capacity; index++) {
+      const seatId = `p${index}` as SeatId, seat = bySeat.get(seatId);
+      const card = document.createElement('button'); card.type = 'button'; card.className = 'session-seat-card'; card.dataset.seat = seatId;
+      card.setAttribute('aria-pressed', String(selected === seatId));
+      const title = document.createElement('strong'); title.textContent = `${markerFor(seatId)} ${seatLabel(seatId)}`;
+      if (!seat) {
+        const empty = document.createElement('span'); empty.textContent = 'Open seat';
+        card.append(title, empty);
+      } else {
+        const character = seat.characterId ? characterById(seat.characterId) : undefined;
+        const identity = document.createElement('span'); identity.className = 'session-device'; identity.textContent = seat.disconnected ? 'Disconnected' : seat.deviceLabel;
+        const state = document.createElement('span'); state.className = 'session-ready'; state.textContent = character?.name ?? 'Choose traveler';
+        card.append(title, identity, state);
+      }
+      card.addEventListener('click', () => { selected = seatId; if (compact() && seat) page = 'character'; render(); });
+      roster.append(card);
+    }
+    detail.replaceChildren();
+    const current = bySeat.get(selected);
+    if (current) {
+      const title = document.createElement('h3'); title.textContent = `${markerFor(selected)} ${seatLabel(selected)} traveler`;
+      const device = document.createElement('p'); device.className = 'session-device'; device.textContent = current.disconnected ? 'Controller disconnected — press a button after it returns.' : current.deviceLabel;
+      const candidates = CHARACTERS.filter(candidate => !seats.some(other => other.seat !== selected && other.characterId === candidate.id));
+      const currentIndex = Math.max(0, candidates.findIndex(candidate => candidate.id === current.characterId));
+      const candidate = candidates[currentIndex] ?? candidates[0];
+      const picker = document.createElement('div'); picker.className = 'session-character-picker';
+      const previous = document.createElement('button'); previous.type = 'button'; previous.textContent = 'Previous traveler'; previous.setAttribute('aria-label', 'Previous available traveler');
+      const next = document.createElement('button'); next.type = 'button'; next.textContent = 'Next traveler'; next.setAttribute('aria-label', 'Next available traveler');
+      const choose = document.createElement('button'); choose.type = 'button'; choose.className = 'session-character-choice';
+      if (candidate) {
+        const image = document.createElement('img'); image.src = modelThumbnail(candidate.model); image.alt = `${candidate.name} voxel preview`; image.className = 'session-preview';
+        const name = document.createElement('strong'); name.textContent = candidate.name;
+        choose.setAttribute('aria-pressed', String(candidate.id === current.characterId)); choose.append(image, name);
+        const selectOffset = (offset: number): void => {
+          const at = (currentIndex + offset + candidates.length) % candidates.length;
+          options.onCharacter(selected, candidates[at]!.id); page = 'character';
+        };
+        previous.addEventListener('click', () => selectOffset(-1)); next.addEventListener('click', () => selectOffset(1)); choose.addEventListener('click', () => options.onCharacter(selected, candidate.id));
+      }
+      previous.disabled = candidates.length < 2; next.disabled = candidates.length < 2;
+      picker.append(previous, choose, next); detail.append(title, device, picker);
+      const leave = document.createElement('button'); leave.type = 'button'; leave.className = 'session-leave'; leave.textContent = 'Leave this seat'; leave.disabled = selected === 'p1';
+      leave.addEventListener('click', () => { options.onLeave(selected); page = 'roster'; }); detail.append(leave);
+    } else {
+      const title = document.createElement('h3'); title.textContent = `${markerFor(selected)} ${seatLabel(selected)} is open`;
+      const copy = document.createElement('p'); copy.textContent = 'Press a fresh controller button to join this seat, or add Keyboard B.';
+      detail.append(title, copy);
+    }
+    const readyCount = seats.filter(ready).length;
+    start.disabled = readyCount < 2;
+    start.title = start.disabled ? 'Choose two ready players first.' : 'Start Local Play';
+    addKeyboard.disabled = seats.some(seat => seat.device === 'keyboard-b') || seats.length >= options.capacity;
+    addKeyboard.hidden = seats.some(seat => seat.device === 'keyboard-b');
+    status.textContent = message || (options.controllerAvailable() ? 'Press a controller button to join an open seat.' : 'Controllers aren’t available in this shell. Keyboard players can still join.');
+  };
+  rosterPage.addEventListener('click', () => { page = 'roster'; render(); });
+  characterPage.addEventListener('click', () => { page = 'character'; render(); });
+  addKeyboard.addEventListener('click', options.onAddKeyboard);
+  start.addEventListener('click', options.onStart);
+  back.addEventListener('click', options.onBack);
+  return { render, focusStart: () => start.focus({ preventScroll: true }) };
 }
