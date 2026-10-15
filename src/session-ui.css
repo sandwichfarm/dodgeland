@@ -1,4 +1,15 @@
 body:has(#local-session-setup:not([hidden]) #session-board), body:has(#session-seats:not([hidden])) { font-size: 16px; }
+#session-board:has(#relay-configuration) { grid-template-areas: 'heading heading' 'subtitle subtitle' 'strip strip' 'roster detail' 'relay relay' 'status status' 'actions actions'; }
+#relay-configuration { grid-area: relay; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+#relay-configuration input, #relay-configuration button { min-height: 44px; min-width: 44px; }
+#relay-tiles { width: 76px; color: var(--game-ink); background: var(--game-paper); }
+.relay-order { display: flex; flex-wrap: wrap; gap: 8px; }
+.relay-order > div { display: flex; align-items: center; gap: 4px; }
+#relay-setup-error { margin: 0; }
+.relay-handoff { position: absolute; z-index: 30; inset: 12px; padding: 16px; display: grid; align-content: center; justify-items: center; gap: 12px; background: var(--game-paper, var(--bg)); color: var(--game-ink, var(--fg)); border: 4px solid var(--game-wood, var(--border)); border-radius: 8px; }
+.relay-handoff h2, .relay-handoff p { margin: 0; }
+.relay-handoff button { min-height: 44px; min-width: 44px; }
+@media (max-width: 239px), (max-height: 239px) { .relay-handoff { display: none; } }
 .local-session-setup { --session-ink: var(--game-ink, #263c38); color: var(--session-ink); font-size: 16px; font-weight: 650; }
 .local-session-setup > button { min-height: 44px; }
 #app:has(#local-session-setup:not([hidden]) #session-board) #run-panel.run-panel { position: absolute; z-index: 7; inset: 12px; transform: none; animation: none; width: auto; max-height: none; padding: 12px; overflow: auto; background: var(--game-paper, var(--bg)); color: var(--session-ink); }

@@ -70,6 +70,7 @@ test('muted built opaque iframe configures Relay and consumes fresh incoming con
     await page.goto(`http://127.0.0.1:${server.address().port}`);
     const frame = await (await page.locator('iframe').elementHandle()).contentFrame();
     await frame.locator('#play').waitFor();
+    await frame.locator('#local-play').click();
     await frame.locator('#relay-play').click();
     assert.equal(await frame.locator('#relay-tiles').inputValue(), '50');
     await frame.locator('#relay-tiles').fill('1');

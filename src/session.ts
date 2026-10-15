@@ -46,6 +46,10 @@ export type SessionLifecycleHandler = (record: SessionLifecycleRecord) => void;
 
 /** Mode policies receive lifecycle facts through this generic session boundary. */
 export interface SessionModeHandlers {
+  canAct?(seat: SeatId): boolean;
+  canAdmit?(): boolean;
+  simulates?(player: SessionPlayer): boolean;
+  canAdvance?(): boolean;
   attach?(session: LocalSession): void;
   join?(record: SessionLifecycleRecord): void;
   deviceLost?(record: SessionLifecycleRecord): void;
@@ -359,6 +363,7 @@ export class SessionPlayer {
   }
 
   move(direction: Direction): boolean {
+    if (this.session && !this.session.canAct(this.seat)) return false;
     const beforeY = this.y;
     const moved = this.world.host.movePlayer(this, direction);
     if (moved && direction === 'forward' && this.y > beforeY) this.session?.noteForwardHop(this, this.y);
@@ -601,8 +606,21 @@ export class LocalSession {
   }
   dispatch(action: SeatAction): boolean {
     const player = this.players.find(candidate => candidate.seat === action.seat);
-    const moved = !!player && this.active && player.participation === 'active' && player.move(action.direction);
+    const moved = !!player && this.active && this.canAct(action.seat) && player.participation === 'active' && player.move(action.direction);
     return moved;
+  }
+  canAct(seat: SeatId): boolean { return this.mode?.handlers.canAct?.(seat) ?? true; }
+  /** Transfer a settled living position without world, wallet, health or progress credit. */
+  transferPosition(outgoingSeat: SeatId, incomingSeat: SeatId): boolean {
+    const outgoing = this.players.find(player => player.seat === outgoingSeat);
+    const incoming = this.players.find(player => player.seat === incomingSeat);
+    if (!outgoing || !incoming || outgoing.participation !== 'active' || incoming.participation !== 'active' || outgoing.state !== 'playing' || incoming.state !== 'playing' || !this.isRecoverySafePosition(outgoing)) return false;
+    incoming.x = incoming.fromX = outgoing.groundX; incoming.y = incoming.fromY = outgoing.groundY;
+    incoming.maxY = Math.max(incoming.maxY, incoming.y);
+    incoming.personalFrontierY = Math.max(incoming.personalFrontierY, incoming.y);
+    incoming.hop = 0; incoming.idle = 0; this.cancelForwardHop(incoming);
+    this.updateRecovery(incoming, recovery => ({ ...recovery, spatialFrontierY: Math.max(recovery.spatialFrontierY, incoming.y), lastSafe: Object.freeze({ x: incoming.x, y: incoming.y }) }));
+    return true;
   }
   private lifecycleRecord(type: SessionLifecycleType, player: SessionPlayer, previous: SessionParticipation, next: SessionParticipation, cause: string, offeredDevice?: DeviceId): SessionLifecycleRecord {
     return Object.freeze({ sessionId: this.id, playerId: `${this.id}:${player.seat}`, type, seat: player.seat, device: player.device, offeredDevice, previous, next, simulationTick: this.world.simulationTick, cause });
@@ -766,6 +784,7 @@ export class LocalSession {
     this.resultRecord = result; this.coOpMarket?.invalidate(); this.refreshSharedWorldEffects(); this.mode?.handlers.result?.(this); return true;
   }
   prepareAdmission(admission: SessionAdmission): SessionAdmissionPlan | undefined {
+    if (this.active && this.mode?.handlers.canAdmit?.() === false) return undefined;
     if (!isDeviceId(admission.device) || !CHARACTERS.some(character => character.id === admission.characterId)) return undefined;
     const occupiedSeats = new Set(this.players.map(player => player.seat));
     const seat = admission.seat ?? (['p1', 'p2', 'p3', 'p4'] as const).find(candidate => !occupiedSeats.has(candidate));
@@ -837,6 +856,7 @@ export class LocalSession {
   update(dt: number): void {
     if (!this.active) return;
     if (this.world.host.state === 'paused') return;
+    if (this.mode?.handlers.canAdvance?.() === false) return;
     // Tests and shell integrations may deliver a completed production death
     // between fixed session ticks.  Observe it once before all-dead liveness.
     for (const player of this.players) if (player.participation === 'active' && player.state === 'dead') {
@@ -845,7 +865,7 @@ export class LocalSession {
     }
     // There is exactly one course advance per fixed tick. Seat iteration is
     // deterministic only for personal timers, never as world authority.
-    const activePlayers = this.players.filter(player => player.state === 'playing' && player.participation === 'active');
+    const activePlayers = this.players.filter(player => player.state === 'playing' && player.participation === 'active' && (this.mode?.handlers.simulates?.(player) ?? true));
     this.refreshSharedWorldEffects();
     if (!activePlayers.length) {
       if (!this.mode?.handlers.pending?.(this)) { this.mode?.handlers.tick?.(this); return; }
@@ -878,7 +898,7 @@ export class LocalSession {
   /** Rendering owns this clock so each terminal spill ages once per frame. */
   advanceDeathVisuals(dt: number): void { for (const player of this.players) this.world.host.advancePlayerDeathVisuals(player, dt); }
   get running(): boolean { return this.active; }
-  views(): PlayerRender[] { return this.players.map(player => player.render()); }
+  views(): PlayerRender[] { return this.players.filter(player => this.mode?.handlers.simulates?.(player) ?? true).map(player => player.render()); }
   stop(): void { const hadSharedEffectPolicy = this.sharedEffectPolicy; this.active = false; this.coOpMarket?.dispose(); this.coOpMarket = undefined; this.sharedEffectPolicy = false; this.resolvedSharedEffects = undefined; if (hadSharedEffectPolicy) this.world.host.setSharedWorldEffects(undefined); this.releaseWorldExtension?.(); this.releaseWorldExtension = undefined; this.consumableWorld = undefined; }
 }
 
