@@ -188,8 +188,55 @@ test('the built opaque iframe transfers solo shell shortcuts to native local inp
     assert.equal(actions.find(action => action.id === 'puddlehop.forward-w')?.defaultKey, 'w');
     assert.equal(actions.find(action => action.id === 'puddlehop.forward')?.defaultKey, 'ArrowUp');
 
+    // The shell handler is registered after storage resolves, while the next
+    // animation frame owns menu visibility. Wait for that production frame
+    // explicitly so a fast fixture cannot race the ready menu.
+    await frame.waitForFunction(() => {
+      const play = document.querySelector('#play');
+      return !!play && !play.hidden && play.getClientRects().length > 0 && document.querySelector('#app')?.getAttribute('data-run-state') === 'ready';
+    }, undefined, { timeout: 8_000 }).catch(async error => {
+      const state = await frame.evaluate(() => ({
+        runState: document.querySelector('#app')?.getAttribute('data-run-state'),
+        playHidden: document.querySelector('#play')?.hidden,
+        playDisplay: getComputedStyle(document.querySelector('#play')).display,
+        localSetupHidden: document.querySelector('#local-session-setup')?.hasAttribute('hidden'),
+      }));
+      throw new Error(`ready menu did not render after shell shortcut registration: ${JSON.stringify(state)}\n${error.message}`);
+    });
+    assert.equal(await frame.locator('#play').isVisible(), true, 'the rendered ready menu keeps Play visible before the first user action');
+
     const shellAction = id => frame.evaluate(id => window.localSessionFixture.handlers[id](), id);
-    await frame.locator('#play').click();
+    // Starting or resuming synchronously hides its own target. Drive a real
+    // pointer at the proven visible bounds so Playwright does not retry a
+    // completed click after that state transition removes the button.
+    const pressVisiblePlay = async () => {
+      await frame.waitForFunction(() => {
+        const play = document.querySelector('#play');
+        return !!play && !play.hidden && play.getClientRects().length > 0;
+      }, undefined, { timeout: 5_000 }).catch(async error => {
+        const state = await frame.evaluate(() => ({
+          runState: document.querySelector('#app')?.getAttribute('data-run-state'),
+          playHidden: document.querySelector('#play')?.hidden,
+          panelHidden: document.querySelector('#run-panel')?.hasAttribute('hidden'),
+          localSetupHidden: document.querySelector('#local-session-setup')?.hasAttribute('hidden'),
+        }));
+        throw new Error(`Play is not visibly resumable: ${JSON.stringify(state)}\n${error.message}`);
+      });
+      const playBounds = await frame.locator('#play').boundingBox();
+      assert.ok(playBounds, 'the ready Play control exposes pointer bounds');
+      const frameBounds = await iframe.boundingBox();
+      assert.ok(frameBounds && playBounds.x >= frameBounds.x && playBounds.y >= frameBounds.y
+        && playBounds.x + playBounds.width <= frameBounds.x + frameBounds.width
+        && playBounds.y + playBounds.height <= frameBounds.y + frameBounds.height,
+      'Play bounds are in the host-page coordinate space inside the opaque iframe');
+      assert.equal(await frame.locator('#play').evaluate(control => {
+        const rect = control.getBoundingClientRect(), hit = document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
+        return hit === control || control.contains(hit);
+      }), true, 'the real pointer center resolves to Play or its descendant');
+      await page.mouse.click(playBounds.x + playBounds.width / 2, playBounds.y + playBounds.height / 2);
+    };
+    await pressVisiblePlay();
+    await frame.waitForFunction(() => document.querySelector('#app')?.getAttribute('data-run-state') === 'playing');
     await shellAction('puddlehop.forward-w');
     await frame.waitForFunction(() => document.querySelector('#score')?.textContent === '1');
     await page.waitForTimeout(240);
@@ -240,7 +287,7 @@ test('the built opaque iframe transfers solo shell shortcuts to native local inp
     await page.waitForTimeout(80);
     assert.deepEqual(await seatRows(frame), paused, 'P2 actions are ignored while the shared session is paused');
 
-    await frame.locator('#play').click();
+    await frame.locator('#pause').click();
     await frame.waitForFunction(() => document.querySelector('#app')?.dataset.runState === 'playing');
     await frame.evaluate(() => window.dispatchEvent(new Event('blur')));
     await frame.waitForFunction(() => document.querySelector('#app')?.dataset.runState === 'paused');
@@ -250,7 +297,9 @@ test('the built opaque iframe transfers solo shell shortcuts to native local inp
     assert.deepEqual(await seatRows(frame), blurred, 'P2 actions are ignored after the iframe blurs');
 
     await frame.evaluate(() => window.dispatchEvent(new Event('focus')));
-    await frame.locator('#play').click();
+    // Local sessions hide the solo run panel while paused; the shared pause
+    // control is the visible user action that resumes the session.
+    await frame.locator('#pause').click();
     await frame.waitForFunction(() => document.querySelector('#app')?.dataset.runState === 'playing');
     await page.locator('iframe').evaluate(node => { node.style.width = '200px'; node.style.height = '160px'; });
     await frame.waitForFunction(() => innerWidth < 240 || innerHeight < 240);
