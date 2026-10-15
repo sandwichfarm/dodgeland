@@ -346,3 +346,17 @@ test('Revival selected for an earlier death cannot silently apply to a later dea
   assert.equal(session.useConsumable({ ...action,
     expectedTargetDeathGeneration: target.recovery.deathGeneration }), true);
 });
+
+test('reading an item snapshot after late admission cannot change subsequent ownership revisions', () => {
+  const outcomes = [false, true].map(observe => {
+    const { game, session } = twoOwnedItems();
+    assert.equal(session.admit({ device: 'keyboard-c', characterId: 'pip' }), true);
+    if (observe) {
+      session.consumableSnapshot();
+      game.worldExtensionSnapshot();
+    }
+    killOnWater(game, session, session.players.find(player => player.seat === 'p1'));
+    return observableState(session);
+  });
+  assert.deepEqual(outcomes[1], outcomes[0], 'HUD and renderer reads must not allocate or mutate authoritative inventory state');
+});
