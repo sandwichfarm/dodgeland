@@ -66,11 +66,12 @@ test('four real inventories remain inspectable through one responsive owner surf
       const inspecting = state.startsWith('hand-');
       const controls = [...document.querySelectorAll(inspecting ? '#run-inventory button' : '#market button, #run-inventory button')].filter(visible).map(rectData);
       const identities = (inspecting ? ['run-hand-owner', 'run-hand-detail-owner'] : ['market-owner', 'run-hand-owner']).map(id => document.getElementById(id)).filter(visible).map(textData);
+      const details = inspecting ? ['run-hand-name', 'run-hand-copy'].map(id => document.getElementById(id)).filter(visible).map(textData) : [];
       const scrollers = [...document.querySelectorAll('#market, #market *, #run-inventory, #run-inventory *')].filter(visible).filter(node => {
         const css = getComputedStyle(node);
         return /auto|scroll/.test(`${css.overflowX} ${css.overflowY}`) && (node.scrollHeight > node.clientHeight + 1 || node.scrollWidth > node.clientWidth + 1);
       }).map(node => node.id || node.className);
-      return { controls, identities, scrollers, notice: visible(document.querySelector('.too-small')),
+      return { controls, identities, details, scrollers, notice: visible(document.querySelector('.too-small')),
         market: visible(document.getElementById('market')), hand: visible(document.getElementById('run-inventory')),
         document: { width: document.documentElement.scrollWidth, height: document.documentElement.scrollHeight },
         selected: [...document.querySelectorAll('#market-owner-strip [aria-pressed="true"]')].map(node => node.dataset.id),
@@ -95,6 +96,7 @@ test('four real inventories remain inspectable through one responsive owner surf
       if (control.width < 43.5 || control.height < 43.5) fail(`${key}: owner target must be at least 44px`, control);
     }
     if (!metrics.identities.length || metrics.identities.some(item => !item.readable || !item.fits || item.font < 16 || !/Viewing P[1-4] [▲●◆■] · \S/.test(item.text))) fail(`${key}: full owner identity must be legible`, metrics.identities);
+    if (state.startsWith('hand-') && (metrics.details.length !== 2 || metrics.details.some(item => !item.readable || !item.fits || item.font < 16))) fail(`${key}: card title and current description page must remain readable`, metrics.details);
     if (metrics.selected.length !== 1) fail(`${key}: exactly one market owner must be selected`, metrics.selected);
   };
   try {
@@ -152,6 +154,15 @@ test('four real inventories remain inspectable through one responsive owner surf
           assert.equal(await frame.locator('#run-hand-name').innerText(), inventory.cards[0].name, 'displayed card belongs to the selected owner, even when IDs collide');
           assert.equal(await frame.locator('#run-hand-sell').isDisabled(), true, 'unimplemented shared sale is explicitly unavailable');
           await snapshot(`hand-${inventory.seat}`, width, height, theme);
+          const descriptionPages = [];
+          for (let index = 0; index < 30; index++) {
+            descriptionPages.push(await frame.locator('#run-hand-copy').innerText());
+            const next = frame.locator('#run-hand-detail-next');
+            if (!await next.isVisible() || !await next.isEnabled()) break;
+            await next.click(); await settle();
+          }
+          const normalize = text => text.replace(/\s+/g, ' ').trim();
+          assert.equal(normalize(descriptionPages.join(' ')), normalize(inventory.cards[0].description), 'every word of the real card description remains reachable through its visible pager');
           if (inventory.seat === 'p4') {
             await frame.locator('#run-hand-detail-owner').click(); await settle();
             assert.match(await frame.locator('#market-owner').innerText(), /Viewing P1 /, 'foreground owner control actually selects the next real inventory');
