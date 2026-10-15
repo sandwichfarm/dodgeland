@@ -322,7 +322,10 @@ export class Renderer {
         const lane = game.rows.get(player.y);
         if (!lane) continue;
         const traveler: TravelerScene = { ...player, lane, rows: game.rows, rules: game.rules, time: game.time, mobs: game.mobs };
-        travelerOverlays.push(this.appendTraveler(traveler, player.characterId, rows, objects, markers, showWave, player.label));
+        const marker = ({ p1: '▲', p2: '●', p3: '◆', p4: '■' } as const)[player.seat];
+        const labelOffset = ({ p1: -.48, p2: .48, p3: -.48, p4: .48 } as const)[player.seat];
+        const labelLift = ({ p1: 1.1, p2: 1.1, p3: 1.45, p4: 1.45 } as const)[player.seat];
+        travelerOverlays.push(this.appendTraveler(traveler, player.characterId, rows, objects, markers, showWave, `${marker} ${player.seat.toUpperCase()} · ${characterById(player.characterId).name}`, labelOffset, labelLift));
       }
     } else {
       travelerOverlays.push(this.appendTraveler(game, character, rows, objects, markers, showWave));
@@ -340,7 +343,7 @@ export class Renderer {
   }
 
   /** Queue each body, trail, rescue, and spill in the same layers as the world. */
-  private appendTraveler(game: TravelerScene, character: string, rows: readonly Lane[], objects: SceneObject[], markers: SceneObject[], showWave: boolean, label?: string): () => void {
+  private appendTraveler(game: TravelerScene, character: string, rows: readonly Lane[], objects: SceneObject[], markers: SceneObject[], showWave: boolean, label?: string, labelOffset = 0, labelLift = 1.1): () => void {
     const ctx = this.ctx;
     if (game.deathSpill) for (const drop of game.deathSpill.drops) {
       const pose = spillPose(drop, game.deathSpill.age, this.reduced);
@@ -437,7 +440,7 @@ export class Renderer {
         this.cube(box(0, 0, .02, .64, .12, .1, '#f2ffde'), px, py - .29);
       }
       if (label) {
-        const [x, y] = this.project(px, py, lift + 1.1);
+        const [x, y] = this.project(px + labelOffset, py, lift + labelLift);
         ctx.save();
         ctx.font = `bold ${Math.max(10, this.scale * .22)}px sans-serif`;
         ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';

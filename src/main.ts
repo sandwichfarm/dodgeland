@@ -49,6 +49,7 @@ let setupDraft: SessionSetupSeat[] = [];
 let sessionBoard: LocalSessionBoard | undefined;
 let soloGamepad: GamepadDevice | undefined;
 let hudSelected: SeatId = 'p1';
+let sessionHudRoster = '';
 const controllerDevices = new Map<number, GamepadDevice>();
 let sessionPaused = false;
 let preparedLaunch: GameLaunch | undefined;
@@ -127,7 +128,7 @@ const market = createMarketUI({
   getReducedMotion: () => progress.reduced || mediaQuery.matches,
   changed: updateHud,
 });
-const router = new GamepadRouter({
+const router: GamepadRouter = new GamepadRouter({
   context: () => `${localStage ? 'setup' : localSession ? sessionPaused ? 'session-paused' : 'session' : 'solo'}:${game.state}:${hand.isOpen() ? 'hand' : game.run.isOpen ? 'market' : el('drawer').hidden ? `run:${el('app').dataset.runMenuPage ?? el('app').dataset.pausePage ?? ''}` : `collection:${el('drawer').dataset.collectionTab}:${el('drawer').dataset.collectionView}`}`,
   dispatch: ({ seat, direction }) => {
     if (localSession?.running) { moveSessionCharacter(seat, direction); return true; }
@@ -147,7 +148,7 @@ const router = new GamepadRouter({
     if (action === 'market') market.toggle();
   },
   acceptsDevice: () => !localSession || localStage !== undefined || setupDraft.length < 4,
-  requestFirstPlayer: device => {
+  requestFirstPlayer: (device): boolean => {
     if (soloGamepad || localStage || localSession || game.state === 'dead') return false;
     soloGamepad = device;
     return router.assign(device, 'p1', true);
@@ -419,22 +420,37 @@ function updateHud(): void {
   const seats = el('session-seats');
   seats.hidden = !localSession?.running;
   if (localSession?.running) {
-    seats.replaceChildren(...localSession.players.map(player => {
-      const character = characterById(player.characterId);
-      const tile = document.createElement('button'); tile.type = 'button'; tile.className = `session-hud-tile${hudSelected === player.seat ? ' session-hud-selected' : ''}`; tile.dataset.seat = player.seat;
-      tile.setAttribute('aria-label', `${player.seat.toUpperCase()} ${seatMarker(player.seat)} ${character.name}, ${player.device}, ${player.health} of ${player.maxHealth} feathers`);
-      const identity = document.createElement('strong'); identity.textContent = `${player.seat.toUpperCase()} ${seatMarker(player.seat)} · ${character.name}`;
-      const device = document.createElement('span'); device.textContent = player.participation === 'device-lost' ? 'Waiting to reclaim' : player.device;
-      const health = document.createElement('span'); health.textContent = `${player.health} / ${player.maxHealth} feathers · ${player.statistics.distance} tiles`;
-      const power = document.createElement('span'); power.textContent = `${player.power.name} · ${player.powerReady ? 'Ready' : `${player.powerRemaining} tiles`}`;
-      const wallet = document.createElement('span'); wallet.textContent = `${player.run.wallet} coins · ${player.run.cards.length} cards`;
-      const revive = document.createElement('span'); revive.className = 'session-future'; revive.textContent = 'Revive —';
-      const item = document.createElement('span'); item.className = 'session-future'; item.textContent = 'Item —';
-      tile.append(identity, device, health, power, wallet, revive, item);
-      tile.addEventListener('click', () => { hudSelected = player.seat; updateHud(); });
-      return tile;
-    }));
-  }
+    const roster = localSession.players.map(player => `${player.seat}:${player.characterId}:${player.device}`).join('|');
+    if (roster !== sessionHudRoster) {
+      const focusSeat = document.activeElement instanceof HTMLElement && seats.contains(document.activeElement) ? document.activeElement.closest<HTMLElement>('[data-seat]')?.dataset.seat : undefined;
+      sessionHudRoster = roster;
+      seats.replaceChildren(...localSession.players.map(player => {
+        const tile = document.createElement('article'); tile.className = 'session-hud-tile'; tile.dataset.seat = player.seat;
+        const identity = document.createElement('button'); identity.type = 'button'; identity.className = 'session-hud-identity'; identity.dataset.sessionHud = 'identity';
+        identity.addEventListener('click', () => { hudSelected = player.seat; updateHud(); });
+        const details = document.createElement('div'); details.className = 'session-hud-details';
+        for (const field of ['device', 'health', 'power', 'wallet', 'revive', 'item'] as const) {
+          const value = document.createElement('span'); value.dataset.sessionHud = field; if (field === 'revive' || field === 'item') value.className = 'session-future'; details.append(value);
+        }
+        tile.append(identity, details); return tile;
+      }));
+      if (focusSeat) queueMicrotask(() => seats.querySelector<HTMLButtonElement>(`[data-seat="${focusSeat}"] .session-hud-identity`)?.focus({ preventScroll: true }));
+    }
+    for (const player of localSession.players) {
+      const character = characterById(player.characterId), tile = seats.querySelector<HTMLElement>(`[data-seat="${player.seat}"]`)!;
+      tile.classList.toggle('session-hud-selected', hudSelected === player.seat);
+      const identity = tile.querySelector<HTMLButtonElement>('[data-session-hud="identity"]')!;
+      identity.textContent = `${player.seat.toUpperCase()} ${seatMarker(player.seat)} · ${character.name}`;
+      identity.setAttribute('aria-label', `${player.seat.toUpperCase()} ${seatMarker(player.seat)} ${character.name}, ${player.device}, ${player.health} of ${player.maxHealth} feathers`);
+      tile.querySelector<HTMLElement>('[data-session-hud="device"]')!.textContent = player.participation === 'device-lost' ? 'Waiting to reclaim' : player.device;
+      const compactHud = innerWidth <= 479 || innerHeight <= 419;
+      tile.querySelector<HTMLElement>('[data-session-hud="health"]')!.textContent = compactHud ? `${player.health}/${player.maxHealth} feathers · ${player.statistics.distance} tiles` : `${player.health} / ${player.maxHealth} feathers · ${player.statistics.distance} tiles`;
+      tile.querySelector<HTMLElement>('[data-session-hud="power"]')!.textContent = `${player.power.name} · ${player.powerReady ? 'Ready' : `${player.powerRemaining} tiles`}`;
+      tile.querySelector<HTMLElement>('[data-session-hud="wallet"]')!.textContent = `${player.run.wallet} coins · ${player.run.cards.length} cards`;
+      tile.querySelector<HTMLElement>('[data-session-hud="revive"]')!.textContent = 'Revive —';
+      tile.querySelector<HTMLElement>('[data-session-hud="item"]')!.textContent = 'Item —';
+    }
+  } else if (sessionHudRoster) { sessionHudRoster = ''; seats.replaceChildren(); }
   el('score').textContent = String(game.maxY); el('coins').textContent = String(game.run.wallet);
   el('best').textContent = `${game.mode === 'stroll' ? 'STROLL BEST' : 'BEST'} ${game.mode === 'stroll' ? progress.strollBest : progress.best}`;
   const currentChapter = Math.floor(game.maxY / 32);
@@ -701,7 +717,7 @@ function move(direction: Direction): void {
     const buttons = [...el('local-session-setup').querySelectorAll<HTMLButtonElement>('button')]
       .filter(button => !button.disabled && !button.hidden && button.getClientRects().length > 0);
     if (!buttons.length) return;
-    const current = buttons.indexOf(document.activeElement as HTMLElement);
+    const current = buttons.indexOf(document.activeElement as HTMLButtonElement);
     const delta = direction === 'left' || direction === 'back' ? -1 : 1;
     buttons[(current + delta + buttons.length) % buttons.length]!.focus({ preventScroll: true }); return;
   }

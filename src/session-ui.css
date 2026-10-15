@@ -1,10 +1,11 @@
+body:has(#local-session-setup:not([hidden]) #session-board), body:has(#session-seats:not([hidden])) { font-size: 16px; }
 .local-session-setup { --session-ink: var(--game-ink, #263c38); color: var(--session-ink); font-size: 16px; font-weight: 650; }
 .local-session-setup > button { min-height: 44px; }
-#app:has(#session-board:not([hidden])) #run-panel.run-panel { position: absolute; z-index: 7; inset: 12px; transform: none; animation: none; width: auto; max-height: none; padding: 12px; overflow: auto; background: var(--game-paper, var(--bg)); color: var(--session-ink); }
-#app:has(#session-board:not([hidden])) #ready-content,
-#app:has(#session-board:not([hidden])) #play,
-#app:has(#session-board:not([hidden])) .panel-bottom,
-#app:has(#session-board:not([hidden])) #goal { display: none; }
+#app:has(#local-session-setup:not([hidden]) #session-board) #run-panel.run-panel { position: absolute; z-index: 7; inset: 12px; transform: none; animation: none; width: auto; max-height: none; padding: 12px; overflow: auto; background: var(--game-paper, var(--bg)); color: var(--session-ink); }
+#app:has(#local-session-setup:not([hidden]) #session-board) #ready-content,
+#app:has(#local-session-setup:not([hidden]) #session-board) #play,
+#app:has(#local-session-setup:not([hidden]) #session-board) .panel-bottom,
+#app:has(#local-session-setup:not([hidden]) #session-board) #goal { display: none; }
 #session-board { display: grid; grid-template-columns: minmax(180px, .8fr) minmax(240px, 1.2fr); grid-template-areas: 'heading heading' 'subtitle subtitle' 'strip strip' 'roster detail' 'status status' 'actions actions'; align-content: start; gap: 8px; min-height: 100%; color: var(--session-ink); }
 #session-board > h2 { grid-area: heading; } #session-board > .session-subtitle { grid-area: subtitle; } #session-board > .session-roster-strip { grid-area: strip; } #session-roster { grid-area: roster; } #session-seat-detail { grid-area: detail; } #session-status { grid-area: status; } .session-actions { grid-area: actions; }
 #session-board h2, #session-board h3 { margin: 0; font-family: var(--game-font, ui-rounded, system-ui, sans-serif); color: var(--session-ink); }
@@ -31,12 +32,33 @@
 .session-leave { border-color: color-mix(in srgb, #b44738 65%, var(--border)); }
 #session-status { min-height: 22px; }
 .ui-less-motion #session-board *, .ui-less-motion #session-seats * { transition: none !important; animation: none !important; }
-#session-seats { pointer-events: auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; max-width: min(510px, calc(100vw - 150px)); }
+#session-seats { --session-ink: var(--game-ink, #263c38); position: absolute; top: 110px; left: 0; pointer-events: auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; width: min(360px, calc(100vw - 150px)); }
 .session-hud-tile { min-width: 0; min-height: 44px; padding: 6px 8px; border: 3px solid var(--game-wood, var(--border)); background: var(--game-paper, #fff0c5); box-shadow: 3px 3px 0 var(--game-edge, var(--border)); color: var(--session-ink); font: 400 16px/1.2 var(--game-font, ui-rounded, system-ui, sans-serif); text-align: left; }
-.session-hud-tile strong, .session-hud-tile span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.session-hud-identity { display: block; width: 100%; min-height: 44px; padding: 2px 0; border: 0; border-radius: 0; background: transparent; color: var(--session-ink); font: 700 16px/1.2 var(--game-font, ui-rounded, system-ui, sans-serif); text-align: left; }
+.session-hud-selected .session-hud-identity { outline: 3px solid var(--primary); outline-offset: 2px; }
+.session-hud-details { display: contents; }
+.session-hud-tile span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .session-hud-tile .session-future { color: color-mix(in srgb, var(--session-ink) 70%, var(--primary)); }
-@media (max-width: 479px), (max-height: 419px) { #app:has(#session-board:not([hidden])) #run-panel.run-panel { inset: 8px; padding: 8px; overflow: hidden; } #session-board { grid-template-columns: 1fr; grid-template-areas: 'heading' 'strip' 'pages' 'roster' 'detail' 'status' 'actions'; gap: 6px; } #session-board > .session-subtitle { display: none; } .session-setup-pages { grid-area: pages; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); } #session-board[data-page="roster"] #session-seat-detail, #session-board[data-page="character"] #session-roster { display: none; } #session-roster { grid-template-columns: repeat(2, minmax(0, 1fr)); } .session-seat-card { min-height: 72px; padding: 6px; } #session-seats { grid-template-columns: 1fr; max-width: calc(100vw - 84px); } .session-hud-tile:not(.session-hud-selected) { display: none; } .session-actions { position: sticky; bottom: 0; padding-top: 4px; background: var(--game-paper, var(--bg)); } }
-@media (max-height: 319px) { #session-board { gap: 4px; } #session-board h2 { font-size: 20px; } .session-preview { display: none; } .session-seat-card { padding: 4px; gap: 4px; } .session-actions > button { min-height: 44px; } }
+@media (max-width: 479px), (max-height: 419px) { #app:has(#local-session-setup:not([hidden]) #session-board) #run-panel.run-panel { inset: 8px; padding: 8px; overflow: hidden; } #session-board { grid-template-columns: 1fr; grid-template-areas: 'heading' 'strip' 'pages' 'roster' 'detail' 'status' 'actions'; gap: 6px; } #session-board > .session-subtitle { display: none; } .session-setup-pages { grid-area: pages; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); } #session-board[data-page="roster"] #session-seat-detail, #session-board[data-page="roster"] .session-actions, #session-board[data-page="character"] #session-roster, #session-board[data-page="character"] .session-actions, #session-board[data-page="controls"] #session-roster, #session-board[data-page="controls"] #session-seat-detail { display: none; } #session-roster { grid-template-columns: repeat(2, minmax(0, 1fr)); } .session-seat-card { min-height: 72px; padding: 6px; } #session-seats { top: 88px; left: 8px; grid-template-columns: repeat(4, minmax(0, 1fr)); width: calc(100vw - 16px); overflow: visible; } #app:has(#session-seats:not([hidden])) .world-label, #app:has(#session-seats:not([hidden])) #chapter-label { display: none; } .session-hud-tile { position: static; min-width: 0; min-height: 44px; padding: 3px; box-shadow: none; } .session-hud-identity { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .session-hud-details { display: none; } .session-hud-selected .session-hud-details { position: absolute; top: 50px; left: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px 6px; width: 100%; padding: 3px; border: 3px solid var(--game-wood, var(--border)); background: var(--game-paper, #fff0c5); box-shadow: 3px 3px 0 var(--game-edge, var(--border)); } .session-hud-selected .session-hud-details span { min-width: 0; min-height: 32px; font: 400 16px/1 var(--game-font, ui-rounded, system-ui, sans-serif); overflow-wrap: anywhere; white-space: normal; } .session-actions { position: sticky; bottom: 0; padding-top: 4px; background: var(--game-paper, var(--bg)); } }
+@media (max-height: 319px) {
+  #session-board { width: 100%; min-width: 0; grid-template-columns: minmax(0, 1fr); grid-template-areas: 'heading' 'strip' 'pages' 'roster' 'detail' 'status' 'actions'; gap: 4px; }
+  #session-board > h2 { display: none; } #session-status { display: none; }
+  .session-roster-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; min-width: 0; flex-wrap: nowrap; gap: 4px; }
+  #app .local-session-setup .session-seat-chip { width: 100%; min-width: 0; min-height: 44px; padding: 2px; font: 400 16px/1 var(--game-font, ui-rounded, system-ui, sans-serif) !important; }
+  #session-roster { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; }
+  #app .local-session-setup .session-seat-card { min-height: 44px; padding: 2px; gap: 0; font: 400 16px/1 var(--game-font, ui-rounded, system-ui, sans-serif) !important; text-align: center; }
+  .session-seat-card .session-device, .session-seat-card .session-ready { display: none; }
+  .session-preview, #session-seat-detail .session-device, #session-seat-detail h3 { display: none; }
+  #session-seat-detail { min-height: 0; max-height: 106px; gap: 4px; padding: 4px; overflow: hidden; }
+  #session-seat-detail .session-character-picker { grid-template-columns: 44px minmax(0, 1fr) 44px; grid-auto-rows: 44px; height: 44px; min-height: 44px; max-height: 44px; gap: 4px; }
+  #app .local-session-setup #session-seat-detail .session-character-picker > button, #app .local-session-setup #session-seat-detail .session-leave { height: 44px; min-height: 44px; max-height: 44px; min-width: 0; padding: 2px; font: 400 16px/1 var(--game-font, ui-rounded, system-ui, sans-serif) !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #app .local-session-setup .session-setup-pages { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; min-width: 0; }
+  #app .local-session-setup .session-setup-pages > button, #app .local-session-setup .session-actions > button { min-width: 0; min-height: 44px; padding: 2px; font: 400 16px/1 var(--game-font, ui-rounded, system-ui, sans-serif) !important; }
+  .session-actions { position: static; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; min-width: 0; flex-wrap: nowrap; gap: 4px; }
+  #session-board[data-page="roster"] #session-seat-detail, #session-board[data-page="roster"] .session-actions,
+  #session-board[data-page="character"] #session-roster, #session-board[data-page="character"] .session-actions,
+  #session-board[data-page="controls"] #session-roster, #session-board[data-page="controls"] #session-seat-detail { display: none; }
+}
 #session-keyboard-editor { display: grid; gap: 8px; min-width: 0; }
 #app .local-session-setup #session-keyboard-editor h3 { margin: 0; color: var(--session-ink); font: 400 22px/1.2 var(--game-font, ui-rounded, system-ui, sans-serif); }
 .session-controls-profiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
@@ -58,16 +80,16 @@
 .ui-less-motion #session-keyboard-editor * { transition: none !important; animation: none !important; }
 @media (prefers-reduced-motion: reduce) { #session-keyboard-editor * { transition: none !important; animation: none !important; } }
 .session-controls-profiles button { white-space: normal; line-height: 1.1; }
-@media (max-width: 319px), (max-height: 319px) { #session-keyboard-editor { gap: 4px; } #app .local-session-setup #session-keyboard-editor h3 { font-size: 16px; line-height: 1.2; } .session-controls-profiles { gap: 4px; } .session-controls-profiles button { padding-inline: 4px; } .session-controls-row { gap: 4px; } .session-controls-row > span { font-size: 16px; } .session-controls-status { font-size: 16px; line-height: 1.1; } .session-controls-confirm { gap: 4px; padding: 4px; } #app:has(#session-keyboard-editor:not([hidden])) .local-session-setup > span { display: none; } }
+@media (max-width: 319px), (max-height: 319px) { #session-keyboard-editor { gap: 4px; } #app .local-session-setup #session-keyboard-editor h3 { font-size: 16px; line-height: 1.2; } .session-controls-profiles { gap: 4px; } .session-controls-profiles button { padding-inline: 4px; } .session-controls-row { gap: 4px; } .session-controls-row > span { font-size: 16px; } .session-controls-status { font-size: 16px; line-height: 1.1; } .session-controls-confirm { gap: 4px; padding: 4px; } #app:has(#local-session-setup:not([hidden]) #session-keyboard-editor:not([hidden])) .local-session-setup > span { display: none; } }
 @media (max-width: 479px) and (max-height: 419px) {
-  #app:has(#session-keyboard-editor:not([hidden])) .hud,
-  #app:has(#session-keyboard-editor:not([hidden])) .world-label,
-  #app:has(#session-keyboard-editor:not([hidden])) .bottom-bar,
-  #app:has(#session-keyboard-editor:not([hidden])) #play,
-  #app:has(#session-keyboard-editor:not([hidden])) .panel-bottom,
-  #app:has(#session-keyboard-editor:not([hidden])) .goal { display: none; }
-  #app:has(#session-keyboard-editor:not([hidden])) #run-panel.run-panel { position: absolute; z-index: 7; inset: 0; transform: none; width: auto; max-height: none; padding: 8px; border: 0; border-radius: 0; box-shadow: none; overflow: hidden; background: var(--game-paper, #fff0c5); color: var(--game-ink, #233e32); }
-  #app:has(#session-keyboard-editor:not([hidden])) #run-panel::before,
-  #app:has(#session-keyboard-editor:not([hidden])) #run-panel::after { display: none; }
-  #app:has(#session-keyboard-editor:not([hidden])) #ready-content { display: none; }
+  #app:has(#local-session-setup:not([hidden]) #session-keyboard-editor:not([hidden])) .hud,
+  #app:has(#local-session-setup:not([hidden]) #session-keyboard-editor:not([hidden])) .world-label,
+  #app:has(#local-session-setup:not([hidden]) #session-keyboard-editor:not([hidden])) .bottom-bar,
+  #app:has(#local-session-setup:not([hidden]) #session-keyboard-editor:not([hidden])) #play,
+  #app:has(#local-session-setup:not([hidden]) #session-keyboard-editor:not([hidden])) .panel-bottom,
+  #app:has(#local-session-setup:not([hidden]) #session-keyboard-editor:not([hidden])) .goal { display: none; }
+  #app:has(#local-session-setup:not([hidden]) #session-keyboard-editor:not([hidden])) #run-panel.run-panel { position: absolute; z-index: 7; inset: 0; transform: none; width: auto; max-height: none; padding: 8px; border: 0; border-radius: 0; box-shadow: none; overflow: hidden; background: var(--game-paper, #fff0c5); color: var(--game-ink, #233e32); }
+  #app:has(#local-session-setup:not([hidden]) #session-keyboard-editor:not([hidden])) #run-panel::before,
+  #app:has(#local-session-setup:not([hidden]) #session-keyboard-editor:not([hidden])) #run-panel::after { display: none; }
+  #app:has(#local-session-setup:not([hidden]) #session-keyboard-editor:not([hidden])) #ready-content { display: none; }
 }

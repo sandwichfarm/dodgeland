@@ -192,7 +192,8 @@ export function createLocalSessionBoard(options: LocalSessionBoardOptions): Loca
   const pages = document.createElement('div'); pages.className = 'session-setup-pages';
   const rosterPage = document.createElement('button'); rosterPage.type = 'button'; rosterPage.textContent = 'Roster';
   const characterPage = document.createElement('button'); characterPage.type = 'button'; characterPage.textContent = 'Traveler';
-  pages.append(rosterPage, characterPage);
+  const controlsPage = document.createElement('button'); controlsPage.type = 'button'; controlsPage.textContent = 'Controls';
+  pages.append(rosterPage, characterPage, controlsPage);
   const status = document.createElement('p'); status.id = 'session-status'; status.setAttribute('aria-live', 'polite');
   const actions = document.createElement('div'); actions.className = 'session-actions';
   const addKeyboard = document.createElement('button'); addKeyboard.id = 'session-add-keyboard'; addKeyboard.type = 'button';
@@ -201,7 +202,7 @@ export function createLocalSessionBoard(options: LocalSessionBoardOptions): Loca
   actions.append(addKeyboard, start, back); board.append(heading, subtitle, strip, pages, roster, detail, status, actions); root.replaceChildren(board);
 
   let selected: SeatId = 'p1';
-  let page: 'roster' | 'character' = 'roster';
+  let page: 'roster' | 'character' | 'controls' = 'roster';
   let message = '';
   const ready = (seat: SessionSetupSeat): boolean => !!seat.device && !!seat.characterId && !seat.disconnected;
   const compact = (): boolean => matchMedia('(max-width: 479px), (max-height: 419px)').matches;
@@ -213,9 +214,12 @@ export function createLocalSessionBoard(options: LocalSessionBoardOptions): Loca
     message = nextMessage;
     const seats = options.seats();
     const bySeat = new Map(seats.map(seat => [seat.seat, seat]));
-    board.dataset.page = compact() ? page : 'both';
+    // Keep the logical compact page through a live resize. Wide CSS shows both
+    // panes, but the compact rule can immediately restore the chosen page.
+    board.dataset.page = page;
     rosterPage.setAttribute('aria-pressed', String(page === 'roster'));
     characterPage.setAttribute('aria-pressed', String(page === 'character'));
+    controlsPage.setAttribute('aria-pressed', String(page === 'controls'));
     characterPage.disabled = !bySeat.has(selected);
     strip.replaceChildren();
     for (let index = 1; index <= options.capacity; index++) {
@@ -253,8 +257,8 @@ export function createLocalSessionBoard(options: LocalSessionBoardOptions): Loca
       const currentIndex = Math.max(0, candidates.findIndex(candidate => candidate.id === current.characterId));
       const candidate = candidates[currentIndex] ?? candidates[0];
       const picker = document.createElement('div'); picker.className = 'session-character-picker';
-      const previous = document.createElement('button'); previous.type = 'button'; previous.dataset.sessionFocus = 'previous'; previous.textContent = 'Previous traveler'; previous.setAttribute('aria-label', 'Previous available traveler');
-      const next = document.createElement('button'); next.type = 'button'; next.dataset.sessionFocus = 'next'; next.textContent = 'Next traveler'; next.setAttribute('aria-label', 'Next available traveler');
+      const previous = document.createElement('button'); previous.type = 'button'; previous.dataset.sessionFocus = 'previous'; previous.textContent = 'Prev'; previous.setAttribute('aria-label', 'Previous available traveler');
+      const next = document.createElement('button'); next.type = 'button'; next.dataset.sessionFocus = 'next'; next.textContent = 'Next'; next.setAttribute('aria-label', 'Next available traveler');
       const choose = document.createElement('button'); choose.type = 'button'; choose.className = 'session-character-choice'; choose.dataset.sessionFocus = 'choice';
       if (candidate) {
         const image = document.createElement('img'); image.src = modelThumbnail(candidate.model); image.alt = `${candidate.name} voxel preview`; image.className = 'session-preview';
@@ -281,7 +285,7 @@ export function createLocalSessionBoard(options: LocalSessionBoardOptions): Loca
       ? seats.some(seat => seat.disconnected) ? 'Reconnect or remove every disconnected player first.' : 'Choose a traveler and device for every player first.'
       : 'Start Local Play';
     const keyboard = (['keyboard-a', 'keyboard-b'] as const).find(device => !seats.some(seat => seat.device === device));
-    addKeyboard.textContent = keyboard === 'keyboard-a' ? 'Add Keyboard A' : 'Add Keyboard B';
+    addKeyboard.textContent = compact() ? keyboard === 'keyboard-a' ? 'Add A' : 'Add B' : keyboard === 'keyboard-a' ? 'Add Keyboard A' : 'Add Keyboard B';
     addKeyboard.disabled = !keyboard || seats.length >= options.capacity;
     addKeyboard.hidden = !keyboard;
     status.textContent = message || (options.controllerAvailable() ? 'Press a controller button to join an open seat.' : 'Controllers aren’t available in this shell. Keyboard players can still join.');
@@ -296,6 +300,7 @@ export function createLocalSessionBoard(options: LocalSessionBoardOptions): Loca
   };
   rosterPage.addEventListener('click', () => { page = 'roster'; render(); });
   characterPage.addEventListener('click', () => { page = 'character'; render(); });
+  controlsPage.addEventListener('click', () => { page = 'controls'; render(); });
   addKeyboard.addEventListener('click', options.onAddKeyboard);
   start.addEventListener('click', options.onStart);
   back.addEventListener('click', options.onBack);
