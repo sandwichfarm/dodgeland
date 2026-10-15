@@ -200,7 +200,7 @@ for (const itemId of ['revival', 'flare']) {
     const action = { actionId: `collected-${itemId}`, ownerSeat: owner.seat, itemId,
       targetSeat: target.seat, expectedInventoryGeneration: chargeBefore.inventoryGeneration,
       expectedOwnerGeneration: chargeBefore.ownerGeneration,
-      expectedTargetDeathGeneration: target.recovery.deathGeneration };
+      expectedTargetDeathGeneration: target.recovery.deathGeneration, expectedTargetParticipantId: target.participantId };
     const clock = session.world.time;
     const tick = session.world.simulationTick;
     const progress = target.recovery.personalHighWater;
@@ -232,7 +232,7 @@ test('invalid item use preserves held charges and every recovery target until sa
   const action = { actionId: 'recover-after-rejection', itemId: 'revival', ownerSeat: owner.seat,
     targetSeat: target.seat, expectedInventoryGeneration: generation,
     expectedOwnerGeneration: ownerCharge.ownerGeneration,
-    expectedTargetDeathGeneration: target.recovery.deathGeneration };
+    expectedTargetDeathGeneration: target.recovery.deathGeneration, expectedTargetParticipantId: target.participantId };
   for (const invalid of [
     { ...action, expectedInventoryGeneration: generation - 1 },
     { ...action, expectedOwnerGeneration: undefined },
@@ -332,7 +332,7 @@ test('Revival selected for an earlier death cannot silently apply to a later dea
   const action = { actionId: 'earlier-death-selection', ownerSeat: owner.seat, itemId: 'revival',
     targetSeat: target.seat, expectedInventoryGeneration: held.inventoryGeneration,
     expectedOwnerGeneration: held.ownerGeneration,
-    expectedTargetDeathGeneration: target.recovery.deathGeneration };
+    expectedTargetDeathGeneration: target.recovery.deathGeneration, expectedTargetParticipantId: target.participantId };
   assert.equal(session.recover({ kind: 'personal', ownerSeat: target.seat }), true);
   advance(session, 2.1);
   // Separate the target from its teammate after the first protected return.

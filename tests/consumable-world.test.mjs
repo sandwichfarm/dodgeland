@@ -356,10 +356,10 @@ test('different held actions may commit in the same simulation tick for their se
   const tick = session.world.simulationTick;
   assert.equal(session.useConsumable({ actionId: 'parallel-first', ownerSeat: firstOwner.seat, itemId: 'revival', targetSeat: firstDead.seat,
     expectedInventoryGeneration: firstCharge.inventoryGeneration, expectedOwnerGeneration: firstCharge.ownerGeneration,
-    expectedTargetDeathGeneration: firstDead.recovery.deathGeneration }), true);
+    expectedTargetDeathGeneration: firstDead.recovery.deathGeneration, expectedTargetParticipantId: firstDead.participantId }), true);
   assert.equal(session.useConsumable({ actionId: 'parallel-second', ownerSeat: secondOwner.seat, itemId: 'revival', targetSeat: secondDead.seat,
     expectedInventoryGeneration: secondCharge.inventoryGeneration, expectedOwnerGeneration: secondCharge.ownerGeneration,
-    expectedTargetDeathGeneration: secondDead.recovery.deathGeneration }), true,
+    expectedTargetDeathGeneration: secondDead.recovery.deathGeneration, expectedTargetParticipantId: secondDead.participantId }), true,
   'same-tick deduplication is owner-scoped, not a global action lock');
   assert.equal(session.world.simulationTick, tick);
   assert.equal(charge(session, firstOwner.seat, 'revival'), 0); assert.equal(charge(session, secondOwner.seat, 'revival'), 0);

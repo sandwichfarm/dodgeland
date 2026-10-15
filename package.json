@@ -65,7 +65,7 @@
     "test:survive-tracer": "pnpm build && node tests/strict-node-tests.mjs tests/survive-together-tracer.mjs tests/survive-admission.test.mjs",
     "test:survive-recovery": "node tests/strict-node-tests.mjs tests/survive-together.test.mjs tests/survive-recovery-boundaries.test.mjs tests/recovery-plan-boundaries.test.mjs tests/survive-recovery-terminal.test.mjs",
     "test:consumables": "node tests/strict-node-tests.mjs tests/consumables.test.mjs tests/consumable-drops.test.mjs tests/consumable-boundaries.test.mjs",
-    "test:consumable-world": "node tests/strict-node-tests.mjs tests/consumable-world.test.mjs tests/consumable-world-boundaries.test.mjs",
+    "test:consumable-world": "node tests/strict-node-tests.mjs tests/consumable-world.test.mjs tests/consumable-world-boundaries.test.mjs tests/recovery-target-identity.test.mjs",
     "test:consumable-world-render": "node tests/strict-node-tests.mjs tests/consumable-world-render.test.mjs",
     "test:survive-economy": "node tests/strict-node-tests.mjs tests/survive-economy.test.mjs tests/survive-economy-boundaries.test.mjs"
   },

@@ -63,7 +63,7 @@ function use(session, owner, itemId, target) {
   return session.useConsumable({
     actionId: `board-use-${++actionId}`, ownerSeat: owner.seat, itemId,
     expectedOwnerGeneration: held.ownerGeneration, expectedInventoryGeneration: held.inventoryGeneration,
-    ...(target ? { targetSeat: target.seat, expectedTargetDeathGeneration: target.recovery.deathGeneration } : {}),
+    ...(target ? { targetSeat: target.seat, expectedTargetDeathGeneration: target.recovery.deathGeneration, expectedTargetParticipantId: target.participantId } : {}),
   });
 }
 
