@@ -94,13 +94,17 @@ function coOpMarketTransaction(request: { kind: 'open' | 'close' | 'buy' | 'buy-
   // A direct shelf sale is valid outside a market window, but still starts one
   // fresh owner interaction. Existing contexts are never replaced to rescue a
   // delayed action after an owner/lifecycle change.
-  if (!coOpMarketContext && (request.kind === 'open' || request.kind === 'sell')) coOpMarketContext = session.openCoOpMarket({ seat: owner.seat, device: owner.device, participantId: owner.participantId });
+  // Opening the table is a new deliberate interaction and captures a fresh
+  // owner/run snapshot. Other actions never refresh a stale authorization.
+  if (request.kind === 'open' || (!coOpMarketContext && request.kind === 'sell')) coOpMarketContext = session.openCoOpMarket({ seat: owner.seat, device: owner.device, participantId: owner.participantId });
   const context = coOpMarketContext;
   if (!context || context.seat !== owner.seat || context.participantId !== owner.participantId) return { ok: false, message: 'That market interaction is no longer current.' };
   const result = session.actCoOpMarket({ actionId: `ui-market-${++coOpMarketActionId}`, seat: context.seat, device: owner.device, participantId: context.participantId,
     expectedOwnerGeneration: context.ownerGeneration, expectedInventoryGeneration: context.inventoryGeneration, expectedRunRevision: context.runRevision, expectedContextGeneration: context.contextGeneration,
     kind: request.kind, offerId: request.offerId, itemId: request.itemId, cardId: request.cardId, ids: request.ids, discardIds: request.discardIds });
-  coOpMarketContext = result.context;
+  // A rejected delayed action must stay rejected. Only a committed operation
+  // advances the captured snapshot for a following action in that same view.
+  if (result.ok) coOpMarketContext = result.context;
   return { ok: result.ok, message: result.message };
 }
 function selectHudOwner(seat: SeatId): void {
@@ -369,8 +373,16 @@ const hand = createRunHand({
     const charge = itemCharge(hudSelected);
     return charge ? { revival: charge.revival, flare: charge.flare } : undefined;
   },
+  canUseItems: () => ownerMutationsAvailable() && !disposed && !document.hidden && localFocus,
+  itemUnavailableReason: ownerMutationReason,
   onUseItem: itemId => openRecoveryBoard(hudSelected, itemId),
   onOpenChange: open => {
+    // A hand opened outside an already-visible market starts a separate
+    // transaction. A hand sale within an open pack keeps that pack context.
+    if (open && localSession?.running && !market.isOpen()) {
+      const owner = selectedSessionOwner();
+      coOpMarketContext = owner ? localSession.openCoOpMarket({ seat: owner.seat, device: owner.device, participantId: owner.participantId }) : undefined;
+    }
     if (open && game.state === 'playing') { handPausedPlay = true; audio.stop(); game.pause(); }
     else if (!open) {
       const resume = handPausedPlay && !disposed && !document.hidden && localFocus && innerWidth >= 240 && innerHeight >= 240 && el('drawer').hidden && !market.isOpen() && !selectedOwnerRun().pendingPack;
@@ -415,14 +427,23 @@ const market = createMarketUI({
   canMutate: ownerMutationsAvailable,
   unavailableReason: ownerMutationReason,
   getCoOpContext: () => coOpMarketContext,
-  transaction: request => localSession?.running ? coOpMarketTransaction(request) : { ok: false, message: 'That market interaction is unavailable.' },
+  transaction: request => {
+    if (localSession?.running) return coOpMarketTransaction(request);
+    const run = selectedOwnerRun();
+    if (request.kind === 'buy') return run.buy(request.offerId ?? '');
+    if (request.kind === 'sell') return run.sell(request.cardId ?? '');
+    if (request.kind === 'claim-pack') return run.claimPack(request.ids ?? [], request.discardIds ?? []);
+    if (request.kind === 'skip-pack') return run.skipPack();
+    if (request.kind === 'equip') return run.equipCosmetic(request.itemId ?? '');
+    return { ok: false, message: 'That market action is unavailable.' };
+  },
   canOpen: () => !localStage && !disposed && !(import.meta.env.DEV && devTools?.isOpen) && !document.hidden && localFocus && innerWidth >= 240 && innerHeight >= 240 && el('drawer').hidden && (localSession?.running || game.state === 'playing' || (game.state === 'paused' && !!selectedOwnerRun().pendingPack)) && (localSession?.running || !!selectedOwnerRun().market),
   open: () => {
     if (localSession?.running) {
-      const result = coOpMarketTransaction({ kind: 'open' });
-      // Selection remains inspectable even without a current market window;
-      // the virtual surface has no mutations until an authoritative open does.
-      if (!result.ok && !coOpMarketContext) return false;
+      coOpMarketTransaction({ kind: 'open' });
+      // A lost-controller owner still has a read-only table. This presentation
+      // deliberately has no transaction context, so every mutation remains
+      // rejected until that seat explicitly reclaims its controller.
       sessionPaused = true; game.pause(); handPausedPlay = false; hand.close(); audio.stop(); return true;
     }
     if (!game.openMarket()) return false; handPausedPlay = false; hand.close(); audio.stop(); return true;
@@ -459,6 +480,14 @@ const router: GamepadRouter = new GamepadRouter({
       return true;
     }
     if (!surviveResultsRoot.hidden) { navigateModalControls(surviveResultsRoot, direction); return true; }
+    if (hand.isOpen() || hand.containsFocus()) {
+      if (seat !== hudSelected) return false;
+      hand.navigate(direction); return true;
+    }
+    if (market.isOpen()) {
+      if (seat !== hudSelected) return false;
+      market.navigate(direction); return true;
+    }
     if (localSession?.running) { moveSessionCharacter(seat, direction); return true; }
     if (seat === 'p1') { move(direction); return true; }
     return false;
@@ -489,6 +518,9 @@ const router: GamepadRouter = new GamepadRouter({
       else if (action === 'back') navigateModalControls(surviveResultsRoot, 'back');
       return;
     }
+    // A shoulder market action intentionally changes the displayed owner; the
+    // rest of a visible interaction remains bound to its captured owner.
+    if ((hand.isOpen() || hand.containsFocus() || market.isOpen()) && seat !== hudSelected && action !== 'market') return;
     if (action === 'call') { localSession?.running ? callSessionCharacter(seat) : callCharacter(); return; }
     if (action === 'confirm') {
       if (displayedRunState() !== 'playing' || localStage || hand.isOpen() || market.isOpen() || !el('drawer').hidden) { confirmMenu(); return; }
@@ -571,6 +603,8 @@ function moveSessionCharacter(seat: SeatId, direction: Direction): void {
   if (recoveryBoard) { if (seat === recoveryBoardOwner?.seat) navigateModalControls(recoveryBoard, direction); return; }
   if (lifecycleBoard) { if (seat === lifecycleBoard.dataset.lifecycleOwner) navigateModalControls(lifecycleBoard, direction); return; }
   if (!surviveResultsRoot.hidden) { navigateModalControls(surviveResultsRoot, direction); return; }
+  if (hand.isOpen() || hand.containsFocus()) { if (seat === hudSelected) hand.navigate(direction); return; }
+  if (market.isOpen()) { if (seat === hudSelected) market.navigate(direction); return; }
   if (!frameAvailable() || !localSession?.running || localStage || hand.isOpen() || hand.containsFocus() || market.isOpen() || !el('drawer').hidden || displayedRunState() !== 'playing') return;
   audio.unlock(); if (localSession.dispatch({ seat, direction })) audio.play('hop'); updateHud();
 }

@@ -24,6 +24,8 @@ interface RunHandOptions {
   onSell(result: MarketResult): void;
   sell?(cardId: string): MarketResult;
   getItems?(): Readonly<{ revival: number; flare: number }> | undefined;
+  canUseItems?(): boolean;
+  itemUnavailableReason?(): string;
   onUseItem?(itemId: 'revival' | 'flare'): void;
 }
 
@@ -69,7 +71,7 @@ export function createRunHand(options: RunHandOptions) {
   const reading = root.querySelector<HTMLElement>('.run-hand-reading')!;
   const measure = document.createElement('canvas').getContext('2d')!;
   let active = false, disposed = false, selected: string | null = null, handPage = 0, detailPage = 0;
-  let pageSize = 3, fingerprint = '', message = '', pages = [''], lastRun: RunInventory | undefined, ownerKey = options.getOwnerKey?.() ?? '';
+  let pageSize = 3, fingerprint = '', message = '', availabilityMessage = '', pages = [''], lastRun: RunInventory | undefined, ownerKey = options.getOwnerKey?.() ?? '';
   let returnFocus: HTMLElement | null = null, pointerFocus: HTMLElement | null = null;
 
   function selectedCard(): HeldCard | undefined { return options.getRun().cards.find(card => card.id === selected); }
@@ -85,6 +87,8 @@ export function createRunHand(options: RunHandOptions) {
 
   function paintHand(force = false) {
     const run = options.getRun(), slots = Math.max(run.cards.length, run.cardCapacity);
+    const charges = options.getItems?.();
+    const canUseItems = options.canUseItems?.() ?? true;
     const width = Math.max(0, root.clientWidth), short = app.clientHeight < 420;
     const minimum = short ? 62 : app.clientWidth < 480 ? 68 : 100;
     const gap = short ? 5 : 8;
@@ -92,7 +96,7 @@ export function createRunHand(options: RunHandOptions) {
     pageSize = allFit ? slots : Math.max(1, Math.floor((width - 104 + gap) / (minimum + gap)));
     const totalPages = Math.max(1, Math.ceil(slots / pageSize));
     handPage = Math.max(0, Math.min(handPage, totalPages - 1));
-    const stamp = `${run.cards.map(card => `${card.id}:${card.name}:${card.saleValue}`).join('|')}/${slots}/${handPage}/${pageSize}/${selected ?? ''}`;
+    const stamp = `${run.cards.map(card => `${card.id}:${card.name}:${card.saleValue}`).join('|')}/${slots}/${handPage}/${pageSize}/${selected ?? ''}/${charges?.revival ?? ''}:${charges?.flare ?? ''}/${canUseItems}`;
     count.textContent = `${run.cards.length} / ${run.cardCapacity} cards${totalPages > 1 ? ` · ${handPage + 1}/${totalPages}` : ''}`;
     cards.setAttribute('aria-label', `Your hand, ${run.cards.length} of ${run.cardCapacity} cards`);
     previous.hidden = next.hidden = totalPages <= 1;
@@ -123,12 +127,15 @@ export function createRunHand(options: RunHandOptions) {
       button.title = card.name; button.append(illustration, title); fragment.append(button);
     }
     cards.replaceChildren(fragment);
-    const charges = options.getItems?.();
+    items.hidden = !charges;
+    if (!charges) { items.replaceChildren(); restoreKey(focused); return; }
     const itemControls: HTMLElement[] = [];
     for (const [id, quantity] of [['revival', charges?.revival ?? 0], ['flare', charges?.flare ?? 0]] as const) {
       if (!quantity) continue;
       const control = document.createElement('button'); control.type = 'button'; control.className = 'run-hand-item'; control.dataset.handItem = id; control.dataset.handKey = `item:${id}`;
       control.textContent = `${id === 'revival' ? 'Revival' : 'Flare'} ×${quantity}`; control.setAttribute('aria-label', `Use ${id === 'revival' ? 'Revival' : 'Flare'} ×${quantity}`);
+      control.disabled = !canUseItems;
+      control.title = canUseItems ? '' : options.itemUnavailableReason?.() ?? 'This item is unavailable.';
       itemControls.push(control);
     }
     if (!itemControls.length) itemControls.push(Object.assign(document.createElement('span'), { className: 'run-hand-items-empty', textContent: 'Items: —' }));
@@ -179,10 +186,13 @@ export function createRunHand(options: RunHandOptions) {
     const owner = options.getOwnerLabel?.(); detailOwner.hidden = !owner; detailOwner.textContent = owner ?? '';
     detailOwner.setAttribute('aria-label', owner ? `View ${owner.replace(/^Viewing\s+/, '')}. Select the next Local Play owner.` : '');
     detail.dataset.rarity = card.rarity;
-    sell.textContent = options.canSell() ? `Sell ${card.saleValue} ◆` : 'Selling unavailable';
+    const unavailable = !options.canSell(), reason = options.unavailableReason?.() ?? 'This action is unavailable.';
+    if (unavailable && (!message || message === availabilityMessage)) { message = reason; availabilityMessage = reason; }
+    else if (!unavailable && message === availabilityMessage) { message = ''; availabilityMessage = ''; }
+    sell.textContent = unavailable ? 'Selling unavailable' : `Sell ${card.saleValue} ◆`;
     sell.setAttribute('aria-label', `Sell ${card.name} for ${card.saleValue} coins`);
-    sell.disabled = !options.canSell();
-    sell.title = options.canSell() ? '' : options.unavailableReason?.() ?? '';
+    sell.disabled = unavailable;
+    sell.title = unavailable ? reason : '';
     copy.hidden = Boolean(message); status.hidden = !message;
     paginate();
   }
@@ -219,7 +229,7 @@ export function createRunHand(options: RunHandOptions) {
     if (target === ownerLabel || target === detailOwner) options.selectNextOwner?.();
     else if (target.dataset.handCard) open(target.dataset.handCard);
     else if (target === closeButton) close();
-    else if (target.dataset.handItem === 'revival' || target.dataset.handItem === 'flare') options.onUseItem?.(target.dataset.handItem);
+    else if (!target.disabled && (target.dataset.handItem === 'revival' || target.dataset.handItem === 'flare')) options.onUseItem?.(target.dataset.handItem);
     else if (target === previous || target === next) {
       handPage += target === previous ? -1 : 1; paintHand();
       focus(target.disabled ? cards.querySelector<HTMLButtonElement>('button') : target);
@@ -238,7 +248,7 @@ export function createRunHand(options: RunHandOptions) {
   const onPointerDown = () => { pointerFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null; };
   function invalidateOwner(): void {
     const wasOpen = Boolean(selected);
-    selected = null; handPage = 0; detailPage = 0; fingerprint = ''; message = ''; pages = [''];
+    selected = null; handPage = 0; detailPage = 0; fingerprint = ''; message = ''; availabilityMessage = ''; pages = [''];
     returnFocus = null; pointerFocus = null;
     detail.hidden = true; detail.removeAttribute('role'); detail.removeAttribute('aria-modal'); root.classList.remove('is-inspecting');
     ownerNote.hidden = true; ownerNote.textContent = '';

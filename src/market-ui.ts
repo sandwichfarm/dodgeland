@@ -72,6 +72,10 @@ export function createMarketUI(options: MarketUIOptions) {
   // Only an empty Local Play inventory needs a UI-only presentation flag. An
   // ordinary market follows its own RunInventory.isOpen lifecycle exactly.
   let ownerKey = options.getOwnerKey?.() ?? 'solo', ownerGeneration = 0, ownerRoster = '', virtualPresentation = false;
+  // A ghost can still have an authoritative market window, but cannot submit
+  // its close action. Remember a local dismissal until an owner selection
+  // intentionally opens that read-only view again.
+  let dismissedRun: RunInventory | undefined;
   const peers = [...overlay.parentElement!.children].filter((node): node is HTMLElement => node instanceof HTMLElement && node !== overlay && node !== hand);
   const previousInert = new Map<HTMLElement, boolean>();
   const reducedMotion = (): boolean => !!options.getReducedMotion?.() || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -179,7 +183,7 @@ export function createMarketUI(options: MarketUIOptions) {
     }
   }
   function resetOwnerState(): void {
-    cancelClosing(); currentRun = undefined; travelerRendered = ''; lastMilestone = 0; draftId = '';
+    cancelClosing(); currentRun = undefined; dismissedRun = undefined; travelerRendered = ''; lastMilestone = 0; draftId = '';
     picked.clear(); discarded.clear(); replacing = false; view = 'shop'; inspection = undefined;
     page = 0; pageCount = 1; pageAnchor = undefined; visibleKeys = []; rendered = '';
     detailSource = ''; detailPages = []; detailPage = 0;
@@ -187,7 +191,7 @@ export function createMarketUI(options: MarketUIOptions) {
   }
   function invalidateOwner(): boolean {
     const oldRun = currentRun;
-    const marketWasOpen = virtualPresentation || Boolean(oldRun?.isOpen);
+    const marketWasOpen = isOpen();
     ownerGeneration += 1;
     // Call the existing close path while getRun still addresses the departing
     // owner; a selected HUD seat is changed only after this returns.
@@ -466,7 +470,9 @@ export function createMarketUI(options: MarketUIOptions) {
     // The shared hand can sell while this draft stays open. Only prune removed
     // discards: current choices, offer inspection and the page remain intact.
     for (const id of discarded) if (!run.cards.some(card => card.id === id)) discarded.delete(id);
-    const signature = `${run.revision}:${window?.milestone ?? 0}:${run.wallet}:${view}:${inspection}:${page}:${capacity}:${roomy}:${short}:${[...picked]}:${replacing}:${[...discarded]}`;
+    // Participation can change without mutating a RunInventory revision. It
+    // still changes whether the current owner may commit a visible action.
+    const signature = `${run.revision}:${window?.milestone ?? 0}:${run.wallet}:${mutationsAvailable()}:${unavailableReason()}:${view}:${inspection}:${page}:${capacity}:${roomy}:${short}:${[...picked]}:${replacing}:${[...discarded]}`;
     if (open && signature !== rendered) { rendered = signature; renderContents(run); }
     if (open) renderTraveler(run);
     if (open !== wasOpen) modal(open);
@@ -500,7 +506,7 @@ export function createMarketUI(options: MarketUIOptions) {
     if (result.ok && runIsVisible()) focusControl(acquiredKey ? `inspect:${acquiredKey}` : undefined);
   }
   /** Presentation stays modal through the close animation; actions do not. */
-  function isOpen(): boolean { const run = options.getRun(); return run.alive && (virtualPresentation || run.isOpen); }
+  function isOpen(): boolean { const run = options.getRun(); return run.alive && run !== dismissedRun && (virtualPresentation || run.isOpen); }
   function runIsVisible(): boolean { return isOpen() && !closingRun; }
   function close(resume = true): void {
     const run = options.getRun();
@@ -510,17 +516,25 @@ export function createMarketUI(options: MarketUIOptions) {
     }
     if (!runIsVisible()) return;
     if (run.pendingPack) { element('market-status').textContent = 'Keep your cards or skip this pack before hopping.'; focusControl(); return; }
-    if (!run.isOpen || reducedMotion()) { virtualPresentation = false; options.close(options.canRestoreFocus()); update(); options.changed(); return; }
+    if (!run.isOpen || reducedMotion()) {
+      virtualPresentation = false; options.close(options.canRestoreFocus());
+      if (!mutationsAvailable()) dismissedRun = run;
+      update(); options.changed(); return;
+    }
     closingRun = run; overlay.inert = true; overlay.classList.add('is-closing'); syncPreviews();
     const closeGeneration = ownerGeneration;
     closeTimer = setTimeout(() => {
       if (closeGeneration !== ownerGeneration) return;
       const owner = closingRun; cancelClosing();
-      if (!disposed && owner === options.getRun() && owner?.isOpen && owner.alive) options.close(options.canRestoreFocus());
+      if (!disposed && owner === options.getRun() && owner?.isOpen && owner.alive) {
+        options.close(options.canRestoreFocus());
+        if (!mutationsAvailable()) dismissedRun = owner;
+      }
       update(); options.changed();
     }, 160);
   }
   function openForSelected(): boolean {
+    dismissedRun = undefined;
     if (!options.canOpen() || !options.open()) return false;
     const run = options.getRun(), virtual = !run.isOpen;
     // Let the normal replacement reset run before latching a real empty-owner

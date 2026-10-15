@@ -31,9 +31,52 @@
 #run-inventory[data-owner-mutation-unavailable="true"] #run-hand-owner-note {
   grid-column: 1 / -1; margin: 0; color: #5b3029; font: 700 16px/1.2 var(--game-font);
 }
-#run-hand-items { display: flex; gap: 4px; align-items: center; min-width: 0; }
-#run-hand-items .run-hand-item { min-width: 44px; min-height: 44px; border: 2px solid var(--game-edge); border-radius: 5px; background: var(--game-gold); color: var(--game-ink); font: 400 14px/1.1 var(--game-font); }
-.run-hand-items-empty { font: 400 14px/1.1 var(--game-font); color: var(--game-paper); }
+/* Items belong to the shared shelf, in a separate row beneath cards. Keeping
+   their 44px controls out of the card row prevents a charged item from
+   covering a session HUD action at regular frame sizes. */
+#app[data-hand-visible="true"]:has(#run-hand-items:not([hidden])) { --hand-space: 184px; }
+#app #run-inventory:has(#run-hand-items:not([hidden])) {
+  height: 152px; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) 44px;
+  align-items: stretch; justify-items: center; gap: 4px;
+}
+#app #run-inventory:has(#run-hand-items:not([hidden])) #run-cards { grid-row: 1; grid-column: 1; height: 100%; }
+#app #run-inventory:has(#run-hand-items:not([hidden])) .run-hand-pager { position: absolute; bottom: 48px; z-index: 1; }
+#app #run-inventory:has(#run-hand-items:not([hidden])) #run-hand-prev { left: 0; }
+#app #run-inventory:has(#run-hand-items:not([hidden])) #run-hand-next { right: 0; }
+#run-hand-items { grid-row: 2; grid-column: 1; display: flex; justify-content: center; gap: 6px; align-items: center; min-width: 0; min-height: 44px; pointer-events: auto; }
+#run-hand-items .run-hand-item { min-width: 44px; min-height: 44px; border: 2px solid var(--game-edge); border-radius: 5px; background: var(--game-gold); color: var(--game-ink); font: 400 16px/1.1 var(--game-font); }
+.run-hand-items-empty { font: 400 16px/1.1 var(--game-font); color: var(--game-paper); }
+/* Recovery owns the item decision once it opens, so the shelf does not expose
+   a duplicate same-named action behind that dialog. */
+#app:has(#survive-recovery-board:not([hidden])) #run-hand-items { display: none; }
+#app[data-hand-visible="true"]:has(#run-hand-owner:not([hidden])):has(#run-hand-items:not([hidden])) { --hand-space: 228px; }
+#app #run-inventory:has(#run-hand-owner:not([hidden])):has(#run-hand-items:not([hidden])) { height: 196px; padding-top: 44px; }
+
+/* The short owner toolbar has two stacked rows. Keep the first offer plane
+   above its decorative scene when the shelf leaves only a compact workspace. */
+#market[data-market-short="true"]:has(#market-owner:not([hidden])) .market-workspace,
+#market[data-market-short="true"]:has(#market-owner:not([hidden])) .market-workspace .market-item { position: relative; z-index: 2; }
+
+/* The left session HUD uses the lower-left corner at regular widths. */
+#app:has(#session-seats:not([hidden])) .market-invitation { left: auto; right: 16px; bottom: 16px; }
+#app:has(#session-seats:not([hidden])) #session-seats { z-index: 2; }
+
+@media (max-height: 419px) {
+  #app[data-hand-visible="true"]:has(#run-hand-items:not([hidden])) { --hand-space: 112px; }
+  #app #run-inventory:has(#run-hand-items:not([hidden])) { height: 96px; grid-template-rows: minmax(0, 1fr) 44px; }
+  #app #run-inventory:has(#run-hand-items:not([hidden])) .run-hand-pager { bottom: 48px; }
+  #app[data-hand-visible="true"]:has(#run-hand-owner:not([hidden])):has(#run-hand-items:not([hidden])) { --hand-space: 156px; }
+  #app #run-inventory:has(#run-hand-owner:not([hidden])):has(#run-hand-items:not([hidden])) { height: 140px; }
+  /* The market already labels the current owner. Do not reserve a second
+     hidden owner strip on the shelf, or the short market loses its 44px offer
+     row and its controls spill underneath the hand. */
+  #app[data-hand-visible="true"]:has(#market:not([hidden])):has(#run-hand-items:not([hidden])) { --hand-space: 112px; }
+  #app:has(#market:not([hidden])) #run-inventory:has(#run-hand-items:not([hidden])) { height: 96px; padding-top: 0; }
+  /* The short market owns the visible interaction plane; its compact offer
+     controls must remain clickable above the shelf's reserved edge. */
+  #app:has(#market:not([hidden])) #run-inventory { z-index: 2; }
+  #app:has(#market:not([hidden])) #run-inventory.is-inspecting { z-index: 10; }
+}
 
 /* A shared owner strip replaces the ordinary short toolbar only while Local
    Play supplies an owner. Four marker buttons stay in one horizontal row. */

@@ -192,7 +192,13 @@ test('two shell controllers and two remapped keyboards enter four-seat Local Pla
     await send([pad(0, alpha, [0]), pad(1, beta)]); await page.waitForTimeout(30); await send([pad(0, alpha), pad(1, beta)]);
     assert.match(await frame.locator('#session-seats [data-seat="p2"]').innerText(), /Waiting to reclaim/, 'returning held input is seeded, never reclaimed');
     await send([pad(0, alpha, [0]), pad(1, beta)]); await page.waitForTimeout(30); await send([pad(0, alpha), pad(1, beta)]);
-    assert.doesNotMatch(await frame.locator('#session-seats [data-seat="p2"]').innerText(), /Waiting to reclaim/, 'only a fresh post-neutral edge reclaims P2');
+    await frame.getByRole('heading', { name: 'Reclaim P2', exact: true }).waitFor();
+    assert.match(await frame.locator('#session-seats [data-seat="p2"]').innerText(), /Waiting to reclaim/, 'a fresh owner edge opens an explicit reclaim decision without consuming the ghost seat');
+    await send([pad(0, alpha), pad(1, beta, [0])]); await page.waitForTimeout(30); await send([pad(0, alpha), pad(1, beta)]);
+    assert.equal(await frame.getByRole('heading', { name: 'Reclaim P2', exact: true }).isVisible(), true, 'P1 cannot confirm P2’s reclaim dialog');
+    await send([pad(0, alpha, [0]), pad(1, beta)]); await page.waitForTimeout(30); await send([pad(0, alpha), pad(1, beta)]);
+    await frame.getByRole('heading', { name: 'Reclaim P2', exact: true }).waitFor({ state: 'hidden' });
+    assert.doesNotMatch(await frame.locator('#session-seats [data-seat="p2"]').innerText(), /Waiting to reclaim/, 'only P2’s fresh confirmation reclaims the retained seat');
     const before = await page.evaluate(() => window.messages.filter(message => message.type === 'gamepad.unsubscribe').length);
     await frame.evaluate(() => dispatchEvent(new Event('pagehide')));
     await page.waitForFunction(count => window.messages.filter(message => message.type === 'gamepad.unsubscribe').length === count + 1, before);
