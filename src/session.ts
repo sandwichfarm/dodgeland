@@ -5,6 +5,7 @@ import type { ModeDefinition, ModeRules } from './mode-rules.js';
 import { RunInventory } from './market/run.js';
 import { characterPower } from './character-powers.js';
 import type { CharacterPower } from './character-powers.js';
+import type { RecoveryKind } from './recovery.js';
 
 /** A stable local identity. Seat order is never simulation authority. */
 export type SeatId = 'p1' | 'p2' | 'p3' | 'p4';
@@ -36,13 +37,18 @@ export type SessionLifecycleHandler = (record: SessionLifecycleRecord) => void;
 
 /** Mode policies receive lifecycle facts through this generic session boundary. */
 export interface SessionModeHandlers {
+  attach?(session: LocalSession): void;
   join?(record: SessionLifecycleRecord): void;
   deviceLost?(record: SessionLifecycleRecord): void;
   reclaim?(record: SessionLifecycleRecord): void;
   depart?(record: SessionLifecycleRecord): { readonly releaseSeat?: boolean } | void;
   death?(record: SessionLifecycleRecord): void;
-  progress?(record: SessionLifecycleRecord): void;
-  result?(record: SessionLifecycleRecord): void;
+  progress?(player: SessionPlayer, session: LocalSession): void;
+  result?(session: LocalSession): void;
+  tick?(session: LocalSession): void;
+  /** Whether an otherwise all-dead session may advance one more active-time tick. */
+  pending?(session: LocalSession): boolean;
+  recover?(session: LocalSession, request: SessionRecoveryRequest): boolean;
 }
 export interface SessionModeDefinition {
   readonly definition: ModeDefinition;
@@ -67,6 +73,19 @@ export interface SessionRecoveryProvenance {
   readonly charge: 'available' | 'spent';
   readonly personalHighWater: number;
   readonly nextRecharge: number;
+  /** Spatial high-water rejects repeated rows after an alias returns or a regroup relocates it. */
+  readonly spatialFrontierY: number;
+  readonly deathGeneration: number;
+  readonly offer?: Readonly<{ generation: number; deadline: number }>;
+  readonly protectionUntil: number;
+  readonly lastSafe?: Readonly<{ x: number; y: number }>;
+}
+export interface SessionRecoveryRequest {
+  readonly kind: RecoveryKind;
+  readonly ownerSeat: SeatId;
+  readonly targetSeat?: SeatId;
+  /** Later consumable plans supply an owned debit capability. */
+  readonly debit?: () => boolean;
 }
 export interface SessionContribution {
   readonly seat: SeatId;
@@ -76,6 +95,7 @@ export interface SessionContribution {
   readonly recovery: SessionRecoveryProvenance;
   readonly reason: string;
 }
+export interface SessionResult { readonly mode: string; readonly outcome: string; }
 const isDeviceId = (device: unknown): device is DeviceId => typeof device === 'string' &&
   (['keyboard-a', 'keyboard-b', 'keyboard-c', 'keyboard-d'].includes(device) || /^gamepad-(?:0|[1-9]\d*)$/.test(device));
 
@@ -137,6 +157,8 @@ export class SharedWorld {
   simulationTick = 0;
   /** Furthest live course row. This is terrain retention, never a player's score. */
   frontier: number;
+  /** Lowest active seat row retained with the shared course. */
+  activeFloor: number;
   sessionActive = false;
   /** One seat owns each in-flight pickup pull until it resolves or leaves. */
   readonly pickupOwners = new Map<number, string>();
@@ -163,7 +185,7 @@ export class SharedWorld {
     this.host = game;
     this.definition = game.definition;
     this.rules = game.rules;
-    this.frontier = game.maxY;
+    this.frontier = game.maxY; this.activeFloor = game.maxY;
     alias(this, game, ['rows', 'attractedCoins', 'time', 'waveRow', 'seed', 'home', 'mode', 'gentle', 'runSeed', 'seedCode', 'mobDirector', 'laneSpeeds']);
   }
 
@@ -234,6 +256,8 @@ export class SessionPlayer {
   readonly world: SharedWorld;
   readonly primary: boolean;
   participantId = '';
+  /** Assigned by LocalSession; movement stays production-owned even in direct player tests. */
+  session: LocalSession | undefined;
   recovery: SessionRecoveryProvenance | undefined;
   onCoin: SessionPlayerCallbacks['onCoin'] = () => {};
   onHurt: SessionPlayerCallbacks['onHurt'] = () => {};
@@ -265,9 +289,13 @@ export class SessionPlayer {
   declare healedMilestone: number;
   declare touchingCars: Set<string>;
   earnedDistance = 0;
+  /** Only completed forward hops feed personal revival credit. */
+  completedForwardTiles = 0;
+  /** Spatial high-water is reset by forced return placement; only landed new rows count. */
+  personalFrontierY = -Infinity;
   participation: SessionParticipation = 'active';
   deviceLostAt: number | null = null;
-  readonly statistics = { distance: 0, coins: 0, pickups: 0, damage: 0, deaths: 0, deviceLostDuration: 0, deathCause: null as DeathCause | null };
+  readonly statistics = { distance: 0, coins: 0, pickups: 0, damage: 0, deaths: 0, selfRevives: 0, teammateRevives: 0, itemsFound: 0, itemsUsed: 0, deviceLostDuration: 0, deathCause: null as DeathCause | null };
 
   constructor(world: SharedWorld, seat: SeatId, device: DeviceId, characterId: string, primary = false) {
     this.world = world; this.seat = seat; this.device = device; this.marker = seat.toUpperCase();
@@ -312,7 +340,10 @@ export class SessionPlayer {
   }
 
   move(direction: Direction): boolean {
-    return this.world.host.movePlayer(this, direction);
+    const beforeY = this.y;
+    const moved = this.world.host.movePlayer(this, direction);
+    if (moved && direction === 'forward' && this.y > beforeY) this.session?.noteForwardHop(this, this.y);
+    return moved;
   }
 
   update(dt: number, previousTime: number, drivesWorld: boolean): void {
@@ -331,6 +362,8 @@ export class LocalSession {
   private readonly lifecycleRecords: SessionLifecycleRecord[] = [];
   private readonly provenanceAliases = new Map<string, SessionRecoveryProvenance>();
   private readonly contributionRecords: SessionContribution[] = [];
+  private readonly pendingForwardHops = new Map<SessionPlayer, number>();
+  private resultRecord: SessionResult | undefined;
   private nextGrant = 1;
   private active = false;
 
@@ -344,6 +377,7 @@ export class LocalSession {
 
   get players(): readonly SessionPlayer[] { return this.roster; }
   get contributions(): readonly SessionContribution[] { return this.contributionRecords; }
+  get result(): SessionResult | undefined { return this.resultRecord; }
 
   static stage(game: Game, options: { secondaryCharacterId?: string; roster?: readonly SessionSeatSpec[]; config?: SessionConfig; onLifecycle?: SessionLifecycleHandler; mode?: SessionModeDefinition; primaryDevice?: DeviceId } = {}): LocalSessionStage {
     const world = (game as Game & { world?: SharedWorld }).world ?? new SharedWorld(game);
@@ -371,11 +405,16 @@ export class LocalSession {
   start(): void {
     for (const player of this.players) {
       if (!player.recovery) this.bindRecovery(player, { device: player.device, characterId: player.characterId, participantId: `${this.id}:${player.seat}` });
+      player.session = this; player.personalFrontierY = Math.max(player.personalFrontierY, player.groundY);
       player.start();
     }
-    this.world.sessionActive = true; this.world.host.resetSharedWorldEffects(); this.active = true;
+    this.world.sessionActive = true; this.world.host.resetSharedWorldEffects(); this.active = true; this.mode?.handlers.attach?.(this);
   }
-  dispatch(action: SeatAction): boolean { const player = this.players.find(candidate => candidate.seat === action.seat); return !!player && this.active && player.participation === 'active' && player.move(action.direction); }
+  dispatch(action: SeatAction): boolean {
+    const player = this.players.find(candidate => candidate.seat === action.seat);
+    const moved = !!player && this.active && player.participation === 'active' && player.move(action.direction);
+    return moved;
+  }
   private lifecycleRecord(type: SessionLifecycleType, player: SessionPlayer, previous: SessionParticipation, next: SessionParticipation, cause: string, offeredDevice?: DeviceId): SessionLifecycleRecord {
     return Object.freeze({ sessionId: this.id, playerId: `${this.id}:${player.seat}`, type, seat: player.seat, device: player.device, offeredDevice, previous, next, simulationTick: this.world.simulationTick, cause });
   }
@@ -409,22 +448,78 @@ export class LocalSession {
     });
     return x === undefined ? undefined : Object.freeze({ x, y: anchor.y });
   }
+  /** Current-world safe cells for the one recovery planner.  Stable offsets make plans deterministic. */
+  recoverySafeCells(kind: RecoveryKind, owner: SessionPlayer, targets: readonly SessionPlayer[]): readonly Readonly<{ x: number; y: number }>[] {
+    const returning = new Set(kind === 'flare' ? [owner, ...targets] : targets);
+    if (kind === 'personal') returning.add(owner);
+    const living = this.players.filter(player => player.participation === 'active' && player.state === 'playing');
+    const livingAnchor = [...living].sort((a, b) => b.groundY - a.groundY || a.seat.localeCompare(b.seat))[0];
+    const allDeadPersonal = kind === 'personal' && !livingAnchor;
+    const anchor = allDeadPersonal && owner.recovery?.lastSafe ? owner.recovery.lastSafe
+      : kind === 'flare' ? { x: owner.groundX, y: owner.groundY }
+        : livingAnchor ? { x: livingAnchor.groundX, y: livingAnchor.groundY } : undefined;
+    if (!anchor) return Object.freeze([]);
+    const frontier = livingAnchor?.groundY ?? anchor.y;
+    const occupied = new Set(this.players.filter(player => !returning.has(player) && player.participation === 'active' && player.state === 'playing').map(player => `${Math.round(player.groundX)}:${Math.round(player.groundY)}`));
+    const cells: { x: number; y: number }[] = [];
+    const offsets = [0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5];
+    for (const row of [Math.round(anchor.y), Math.round(anchor.y) - 1, Math.round(anchor.y) - 2]) {
+      if (!allDeadPersonal && row > frontier + 1e-9) continue;
+      const lane = this.world.rows.get(row);
+      if (!lane || (this.world.rules.pursuit.strategy === 'wave' && row <= this.world.waveRow + .2)) continue;
+      for (const offset of offsets) {
+        const x = Math.round(anchor.x + offset);
+        const key = `${x}:${row}`;
+        if (x < -5 || x > 5 || occupied.has(key) || cells.some(cell => cell.x === x && cell.y === row) || lane.blocked.includes(x)) continue;
+        if (lane.kind === 'river' && !platformSupports(lane, x, this.world.time)) continue;
+        if ((lane.kind === 'road' || lane.kind === 'rail') && !laneActors(lane, this.world.time).every(actor => Math.abs(actor.x - x) > actor.length / 2 + .2)) continue;
+        if (this.world.mobs.some(mob => mob.phase !== 'spawning' && Math.hypot(mob.x - x, mob.y - row) < .7)) continue;
+        cells.push(Object.freeze({ x, y: row }));
+      }
+    }
+    if (kind === 'flare') {
+      const row = Math.round(owner.groundY), lane = this.world.rows.get(row);
+      const exact = { x: owner.groundX, y: row };
+      const anchorSafe = !!lane && exact.x >= -5 && exact.x <= 5 && !lane.blocked.includes(Math.round(exact.x))
+        && (lane.kind !== 'river' || platformSupports(lane, exact.x, this.world.time))
+        && ((lane.kind !== 'road' && lane.kind !== 'rail') || laneActors(lane, this.world.time).every(actor => Math.abs(actor.x - exact.x) > actor.length / 2 + .2))
+        && !this.world.mobs.some(mob => mob.phase !== 'spawning' && Math.hypot(mob.x - exact.x, mob.y - row) < .7);
+      if (!anchorSafe) return Object.freeze([]);
+      const remaining = cells.filter(cell => !(cell.y === row && Math.round(cell.x) === Math.round(exact.x)));
+      const ordered = [...targets].sort((left, right) => left.seat.localeCompare(right.seat));
+      if (remaining.length < ordered.length - 1) return Object.freeze([]);
+      let index = 0;
+      return Object.freeze(ordered.map(player => player === owner ? Object.freeze(exact) : remaining[index++]!));
+    }
+    return Object.freeze(cells);
+  }
+  /** A retained personal anchor must be a settled, currently hazard-free cell. */
+  isRecoverySafePosition(player: SessionPlayer): boolean {
+    if (player.hop > 0 || player.powerRescue || Math.round(player.y) !== player.y) return false;
+    const lane = this.world.rows.get(player.y);
+    if (!lane || lane.blocked.includes(Math.round(player.x))) return false;
+    if (this.world.rules.pursuit.strategy === 'wave' && player.y <= this.world.waveRow + .2) return false;
+    if (lane.kind === 'river' && !platformSupports(lane, player.x, this.world.time)) return false;
+    if ((lane.kind === 'road' || lane.kind === 'rail') && !laneActors(lane, this.world.time).every(actor => Math.abs(actor.x - player.x) > actor.length / 2 + .2)) return false;
+    return !this.world.mobs.some(mob => mob.phase !== 'spawning' && Math.hypot(mob.x - player.x, mob.y - player.y) < .7);
+  }
   private recoveryFor(admission: SessionAdmission): SessionRecoveryProvenance {
     const exact = admission.participantId ? this.provenanceAliases.get(`participant:${admission.participantId}`) : undefined;
     const alias = !admission.participantId ? this.provenanceAliases.get(`device:${admission.device}`) ?? this.provenanceAliases.get(`character:${admission.characterId}`) : undefined;
     return exact ?? alias ?? Object.freeze({
       grantId: `${this.id}:grant-${this.nextGrant++}`,
       participantId: admission.participantId ?? `${this.id}:anonymous-${this.nextGrant}`,
-      aliases: Object.freeze([]), charge: 'available', personalHighWater: 0, nextRecharge: 250,
+      aliases: Object.freeze([]), charge: 'available', personalHighWater: 0, nextRecharge: 250, spatialFrontierY: -Infinity, deathGeneration: 0, protectionUntil: 0,
     });
   }
   private bindRecovery(player: SessionPlayer, admission: SessionAdmission): void {
     const recovery = this.recoveryFor(admission);
     const aliases = new Set([...recovery.aliases, `device:${admission.device}`, `character:${admission.characterId}`]);
     if (admission.participantId) aliases.add(`participant:${admission.participantId}`);
-    const bound = Object.freeze({ ...recovery, aliases: Object.freeze([...aliases].sort()) });
+    const bound = Object.freeze({ ...recovery, aliases: Object.freeze([...aliases].sort()), spatialFrontierY: Math.max(recovery.spatialFrontierY, player.groundY, player.maxY), lastSafe: recovery.lastSafe ?? Object.freeze({ x: player.groundX, y: player.groundY }) });
     for (const alias of bound.aliases) this.provenanceAliases.set(alias, bound);
     player.participantId = admission.participantId ?? bound.participantId; player.recovery = bound;
+    player.completedForwardTiles = bound.personalHighWater; player.personalFrontierY = bound.spatialFrontierY;
   }
   private addRecoveryDeviceAlias(player: SessionPlayer, device: DeviceId): void {
     if (!player.recovery) return;
@@ -432,6 +527,53 @@ export class LocalSession {
     const bound = Object.freeze({ ...player.recovery, aliases: Object.freeze([...aliases].sort()) });
     for (const alias of bound.aliases) this.provenanceAliases.set(alias, bound);
     player.recovery = bound;
+  }
+  /** Replace the immutable provenance record everywhere its aliases are known. */
+  updateRecovery(player: SessionPlayer, update: (recovery: SessionRecoveryProvenance) => SessionRecoveryProvenance): SessionRecoveryProvenance | undefined {
+    if (!player.recovery) return undefined;
+    const next = Object.freeze(update(player.recovery));
+    for (const alias of next.aliases) this.provenanceAliases.set(alias, next);
+    for (const candidate of this.roster) if (candidate.recovery?.grantId === next.grantId) candidate.recovery = next;
+    return next;
+  }
+  /** Finished movement only: a started hop that dies cannot mint revival credit. */
+  private settleForwardHop(player: SessionPlayer): void {
+    const target = this.pendingForwardHops.get(player);
+    if (target === undefined || player.state !== 'playing' || player.participation !== 'active' || player.hop > 0 || Math.round(player.groundY) !== target) return;
+    this.pendingForwardHops.delete(player);
+    if (target <= player.personalFrontierY) return;
+    player.personalFrontierY = target; player.completedForwardTiles++;
+    this.recordPersonalProgress(player, player.completedForwardTiles);
+    this.updateRecovery(player, recovery => ({ ...recovery, spatialFrontierY: Math.max(recovery.spatialFrontierY, target) }));
+    this.mode?.handlers.progress?.(player, this);
+  }
+  /** Records an initiated hop only; `settleForwardHop` waits for its landing. */
+  noteForwardHop(player: SessionPlayer, targetY: number): void {
+    if (this.active && player.participation === 'active') this.pendingForwardHops.set(player, Math.round(targetY));
+  }
+  cancelForwardHop(player: SessionPlayer): void { this.pendingForwardHops.delete(player); }
+  /** Public for deterministic production-state tests; progress cannot go backwards. */
+  recordPersonalProgress(player: SessionPlayer, absoluteProgress: number): void {
+    if (!player.recovery || !Number.isInteger(absoluteProgress) || absoluteProgress <= player.recovery.personalHighWater) return;
+    const recovery = player.recovery;
+    const charged = recovery.charge === 'spent' && absoluteProgress >= recovery.nextRecharge ? 'available' : recovery.charge;
+    const nextRecharge = charged === 'available' && recovery.charge === 'spent' ? recovery.nextRecharge + 250 : recovery.nextRecharge;
+    this.updateRecovery(player, current => ({ ...current, personalHighWater: absoluteProgress, charge: charged, nextRecharge }));
+  }
+  recover(request: SessionRecoveryRequest): boolean { return !this.resultRecord && !!this.mode?.handlers.recover?.(this, request); }
+  /** A player can explicitly close only their current personal-revival offer. */
+  declineRecovery(seat: SeatId): boolean {
+    const player = this.players.find(candidate => candidate.seat === seat);
+    const recovery = player?.recovery;
+    const offer = recovery?.offer;
+    if (!player || !recovery || player.participation !== 'dead' || player.state !== 'dead' || !offer || offer.generation !== recovery.deathGeneration || offer.deadline <= this.world.time) return false;
+    this.updateRecovery(player, recovery => ({ ...recovery, offer: undefined }));
+    this.mode?.handlers.tick?.(this);
+    return true;
+  }
+  completeResult(result: SessionResult): boolean {
+    if (this.resultRecord) return false;
+    this.resultRecord = result; this.mode?.handlers.result?.(this); return true;
   }
   prepareAdmission(admission: SessionAdmission): SessionAdmissionPlan | undefined {
     if (!isDeviceId(admission.device) || !CHARACTERS.some(character => character.id === admission.characterId)) return undefined;
@@ -447,12 +589,12 @@ export class LocalSession {
     player.x = player.fromX = placement.x; player.y = player.fromY = placement.y; player.maxY = placement.y;
     if (start && !player.start()) return false;
     this.bindRecovery(player, admission);
-    this.roster.push(player); this.roster.sort((a, b) => a.seat.localeCompare(b.seat));
+    if (this.active) player.session = this; this.roster.push(player); this.roster.sort((a, b) => a.seat.localeCompare(b.seat));
     if (emit) this.emit('player-joined', player, 'departed', 'active', 'live-admission');
     return true;
   }
   admit(admission: SessionAdmission): boolean {
-    const plan = this.active ? this.prepareAdmission(admission) : undefined;
+    const plan = this.active && !this.resultRecord ? this.prepareAdmission(admission) : undefined;
     return !!plan && this.admitPlan(plan);
   }
   deviceLost(seat: SeatId, cause = 'device-lost'): boolean {
@@ -500,15 +642,29 @@ export class LocalSession {
   }
   update(dt: number): void {
     if (!this.active) return;
+    if (this.world.host.state === 'paused') return;
+    // Tests and shell integrations may deliver a completed production death
+    // between fixed session ticks.  Observe it once before all-dead liveness.
+    for (const player of this.players) if (player.participation === 'active' && player.state === 'dead') {
+      player.participation = 'dead'; player.statistics.deaths++; player.statistics.deathCause = player.deathCause;
+      this.pendingForwardHops.delete(player); this.emit('player-death', player, 'active', 'dead', player.deathCause ?? 'unknown');
+    }
     // There is exactly one course advance per fixed tick. Seat iteration is
     // deterministic only for personal timers, never as world authority.
     const activePlayers = this.players.filter(player => player.state === 'playing' && player.participation === 'active');
-    if (!activePlayers.length) return;
+    if (!activePlayers.length) {
+      if (!this.mode?.handlers.pending?.(this)) { this.mode?.handlers.tick?.(this); return; }
+      this.world.update(dt);
+      this.mode?.handlers.tick?.(this);
+      return;
+    }
     this.world.releaseInactivePickupClaims(this.players);
     const frame = this.world.beginFrame(activePlayers);
-    const previousTime = this.world.update(dt);
-    const groundBefore = frame.playerGround;
     const priorStates = new Map(activePlayers.map(player => [player, player.state]));
+    const previousTime = this.world.update(dt);
+    this.world.activeFloor = Math.min(...activePlayers.flatMap(player => [Math.floor(player.groundY), Math.floor(player.fromY), Math.floor(player.y)]));
+    this.world.host.ensureRows();
+    const groundBefore = frame.playerGround;
     for (const player of this.players) {
       if (!activePlayers.includes(player)) continue;
       this.world.resolvePlayer(player, () => player.update(dt, previousTime, false));
@@ -519,7 +675,9 @@ export class LocalSession {
       const transition = this.collectCompletedState(player, priorStates.get(player)!);
       return transition ? [transition] : [];
     });
-    for (const transition of terminal) this.emit('player-death', transition.player, transition.previous, 'dead', transition.cause);
+    for (const transition of terminal) { this.pendingForwardHops.delete(transition.player); this.emit('player-death', transition.player, transition.previous, 'dead', transition.cause); }
+    for (const player of activePlayers) this.settleForwardHop(player);
+    this.mode?.handlers.tick?.(this);
   }
   /** Rendering owns this clock so each terminal spill ages once per frame. */
   advanceDeathVisuals(dt: number): void { for (const player of this.players) this.world.host.advancePlayerDeathVisuals(player, dt); }

@@ -238,7 +238,11 @@ export class Game {
   /** Run released Game formulas through the seat's fixed receiver. */
   private inPlayerOperation<T>(player: SessionPlayer, operation: (context: Game) => T): T {
     const context = this.operationFor(player);
-    return operation(context);
+    if (!player.primary) return operation(context);
+    const previous = this.operationPlayer;
+    this.operationPlayer = player;
+    try { return operation(context); }
+    finally { this.operationPlayer = previous; }
   }
   /** Session-only adapter over the released start transition. */
   startPlayer(player: SessionPlayer): boolean { return this.inPlayerOperation(player, context => context.start()); }
@@ -306,6 +310,8 @@ export class Game {
   get powerReady(): boolean { return this.powerRemaining === 0 && !this.powerRescue; }
   get powerFlash(): number { return Math.min(1, this.powerNotice / .9); }
   get powerAvoidsMobs(): boolean { return !!this.powerRescue || this.powerLandingGrace > 0; }
+  /** Session recovery protection exists only while resolving a live seat; solo stays exact. */
+  private sessionProtected(): boolean { return !!this.operationPlayer && (this.operationPlayer.recovery?.protectionUntil ?? 0) > this.time; }
   /** A wardrobe swap changes the ability but never refills its shared charge. */
   setCharacter(id: string): void { this.characterId = characterById(id).id; }
   get waveGap(): number { return this.groundY - this.waveRow; }
@@ -313,7 +319,8 @@ export class Game {
   get warning(): boolean { return this.rules.pursuit.strategy === 'wave' && this.waveSeconds <= this.rules.pursuit.warningSeconds; }
   ensureRows(): void {
     const frontier = this.world?.sessionActive ? this.world.frontier : this.maxY;
-    for (let i = frontier - this.rules.retention.rowsBehind; i <= frontier + this.rules.retention.rowsAhead; i++) if (!this.rows.has(i)) {
+    const floor = this.world?.sessionActive ? Math.min(frontier, this.world.activeFloor) : frontier;
+    for (let i = floor - this.rules.retention.rowsBehind; i <= frontier + this.rules.retention.rowsAhead; i++) if (!this.rows.has(i)) {
       const lane = this.runSeed ? generateSeedLane(this.runSeed, i) : generateLane(this.seed, i, this.home, this.gentle), effects = this.world?.sessionActive ? defaultModifiers() : this.run.effects;
       const rng = random((this.runSeed?.seed ?? this.seed) ^ Math.imul(i + 100, 0x19ab61f));
       if (lane.kind === 'road') lane.spacing = lane.length + (lane.spacing - lane.length) * effects.trafficSpacing;
@@ -339,7 +346,7 @@ export class Game {
       }
       this.rows.set(i, lane);
     }
-    for (const i of this.rows.keys()) if (i < frontier - this.rules.retention.rowsBehind) this.rows.delete(i);
+    for (const i of this.rows.keys()) if (i < floor - this.rules.retention.rowsBehind) this.rows.delete(i);
     if (this.world?.sessionActive) this.resetSharedWorldEffects(); else this.syncEffects();
     for (const lane of this.rows.values()) if (lane.coinActor === null && lane.index <= frontier + this.rules.retention.pickupBindingAhead) {
       // Rows are generated 28 ahead. Bind near the visible approach so a log
@@ -392,14 +399,14 @@ export class Game {
     this.fromX = this.x; this.fromY = this.y; this.x = nx; this.y = ny; this.hop = this.rules.movement.hopDuration;
     if (ny > this.maxY) {
       this.maxY = ny; this.idle = 0;
-      if (this.operationPlayer && !this.operationPlayer.primary) this.operationPlayer.earnedDistance++;
+      if (this.operationPlayer) this.operationPlayer.earnedDistance++;
       this.world?.noteProgress(ny);
       this.awardCoins(this.run.advanceScore(this.currentScore)); this.ensureRows(); this.regenerate(); this.lifecycle('progress');
     }
     return true;
   }
   end(reason: string, cause: DeathCause = 'traffic', face?: 'front' | 'rear' | 'side'): void {
-    if (this.state !== 'playing' || this.run.effects.shield > 0 || this.powerRescue) return;
+    if (this.state !== 'playing' || this.sessionProtected() || this.run.effects.shield > 0 || this.powerRescue) return;
     if (cause === 'mob' && this.powerAvoidsMobs) return;
     if (this.tryCharacterPower(cause, face)) return;
     const cosmetics = this.run.cosmetics.flatMap(id => {
@@ -470,6 +477,7 @@ export class Game {
     this.hop = target ? this.rules.movement.hopDuration : 0;
   }
   private collideVehicles(previousX: number, previousY: number, previousTime: number): void {
+    if (this.sessionProtected()) return;
     const x = this.groundX, y = this.groundY;
     const contacts: { lane: Lane; center: number; bounds: VehicleBounds; hit: VehicleContact; key: string }[] = [];
     const touching = new Set<string>();
@@ -549,6 +557,7 @@ export class Game {
     this.powerNotice = Math.max(0, this.powerNotice - dt);
     this.powerLandingGrace = Math.max(0, this.powerLandingGrace - dt);
     this.hop = Math.max(0, this.hop - dt);
+    if (this.operationPlayer && this.hop < 1e-9) this.hop = 0;
     if (this.powerRescue) {
       // World motion continues during the escape, but no old swept contact or
       // collectible can intersect this protected airborne path.
@@ -567,7 +576,7 @@ export class Game {
         this.waveRow = Math.max(this.waveRow + chaseTime * this.rules.pursuit.speed * this.run.effects.waveSpeed, this.maxY - this.rules.pursuit.waveTrail - this.run.effects.waveTrail);
       }
       // Use the same ground position as the drawing, including while airborne.
-      if (this.waveGap <= 0 && this.run.effects.shield <= 0) { this.caughtByWave = true; this.end('The wave caught you. Hop forward to stay ahead.', 'wave'); return; }
+      if (!this.sessionProtected() && this.waveGap <= 0 && this.run.effects.shield <= 0) { this.caughtByWave = true; this.end('The wave caught you. Hop forward to stay ahead.', 'wave'); return; }
     } else if (this.y < this.maxY - this.rules.pursuit.trailingLimit) { this.end('The trail moved on. Keep hopping forward!', 'trail'); return; }
     this.collideVehicles(previousX, previousY, previousTime);
     if (this.state !== 'playing' || this.powerRescue) return;

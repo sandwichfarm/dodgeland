@@ -284,6 +284,11 @@ export class RunInventory {
     this.wallet = 0; this.fraction = 0; this.cards = []; this.powers = []; this.cosmetics = []; this.equipped = {};
     this.changed();
   }
+  /** Recovery resumes the empty run economy without restoring any lost death assets. */
+  resumeAfterDeath(): void {
+    if (this.alive) return;
+    this.alive = true; this.isOpen = false; this.market = null; this.pendingPack = null; this.revision++;
+  }
 
   private changed(): void { this.effects = reduceItems(this.catalog, this.cards.flatMap(card => card.components), this.powers, this.policy.baseCoinGravity); this.revision++; }
   private capacityFor(cards: readonly Pick<HeldCard, 'components'>[]): number {
