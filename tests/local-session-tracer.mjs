@@ -254,6 +254,12 @@ test('the built opaque iframe transfers solo shell shortcuts to native local inp
     await frame.waitForFunction(() => document.querySelector('#app')?.dataset.runState === 'playing');
     await page.locator('iframe').evaluate(node => { node.style.width = '200px'; node.style.height = '160px'; });
     await frame.waitForFunction(() => innerWidth < 240 || innerHeight < 240);
+    // Resize changes the viewport before the next HUD render. Capture only
+    // after that render commits the compact identity and safety suspension;
+    // otherwise normal responsive copy changes look like gameplay advancing.
+    await frame.waitForFunction(() => document.querySelector('#app')?.dataset.runState === 'paused'
+      && [...document.querySelectorAll('#session-seats .session-hud-identity')]
+        .every(node => /^P[1-4] [▲●◆■]$/.test(node.textContent ?? '')));
     const undersized = await seatRows(frame);
     await page.keyboard.press('ArrowUp');
     await page.waitForTimeout(80);
