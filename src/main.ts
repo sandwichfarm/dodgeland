@@ -683,6 +683,7 @@ sessionBoard = createLocalSessionBoard({
   onCharacter: (seat, characterId) => chooseSetupCharacter(seat, characterId),
   onStart: () => startLocalPlay(),
   onBack: () => backToSolo(),
+  onRendered: () => relaySetup.render(!stagingSurviveTogether && !stagedLiveJoin && game.state === 'ready'),
 });
 const relaySetup = createRelaySetup({ root: el('local-session-setup'), seats: () => setupDraft, active: () => stagingRelay,
   choose: () => { stagingRelay = true; renderSetup(); router.seedAll(); },

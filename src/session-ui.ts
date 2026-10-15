@@ -165,6 +165,7 @@ export interface LocalSessionBoardOptions {
   readonly onCharacter: (seat: SeatId, characterId: string) => void;
   readonly onStart: () => void;
   readonly onBack: () => void;
+  readonly onRendered?: () => void;
 }
 
 export interface LocalSessionBoard {
@@ -289,6 +290,7 @@ export function createLocalSessionBoard(options: LocalSessionBoardOptions): Loca
     addKeyboard.disabled = !keyboard || seats.length >= options.capacity;
     addKeyboard.hidden = !keyboard;
     status.textContent = message || (options.controllerAvailable() ? 'Press a controller button to join an open seat.' : 'Controllers aren’t available in this shell. Keyboard players can still join.');
+    options.onRendered?.();
     if (active) queueMicrotask(() => {
       const restore = (focusId ? board.querySelector<HTMLElement>(`#${CSS.escape(focusId)}`) : undefined)
         ?? (focusSeat ? board.querySelector<HTMLElement>(`[data-seat="${focusSeat}"]`) : undefined)

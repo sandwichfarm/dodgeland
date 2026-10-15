@@ -1,5 +1,5 @@
 body:has(#local-session-setup:not([hidden]) #session-board), body:has(#session-seats:not([hidden])) { font-size: 16px; }
-#session-board:has(#relay-configuration) { grid-template-areas: 'heading heading' 'subtitle subtitle' 'strip strip' 'roster detail' 'relay relay' 'status status' 'actions actions'; }
+#session-board:has(#relay-configuration[data-active="false"]) { grid-template-areas: 'heading heading' 'subtitle subtitle' 'strip strip' 'roster detail' 'relay relay' 'status status' 'actions actions'; }
 #relay-configuration { grid-area: relay; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 #relay-configuration input, #relay-configuration button { min-height: 44px; min-width: 44px; }
 #relay-tiles { width: 76px; color: var(--game-ink); background: var(--game-paper); }
@@ -185,4 +185,37 @@ body:has(#local-session-setup:not([hidden]) #session-board), body:has(#session-s
   #app:has(#local-session-setup:not([hidden]) #session-keyboard-editor:not([hidden])) #run-panel::before,
   #app:has(#local-session-setup:not([hidden]) #session-keyboard-editor:not([hidden])) #run-panel::after { display: none; }
   #app:has(#local-session-setup:not([hidden]) #session-keyboard-editor:not([hidden])) #ready-content { display: none; }
+}
+/* Relay configuration pages share the roster editor and retain its draft. */
+#relay-configuration [hidden] { display: none !important; }
+.relay-setup-nav { display: flex; gap: 4px; width: 100%; }
+.relay-setup-nav button { flex: 1; padding: 4px; }
+.relay-order { width: 100%; }
+.relay-order > div { display: grid; width: 100%; grid-template-columns: 1fr 1fr; }
+.relay-order-pager { grid-column: 1 / -1; display: grid; grid-template-columns: 44px minmax(0, 1fr) 44px; gap: 4px; align-items: center; }
+.relay-order-pager span { text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#session-board[data-relay-page="length"], #session-board[data-relay-page="order"] { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'heading' 'relay' 'actions'; }
+#session-board:is([data-relay-page="length"], [data-relay-page="order"]) > :is(.session-subtitle, .session-roster-strip, .session-setup-pages, #session-roster, #session-seat-detail, #session-status) { display: none; }
+#session-board:is([data-relay-page="length"], [data-relay-page="order"]) .session-actions { display: grid; grid-template-columns: 1fr 1fr; }
+#session-board:is([data-relay-page="length"], [data-relay-page="order"]) .session-actions > button:not(#local-session-start):not(#local-session-back) { display: none; }
+@media (max-width: 479px), (max-height: 419px) {
+ #session-board[data-relay-page="players"] { grid-template-areas: 'heading' 'strip' 'pages' 'roster' 'detail' 'status' 'relay' 'actions'; }
+ #relay-configuration { gap: 4px; }
+ #relay-configuration button { font-size: 16px; }
+ #relay-setup-error { font-size: 16px; line-height: 1.1; }
+ .relay-handoff { inset: 0; padding: 8px; border: 0; gap: 8px; }
+}
+.relay-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.relay-summary[hidden] { display: none; }
+.relay-summary p { grid-column: 1 / -1; }
+.relay-handoff[data-summary="true"] > :is(p, button:nth-of-type(1)) { display: none; }
+@media (max-height: 319px) { .relay-handoff > p:not(:nth-of-type(2)) { display: none; } .relay-handoff h2 { font-size: 24px; } }
+#session-board #relay-configuration button { font: 400 16px/1.1 var(--game-font, ui-rounded, system-ui, sans-serif); padding: 4px; overflow-wrap: anywhere; }
+#session-board #relay-tiles { border: 2px solid var(--game-wood, var(--border)); border-radius: 4px; padding: 4px; font: 400 16px/1.1 var(--game-font, ui-rounded, system-ui, sans-serif); }
+
+#session-board[data-relay-page="players"] { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-areas: "heading heading" "subtitle subtitle" "strip strip" "roster detail" "relay relay" "status status" "actions actions"; }
+@media (max-width: 479px), (max-height: 419px) { #session-board[data-relay-page="players"] { grid-template-columns: minmax(0, 1fr); grid-template-areas: "heading" "strip" "pages" "roster" "detail" "status" "relay" "actions"; } }
+@media (max-height: 319px) {
+ #session-board:is([data-relay-page="length"], [data-relay-page="order"]) { gap: 4px; }
+ #session-board:is([data-relay-page="length"], [data-relay-page="order"]) .session-actions { padding-top: 0; }
 }

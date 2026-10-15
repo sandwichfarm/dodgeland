@@ -76,11 +76,11 @@ test('a confirmation captured before incoming-seat disconnect cannot authorize r
 });
 
 function installRuntime() {
-  const listeners = new Set(); let pads = [];
-  window.relayFixture = { emit(next) { pads = next; for (const listener of listeners) listener({ available: true, focused: true, pads }); } };
+  const listeners = new Set(); let pads = []; let themeChanged = () => {};
+  window.relayFixture = { theme(light) { themeChanged({ colors: light ? { background: '#f6f1e5', text: '#24362d', primary: '#4b7b61' } : { background: '#242b32', text: '#f0eee5', primary: '#9fc28a' } }); }, emit(next) { pads = next; for (const listener of listeners) listener({ available: true, focused: true, pads }); } };
   window.napplet = {
     storage: { async getItem() { return JSON.stringify({ mode: 'arcade', muted: true, selected: 'butter', travelerVersion: 2 }); }, async setItem() {} },
-    theme: { async get() { return { colors: { background: '#242b32', text: '#f0eee5', primary: '#9fc28a' } }; }, onChanged() { return { close() {} }; } },
+    theme: { async get() { return { colors: { background: '#242b32', text: '#f0eee5', primary: '#9fc28a' } }; }, onChanged(listener) { themeChanged = listener; return { close() {} }; } },
     keys: { async registerAction(action) { return { actionId: action.id, binding: action.defaultKey }; }, onAction() { return { close() {} }; }, unregisterAction() {} },
     gamepad: { get available() { return true; }, get focused() { return true; }, getGamepads() { return pads; }, onChange(listener) { listeners.add(listener); return { close() { listeners.delete(listener); } }; } },
   };
@@ -90,7 +90,7 @@ const pad = (index, buttons = []) => ({ index, id: `relay-${index}`, mapping: 's
 async function withRelayBrowser(run) {
   const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
   const harness = `<!doctype html><iframe sandbox="allow-scripts" style="border:0;width:900px;height:600px"></iframe><script>document.querySelector('iframe').srcdoc=${JSON.stringify(built.replace('<head>', `<head><script>(${installRuntime.toString()})();</script>`)).replaceAll('<', '\\u003c')};</script>`;
-  const server = createServer((_request, response) => { response.writeHead(200, { 'Content-Type': 'text/html' }); response.end(harness); });
+  const server = createServer((_request, response) => { response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); response.end(harness); });
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   const browser = await chromium.launch({ args: ['--mute-audio'] });
   try {
@@ -172,7 +172,7 @@ test('muted built opaque iframe configures Relay and consumes fresh incoming con
   assert.match(built, /Start Relay/, 'build must contain the real Relay setup');
   const setup = `<script>(${installRuntime.toString()})();</script>`;
   const harness = `<!doctype html><iframe sandbox="allow-scripts" style="border:0;width:900px;height:600px"></iframe><script>document.querySelector('iframe').srcdoc=${JSON.stringify(built.replace('<head>', '<head>' + setup)).replaceAll('<', '\\u003c')};</script>`;
-  const server = createServer((_request, response) => { response.writeHead(200, { 'Content-Type': 'text/html' }); response.end(harness); });
+  const server = createServer((_request, response) => { response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); response.end(harness); });
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   const browser = await chromium.launch({ args: ['--mute-audio'] });
   try {
@@ -252,8 +252,63 @@ test('invalid Relay length stays disabled through the existing roster editor', {
   await frame.locator('#local-play').click(); await frame.locator('#relay-play').click();
   await frame.locator('#relay-tiles').fill('0');
   assert.equal(await frame.locator('#local-session-start').isDisabled(), true);
+  await frame.locator('.relay-setup-nav').getByRole('button', { name: 'Roster', exact: true }).click();
   await frame.locator('#session-roster [data-seat="p2"]').click();
   assert.equal(await frame.locator('#relay-tiles').inputValue(), '0');
   assert.equal(await frame.locator('#local-session-start').isDisabled(), true);
   assert.equal(await frame.locator('#local-session-start').textContent(), 'Start Relay');
+}));
+
+for (const count of [3, 4]) test(`visible ${count}-seat setup preserves stable identities while reordering runners`, { timeout: 30_000 }, async () => withRelayBrowser(async ({ page, frame, send }) => {
+  await frame.locator('#local-play').click();
+  const pads = [];
+  for (let index = 0; index < count - 2; index++) {
+    pads.push(pad(index)); await send(pads); await send(pads.map(item => item.index === index ? pad(index, [0]) : item)); await send(pads);
+  }
+  assert.equal(await frame.locator('#session-roster .session-ready').count(), count);
+  await frame.locator('#relay-play').click();
+  assert.equal(await frame.locator('#relay-tiles').inputValue(), '50');
+  await frame.locator('#relay-tiles').fill('1');
+  await frame.getByRole('button', { name: 'Order', exact: true }).click();
+  await frame.getByRole('button', { name: 'Move later: P1, position 1', exact: true }).click();
+  assert.match(await frame.locator('.relay-order').textContent(), /2\. P1/);
+  await frame.locator('#local-session-start').click();
+  assert.equal(await frame.locator('#session-seats [data-seat]').count(), count);
+  const initial = await frame.locator('#score').textContent();
+  await frame.locator('#scene').focus(); await page.keyboard.press('w'); await page.waitForTimeout(120);
+  assert.equal(await frame.locator('#score').textContent(), initial);
+  await page.keyboard.press('ArrowUp');
+  await frame.getByRole('heading', { name: 'Leg 1 complete', exact: true }).waitFor();
+  assert.match(await frame.locator('#relay-handoff').textContent(), /P2 carried/);
+  await frame.getByRole('button', { name: 'View relay', exact: true }).click();
+  assert.match(await frame.locator('.relay-summary').textContent(), /1\/.*P2/);
+  await frame.getByRole('button', { name: 'Back to handoff', exact: true }).click();
+  await frame.getByRole('button', { name: "Start P1's leg", exact: true }).click();
+  assert.equal(await frame.locator('#relay-handoff').count(), 0);
+}));
+
+test('Relay configuration and handoff remain bounded across frame sizes and runtime themes', { timeout: 60_000 }, async () => withRelayBrowser(async ({ page, frame }) => {
+  await frame.locator('#local-play').click(); await frame.locator('#relay-play').click();
+  const sizes = [[240, 240], [320, 560], [900, 600], [1000, 280], [2400, 1200]];
+  async function inspect(name) {
+    for (const light of [false, true]) for (const [width, height] of sizes) {
+      await page.setViewportSize({ width: width + 30, height: height + 30 });
+      await page.locator('iframe').evaluate((iframe, size) => { iframe.style.width = `${size[0]}px`; iframe.style.height = `${size[1]}px`; }, [width, height]);
+      await frame.evaluate(light => window.relayFixture.theme(light), light);
+      await page.waitForTimeout(30);
+      const outside = await frame.evaluate(() => [...document.querySelectorAll('#session-board input, #session-board button, #relay-handoff button')].filter(node => node.getClientRects().length && getComputedStyle(node).visibility !== 'hidden').filter(node => { const rect = node.getBoundingClientRect(); return rect.width < 44 || rect.height < 44 || rect.left < 0 || rect.top < 0 || rect.right > innerWidth + 1 || rect.bottom > innerHeight + 1; }).map(node => ({ text: node.textContent, rect: node.getBoundingClientRect().toJSON() })));
+      assert.deepEqual(outside, [], `${name} ${width}x${height} ${light ? 'light' : 'dark'}`);
+      await page.locator('iframe').screenshot({ path: `/tmp/relay-${name}-${width}x${height}-${light ? 'light' : 'dark'}.png` });
+    }
+  }
+  await inspect('length');
+  await frame.locator('.relay-setup-nav').getByRole('button', { name: 'Roster', exact: true }).click(); await inspect('roster');
+  await frame.getByRole('button', { name: 'Order', exact: true }).click(); await inspect('order');
+  await frame.getByRole('button', { name: 'Length', exact: true }).click(); await frame.locator('#relay-tiles').fill('1');
+  await frame.locator('#local-session-start').click(); await frame.locator('#scene').focus(); await page.keyboard.press('w');
+  await frame.getByRole('heading', { name: 'Leg 1 complete', exact: true }).waitFor(); await inspect('handoff');
+  await page.locator('iframe').evaluate(iframe => { iframe.style.width = '200px'; iframe.style.height = '160px'; });
+  await page.waitForTimeout(30);
+  assert.equal(await frame.locator('#relay-handoff').isVisible(), false);
+  assert.match(await frame.locator('body').innerText(), /Needs 240×240 to play/);
 }));
