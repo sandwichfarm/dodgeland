@@ -72,3 +72,29 @@ drop thresholds, RNG isolation, contested claims, log-hop pickup offsets, owner
 routing, and one player's death clearing only their own inventory. Browser and
 visual proof must use muted playback, large game-styled controls, no scrollbars,
 and compact views across both themes.
+
+## Entry API reconciliation (2026-10-14)
+
+Read-only review during Phase 2 execution confirms the following implementation
+work belongs to the approved Phase 3 plans. This is preparation, not permission
+to bypass the verified Phase 2 entry gate:
+
+- **03-01:** `LocalSession.stage/cancel/commit` adopts a whole roster. The
+  constructor fixes `players`; main's `requestControllerSeat` consumes edges
+  only while setup is staged. Add atomic active-session admission and its
+  mode-owned input route; do not mistake staged adoption for live drop-in.
+- **03-01:** `depart` currently only sets participation; `reclaim` accepts
+  device-lost seats. Add seat release/replacement and immutable participant
+  contribution/recovery provenance before supporting departure and new joins.
+- **03-02:** Existing `Game.powerRemaining` and `SessionPlayer.powerRemaining`
+  serve innate powers (P1 uses `maxY`, secondary players use `earnedDistance`).
+  Personal revival needs separate provenance-bound earned progress, a 250-tile
+  threshold, offer clock and protection; forced placement must advance none of
+  those progress counters. Preserve the innate 100-tile cadence.
+- **03-04/05/07:** Distinct `SessionPlayer.run` inventories already exist, but
+  `RunInventory` has no consumable balance. Add item ownership/death clearing,
+  owner-attributed transaction versions, and the single owner-labelled UI in
+  their respective plans. Phase 2's selected-owner display is not itself the
+  authoritative economy policy.
+
+Recheck these seams against the final Phase 2 commit before implementation.
