@@ -649,7 +649,10 @@ function updateHud(): void {
   }
   // HUD inspection is its own modal: do not leave the normal paused board in
   // the accessibility tree behind the compact details sheet.
-  el('run-panel').hidden = hudDetailsOpen || state === 'playing' || presentingDeathSpill() || market.isOpen() || !el('drawer').hidden || (hand.isOpen() && handPausedPlay);
+  // A shared session owns the visible scene/HUD through a board pause. Do not
+  // cover those owner-attributed controls with the solo pause panel after a
+  // tiny-frame resize or a controller board action.
+  el('run-panel').hidden = hudDetailsOpen || !!localSession?.running || state === 'playing' || presentingDeathSpill() || market.isOpen() || !el('drawer').hidden || (hand.isOpen() && handPausedPlay);
   el('app').dataset.modalOpen = String((hudDetailsOpen || !el('run-panel').hidden || !el('drawer').hidden || hand.isOpen()) && !(import.meta.env.DEV && devTools?.isOpen));
   el('app').classList.toggle('ui-less-motion', progress.reduced || mediaQuery.matches);
   pauseUI.update(!localStage && state === 'paused' && !el('run-panel').hidden && !(import.meta.env.DEV && devTools?.isOpen), progress.reduced || mediaQuery.matches);
