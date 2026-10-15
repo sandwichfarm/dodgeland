@@ -149,6 +149,11 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
           fits: rect.left >= -.5 && rect.top >= -.5 && rect.right <= width + .5 && rect.bottom <= height + .5,
           hit: hit === node || hit?.closest('button, [role="button"], input, select') === node };
       };
+      const readable = node => {
+        const range = document.createRange(); range.selectNodeContents(node);
+        return [...range.getClientRects()].every(rect => [rect.left + 2, rect.left + rect.width / 2, rect.right - 2]
+          .every(x => node.contains(document.elementFromPoint(x, rect.top + rect.height / 2))));
+      };
       const controls = [...document.querySelectorAll('button, [role="button"], input, select')].filter(visible).map(bound);
       const identity = [...document.querySelectorAll('#session-seats [data-seat]')].filter(visible).map(node => {
         const style = getComputedStyle(node);
@@ -162,7 +167,7 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
       });
       const selectedFields = [...document.querySelectorAll('#session-seats .session-hud-selected [data-session-hud]')].map(node => ({
         field: node.getAttribute('data-session-hud'), text: node.textContent?.trim(), fullyVisible: rendered(node, true),
-        contrast: contrast(getComputedStyle(node).color, paintedBackground(node)),
+        readable: readable(node), contrast: contrast(getComputedStyle(node).color, paintedBackground(node)),
       }));
       const slots = [...document.querySelectorAll('#session-seats [data-seat] *')].filter(node => /^(Revive|Item)\b/.test(node.textContent?.trim() ?? '')).map(node => ({
         text: node.textContent?.trim(), interactive: Boolean(node.closest('button, [role="button"], input, select, a[href]')),
@@ -220,7 +225,7 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
         const shortHud = height < 320;
         if (shortHud ? detailed.length > 1 : compactHud ? detailed.length !== 1 : detailed.length !== 4) fail(`${state}/${theme}/${width}×${height} must show ${shortHud ? 'one selected status plus identity chips' : compactHud ? 'one selected detailed tile plus identity chips' : 'four detailed tiles'}`, value.identity);
         const requiredFields = ['identity', 'device', 'health', 'power', 'wallet', 'revive', 'item'];
-        const visibleFields = value.selectedFields.filter(field => field.fullyVisible && field.text);
+        const visibleFields = value.selectedFields.filter(field => field.fullyVisible && field.readable && field.text);
         const hasSelectedStatus = ['identity', 'health'].every(field => visibleFields.some(value => value.field === field));
         if (!hasSelectedStatus || (!shortHud && (value.selectedFields.length !== requiredFields.length || requiredFields.some(field => !visibleFields.some(value => value.field === field))))) {
           fail(`${state}/${theme}/${width}×${height} selected HUD must keep identity, real state, and unavailable future fields fully visible`, value.selectedFields);
@@ -353,7 +358,7 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
           assert.equal(await frame.locator('.bottom-bar').isVisible(), false, 'short details hide pointer controls while inspecting');
           const inspected = await metrics('hud-inspect', width, height);
           const fields = ['identity', 'device', 'health', 'power', 'wallet', 'revive', 'item'];
-          if (fields.some(field => !inspected.selectedFields.some(value => value.field === field && value.fullyVisible && value.text))) fail('short details must expose every real selected field without scrolling', inspected.selectedFields);
+          if (fields.some(field => !inspected.selectedFields.some(value => value.field === field && value.fullyVisible && value.readable && value.text))) fail('short details must expose every real selected field without an overlapping control', inspected.selectedFields);
           await iframe.screenshot({ path: new URL('local-session-layout-hud-240x240-inspect-dark.png', output).pathname });
           await page.keyboard.down('w');
           const closeDetails = frame.locator('#session-seats .session-hud-selected button[data-session-hud-close="true"]');
