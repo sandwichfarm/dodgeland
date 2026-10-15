@@ -51,20 +51,30 @@ test('four real inventories remain inspectable through one responsive owner surf
       const rectData = node => {
         const r = node.getBoundingClientRect();
         const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
-        return { id: node.id, text: node.textContent.trim(), width: r.width, height: r.height,
+        return { id: node.id, text: node.textContent.trim(), left: r.left, top: r.top, right: r.right, bottom: r.bottom, width: r.width, height: r.height,
           font: parseFloat(getComputedStyle(node).fontSize),
           fits: r.left >= -.5 && r.top >= -.5 && r.right <= innerWidth + .5 && r.bottom <= innerHeight + .5,
-          hit: node === hit || node.contains(hit), inert: !!node.closest('[inert]'),
+          hit: node === hit || node.contains(hit), hitNode: hit instanceof HTMLElement ? `${hit.id}.${hit.className}` : hit?.nodeName, inert: !!node.closest('[inert]'),
           label: node.getAttribute('aria-label'), disabled: !!node.disabled };
       };
       const textData = node => {
         const range = document.createRange(); range.selectNodeContents(node);
         const fragments = [...range.getClientRects()].filter(r => r.width && r.height);
+        const contained = rect => {
+          if (rect.left < -.5 || rect.top < -.5 || rect.right > innerWidth + .5 || rect.bottom > innerHeight + .5) return false;
+          for (let parent = node.parentElement; parent; parent = parent.parentElement) {
+            const css = getComputedStyle(parent);
+            if (!/hidden|clip|auto|scroll/.test(`${css.overflowX} ${css.overflowY}`)) continue;
+            const bounds = parent.getBoundingClientRect();
+            if (rect.left < bounds.left - .5 || rect.top < bounds.top - .5 || rect.right > bounds.right + .5 || rect.bottom > bounds.bottom + .5) return false;
+          }
+          return true;
+        };
         return { ...rectData(node), readable: fragments.every(r =>
           [r.left + 1, r.left + r.width / 2, r.right - 1].every(x => {
             const hit = document.elementFromPoint(x, r.top + r.height / 2);
             return hit === node || node.contains(hit);
-          })) };
+          })), contained: fragments.length > 0 && fragments.every(contained) };
       };
       // The card inspector is a foreground sheet. Its own controls and owner
       // must be reachable; covered market offers belong to the underlying page.
@@ -72,6 +82,9 @@ test('four real inventories remain inspectable through one responsive owner surf
       const controls = [...document.querySelectorAll(inspecting ? '#run-inventory button' : '#market button, #run-inventory button')].filter(visible).map(rectData);
       const identities = (inspecting ? ['run-hand-owner', 'run-hand-detail-owner'] : ['market-owner', 'run-hand-owner']).map(id => document.getElementById(id)).filter(visible).map(textData);
       const details = inspecting ? ['run-hand-name', 'run-hand-copy'].map(id => document.getElementById(id)).filter(visible).map(textData) : [];
+      const offers = inspecting ? [] : [...document.querySelectorAll('#market .market-item :is(.card-name, .market-cosmetic-name, .market-tile-price)')].filter(visible).map(textData);
+      const items = [...document.querySelectorAll('#run-hand-items, #run-hand-items :is(button, span)')].filter(visible).map(textData);
+      const itemControls = [...document.querySelectorAll('#run-hand-items button')].filter(visible).map(node => node.getAttribute('aria-label') ?? node.textContent.trim());
       const scrollers = [...document.querySelectorAll('#market, #market *, #run-inventory, #run-inventory *')].filter(visible).filter(node => {
         const css = getComputedStyle(node);
         return /auto|scroll/.test(`${css.overflowX} ${css.overflowY}`) && (node.scrollHeight > node.clientHeight + 1 || node.scrollWidth > node.clientWidth + 1);
@@ -80,7 +93,7 @@ test('four real inventories remain inspectable through one responsive owner surf
         market: visible(document.getElementById('market')), hand: visible(document.getElementById('run-inventory')),
         document: { width: document.documentElement.scrollWidth, height: document.documentElement.scrollHeight },
         selected: [...document.querySelectorAll('#market-owner-strip [aria-pressed="true"]')].map(node => node.dataset.id),
-        handCards: [...document.querySelectorAll('[data-hand-card]')].filter(visible).map(node => ({ id: node.dataset.handCard, label: node.getAttribute('aria-label'), text: node.textContent })),
+        handCards: [...document.querySelectorAll('[data-hand-card]')].filter(visible).map(node => ({ id: node.dataset.handCard, label: node.getAttribute('aria-label'), text: node.textContent })), offers, items, itemControls,
       };
     }, state);
     const key = `${state}-${width}x${height}-${theme}`;
@@ -102,6 +115,10 @@ test('four real inventories remain inspectable through one responsive owner surf
     }
     if (!metrics.identities.length || metrics.identities.some(item => !item.readable || !item.fits || item.font < 16 || !/Viewing P[1-4] [▲●◆■] · \S/.test(item.text))) fail(`${key}: full owner identity must be legible`, metrics.identities);
     if (state.startsWith('hand-') && (metrics.details.length !== 2 || metrics.details.some(item => !item.readable || !item.fits || item.font < 16))) fail(`${key}: card title and current description page must remain readable`, metrics.details);
+    if (!state.startsWith('hand-') && (metrics.offers.length === 0 || metrics.offers.some(item => !item.readable || !item.contained || item.font < 14))) fail(`${key}: each visible offer name and price must remain readable within its clipped ancestors`, metrics.offers);
+    if (!state.startsWith('hand-') && (metrics.items.length === 0 || metrics.items.some(item => !item.readable || !item.contained || !item.fits || item.font < 16))) fail(`${key}: the distinct Items row must remain readable and in bounds`, metrics.items);
+    if (!state.startsWith('hand-') && metrics.selected[0] === 'p1' && (!metrics.itemControls.includes('Use Revival ×1') || !metrics.itemControls.includes('Use Flare ×1'))) fail(`${key}: P1’s charged Revival and Flare controls must both remain visible`, metrics.itemControls);
+    if (!state.startsWith('hand-') && metrics.selected[0] !== 'p1' && metrics.itemControls.length) fail(`${key}: uncharged owners must not inherit P1 item controls`, metrics.itemControls);
     if (metrics.selected.length !== 1) fail(`${key}: exactly one market owner must be selected`, metrics.selected);
   };
   try {
@@ -134,6 +151,20 @@ test('four real inventories remain inspectable through one responsive owner surf
         return { seat: player.seat, character: player.characterId, cards: run.cards, wallet: run.wallet };
       });
     });
+    const charged = await onSession(function () {
+      const player = this.players.find(value => value.seat === 'p1');
+      player.run.advanceScore(100); player.run.creditCoins(60);
+      let context = this.openCoOpMarket({ seat: player.seat, device: player.device, participantId: player.participantId });
+      if (!context) throw new Error('P1 needs a co-op market context for the physical Items-row fixture');
+      const act = (kind, itemId) => this.actCoOpMarket({ actionId: `owner-layout-${kind}-${itemId ?? 'window'}`, seat: player.seat, device: player.device, participantId: player.participantId,
+        expectedOwnerGeneration: context.ownerGeneration, expectedInventoryGeneration: context.inventoryGeneration, expectedRunRevision: context.runRevision, expectedContextGeneration: context.contextGeneration, kind, itemId });
+      let result = act('open'); if (!result.ok) throw new Error(result.message); context = result.context;
+      result = act('buy-consumable', 'revival'); if (!result.ok) throw new Error(result.message); context = result.context;
+      result = act('buy-consumable', 'flare'); if (!result.ok) throw new Error(result.message); context = result.context;
+      result = act('close'); if (!result.ok) throw new Error(result.message);
+      return this.consumableSnapshot().charges.map(value => ({ seat: value.seat, revival: value.revival, flare: value.flare }));
+    });
+    assert.deepEqual(charged, [{ seat: 'p1', revival: 1, flare: 1 }, { seat: 'p2', revival: 0, flare: 0 }, { seat: 'p3', revival: 0, flare: 0 }, { seat: 'p4', revival: 0, flare: 0 }], 'the layout fixture credits both P1 consumables through the authoritative co-op adapter only');
     assert.equal(new Set(inventories.map(value => value.cards[0].id)).size, 1, 'fixture deliberately exercises colliding per-inventory card IDs');
     assert.equal(new Set(inventories.map(value => value.cards[0].name)).size, 4, 'all four inventories have different actual card contents');
     await settle();

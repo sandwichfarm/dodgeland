@@ -1,7 +1,9 @@
 import assert from 'node:assert/strict';
+import { mkdir } from 'node:fs/promises';
 import test from 'node:test';
 import { createMarketGameFixture } from './market-game-fixture.mjs';
 
+const output = new URL('../artifacts/', import.meta.url);
 const pad = (index, pressed = []) => ({ index, id: `Recovery lifecycle ${index}`, mapping: 'standard', connected: true, timestamp: 1,
   axes: [0, 0, 0, 0], buttons: Array.from({ length: 17 }, (_, button) => ({ value: +pressed.includes(button), pressed: pressed.includes(button), touched: pressed.includes(button) })) });
 
@@ -153,5 +155,134 @@ test('the one P2-labelled market buys and uses Revival through visible productio
     });
     assert.deepEqual(committed, { p1: 'active', wallet: 0, revival: 0 }, 'the committed visible P2 action spends exactly one owned Revival');
     assert.deepEqual(evidence.errors, []);
+  } finally { await app.close(); }
+});
+
+test('the visible P2 rare shelf reaches Flare as well as Revival', { timeout: 60_000 }, async () => {
+  const evidence = { errors: [], external: [] }, app = await createMarketGameFixture(evidence);
+  const { frame, advance, onSession } = app;
+  try {
+    await frame.locator('#play').click(); await frame.locator('#pause').click(); await frame.locator('#local-play').click();
+    await frame.getByRole('button', { name: /start together/i }).click(); await advance(100);
+    await onSession(function () {
+      const p2 = this.players.find(player => player.seat === 'p2');
+      p2.run.creditCoins(36); p2.run.market = { milestone: 100, remaining: 15, offers: [] }; p2.run.revision++;
+    });
+    await frame.locator('#session-seats [data-seat="p2"] [data-session-hud="identity"]').click();
+    await frame.locator('#market-open').click(); await advance(100);
+    const flare = frame.getByRole('button', { name: /Flare.*View details/i });
+    for (let page = 0; page < 4 && !await flare.isVisible(); page++) {
+      const next = frame.locator('#market-next');
+      assert.equal(await next.isVisible(), true, 'the bounded rare shelf exposes a visible next page control');
+      assert.equal(await next.isEnabled(), true, 'another shelf page remains available');
+      await next.click(); await advance(80);
+    }
+    assert.equal(await flare.isVisible(), true, 'the second rare consumable remains reachable through the one visible market');
+    await flare.click();
+    assert.equal(await frame.locator('#market-inspect-kind').innerText(), 'Rare · Item', 'a consumable never borrows the card ontology in its visible inspector');
+    await frame.getByRole('button', { name: /Buy Flare/i }).click(); await advance(100);
+    assert.equal(await frame.locator('#run-hand-items').getByRole('button', { name: 'Use Flare ×1', exact: true }).isVisible(), true);
+    assert.equal(await onSession(function () { return this.consumableSnapshot().charges.find(charge => charge.seat === 'p2').flare; }), 1);
+    assert.deepEqual(evidence.errors, []); assert.deepEqual(evidence.external, []);
+  } finally { await app.close(); }
+});
+
+test('the P2-labelled wardrobe buys and wears a cosmetic through compact production controls', { timeout: 60_000 }, async () => {
+  const evidence = { errors: [], external: [] }, app = await createMarketGameFixture(evidence);
+  const { frame, iframe, advance, onSession, resize } = app;
+  try {
+    await mkdir(output, { recursive: true });
+    await frame.locator('#play').click(); await frame.locator('#pause').click(); await frame.locator('#local-play').click();
+    await frame.getByRole('button', { name: /start together/i }).click(); await advance(100);
+    await onSession(function () {
+      const p2 = this.players.find(player => player.seat === 'p2');
+      const sailor = p2.run.catalog.get('look-shirt-sailor');
+      const vest = p2.run.catalog.get('look-shirt-vest');
+      p2.run.creditCoins(sailor.price + vest.price); p2.run.market = {
+        milestone: 100, remaining: 15,
+        offers: [
+          { id: 'p2-sailor-shirt', itemId: sailor.id, price: sailor.price, sold: false, section: 'extras' },
+          { id: 'p2-vest-shirt', itemId: vest.id, price: vest.price, sold: false, section: 'extras' },
+        ],
+      };
+      p2.run.revision++;
+    });
+    await resize(320, 320);
+    await frame.locator('#session-seats [data-seat="p2"] [data-session-hud="identity"]').click();
+    await frame.locator('#market-open').click(); await advance(100);
+    const sailor = frame.getByRole('button', { name: /Sailor Shirt.*View details/i });
+    const previous = frame.locator('#market-prev'), next = frame.locator('#market-next');
+    while (await previous.isEnabled()) { await previous.click(); await advance(40); }
+    for (let page = 0; page < 4 && !await sailor.isVisible() && await next.isEnabled(); page++) { await next.click(); await advance(40); }
+    assert.equal(await sailor.isVisible(), true, `the compact pager shelf keeps a cosmetic reachable: ${await frame.locator('#market').innerText()}`);
+    await sailor.click();
+    assert.equal(await frame.locator('#market-inspect-kind').innerText(), 'Common · Shirt');
+    await frame.getByRole('button', { name: /Buy/i }).click(); await advance(100);
+    assert.equal(await frame.locator('#market').getAttribute('data-market-view'), 'wardrobe', 'the purchased look leads to the visible wardrobe');
+    assert.equal(await frame.locator('#market-shop-tab').isVisible(), true, 'the compact wardrobe exposes a visible return to the market');
+    await frame.locator('#market-shop-tab').click(); await advance(80);
+    const vest = frame.getByRole('button', { name: /Vest.*View details/i });
+    while (await previous.isEnabled()) { await previous.click(); await advance(40); }
+    for (let page = 0; page < 4 && !await vest.isVisible() && await next.isEnabled(); page++) { await next.click(); await advance(40); }
+    assert.equal(await vest.isVisible(), true, 'the second compact cosmetic offer remains reachable after a purchase');
+    await vest.click(); await frame.getByRole('button', { name: /Buy/i }).click(); await advance(100);
+    await resize(240, 240);
+    assert.equal(await frame.locator('#market').getAttribute('data-market-view'), 'wardrobe', 'the smallest supported market frame retains the active wardrobe');
+    assert.equal(await frame.locator('#market-shop-tab').isVisible(), true, 'the smallest supported market frame retains a visible return route');
+    const ownedSailor = frame.getByRole('button', { name: /Sailor Shirt.*View details/i });
+    while (await previous.isEnabled()) { await previous.click(); await advance(40); }
+    for (let page = 0; page < 4 && !await ownedSailor.isVisible() && await next.isEnabled(); page++) { await next.click(); await advance(40); }
+    assert.equal(await ownedSailor.isVisible(), true, 'compact wardrobe pages retain the newly owned look');
+    await iframe.screenshot({ path: new URL('survive-market-wardrobe-240.png', output).pathname });
+    await ownedSailor.click();
+    await frame.getByRole('button', { name: 'Wear it', exact: true }).click(); await advance(100);
+    const committed = await onSession(function () {
+      const p1 = this.players.find(player => player.seat === 'p1');
+      const p2 = this.players.find(player => player.seat === 'p2');
+      return {
+        p1: p1.run.equippedCosmetics.map(item => item.id),
+        p2: p2.run.equippedCosmetics.map(item => item.id),
+        wallet: p2.run.wallet,
+      };
+    });
+    assert.deepEqual(committed, { p1: [], p2: ['look-shirt-sailor'], wallet: 0 }, 'only P2 commits the owned cosmetic purchases and selected equip');
+    assert.deepEqual(evidence.errors, []); assert.deepEqual(evidence.external, []);
+  } finally { await app.close(); }
+});
+
+test('visible co-op item purchases retain the owner wallet and max-one charge on rejection', { timeout: 60_000 }, async () => {
+  const evidence = { errors: [], external: [] }, app = await createMarketGameFixture(evidence);
+  const { frame, advance, onSession } = app;
+  try {
+    await frame.locator('#play').click(); await frame.locator('#pause').click(); await frame.locator('#local-play').click();
+    await frame.getByRole('button', { name: /start together/i }).click(); await advance(100);
+    await onSession(function () {
+      const p2 = this.players.find(player => player.seat === 'p2');
+      p2.run.creditCoins(48); p2.run.market = { milestone: 100, remaining: 15, offers: [] }; p2.run.revision++;
+    });
+    await frame.locator('#session-seats [data-seat="p2"] [data-session-hud="identity"]').click();
+    await frame.locator('#market-open').click(); await advance(100);
+    await frame.getByRole('button', { name: /Revival.*View details/i }).click();
+    await frame.getByRole('button', { name: /Buy Revival/i }).click(); await advance(100);
+    const paid = await onSession(function () {
+      const p2 = this.players.find(player => player.seat === 'p2');
+      return { wallet: p2.run.wallet, charges: this.consumableSnapshot().charges.find(charge => charge.seat === 'p2') };
+    });
+    assert.deepEqual({ wallet: paid.wallet, revival: paid.charges.revival, flare: paid.charges.flare }, { wallet: 24, revival: 1, flare: 0 });
+    const maxedRevival = frame.getByRole('button', { name: /Revival.*Already carrying Revival.*Maximum one held/i });
+    assert.equal(await maxedRevival.isDisabled(), true, 'the visible max-one Revival tile rejects redundant purchase before confirmation');
+    assert.equal(await maxedRevival.getAttribute('title'), 'Already carrying Revival.');
+    assert.deepEqual(await onSession(function () {
+      const p2 = this.players.find(player => player.seat === 'p2');
+      const charge = this.consumableSnapshot().charges.find(value => value.seat === 'p2');
+      return { wallet: p2.run.wallet, revival: charge.revival, flare: charge.flare };
+    }), { wallet: 24, revival: 1, flare: 0 }, 'a rejected max-one purchase leaves wallet and both owned charges unchanged');
+    const flare = frame.getByRole('button', { name: /Flare.*View details/i }), previous = frame.locator('#market-prev'), next = frame.locator('#market-next');
+    while (await previous.isEnabled()) { await previous.click(); await advance(40); }
+    for (let page = 0; page < 4 && !await flare.isVisible() && await next.isEnabled(); page++) { await next.click(); await advance(40); }
+    await flare.click();
+    assert.equal(await frame.locator('#market-inspect-action').isDisabled(), true, 'insufficient funds disable the visible consumable purchase');
+    assert.match(await frame.locator('#market-inspect-note').innerText(), /Need 12 more coins/i);
+    assert.deepEqual(evidence.errors, []); assert.deepEqual(evidence.external, []);
   } finally { await app.close(); }
 });

@@ -287,7 +287,10 @@ export function createMarketUI(options: MarketUIOptions) {
     const control = button('', `inspect:${entry.key}`, 'inspect', entry.key);
     const kind = entry.definition?.kind ?? 'card';
     control.className = `market-item market-tile market-${kind}${kind === 'cosmetic' ? '' : ' playing-card'}${entry.source === 'offer' ? '' : ' market-held'}`;
-    if (entry.source === 'offer') { control.dataset.offer = entry.id; control.dataset.sold = String(!!entry.sold); control.disabled = !!entry.sold; }
+    if (entry.source === 'offer' || entry.source === 'consumable') {
+      control.dataset.offer = entry.id; control.dataset.sold = String(!!entry.sold); control.disabled = !!entry.sold;
+      if (entry.source === 'consumable' && entry.sold) control.title = `Already carrying ${entry.item.name}.`;
+    }
     if (entry.source === 'card' || entry.source === 'choice' || entry.source === 'discard') control.dataset.card = entry.id;
     if (entry.source === 'look') control.dataset.cosmetic = entry.id;
     if (entry.source === 'power') control.dataset.power = entry.id;
@@ -296,11 +299,12 @@ export function createMarketUI(options: MarketUIOptions) {
     else control.append(face(entry.item, kind));
     const selected = entry.source === 'choice' ? picked.has(entry.id) : entry.source === 'discard' && discarded.has(entry.id);
     const state = entry.source === 'offer' ? entry.sold ? '✓ Yours' : `${entry.price} ◆`
+      : entry.source === 'consumable' ? entry.sold ? `Already carrying ${entry.item.name}` : `${entry.price} ◆`
       : entry.source === 'choice' ? selected ? '✓ Selected' : 'View card'
       : entry.source === 'discard' ? selected ? '✕ Discard' : 'Keep'
       : entry.source === 'card' ? 'In your hand' : entry.note ?? 'Owned';
     control.append(textNode('span', state, 'market-tile-price'));
-    control.setAttribute('aria-label', `${entry.item.name}, ${rarityLabel(entry.item.rarity)}. ${state}. ${entry.sold ? 'Purchased.' : 'View details.'}`);
+    control.setAttribute('aria-label', `${entry.item.name}, ${rarityLabel(entry.item.rarity)}. ${state}. ${entry.sold ? entry.source === 'consumable' ? 'Maximum one held.' : 'Purchased.' : 'View details.'}`);
     if (entry.source === 'choice' || entry.source === 'discard') {
       control.classList.add('market-choice'); control.classList.toggle('is-selected', selected);
       control.classList.toggle('is-discarded', entry.source === 'discard' && selected);
@@ -319,7 +323,7 @@ export function createMarketUI(options: MarketUIOptions) {
     if (entry.definition?.kind === 'cosmetic') cosmeticFace(art, entry.definition, true);
     else art.append(face(entry.item, entry.definition?.kind, true));
     element('market-inspect-name').textContent = entry.item.name;
-    element('market-inspect-kind').textContent = `${rarityLabel(entry.item.rarity)} · ${entry.definition?.kind === 'cosmetic' ? lookLabel(entry.definition) : entry.definition?.kind === 'pack' ? 'Pack' : entry.definition?.kind === 'power' ? 'Power' : 'Card'}`;
+    element('market-inspect-kind').textContent = `${rarityLabel(entry.item.rarity)} · ${entry.definition?.kind === 'cosmetic' ? lookLabel(entry.definition) : entry.definition?.kind === 'pack' ? 'Pack' : entry.definition?.kind === 'power' ? 'Power' : entry.source === 'consumable' ? 'Item' : 'Card'}`;
     element('market-inspect-description').textContent = entry.item.description;
     const action = element<HTMLButtonElement>('market-inspect-action');
     element('market-inspect-note').classList.remove('market-error');
@@ -355,7 +359,9 @@ export function createMarketUI(options: MarketUIOptions) {
     const all = entries(run), inspected = all.find(entry => entry.key === inspection && !entry.sold);
     if (!inspected) inspection = undefined;
     const screen = inspection ? 'inspect' : run.pendingPack ? 'draft' : view;
+    const narrowCoOpShop = screen === 'shop' && short && !owner.hidden && window.innerWidth < 480 && window.innerHeight < 330;
     overlay.dataset.marketView = screen; overlay.dataset.marketRoomy = String(roomy); overlay.dataset.marketCapacity = String(capacity); overlay.dataset.marketShort = String(short);
+    overlay.dataset.marketSingleOffer = String(narrowCoOpShop);
     overlay.dataset.marketDraftPhase = replacing ? 'replace' : 'choose';
     overlay.classList.toggle('is-drafting', !!run.pendingPack); overlay.classList.toggle('is-inspecting', !!inspection);
     for (const [id, value] of [['market-table', 'shop'], ['market-wardrobe', 'wardrobe'], ['market-draft', 'draft'], ['market-inspect', 'inspect']]) {
@@ -364,28 +370,67 @@ export function createMarketUI(options: MarketUIOptions) {
     for (const key of ['shop', 'wardrobe'] as const) {
       const tab = element<HTMLButtonElement>(`market-${key}-tab`); tab.setAttribute('aria-pressed', String(view === key)); tab.disabled = !!run.pendingPack;
     }
-    element('market-close').setAttribute('aria-disabled', String(!!run.pendingPack));
-    element('market-close').hidden = !!run.pendingPack;
+    // A paid draft remains locked for its active owner, but a disconnected
+    // owner must still be able to dismiss its read-only presentation without
+    // accidentally skipping or claiming the already-paid pack.
+    const draftLocked = !!run.pendingPack && mutationsAvailable();
+    element('market-close').setAttribute('aria-disabled', String(draftLocked));
+    element('market-close').hidden = draftLocked;
     element('market-skip').hidden = !run.pendingPack;
     element('market-picks-back').hidden = !run.pendingPack || !replacing || !!inspection;
     element('market-view-heading').textContent = screen === 'wardrobe' ? 'Dress your traveler' : screen === 'draft' ? 'Choose your cards' : screen === 'inspect' ? 'Take a closer look' : 'Choose a find';
+    // A short owner toolbar leaves room for one readable offer row. Keep the
+    // remaining stock on the existing visible pager instead of clipping it
+    // beneath the persistent hand. Shop pages advance each fixed shelf
+    // section independently, so both rare consumables keep the one rare slot
+    // instead of a flat slice silently dropping the second one.
     const items = currentEntries(run, all), limit = screen === 'shop' ? 6 : capacity;
+    const shopSections = [['cards', 3], ['rare', 1], ['extras', 2]] as const;
+    // Solo retains its established six-slot shelf. Only an owner-labelled
+    // Local Play table uses the bounded one-per-section page in a short frame.
+    const visibleShopSlots = (slots: number): number => short && !owner.hidden ? 1 : slots;
+    const shopPageFor = (entry: DisplayItem): number => {
+      if (narrowCoOpShop) return Math.max(0, items.findIndex(item => item.key === entry.key));
+      const section = shopSections.find(([name]) => name === entry.section);
+      if (!section) return 0;
+      const stock = items.filter(item => item.section === section[0]);
+      return Math.floor(Math.max(0, stock.findIndex(item => item.key === entry.key)) / visibleShopSlots(section[1]));
+    };
     if (pageAnchor) {
       const index = items.findIndex(entry => entry.key === pageAnchor);
-      if (index >= 0) page = Math.floor(index / limit);
+      if (index >= 0) page = screen === 'shop' ? shopPageFor(items[index]!) : Math.floor(index / limit);
       pageAnchor = undefined;
     }
-    pageCount = Math.max(1, Math.ceil(items.length / limit)); page = Math.min(page, pageCount - 1);
-    const shown = items.slice(page * limit, (page + 1) * limit); visibleKeys = shown.map(entry => entry.key);
+    pageCount = narrowCoOpShop
+      ? Math.max(1, items.length)
+      : screen === 'shop'
+      ? Math.max(1, ...shopSections.map(([section, slots]) => Math.ceil(items.filter(item => item.section === section).length / visibleShopSlots(slots))))
+      : Math.max(1, Math.ceil(items.length / limit));
+    page = Math.min(page, pageCount - 1);
+    const shown = narrowCoOpShop
+      ? items.slice(page, page + 1)
+      : screen === 'shop'
+      ? shopSections.flatMap(([section, slots]) => {
+        const visible = visibleShopSlots(slots);
+        return items.filter(item => item.section === section).slice(page * visible, (page + 1) * visible);
+      })
+      : items.slice(page * limit, (page + 1) * limit);
+    visibleKeys = shown.map(entry => entry.key);
     if (inspected) renderInspection(run, inspected);
-    else if (screen === 'shop') {
+    else if (screen === 'shop' && narrowCoOpShop) {
+      shown.forEach((entry, index) => offers.append(tile(entry, index)));
+    } else if (screen === 'shop') {
       // Keep the same six places after a purchase. An empty rare shelf is a
       // deliberate slot; it never makes cosmetics slide into the card row.
-      for (const [section, label, slots] of [['cards', 'Cards', 3], ['rare', 'Rare finds', 1], ['extras', 'Cosmetics', 2]] as const) {
+      for (const [section, label, fullSlots] of [['cards', 'Cards', 3], ['rare', 'Rare finds', 1], ['extras', 'Cosmetics', 2]] as const) {
+        const slots = visibleShopSlots(fullSlots);
         const group = textNode('section', '', `market-stock-group market-stock-${section}`); group.dataset.section = section;
         group.setAttribute('aria-label', label); group.append(textNode('h4', label));
         const grid = textNode('div', '', 'market-stock-grid');
-        const stock = items.filter(entry => entry.section === section);
+        // Each page retains the established three-card, one-rare, two-look
+        // shelf. Paging makes both eligible consumables reachable when they
+        // share the single rare place instead of silently hiding Flare.
+        const stock = shown.filter(entry => entry.section === section);
         for (let index = 0; index < slots; index++) {
           const entry = stock[index];
           const slot = String((section === 'cards' ? 1 : section === 'rare' ? 4 : 5) + index);
@@ -405,7 +450,7 @@ export function createMarketUI(options: MarketUIOptions) {
       shown.forEach((entry, index) => target.append(tile(entry, index)));
       if (!shown.length) target.append(textNode('p', screen === 'draft' ? 'No cards to replace. Keep your choices or skip this pack.' : 'Find a new look at the market.', 'market-empty'));
     }
-    element('market-pagination').hidden = screen === 'shop' || !!inspection || pageCount <= 1;
+    element('market-pagination').hidden = !!inspection || pageCount <= 1;
     element('market-page-count').textContent = `${page + 1} / ${pageCount}`;
     element<HTMLButtonElement>('market-prev').disabled = page === 0;
     element<HTMLButtonElement>('market-next').disabled = page === pageCount - 1;
@@ -515,7 +560,7 @@ export function createMarketUI(options: MarketUIOptions) {
       update(); options.changed(); return;
     }
     if (!runIsVisible()) return;
-    if (run.pendingPack) { element('market-status').textContent = 'Keep your cards or skip this pack before hopping.'; focusControl(); return; }
+    if (run.pendingPack && mutationsAvailable()) { element('market-status').textContent = 'Keep your cards or skip this pack before hopping.'; focusControl(); return; }
     if (!run.isOpen || reducedMotion()) {
       virtualPresentation = false; options.close(options.canRestoreFocus());
       if (!mutationsAvailable()) dismissedRun = run;
@@ -625,7 +670,10 @@ export function createMarketUI(options: MarketUIOptions) {
   }
   function resize(): void {
     const width = overlay.clientWidth || window.innerWidth, height = overlay.clientHeight || window.innerHeight;
-    const nextCapacity = width >= 760 && height >= 430 ? 3 : 1, nextRoomy = width >= 1100 && height >= 780, nextShort = height < 330;
+    // The market may reserve a hand shelf whose overflowing controls report a
+    // larger box than the actual frame. The frame itself is authoritative for
+    // the bounded short owner layout.
+    const nextCapacity = width >= 760 && height >= 430 ? 3 : 1, nextRoomy = width >= 1100 && height >= 780, nextShort = height < 330 || window.innerHeight < 330;
     if (nextCapacity === capacity && nextRoomy === roomy && nextShort === short) return;
     const focused = document.activeElement instanceof HTMLElement ? document.activeElement.dataset.marketKey : undefined;
     const anchor = inspection ?? (focused?.startsWith('inspect:') ? focused.slice(8) : visibleKeys[0]);

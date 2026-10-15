@@ -1255,13 +1255,15 @@ function isNativeKeyboardTarget(target: EventTarget | null): boolean {
   return !(target instanceof HTMLInputElement || target instanceof HTMLSelectElement || target instanceof HTMLTextAreaElement || target instanceof HTMLButtonElement);
 }
 function nativeKeyboardKeydown(event: KeyboardEvent): void {
-  if (!nativeKeyboardActive || !isNativeKeyboardTarget(event.target)) return;
+  const menuButton = event.target instanceof HTMLButtonElement && (hand.isOpen() || hand.containsFocus() || market.isOpen());
+  if (!nativeKeyboardActive || (!isNativeKeyboardTarget(event.target) && !menuButton)) return;
   observedNativeKeys.add(event.key);
   if (keyboardInput?.keydown(event.key)) { event.preventDefault(); event.stopPropagation(); }
 }
 function nativeKeyboardKeyup(event: KeyboardEvent): void {
   observedNativeKeys.delete(event.key);
-  if (!nativeKeyboardActive || !isNativeKeyboardTarget(event.target)) return;
+  const menuButton = event.target instanceof HTMLButtonElement && (hand.isOpen() || hand.containsFocus() || market.isOpen());
+  if (!nativeKeyboardActive || (!isNativeKeyboardTarget(event.target) && !menuButton)) return;
   if (keyboardInput?.keyup(event.key)) { event.preventDefault(); event.stopPropagation(); }
 }
 document.addEventListener('keydown', nativeKeyboardKeydown);
