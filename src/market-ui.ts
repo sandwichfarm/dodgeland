@@ -437,6 +437,11 @@ export function createMarketUI(options: MarketUIOptions) {
       currentRun = run; travelerRendered = ''; lastMilestone = 0; draftId = ''; picked.clear(); discarded.clear(); replacing = false; resetView();
       element('market-status').textContent = ''; element('market-reveal').replaceChildren();
     }
+    if (!run.alive && virtualPresentation) {
+      // A virtual inspection has no RunInventory close transition of its own.
+      // Return the shared session before removing the modal when its owner dies.
+      options.close(false);
+    }
     if (!run.alive) virtualPresentation = false;
     const window = run.market, available = !!window && run.alive, open = isOpen();
     opener.hidden = !available; opener.disabled = !options.canOpen() && !run.isOpen;

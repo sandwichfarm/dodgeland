@@ -185,7 +185,6 @@ test('two shell controllers and two remapped keyboards enter four-seat Local Pla
     await onSession(function () { const player = this.players.find(candidate => candidate.seat === 'p3'); player.run.alive = false; player.run.changed(); });
     await waitFor(() => document.querySelector('#market')?.hasAttribute('hidden'), 'dead empty owner closes only its virtual surface');
     assert.equal(await frame.locator('#session-seats').isVisible(), true, 'closing a dead owner surface returns to the still-running shared session');
-    await frame.locator('#play').click();
     await mkdir(new URL('../artifacts/', import.meta.url), { recursive: true });
     await page.locator('#napplet').screenshot({ path: new URL('../artifacts/local-session-runtime-live-900.png', import.meta.url).pathname });
     await send([pad(1, beta)]); await page.waitForTimeout(50);
