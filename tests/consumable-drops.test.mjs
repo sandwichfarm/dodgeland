@@ -74,45 +74,84 @@ test('anchor sampling is pure across duplicate, reverse, sparse, and pruning-sty
 function releasedObservations(interleave = () => {}) {
   const rowsToObserve = [-8, -1, 0, 1, 6, 37, 89, 90];
   const runs = [1, 2, 3].map(schema => createRunSeed(0x76543210, 'pond', 'arcade', false, schema));
-  interleave();
+  interleave('before');
   const lanes = runs.map(run => rowsToObserve.map(row => {
-    interleave();
-    const lane = generateSeedLane(run, row);
-    const { index, kind, speed, length, spacing, phase, variant, blocked, decorations, coin, coinDenomination, period, warning } = lane;
-    return { index, kind, speed, length, spacing, phase, variant, blocked, decorations, coin, coinDenomination: coinDenomination ?? null, period, warning };
+    interleave('terrain');
+    // Retain moving actor patterns too, not just the lane's scalar geometry.
+    return JSON.parse(JSON.stringify(generateSeedLane(run, row)));
   }));
-  const denominations = rowsToObserve.map(row => { interleave(); return coinDenominationForRow(runs[2].seed, row); });
+  const denominations = rowsToObserve.map(row => { interleave('denomination'); return coinDenominationForRow(runs[2].seed, row); });
   const inventory = new RunInventory(runs[2].seed, ITEM_CATALOG);
-  interleave(); inventory.advanceScore(100);
+  interleave('market-first'); inventory.advanceScore(100);
   const firstMarket = JSON.parse(JSON.stringify(inventory.market));
-  interleave(); inventory.close(); inventory.advanceScore(200);
+  interleave('market-next'); inventory.close(); inventory.advanceScore(200);
   const nextMarket = JSON.parse(JSON.stringify(inventory.market));
+  assert.ok(firstMarket?.offers?.length && nextMarket?.offers?.length, 'markets must contain real generated offers');
   const game = new Game(runs[2].seed, 'pond', 'arcade', false, ITEM_CATALOG);
   game.x = game.fromX = 0; game.y = game.fromY = game.maxY = 160; game.time = 45; game.ensureRows();
   for (const [index, lane] of game.rows) game.rows.set(index, { ...lane, kind: 'meadow', blocked: [], decorations: [], coin: null });
-  game.state = 'playing'; interleave(); game.update(0);
+  game.state = 'playing'; interleave('mob-first'); game.update(0);
   const firstMob = JSON.parse(JSON.stringify(game.mobs));
   game.mobs.length = 0; game.x = game.fromX = 0; game.y = game.fromY = game.maxY = 184; game.time += 18; game.ensureRows();
   for (const [index, lane] of game.rows) game.rows.set(index, { ...lane, kind: 'meadow', blocked: [], decorations: [], coin: null });
-  interleave(); game.update(0);
+  interleave('mob-next'); game.update(0);
   const nextMob = JSON.parse(JSON.stringify(game.mobs));
-  assert.ok(firstMob.length > 0 && nextMob.length > 0, 'the observation captures actual first and next mob RNG outputs');
+  assert.ok(firstMob.length > 0 && nextMob.length > 0, 'the observation captures actual first and next mobs');
+  interleave('after');
+  // Test-side observations of the actual live owners, not new RNG instances.
+  const marketState = inventory.state;
+  const nextRandom = Array.from({ length: 4 }, () => {
+    interleave('next-rng');
+    return { market: inventory.random(), mob: game.mobDirector.rng() };
+  });
   const codes = runs.map(encodeRunSeed);
-  return { codes, decoded: codes.map(decodeRunSeed), lanes, denominations, firstMarket, nextMarket, firstMob, nextMob };
+  return { codes, decoded: codes.map(decodeRunSeed), lanes, denominations, firstMarket, nextMarket, firstMob, nextMob, marketState, nextRandom };
+}
+
+const isolationAnchors = [
+  { courseSeed: 0x76543210, row: -8, slot: 0 }, { courseSeed: 0x76543210, row: 90, slot: 3 },
+  { courseSeed: 0x76543210, row: 503, slot: 7 }, { courseSeed: 0x76543210, row: 19_003, slot: 12 },
+  { courseSeed: 0x87405b12, row: 0, slot: 0 }, // rejection/retry branch
+];
+const sampleOrders = {
+  forward: isolationAnchors,
+  reverse: [...isolationAnchors].reverse(),
+  sparse: [isolationAnchors[3], isolationAnchors[0]],
+  duplicate: [isolationAnchors[3], isolationAnchors[0], isolationAnchors[3], isolationAnchors[2], isolationAnchors[1], isolationAnchors[0]],
+};
+function interleavedObservations(sampler, order) {
+  const stages = new Map();
+  const observations = releasedObservations(stage => {
+    // Sample at EVERY observation boundary. A consumed one-shot queue would
+    // silently exhaust during terrain and leave market/mob RNGs untested.
+    for (const input of order) sampler(input);
+    stages.set(stage, (stages.get(stage) ?? 0) + order.length);
+  });
+  for (const stage of ['before', 'terrain', 'denomination', 'market-first', 'market-next', 'mob-first', 'mob-next', 'after', 'next-rng']) {
+    assert.ok(stages.get(stage) > 0, `item sampling must actually execute at ${stage}`);
+  }
+  return observations;
 }
 
 test('item calls never perturb real terrain, denomination, market, or mob snapshots and next outputs', () => {
-  const anchors = [
-    { courseSeed: 0x76543210, row: -8, slot: 0 }, { courseSeed: 0x76543210, row: 90, slot: 3 },
-    { courseSeed: 0x76543210, row: 503, slot: 7 }, { courseSeed: 0x76543210, row: 19_003, slot: 12 },
-  ];
-  const before = releasedObservations();
-  const forward = [...anchors];
-  const during = releasedObservations(() => { if (forward.length) sampleConsumableDrop(forward.shift()); });
-  const reordered = [anchors[3], anchors[0], anchors[3], anchors[2], anchors[1], anchors[0]];
-  const after = releasedObservations(() => { if (reordered.length) sampleConsumableDrop(reordered.shift()); });
-  assert.deepEqual(during, before);
-  assert.deepEqual(after, before);
-  assert.deepEqual(before.codes, ['ph1-76543210-pond-a-n', 'ph2-76543210-pond-a-n', 'ph3-76543210-pond-a-n'], 'released seed encoding remains schemas 1 through 3');
-  assert.equal(before.codes.some(code => code.includes(ITEM_DROP_SCHEMA)), false, 'the item schema is never substituted into released run identities');
+  const baseline = releasedObservations();
+  for (const [name, order] of Object.entries(sampleOrders)) {
+    assert.deepEqual(interleavedObservations(sampleConsumableDrop, order), baseline, `${name} calls preserve live generators and their next raw draws`);
+  }
+  assert.deepEqual(baseline.codes, ['ph1-76543210-pond-a-n', 'ph2-76543210-pond-a-n', 'ph3-76543210-pond-a-n']);
+  assert.equal(baseline.codes.some(code => code.includes(ITEM_DROP_SCHEMA)), false);
+});
+
+test('an item-only schema revision changes its vectors without changing released streams', async () => {
+  // Compile an isolated test copy with a different item schema key and salt.
+  // This creates no production schema, source edit, or terrain version change.
+  const compiled = source.modules.get('/consumable-drops.js');
+  assert.ok(compiled.includes('item-drop-schema-1') && compiled.includes('0x51a7e001'));
+  const alternate = compiled.replaceAll('item-drop-schema-1', 'item-drop-schema-test-2').replaceAll('0x51a7e001', '0x51a7e002');
+  const variant = await import(`data:text/javascript;base64,${Buffer.from(alternate).toString('base64')}`);
+  assert.equal(variant.ITEM_DROP_SCHEMA, 'item-drop-schema-test-2');
+  const oldDrop = sampleConsumableDrop(anchor), newDrop = variant.sampleConsumableDrop(anchor);
+  assert.notEqual(newDrop.pickupId, oldDrop.pickupId);
+  assert.notEqual(newDrop.bucket, oldDrop.bucket);
+  assert.deepEqual(interleavedObservations(variant.sampleConsumableDrop, sampleOrders.duplicate), releasedObservations());
 });
