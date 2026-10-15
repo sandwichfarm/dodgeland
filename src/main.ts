@@ -711,7 +711,16 @@ function moveLocal(seat: SeatId, direction: Direction): void {
 }
 function localSetupKeydown(event: KeyboardEvent): void {
   if (!localStage || disposed || event.key !== 'Tab') return;
-  const buttons = [...el('local-session-setup').querySelectorAll<HTMLElement>('button:not([hidden]):not(:disabled)')].filter(button => !button.closest('[hidden]'));
+  const setup = el('local-session-setup');
+  const actionButtons = ['local-session-start', 'local-session-back']
+    .map(id => document.getElementById(id))
+    .filter((button): button is HTMLElement => button instanceof HTMLElement && !button.hidden && !button.matches(':disabled') && button.getClientRects().length > 0);
+  const visibleButtons = [...setup.querySelectorAll<HTMLElement>('button:not([hidden]):not(:disabled)')]
+    .filter(button => !button.closest('[hidden]') && button.getClientRects().length > 0);
+  // Keep the dialog's Start/Back action row a closed Tab loop. Board controls
+  // are still reachable by their own focus/controller navigation, without
+  // sending a keyboard user into CSS-hidden compact-page tabs.
+  const buttons = actionButtons.includes(document.activeElement as HTMLElement) ? actionButtons : visibleButtons;
   if (!buttons.length) return;
   const current = buttons.indexOf(document.activeElement as HTMLElement);
   event.preventDefault();
