@@ -51,6 +51,40 @@ let soloGamepad: GamepadDevice | undefined;
 let hudSelected: SeatId = 'p1';
 let hudDetailsOpen = false;
 let hudInspectWasPlaying = false;
+function selectedSessionOwner() { return localSession?.players.find(player => player.seat === hudSelected); }
+function selectedOwnerRun() { return selectedSessionOwner()?.run ?? game.run; }
+function selectedOwnerCharacter() { return characterById(selectedSessionOwner()?.characterId ?? progress.selected); }
+function selectedOwnerKey(): string { const owner = selectedSessionOwner(); return owner && localSession ? `${localSession.id}:${owner.seat}` : 'solo'; }
+function selectedOwnerLabel(): string | undefined {
+  const owner = sharedOwner(); return owner ? `Viewing ${owner.seat.toUpperCase()} ${owner.marker} · ${owner.character.name}` : undefined;
+}
+function sharedOwner() {
+  const owner = selectedSessionOwner();
+  return owner ? { key: selectedOwnerKey(), seat: owner.seat, marker: seatMarker(owner.seat), character: characterById(owner.characterId) } : undefined;
+}
+function sharedOwners() {
+  const session = localSession;
+  return session?.players.map(player => ({ key: `${session.id}:${player.seat}`, seat: player.seat, marker: seatMarker(player.seat), character: characterById(player.characterId) })) ?? [];
+}
+function ownerMutationsAvailable(): boolean { return !localSession?.running; }
+function ownerMutationReason(): string { return 'Market changes are not available during Local Play yet. You can inspect this player’s current run.'; }
+function selectHudOwner(seat: SeatId): void {
+  if (hudSelected === seat) return;
+  // Both shared surfaces retain ephemeral UI state. Invalidate that state while
+  // the old inventory is still resolvable, before a new seat becomes current.
+  const marketWasOpen = market.invalidateOwner(); hand.invalidateOwner(); hudSelected = seat;
+  // Market inspection is deliberately read-only in Local Play. The incoming
+  // run may have no active window, but its actual empty inventory still owns
+  // the same surface.
+  if (marketWasOpen && localSession?.running) market.openForSelected();
+  market.update(); market.focusSelectedOwner(); updateHud();
+}
+function selectNextHudOwner(): void {
+  if (!localSession?.running) return;
+  const seats = localSession.players.map(player => player.seat);
+  const next = seats[(seats.indexOf(hudSelected) + 1) % seats.length];
+  if (next) selectHudOwner(next);
+}
 function closeHudInspection(resume = true): void {
   const shouldResume = resume && hudInspectWasPlaying && frameAvailable();
   hudDetailsOpen = false; hudInspectWasPlaying = false;
@@ -88,17 +122,21 @@ let displayedHealth = -1;
 const mediaQuery = matchMedia('(prefers-reduced-motion: reduce)');
 const seedUI = createSeedUI();
 const hand = createRunHand({
-  getRun: () => game.run,
-  canSell: () => game.run.alive && !disposed && !document.hidden && localFocus,
+  getRun: selectedOwnerRun,
+  getOwnerKey: selectedOwnerKey,
+  getOwnerLabel: selectedOwnerLabel,
+  selectNextOwner: selectNextHudOwner,
+  canSell: () => ownerMutationsAvailable() && selectedOwnerRun().alive && !disposed && !document.hidden && localFocus,
+  unavailableReason: ownerMutationReason,
   onOpenChange: open => {
     if (open && game.state === 'playing') { handPausedPlay = true; audio.stop(); game.pause(); }
     else if (!open) {
-      const resume = handPausedPlay && !disposed && !document.hidden && localFocus && innerWidth >= 240 && innerHeight >= 240 && el('drawer').hidden && !game.run.isOpen && !game.run.pendingPack;
+      const resume = handPausedPlay && !disposed && !document.hidden && localFocus && innerWidth >= 240 && innerHeight >= 240 && el('drawer').hidden && !market.isOpen() && !selectedOwnerRun().pendingPack;
       handPausedPlay = false;
       if (resume) {
         game.resume();
         queueMicrotask(() => {
-          if (!disposed && game.state === 'playing' && !hand.isOpen() && el('drawer').hidden && !game.run.isOpen) el('scene').focus({ preventScroll: true });
+          if (!disposed && game.state === 'playing' && !hand.isOpen() && el('drawer').hidden && !market.isOpen()) el('scene').focus({ preventScroll: true });
         });
       }
     }
@@ -123,12 +161,31 @@ const collectionUI = createCollectionUI({
 });
 const powerUI = createCharacterPowerUI();
 const market = createMarketUI({
-  getRun: () => game.run,
-  getCharacter: () => characterById(progress.selected),
-  canOpen: () => !localStage && !disposed && !(import.meta.env.DEV && devTools?.isOpen) && !document.hidden && localFocus && innerWidth >= 240 && innerHeight >= 240 && el('drawer').hidden && (game.state === 'playing' || (game.state === 'paused' && !!game.run.pendingPack)) && !!game.run.market,
-  open: () => { if (!game.openMarket()) return false; handPausedPlay = false; hand.close(); audio.stop(); return true; },
+  getRun: selectedOwnerRun,
+  getCharacter: selectedOwnerCharacter,
+  getOwner: sharedOwner,
+  getOwners: sharedOwners,
+  getOwnerKey: selectedOwnerKey,
+  selectOwner: selectHudOwner,
+  selectNextOwner: selectNextHudOwner,
+  canMutate: ownerMutationsAvailable,
+  unavailableReason: ownerMutationReason,
+  canOpen: () => !localStage && !disposed && !(import.meta.env.DEV && devTools?.isOpen) && !document.hidden && localFocus && innerWidth >= 240 && innerHeight >= 240 && el('drawer').hidden && (game.state === 'playing' || (game.state === 'paused' && (localSession?.running || !!selectedOwnerRun().pendingPack))) && (localSession?.running || !!selectedOwnerRun().market),
+  open: () => {
+    if (localSession?.running) {
+      // A newly joined owner can have no market window yet. Keep the one shared
+      // surface open so their actual empty inventory remains inspectable.
+      selectedOwnerRun().open();
+      sessionPaused = true; game.pause(); handPausedPlay = false; hand.close(); audio.stop(); return true;
+    }
+    if (!game.openMarket()) return false; handPausedPlay = false; hand.close(); audio.stop(); return true;
+  },
   close: resume => {
     const allowed = resume && !disposed && !document.hidden && localFocus && innerWidth >= 240 && innerHeight >= 240;
+    if (localSession?.running) {
+      selectedOwnerRun().close(); if (allowed) { sessionPaused = false; game.resume(); audio.unlock(); }
+      return;
+    }
     game.closeMarket(allowed); if (allowed) audio.unlock();
   },
   canRestoreFocus: () => restoreModalFocus && !disposed && !document.hidden && localFocus && innerWidth >= 240 && innerHeight >= 240,
@@ -137,7 +194,7 @@ const market = createMarketUI({
   changed: updateHud,
 });
 const router: GamepadRouter = new GamepadRouter({
-  context: () => `${localStage ? 'setup' : localSession ? sessionPaused ? 'session-paused' : 'session' : 'solo'}:${game.state}:${hand.isOpen() ? 'hand' : game.run.isOpen ? 'market' : el('drawer').hidden ? `run:${el('app').dataset.runMenuPage ?? el('app').dataset.pausePage ?? ''}` : `collection:${el('drawer').dataset.collectionTab}:${el('drawer').dataset.collectionView}`}`,
+  context: () => `${localStage ? 'setup' : localSession ? sessionPaused ? 'session-paused' : 'session' : 'solo'}:${game.state}:${hand.isOpen() ? 'hand' : market.isOpen() ? 'market' : el('drawer').hidden ? `run:${el('app').dataset.runMenuPage ?? el('app').dataset.pausePage ?? ''}` : `collection:${el('drawer').dataset.collectionTab}:${el('drawer').dataset.collectionView}`}`,
   dispatch: ({ seat, direction }) => {
     if (localSession?.running) { moveSessionCharacter(seat, direction); return true; }
     if (seat === 'p1') { move(direction); return true; }
@@ -147,14 +204,17 @@ const router: GamepadRouter = new GamepadRouter({
     if (hudDetailsOpen && (action === 'confirm' || action === 'pause' || action === 'back')) { closeHudInspection(); updateHud(); return; }
     if (action === 'call') { localSession?.running ? callSessionCharacter(seat) : callCharacter(); return; }
     if (action === 'confirm') {
-      if (displayedRunState() !== 'playing' || localStage || hand.isOpen() || game.run.isOpen || !el('drawer').hidden) { confirmMenu(); return; }
+      if (displayedRunState() !== 'playing' || localStage || hand.isOpen() || market.isOpen() || !el('drawer').hidden) { confirmMenu(); return; }
       if (localSession?.running) moveSessionCharacter(seat, 'forward'); else move('forward');
       return;
     }
     if (action === 'pause') { togglePause(); return; }
     if (action === 'back') { backMenu(); return; }
     if (action === 'menu') { el('drawer').hidden ? openDrawer() : closeDrawer(); return; }
-    if (action === 'market') market.toggle();
+    if (action === 'market') {
+      if (localSession?.running) { selectHudOwner(seat); updateHud(); return; }
+      market.toggle();
+    }
   },
   acceptsDevice: () => !localSession || localStage !== undefined || setupDraft.length < 4,
   requestFirstPlayer: (device): boolean => {
@@ -206,14 +266,14 @@ function updateCallControl(): void {
 }
 function callCharacter(): void {
   if (import.meta.env.DEV && devTools?.isOpen) return;
-  if (localStage || (localSession && sessionPaused) || disposed || !localFocus || document.hidden || game.run.isOpen || !el('drawer').hidden || progress.muted || innerWidth < 240 || innerHeight < 240 || (game.state !== 'ready' && game.state !== 'playing')) return;
+  if (localStage || (localSession && sessionPaused) || disposed || !localFocus || document.hidden || market.isOpen() || !el('drawer').hidden || progress.muted || innerWidth < 240 || innerHeight < 240 || (game.state !== 'ready' && game.state !== 'playing')) return;
   const now = performance.now(); if (now - lastCall < 450) return;
   audio.unlock(); audio.play(characterById(progress.selected).call); lastCall = now;
 }
 /** Session calls deliberately resolve the assigned seat, never saved solo choice. */
 function callSessionCharacter(seat: SeatId): void {
   if (import.meta.env.DEV && devTools?.isOpen) return;
-  if (!localSession?.running || localStage || sessionPaused || disposed || !localFocus || document.hidden || game.run.isOpen || !el('drawer').hidden || progress.muted || innerWidth < 240 || innerHeight < 240 || displayedRunState() !== 'playing') return;
+  if (!localSession?.running || localStage || sessionPaused || disposed || !localFocus || document.hidden || market.isOpen() || !el('drawer').hidden || progress.muted || innerWidth < 240 || innerHeight < 240 || displayedRunState() !== 'playing') return;
   const player = localSession.players.find(candidate => candidate.seat === seat);
   if (!player || player.state !== 'playing') return;
   const now = performance.now(), last = sessionCalls.get(seat) ?? -Infinity;
@@ -221,7 +281,7 @@ function callSessionCharacter(seat: SeatId): void {
   audio.unlock(); audio.play(characterById(player.characterId).call); sessionCalls.set(seat, now);
 }
 function moveSessionCharacter(seat: SeatId, direction: Direction): void {
-  if (!frameAvailable() || !localSession?.running || localStage || hand.isOpen() || hand.containsFocus() || game.run.isOpen || !el('drawer').hidden || displayedRunState() !== 'playing') return;
+  if (!frameAvailable() || !localSession?.running || localStage || hand.isOpen() || hand.containsFocus() || market.isOpen() || !el('drawer').hidden || displayedRunState() !== 'playing') return;
   audio.unlock(); if (localSession.dispatch({ seat, direction })) audio.play('hop'); updateHud();
 }
 function releaseNativeKeyboard(): void {
@@ -439,7 +499,7 @@ function updateHud(): void {
           if (innerHeight <= 319 && hudSelected === player.seat) {
             if (hudDetailsOpen) closeHudInspection();
             else { hudInspectWasPlaying = displayedRunState() === 'playing'; hudDetailsOpen = true; if (hudInspectWasPlaying) { sessionPaused = true; game.pause(); } }
-          } else { if (hudDetailsOpen) closeHudInspection(); hudSelected = player.seat; }
+          } else { if (hudDetailsOpen) closeHudInspection(); selectHudOwner(player.seat); }
           updateHud();
         });
         const details = document.createElement('div'); details.className = 'session-hud-details';
@@ -482,17 +542,18 @@ function updateHud(): void {
   updateRunPowers();
   updateChaseHud();
   const state = displayedRunState();
-  hand.update({ visible: !localStage && game.run.alive && (state === 'playing' || state === 'paused') && (game.run.cards.length > 0 || game.run.isOpen) && !(import.meta.env.DEV && devTools?.isOpen), reduced: progress.reduced || mediaQuery.matches });
+  const ownerRun = selectedOwnerRun();
+  hand.update({ visible: !localStage && ownerRun.alive && (state === 'playing' || state === 'paused') && (ownerRun.cards.length > 0 || ownerRun.isOpen) && !(import.meta.env.DEV && devTools?.isOpen), reduced: progress.reduced || mediaQuery.matches });
   seedUI.update(state === 'dead' && !presentingDeathSpill() ? game.seedCode : null);
   el<HTMLButtonElement>('character-call').disabled = progress.muted || (state !== 'ready' && state !== 'playing');
-  const viewState = `${state}:${Boolean(game.run.pendingPack)}:${Boolean(localStage)}:${Boolean(localSession)}`;
+  const viewState = `${state}:${Boolean(selectedOwnerRun().pendingPack)}:${Boolean(localStage)}:${Boolean(localSession)}`;
   if (viewState !== previousState) {
     if (state === 'paused') audio.stop();
     previousState = viewState;
     el('app').dataset.runState = state;
     el('run-panel').hidden = state === 'playing';
     el('ready-content').hidden = state !== 'ready'; el('result-content').hidden = state !== 'dead'; el('pause-content').hidden = state !== 'paused' || !!localStage;
-    el('play').innerHTML = `${state === 'dead' ? 'Hop again' : state === 'paused' ? game.run.pendingPack ? 'Choose cards' : 'Keep hopping' : 'Let’s hop'} <span aria-hidden="true">↗</span>`;
+    el('play').innerHTML = `${state === 'dead' ? 'Hop again' : state === 'paused' ? selectedOwnerRun().pendingPack ? 'Choose cards' : 'Keep hopping' : 'Let’s hop'} <span aria-hidden="true">↗</span>`;
     el('play').hidden = !!localStage; el('choose').hidden = !!localStage;
     el('local-play').hidden = !!localStage || !!localSession || state === 'dead';
     el('mode').hidden = state === 'paused' || !!localSession; el('goal').hidden = state !== 'ready';
@@ -502,7 +563,7 @@ function updateHud(): void {
   }
   // HUD inspection is its own modal: do not leave the normal paused board in
   // the accessibility tree behind the compact details sheet.
-  el('run-panel').hidden = hudDetailsOpen || state === 'playing' || presentingDeathSpill() || game.run.isOpen || !el('drawer').hidden || (hand.isOpen() && handPausedPlay);
+  el('run-panel').hidden = hudDetailsOpen || state === 'playing' || presentingDeathSpill() || market.isOpen() || !el('drawer').hidden || (hand.isOpen() && handPausedPlay);
   el('app').dataset.modalOpen = String((hudDetailsOpen || !el('run-panel').hidden || !el('drawer').hidden || hand.isOpen()) && !(import.meta.env.DEV && devTools?.isOpen));
   el('app').classList.toggle('ui-less-motion', progress.reduced || mediaQuery.matches);
   pauseUI.update(!localStage && state === 'paused' && !el('run-panel').hidden && !(import.meta.env.DEV && devTools?.isOpen), progress.reduced || mediaQuery.matches);
@@ -559,9 +620,9 @@ function updateChaseHud(): void {
 }
 function play(): void {
   if (import.meta.env.DEV && devTools?.isOpen) return;
-  if (localStage || !el('drawer').hidden || game.run.isOpen || !frameAvailable()) return;
+  if (localStage || !el('drawer').hidden || market.isOpen() || !frameAvailable()) return;
   if (presentingDeathSpill()) return;
-  if (game.run.pendingPack) { market.toggle(); return; }
+  if (selectedOwnerRun().pendingPack) { market.toggle(); return; }
   audio.unlock();
   if (localSession?.running && localSession.players.some(player => player.state === 'playing' || player.state === 'paused')) {
     sessionPaused = false; game.resume(); accumulator = 0; activateNativeKeyboard(); updateHud(); return;
@@ -599,7 +660,7 @@ function leaveSetupSeat(seat: SeatId): void {
 }
 /** Setup freezes the existing loop without advancing it; roster edits remain UI-only drafts. */
 function openLocalPlay(joining?: GamepadDevice): void {
-  if (!frameAvailable() || localStage || localSession || game.state === 'dead' || !el('drawer').hidden || hand.isOpen() || game.run.isOpen || game.run.pendingPack) return;
+  if (!frameAvailable() || localStage || localSession || game.state === 'dead' || !el('drawer').hidden || hand.isOpen() || market.isOpen() || selectedOwnerRun().pendingPack) return;
   try { localStage = LocalSession.stage(game, { roster: [] }); }
   catch { notify('Local Play needs a safe second starting spot on this course.'); return; }
   const primaryDevice: DeviceId = soloGamepad ? markerDevice(soloGamepad) : 'keyboard-a';
@@ -712,7 +773,7 @@ function handleControllerLifecycle(event: GamepadLifecycle): void {
 }
 function moveLocal(seat: SeatId, direction: Direction): void {
   if (!frameAvailable()) return;
-  if (!localSession?.running || localStage || hand.isOpen() || hand.containsFocus() || game.run.isOpen || !el('drawer').hidden || displayedRunState() !== 'playing') { move(direction); return; }
+  if (!localSession?.running || localStage || hand.isOpen() || hand.containsFocus() || market.isOpen() || !el('drawer').hidden || displayedRunState() !== 'playing') { move(direction); return; }
   audio.unlock(); if (localSession.dispatch({ seat, direction })) audio.play('hop'); updateHud();
 }
 function localSetupKeydown(event: KeyboardEvent): void {
@@ -759,7 +820,7 @@ function move(direction: Direction): void {
     buttons[(current + delta + buttons.length) % buttons.length]!.focus({ preventScroll: true }); return;
   }
   if (hand.isOpen() || (game.state === 'playing' && hand.containsFocus())) { hand.navigate(direction); return; }
-  if (game.run.isOpen) { market.navigate(direction); return; }
+  if (market.isOpen()) { market.navigate(direction); return; }
   if (!el('drawer').hidden) { collectionUI.navigate(direction); return; }
   if (innerWidth < 240 || innerHeight < 240) return;
   const state = displayedRunState();
@@ -777,7 +838,7 @@ function confirmMenu(): void {
     return;
   }
   if (hand.isOpen() || hand.containsFocus()) { hand.confirm(); return; }
-  if (game.run.isOpen) market.confirm();
+  if (market.isOpen()) market.confirm();
   else if (!el('drawer').hidden) collectionUI.confirm();
   else if (displayedRunState() === 'paused') pauseUI.confirm();
   else if (displayedRunState() === 'playing') move('forward'); else runMenuUI.confirm();
@@ -786,18 +847,18 @@ function togglePause(): void {
   if (!frameAvailable() || localStage) return;
   if (hudDetailsOpen) { closeHudInspection(); updateHud(); return; }
   if (hand.close()) return;
-  if (game.run.isOpen) { market.close(); return; }
+  if (market.isOpen()) { market.close(); return; }
   if (!el('drawer').hidden) return;
   if (displayedRunState() === 'paused') play();
   else if (localSession?.running) { sessionPaused = true; accumulator = 0; audio.stop(); }
   else game.pause();
   updateHud();
 }
-function suspendPlay(): void { closeHudInspection(false); releaseNativeKeyboard(); if (localSession) sessionPaused = true; pointer = null; audio.stop(); handPausedPlay = false; hand.close(); game.closeMarket(false); game.pause(); restoreAfterDrawer = false; restoreModalFocus = false; updateHud(); restoreModalFocus = true; }
+function suspendPlay(): void { closeHudInspection(false); releaseNativeKeyboard(); if (localSession) sessionPaused = true; pointer = null; audio.stop(); handPausedPlay = false; hand.close(); if (market.isOpen()) market.close(false); else game.closeMarket(false); game.pause(); restoreAfterDrawer = false; restoreModalFocus = false; updateHud(); restoreModalFocus = true; }
 function openDrawer(): void {
   if (localStage || !frameAvailable()) return;
   const wasPlaying = handPausedPlay || game.state === 'playing'; handPausedPlay = false; hand.close();
-  if (game.run.isOpen) market.close(false);
+  if (market.isOpen()) market.close(false);
   audio.stop(); restoreAfterDrawer = wasPlaying; game.pause();
   collectionUI.open(); updateHud();
 }
@@ -811,7 +872,7 @@ function backMenu(): void {
   if (hudDetailsOpen) { closeHudInspection(); updateHud(); return; }
   if (localStage) { backToSolo(); return; }
   if (hand.close()) return;
-  if (game.run.isOpen) market.close();
+  if (market.isOpen()) market.close();
   else if (!el('drawer').hidden) { if (!collectionUI.back()) closeDrawer(); }
   else if (displayedRunState() === 'paused') { if (!pauseUI.back()) play(); }
   else if (displayedRunState() === 'ready' || displayedRunState() === 'dead') runMenuUI.back();
@@ -835,7 +896,7 @@ let last = performance.now(), accumulator = 0;
 function frame(now: number): void {
   const dt = Math.min((now - last) / 1000, .05); last = now;
   gamepad.update(now); router.update(now);
-  const sessionUnblocked = frameAvailable() && !localStage && displayedRunState() !== 'paused' && !hand.isOpen() && el('drawer').hidden && !game.run.isOpen && !game.run.pendingPack;
+  const sessionUnblocked = frameAvailable() && !localStage && displayedRunState() !== 'paused' && !hand.isOpen() && el('drawer').hidden && !market.isOpen() && !selectedOwnerRun().pendingPack;
   const sessionAdvancing = sessionUnblocked && displayedRunState() === 'playing';
   if (localSession?.running) {
     if (sessionAdvancing) {
@@ -853,9 +914,9 @@ function frame(now: number): void {
     else game.advanceDeathVisuals(dt);
   }
   spillAudio.update(game.state === 'dead' ? game.deathSpill : null,
-    !progress.muted && !document.hidden && localFocus && !game.run.isOpen && el('drawer').hidden && innerWidth >= 240 && innerHeight >= 240,
+    !progress.muted && !document.hidden && localFocus && !market.isOpen() && el('drawer').hidden && innerWidth >= 240 && innerHeight >= 240,
     progress.reduced || mediaQuery.matches);
-  soundscape.update(game, !progress.muted && !document.hidden && !game.run.isOpen && el('drawer').hidden && innerWidth >= 240 && innerHeight >= 240);
+  soundscape.update(game, !progress.muted && !document.hidden && !market.isOpen() && el('drawer').hidden && innerWidth >= 240 && innerHeight >= 240);
   renderer.reduced = progress.reduced || mediaQuery.matches;
   if (localSession?.running) renderer.drawSession(localSession.world, localSession.views(), sessionAdvancing ? dt : 0); else renderer.draw(game, progress.selected, localStage ? 0 : dt);
   updateHud(); el('toast').textContent = now < toastUntil && !(game.state === 'playing' && game.warning) ? toastMessage : '';

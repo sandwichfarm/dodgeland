@@ -15,7 +15,11 @@ export function runHandControls(): HTMLElement[] {
 
 interface RunHandOptions {
   getRun(): RunInventory;
+  getOwnerKey?(): string;
+  getOwnerLabel?(): string | undefined;
+  selectNextOwner?(): void;
   canSell(): boolean;
+  unavailableReason?(): string;
   onOpenChange(open: boolean): void;
   onSell(result: MarketResult): void;
 }
@@ -27,12 +31,15 @@ export function createRunHand(options: RunHandOptions) {
   root.classList.add('run-hand');
   root.setAttribute('aria-label', 'Your active cards');
   root.innerHTML = `
+    <button id="run-hand-owner" type="button" data-hand-key="owner" hidden></button>
     <span id="run-card-count"></span>
     <button id="run-hand-prev" class="run-hand-pager" data-hand-key="previous" aria-label="Previous hand cards" hidden>‹</button>
     <div id="run-cards" role="group" aria-label="Your hand"></div>
     <button id="run-hand-next" class="run-hand-pager" data-hand-key="next" aria-label="Next hand cards" hidden>›</button>
+    <p id="run-hand-owner-note" role="status" hidden></p>
     <section id="run-hand-detail" aria-labelledby="run-hand-name" aria-owns="run-cards run-hand-prev run-hand-next" hidden>
       <h2 id="run-hand-name"></h2>
+      <button id="run-hand-detail-owner" type="button" data-hand-key="owner" hidden></button>
       <div class="run-hand-reading">
         <p id="run-hand-copy"></p>
         <p id="run-hand-status" role="status" hidden></p>
@@ -48,16 +55,17 @@ export function createRunHand(options: RunHandOptions) {
       </div>
     </section>`;
   const get = <T extends HTMLElement = HTMLElement>(id: string): T => root.querySelector<T>(`#${id}`)!;
-  const cards = get('run-cards'), count = get('run-card-count'), detail = get('run-hand-detail');
-  const name = get('run-hand-name'), copy = get('run-hand-copy'), status = get('run-hand-status');
+  const cards = get('run-cards'), count = get('run-card-count'), detail = get('run-hand-detail'), ownerLabel = get('run-hand-owner');
+  const name = get('run-hand-name'), detailOwner = get('run-hand-detail-owner'), copy = get('run-hand-copy'), status = get('run-hand-status');
   const previous = get<HTMLButtonElement>('run-hand-prev'), next = get<HTMLButtonElement>('run-hand-next');
   const previousDetail = get<HTMLButtonElement>('run-hand-detail-prev'), nextDetail = get<HTMLButtonElement>('run-hand-detail-next');
   const pageCount = get('run-hand-page-count'), closeButton = get<HTMLButtonElement>('run-hand-close'), sell = get<HTMLButtonElement>('run-hand-sell');
+  const ownerNote = get('run-hand-owner-note');
   const detailPager = root.querySelector<HTMLElement>('.run-hand-detail-pages')!;
   const reading = root.querySelector<HTMLElement>('.run-hand-reading')!;
   const measure = document.createElement('canvas').getContext('2d')!;
   let active = false, disposed = false, selected: string | null = null, handPage = 0, detailPage = 0;
-  let pageSize = 3, fingerprint = '', message = '', pages = [''], lastRun: RunInventory | undefined;
+  let pageSize = 3, fingerprint = '', message = '', pages = [''], lastRun: RunInventory | undefined, ownerKey = options.getOwnerKey?.() ?? '';
   let returnFocus: HTMLElement | null = null, pointerFocus: HTMLElement | null = null;
 
   function selectedCard(): HeldCard | undefined { return options.getRun().cards.find(card => card.id === selected); }
@@ -154,10 +162,13 @@ export function createRunHand(options: RunHandOptions) {
     const card = selectedCard();
     if (!card) return;
     name.textContent = card.name; name.title = card.name;
+    const owner = options.getOwnerLabel?.(); detailOwner.hidden = !owner; detailOwner.textContent = owner ?? '';
+    detailOwner.setAttribute('aria-label', owner ? `View ${owner.replace(/^Viewing\s+/, '')}. Select the next Local Play owner.` : '');
     detail.dataset.rarity = card.rarity;
-    sell.textContent = `Sell ${card.saleValue} ◆`;
+    sell.textContent = options.canSell() ? `Sell ${card.saleValue} ◆` : 'Selling unavailable';
     sell.setAttribute('aria-label', `Sell ${card.name} for ${card.saleValue} coins`);
     sell.disabled = !options.canSell();
+    sell.title = options.canSell() ? '' : options.unavailableReason?.() ?? '';
     copy.hidden = Boolean(message); status.hidden = !message;
     paginate();
   }
@@ -191,7 +202,8 @@ export function createRunHand(options: RunHandOptions) {
   function onClick(event: Event) {
     const target = (event.target as Element).closest<HTMLButtonElement>('button');
     if (!target || !active) return;
-    if (target.dataset.handCard) open(target.dataset.handCard);
+    if (target === ownerLabel || target === detailOwner) options.selectNextOwner?.();
+    else if (target.dataset.handCard) open(target.dataset.handCard);
     else if (target === closeButton) close();
     else if (target === previous || target === next) {
       handPage += target === previous ? -1 : 1; paintHand();
@@ -199,6 +211,7 @@ export function createRunHand(options: RunHandOptions) {
     } else if (target === previousDetail || target === nextDetail) {
       detailPage += target === previousDetail ? -1 : 1; paintDetailPage();
     } else if (target === sell && selected) {
+      if (!options.canSell()) { message = options.unavailableReason?.() ?? 'This action is unavailable.'; detailPage = 0; updateDetail(); return; }
       const result = options.getRun().sell(selected);
       if (result.ok) close();
       else { message = result.message; detailPage = 0; updateDetail(); }
@@ -208,6 +221,14 @@ export function createRunHand(options: RunHandOptions) {
   }
 
   const onPointerDown = () => { pointerFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null; };
+  function invalidateOwner(): void {
+    const wasOpen = Boolean(selected);
+    selected = null; handPage = 0; detailPage = 0; fingerprint = ''; message = ''; pages = [''];
+    returnFocus = null; pointerFocus = null;
+    detail.hidden = true; detail.removeAttribute('role'); detail.removeAttribute('aria-modal'); root.classList.remove('is-inspecting');
+    ownerNote.hidden = true; ownerNote.textContent = '';
+    if (wasOpen) options.onOpenChange(false);
+  }
   const onKey = (event: KeyboardEvent) => {
     if (!selected || !active || (event.key !== 'Tab' && event.key !== 'Escape')) return;
     event.preventDefault(); event.stopImmediatePropagation();
@@ -227,10 +248,16 @@ export function createRunHand(options: RunHandOptions) {
     update({ visible: shown, reduced }: { visible: boolean; reduced: boolean }) {
       if (disposed) return;
       const run = options.getRun();
-      if (lastRun && lastRun !== run) { close(); handPage = 0; fingerprint = ''; }
+      const nextOwnerKey = options.getOwnerKey?.() ?? '';
+      if (nextOwnerKey !== ownerKey) { invalidateOwner(); ownerKey = nextOwnerKey; }
+      if (lastRun && lastRun !== run) { invalidateOwner(); }
       lastRun = run;
       if (!shown && selected) close();
       active = shown; root.hidden = !shown;
+      const unavailable = !options.canSell() && !!options.unavailableReason?.();
+      ownerNote.hidden = !unavailable; ownerNote.textContent = unavailable ? options.unavailableReason!() : '';
+      const label = options.getOwnerLabel?.(); ownerLabel.hidden = !label; ownerLabel.textContent = label ?? '';
+      root.dataset.ownerMutationUnavailable = String(unavailable);
       app.dataset.handVisible = String(shown); root.classList.toggle('less-motion', reduced);
       if (!shown) {
         // A finished run must not leave its old cards in the hidden UI. Rebuild
@@ -260,6 +287,7 @@ export function createRunHand(options: RunHandOptions) {
       if (focused instanceof HTMLButtonElement && runHandControls().includes(focused)) focused.click();
       else focus(runHandControls()[0]);
     },
+    invalidateOwner,
     dispose() {
       disposed = true; observer.disconnect();
       root.removeEventListener('click', onClick); root.removeEventListener('pointerdown', onPointerDown);

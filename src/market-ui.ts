@@ -10,6 +10,13 @@ import { runHandControls } from './run-hand.js';
 interface MarketUIOptions {
   getRun(): RunInventory;
   getCharacter(): Character;
+  getOwner?(): { key: string; seat: string; marker: string; character: Character } | undefined;
+  getOwners?(): readonly { key: string; seat: string; marker: string; character: Character }[];
+  getOwnerKey?(): string;
+  selectOwner?(seat: string): void;
+  selectNextOwner?(): void;
+  canMutate?(): boolean;
+  unavailableReason?(): string;
   canOpen(): boolean;
   open(): boolean;
   close(resume: boolean): void;
@@ -38,6 +45,9 @@ function textNode<K extends keyof HTMLElementTagNameMap>(tag: K, text: string, c
 /** One market table, a separate wardrobe, and bounded pack/detail views. */
 export function createMarketUI(options: MarketUIOptions) {
   const overlay = element('market'), opener = element<HTMLButtonElement>('market-open');
+  const owner = textNode('span', '', 'market-owner'); owner.id = 'market-owner'; owner.hidden = true;
+  const ownerStrip = textNode('div', '', 'market-owner-strip'); ownerStrip.id = 'market-owner-strip'; ownerStrip.hidden = true; ownerStrip.setAttribute('role', 'group'); ownerStrip.setAttribute('aria-label', 'Local Play owner');
+  overlay.querySelector('.market-toolbar')!.prepend(ownerStrip, owner);
   const offers = element('market-offers');
   const hand = element('run-inventory');
   const wardrobe = element('market-wardrobe-items'), choices = element('market-choices');
@@ -54,6 +64,9 @@ export function createMarketUI(options: MarketUIOptions) {
   let inspection: string | undefined, page = 0, pageCount = 1, capacity = 1, roomy = false, short = false;
   let visibleKeys: string[] = [], pageAnchor: string | undefined;
   let closingRun: RunInventory | undefined, closeTimer: ReturnType<typeof setTimeout> | undefined;
+  // Only an empty Local Play inventory needs a UI-only presentation flag. An
+  // ordinary market follows its own RunInventory.isOpen lifecycle exactly.
+  let ownerKey = options.getOwnerKey?.() ?? 'solo', ownerGeneration = 0, ownerRoster = '', virtualPresentation = false;
   const peers = [...overlay.parentElement!.children].filter((node): node is HTMLElement => node instanceof HTMLElement && node !== overlay && node !== hand);
   const previousInert = new Map<HTMLElement, boolean>();
   const reducedMotion = (): boolean => !!options.getReducedMotion?.() || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -135,6 +148,47 @@ export function createMarketUI(options: MarketUIOptions) {
   function cancelClosing(): void {
     if (closeTimer !== undefined) clearTimeout(closeTimer);
     closeTimer = undefined; closingRun = undefined; overlay.inert = false; overlay.classList.remove('is-closing');
+  }
+  function mutationsAvailable(): boolean { return options.canMutate?.() ?? true; }
+  function unavailableReason(): string { return options.unavailableReason?.() ?? 'This action is unavailable.'; }
+  function syncOwner(): void {
+    const shared = options.getOwner?.();
+    const owners = options.getOwners?.() ?? [];
+    owner.hidden = !shared;
+    ownerStrip.hidden = owners.length < 2;
+    owner.textContent = shared ? `Viewing ${shared.seat.toUpperCase()} ${shared.marker} · ${shared.character.name}` : '';
+    owner.dataset.ownerKey = shared?.key ?? '';
+    owner.title = shared ? `${owner.textContent}. ${mutationsAvailable() ? 'Run interactions are available.' : unavailableReason()}` : '';
+    const roster = owners.map(candidate => `${candidate.key}:${candidate.character.id}`).join('|');
+    if (roster !== ownerRoster) {
+      ownerRoster = roster;
+      ownerStrip.replaceChildren(...owners.map(candidate => {
+        const control = button(`${candidate.seat.toUpperCase()} ${candidate.marker}`, `owner:${candidate.seat}`, 'owner-seat', candidate.seat);
+        control.className = 'market-owner-seat'; control.setAttribute('aria-label', `View ${candidate.seat.toUpperCase()} ${candidate.marker}, ${candidate.character.name}`);
+        return control;
+      }));
+    }
+    for (const control of ownerStrip.querySelectorAll<HTMLButtonElement>('[data-market-action="owner-seat"]')) {
+      const selected = control.dataset.id === shared?.seat;
+      control.setAttribute('aria-pressed', String(selected)); control.classList.toggle('is-selected', selected);
+    }
+  }
+  function resetOwnerState(): void {
+    cancelClosing(); currentRun = undefined; travelerRendered = ''; lastMilestone = 0; draftId = '';
+    picked.clear(); discarded.clear(); replacing = false; view = 'shop'; inspection = undefined;
+    page = 0; pageCount = 1; pageAnchor = undefined; visibleKeys = []; rendered = '';
+    detailSource = ''; detailPages = []; detailPage = 0;
+    element('market-status').textContent = ''; element('market-reveal').replaceChildren();
+  }
+  function invalidateOwner(): boolean {
+    const oldRun = currentRun;
+    const marketWasOpen = virtualPresentation || Boolean(oldRun?.isOpen);
+    ownerGeneration += 1;
+    // Call the existing close path while getRun still addresses the departing
+    // owner; a selected HUD seat is changed only after this returns.
+    if (marketWasOpen && oldRun === options.getRun()) options.close(false);
+    if (wasOpen) modal(false);
+    virtualPresentation = false; resetOwnerState(); syncOwner(); return marketWasOpen;
   }
   function controls(): HTMLElement[] {
     if (closingRun) return [];
@@ -239,6 +293,10 @@ export function createMarketUI(options: MarketUIOptions) {
       control.setAttribute('aria-pressed', String(selected));
       const burst = textNode('span', '', 'card-selection-burst'); burst.setAttribute('aria-hidden', 'true'); control.prepend(burst);
     }
+    if (!mutationsAvailable() && ['choice', 'discard'].includes(entry.source)) {
+      control.disabled = true; control.title = unavailableReason();
+      control.setAttribute('aria-label', `${entry.item.name}. ${unavailableReason()}`);
+    }
     return control;
   }
   function renderInspection(run: RunInventory, entry: DisplayItem): void {
@@ -270,6 +328,7 @@ export function createMarketUI(options: MarketUIOptions) {
       note = 'Leaves your hand when you confirm. No sale coins.';
     } else { action.hidden = true; }
     action.dataset.marketAction = actionName; action.dataset.marketKey = `${actionName}:${entry.id}`; action.textContent = label;
+    if (actionName && !mutationsAvailable()) { action.disabled = true; note = unavailableReason(); }
     action.setAttribute('aria-label', entry.source === 'discard' ? `${label}: ${entry.item.name}. Changes apply only after confirming the replacement.` : label);
     element('market-inspect-note').textContent = note;
     detailSource = `${entry.item.name}. ${entry.item.description} ${note}`;
@@ -355,23 +414,28 @@ export function createMarketUI(options: MarketUIOptions) {
   function resetView(): void { view = 'shop'; inspection = undefined; page = 0; pageAnchor = undefined; rendered = ''; }
   function update(): void {
     if (disposed) return;
+    const nextOwnerKey = options.getOwnerKey?.() ?? 'solo';
+    if (nextOwnerKey !== ownerKey) { ownerKey = nextOwnerKey; ownerGeneration += 1; resetOwnerState(); }
+    syncOwner();
     const run = options.getRun(); overlay.classList.toggle('less-motion', reducedMotion());
     if (closingRun && (closingRun !== run || !run.isOpen || !run.alive || !options.canRestoreFocus())) {
       const forceClose = closingRun === run && run.isOpen;
       cancelClosing(); if (forceClose) options.close(false);
     }
     if (currentRun !== run) {
+      virtualPresentation = false;
       currentRun = run; travelerRendered = ''; lastMilestone = 0; draftId = ''; picked.clear(); discarded.clear(); replacing = false; resetView();
       element('market-status').textContent = ''; element('market-reveal').replaceChildren();
     }
-    const window = run.market, available = !!window && run.alive;
+    if (!run.alive) virtualPresentation = false;
+    const window = run.market, available = !!window && run.alive, open = isOpen();
     opener.hidden = !available; opener.disabled = !options.canOpen() && !run.isOpen;
     opener.textContent = run.pendingPack ? 'Finish choosing cards' : window ? `Market · ${options.shortcut()} · ${Math.ceil(window.remaining)}s` : 'Market';
     opener.setAttribute('aria-label', run.pendingPack ? `Finish choosing your pack cards (${options.shortcut()})` : window ? `Open market at ${window.milestone} points, ${Math.ceil(window.remaining)} seconds remaining (${options.shortcut()})` : 'Market unavailable');
     element('market-wallet').textContent = `${run.wallet} ◆`;
     element('market-tab-wallet').textContent = `${run.wallet} ◆`;
     element('market-heading').textContent = window ? `Market · ${window.milestone}` : 'Market';
-    element('market-window').textContent = 'Take your time. The trail is paused.';
+    element('market-window').textContent = mutationsAvailable() ? 'Take your time. The trail is paused.' : window ? unavailableReason() : `${unavailableReason()} No active market is open for this player.`;
     if (window && window.milestone !== lastMilestone) {
       lastMilestone = window.milestone; resetView();
       element('market-announcement').textContent = `Market open at ${window.milestone} points. Press ${options.shortcut()} or use Market. You have 15 seconds of play to visit.`;
@@ -380,13 +444,17 @@ export function createMarketUI(options: MarketUIOptions) {
     if (run.pendingPack?.id !== (draftId || undefined)) {
       draftId = run.pendingPack?.id ?? ''; picked.clear(); discarded.clear(); replacing = false; page = 0; inspection = undefined; rendered = '';
     }
+    for (const id of ['market-skip', 'market-claim']) {
+      const control = element<HTMLButtonElement>(id);
+      if (!mutationsAvailable() && !control.hidden) { control.disabled = true; control.title = unavailableReason(); }
+    }
     // The shared hand can sell while this draft stays open. Only prune removed
     // discards: current choices, offer inspection and the page remain intact.
     for (const id of discarded) if (!run.cards.some(card => card.id === id)) discarded.delete(id);
     const signature = `${run.revision}:${window?.milestone ?? 0}:${run.wallet}:${view}:${inspection}:${page}:${capacity}:${roomy}:${short}:${[...picked]}:${replacing}:${[...discarded]}`;
-    if (run.isOpen && signature !== rendered) { rendered = signature; renderContents(run); }
-    if (run.isOpen) renderTraveler(run);
-    if (run.isOpen !== wasOpen) modal(run.isOpen);
+    if (open && signature !== rendered) { rendered = signature; renderContents(run); }
+    if (open) renderTraveler(run);
+    if (open !== wasOpen) modal(open);
     syncPreviews();
   }
   function changeScreen(next: View): void {
@@ -416,28 +484,44 @@ export function createMarketUI(options: MarketUIOptions) {
     }
     if (result.ok && runIsVisible()) focusControl(acquiredKey ? `inspect:${acquiredKey}` : undefined);
   }
-  function runIsVisible(): boolean { return options.getRun().isOpen && !closingRun; }
+  /** Presentation stays modal through the close animation; actions do not. */
+  function isOpen(): boolean { const run = options.getRun(); return run.alive && (virtualPresentation || run.isOpen); }
+  function runIsVisible(): boolean { return isOpen() && !closingRun; }
   function close(resume = true): void {
     const run = options.getRun();
     if (!resume) {
-      cancelClosing(); if (run.isOpen) options.close(false);
+      cancelClosing(); if (runIsVisible()) options.close(false); virtualPresentation = false;
       update(); options.changed(); return;
     }
-    if (!run.isOpen || closingRun) return;
+    if (!runIsVisible()) return;
     if (run.pendingPack) { element('market-status').textContent = 'Keep your cards or skip this pack before hopping.'; focusControl(); return; }
-    if (reducedMotion()) { options.close(options.canRestoreFocus()); update(); options.changed(); return; }
+    if (!run.isOpen || reducedMotion()) { virtualPresentation = false; options.close(options.canRestoreFocus()); update(); options.changed(); return; }
     closingRun = run; overlay.inert = true; overlay.classList.add('is-closing'); syncPreviews();
+    const closeGeneration = ownerGeneration;
     closeTimer = setTimeout(() => {
+      if (closeGeneration !== ownerGeneration) return;
       const owner = closingRun; cancelClosing();
       if (!disposed && owner === options.getRun() && owner?.isOpen && owner.alive) options.close(options.canRestoreFocus());
       update(); options.changed();
     }, 160);
   }
+  function openForSelected(): boolean {
+    if (!options.canOpen() || !options.open()) return false;
+    const run = options.getRun(), virtual = !run.isOpen;
+    // Let the normal replacement reset run before latching a real empty-owner
+    // view. Otherwise that reset would immediately clear the virtual flag.
+    if (virtual && currentRun !== run) update();
+    virtualPresentation = virtual; update(); options.changed(); return true;
+  }
+  function focusSelectedOwner(): boolean {
+    const selected = ownerStrip.querySelector<HTMLButtonElement>('[data-market-action="owner-seat"][aria-pressed="true"]');
+    if (!selected || selected.closest('[hidden], [inert]') || !selected.getClientRects().length) return false;
+    selected.focus({ preventScroll: true }); return true;
+  }
   function toggle(): void {
     if (closingRun) return;
-    if (options.getRun().isOpen) { close(); return; }
-    if (!options.canOpen() || !options.open()) return;
-    update(); options.changed();
+    if (runIsVisible()) { close(); return; }
+    openForSelected();
   }
   function back(): void {
     element('market-status').textContent = '';
@@ -448,6 +532,10 @@ export function createMarketUI(options: MarketUIOptions) {
     const target = event.target instanceof Element ? event.target.closest<HTMLButtonElement>('button[data-market-action]') : null;
     if (!target || target.disabled) return;
     const run = options.getRun(), id = target.dataset.id!, action = target.dataset.marketAction;
+    if (action === 'owner-seat') { if (id) options.selectOwner?.(id); return; }
+    if (action && ['buy', 'sell', 'equip', 'choice', 'discard', 'claim', 'skip'].includes(action) && !mutationsAvailable()) {
+      element('market-status').textContent = unavailableReason(); return;
+    }
     if (action && ['view', 'page', 'inspect'].includes(action)) element('market-status').textContent = '';
     if (action === 'close') close();
     else if (action === 'view' && !run.pendingPack) changeScreen(id === 'wardrobe' ? 'wardrobe' : 'shop');
@@ -490,20 +578,20 @@ export function createMarketUI(options: MarketUIOptions) {
     }
   }
   function navigate(direction: Direction): void {
-    if (!options.getRun().isOpen || closingRun) return;
+    if (!runIsVisible()) return;
     const available = controls(), index = available.indexOf(document.activeElement as HTMLElement);
     const step = direction === 'right' || direction === 'back' ? 1 : -1;
     const target = available[index < 0 ? 0 : (index + step + available.length) % available.length];
     target?.focus({ preventScroll: true });
   }
   function keydown(event: KeyboardEvent): void {
-    if (!options.getRun().isOpen || event.defaultPrevented) return;
+    if (!runIsVisible() || event.defaultPrevented) return;
     if (closingRun) { event.preventDefault(); return; }
     if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); if (inspection) back(); else close(); }
     else if (event.key === 'Tab') { event.preventDefault(); navigate(event.shiftKey ? 'left' : 'right'); }
   }
   function confirm(): void {
-    if (!closingRun && options.getRun().isOpen && document.activeElement instanceof HTMLButtonElement && controls().includes(document.activeElement)) document.activeElement.click();
+    if (!closingRun && runIsVisible() && document.activeElement instanceof HTMLButtonElement && controls().includes(document.activeElement)) document.activeElement.click();
   }
   function resize(): void {
     const width = overlay.clientWidth || window.innerWidth, height = overlay.clientHeight || window.innerHeight;
@@ -518,9 +606,9 @@ export function createMarketUI(options: MarketUIOptions) {
   document.fonts.addEventListener('loadingdone', paginateInspection);
   opener.addEventListener('click', toggle); overlay.addEventListener('click', click); overlay.addEventListener('keydown', keydown); hand.addEventListener('keydown', keydown);
   resize();
-  return { update, toggle, close, navigate, confirm, dispose(): void {
+  return { update, toggle, close, navigate, confirm, invalidateOwner, openForSelected, focusSelectedOwner, isOpen, dispose(): void {
     if (disposed) return;
     disposed = true; resizeObserver.disconnect(); detailObserver.disconnect(); document.fonts.removeEventListener('loadingdone', paginateInspection); cancelClosing(); modal(false); clearItemPreviews(); unbindTraveler?.(); travelerPreview?.dispose(); scene.dispose();
-    opener.removeEventListener('click', toggle); overlay.removeEventListener('click', click); overlay.removeEventListener('keydown', keydown); hand.removeEventListener('keydown', keydown); compactCopy.remove(); detailNext.remove();
+    opener.removeEventListener('click', toggle); overlay.removeEventListener('click', click); overlay.removeEventListener('keydown', keydown); hand.removeEventListener('keydown', keydown); compactCopy.remove(); detailNext.remove(); owner.remove(); ownerStrip.remove();
   } };
 }
