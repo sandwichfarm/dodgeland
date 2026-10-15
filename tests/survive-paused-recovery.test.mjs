@@ -24,3 +24,15 @@ test('an intentionally paused active owner remains a living recovery subject', (
   });
   assert.equal(decision.ok, true, 'a paused living owner may author a recovery plan');
 });
+
+test('paused living owners work for Revival while dead, ghosted, and departed owners remain excluded', () => {
+  const owner = { seat: 'p2', state: 'paused', participation: 'active', deathGeneration: 4, charged: false };
+  const dead = { seat: 'p1', state: 'dead', participation: 'dead', deathGeneration: 8, charged: false };
+  const request = { kind: 'revival', tick: 21, now: 9, owner, targets: [dead], cells: [{ x: 1, y: 5 }], protectionSeconds: 2 };
+  assert.equal(planRecovery(request).ok, true, 'a paused P2 may restore a dead teammate without resuming the board');
+  for (const participation of ['dead', 'device-lost', 'departed']) {
+    const ineligible = { ...owner, participation, state: participation === 'dead' ? 'dead' : 'paused' };
+    const decision = planRecovery({ ...request, owner: ineligible });
+    assert.deepEqual(decision, { ok: false, reason: 'inactive-owner' }, `${participation} owners never gain paused-board authority`);
+  }
+});

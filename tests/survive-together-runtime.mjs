@@ -28,6 +28,16 @@ test('a built live run joins, exposes owner recovery controls, and commits a per
     const revive = frame.getByRole('button', { name: 'Use personal revive' });
     await revive.click();
     assert.equal(await frame.getByText(/Protected/).count() > 0, true, 'only committed recovery exposes protected return feedback');
+    await advance(2_400);
+    assert.equal(await onSession(function () {
+      for (const player of this.players.filter(value => value.participation === 'active')) this.world.host.inPlayerOperation(player, context => context.end('Tracer settlement', 'train', 'front'));
+      this.update(1 / 120);
+      this.declineRecovery('p2');
+      return this.result?.mode === 'survive-together';
+    }), true, 'only the valid pending offer delays all-dead settlement');
+    await advance(120);
+    assert.equal(await frame.getByRole('heading', { name: "The flock's run" }).isVisible(), true, 'the immutable team result replaces live recovery controls');
+    assert.equal(await frame.getByRole('button', { name: 'Hop again', exact: true }).isVisible(), true, 'team results keep one visible replay action');
     assert.deepEqual(evidence.errors, []);
   } finally { await app.close(); }
 });

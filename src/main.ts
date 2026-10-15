@@ -1,6 +1,7 @@
 import './styles.css';
 import './game-ui.css';
 import './session-ui.css';
+import './survive-results-ui.css';
 import { storage, themeGet, themeOnChanged, keys, intent } from '@napplet/sdk';
 import type { Theme } from '@napplet/sdk';
 import { runtimeHasDomain, runtimeHasMethod } from './domain-availability.js';
@@ -15,6 +16,8 @@ import { Renderer, modelThumbnail } from './render.js';
 import { LocalSession } from './session.js';
 import type { DeviceId, SeatId, SessionSeatSpec } from './session.js';
 import { createSurviveTogetherDefinition } from './survive-together.js';
+import { createSurviveResultsBoard } from './survive-results-ui.js';
+import type { SurviveTogetherResult } from './survive-results.js';
 import { createKeyboardInput, DEFAULT_KEYBOARD_BINDINGS } from './keyboard-input.js';
 import { createKeyboardBindingStore } from './keyboard-input.js';
 import type { BindingValidation, KeyboardBindings, KeyboardBindingStore, KeyboardInput } from './keyboard-input.js';
@@ -107,8 +110,27 @@ function lifecycleLabel(player: NonNullable<ReturnType<typeof selectedSessionOwn
   if (player.participation === 'dead') return player.recovery?.offer ? 'Recovery pending' : 'Down';
   return player.state === 'paused' ? 'Active · paused' : 'Active';
 }
+let recoveryReturnFocus: HTMLElement | undefined;
+let recoveryInertSiblings = new Map<HTMLElement, boolean>();
+function setRecoveryModalInert(board: HTMLElement): void {
+  recoveryReturnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : undefined;
+  recoveryInertSiblings = new Map([...el('app').children]
+    .filter((child): child is HTMLElement => child instanceof HTMLElement && child !== board)
+    .map(child => [child, child.inert]));
+  for (const sibling of recoveryInertSiblings.keys()) sibling.inert = true;
+}
+function clearRecoveryModalInert(): void {
+  for (const [sibling, inert] of recoveryInertSiblings) sibling.inert = inert;
+  recoveryInertSiblings.clear();
+}
+function discardRecoveryBoard(message?: string): void {
+  const priorFocus = recoveryReturnFocus; recoveryReturnFocus = undefined;
+  recoveryBoard?.remove(); recoveryBoard = undefined; recoveryBoardOwner = undefined; clearRecoveryModalInert();
+  if (message) notify(message);
+  queueMicrotask(() => (priorFocus?.isConnected ? priorFocus : el<HTMLButtonElement>('pause')).focus({ preventScroll: true }));
+}
 function closeRecoveryBoard(resume = false): void {
-  recoveryBoard?.remove(); recoveryBoard = undefined; recoveryBoardOwner = undefined;
+  discardRecoveryBoard();
   if (resume && localSession?.running && frameAvailable()) { sessionPaused = false; game.resume(); activateNativeKeyboard(); }
   updateHud();
 }
@@ -116,7 +138,7 @@ function openRecoveryBoard(ownerSeat: SeatId, itemId?: 'revival' | 'flare'): voi
   const session = localSession, owner = session?.players.find(player => player.seat === ownerSeat);
   if (!session || !owner || owner.participation !== 'active') return;
   if (displayedRunState() === 'playing') { sessionPaused = true; game.pause(); accumulator = 0; audio.stop(); }
-  recoveryBoard?.remove();
+  if (recoveryBoard) discardRecoveryBoard();
   const initialCharge = itemCharge(ownerSeat);
   if (!initialCharge) return;
   const ownerContext = Object.freeze({ participantId: owner.participantId, ownerGeneration: initialCharge.ownerGeneration, inventoryGeneration: initialCharge.inventoryGeneration });
@@ -124,12 +146,14 @@ function openRecoveryBoard(ownerSeat: SeatId, itemId?: 'revival' | 'flare'): voi
   const title = document.createElement('h2'); title.textContent = `Viewing ${ownerSeat.toUpperCase()} · ${characterById(owner.characterId).name}`;
   const status = document.createElement('p'); status.className = 'survive-recovery-status'; status.setAttribute('aria-live', 'polite');
   const actions = document.createElement('div'); actions.className = 'survive-recovery-actions';
-  const back = document.createElement('button'); back.type = 'button'; back.textContent = 'Back'; back.addEventListener('click', () => closeRecoveryBoard(false));
+  const back = document.createElement('button'); back.type = 'button'; back.textContent = 'Back to paused run'; back.addEventListener('click', () => closeRecoveryBoard(false));
+  const resume = document.createElement('button'); resume.type = 'button'; resume.textContent = 'Resume run'; resume.addEventListener('click', () => closeRecoveryBoard(true));
   const choose = (kind: 'revival' | 'flare') => {
     actions.replaceChildren();
     const dead = session.players.filter(player => player.participation === 'dead' && player.state === 'dead');
     const heading = document.createElement('h3'); heading.textContent = kind === 'revival' ? 'Choose a teammate' : 'Bring the flock together?'; actions.append(heading);
-    if (!dead.length) { status.textContent = kind === 'revival' ? 'No teammate can be revived right now.' : 'No teammate needs a flare right now.'; actions.append(back); return; }
+    board.dataset.recoveryPage = kind;
+    if (!dead.length) { status.textContent = kind === 'revival' ? 'No teammate can be revived right now.' : 'No teammate needs a flare right now.'; actions.append(back, resume); queueMicrotask(() => back.focus({ preventScroll: true })); return; }
     let target = dead[0]!;
     let targetDeathGeneration = target.recovery?.deathGeneration;
     if (kind === 'revival') for (const player of dead) {
@@ -144,14 +168,22 @@ function openRecoveryBoard(ownerSeat: SeatId, itemId?: 'revival' | 'flare'): voi
       status.textContent = ok ? kind === 'revival' ? `${ownerSeat.toUpperCase()} revived ${target.seat.toUpperCase()}.` : 'The flock regrouped safely.' : kind === 'revival' ? `${target.seat.toUpperCase()} can’t return safely yet. Revival kept.` : 'The flock can’t regroup safely yet. Flare kept.';
       if (ok) { notify(status.textContent); closeRecoveryBoard(false); } else updateHud();
     });
-    actions.append(back, commit); queueMicrotask(() => (kind === 'revival' ? actions.querySelector<HTMLButtonElement>('[data-target]') : back)?.focus({ preventScroll: true }));
+    actions.append(back, resume, commit); queueMicrotask(() => (kind === 'revival' ? actions.querySelector<HTMLButtonElement>('[data-target]') : back)?.focus({ preventScroll: true }));
   };
   if (itemId) choose(itemId); else {
     const revival = document.createElement('button'); revival.type = 'button'; revival.textContent = `Use Revival ×${initialCharge.revival}`; revival.disabled = !initialCharge.revival; revival.addEventListener('click', () => choose('revival'));
     const flare = document.createElement('button'); flare.type = 'button'; flare.textContent = `Use Flare ×${initialCharge.flare}`; flare.disabled = !initialCharge.flare; flare.addEventListener('click', () => choose('flare'));
-    actions.append(revival, flare, back); queueMicrotask(() => revival.focus({ preventScroll: true }));
+    board.dataset.recoveryPage = 'items'; actions.append(revival, flare, back, resume); queueMicrotask(() => revival.focus({ preventScroll: true }));
   }
-  board.append(title, status, actions); el('app').append(board); recoveryBoard = board; recoveryBoardOwner = { seat: ownerSeat, ...ownerContext }; updateHud();
+  board.addEventListener('keydown', event => {
+    if (event.key !== 'Tab') return;
+    const controls = [...board.querySelectorAll<HTMLButtonElement>('button:not([disabled])')];
+    if (!controls.length) return;
+    const first = controls[0]!, last = controls.at(-1)!;
+    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+  });
+  board.append(title, status, actions); el('app').append(board); recoveryBoard = board; recoveryBoardOwner = { seat: ownerSeat, ...ownerContext }; setRecoveryModalInert(board); updateHud();
 }
 function usePersonalRevive(seat: SeatId): void {
   const session = localSession; if (!session) return;
@@ -217,6 +249,8 @@ const hand = createRunHand({
 });
 const pauseUI = createPauseUI();
 const runMenuUI = createRunMenuUI();
+const surviveResultsRoot = document.createElement('section'); surviveResultsRoot.id = 'survive-results-root'; el('app').append(surviveResultsRoot);
+const surviveResults = createSurviveResultsBoard(surviveResultsRoot, { onAgain: () => reset() });
 const collectionUI = createCollectionUI({
   read: () => progress,
   selectTraveler: id => {
@@ -265,13 +299,30 @@ const market = createMarketUI({
   changed: updateHud,
 });
 const router: GamepadRouter = new GamepadRouter({
-  context: () => `${localStage ? 'setup' : localSession ? sessionPaused ? 'session-paused' : 'session' : 'solo'}:${game.state}:${hand.isOpen() ? 'hand' : market.isOpen() ? 'market' : el('drawer').hidden ? `run:${el('app').dataset.runMenuPage ?? el('app').dataset.pausePage ?? ''}` : `collection:${el('drawer').dataset.collectionTab}:${el('drawer').dataset.collectionView}`}`,
+  context: () => `${recoveryBoard ? `recovery:${recoveryBoardOwner?.seat ?? ''}:${recoveryBoard.dataset.recoveryPage ?? ''}` : !surviveResultsRoot.hidden ? 'survive-results' : localStage ? 'setup' : localSession ? sessionPaused ? 'session-paused' : 'session' : 'solo'}:${game.state}:${hand.isOpen() ? 'hand' : market.isOpen() ? 'market' : el('drawer').hidden ? `run:${el('app').dataset.runMenuPage ?? el('app').dataset.pausePage ?? ''}` : `collection:${el('drawer').dataset.collectionTab}:${el('drawer').dataset.collectionView}`}`,
   dispatch: ({ seat, direction }) => {
+    if (recoveryBoard) {
+      if (seat !== recoveryBoardOwner?.seat) return false;
+      navigateModalControls(recoveryBoard, direction); return true;
+    }
+    if (!surviveResultsRoot.hidden) { navigateModalControls(surviveResultsRoot, direction); return true; }
     if (localSession?.running) { moveSessionCharacter(seat, direction); return true; }
     if (seat === 'p1') { move(direction); return true; }
     return false;
   },
   action: (seat, action) => {
+    if (recoveryBoard) {
+      if (seat !== recoveryBoardOwner?.seat) return;
+      if (action === 'confirm') confirmModal(recoveryBoard);
+      else if (action === 'back') closeRecoveryBoard(false);
+      else if (action === 'pause') return;
+      return;
+    }
+    if (!surviveResultsRoot.hidden) {
+      if (action === 'confirm') confirmModal(surviveResultsRoot);
+      else if (action === 'back') navigateModalControls(surviveResultsRoot, 'back');
+      return;
+    }
     if (hudDetailsOpen && (action === 'confirm' || action === 'pause' || action === 'back')) { closeHudInspection(); updateHud(); return; }
     if (action === 'call') { localSession?.running ? callSessionCharacter(seat) : callCharacter(); return; }
     if (action === 'confirm') {
@@ -352,8 +403,26 @@ function callSessionCharacter(seat: SeatId): void {
   audio.unlock(); audio.play(characterById(player.characterId).call); sessionCalls.set(seat, now);
 }
 function moveSessionCharacter(seat: SeatId, direction: Direction): void {
+  if (recoveryBoard) { if (seat === recoveryBoardOwner?.seat) navigateModalControls(recoveryBoard, direction); return; }
+  if (!surviveResultsRoot.hidden) { navigateModalControls(surviveResultsRoot, direction); return; }
   if (!frameAvailable() || !localSession?.running || localStage || hand.isOpen() || hand.containsFocus() || market.isOpen() || !el('drawer').hidden || displayedRunState() !== 'playing') return;
   audio.unlock(); if (localSession.dispatch({ seat, direction })) audio.play('hop'); updateHud();
+}
+function visibleModalControls(root: HTMLElement): HTMLButtonElement[] {
+  return [...root.querySelectorAll<HTMLButtonElement>('button:not(:disabled)')].filter(button => button.getClientRects().length > 0);
+}
+function navigateModalControls(root: HTMLElement, direction: Direction): void {
+  const controls = visibleModalControls(root);
+  if (!controls.length) return;
+  const current = controls.indexOf(document.activeElement as HTMLButtonElement);
+  const delta = direction === 'left' || direction === 'back' ? -1 : 1;
+  controls[(current + delta + controls.length) % controls.length]!.focus({ preventScroll: true });
+}
+function confirmModal(root: HTMLElement): void {
+  const controls = visibleModalControls(root);
+  const focused = document.activeElement;
+  if (focused instanceof HTMLButtonElement && root.contains(focused) && !focused.disabled) focused.click();
+  else controls[0]?.focus({ preventScroll: true });
 }
 function releaseNativeKeyboard(): void {
   keyboardInput?.suspend();
@@ -456,6 +525,7 @@ function runGoal(): string {
   switch (progress.runs % 3) { case 0: return 'Little goal: reach 25 hops this run.'; case 1: return 'Little goal: find 3 coins this run.'; default: return 'Little goal: reach the next world at 32 hops.'; }
 }
 function reset(launch?: GameLaunch): void {
+  surviveResults.hide();
   deactivateNativeKeyboard(); sessionCalls.clear();
   const restoreController = soloGamepad;
   for (const player of localSession?.players ?? []) router.release(player.seat);
@@ -555,15 +625,21 @@ function displayedRunState(): typeof game.state {
   if (sessionPaused || game.state === 'paused') return 'paused';
   return localSession.players.some(player => player.state === 'playing') ? 'playing' : 'dead';
 }
+function hasPendingRecoveryOffer(): boolean {
+  return !!localSession?.players.some(player => player.participation === 'dead' && player.state === 'dead' && !!player.recovery?.offer);
+}
 function updateHud(): void {
+  const terminalResult = localSession?.result;
+  if (terminalResult?.mode === 'survive-together') surviveResults.show(terminalResult as SurviveTogetherResult);
+  else surviveResults.hide();
   if (recoveryBoardOwner) {
     const owner = localSession?.players.find(player => player.seat === recoveryBoardOwner!.seat), charge = owner && itemCharge(owner.seat);
     if (!owner || owner.participation !== 'active' || owner.participantId !== recoveryBoardOwner.participantId || !charge || charge.ownerGeneration !== recoveryBoardOwner.ownerGeneration || charge.inventoryGeneration !== recoveryBoardOwner.inventoryGeneration) {
-      recoveryBoard?.remove(); recoveryBoard = undefined; recoveryBoardOwner = undefined; notify('Recovery choice changed. Choose again.');
+      discardRecoveryBoard('Recovery choice changed. Choose again.');
     }
   }
   const seats = el('session-seats');
-  seats.hidden = !localSession?.running;
+  seats.hidden = !localSession?.running || terminalResult?.mode === 'survive-together';
   if (localSession?.running) {
     const roster = localSession.players.map(player => `${player.seat}:${player.characterId}:${player.device}`).join('|');
     if (roster !== sessionHudRoster) {
@@ -608,7 +684,8 @@ function updateHud(): void {
       tile.querySelector<HTMLElement>('[data-session-hud="power"]')!.textContent = `Power: ${player.power.name} · ${player.powerReady ? 'Ready' : `${player.powerRemaining} / 100 tiles`}`;
       tile.querySelector<HTMLElement>('[data-session-hud="wallet"]')!.textContent = `${player.run.wallet} coins · ${player.run.cards.length} cards`;
       const revival = tile.querySelector<HTMLButtonElement>('[data-session-hud="revive"]')!;
-      revival.textContent = player.participation === 'dead' && player.recovery?.offer ? 'Use personal revive' : personalProgress(player);
+      const seconds = Math.max(0, Math.ceil(((player.recovery?.offer?.deadline ?? localSession.world.time) - localSession.world.time) / localSession.world.rules.simulation.worldTimeScale));
+      revival.textContent = player.participation === 'dead' && player.recovery?.offer ? `Use personal revive · ${seconds}s` : personalProgress(player);
       revival.disabled = !(player.participation === 'dead' && player.recovery?.offer);
       const charge = itemCharge(player.seat), items = tile.querySelector<HTMLButtonElement>('[data-session-hud="item"]')!;
       items.textContent = `Items: ${charge && (charge.revival || charge.flare) ? `${charge.revival ? `Revival ×${charge.revival}` : ''}${charge.revival && charge.flare ? ' · ' : ''}${charge.flare ? `Flare ×${charge.flare}` : ''}` : '—'}`;
@@ -629,7 +706,7 @@ function updateHud(): void {
   updateChaseHud();
   const state = displayedRunState();
   const ownerRun = selectedOwnerRun();
-  hand.update({ visible: !localStage && ownerRun.alive && (state === 'playing' || state === 'paused') && (ownerRun.cards.length > 0 || ownerRun.isOpen) && !(import.meta.env.DEV && devTools?.isOpen), reduced: progress.reduced || mediaQuery.matches });
+  hand.update({ visible: !terminalResult && !localStage && ownerRun.alive && (state === 'playing' || state === 'paused') && (ownerRun.cards.length > 0 || ownerRun.isOpen) && !(import.meta.env.DEV && devTools?.isOpen), reduced: progress.reduced || mediaQuery.matches });
   seedUI.update(state === 'dead' && !presentingDeathSpill() ? game.seedCode : null);
   el<HTMLButtonElement>('character-call').disabled = progress.muted || (state !== 'ready' && state !== 'playing');
   const viewState = `${state}:${Boolean(selectedOwnerRun().pendingPack)}:${Boolean(localStage)}:${Boolean(localSession)}`;
@@ -644,7 +721,7 @@ function updateHud(): void {
     el('local-play').hidden = !!localStage || !!localSession || state === 'dead';
     el('mode').hidden = state === 'paused' || !!localSession; el('goal').hidden = state !== 'ready';
     el<HTMLButtonElement>('collection').disabled = !!localStage;
-    const pause = el<HTMLButtonElement>('pause'); pause.textContent = state === 'paused' ? '▷' : 'Ⅱ'; pause.setAttribute('aria-label', state === 'paused' ? 'Resume game' : 'Pause game'); pause.title = state === 'paused' ? 'Resume game' : 'Pause game'; pause.disabled = state === 'dead' || state === 'ready';
+    const pause = el<HTMLButtonElement>('pause'); pause.textContent = state === 'paused' ? '▷' : 'Ⅱ'; pause.setAttribute('aria-label', state === 'paused' ? 'Resume game' : 'Pause game'); pause.title = state === 'paused' ? 'Resume game' : 'Pause game'; pause.disabled = state === 'ready' || (state === 'dead' && !hasPendingRecoveryOffer());
     el('hint').textContent = state === 'playing' ? controllerConnected ? 'Stick / D-pad · A hop · X call · Start pause' : 'Tap ↑ · Swipe to dodge' : state === 'paused' ? 'Paused · take your time' : state === 'dead' ? 'Every run is a new path' : 'Tap anywhere to begin';
   }
   // HUD inspection is its own modal: do not leave the normal paused board in
@@ -713,7 +790,7 @@ function play(): void {
   if (presentingDeathSpill()) return;
   if (selectedOwnerRun().pendingPack) { market.toggle(); return; }
   audio.unlock();
-  if (localSession?.running && localSession.players.some(player => player.state === 'playing' || player.state === 'paused')) {
+  if (localSession?.running && (localSession.players.some(player => player.state === 'playing' || player.state === 'paused') || hasPendingRecoveryOffer())) {
     sessionPaused = false; game.resume(); accumulator = 0; activateNativeKeyboard(); updateHud(); return;
   }
   if (game.state === 'dead') reset();
@@ -967,6 +1044,7 @@ document.addEventListener('keydown', nativeKeyboardKeydown);
 document.addEventListener('keyup', nativeKeyboardKeyup);
 function move(direction: Direction): void {
   if (!frameAvailable()) return;
+  if (recoveryBoard || !surviveResultsRoot.hidden) { navigateModalControls(recoveryBoard ?? surviveResultsRoot, direction); return; }
   if (localStage) {
     const buttons = [...el('local-session-setup').querySelectorAll<HTMLButtonElement>('button')]
       .filter(button => !button.disabled && !button.hidden && button.getClientRects().length > 0);
@@ -986,6 +1064,7 @@ function move(direction: Direction): void {
 }
 function confirmMenu(): void {
   if (!frameAvailable()) return;
+  if (recoveryBoard || !surviveResultsRoot.hidden) { confirmModal(recoveryBoard ?? surviveResultsRoot); return; }
   if (hudDetailsOpen) { closeHudInspection(); updateHud(); return; }
   if (localStage) {
     const focused = document.activeElement;
@@ -1001,6 +1080,7 @@ function confirmMenu(): void {
 }
 function togglePause(): void {
   if (!frameAvailable() || localStage) return;
+  if (recoveryBoard || !surviveResultsRoot.hidden) return;
   if (hudDetailsOpen) { closeHudInspection(); updateHud(); return; }
   if (hand.close()) return;
   if (market.isOpen()) { market.close(); return; }
@@ -1025,6 +1105,8 @@ function closeDrawer(): void {
   el(game.state === 'playing' ? 'collection' : 'play').focus({ preventScroll: true });
 }
 function backMenu(): void {
+  if (recoveryBoard) { closeRecoveryBoard(false); return; }
+  if (!surviveResultsRoot.hidden) { navigateModalControls(surviveResultsRoot, 'back'); return; }
   if (hudDetailsOpen) { closeHudInspection(); updateHud(); return; }
   if (localStage) { backToSolo(); return; }
   if (hand.close()) return;
@@ -1053,7 +1135,9 @@ function frame(now: number): void {
   const dt = Math.min((now - last) / 1000, .05); last = now;
   gamepad.update(now); router.update(now);
   const sessionUnblocked = frameAvailable() && !localStage && displayedRunState() !== 'paused' && !hand.isOpen() && el('drawer').hidden && !market.isOpen() && !selectedOwnerRun().pendingPack;
-  const sessionAdvancing = sessionUnblocked && displayedRunState() === 'playing';
+  // A valid personal offer must keep its authoritative world-time deadline
+  // moving even when every seat is dead; pausing still freezes it above.
+  const sessionAdvancing = sessionUnblocked && (displayedRunState() === 'playing' || localSession?.players.some(player => player.recovery?.offer));
   if (localSession?.running) {
     if (sessionAdvancing) {
       const fixedStep = localSession.definition.rules.simulation.fixedStep;
@@ -1139,5 +1223,5 @@ async function boot(): Promise<void> {
   }
   if (runtimeHasDomain('keys')) await Promise.all(shellShortcutDefinitions.map(registerShellShortcut));
 }
-window.addEventListener('pagehide', () => { if (disposed) return; disposed = true; deactivateNativeKeyboard(); localSession?.stop(); localStage?.cancel(); localStage = undefined; document.removeEventListener('keydown', localSetupKeydown, true); document.removeEventListener('keydown', nativeKeyboardKeydown); document.removeEventListener('keyup', nativeKeyboardKeyup); sessionKeyboardEditor.dispose(); if (import.meta.env.DEV) devTools?.dispose(); game.closeMarket(false); gamepad.close(); router.close(); market.dispose(); pauseUI.dispose(); runMenuUI.dispose(); collectionUI.dispose(); hand.dispose(); seedUI.dispose(); sounds.dispose(); cancelAnimationFrame(raf); observer.disconnect(); bindings.forEach(b => b.close()); for (const lease of shellShortcutLeases.values()) lease.close(); shellShortcutLeases.clear(); });
+window.addEventListener('pagehide', () => { if (disposed) return; disposed = true; surviveResults.dispose(); deactivateNativeKeyboard(); localSession?.stop(); localStage?.cancel(); localStage = undefined; document.removeEventListener('keydown', localSetupKeydown, true); document.removeEventListener('keydown', nativeKeyboardKeydown); document.removeEventListener('keyup', nativeKeyboardKeyup); sessionKeyboardEditor.dispose(); if (import.meta.env.DEV) devTools?.dispose(); game.closeMarket(false); gamepad.close(); router.close(); market.dispose(); pauseUI.dispose(); runMenuUI.dispose(); collectionUI.dispose(); hand.dispose(); seedUI.dispose(); sounds.dispose(); cancelAnimationFrame(raf); observer.disconnect(); bindings.forEach(b => b.close()); for (const lease of shellShortcutLeases.values()) lease.close(); shellShortcutLeases.clear(); });
 void boot();
