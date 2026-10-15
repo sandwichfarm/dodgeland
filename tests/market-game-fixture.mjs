@@ -97,6 +97,16 @@ frame.srcdoc=${artifact};</script>`;
     await iframe.evaluate((node, size) => { node.style.width = `${size.width}px`; node.style.height = `${size.height}px`; }, { width, height });
     await frame.waitForFunction(size => innerWidth === size.width && innerHeight === size.height, { width, height });
     await advance(80);
+    // The virtual clock advances RAF/timers, not native ResizeObserver delivery.
+    // Wait for layout observers and their focus-restoration microtasks before
+    // callers inspect the resized UI. This never supplies focus itself.
+    await frame.evaluate(() => new Promise(resolve => {
+      const observer = new ResizeObserver(() => {
+        observer.disconnect();
+        queueMicrotask(resolve);
+      });
+      observer.observe(document.getElementById('app'));
+    }));
   }
   async function key(id) { await frame.evaluate(id => window.marketGameFixture.handlers[`puddlehop.${id}`](), id); await advance(250); }
   async function open() {
