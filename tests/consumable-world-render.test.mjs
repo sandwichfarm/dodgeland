@@ -138,11 +138,22 @@ test('an actual personal return draws protection only until its active-time dead
     const recovered = session.recover({ kind: 'personal', ownerSeat: 'p2' });
     const canvas = document.querySelector('canvas'), renderer = new Renderer(canvas);
     renderer.resize(); renderer.reduced = true;
-    let labels = [];
+    let labels = [], textBounds = [];
     const nativeFill = renderer.ctx.fillText.bind(renderer.ctx);
-    renderer.ctx.fillText = (text, ...rest) => { if (text === 'Protected') labels.push(text); nativeFill(text, ...rest); };
+    renderer.ctx.fillText = (text, x, y, ...rest) => {
+      if (text === 'Protected') labels.push(text);
+      if (text === 'Protected' || /^[▲●◆■] P[1-4] · /.test(text)) {
+        const metric = renderer.ctx.measureText(text);
+        textBounds.push({ text, left: x - metric.actualBoundingBoxLeft,
+          right: x + metric.actualBoundingBoxRight,
+          top: y - metric.actualBoundingBoxAscent, bottom: y + metric.actualBoundingBoxDescent });
+      }
+      nativeFill(text, x, y, ...rest);
+    };
     renderer.drawSession(game.world, session.views(), 0);
     const activeLabels = labels.splice(0), png = canvas.toDataURL().split(',')[1];
+    const activeTextBounds = textBounds;
+    textBounds = [];
     const actual = renderer.ctx.getImageData(0, 0, canvas.width, canvas.height).data;
     renderer.drawSession(game.world, session.views().map(view => ({ ...view, protectionUntil: 0 })), 0);
     const without = renderer.ctx.getImageData(0, 0, canvas.width, canvas.height).data;
@@ -151,7 +162,7 @@ test('an actual personal return draws protection only until its active-time dead
     for (let frame = 0; frame < 253; frame++) session.update(1 / 120);
     labels = [];
     renderer.drawSession(game.world, session.views(), 0);
-    return { died, recovered, activeLabels, expiredLabels: labels, changed, png,
+    return { died, recovered, activeLabels, activeTextBounds, expiredLabels: labels, changed, png,
       expired: game.time >= target.recovery.protectionUntil };
   });
   const artifacts = new URL('../artifacts/', import.meta.url);
@@ -162,6 +173,12 @@ test('an actual personal return draws protection only until its active-time dead
   await page.close();
   assert.equal(result.died, true); assert.equal(result.recovered, true);
   assert.deepEqual(result.activeLabels, ['Protected']);
+  const protectedText = result.activeTextBounds.find(label => label.text === 'Protected');
+  for (const identity of result.activeTextBounds.filter(label => label !== protectedText)) {
+    const overlap = protectedText.left < identity.right && protectedText.right > identity.left
+      && protectedText.top < identity.bottom && protectedText.bottom > identity.top;
+    assert.equal(overlap, false, `protection status must remain separate from ${identity.text}`);
+  }
   assert.ok(result.changed > 30, 'protection produces actual halo/label pixels');
   assert.equal(result.expired, true);
   assert.deepEqual(result.expiredLabels, []);
