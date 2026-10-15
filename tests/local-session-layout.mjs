@@ -1,7 +1,7 @@
 // Real built Local Play visual evidence. The only fixture surfaces are the
 // injected runtime storage/theme and the authorized shell gamepad snapshots.
 import assert from 'node:assert/strict';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, stat, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { after, test } from 'node:test';
 import { chromium } from 'playwright';
@@ -10,6 +10,11 @@ const root = new URL('../', import.meta.url);
 const output = new URL('../artifacts/', import.meta.url);
 const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
 assert.ok(built.includes('local-session-start') && built.includes('local-session-setup'), 'Build the Local Play production artifact before running this layout evidence.');
+const artifact = await stat(new URL('../dist/index.html', import.meta.url));
+const currentSources = await Promise.all([
+  'src/main.ts', 'src/session-input.ts', 'src/session-ui.ts', 'src/session-ui.css', 'src/styles.css',
+].map(async file => ({ file, modified: (await stat(new URL(`../${file}`, import.meta.url))).mtimeMs })));
+assert.deepEqual(currentSources.filter(source => source.modified > artifact.mtimeMs), [], 'dist/index.html is stale for Local Play source/CSS; rebuild before running layout evidence.');
 
 function installRuntime() {
   const listeners = new Set();
@@ -100,23 +105,33 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
       const slots = [...document.querySelectorAll('#session-seats [data-seat] *')].filter(node => /^(Revive|Item)\b/.test(node.textContent?.trim() ?? '')).map(node => ({
         text: node.textContent?.trim(), interactive: Boolean(node.closest('button, [role="button"], input, select, a[href]')),
       }));
+      const text = ['.session-subtitle', '#session-status', '#session-seat-detail', '#session-seats [data-seat]']
+        .flatMap(selector => [...document.querySelectorAll(selector)]).filter(visible).map(node => ({
+          selector: node.matches?.('#session-status') ? '#session-status' : node.className || node.id || node.tagName,
+          value: node.textContent?.replace(/\s+/g, ' ').trim(), font: Number.parseFloat(getComputedStyle(node).fontSize),
+        }));
       const app = document.querySelector('#app'), board = document.querySelector('#session-board'), scene = document.querySelector('#scene');
       return {
         state, document: { width: document.documentElement.scrollWidth, height: document.documentElement.scrollHeight },
-        bodyFont: Number.parseFloat(getComputedStyle(document.body).fontSize),
         app: app ? getComputedStyle(app).backgroundColor : '', boardVisible: !!board && visible(board), sceneVisible: !!scene && visible(scene),
-        controls, identity, slots,
+        controls, identity, slots, text,
       };
     }, { state, width, height });
     const assertFrame = async (state, width, height, theme) => {
       const value = await metrics(state, width, height);
+      // Save every exact state before inspecting it so a failing assertion has
+      // a visual artifact rather than only a stack trace.
+      await iframe.screenshot({ path: new URL(`local-session-layout-${state}-${width}x${height}-${theme}.png`, output).pathname });
+      evidence.frames.push({ state, width, height, theme, ...value });
       if (width === 200) {
         if (!await frame.locator('.too-small').isVisible()) fail(`${state}/${theme}/${width}×${height} must show the exact below-minimum notice`, value);
         if (value.controls.length) fail(`${state}/${theme}/${width}×${height} must expose no controls below the minimum`, value.controls);
       } else {
         if (await frame.locator('.too-small').isVisible()) fail(`${state}/${theme}/${width}×${height} must restore the working surface`, value);
         if (value.document.width > width || value.document.height > height) fail(`${state}/${theme}/${width}×${height} must not scroll`, value.document);
-        if (value.bodyFont < 16) fail(`${state}/${theme}/${width}×${height} body text must be at least 16px`, value.bodyFont);
+        for (const text of value.text.filter(text => text.value)) {
+          if (text.font < 16) fail(`${state}/${theme}/${width}×${height} visible session text must be at least 16px`, text);
+        }
         for (const control of value.controls) {
           if (!control.fits || !control.hit) fail(`${state}/${theme}/${width}×${height} reachable control escaped or is covered`, control);
         }
@@ -128,11 +143,11 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
       if (state === 'hud' && width >= 240) {
         if (!value.sceneVisible) fail(`${state}/${theme}/${width}×${height} shared scene is not visible`, value);
         if (value.identity.length !== 4 || value.identity.some(seat => !/P[1-4].*[▲●◆■]/.test(`${seat.text} ${seat.label}`))) fail(`${state}/${theme}/${width}×${height} HUD identity is incomplete`, value.identity);
-        if (!value.identity.every(seat => /Revive\s*—/.test(seat.text ?? '') && /Item\s*—/.test(seat.text ?? ''))) fail(`${state}/${theme}/${width}×${height} HUD omits reserved unavailable fields`, value.identity);
+        const detailed = value.identity.filter(seat => /Revive\s*—/.test(seat.text ?? '') && /Item\s*—/.test(seat.text ?? ''));
+        const compactHud = width < 480 || height < 420;
+        if (compactHud ? detailed.length !== 1 : detailed.length !== 4) fail(`${state}/${theme}/${width}×${height} must show ${compactHud ? 'one selected detailed tile plus identity chips' : 'four detailed tiles'}`, value.identity);
         if (value.slots.some(slot => slot.interactive)) fail(`${state}/${theme}/${width}×${height} reserved fields must remain noninteractive`, value.slots);
       }
-      await iframe.screenshot({ path: new URL(`local-session-layout-${state}-${width}x${height}-${theme}.png`, output).pathname });
-      evidence.frames.push({ state, width, height, theme, ...value });
     };
 
     await frame.waitForFunction(() => window.localSessionLayout?.hydrated);
