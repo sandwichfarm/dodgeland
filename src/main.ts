@@ -30,7 +30,7 @@ import { mobDefinition } from './mobs.js';
 import type { Mob, MobKind } from './mobs.js';
 import { createGamepadControls } from './gamepad.js';
 import { GamepadRouter } from './session-input.js';
-import type { GamepadDevice, GamepadLifecycle } from './session-input.js';
+import type { GamepadDevice, GamepadLifecycle, GamepadReclaimInput } from './session-input.js';
 import { ITEM_CATALOG } from './market/catalog.js';
 import { createMarketUI } from './market-ui.js';
 import { createSeedUI } from './seed-ui.js';
@@ -136,7 +136,7 @@ function closeRecoveryBoard(resume = false): void {
 }
 function closeLifecycleBoard(): void {
   const priorFocus = recoveryReturnFocus, resume = lifecycleWasPlaying; recoveryReturnFocus = undefined; lifecycleWasPlaying = false;
-  lifecycleBoard?.remove(); lifecycleBoard = undefined; clearRecoveryModalInert();
+  lifecycleBoard?.remove(); lifecycleBoard = undefined; pendingReclaim = undefined; clearRecoveryModalInert();
   if (resume && localSession?.running && frameAvailable()) { sessionPaused = false; game.resume(); activateNativeKeyboard(); }
   updateHud();
   queueMicrotask(() => (priorFocus?.isConnected ? priorFocus : el<HTMLButtonElement>('pause')).focus({ preventScroll: true }));
@@ -244,6 +244,7 @@ let sessionPaused = false;
 let recoveryBoard: HTMLElement | undefined;
 let lifecycleBoard: HTMLElement | undefined;
 let lifecycleWasPlaying = false;
+let pendingReclaim: { readonly device: GamepadDevice; readonly seat: SeatId } | undefined;
 let recoveryActionId = 0;
 let recoveryBoardOwner: { seat: SeatId; participantId: string; ownerGeneration: number; inventoryGeneration: number } | undefined;
 let pointer: { x: number; y: number; id: number } | null = null;
@@ -405,7 +406,7 @@ const router: GamepadRouter = new GamepadRouter({
     return router.assign(device, 'p1', true);
   },
   requestLocalPlay: device => requestControllerSeat(device),
-  requestReclaim: (device, seat) => reclaimControllerSeat(device, seat),
+  requestReclaim: (device, seat, input) => reclaimControllerSeat(device, seat, input),
   lifecycle: event => handleControllerLifecycle(event),
   onFrameSafetyLost: suspendPlay,
 });
@@ -954,7 +955,7 @@ function startLocalPlay(): void {
     const joining = stagedLiveJoin;
     const candidate = setupDraft.find(seat => seat.device === markerDevice(joining));
     const session = localSession;
-    if (!session || !candidate?.device || !candidate.characterId || !session.admit({ seat: candidate.seat as Exclude<SeatId, 'p1'>, device: candidate.device, characterId: candidate.characterId })) { renderSetup(`Couldn’t place ${candidate?.seat.toUpperCase() ?? 'player'} safely. Try again.`); return; }
+    if (!session || !candidate?.device || !candidate.characterId || !session.admit({ seat: candidate.seat, device: candidate.device, characterId: candidate.characterId })) { renderSetup(`Couldn’t place ${candidate?.seat.toUpperCase() ?? 'player'} safely. Try again.`); return; }
     localStage.cancel(); localStage = undefined; setupDraft = []; const joiningDevice = stagedLiveJoin; stagedLiveJoin = undefined;
     const player = session.players.find(candidate => candidate.device === markerDevice(joiningDevice));
     if (player) router.assign(joiningDevice, player.seat);
@@ -1009,7 +1010,7 @@ function requestControllerSeat(device: GamepadDevice): void {
     const characterId = nextUnusedCharacter(activeSeats);
     if (!characterId) { notify('Game full — four players are already in this run.'); return; }
     const seat = nextOpenSeat(activeSeats);
-    if (!seat || seat === 'p1') { notify('Game full — four players are already in this run.'); return; }
+    if (!seat) { notify('Game full — four players are already in this run.'); return; }
     try { localStage = LocalSession.stage(game, { roster: [], mode: localSession.mode }); }
     catch { notify('Couldn’t place a player safely. Try again.'); return; }
     stagedLiveJoin = device;
@@ -1028,7 +1029,10 @@ function requestControllerSeat(device: GamepadDevice): void {
   setupDraft = [...setupDraft, { seat, device: markerDevice(device), deviceLabel: deviceLabel(device), characterId }];
   router.assign(device, seat); renderSetup(`${seat.toUpperCase()} ready — ${characterById(characterId).name} on ${deviceLabel(device)}.`);
 }
-function reclaimControllerSeat(device: GamepadDevice, seat: SeatId): void {
+function sameReclaimDevice(left: GamepadDevice, right: GamepadDevice): boolean {
+  return left.index === right.index && left.id === right.id && left.epoch === right.epoch;
+}
+function reclaimControllerSeat(device: GamepadDevice, seat: SeatId, input: GamepadReclaimInput): void {
   if (localStage) {
     const draft = setupDraft.find(candidate => candidate.seat === seat);
     if (!draft) return;
@@ -1044,11 +1048,18 @@ function reclaimControllerSeat(device: GamepadDevice, seat: SeatId): void {
   }
   const player = localSession?.players.find(candidate => candidate.seat === seat);
   if (!player || player.participation !== 'device-lost') return;
+  if (lifecycleBoard && pendingReclaim && pendingReclaim.seat === seat && sameReclaimDevice(pendingReclaim.device, device)) {
+    if (input.actions.includes('back')) { closeLifecycleBoard(); return; }
+    if (input.actions.includes('confirm')) { confirmModal(lifecycleBoard); return; }
+    if (input.direction) navigateModalControls(lifecycleBoard, input.direction);
+    return;
+  }
   openLifecycleBoard(seat, `Reclaim ${seat.toUpperCase()}`, `Continue as ${characterById(player.characterId).name}. Your items are still here.`, 'Not now', `Reclaim ${seat.toUpperCase()}`, false, true, () => {
-    if (!router.reclaim(device)) return false;
+    if (!pendingReclaim || pendingReclaim.seat !== seat || !sameReclaimDevice(pendingReclaim.device, device) || !router.reclaim(device)) return false;
     if (!localSession?.offerReclaim(seat, markerDevice(device)) || !localSession.reclaim(seat, markerDevice(device))) { router.release(seat); return false; }
     notify(`Controller reclaimed ${seat.toUpperCase()}.`); return true;
   });
+  pendingReclaim = Object.freeze({ device, seat });
 }
 function handleControllerLifecycle(event: GamepadLifecycle): void {
   if (event.type === 'seen') {

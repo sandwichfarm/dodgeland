@@ -66,13 +66,14 @@ export interface SessionModeDefinition {
 export interface SessionAdmission {
   readonly device: DeviceId;
   readonly characterId: string;
-  readonly seat?: Exclude<SeatId, 'p1'>;
+  /** A departed primary seat may be filled by a normal new participant. */
+  readonly seat?: SeatId;
   /** A stronger identity is preferred over device/character aliases on re-entry. */
   readonly participantId?: string;
 }
 export interface SessionAdmissionPlan {
   readonly admission: SessionAdmission;
-  readonly seat: Exclude<SeatId, 'p1'>;
+  readonly seat: SeatId;
   readonly placement: Readonly<{ x: number; y: number }>;
 }
 export interface SessionRecoveryProvenance {
@@ -767,8 +768,8 @@ export class LocalSession {
   prepareAdmission(admission: SessionAdmission): SessionAdmissionPlan | undefined {
     if (!isDeviceId(admission.device) || !CHARACTERS.some(character => character.id === admission.characterId)) return undefined;
     const occupiedSeats = new Set(this.players.map(player => player.seat));
-    const seat = admission.seat ?? (['p2', 'p3', 'p4'] as const).find(candidate => !occupiedSeats.has(candidate));
-    if (!seat || !(['p2', 'p3', 'p4'] as const).includes(seat) || this.players.length >= this.config.capacity || occupiedSeats.has(seat) || this.players.some(player => player.device === admission.device || player.characterId === admission.characterId)) return undefined;
+    const seat = admission.seat ?? (['p1', 'p2', 'p3', 'p4'] as const).find(candidate => !occupiedSeats.has(candidate));
+    if (!seat || !(['p1', 'p2', 'p3', 'p4'] as const).includes(seat) || this.players.length >= this.config.capacity || occupiedSeats.has(seat) || this.players.some(player => player.device === admission.device || player.characterId === admission.characterId)) return undefined;
     const placement = this.safePlacement();
     return placement && Object.freeze({ admission: Object.freeze({ ...admission, seat }), seat, placement });
   }

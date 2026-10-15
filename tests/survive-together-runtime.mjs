@@ -67,6 +67,29 @@ test('a live seat can leave deliberately and a fresh controller joins the releas
   } finally { await app.close(); }
 });
 
+test('the departed primary seat is a real live-join vacancy', { timeout: 60_000 }, async () => {
+  const evidence = { errors: [], external: [] };
+  const app = await createMarketGameFixture(evidence, { gamepads: true });
+  const { frame, advance, onSession, sendPads } = app;
+  try {
+    await frame.locator('#play').click(); await frame.locator('#pause').click(); await frame.locator('#local-play').click();
+    await frame.getByRole('button', { name: /start together/i }).click(); await advance(80);
+    await frame.locator('#session-seats [data-seat="p1"] [data-session-hud="item"]').click();
+    await frame.getByRole('button', { name: 'Leave P1 run', exact: true }).click();
+    await frame.getByRole('button', { name: 'Leave run', exact: true }).click();
+    const departed = await onSession(function () { return { active: this.players.map(player => player.seat), archived: this.contributions.find(record => record.seat === 'p1')?.participantId, time: this.world.time }; });
+    assert.deepEqual(departed.active, ['p2'], 'leaving P1 preserves its teammate and leaves the existing world active');
+    await sendPads([pad(2)]); await sendPads([pad(2, [0])]); await sendPads([pad(2)]);
+    await frame.locator('#local-session-setup').waitFor();
+    await frame.getByRole('button', { name: /join as p1/i }).click(); await advance(80);
+    const joined = await onSession(function () { const player = this.players.find(value => value.seat === 'p1'); return { seat: player?.seat, participantId: player?.participantId, participation: player?.participation, time: this.world.time }; });
+    assert.deepEqual({ seat: joined.seat, participation: joined.participation }, { seat: 'p1', participation: 'active' });
+    assert.notEqual(joined.participantId, departed.archived, 'new P1 participation never revives the archived original identity');
+    assert.ok(joined.time >= departed.time, 'the join keeps the existing course clock instead of creating a new run');
+    assert.deepEqual(evidence.errors, []);
+  } finally { await app.close(); }
+});
+
 test('a disconnected controller explicitly reclaims its retained seat', { timeout: 60_000 }, async () => {
   const evidence = { errors: [], external: [] };
   const app = await createMarketGameFixture(evidence, { gamepads: true });
@@ -81,7 +104,12 @@ test('a disconnected controller explicitly reclaims its retained seat', { timeou
     await sendPads([pad(0), pad(1)]); await press(1, 0);
     await frame.getByRole('heading', { name: 'Reclaim P2', exact: true }).waitFor();
     assert.equal(await frame.getByText('Continue as Sunny. Your items are still here.', { exact: true }).isVisible(), true);
-    await frame.getByRole('button', { name: 'Reclaim P2', exact: true }).last().click(); await advance(80);
+    assert.equal(await frame.evaluate(() => document.activeElement?.textContent), 'Reclaim P2', 'the reclaim action owns initial controller focus');
+    await press(1, 1); await advance(40);
+    assert.equal(await frame.getByRole('heading', { name: 'Reclaim P2', exact: true }).count(), 0, 'Back cancels the explicit reclaim decision');
+    assert.equal(await onSession(function () { return this.players.find(value => value.seat === 'p2')?.participation; }), 'device-lost', 'cancelling never consumes the retained ghost seat');
+    await press(1, 0); await frame.getByRole('heading', { name: 'Reclaim P2', exact: true }).waitFor();
+    await press(1, 0); await advance(80);
     const reclaimed = await onSession(function () { const player = this.players.find(value => value.seat === 'p2'); return { participation: player.participation, participantId: player.participantId, coins: player.run.wallet }; });
     assert.deepEqual(reclaimed, { participation: 'active', participantId: before.participantId, coins: before.coins }, 'the explicit confirmation restores the retained seat rather than creating a fresh economy');
     assert.deepEqual(evidence.errors, []);
