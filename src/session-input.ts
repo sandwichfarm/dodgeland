@@ -137,6 +137,28 @@ export class GamepadRouter {
     return !!lease && !!lease.reclaimSeat && this.assign(identity, lease.reclaimSeat);
   }
 
+  /**
+   * Forget this router's seat association after a setup leave or Back-to-solo.
+   * Session departure is deliberately caller-owned; this only clears controller
+   * policy and seeds the current snapshot so a held control cannot rejoin.
+   */
+  release(seat: SeatId): boolean {
+    let released = false;
+    for (const lease of this.leases.values()) {
+      if (lease.seat !== seat && lease.reclaimSeat !== seat) continue;
+      if (lease.seat === seat) lease.seat = null;
+      if (lease.reclaimSeat === seat) lease.reclaimSeat = null;
+      this.seed(lease);
+      released = true;
+    }
+    for (const [key, rememberedSeat] of this.reclaimable) {
+      if (rememberedSeat !== seat) continue;
+      this.reclaimable.delete(key);
+      released = true;
+    }
+    return released;
+  }
+
   update(now: number): void {
     if (this.closed || !this.latest?.available || !this.latest.focused) return;
     const context = this.options.context();
@@ -208,6 +230,13 @@ export class GamepadRouter {
     lease.held = nextHeld;
 
     if (!lease.seat) {
+      // Keep a released stick/D-pad neutral even before it owns a seat; otherwise
+      // the next deliberate direction would compare against the stale baseline.
+      if (!nextDirection) {
+        lease.direction = null;
+        lease.directionArmed = false;
+        lease.repeatAt = Infinity;
+      }
       if (!freshButtons.length && !freshDirection) return;
       if (lease.reclaimSeat) this.options.requestReclaim?.(lease.device, lease.reclaimSeat);
       else if (this.options.acceptsDevice?.(lease.device) !== false) this.options.requestLocalPlay?.(lease.device);
