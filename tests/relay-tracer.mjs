@@ -4,11 +4,13 @@ import { createServer } from 'node:http';
 import test from 'node:test';
 import { chromium } from 'playwright';
 import { loadSources } from './source-loader.mjs';
+import { semanticValue, snapshotGame } from './solo-parity-snapshot.mjs';
 
 test('Relay settles a real hop, freezes, and transfers one unchanged world to a fresh incoming seat', async () => {
   const sources = await loadSources(['game', 'relay']);
   try {
-    const { Game } = await sources.import('game');
+    const gameModule = await sources.import('game');
+    const { Game } = gameModule;
     const { createRelaySession } = await sources.import('relay');
     const game = new Game(113, 'pond', 'arcade', false, [], 'butter');
     const relay = createRelaySession(game, { seats: [
@@ -25,6 +27,13 @@ test('Relay settles a real hop, freezes, and transfers one unchanged world to a 
     for (let i = 0; i < 60 && relay.snapshot().phase === 'running'; i++) session.update(1 / 120);
     assert.equal(relay.snapshot().phase, 'handoff');
     assert.equal(game.player.hop, 0);
+    const semanticWorld = () => {
+      const snapshot = snapshotGame(game, gameModule);
+      return semanticValue({ rows: snapshot.rows, attractedCoins: snapshot.attractedCoins, mobs: snapshot.mobs, laneSpeeds: snapshot.gameFuture.laneSpeeds,
+        seed: world.seed, runSeed: world.runSeed, time: world.time, waveRow: world.waveRow, frontier: world.frontier, activeFloor: world.activeFloor,
+        claims: world.pickupOwners, inventory: session.players.map(player => ({ seat: player.seat, run: semanticValue(player.run), health: player.health, earned: player.personalScore, power: player.powerRemaining, personal: player.completedForwardTiles })) });
+    };
+    const exactWorld = semanticWorld(), rng = world.mobDirector.rng, rowOwners = [...world.rows.values()];
     const before = JSON.stringify({ time: world.time, tick: world.simulationTick, rows: [...world.rows], seed: world.seed, mobs: world.mobs, frontier: world.frontier });
     session.update(1);
     assert.equal(JSON.stringify({ time: world.time, tick: world.simulationTick, rows: [...world.rows], seed: world.seed, mobs: world.mobs, frontier: world.frontier }), before);
@@ -38,9 +47,29 @@ test('Relay settles a real hop, freezes, and transfers one unchanged world to a 
     assert.equal(JSON.stringify({ time: world.time, tick: world.simulationTick, rows: [...world.rows], seed: world.seed, mobs: world.mobs, frontier: world.frontier }), before);
     assert.equal(incoming.completedForwardTiles, credit); assert.equal(incoming.run.wallet, wallet);
     assert.equal(incoming.hop, 0);
+    assert.deepEqual(semanticWorld(), exactWorld, 'all world and inventory future state survives transfer');
+    assert.strictEqual(world.mobDirector.rng, rng);
+    assert.ok(rowOwners.every(row => world.rows.get(row.index) === row));
     assert.equal(relay.snapshot().activeSeat, 'p2');
     assert.equal(session.dispatch({ seat: 'p1', direction: 'forward' }), false);
     assert.equal(session.dispatch({ seat: 'p2', direction: 'forward' }), true);
+  } finally { await sources.dispose(); }
+});
+
+test('a confirmation captured before incoming-seat disconnect cannot authorize reclaimed participation', async () => {
+  const sources = await loadSources(['game', 'relay']);
+  try {
+    const { Game } = await sources.import('game'), { createRelaySession } = await sources.import('relay');
+    const relay = createRelaySession(new Game(113, 'pond', 'arcade', false, [], 'butter'), { seats: [
+      { seat: 'p1', characterId: 'butter', device: 'keyboard-a' }, { seat: 'p2', characterId: 'pip', device: 'gamepad-0' },
+    ], tilesPerLeg: 1 });
+    const session = relay.session;
+    session.dispatch({ seat: 'p1', direction: 'forward' });
+    for (let i = 0; i < 60 && relay.snapshot().phase === 'running'; i++) session.update(1 / 120);
+    const incoming = session.players[1];
+    const stale = { seat: incoming.seat, device: incoming.device, generation: relay.snapshot().transferGeneration, participantId: incoming.participantId, lifecycleGeneration: session.lifecycle.length };
+    assert.equal(session.deviceLost('p2'), true); assert.equal(session.offerReclaim('p2', 'gamepad-0'), true); assert.equal(session.reclaim('p2', 'gamepad-0'), true);
+    assert.equal(relay.confirm(stale), false, 'old lifecycle token cannot confirm after reconnect');
   } finally { await sources.dispose(); }
 });
 
