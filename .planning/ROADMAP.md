@@ -14,7 +14,7 @@ This milestone first turns the exact solo game into validated, composable rules 
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Composable Solo Baseline** - Route Arcade and Flow through typed mode rules while proving exact baseline parity. (completed 2026-10-14)
-- [ ] **Phase 2: Shared Local Session** - Let distinct locally controlled characters share one world, input system, renderer, and setup flow.
+- [x] **Phase 2: Shared Local Session** - Let distinct locally controlled characters share one world, input system, renderer, and setup flow. (completed 2026-10-14)
 - [ ] **Phase 3: Survive Together & Consumables** - Deliver drop-in co-op, distinct recovery mechanics, and deterministic cooperative items.
 - [ ] **Phase 4: Relay** - Deliver locked-roster, turn-based continuity with mode-owned handoffs and results.
 - [ ] **Phase 5: Race** - Deliver a timed competitive race with leader-relative fog, contextual items, and deterministic standings.
@@ -183,7 +183,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Composable Solo Baseline | 4/4 | Complete    | 2026-10-14 |
-| 2. Shared Local Session | 6/6 | Independent phase verification pending | - |
+| 2. Shared Local Session | 6/6 | Complete    | 2026-10-14 |
 | 3. Survive Together & Consumables | 0/7 | Reviewed; awaits Phase 2 | - |
 | 4. Relay | 0/6 | Reviewed; awaits Phase 3 | - |
 | 5. Race | 0/7 | Reviewed; awaits dependencies | - |

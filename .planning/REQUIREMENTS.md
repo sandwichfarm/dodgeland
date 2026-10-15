@@ -8,7 +8,7 @@
 
 - [x] **ARCH-01**: Gameplay tuning is represented by typed, validated, composable rule configuration rather than mode-dependent magic numbers embedded in update logic.
 - [ ] **ARCH-02**: Each solo/multiplayer mode composes reusable mechanics and explicit lifecycle handlers for join, leave, disconnect, reconnect, death, progress and results.
-- [ ] **ARCH-03**: Shared terrain, actor time, RNG, pickup ownership and camera policy are separated from each player's movement, health, powers, inventory and statistics; world updates occur once per tick.
+- [x] **ARCH-03**: Shared terrain, actor time, RNG, pickup ownership and camera policy are separated from each player's movement, health, powers, inventory and statistics; world updates occur once per tick.
 - [x] **ARCH-04**: A new mode can be defined from rule configuration and handlers without editing core input, renderer or adding another hard-coded mode branch throughout the engine; document an example.
 - [x] **SOLO-01**: Existing Arcade and Stroll/Flow modes migrate with 1:1 gameplay and numerical parity against the committed pre-refactor engine, including hazards, health, wave, mobs, economy, powers, pauses and deaths.
 - [x] **SOLO-02**: Existing seed schemas, generation snapshots, intent contracts, saves, market/card behavior and sound/shortcut IDs remain compatible.
@@ -16,12 +16,12 @@
 
 ## Players and input
 
-- [ ] **INPUT-01**: Listen to every exposed standard controller in all relevant game/menu states; a second controller's actual input initiates multiplayer flow without requiring a hidden menu.
-- [ ] **INPUT-02**: Every local player has a stable device/seat identity and a unique playable character; automatic choices avoid conflicts and character selection prevents duplicates.
-- [ ] **INPUT-03**: Provide working default shared-keyboard presets and an in-game keybinding editor with conflict validation, remapping and reset.
-- [ ] **INPUT-04**: Simultaneous keyboard/controller movement is independent; held repeats, focus loss, stale input, device-index reuse and teardown are safe.
-- [ ] **INPUT-05**: Mode-specific handlers decide disconnect/dropout/reconnect behavior; display actionable player state without applying an awkward blanket pause policy.
-- [ ] **INPUT-06**: Controllers and keyboard can be mixed; absence of shell gamepad support leaves keyboard/pointer functionality available without prohibited native polling.
+- [x] **INPUT-01**: Listen to every exposed standard controller in all relevant game/menu states; a second controller's actual input initiates multiplayer flow without requiring a hidden menu.
+- [x] **INPUT-02**: Every local player has a stable device/seat identity and a unique playable character; automatic choices avoid conflicts and character selection prevents duplicates.
+- [x] **INPUT-03**: Provide working default shared-keyboard presets and an in-game keybinding editor with conflict validation, remapping and reset.
+- [x] **INPUT-04**: Simultaneous keyboard/controller movement is independent; held repeats, focus loss, stale input, device-index reuse and teardown are safe.
+- [x] **INPUT-05**: Mode-specific handlers decide disconnect/dropout/reconnect behavior; display actionable player state without applying an awkward blanket pause policy.
+- [x] **INPUT-06**: Controllers and keyboard can be mixed; absence of shell gamepad support leaves keyboard/pointer functionality available without prohibited native polling.
 
 ## Survive Together
 
@@ -59,8 +59,8 @@
 
 ## Interface and presentation
 
-- [ ] **UI-01**: Provide game-styled mode/setup/unique-character selection screens, ready/join feedback and controller/keyboard help while preserving the simple solo start.
-- [ ] **UI-02**: Render all players as actual distinct character models with persistent identifying marks, individual health/power/revival/item state and readable active-turn/leader cues.
+- [x] **UI-01**: Provide game-styled mode/setup/unique-character selection screens, ready/join feedback and controller/keyboard help while preserving the simple solo start.
+- [x] **UI-02**: Render all players as actual distinct character models with persistent identifying marks, individual health/power/revival/item state and readable active-turn/leader cues.
 - [ ] **UI-03**: Multiplayer market, inventory, consumable use and persistent hand clearly identify whose wallet/items are active and preserve player/run state across menus.
 - [ ] **UI-04**: Each mode has appropriate custom pause/disconnect, ghost/death/revival and end-of-game screens, per-character breakdowns and podium presentation.
 - [ ] **UI-05**: Small screens use purpose-built views/pages with large usable controls and no accidental scrollbars; desktop/compact/short frames and both themes remain usable.
@@ -85,17 +85,17 @@ behavior is implemented, verified and committed.
 |-------------|-------|--------|
 | ARCH-01 | Phase 1 | Complete |
 | ARCH-02 | Phase 5 | Pending |
-| ARCH-03 | Phase 2 | Pending |
+| ARCH-03 | Phase 2 | Complete |
 | ARCH-04 | Phase 1 | Complete |
 | SOLO-01 | Phase 1 | Complete |
 | SOLO-02 | Phase 1 | Complete |
 | SOLO-03 | Phase 1 | Complete |
-| INPUT-01 | Phase 2 | Pending |
-| INPUT-02 | Phase 2 | Pending |
-| INPUT-03 | Phase 2 | Pending |
-| INPUT-04 | Phase 2 | Pending |
-| INPUT-05 | Phase 2 | Pending |
-| INPUT-06 | Phase 2 | Pending |
+| INPUT-01 | Phase 2 | Complete |
+| INPUT-02 | Phase 2 | Complete |
+| INPUT-03 | Phase 2 | Complete |
+| INPUT-04 | Phase 2 | Complete |
+| INPUT-05 | Phase 2 | Complete |
+| INPUT-06 | Phase 2 | Complete |
 | COOP-01 | Phase 3 | Pending |
 | COOP-02 | Phase 3 | Pending |
 | COOP-03 | Phase 3 | Pending |
@@ -118,8 +118,8 @@ behavior is implemented, verified and committed.
 | RACE-04 | Phase 5 | Pending |
 | RACE-05 | Phase 5 | Pending |
 | RACE-06 | Phase 5 | Pending |
-| UI-01 | Phase 2 | Pending |
-| UI-02 | Phase 2 | Pending |
+| UI-01 | Phase 2 | Complete |
+| UI-02 | Phase 2 | Complete |
 | UI-03 | Phase 3 | Pending |
 | UI-04 | Phase 6 | Pending |
 | UI-05 | Phase 6 | Pending |
