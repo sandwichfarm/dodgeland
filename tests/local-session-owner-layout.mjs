@@ -145,6 +145,7 @@ test('four real inventories remain inspectable through one responsive owner surf
           const control = frame.locator(`#market-owner-strip [data-id="${inventory.seat}"]`);
           await control.click(); await settle();
           assert.equal(await frame.locator('#market').isVisible(), true, 'switching owner keeps the market open');
+          assert.equal(await frame.locator('#run-panel').isVisible(), false, 'another owner’s market must not expose the underlying solo pause panel');
           assert.match(await frame.locator('#market-owner').innerText(), new RegExp(`Viewing ${inventory.seat.toUpperCase()} `));
           const card = frame.locator(`[data-hand-card="${inventory.cards[0].id}"]`);
           await card.click(); await settle();
@@ -152,6 +153,7 @@ test('four real inventories remain inspectable through one responsive owner surf
           assert.equal(await frame.locator('#run-hand-sell').isDisabled(), true, 'unimplemented shared sale is explicitly unavailable');
           await snapshot(`hand-${inventory.seat}`, width, height, theme);
           await frame.locator('#run-hand-close').click(); await settle();
+          assert.equal(await frame.locator('#run-panel').isVisible(), false, 'closing an inspected card returns to the selected owner’s market');
         }
         assert.equal(await marketNode.evaluate(node => node === document.querySelector('#market')), true, 'one existing market tree');
         assert.equal(await handNode.evaluate(node => node === document.querySelector('#run-inventory')), true, 'one existing hand tree');
