@@ -65,7 +65,7 @@ test('four real inventories remain inspectable through one responsive owner surf
       // must be reachable; covered market offers belong to the underlying page.
       const inspecting = state.startsWith('hand-');
       const controls = [...document.querySelectorAll(inspecting ? '#run-inventory button' : '#market button, #run-inventory button')].filter(visible).map(rectData);
-      const identities = (inspecting ? ['run-hand-owner'] : ['market-owner', 'run-hand-owner']).map(id => document.getElementById(id)).filter(visible).map(textData);
+      const identities = (inspecting ? ['run-hand-owner', 'run-hand-detail-owner'] : ['market-owner', 'run-hand-owner']).map(id => document.getElementById(id)).filter(visible).map(textData);
       const scrollers = [...document.querySelectorAll('#market, #market *, #run-inventory, #run-inventory *')].filter(visible).filter(node => {
         const css = getComputedStyle(node);
         return /auto|scroll/.test(`${css.overflowX} ${css.overflowY}`) && (node.scrollHeight > node.clientHeight + 1 || node.scrollWidth > node.clientWidth + 1);
@@ -89,7 +89,7 @@ test('four real inventories remain inspectable through one responsive owner surf
     for (const control of metrics.controls) {
       if (!control.fits || !control.hit || control.inert) fail(`${key}: control is clipped, covered or inert`, control);
     }
-    const ownerControls = metrics.controls.filter(control => control.id === 'run-hand-owner' || /View P[1-4]/.test(control.label ?? ''));
+    const ownerControls = metrics.controls.filter(control => ['run-hand-owner', 'run-hand-detail-owner'].includes(control.id) || /View P[1-4]/.test(control.label ?? ''));
     if (!ownerControls.length) fail(`${key}: no reachable owner controls`, metrics);
     for (const control of ownerControls) {
       if (control.width < 43.5 || control.height < 43.5) fail(`${key}: owner target must be at least 44px`, control);
