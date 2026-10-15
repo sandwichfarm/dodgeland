@@ -5,9 +5,9 @@ milestone_name: milestone
 current_phase: 03
 current_phase_name: survive-together-consumables
 status: executing
-stopped_at: "Phase03 Plans01-03 complete; Plan04 world pickup executor started."
+stopped_at: "Phase03 Plans01-03 complete; Plan04 final model/render/parity gates pending."
 last_updated: "2026-10-15T08:41:10Z"
-last_activity_desc: World integration source underway; five root pickup/gravity/death boundary cases committed pending API implementation.
+last_activity_desc: Root owner-only terminal inventory spill tests passed14/14 and committed; executor running final03-04 gates.
 progress:
   total_phases: 7
   completed_phases: 2
@@ -69,6 +69,8 @@ Plan05 entry review commits33f981a/fcbbaaf correct test commands to strict/canon
 Root added native-canvas production-renderer evidence in `tests/consumable-world-render.test.mjs` (bb18e5f,050a99b,4f3ef37), strict `pnpm test:consumable-world-render`, and corrected07 final bundle to include all supplemental suites and immutable lockfile comparison. Initial renderer99865 failed distinct silhouettes;84017 then failed actual Protected/player text-box overlap. Executor replaced identical cubes with cross/canister geometry, packed outlined protection status separately (expired statuses no longer reserve space), and exposed authoritative pickup z for models/shadows/labels. Root80015 terminal0,3/3 (`/tmp/down-to-duck-03-04-root-river-render.log`): four canvas sizes200×160,320×560,900×600,1440×900, two distinct item models/positions, read-only draw and teardown pixels, actual death/personal-return protection and expiry, and real movement across three platform variants with no below-platform geometry/shadows. Artifacts `artifacts/consumable-world-*.png`, `consumable-protected-return.png`, JSON companions, `consumable-river-render.json`. Root visually inspected900/320 item and protected scenes. This is isolated native-canvas render-unit proof, not built-main menus, runtime themes, or full-game visual acceptance.
 
 Executor expanded its model file beyond the2tracers (seven cases passed in `/tmp/down-to-duck-03-04-owned-world-green.log`), then continued missing actor/retention/priority/spill/action/solo-observation matrices. Draft review caught vacuous out-of-range pull coordinates, identical generation paths, simultaneous deaths mislabeled consecutive, inverted contact-priority fixture math, and an unreachable fractional logical y retention fixture; executor is correcting these before final gates. Root has no live process.03-04 remains open, with source/render/model edits owned by the same active executor. Root renderer file/script/evidence and tracking remain root-owned.
+
+Latest03-04 root terminal suite: session54318 exit0,14/14 (`/tmp/down-to-duck-03-04-root-full-spill.log`), commit `a3874ad`. New P1/P2 cases purchase multiple cosmetics, a card, a power, and an unopened pack, then exercise the production terminal transition and assert exact dead-owner wallet/cosmetic spill, complete inventory/pack/item clearing, byte-unchanged survivor inventory, and empty personal return. The terminal call is deliberately direct because pending packs pause ordinary hazard updates; separate cases already exercise actual water hazards. Executor model source commits `581b7bb`/`9a2c74b` now cover9 cases including independent same-tick owned recoveries. Final combined gates and corrected SUMMARY are pending;03-04 is not accepted yet. Review requested honest initial/incremental replay evidence and confirmation of accessible land anchors plus lagging-seat pickup retention. Root owns no live process.
 
 Previous Git status-only turn made no multiplayer progress. Subsequent continuations added executable regressions, diagnosed ownership/version flaws, and verified corrections. The user briefly paused and then explicitly resumed; goal is active. No blocker.
 
