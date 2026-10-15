@@ -39,7 +39,11 @@ test('Survive Together adopts a progressed Arcade run and safely joins a unique 
   const emptyStage = LocalSession.stage(game, { roster: [], mode: definition });
   const promotedStage = LocalSession.stage(game, { roster: [], primaryDevice: 'gamepad-1', mode: definition });
   emptyStage.cancel();
-  assert.equal(promotedStage.commit().players[0]?.device, 'gamepad-1', 'commit reapplies the selected P1 device after cancelling a prior setup stage');
+  const promotedSession = promotedStage.commit();
+  assert.equal(promotedSession.players[0]?.device, 'gamepad-1', 'commit reapplies the selected P1 device after cancelling a prior setup stage');
+  assert.ok(game.worldExtensionSnapshot(), 'a committed Survive session owns the one live world extension');
+  promotedSession.stop();
+  assert.equal(game.worldExtensionSnapshot(), undefined, 'stopping the abandoned committed session releases its world extension before a new adoption');
 
   const session = LocalSession.stage(game, { roster: [], mode: definition }).commit();
   assert.strictEqual(session.world, before.world, 'commit retains the original world');
