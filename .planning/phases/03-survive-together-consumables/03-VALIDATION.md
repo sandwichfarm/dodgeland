@@ -115,21 +115,10 @@ Every frame runs in dark and light runtime themes; representative recovery/picku
 Run the complete final bundle gate and read every report:
 
 ```bash
-pnpm test:phase2
-node tests/strict-node-tests.mjs tests/survive-together-tracer.mjs tests/survive-admission.test.mjs tests/survive-together.test.mjs tests/survive-recovery-boundaries.test.mjs tests/recovery-plan-boundaries.test.mjs tests/survive-recovery-terminal.test.mjs tests/consumable-drops.test.mjs tests/consumables.test.mjs tests/consumable-boundaries.test.mjs tests/consumable-world.test.mjs tests/consumable-world-boundaries.test.mjs tests/survive-economy.test.mjs
-pnpm test:market
-pnpm test:magnet
-pnpm test:mobs
-pnpm test:death-spill
-pnpm type-check
-pnpm build
-node --test tests/survive-together-runtime.mjs tests/survive-together-layout.mjs
-pnpm test:guidance
-pnpm test:conformance
-git diff --exit-code a310a81ed6c76df4b265c9012c23b8c83f4802e5 -- pnpm-lock.yaml
+pnpm test:phase3
 ```
 
-The initial `pnpm test:phase2` is the maintained complete prerequisite gate from `02-VALIDATION.md`; it includes Phase 1, exact archived/current renderer pixels, all current shared-session evidence, and original-baseline lockfile integrity. Do not replace it with a copied subset or repeat solo parity separately without an intervening relevant change. A conformance skip remains a skip and is named in `03-07-SUMMARY.md`; it is never reported as passed evidence.
+The maintained `test:phase3` package script is the canonical complete 03-07 bundle; add every new Phase 03 acceptance test there. It requires the Phase 02 completion summary and starts with `pnpm test:phase2`, which is the maintained complete prerequisite gate from `02-VALIDATION.md`; it includes Phase 1, exact archived/current renderer pixels, all current shared-session evidence, and original-baseline lockfile integrity. Do not replace it with a copied subset or repeat solo parity separately without an intervening relevant change. A conformance skip remains a skip and is named in `03-07-SUMMARY.md`; it is never reported as passed evidence.
 
 ## Requirement Evidence Matrix
 

@@ -180,28 +180,7 @@ meaning dependent on sound, color, or motion. Inspect the generated contact shee
 Then run this exact combined gate and read every report:
 
 ```bash
-pnpm test:phase1
-pnpm test:solo-parity
-node --test tests/local-session-tracer.mjs tests/local-session.test.mjs tests/gamepad.test.mjs tests/session-input.test.mjs tests/keyboard-input.test.mjs tests/local-session-gamepad-runtime.mjs tests/local-session-keyboard-runtime.mjs tests/local-session-runtime.mjs tests/local-session-layout.mjs
-node tests/gamepad-runtime.mjs
-pnpm type-check
-pnpm build
-pnpm test:guidance
-pnpm test:conformance
-git diff --exit-code -- pnpm-lock.yaml
-pnpm test:phase1
-pnpm test:solo-parity
-node --test tests/survive-together-tracer.mjs tests/survive-together.test.mjs tests/consumable-drops.test.mjs tests/consumables.test.mjs tests/consumable-world.test.mjs tests/survive-economy.test.mjs
-pnpm test:market
-pnpm test:magnet
-pnpm test:mobs
-pnpm test:death-spill
-pnpm type-check
-pnpm build
-node --test tests/survive-together-runtime.mjs tests/survive-together-layout.mjs
-pnpm test:guidance
-pnpm test:conformance
-git diff --exit-code -- pnpm-lock.yaml
+pnpm test:phase3
 node --test tests/race-tracer.mjs tests/race-ordering.test.mjs tests/race-balance.test.mjs tests/race-lifecycle.test.mjs tests/race-items.test.mjs tests/race-results.test.mjs
 pnpm type-check
 pnpm build
@@ -209,7 +188,7 @@ node tests/race-runtime.mjs
 node tests/race-layout.mjs
 pnpm test:guidance
 pnpm test:conformance
-git diff --exit-code -- pnpm-lock.yaml
+git diff --exit-code a310a81ed6c76df4b265c9012c23b8c83f4802e5 -- pnpm-lock.yaml
 ```
 
 If Phase 4 is delivered, insert its exact canonical Relay model/runtime/layout command

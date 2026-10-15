@@ -171,15 +171,7 @@ character identity. Inspect a generated contact sheet/report before completion.
 Then run the complete final bundle gate and read every report:
 
 ```bash
-pnpm test:phase1
-pnpm test:solo-parity
-node --test tests/local-session-tracer.mjs tests/local-session.test.mjs tests/gamepad.test.mjs tests/session-input.test.mjs tests/keyboard-input.test.mjs tests/local-session-gamepad-runtime.mjs tests/local-session-keyboard-runtime.mjs tests/local-session-runtime.mjs tests/local-session-layout.mjs
-node tests/gamepad-runtime.mjs
-node --test tests/survive-together-tracer.mjs tests/survive-together.test.mjs tests/consumable-drops.test.mjs tests/consumables.test.mjs tests/consumable-world.test.mjs tests/survive-economy.test.mjs
-pnpm test:market
-pnpm test:magnet
-pnpm test:mobs
-pnpm test:death-spill
+pnpm test:phase3
 node --test tests/relay-tracer.mjs tests/relay-boundary.test.mjs tests/relay-lifecycle.test.mjs tests/relay-results.test.mjs
 pnpm type-check
 pnpm build
@@ -187,12 +179,10 @@ node tests/relay-runtime.mjs
 node tests/relay-layout.mjs
 pnpm test:guidance
 pnpm test:conformance
-git diff --exit-code -- pnpm-lock.yaml
+git diff --exit-code a310a81ed6c76df4b265c9012c23b8c83f4802e5 -- pnpm-lock.yaml
 ```
 
-If the Phase 1 summary records a different canonical completion command, use it
-in addition to the immutable oracle commands above. The Phase 2 and Phase 3
-command blocks remain exact subsets of this combined gate. A conformance skip is
+The maintained `test:phase3` script includes the complete Phase02 and Phase01 gates, all current Survive evidence, and immutable-oracle lockfile checks. Keep that prerequisite intact; do not replace it with copied subsets or duplicate its unchanged solo tests. A conformance skip is
 recorded as a skip, never as passing evidence. Injected deterministic controller
 proof is distinguished from any unavailable physical-controller observation.
 
