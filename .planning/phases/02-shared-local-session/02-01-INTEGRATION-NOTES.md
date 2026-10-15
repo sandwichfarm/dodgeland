@@ -267,3 +267,23 @@ The executor must supersede them with production-object/built-iframe assertions
 that fail on the actual ownership, lease, or navigation counterexample and pass
 only after its behavior is repaired. These cases remain unverified at this
 review checkpoint; source edits alone do not close Plan 02-05.
+
+## First behavioral controller flow
+
+The working-tree fixture supersedes the source-regex guard with a real built
+opaque iframe. Its latest recorded run passed **1/1** in 1.76 seconds, including
+an actual visible Start click, two-seat forward progress, disconnect, held and
+neutral input remaining unreclaimed, a later fresh reclaim, and one transport
+unsubscribe (`/tmp/down-to-duck-02-05-runtime.log`, 2026-10-14 17:52 local).
+The setup-to-session commit now explicitly seeds controller leases; waiting
+for a later context observation had swallowed the first movement edge.
+
+This is only the first wire-path scenario. Per-seat exclusive movement,
+mixed four-seat input, the injected binding path, calls, cancel/adoption,
+and the full responsive matrix remain required. Root inspected the saved
+900px artifact and found it was taken after pagehide, with both players
+marked disconnected; it is not accepted as live-HUD visual proof. Capture
+live state before teardown, and separately verify teardown ignores late
+callbacks. The world label currently overlaps a HUD identity, and world
+labels still need the same geometric markers as the HUD. Plan 02-05 remains
+in progress.

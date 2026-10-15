@@ -28,6 +28,11 @@ the goal complete while any required behavior or evidence remains missing.
   can yield empty or harness-only 100% reports. Preserve correct source maps
   through glob expansion, inventory expected production modules, calibrate the
   executable-line denominator, and fail on missing source coverage.
+  Also read `../../research/COVERAGE-CALIBRATION.md`: a measured TypeScript
+  before-transformer preserves eager-glob source identities, but native LCOV
+  and default V8-to-Istanbul conversion do not establish semantic branch or
+  executable-line denominators. Calibrate the final reporting approach with
+  known exercised and unexecuted sources before setting thresholds.
 - Run the exact canonical gates from each verified phase. Required final gates
   include type-check, production build, guidance and conformance; model/legacy
   and deterministic course regressions; original solo differential and pixel
