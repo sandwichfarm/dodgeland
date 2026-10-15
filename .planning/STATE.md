@@ -5,7 +5,7 @@ milestone_name: milestone
 current_phase: 03
 current_phase_name: survive-together-consumables
 status: executing
-stopped_at: "Phase03 Plans01-02 complete; Plan03 consumable contracts next."
+stopped_at: "Phase03 Plans01-02 complete; Plan03 consumable contracts executor started."
 last_updated: "2026-10-15T07:57:43Z"
 last_activity_desc: Recovery accepted with final strict36, tracer22, parity21; consumable catalog and isolated sampler next.
 progress:
@@ -19,7 +19,7 @@ progress:
 
 ## Current Position
 
-Phase03 — Survive Together & Consumables, Plan03 of7, wave2, ready to execute.
+Phase03 — Survive Together & Consumables, Plan03 of7, wave2, executing.
 All seven Phase03 plans and UI contract are reviewed. Phase01 and02 are independently verified; Phase03 remains incomplete. No complete multiplayer mode or PR yet.
 
 Full unchanged goal: `.planning/USER-REQUEST.md`, `.planning/PROJECT.md`, `.planning/REQUIREMENTS.md`. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
@@ -34,13 +34,15 @@ Phase02 verification remains `.planning/phases/02-shared-local-session/02-VERIFI
 
 ## Completed Recovery Plan and Next Work
 
-Plan03-02 source `55ba925`, summary `797b931`. Root spot-checked production recovery/result artifacts, commit state, final logs, unchanged lockfile, and summary self-check. Final strict recovery36/36, admission/tracer22/22 with production build, exact solo parity21/21, character-power/death-spill regressions, type-check, guidance, and conformance passed. Logs `/tmp/down-to-duck-03-02-final-survive-recovery.log`, `-final-survive-tracer.log`, and `/tmp/down-to-duck-03-02-solo-parity.log`. Parity handle29547 completed exit0; do not restart it. Conformance remains5pass/0fail/5unmeasured skips. This accepts recovery mechanics; observable recovery/result UI and real consumable ownership remain later plans. Phase requirements remain pending until complete phase verification.
+Plan03-02 source `55ba925`, summary `797b931` plus final self-check `9ab546a`. Root spot-checked production recovery/result artifacts, commit state, final logs, unchanged lockfile, and summary self-check. Final strict recovery36/36, admission/tracer22/22 with production build, exact solo parity21/21, character-power/death-spill regressions, type-check, guidance, and conformance passed. Logs `/tmp/down-to-duck-03-02-final-survive-recovery.log`, `-final-survive-tracer.log`, and `/tmp/down-to-duck-03-02-solo-parity.log`. Parity handle29547 completed exit0; do not restart it. Conformance remains5pass/0fail/5unmeasured skips. This accepts recovery mechanics; observable recovery/result UI and real consumable ownership remain later plans. Phase requirements remain pending until complete phase verification.
 
 Implemented shared personal/Revival/Flare validation and commit, 8-active-second offers, 2-active-second protection, alias-retained 250-new-tile recharge, exact fractional owner anchors, safe all-or-nothing relocation, terminal clock freeze, and immutable archived team contributions. Necessary generic session/Game dispatch and narrow RunInventory.resumeAfterDeath() extensions preserve the solo oracle and resume an empty returned player's economy without restoring purchases. Source summary records actual APIs and deviations.
 
 Root supplemental regressions: tests/survive-recovery-boundaries.test.mjs(13), tests/recovery-plan-boundaries.test.mjs(6), tests/survive-recovery-terminal.test.mjs(10). Historical RED evidence and fixes include early staging attachment, backtracking/forced-progress credit, stale all-dead clock, invalid target counts, living Flare health/counters, fractional owner placement, airborne row retention, unsupported last-safe anchors, alias progress reset, terminal late admission, and solo-adoption historical frontier. Commits/logs remain in history; all final36 cases pass. `pnpm test:survive-recovery` strictly rejects skipped/TODO/cancelled evidence and is included in the final phase gate.
 
-Next: sequential typed gsd-executor for03-03, owning only src/consumables.ts, src/consumable-drops.ts, tests/consumables.test.mjs, tests/consumable-drops.test.mjs and03-03SUMMARY. Root owns tracking/package. No worktree isolation is configured; do not overlap executors/builds. Plan03 defines immutable owner/generation/target-bound credit/debit and exact keyed item-drop-schema-1 sampler, with exhaustive1/2/2497 buckets and released RNG isolation. Then03-04 world integration,03-05 economy,03-06 lifecycle/recovery/resultsUI,03-07 hand/market/final gates. Independently verify the whole phase before Relay/Race; root stops related work during verifier.
+Active: `/root/multiplayer_consumable_catalog`, sequential typed gsd-executor for03-03, owning only src/consumables.ts, src/consumable-drops.ts, tests/consumables.test.mjs, tests/consumable-drops.test.mjs and03-03SUMMARY. Root owns tracking/package. No worktree isolation is configured; do not overlap executors/builds. Plan03 defines immutable owner/generation/target-bound credit/debit and exact keyed item-drop-schema-1 sampler, with exhaustive1/2/2497 buckets and released RNG isolation. Then03-04 world integration,03-05 economy,03-06 lifecycle/recovery/resultsUI,03-07 hand/market/final gates. Independently verify the whole phase before Relay/Race; root stops related work during verifier.
+
+Root also reconciled03-04 with the actual Survive attach/debit seam, explicitly included src/survive-together.ts ownership, and corrected its parity commands: the snapshot helper alone has no assertion suite; pnpm test:solo-parity is required. MCP graph lookup is available again for this project.
 
 The previous git-init status-only turn made no multiplayer progress. This continuation revalidated final evidence, accepted Plan02, corrected summary evidence scope, and advanced execution. No blocker.
 
