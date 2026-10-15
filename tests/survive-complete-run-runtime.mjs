@@ -102,6 +102,15 @@ test('one Arcade course survives adoption, four-player recovery, settlement and 
     assert.equal(collected.items.claims.filter(claim => claim.pickupId === pickup.id).length, 1);
     assert.equal(collected.items.charges.reduce((total, charge) => total + charge.revival, 0), 1);
 
+    await frame.locator('#scene').focus();
+    const beforeMoves = await read();
+    await page.keyboard.down('w'); await page.keyboard.down('ArrowRight');
+    await page.keyboard.up('w'); await page.keyboard.up('ArrowRight'); await advance(300);
+    const moved = await read();
+    assert.equal(owner(moved, 'p1').y, owner(beforeMoves, 'p1').y + 1);
+    assert.equal(owner(moved, 'p2').x, owner(beforeMoves, 'p2').x + 1);
+    for (const seat of ['p3', 'p4']) assert.deepEqual([owner(moved, seat).x, owner(moved, seat).y], [owner(beforeMoves, seat).x, owner(beforeMoves, seat).y]);
+
     await onSession(function () { this.players.find(player => player.seat === 'p3').run.creditCoins(7); });
     const retainedP3 = owner(await read(), 'p3');
     connected.delete(2); await sendPads([...connected].map(index => pad(index))); await settle();
@@ -143,6 +152,16 @@ test('one Arcade course survives adoption, four-player recovery, settlement and 
     const purchased = await record('two owners purchase recovery');
     assert.equal(owner(purchased, 'p2').wallet, owner(beforeBuy, 'p2').wallet - 24);
     assert.equal(owner(purchased, 'p3').wallet, owner(beforeBuy, 'p3').wallet - 36);
+    for (const [seat, item] of [['p2', 'Revival'], ['p3', 'Flare']]) {
+      await frame.locator(`#session-seats [data-seat="${seat}"] [data-session-hud="item"]`).click();
+      await frame.getByRole('button', { name: `Use ${item} ×1`, exact: true }).click();
+      const before = await read(), board = frame.locator('#survive-recovery-board');
+      assert.equal(await board.getByText(item === 'Revival' ? 'No teammate can be revived right now.' : 'No teammate needs a flare right now.', { exact: true }).isVisible(), true);
+      assert.equal(await board.getByRole('button', { name: `Use ${item}`, exact: true }).count(), 0);
+      await board.getByRole('button', { name: 'Back to paused run', exact: true }).click();
+      assert.deepEqual(await read(), before, 'a no-target attempt retains every owned charge, wallet and position');
+      await resume();
+    }
     for (const seat of ['p2', 'p3']) {
       await select(seat); await frame.locator('#market-open').click(); await settle();
       async function inspectAndAct(key) {
@@ -209,6 +228,7 @@ test('one Arcade course survives adoption, four-player recovery, settlement and 
     await advance(9000);
     const settled = await record('team settlement');
     assert.equal(settled.result?.mode, 'survive-together');
+    assert.equal(await onSession(function () { return Object.isFrozen(this.result) && Object.isFrozen(this.result.contributions); }), true);
     await frame.getByRole('heading', { name: "The flock's run", exact: true }).waitFor();
     await iframe.screenshot({ path: new URL('survive-complete-result.png', output).pathname });
     await advance(1500); assert.deepEqual((await read()).result, settled.result);
