@@ -4,9 +4,9 @@ import { readFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { chromium } from 'playwright';
 
-export async function createMarketGameFixture(evidence) {
+export async function createMarketGameFixture(evidence, options = {}) {
   const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
-  function installFixture() {
+  function installFixture(options) {
     const fixture = window.marketGameFixture = { writes: [], handlers: {}, hydrated: false };
     const themes = new Set();
     fixture.theme = { colors: { background: '#242b32', text: '#f0eee5', primary: '#9fc28a' } };
@@ -23,9 +23,14 @@ export async function createMarketGameFixture(evidence) {
         unregisterAction() {},
       },
     };
+    if (options.gamepads) window.napplet.gamepad = {};
   }
-  const artifact = JSON.stringify(built.replace('<head>', `<head><script>(${installFixture.toString()})();</script>`)).replaceAll('<', '\\u003c');
-  const harness = `<!doctype html><style>html,body{margin:0;overflow:hidden;background:#111}iframe{display:block;border:0;width:900px;height:600px}</style><iframe title="Market game fixture" sandbox="allow-scripts"></iframe><script>document.querySelector('iframe').srcdoc=${artifact};</script>`;
+  const artifact = JSON.stringify(built.replace('<head>', `<head><script>(${installFixture.toString()})(${JSON.stringify({ gamepads: !!options.gamepads })});</script>`)).replaceAll('<', '\\u003c');
+  const harness = `<!doctype html><style>html,body{margin:0;overflow:hidden;background:#111}iframe{display:block;border:0;width:900px;height:600px}</style><iframe title="Market game fixture" sandbox="allow-scripts"></iframe><script>
+const frame=document.querySelector('iframe');
+window.marketPads=(pads,focused=true)=>frame.contentWindow.postMessage({type:'gamepad.state',available:true,focused,pads},'*');
+addEventListener('message',event=>{if(event.source===frame.contentWindow&&event.data?.type==='gamepad.subscribe')window.marketPads([]);});
+frame.srcdoc=${artifact};</script>`;
   const server = createServer((_request, response) => { response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); response.end(harness); });
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   const browser = await chromium.launch({ args: ['--mute-audio'] });
@@ -49,9 +54,9 @@ export async function createMarketGameFixture(evidence) {
   await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 1000);
   assert.equal(await frame.evaluate(() => location.origin), 'null');
   const advance = ms => page.clock.runFor(ms);
-  let gameId;
-  async function onGame(fn, ...args) {
-    if (!gameId) {
+  const objectIds = new Map();
+  async function onObject(kind, fn, args) {
+    if (!objectIds.has(kind)) {
       const { frameTree } = await cdp.send('Page.getFrameTree');
       const context = [...contexts.values()].find(value => value.auxData?.frameId === frameTree.childFrames[0].frame.id && value.auxData?.isDefault);
       const { result: handler } = await cdp.send('Runtime.evaluate', { contextId: context.id, includeCommandLineAPI: true, expression: 'getEventListeners(document.getElementById("pause")).click[0].listener' });
@@ -62,15 +67,24 @@ export async function createMarketGameFixture(evidence) {
         const bindings = await cdp.send('Runtime.getProperties', { objectId: scope.value.objectId, ownProperties: true });
         for (const binding of bindings.result) {
           if (binding.value?.type !== 'object' || !binding.value.objectId) continue;
-          const match = await cdp.send('Runtime.callFunctionOn', { objectId: binding.value.objectId, returnByValue: true, functionDeclaration: 'function(){return this?.rows instanceof Map && typeof this.move === "function" && this.run?.catalog instanceof Map;}' });
-          if (match.result.value) gameId = binding.value.objectId;
+          const predicate = kind === 'game'
+            ? 'function(){return this?.rows instanceof Map && typeof this.move === "function" && this.run?.catalog instanceof Map;}'
+            : 'function(){return Array.isArray(this?.players) && this.world?.rows instanceof Map && typeof this.dispatch === "function" && typeof this.views === "function";}';
+          const match = await cdp.send('Runtime.callFunctionOn', { objectId: binding.value.objectId, returnByValue: true, functionDeclaration: predicate });
+          if (match.result.value) objectIds.set(kind, binding.value.objectId);
         }
       }
-      assert.ok(gameId, 'Game is discoverable through production debugger scope, with no app test hook');
+      assert.ok(objectIds.has(kind), `${kind} is discoverable through production debugger scope, with no app test hook`);
     }
-    const result = await cdp.send('Runtime.callFunctionOn', { objectId: gameId, functionDeclaration: fn.toString(), returnByValue: true, arguments: args.map(value => ({ value })) });
+    const result = await cdp.send('Runtime.callFunctionOn', { objectId: objectIds.get(kind), functionDeclaration: fn.toString(), returnByValue: true, arguments: args.map(value => ({ value })) });
     if (result.exceptionDetails) throw new Error(JSON.stringify(result.exceptionDetails));
     return result.result.value;
+  }
+  const onGame = (fn, ...args) => onObject('game', fn, args);
+  const onSession = (fn, ...args) => onObject('session', fn, args);
+  async function sendPads(pads, focused = true) {
+    await page.evaluate(({ pads, focused }) => window.marketPads(pads, focused), { pads, focused });
+    await frame.evaluate(() => Promise.resolve()); await advance(32);
   }
   async function resize(width, height) {
     await page.setViewportSize({ width: Math.max(width, 900), height: Math.max(height, 600) });
@@ -111,6 +125,6 @@ export async function createMarketGameFixture(evidence) {
     }, ids, replace);
     await advance(40); return offers;
   }
-  return { browser, page, frame, iframe, advance, onGame, resize, key, open, stageMarket, stageOffers,
+  return { browser, page, frame, iframe, advance, onGame, onSession, sendPads, resize, key, open, stageMarket, stageOffers,
     async close() { await browser.close(); await new Promise(resolve => server.close(resolve)); } };
 }
