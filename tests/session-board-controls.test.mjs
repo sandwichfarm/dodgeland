@@ -114,5 +114,6 @@ test('compact roster lets a player inspect an open seat without jumping back to 
   const { frame } = await setup(t, { width: 320, height: 560 });
   await frame.locator('.session-seat-chip').nth(2).click();
   assert.equal(await frame.locator('.session-seat-chip').nth(2).getAttribute('aria-pressed'), 'true');
+  assert.equal(await frame.locator('#session-seat-detail').isVisible(), true, 'selected open-seat instructions must be visible');
   assert.match(await frame.locator('#session-seat-detail').innerText(), /P3 is open/);
 });
