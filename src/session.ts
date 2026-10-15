@@ -14,7 +14,7 @@ export interface SeatAction { seat: SeatId; direction: Direction }
 export interface SessionSeatSpec { readonly seat: Exclude<SeatId, 'p1'>; readonly device: DeviceId; readonly characterId: string }
 export interface SessionConfig { readonly capacity: number }
 export const DEFAULT_SESSION_CONFIG: SessionConfig = Object.freeze({ capacity: 4 });
-export type SessionLifecycleType = 'player-death' | 'device-lost' | 'reclaim-offered' | 'reclaimed' | 'departed';
+export type SessionLifecycleType = 'player-joined' | 'player-death' | 'device-lost' | 'reclaim-offered' | 'reclaimed' | 'departed';
 export type SessionParticipation = 'active' | 'device-lost' | 'departed' | 'dead';
 export interface SessionLifecycleRecord {
   readonly sessionId: string;
@@ -33,6 +33,26 @@ export interface WorldFrame {
   readonly playerGround: ReadonlyMap<SessionPlayer, Readonly<{ x: number; y: number }>>;
 }
 export type SessionLifecycleHandler = (record: SessionLifecycleRecord) => void;
+
+/** Mode policies receive lifecycle facts through this generic session boundary. */
+export interface SessionModeHandlers {
+  join?(record: SessionLifecycleRecord): void;
+  deviceLost?(record: SessionLifecycleRecord): void;
+  reclaim?(record: SessionLifecycleRecord): void;
+  depart?(record: SessionLifecycleRecord): { readonly releaseSeat?: boolean } | void;
+  death?(record: SessionLifecycleRecord): void;
+  progress?(record: SessionLifecycleRecord): void;
+  result?(record: SessionLifecycleRecord): void;
+}
+export interface SessionModeDefinition {
+  readonly definition: ModeDefinition;
+  readonly handlers: SessionModeHandlers;
+}
+export interface SessionAdmission {
+  readonly device: DeviceId;
+  readonly characterId: string;
+  readonly seat?: Exclude<SeatId, 'p1'>;
+}
 
 /** Per-seat lifecycle delivery never shares the legacy solo facade callbacks. */
 export interface SessionPlayerCallbacks {
@@ -276,21 +296,25 @@ export class SessionPlayer {
 export class LocalSession {
   readonly definition: ModeDefinition;
   readonly world: SharedWorld;
-  readonly players: readonly SessionPlayer[];
+  private readonly roster: SessionPlayer[];
   readonly config: SessionConfig;
   readonly id: string;
+  readonly mode: SessionModeDefinition | undefined;
   private readonly lifecycleHandler: SessionLifecycleHandler;
   private readonly lifecycleRecords: SessionLifecycleRecord[] = [];
   private active = false;
 
-  constructor(world: SharedWorld, players: readonly SessionPlayer[], options: { config?: SessionConfig; onLifecycle?: SessionLifecycleHandler } = {}) {
+  constructor(world: SharedWorld, players: readonly SessionPlayer[], options: { config?: SessionConfig; onLifecycle?: SessionLifecycleHandler; mode?: SessionModeDefinition } = {}) {
     this.config = options.config ?? DEFAULT_SESSION_CONFIG;
     if (!Number.isInteger(this.config.capacity) || this.config.capacity < 1 || this.config.capacity > 4) throw new RangeError('Session capacity must be a validated integer from one through four.');
     if (players.length < 1 || players.length > this.config.capacity || new Set(players.map(player => player.seat)).size !== players.length || new Set(players.map(player => player.device)).size !== players.length || new Set(players.map(player => player.characterId)).size !== players.length) throw new TypeError('A local session needs unique stable seats, devices, and characters within its configured capacity.');
-    this.world = world; this.players = [...players].sort((a, b) => a.seat.localeCompare(b.seat)); this.definition = world.definition; this.id = `local-${world.seed.toString(36)}-${world.simulationTick}`; this.lifecycleHandler = options.onLifecycle ?? (() => {});
+    if (options.mode && options.mode.definition !== world.definition) throw new TypeError('A session mode must compose the exact live world definition.');
+    this.world = world; this.roster = [...players].sort((a, b) => a.seat.localeCompare(b.seat)); this.definition = world.definition; this.mode = options.mode; this.id = `local-${world.seed.toString(36)}-${world.simulationTick}`; this.lifecycleHandler = options.onLifecycle ?? (() => {});
   }
 
-  static stage(game: Game, options: { secondaryCharacterId?: string; roster?: readonly SessionSeatSpec[]; config?: SessionConfig; onLifecycle?: SessionLifecycleHandler } = {}): LocalSessionStage {
+  get players(): readonly SessionPlayer[] { return this.roster; }
+
+  static stage(game: Game, options: { secondaryCharacterId?: string; roster?: readonly SessionSeatSpec[]; config?: SessionConfig; onLifecycle?: SessionLifecycleHandler; mode?: SessionModeDefinition } = {}): LocalSessionStage {
     const world = (game as Game & { world?: SharedWorld }).world ?? new SharedWorld(game);
     const primary = (game as Game & { player?: SessionPlayer }).player ?? new SessionPlayer(world, 'p1', 'keyboard-a', game.characterId, true);
     const used = new Set([primary.characterId]);
@@ -306,16 +330,46 @@ export class LocalSession {
       if (spawn === undefined) throw new Error('No safe distinct session seat is available on the live course.');
       player.x = player.fromX = spawn; player.y = player.fromY = primary.y; player.maxY = primary.y; occupied.add(spawn); used.add(spec.characterId); players.push(player);
     }
-    return new LocalSessionStage(game, new LocalSession(world, players, { config: options.config, onLifecycle: options.onLifecycle }));
+    return new LocalSessionStage(game, new LocalSession(world, players, { config: options.config, onLifecycle: options.onLifecycle, mode: options.mode }));
   }
 
   start(): void { for (const player of this.players) player.start(); this.world.sessionActive = true; this.world.host.resetSharedWorldEffects(); this.active = true; }
   dispatch(action: SeatAction): boolean { const player = this.players.find(candidate => candidate.seat === action.seat); return !!player && this.active && player.participation === 'active' && player.move(action.direction); }
-  private emit(type: SessionLifecycleType, player: SessionPlayer, previous: SessionParticipation, next: SessionParticipation, cause: string, offeredDevice?: DeviceId): void {
+  private emit(type: SessionLifecycleType, player: SessionPlayer, previous: SessionParticipation, next: SessionParticipation, cause: string, offeredDevice?: DeviceId): { readonly releaseSeat?: boolean } | void {
     const record = Object.freeze({ sessionId: this.id, playerId: `${this.id}:${player.seat}`, type, seat: player.seat, device: player.device, offeredDevice, previous, next, simulationTick: this.world.simulationTick, cause });
     this.lifecycleRecords.push(record); this.lifecycleHandler(record);
+    if (type === 'player-joined') return this.mode?.handlers.join?.(record);
+    if (type === 'device-lost') return this.mode?.handlers.deviceLost?.(record);
+    if (type === 'reclaimed') return this.mode?.handlers.reclaim?.(record);
+    if (type === 'departed') return this.mode?.handlers.depart?.(record);
+    if (type === 'player-death') return this.mode?.handlers.death?.(record);
   }
   get lifecycle(): readonly SessionLifecycleRecord[] { return this.lifecycleRecords; }
+  private safePlacement(exclude?: SessionPlayer): { readonly x: number; readonly y: number } | undefined {
+    const candidates = this.players.filter(player => player !== exclude && player.participation === 'active');
+    const anchor = candidates.reduce((best, player) => player.maxY > best.maxY ? player : best, candidates[0] ?? this.players[0]);
+    if (!anchor) return undefined;
+    const lane = this.world.rows.get(anchor.y);
+    const occupied = new Set(candidates.map(player => Math.round(player.groundX)));
+    const x = [-1, 1, -2, 2, -3, 3, -4, 4, -5, 5].map(offset => anchor.groundX + offset).find(candidate =>
+      candidate >= -5 && candidate <= 5 && !occupied.has(Math.round(candidate)) && !!lane && !lane.blocked.includes(Math.round(candidate)) && (lane.kind !== 'river' || platformSupports(lane, candidate, this.world.time)),
+    );
+    return x === undefined ? undefined : Object.freeze({ x, y: anchor.y });
+  }
+  admit(admission: SessionAdmission): boolean {
+    if (!this.active || !CHARACTERS.some(character => character.id === admission.characterId)) return false;
+    const occupiedSeats = new Set(this.players.map(player => player.seat));
+    const seat = admission.seat ?? (['p2', 'p3', 'p4'] as const).find(candidate => !occupiedSeats.has(candidate));
+    if (!seat || this.players.length >= this.config.capacity || occupiedSeats.has(seat) || this.players.some(player => player.device === admission.device || player.characterId === admission.characterId)) return false;
+    const placement = this.safePlacement();
+    if (!placement) return false;
+    const player = new SessionPlayer(this.world, seat, admission.device, admission.characterId);
+    player.x = player.fromX = placement.x; player.y = player.fromY = placement.y; player.maxY = placement.y;
+    if (!player.start()) return false;
+    this.roster.push(player); this.roster.sort((a, b) => a.seat.localeCompare(b.seat));
+    this.emit('player-joined', player, 'departed', 'active', 'live-admission');
+    return true;
+  }
   deviceLost(seat: SeatId, cause = 'device-lost'): boolean {
     const player = this.players.find(candidate => candidate.seat === seat);
     if (!player || player.participation !== 'active') return false;
@@ -331,7 +385,10 @@ export class LocalSession {
   reclaim(seat: SeatId, device: DeviceId): boolean {
     const player = this.players.find(candidate => candidate.seat === seat);
     if (!player || player.participation !== 'device-lost' || this.players.some(candidate => candidate !== player && candidate.participation === 'active' && candidate.device === device)) return false;
+    const placement = this.safePlacement(player);
+    if (!placement) return false;
     player.device = device; player.participation = 'active';
+    player.x = player.fromX = placement.x; player.y = player.fromY = placement.y;
     player.statistics.deviceLostDuration += Math.max(0, this.world.time - (player.deviceLostAt ?? this.world.time)); player.deviceLostAt = null;
     this.emit('reclaimed', player, 'device-lost', 'active', 'device-reclaimed'); return true;
   }
@@ -339,7 +396,9 @@ export class LocalSession {
     const player = this.players.find(candidate => candidate.seat === seat);
     if (!player || player.participation === 'departed') return false;
     const previous = player.participation; player.participation = 'departed';
-    this.emit('departed', player, previous, 'departed', cause); return true;
+    const disposition = this.emit('departed', player, previous, 'departed', cause);
+    if (disposition?.releaseSeat) this.roster.splice(this.roster.indexOf(player), 1);
+    return true;
   }
   private collectCompletedState(player: SessionPlayer, prior: RunState): { player: SessionPlayer; previous: SessionParticipation; cause: string } | undefined {
     player.statistics.distance = Math.max(player.statistics.distance, player.primary ? player.maxY : player.earnedDistance);
