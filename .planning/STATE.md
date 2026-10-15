@@ -5,7 +5,7 @@ milestone_name: milestone
 current_phase: 03
 current_phase_name: survive-together-consumables
 status: executing
-stopped_at: "Phase03 independent verification39/40; ghost-duration gap fixed, canonical gap-closure gate running."
+stopped_at: "Phase03 independent verification39/40; ghost-duration gap fixed and canonical gate passed; independent re-verification pending."
 last_updated: "2026-10-15T20:21:35.861302+00:00"
 last_activity_desc: Co-op market tracer passes; root ownership, fresh-context and responsive regressions drive03-07 fixes.
 progress:
@@ -28,7 +28,7 @@ Full unchanged goal: `.planning/USER-REQUEST.md`, `.planning/PROJECT.md`, `.plan
 
 Plan03-06 accepted at source12f6fba with SUMMARYba7e6a9. Root final gate7110 terminal0 (`/tmp/down-to-duck-03-06-root-final-owner-gate.log`) passed type-check/build,22 named tests,guidance,conformance5pass/0fail/5unmeasured,and unchanged lockfile against immutable solo oracle. Physical controller hardware is separately unmeasured. No unchanged gate rerun needed at07entry;07final canonical inherited gate remains mandatory. Phase03 overall remains incomplete; UI-03 requires07 and independent verification.
 
-Root owns the03-08 ghost-duration gap closure and sole build/browser reservation. Independent verifier fallback returned gaps_found39/40; report committed in6017f9f. Typed worker never initialized and was explicitly canceled; fallback is recorded honestly. Eight new production-path cases reproduced missing duration; focused25/25 plus type-check pass after narrow departure/settlement fix6017f9f. Full canonical `pnpm test:phase3` is live as session73933, log `/tmp/down-to-duck-ghost-duration-final-gate.log`; poll this handle. No competing builds. After success, write08SUMMARY and request independent re-verification. Phase03 and all later goal work remain incomplete.
+Root owns the03-08 ghost-duration gap closure and sole build/browser reservation. Independent verifier fallback returned gaps_found39/40; report committed in6017f9f. Typed worker never initialized and was explicitly canceled; fallback is recorded honestly. Eight new production-path cases reproduced missing duration; focused25/25 plus type-check pass after narrow departure/settlement fix6017f9f. Full canonical `pnpm test:phase3` completed session73933 exit0, log `/tmp/down-to-duck-ghost-duration-final-gate.log`; recovery44/44 and final browser34/34.08SUMMARY written; no live root process. Independent fallback verifier re-verification is next. Phase03 and all later goal work remain incomplete.
 
 Root03-07 supplemental `tests/survive-market-pack-owner-runtime.mjs` committedba21d42; final gate includes it in c43d4ba. Actual built RED44739 terminal1 (`/tmp/down-to-duck-03-07-root-pack-red.log`) reaches the P2 full-hand Large Pack inspection, where purchase is disabled. Setup and owner selection succeeded; subsequent paid-pack/switch/sale/claim assertions remain unproven. Browser reservation released to executor, root no live process. Executor own initial RED reports4 existing cases pass/1 new P2Revival case fails at disabled market opener (`/tmp/down-to-duck-03-07-red-p2-revival.log`).
 
