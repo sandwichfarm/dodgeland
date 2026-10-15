@@ -6,8 +6,8 @@ current_phase: 03
 current_phase_name: survive-together-consumables
 status: executing
 stopped_at: "Phase03 Plan01 complete; Plan02 recovery executor started."
-last_updated: "2026-10-15T06:56:18Z"
-last_activity_desc: Live co-op admission and full prerequisite regression gate passed; implementing recovery and team results.
+last_updated: "2026-10-15T07:08:41Z"
+last_activity_desc: Recovery implementation underway; production hazard and completed-hop RED tests added to strict phase gates.
 progress:
   total_phases: 7
   completed_phases: 2
@@ -37,6 +37,10 @@ Phase02 verification remains `.planning/phases/02-shared-local-session/02-VERIFI
 `/root/multiplayer_recovery` is the typed gsd-executor for03-02. Owns recovery.ts, session.ts, survive-together.ts, survive-results.ts, survive-together.test.mjs,03-02SUMMARY and build/browser. Necessary narrow generic Game protection integration may be required; preserve exact solo behavior. Root owns tracking/package and supplementary tests. Prior tracer executor completed; no test process remained when recovery started.
 
 Root `dcfa0c7` reconciles03-02 with actual APIs: progress/result callbacks currently lack dispatch; all-dead update returns immediately. Recovery must integrate real production context, progress, fixed-time offers and settlement, not isolated helpers. Plan02 then03 in wave2, followed by03-04..07 in dependency order. Independently verify the complete phase before Relay/Race. Root stops related work while a phase verifier runs.
+
+Plan02 executor remains live with Task1 RED commit `9652a1a`; recovery/session/result implementation is in progress, not accepted. Root commits `fe340c8` and `ca3d8d6` add ten supplementary P1/P2 production-hazard and completed-hop cases in `tests/survive-recovery-boundaries.test.mjs`. Initial eight-case run failed at the missing recovery offer after actual river death (`/tmp/down-to-duck-03-02-root-boundaries-red.log`); two fatal-250th-hop cases were subsequently added and await implementation validation. The checks cover traffic health mutation before death, water/train protection and expiry, backtracking, airborne progress, exact249/250/251, and fatal qualifying landings. Root owns this file. `cea53b6` adds strict `pnpm test:survive-recovery` and includes these tests in the final phase gate. No green recovery claim yet.
+
+Root `fcb2fd0` explicitly includes narrow Game damage/death protection in03-02 ownership. `746c31e` makes03-03's already-required debit contract concrete: immutable one-charge plans, owner/generation/target validation, empty/stale/invalid rejection, and full focused tests. Generated local skill-install artifacts were removed from the worktree by their executor owner. Previous git-init status-only turn made no multiplayer progress; this goal turn adds executable regression evidence and closes a plan coverage gap.
 
 ## Invariants
 
