@@ -236,7 +236,8 @@ test('one Arcade course survives adoption, four-player recovery, settlement and 
     assert.equal(await frame.locator('#session-seats').isVisible(), false);
     assert.equal(await frame.locator('#run-hand-items').isVisible(), false);
     assert.equal(await onGame(function () { return this.worldExtensionSnapshot() === undefined; }), true);
-    await frame.locator('#play').click(); await frame.locator('#scene').focus(); await page.keyboard.press('w'); await advance(250);
+    assert.equal(await frame.evaluate(() => typeof window.marketGameFixture.handlers['puddlehop.forward-w']), 'function', 'solo returns its movement shortcut to the shell');
+    await frame.locator('#play').click(); await app.key('forward-w');
     assert.equal(await onGame(function () { return this.maxY; }), 1, 'retry restores ordinary solo controls');
     assert.deepEqual(evidence.errors, []); assert.deepEqual(evidence.external, []);
   } catch (error) {
