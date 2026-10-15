@@ -147,7 +147,12 @@ None.
 
 ## Next Phase Readiness
 
-Phase 04 can supply consumable catalog, ownership, and debit capabilities through `SessionRecoveryRequest.debit`; recovery target, placement, protection, and settlement contracts are complete. COOP-04 remains open until that owned item flow exists.
+Plan 03-04 can supply consumable catalog, ownership, and debit capabilities through `SessionRecoveryRequest.debit`; recovery target, placement, protection, and settlement contracts are complete. COOP-04 remains open until that owned item flow exists.
+
+## Self-Check: PASSED
+
+- Found `src/recovery.ts`, `src/survive-results.ts`, and this summary.
+- Found required RED and implementation commits `9652a1a` and `55ba925`.
 
 ---
 *Phase: 03-survive-together-consumables*
