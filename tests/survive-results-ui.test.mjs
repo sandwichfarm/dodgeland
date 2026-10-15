@@ -32,10 +32,10 @@ test('immutable co-op results page every participant without ranking, overflow, 
       </style><div id="app"><button id="origin">Previous screen</button><button id="already-inert" inert>Unavailable</button><section id="results"></section></div>
       <script type="module">import {createSurviveResultsBoard} from '/survive-results-ui.js';
       const snapshot = ${JSON.stringify(result)}; snapshot.contributions.forEach(Object.freeze); Object.freeze(snapshot.contributions); Object.freeze(snapshot);
-      window.resultsFixture = { snapshot, again:0 };
+      window.resultsFixture = { snapshot, again:0, seed:'ph3-1234abcd-pond-a-n' };
       document.querySelector('#origin').focus();
       resultsFixture.board=createSurviveResultsBoard(document.querySelector('#results'),{onAgain:()=>resultsFixture.again++});
-      resultsFixture.board.show(snapshot);</script>`;
+      resultsFixture.board.show(snapshot, resultsFixture.seed);</script>`;
     const harness = `<!doctype html><style>html,body{margin:0}iframe{display:block;border:0;width:100vw;height:100vh}</style><iframe sandbox="allow-scripts"></iframe><script>document.querySelector('iframe').srcdoc=${JSON.stringify(document).replaceAll('<', '\\u003c')};</script>`;
     response.setHeader('Content-Type', 'text/html'); response.end(harness);
   });
@@ -43,6 +43,7 @@ test('immutable co-op results page every participant without ranking, overflow, 
   const browser = await chromium.launch({ args: ['--mute-audio'] });
   try {
     const page = await browser.newPage({ viewport: { width: 900, height: 600 }, reducedMotion: 'reduce' });
+    page.setDefaultTimeout(5000);
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(origin);
     const iframe = page.locator('iframe'), frame = await (await iframe.elementHandle()).contentFrame();
@@ -99,10 +100,40 @@ test('immutable co-op results page every participant without ranking, overflow, 
       frames.push({ theme, width: 200, height: 160, notice: true });
     }
     const selected = await frame.locator('.survive-results-page').innerText();
-    await frame.evaluate(() => resultsFixture.board.show(resultsFixture.snapshot));
+    await frame.evaluate(() => resultsFixture.board.show(resultsFixture.snapshot, resultsFixture.seed));
     assert.equal(await frame.locator('.survive-results-page').innerText(), selected, 'repeated main renders do not reset result paging');
     await page.setViewportSize({ width: 320, height: 560 });
     await frame.waitForFunction(() => document.querySelector('#results').contains(document.activeElement) && document.activeElement.getClientRects().length);
+    const retainedPage = await frame.locator('.survive-results-page').innerText();
+    await frame.getByRole('button', { name: 'Seed', exact: true }).click();
+    const seed = frame.getByRole('textbox', { name: 'Run seed', exact: true });
+    assert.equal(await seed.inputValue(), 'ph3-1234abcd-pond-a-n');
+    await frame.evaluate(() => {
+      document.execCommand = () => false;
+      Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: () => Promise.reject(new Error('Denied')) } });
+    });
+    await frame.getByRole('button', { name: 'Copy seed', exact: true }).click();
+    await frame.getByText('Selected. Use your device’s Copy.', { exact: true }).waitFor();
+    assert.deepEqual(await seed.evaluate(node => [node.selectionStart, node.selectionEnd, document.activeElement === node]), [0, 'ph3-1234abcd-pond-a-n'.length, true], 'denied clipboard access leaves the complete seed selected inside the active modal');
+    for (const [width, height] of [[240,240],[320,560],[900,600],[1000,280],[2400,1200]]) {
+      await page.setViewportSize({ width, height });
+      await frame.waitForFunction(size => innerWidth === size.width && innerHeight === size.height, { width, height });
+      const layout = await frame.locator('#results').evaluate(root => {
+        const controls = [...root.querySelectorAll('button,textarea')].filter(node => node.getClientRects().length);
+        return controls.map(node => { const r = node.getBoundingClientRect(); return { label: node.textContent || node.getAttribute('aria-label'), valid: r.width >= 44 && r.height >= 44 && r.left >= 0 && r.top >= 0 && r.right <= innerWidth && r.bottom <= innerHeight, overflow: node.scrollWidth > node.clientWidth + 1 || node.scrollHeight > node.clientHeight + 1 }; });
+      });
+      assert.ok(layout.every(control => control.valid && !control.overflow), `seed page ${width}×${height}: ${JSON.stringify(layout)}`);
+      assert.equal(await seed.inputValue(), 'ph3-1234abcd-pond-a-n');
+      await iframe.screenshot({ path: new URL(`survive-results-seed-${width}x${height}.png`, artifact).pathname });
+    }
+    await page.setViewportSize({ width: 200, height: 160 });
+    assert.equal(await seed.isVisible(), false);
+    await page.setViewportSize({ width: 320, height: 560 });
+    await frame.waitForFunction(() => document.querySelector('#results').contains(document.activeElement) && document.activeElement.getClientRects().length);
+    assert.equal(await seed.isVisible(), true, 'returning from the size floor retains the seed page');
+    assert.equal(await frame.getByText('Selected. Use your device’s Copy.', { exact: true }).isVisible(), true, 'resize retains the copy outcome');
+    await frame.getByRole('button', { name: 'Back to results', exact: true }).click();
+    assert.equal(await frame.locator('.survive-results-page').innerText(), retainedPage, 'the seed page preserves the viewed participant and metric');
     await frame.getByRole('button', { name: 'Hop again', exact: true }).focus();
     await page.keyboard.press('Tab');
     assert.equal(await frame.evaluate(() => document.querySelector('#results').contains(document.activeElement)), true);
