@@ -72,6 +72,8 @@ CSS/build/browser reservation returned to executor `/root/multiplayer_hand_marke
 
 Root supplemental controller coverage `c55bcd0` adds a held-confirmation transition: P1 A rejected under P2, pointer-switch to P1, fresh card inspection, repeated held snapshots cannot sell; release and deliberate P2 confirmation retain the existing success check. Syntax and diff checks pass; runtime is pending under executor reservation. Executor R16 compact wardrobe test reaches purchase and wardrobe inspection, then fails locating `Wear it`; purchased cosmetics may already be equipped, so the test must exercise the actual take-off/wear controls. The 240×240 wardrobe navigation requirement still needs direct proof. No root browser process or final-gate claim.
 
+Executor R18 focused checkpoint is terminal green:20/20,0fail (`/tmp/down-to-duck-03-07-r18-focused-runtime.log`), independently read by root. Includes latest held-input regression `c55bcd0`/`bcb3ea0`, keyboard isolation, ghost/paid-draft, physical Items shelf, charged owner layout, fresh-context sale, full integrated run, and240×240 wardrobe purchase/equip. Executor now saves wardrobe visual evidence and finishes explicit insufficient-funds/capacity UI outcomes before its owned commit and canonical full gate. Focused success does not complete03-07; fullgate/SUMMARY/independentPhase03verification remain. Root has no browser/build process.
+
 ## Historical Evidence
 
 The full Phase03 plans01–06 execution chronology, intermediate failures, fixes and terminal gate logs are preserved in `.planning/phases/03-survive-together-consumables/03-EXECUTION-HISTORY.md`. Accepted summaries and independent phase verification remain authoritative; historical ownership statements do not supersede this current state.
