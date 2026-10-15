@@ -99,6 +99,25 @@ test('a road filled with current traffic cannot be selected as a safe join place
   assert.deepEqual(observed(game, session), before);
 });
 
+test('Arcade admission cannot place a new player inside the chasing wave', () => {
+  const { game, session } = setup({ mode: 'arcade' });
+  // An input can arrive before the next simulation step resolves the leader's
+  // fatal contact. All positions at or behind this frontier are submerged.
+  game.waveRow = session.players[0].y;
+  const before = observed(game, session);
+  assert.equal(session.admit({ device: 'keyboard-b', characterId: 'sunny' }), false,
+    'a living record awaiting hazard resolution is not a safe spawn anchor');
+  assert.deepEqual(observed(game, session), before,
+    'failed placement cannot create an actor, assign provenance or tick the world');
+});
+
+test('Flow admission ignores an inactive wave position', () => {
+  const { game, session } = setup({ mode: 'stroll' });
+  game.waveRow = session.players[0].y;
+  assert.equal(session.admit({ device: 'keyboard-b', characterId: 'sunny' }), true,
+    'placement follows the composed pursuit strategy, not an unconditional wave check');
+});
+
 test('join callbacks observe a committed unique roster, inventory and safe placement exactly once', () => {
   let session;
   const callbacks = [];
