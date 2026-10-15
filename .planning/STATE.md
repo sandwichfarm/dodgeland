@@ -5,67 +5,51 @@ milestone_name: milestone
 current_phase: 03
 current_phase_name: survive-together-consumables
 status: executing
-stopped_at: "Phase03 Plan01: focused21/21; mixed controller/keyboard staging fixed; awaiting final phase2 terminal report."
-last_updated: "2026-10-15T05:38:55Z"
-last_activity: 2026-10-14
-last_activity_desc: Phase02 independent verifier passed5/5; full maintained gate exit0; starting approved Phase03 plans.
+stopped_at: "Phase03 Plan01 complete; Plan02 recovery executor started."
+last_updated: "2026-10-15T06:56:18Z"
+last_activity_desc: Live co-op admission and full prerequisite regression gate passed; implementing recovery and team results.
 progress:
   total_phases: 7
   completed_phases: 2
   total_plans: 30
-  completed_plans: 10
+  completed_plans: 11
 ---
 
 # Project State
 
-## Project Reference
-
-See `.planning/PROJECT.md`, `.planning/USER-REQUEST.md` and `.planning/REQUIREMENTS.md` for the complete unchanged goal. Work stays on `feat/local-multiplayer`; no multiplayer mode is complete and no PR has been opened.
-
-**Current focus:** Phase03 — Survive Together & Consumables.
-
 ## Current Position
 
-Phase: 03 — Survive Together & Consumables
-Plan: 1 of 7, wave1, executing
-Status: All seven plans and UI contract reviewed; Phase02 prerequisite is now independently verified.
+Phase03 — Survive Together & Consumables, Plan02 of7, wave2, executing.
+All seven Phase03 plans and UI contract are reviewed. Phase01 and02 are independently verified; Phase03 remains incomplete. No complete multiplayer mode or PR yet.
 
-Phase02 verification: `.planning/phases/02-shared-local-session/02-VERIFICATION.md`, passed5/5. Independent verifier ran the entire maintained `pnpm test:phase2` on157e59c to exit0 (session57619), including immutable solo21, solo regressions271, renderer19, shared model71, all built iframe input/setup/adoption/audio/owner flows, owner53frames, setup/HUD24frames, solo hand44frames, actual runtime10scenarios/12frames/8wavechecks, guidance6, conformance and immutable lockfile check. No required automated failures/skips in strict model/UI groups. Conformance is5pass/0fail/5unmeasured, not10passes. Physical controllers remain an explicitly permitted external confidence check.
+Full unchanged goal: `.planning/USER-REQUEST.md`, `.planning/PROJECT.md`, `.planning/REQUIREMENTS.md`. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
 
-Final Phase02 source: selected-owner7bb1d72 and compactCSSa1bef98; summaryb3365dc. Root99f1b1b fixes tracer resize timing without weakening exact HUD equality. Owner fixture delivers neutral controller input after restored context before asserting real movement. Owner layout report binds source/dist SHA256 and root confirmed both matched. Earlier failed attempts remain documented in02-06SUMMARY; the independent full run supersedes the split-tail proof.
+## Completed Admission Plan
 
-Progress: 10/30 currently authored plans;2/7 phases verified. Later modes and final coverage/visual/PR deliverables remain required.
+Plan03-01 source `a31412f`, summary `ba4166d`: live Arcade/Flow adoption, batch and late admission, unique characters/devices, safe placement, ghost/reclaim/departure, contribution and recovery provenance. Root reviewed the summary and independently ran final canonical `pnpm test:phase2` to exit0 (session17613, `/tmp/down-to-duck-03-01-final-phase2-hydration.log`). Exact solo21, regressions271, render19, shared model71, all built input/audio/adoption/owner flows, layout matrices, hand44frames, real Paja10scenarios/12frame-theme/8wavechecks, guidance, conformance, and immutable lockfile check passed. Focused co-op tracer/admission22/22.
 
-## Decisions and Invariants
+Regression history is preserved in03-01SUMMARY. Root tests `201104d`, `0bbd0e0`, `abcf4f7` cover wave safety, atomic four-seat promotion, and primary binding restoration across replacement stages. Mixed controller/keyboard and selected-character audio bugs were fixed. Root `0f064b5` fixes runtime smoke synchronization: wait for both persisted preferences, actual frame reload, and hydrated checked state instead of a fixed400ms assumption. Product code unchanged for that test fix.
 
-- Immutable original solo oracle: `a310a81ed6c76df4b265c9012c23b8c83f4802e5`; never repin it after a refactor.
-- One session owns terrain, simulation time, RNG, pickup claims and camera; players own movement, health, inventory, innate powers and stats.
-- Existing100-block innate powers remain separate from personal250-new-tile revival and Revival/Flare consumables.
-- Death spills/clears only the dead player's run inventory; disconnect ghosts retain it.
-- Survive Together adoption preserves exact live Game/world/player/inventory/actors/RNG; cancel leaves solo unchanged. Relay/Race start fresh.
-- Four seats and Race500tiles/180active seconds remain validated provisional defaults. Relay default50tiles.
-- Shared market/hand resolves actual selected-seat RunInventory through one DOM tree. Phase02 mutations remain unavailable until Phase03 economy policy exists.
-- SDK boundaries only: no native controller polling, browser storage, direct network, hostDOM, shim import or new runtime package.
-- All browser runs mute audio. Preview5175 is untouched. Shared-index commits list owned files explicitly.
+Phase02 verification remains `.planning/phases/02-shared-local-session/02-VERIFICATION.md` (passed5/5), completion `0c3f50c`.
 
-## Next Work
+## Active Ownership and Next Work
 
-1. Execute approved03-01 tracer using current shipped APIs; see03-CONTEXT entry API reconciliation20838b5 and all Phase02 summaries.
-2. Continue03-02..07 in approved waves, then independently verify complete co-op/recovery/items/economy/UI behavior.
-3. Execute reviewed Relay and Race plans, then cross-mode presentation and honest high coverage/visual proofs; open PR against main without merging or publishing.
+`/root/multiplayer_recovery` is the typed gsd-executor for03-02. Owns recovery.ts, session.ts, survive-together.ts, survive-results.ts, survive-together.test.mjs,03-02SUMMARY and build/browser. Necessary narrow generic Game protection integration may be required; preserve exact solo behavior. Root owns tracking/package and supplementary tests. Prior tracer executor completed; no test process remained when recovery started.
 
-## Remaining Limitations
+Root `dcfa0c7` reconciles03-02 with actual APIs: progress/result callbacks currently lack dispatch; all-dead update returns immediately. Recovery must integrate real production context, progress, fixed-time offers and settlement, not isolated helpers. Plan02 then03 in wave2, followed by03-04..07 in dependency order. Independently verify the complete phase before Relay/Race. Root stops related work while a phase verifier runs.
 
-- Regular900×600 HUD can cover nearby P2/P4 world actors. This is an explicit Phase06 composition task and must be fixed before overall completion.
-- Conformance manifest3, wire-envelope1 and lifecycle1 rows lack measured evidence. See `.planning/research/CONFORMANCE-EVIDENCE.md` for pinned-tool/current-protocol mismatch; do not manufacture evidence or count skips as passes.
-- Phase07 coverage calibration is exploratory until a committed normal-install fixture proves correct AST branch/function/statement/line aggregation, including browser coverage. See `.planning/research/COVERAGE-CALIBRATION.md`.
+## Invariants
 
-## Session Continuity
+- One session owns world/RNG/clocks/claims; players own movement, health, inventory, innate power and contributions.
+- Live solo cancel preserves actual owners and future state; commit adopts them. Relay/Race start fresh.
+- Existing innate100-block powers stay separate from personal250-new-tile revival. Forced movement, backtracking, reclaim/rejoin and aliases cannot farm charges.
+- Death spills/clears only the dead owner's run inventory; ghosts/departure retain it. Recovery does not restore lost purchases.
+- Four seats and Race500tiles/180active seconds remain validated provisional defaults; Relay default50tiles.
+- SDK boundaries only, no new runtime packages; all browsers muted, preview5175 untouched. Explicit owned-path commits only.
 
-Root owns tracking/package/test coordination. `/root/multiplayer_phase3_tracer` owns03-01 files (`survive-together.ts`, `session.ts`, `main.ts`, `survive-together-tracer.mjs`, SUMMARY) plus build/browser. Phase02 agents completed. Phase06 UI workflow was read in preparation, but its context requires actual verified Phase03–05 lifecycle/result APIs before final contract authoring; no speculative UI-SPEC was created. Root must stop related work while each independent phase verifier runs. No goal completion, pause or blocked status is warranted.
+## Remaining Evidence and Presentation Work
 
-Latest03-01 review: root201104d added a failing active-wave admission regression plus Flow strategy control. Executor fixed wave-safe placement; independent strict admission run now13/13 exit0 (`/tmp/down-to-duck-03-01-wave-admission-green.log`). Earlier failures are retained in separate logs. The previously green14/14 focused tracer predates further main edits and does not prove the final build. Root found live setup committing only roster[0] and late arrivals auto-admitting without confirmation; executor is fixing both and extending real opaque iframe proof before final gates. Prior combined shell PID28026 is now absent; its outcome must come from terminal output, not inferred from disappearance. Plan01 remains incomplete; do not release dependent wave2 yet.
-
-Subsequent batch proof: root0bbd0e0 covers all four selected seats, exact original world/P1/run references, distinct placements/inventories, failed final-seat atomicity, and batch wave/traffic rejection. Strict admission17/17 exit0 (`/tmp/down-to-duck-03-01-batch-admission.log`). Executor retains all three working files and is adding progressed Flow browser coverage and cancel-first live-adoption focus. Latest announced next command is `pnpm test:survive-tracer`; no new full-gate result is yet recorded.
-
-Latest browser/gate evidence: rebuilt focused tracer21/21 passes with nonzero pre-join score assertions in Arcade and Flow and cancel-first focus. Separate phase1 parity21/regressions271 passed. First phase2 run failed in the mixed four-seat runtime: P1's actual solo binding remained keyboard-a while the draft used gamepad-1, so P3 keyboard-a was rejected as duplicate. Root reproduced this with production objects; changing only primary binding allowed all4 seats. Executor added transactional `primaryDevice` staging, cancel/failure restoration, and commit-time provenance on the selected controller; focused21/21 remains green. Replacement final phase2 PID84751 was observed live then absent; obtain its retained terminal report from executor before claiming success or starting wave2. Rootdcfa0c7 also reconciles03-02 with missing production progress/result dispatch and all-dead offer clocks, explicitly assigning the necessary generic `session.ts` integration to that plan.
+- Phase06 must fix regular900×600 HUD overlap with nearby P2/P4 actors. It requires actual verified03–05 lifecycle/results before final UI contract authoring; no speculative06UI-SPEC exists.
+- Conformance5pass/0fail/5unmeasured skips (manifest3,wire1,lifecycle1), not10passes. Physical controllers unmeasured. See `.planning/research/CONFORMANCE-EVIDENCE.md`.
+- Phase07 honest coverage calibration remains exploratory until normal-install and browser instrumentation are proven; see `.planning/research/COVERAGE-CALIBRATION.md`.
+- Deliver all three modes, their interfaces and visual proofs, high honest coverage, and an open PR against main. No merge/publish/deploy. Goal remains active; no blocker or completion claim.
