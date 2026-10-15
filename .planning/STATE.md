@@ -5,24 +5,32 @@ milestone_name: milestone
 current_phase: 03
 current_phase_name: survive-together-consumables
 status: executing
-stopped_at: "Phase03 Plans01-03 complete; Plan04 final model/render/parity gates pending."
-last_updated: "2026-10-15T08:41:10Z"
-last_activity_desc: Root owner-only terminal inventory spill tests passed14/14 and committed; executor running final03-04 gates.
+stopped_at: "Phase03 Plans01-04 accepted; Plan05 owner economy and shared effects next."
+last_updated: "2026-10-15T13:51:04.605247+00:00"
+last_activity_desc: Plan04 accepted after final24 world,3 renderer,36 recovery,21 solo parity and platform gates; economy plan ready.
 progress:
   total_phases: 7
   completed_phases: 2
   total_plans: 30
-  completed_plans: 13
+  completed_plans: 14
 ---
 
 # Project State
 
 ## Current Position
 
-Phase03 — Survive Together & Consumables, Plan04 of7, wave3, executing.
+Phase03 — Survive Together & Consumables, Plan05 of7, wave4, ready to execute.
 All seven Phase03 plans and UI contract are reviewed. Phase01 and02 are independently verified; Phase03 remains incomplete. No complete multiplayer mode or PR yet.
 
 Full unchanged goal: `.planning/USER-REQUEST.md`, `.planning/PROJECT.md`, `.planning/REQUIREMENTS.md`. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
+
+## Latest Accepted Step — 03-04
+
+Plan03-04 is now accepted after the earlier incomplete SUMMARY was corrected in `d24e287`. World24/24 (root14 + owned10), native renderer3/3, recovery36/36, immutable solo21/21, mobs18/18, type-check/build/guidance6/conformance5pass+5unmeasured, and unchanged baseline lockfile passed in `/tmp/down-to-duck-03-04-final-combined.log` (45648 terminal0). Final equivalent anchor expression cleanup `3ea61e7` imports canonical HALF_WIDTH=5; focused final-source type-check/world24/render3 passed61400 (`/tmp/down-to-duck-03-04-final-halwidth-focused.log`). Redundant broad rerun72317 intentionally stopped at solo parity, exit130; not counted as a full pass. No live process/reservation remains with the completed03-04 executor.
+
+Additional fixes `4e1461b`: deterministic unblocked land anchors and pruning at min(frontier,activeFloor), so a leading player cannot remove an item retained for a lagging living seat. Tests cover blocked/full-blocked anchors and retained-floor progression through direct capability seams. Renderer artifacts remain render-unit proof, not built-main UI proof. Full user-facing co-op flows remain03-06/07.
+
+Next sequential executor owns03-05 co-op market + exhaustive non-stacking shared effects. Plan entry reconciled `24e156e` includes the actual Survive attach handler; Game consumers must use the resolver, not merely test an unused helper. Root owns tracking/package and supplemental tests. Phase03 remains incomplete; Relay/Race/whole-mode visual acceptance/PR are outstanding. Earlier status paragraphs below are historical evidence superseded by this latest acceptance.
 
 ## Completed Admission Plan
 
