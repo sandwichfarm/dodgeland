@@ -385,7 +385,9 @@ class ConsumableWorld implements GameWorldExtension {
     const drop = sampleConsumableDrop({ courseSeed: game.runSeed?.seed ?? game.seed, row: lane.index, slot: 0 });
     if (!drop.itemId || this.pickups.has(drop.pickupId) || this.claims.has(drop.pickupId)) return;
     const actor = lane.kind === 'river' ? laneActors(lane, game.time).sort((a, b) => Math.abs(a.x) - Math.abs(b.x) || a.id - b.id)[0] : undefined;
-    this.pickups.set(drop.pickupId, { id: drop.pickupId, itemId: drop.itemId, row: lane.index, slot: 0, x: actor?.x ?? 0, y: lane.index, z: platformSurface(lane), speed: 0, actorId: actor?.id });
+    const landAnchor = [0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5].find(x => !lane.blocked.includes(x));
+    if (!actor && landAnchor === undefined) return;
+    this.pickups.set(drop.pickupId, { id: drop.pickupId, itemId: drop.itemId, row: lane.index, slot: 0, x: actor?.x ?? landAnchor!, y: lane.index, z: platformSurface(lane), speed: 0, actorId: actor?.id });
   }
   private ownerId(player: SessionPlayer): string { return player.participantId || player.seat; }
   private charge(player: SessionPlayer): ConsumableCharge {
@@ -409,7 +411,10 @@ class ConsumableWorld implements GameWorldExtension {
         const actor = laneActors(lane, game.time).find(candidate => candidate.id === pickup.actorId);
         if (actor) pickup.x = actor.x;
       }
-      if (pickup.y < game.world.frontier - game.rules.retention.rowsBehind) { this.pickups.delete(pickup.id); continue; }
+      // The shared row window follows its slowest active traveler.  Keep an
+      // attracted item to that same cleanup horizon, never merely the leader.
+      const retentionFloor = Math.min(game.world.frontier, game.world.activeFloor);
+      if (pickup.y < retentionFloor - game.rules.retention.rowsBehind) { this.pickups.delete(pickup.id); continue; }
       const eligible = players.filter(player => this.eligible(player, pickup.itemId));
       const contacts = eligible.map(player => {
         const before = frame.playerGround.get(player) ?? { x: player.groundX, y: player.groundY };

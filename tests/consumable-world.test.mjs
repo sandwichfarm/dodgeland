@@ -126,7 +126,7 @@ test('ordinary, cancelled, torn-down, and definition-owned extension paths leave
   assert.equal(Object.hasOwn(game, 'worldExtension'), false, 'Survive teardown restores the exact absent Game shape');
 });
 
-test('initial and future keyed rows replay exactly, reject duplicate claims, and prune by the live course horizon', async () => {
+test('initial and future keyed rows replay exactly, and a claimed pickup cannot duplicate', async () => {
   const { sampleConsumableDrop } = await sources.import('consumable-drops');
   const futureRow = Array.from({ length: 20000 }, (_, index) => index + 30)
     .find(row => sampleConsumableDrop({ courseSeed: 0xb4184ed2, row, slot: 0 }).itemId);
@@ -150,12 +150,36 @@ test('initial and future keyed rows replay exactly, reject duplicate claims, and
   claimer.session.update(1 / 120); claimer.session.update(1 / 120);
   assert.equal(claimer.session.consumableSnapshot().claims.filter(claim => claim.pickupId === initial.id).length, 1, 'replayed ticks cannot credit a stable pickup twice');
 
-  const pruning = await ownedWorld();
-  assert.ok(pruning.session.consumableSnapshot().pickups.some(pickup => pickup.row === 1));
-  pruning.session.world.noteProgress(50); pruning.session.world.activeFloor = 49; pruning.game.ensureRows();
-  pruning.session.update(1 / 120);
-  assert.equal(pruning.session.consumableSnapshot().pickups.some(pickup => pickup.row === 1), false,
-    'an unclaimed source pickup is removed only once its actual world position falls behind retention');
+});
+
+test('land anchors avoid scenery and cleanup follows the lagging live-seat retention floor', async () => {
+  const { sampleConsumableDrop } = await sources.import('consumable-drops');
+  const { game, session } = await survive();
+  const row = Array.from({ length: 20000 }, (_, index) => index + 30)
+    .find(index => sampleConsumableDrop({ courseSeed: game.seed, row: index, slot: 0 }).itemId);
+  assert.ok(row);
+  const lane = { ...game.rows.get(1), index: row, kind: 'meadow', blocked: [0], actors: undefined };
+  session.consumableWorld.row(game, lane);
+  const anchored = session.consumableSnapshot().pickups.find(pickup => pickup.row === row);
+  assert.equal(anchored.x, -1, 'the deterministic nearest unblocked anchor replaces a blocked center cell');
+  const blockedRow = row + 1;
+  const blockedSeedRow = Array.from({ length: 20000 }, (_, index) => index + row + 1)
+    .find(index => sampleConsumableDrop({ courseSeed: game.seed, row: index, slot: 0 }).itemId);
+  assert.ok(blockedSeedRow);
+  session.consumableWorld.row(game, { ...lane, index: blockedSeedRow, blocked: [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5] });
+  assert.equal(session.consumableSnapshot().pickups.some(pickup => pickup.row === blockedSeedRow), false,
+    'a fully blocked land row does not create a permanently inaccessible item');
+
+  const retained = await survive();
+  const source = retained.session.consumableSnapshot().pickups[0];
+  retained.session.world.noteProgress(50); retained.session.world.activeFloor = 0; retained.game.ensureRows();
+  retained.game.updateSessionWorldExtension(retained.session, [], { playerGround: new Map() }, 1 / 120);
+  assert.equal(retained.session.consumableSnapshot().pickups.some(pickup => pickup.id === source.id), true,
+    'a leading player cannot prune a visible pickup while a living seat keeps the row window behind');
+  retained.session.world.activeFloor = 50; retained.game.ensureRows();
+  retained.game.updateSessionWorldExtension(retained.session, [], { playerGround: new Map() }, 1 / 120);
+  assert.equal(retained.session.consumableSnapshot().pickups.some(pickup => pickup.id === source.id), false,
+    'the same unclaimed source pickup prunes once the lagging floor advances past its horizon');
 });
 
 test('swept contact is stable across roster order and pull advances once per world tick', async () => {
