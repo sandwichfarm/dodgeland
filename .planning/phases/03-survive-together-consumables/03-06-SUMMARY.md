@@ -24,7 +24,8 @@ key-decisions:
   - "Paused living participants remain eligible session members without advancing protected time."
   - "Compact HUD exposes Status, Run, Recovery, and Items pages instead of hiding fields."
   - "Controller actions are attributed to the selected HUD owner before UI controls execute."
-requirements-completed: [COOP-02, COOP-03, COOP-04, COOP-05, ITEM-02, UI-03]
+requirements-completed: [COOP-02, COOP-03, COOP-04, COOP-05, ITEM-02]
+requirements-partial: [UI-03]
 coverage:
   - id: D1
     description: "Authoritative join, death, recovery, reclaim, departure, and replacement flows"
@@ -92,7 +93,7 @@ These corrections were required to meet the plan's authoritative owner, compact 
 ## Known Limits
 
 - Phase 03-07 retains market owner/action wiring work; Plan 03-06 does not claim it complete.
-- Physical controller conformance remains one of the five unmeasured conformance categories.
+- Conformance leaves three manifest checks, wire-envelope evidence, and lifecycle teardown unmeasured. Physical controller hardware is separately unmeasured.
 
 ## Next Phase Readiness
 

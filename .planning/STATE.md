@@ -5,26 +5,35 @@ milestone_name: milestone
 current_phase: 03
 current_phase_name: survive-together-consumables
 status: executing
-stopped_at: "Phase03 Plans01-05 accepted; Plan06 results and recovery milestones verified; lifecycle and full visual matrix remain."
-last_updated: "2026-10-15T17:12:18.235148+00:00"
-last_activity_desc: Compact recovery menus verified across123 views; HUD tiny-focus and lifecycle boards still in progress.
+stopped_at: "Phase03 Plans01-06 accepted; Plan07 owner-safe hand/market integration next."
+last_updated: "2026-10-15T17:42:27.492851+00:00"
+last_activity_desc: Final03-06 gate passed22 tests; accepted lifecycle/recovery UI and advancing03-07.
 progress:
   total_phases: 7
   completed_phases: 2
   total_plans: 30
-  completed_plans: 15
+  completed_plans: 16
 ---
 
 # Project State
 
 ## Current Position
 
-Phase03 — Survive Together & Consumables, Plan06 of7, wave5, executing.
+Phase03 — Survive Together & Consumables, Plan07 of7, wave6, executing.
 All seven Phase03 plans and UI contract are reviewed. Phase01 and02 are independently verified; Phase03 remains incomplete. No complete multiplayer mode or PR yet.
 
 Full unchanged goal: `.planning/USER-REQUEST.md`, `.planning/PROJECT.md`, `.planning/REQUIREMENTS.md`. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
 
-## Active03-06 Tracer and Ownership
+## Active03-07 Ownership and Accepted Entry
+
+Plan03-06 accepted at source12f6fba with SUMMARYba7e6a9. Root final gate7110 terminal0 (`/tmp/down-to-duck-03-06-root-final-owner-gate.log`) passed type-check/build,22 named tests,guidance,conformance5pass/0fail/5unmeasured,and unchanged lockfile against immutable solo oracle. Physical controller hardware is separately unmeasured. No unchanged gate rerun needed at07entry;07final canonical inherited gate remains mandatory. Phase03 overall remains incomplete; UI-03 requires07 and independent verification.
+
+Next sequential typed executor owns03-07 main/market/hand/CSS,owned runtime tests,SUMMARY and sole build/browser reservation. Root owns tracking and independent supplemental tests; no live root process. API reconciliation is embedded in03-07PLAN (89c0990): optional UI transaction seam must route all co-op mutations through actCoOpMarket while preserving absent-seam solo operations. Preserve paid pending packs across owner view switches. No backend redesign, dependencies, publishing, or change to immutable oracle. All browsers muted; preview5175 untouched.
+
+## Historical03-06 Tracer and Ownership
+
+The paragraphs below record intermediate failures and their subsequent fixes; current acceptance and ownership above supersede them.
+
 
 Current ownership after root commits7ff7c50/1010c80: executor `/root/multiplayer_recovery_ui` again owns `src/main.ts`, `src/session-ui.css`, lifecycle/HUD tests and build/browser reservation to finish lifecycle diagnosis, retained-market focus proof, full03-06 gates and SUMMARY. Root owns recovery-board/outcome supplemental tests and tracking/plan files, with no live process. Current dist matches1010c80; root seven affected runtime suites and expanded recovery/HUD matrices pass. Earlier ownership paragraphs below are historical.
 
