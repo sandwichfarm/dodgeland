@@ -104,7 +104,13 @@ test('wire and injected binding route actual Local Play seats, seed context chan
       await send([pad(0, alpha), pad(1, beta, [0])]); await send(neutral);
       assert.match(await frame.locator('#session-seats [data-seat="p2"]').innerText(), /Waiting to reclaim/, `${mode}: held reconnect is seeded`);
       await press(neutral, [pad(0, alpha), pad(1, beta, [0])]);
-      assert.doesNotMatch(await frame.locator('#session-seats [data-seat="p2"]').innerText(), /Waiting to reclaim/, `${mode}: fresh controller edge reclaims P2`);
+      await frame.getByRole('heading', { name: 'Reclaim P2', exact: true }).waitFor();
+      assert.match(await frame.locator('#session-seats [data-seat="p2"]').innerText(), /Waiting to reclaim/, `${mode}: fresh controller edge opens an explicit reclaim decision without consuming P2`);
+      await press(neutral, [pad(0, alpha, [0]), pad(1, beta)]);
+      assert.equal(await frame.getByRole('heading', { name: 'Reclaim P2', exact: true }).isVisible(), true, `${mode}: P1 cannot confirm P2's reclaim decision`);
+      await press(neutral, [pad(0, alpha), pad(1, beta, [0])]);
+      await frame.getByRole('heading', { name: 'Reclaim P2', exact: true }).waitFor({ state: 'hidden' });
+      assert.doesNotMatch(await frame.locator('#session-seats [data-seat="p2"]').innerText(), /Waiting to reclaim/, `${mode}: P2's fresh confirmation reclaims its retained seat`);
       assert.equal(await distance('p2'), p2BeforeReclaim, `${mode}: reclaim edge is consumed without a hop`);
       await send(neutral, false);
       assert.doesNotMatch(await frame.locator('#session-seats [data-seat="p1"]').innerText(), /Waiting to reclaim/, `${mode}: global focus loss does not mark P1 disconnected`);
@@ -126,7 +132,7 @@ test('wire and injected binding route actual Local Play seats, seed context chan
       assert.deepEqual({ state: await frame.locator('#app').getAttribute('data-run-state'), distances: await Promise.all(['p1', 'p2'].map(distance)) }, frozen, `${mode}: pagehide ignores late move, pause, and call edges`);
       if (mode === 'wire') assert.equal(await page.evaluate(() => window.messages.filter(message => message.type === 'gamepad.unsubscribe').length), beforeClose + 1, 'wire unsubscribes once after repeated pagehide');
       else assert.equal(await frame.evaluate(() => window.localTransport.closed), 1, 'binding closes once after repeated pagehide');
-      evidence.scenarios.push({ mode, checks: ['first-active solo ownership', 'second-controller setup', 'exactly-one independent P1/P2 movement', 'modal context seeding', 'isolated disconnect, held reconnect, consumed reclaim', 'global focus safety', 'single transport teardown and late-edge suppression'] });
+      evidence.scenarios.push({ mode, checks: ['first-active solo ownership', 'second-controller setup', 'exactly-one independent P1/P2 movement', 'modal context seeding', 'isolated disconnect, held reconnect, owner-confirmed reclaim', 'global focus safety', 'single transport teardown and late-edge suppression'] });
     }
     assert.deepEqual(evidence.errors, []);
     await mkdir(new URL('../artifacts/', import.meta.url), { recursive: true });

@@ -523,6 +523,9 @@ const router: GamepadRouter = new GamepadRouter({
     if ((hand.isOpen() || hand.containsFocus() || market.isOpen()) && seat !== hudSelected && action !== 'market') return;
     if (action === 'call') { localSession?.running ? callSessionCharacter(seat) : callCharacter(); return; }
     if (action === 'confirm') {
+      // Shared Local Play deliberately hides the solo pause panel. A fresh
+      // assigned-controller confirm still resumes that paused shared course.
+      if (localSession?.running && displayedRunState() === 'paused' && !hand.isOpen() && !market.isOpen() && el('drawer').hidden) { play(); return; }
       if (displayedRunState() !== 'playing' || localStage || hand.isOpen() || market.isOpen() || !el('drawer').hidden) { confirmMenu(); return; }
       if (localSession?.running) moveSessionCharacter(seat, 'forward'); else move('forward');
       return;
