@@ -67,7 +67,7 @@ Plans:
 - [x] 02-03-PLAN.md — Route independent controllers through the existing authorized snapshot transport; main-loop integration remains in 02-05.
 - [x] 02-04-PLAN.md — Implement shared-keyboard routing, binding capture, conflicts, reset, and persistence.
 - [x] 02-05-PLAN.md — Integrate setup, controller/keyboard input, multi-character scene, HUD, and responsive proofs.
-- [ ] 02-06-PLAN.md — Establish selected-owner hand/market routing and run the shared-session evidence gate.
+- [x] 02-06-PLAN.md — Establish selected-owner hand/market routing and run the shared-session evidence gate.
 
 ### Phase 3: Survive Together & Consumables
 
@@ -183,7 +183,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Composable Solo Baseline | 4/4 | Complete    | 2026-10-14 |
-| 2. Shared Local Session | 5/6 | Wave4 owner hand/market integration active | - |
+| 2. Shared Local Session | 6/6 | Independent phase verification pending | - |
 | 3. Survive Together & Consumables | 0/7 | Reviewed; awaits Phase 2 | - |
 | 4. Relay | 0/6 | Reviewed; awaits Phase 3 | - |
 | 5. Race | 0/7 | Reviewed; awaits dependencies | - |
