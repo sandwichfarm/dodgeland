@@ -34,6 +34,10 @@ Root03-07 supplemental `tests/survive-market-pack-owner-runtime.mjs` committedba
 
 Root entry review identified Phase02 temporary-disabled assertions in local-session-runtime.mjs:138 and local-session-owner-layout.mjs:160; executor may narrowly reconcile those and the owner-heading focus assertion to approved03-07 behavior while preserving all existing isolation/layout/close-callback coverage. No backend or solo behavior changes authorized by that reconciliation.
 
+Root03-07 checkpoint review: executor commitsf5e67c5/4d79334/e338c9c/7c9160d wire initial UI transactions; executor7/7 pointer purchase+pack+ghost suite passes. Root independently92090 terminal1 (`/tmp/down-to-duck-03-07-root-owner-checkpoint.log`) confirms pack+ghost2pass but inherited recovery-owner fails because enabled market invitation intercepts P1 Items click at900x600. Root6330 terminal1 (`/tmp/down-to-duck-03-07-root-solo-red.log`) confirms solo market buys0cards instead of3: always-present dispatcher rejected solo fallback. Root39107 terminal1 (`/tmp/down-to-duck-03-07-root-shelf-red.log`) confirms real purchase charge1 but physical shelf stays empty because its fingerprint omitted charges. New shelf test7201c75 added to final gate. Executor owns source fixes and build reservation; root no live process.
+
+Root new controller-hand ownership test9fc4050 is syntax-checked only; source review found any seat's confirmation still reaches market/hand and assigned-owner D-pad drops. Root also flagged ghost market inspection losing its surface when no eligible transaction context exists, direct oldRun.close bypass, and14px item text below16px contract. Executor has resumed full approved03-07 completion; no SUMMARY accepted. Its inherited reclaim failure is first being reconciled with03-06 explicit confirmation, not worked around with unintended automatic reclaim. Full Task2 acceptance, owner/lifecycle/keyboard/controller/visual matrices and canonical inherited gate remain required.
+
 ## Historical03-06 Tracer and Ownership
 
 The paragraphs below record intermediate failures and their subsequent fixes; current acceptance and ownership above supersede them.
