@@ -140,6 +140,27 @@ test('partial recharge survives device reclaim, departure, changed traveler and 
   assert.equal(returned.recovery.charge, 'available');
 });
 
+test('live solo adoption preserves the travelers existing frontier after backtracking', () => {
+  const game = new Game(121, 'pond', 'stroll', false, [], 'butter'); clear(game);
+  for (const direction of [...Array(10).fill('forward'), 'back', 'back']) {
+    assert.equal(game.move(direction), true);
+    clear(game); game.update(game.rules.movement.hopDuration);
+    assert.equal(game.state, 'playing');
+  }
+  assert.equal(game.y, 8); assert.equal(game.maxY, 10);
+  const session = LocalSession.stage(game, { roster: [], mode: createSurviveTogetherDefinition(game.definition) }).commit();
+  const player = session.players[0]; player.powerReadyAt = 10000;
+  lane(game, 8, { kind: 'river', phase: 10, length: 1 });
+  session.update(STEP); assert.equal(player.state, 'dead'); lane(game, 8);
+  assert.equal(personal(session, player), true);
+  for (let hop = 0; hop < 2; hop++) {
+    advance(game, session, [player]);
+    assert.equal(player.recovery.personalHighWater, 0, 'revisiting pre-adoption tiles cannot recharge the new personal revival');
+  }
+  advance(game, session, [player]);
+  assert.equal(player.recovery.personalHighWater, 1, 'only the first tile beyond the retained solo frontier earns progress');
+});
+
 test('ghost and departed teammates cannot be revived, regrouped, or keep an all-dead team alive', () => {
   const { game, session } = setup(3); const [owner, ghost, dead] = session.players;
   ghost.run.creditCoins(7);
