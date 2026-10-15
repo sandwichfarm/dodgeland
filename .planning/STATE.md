@@ -56,7 +56,13 @@ Root owns tests/consumable-world-boundaries.test.mjs, commits `df261c2`/`8d3123c
 
 Root also reconciled03-04 with the actual Survive attach/debit seam, explicitly included src/survive-together.ts ownership, and corrected its parity commands: the snapshot helper alone has no assertion suite; pnpm test:solo-parity is required. MCP graph lookup is available again for this project.
 
-The previous git-init status-only turn made no multiplayer progress. This continuation revalidated final evidence, accepted Plan02, corrected summary evidence scope, and advanced execution. No blocker.
+Plan03-04 root boundary coverage is now11 cases (initial action/reuse addition `dfc6fcb`, subsequent intent-generation additions pending commit). Actual collected-item activation, same-tick debit/return, full-state invalid/replay/no-placement rejection, distinct participant seat reuse, delayed prior-owner intents after the newcomer collects a future-row Flare, and stale Revival selection after another actual death now supplement the fractional-grid/death/ghost tests. Ghost reclaim fixture restores a safe anchor before checking inventory retention; its initial rejection on unsupported water was valid placement behavior, not a product failure.
+
+Independent strict root run15943 completed exit0,11/11 with no skips (`/tmp/down-to-duck-03-04-root-intent-generations.log`). Earlier checkpoint21845 passed9/9. Intermediate93561 failed after the production action contract changed; tests now supply required expectedOwnerGeneration and Revival expectedTargetDeathGeneration. Initial delayed-seat review found per-owner revision increments could collide despite distinct starting revisions; executor now assigns every mutation from one non-reused counter. Current APIs include required owner generation and Revival target death generation; do not keep older test callers as an excuse to weaken intent validation.
+
+Prerequisite handle92442 has confirmed terminal exit0 (`/tmp/down-to-duck-03-04-precondition.log`). Executor reported focused gate8904 live (`/tmp/down-to-duck-03-04-task1-world-gates.log`), owns build/browser reservation. Root has no live command. Agent owns remaining plan matrices and final gates; root11 tests plus its initial2 tracers do not prove the whole plan. Pending evidence includes absence/teardown/custom opt-in, initial/future generation and replay, swept stable winners and ineligible/full owners, actor binding, actual-position pruning, rendering and full owner death/spill cases. No03-04SUMMARY yet; no acceptance or completion claim.
+
+Previous Git status-only turn made no multiplayer progress. Subsequent continuations added executable regressions, diagnosed ownership/version flaws, and verified corrections. The user briefly paused and then explicitly resumed; goal is active. No blocker.
 
 ## Invariants
 

@@ -164,6 +164,7 @@ test('a disconnected ghost retains its held item and wallet through another play
   assert.equal(ghost.participation, 'device-lost');
   assert.equal(charge(session, ghost.seat, 'flare'), 1);
   assert.equal(ghost.run.wallet, wallet);
+  Object.assign(game.rows.get(primary.y), { kind: 'meadow', phase: 0 });
   assert.equal(session.reclaim(ghost.seat, 'gamepad-7'), true);
   assert.equal(charge(session, ghost.seat, 'flare'), 1);
   assert.equal(ghost.run.wallet, wallet);
@@ -197,7 +198,9 @@ for (const itemId of ['revival', 'flare']) {
     killOnWater(game, session, target);
     const chargeBefore = session.consumableSnapshot().charges.find(value => value.seat === owner.seat);
     const action = { actionId: `collected-${itemId}`, ownerSeat: owner.seat, itemId,
-      targetSeat: target.seat, expectedInventoryGeneration: chargeBefore.inventoryGeneration };
+      targetSeat: target.seat, expectedInventoryGeneration: chargeBefore.inventoryGeneration,
+      expectedOwnerGeneration: chargeBefore.ownerGeneration,
+      expectedTargetDeathGeneration: target.recovery.deathGeneration };
     const clock = session.world.time;
     const tick = session.world.simulationTick;
     const progress = target.recovery.personalHighWater;
@@ -224,11 +227,17 @@ test('invalid item use preserves held charges and every recovery target until sa
   const owner = session.players.find(player => player.seat === 'p1');
   const target = session.players.find(player => player.seat === 'p2');
   killOnWater(game, session, target);
-  const generation = session.consumableSnapshot().charges.find(value => value.seat === owner.seat).inventoryGeneration;
+  const ownerCharge = session.consumableSnapshot().charges.find(value => value.seat === owner.seat);
+  const generation = ownerCharge.inventoryGeneration;
   const action = { actionId: 'recover-after-rejection', itemId: 'revival', ownerSeat: owner.seat,
-    targetSeat: target.seat, expectedInventoryGeneration: generation };
+    targetSeat: target.seat, expectedInventoryGeneration: generation,
+    expectedOwnerGeneration: ownerCharge.ownerGeneration,
+    expectedTargetDeathGeneration: target.recovery.deathGeneration };
   for (const invalid of [
     { ...action, expectedInventoryGeneration: generation - 1 },
+    { ...action, expectedOwnerGeneration: undefined },
+    { ...action, expectedTargetDeathGeneration: undefined },
+    { ...action, expectedTargetDeathGeneration: target.recovery.deathGeneration - 1 },
     { ...action, targetSeat: owner.seat },
     { ...action, targetSeat: 'p4' },
     { ...action, ownerSeat: target.seat },
@@ -263,4 +272,77 @@ test('a new participant occupying a departed seat cannot inherit the previous ow
   session.update(STEP);
   assert.equal(charge(session, newcomer.seat, 'revival'), 0);
   assert.equal(charge(session, newcomer.seat, 'flare'), 0, 'seat reuse must not transfer a consumable');
+});
+
+test('a delayed action from a departed participant cannot spend the replacement participants collected charge', () => {
+  const { game, session, player: former, other: primary } = fixture({
+    seed: 0xb4184ed2, mode: 'stroll', seat: 'p2',
+  });
+  // Collect two real items so the former inventory advances beyond its initial
+  // version; merely assigning different initial versions is insufficient.
+  for (const row of [2, 1]) {
+    former.x = former.fromX = 0;
+    former.y = former.fromY = former.maxY = row;
+    session.update(STEP);
+  }
+  assert.equal(charge(session, former.seat, 'revival'), 1);
+  assert.equal(charge(session, former.seat, 'flare'), 1);
+  const oldCharge = session.consumableSnapshot().charges.find(value => value.seat === former.seat);
+  const delayed = { actionId: 'former-owner-delayed', ownerSeat: former.seat, itemId: 'flare',
+    expectedInventoryGeneration: oldCharge.inventoryGeneration,
+    expectedOwnerGeneration: oldCharge.ownerGeneration };
+  assert.equal(session.depart(former.seat), true);
+  assert.equal(session.admit({ device: 'keyboard-c', characterId: 'pip' }), true);
+  const newcomer = session.players.find(player => player.seat === former.seat);
+  assert.notEqual(newcomer.participantId, former.participantId);
+  let row = 3;
+  while (row < 20000 && sampleConsumableDrop({ courseSeed: game.seed, row, slot: 0 }).itemId !== 'flare') row++;
+  assert.ok(row < 20000, 'fixture needs a second naturally generated Flare');
+  session.world.noteProgress(row);
+  session.world.activeFloor = row - 1;
+  game.ensureRows();
+  for (const lane of game.rows.values()) Object.assign(lane, {
+    kind: 'meadow', blocked: [], decorations: [], coin: null, coinActor: undefined,
+    actors: undefined, phase: 0, speed: 0, spacing: 20, length: 4,
+  });
+  const pickup = session.consumableSnapshot().pickups.find(value => value.row === row && value.itemId === 'flare');
+  assert.ok(pickup, 'normal future-row generation must emit the next Flare');
+  newcomer.x = newcomer.fromX = pickup.x;
+  newcomer.y = newcomer.fromY = newcomer.maxY = row;
+  primary.x = primary.fromX = 4;
+  primary.y = primary.fromY = primary.maxY = row - 1;
+  session.update(STEP);
+  assert.equal(charge(session, newcomer.seat, 'flare'), 1);
+  killOnWater(game, session, primary);
+  const before = observableState(session);
+  assert.equal(session.useConsumable(delayed), false, 'old ownership must remain invalid even after the newcomer acquires an item');
+  assert.deepEqual(observableState(session), before);
+  const current = session.consumableSnapshot().charges.find(value => value.seat === newcomer.seat);
+  assert.equal(session.useConsumable({ ...delayed, actionId: 'new-owner-current',
+    expectedInventoryGeneration: current.inventoryGeneration,
+    expectedOwnerGeneration: current.ownerGeneration }), true, 'the current owner can still use its own charge');
+});
+
+test('Revival selected for an earlier death cannot silently apply to a later death', () => {
+  const { game, session } = twoOwnedItems();
+  const owner = session.players.find(player => player.seat === 'p1');
+  const target = session.players.find(player => player.seat === 'p2');
+  killOnWater(game, session, target);
+  const held = session.consumableSnapshot().charges.find(value => value.seat === owner.seat);
+  const action = { actionId: 'earlier-death-selection', ownerSeat: owner.seat, itemId: 'revival',
+    targetSeat: target.seat, expectedInventoryGeneration: held.inventoryGeneration,
+    expectedOwnerGeneration: held.ownerGeneration,
+    expectedTargetDeathGeneration: target.recovery.deathGeneration };
+  assert.equal(session.recover({ kind: 'personal', ownerSeat: target.seat }), true);
+  advance(session, 2.1);
+  // Separate the target from its teammate after the first protected return.
+  target.y = target.fromY = 2;
+  owner.y = owner.fromY = 1;
+  killOnWater(game, session, target);
+  assert.ok(target.recovery.deathGeneration > action.expectedTargetDeathGeneration);
+  const before = observableState(session);
+  assert.equal(session.useConsumable(action), false);
+  assert.deepEqual(observableState(session), before);
+  assert.equal(session.useConsumable({ ...action,
+    expectedTargetDeathGeneration: target.recovery.deathGeneration }), true);
 });
