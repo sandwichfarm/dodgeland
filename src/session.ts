@@ -1,5 +1,5 @@
 import { CHARACTERS, DEFAULT_CHARACTER, characterById } from './content.js';
-import { laneActors, platformSupports, platformSurface } from './game.js';
+import { HALF_WIDTH, laneActors, platformSupports, platformSurface } from './game.js';
 import type { DeathCause, Direction, Game, GameWorldExtension, HurtEvent, Lane, RunState } from './game.js';
 import type { ModeDefinition, ModeRules } from './mode-rules.js';
 import { DEFAULT_COIN_GRAVITY, RunInventory } from './market/run.js';
@@ -385,7 +385,7 @@ class ConsumableWorld implements GameWorldExtension {
     const drop = sampleConsumableDrop({ courseSeed: game.runSeed?.seed ?? game.seed, row: lane.index, slot: 0 });
     if (!drop.itemId || this.pickups.has(drop.pickupId) || this.claims.has(drop.pickupId)) return;
     const actor = lane.kind === 'river' ? laneActors(lane, game.time).sort((a, b) => Math.abs(a.x) - Math.abs(b.x) || a.id - b.id)[0] : undefined;
-    const landAnchor = [0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5].find(x => !lane.blocked.includes(x));
+    const landAnchor = [0, ...Array.from({ length: HALF_WIDTH }, (_, offset) => [-(offset + 1), offset + 1]).flat()].find(x => !lane.blocked.includes(x));
     if (!actor && landAnchor === undefined) return;
     this.pickups.set(drop.pickupId, { id: drop.pickupId, itemId: drop.itemId, row: lane.index, slot: 0, x: actor?.x ?? landAnchor!, y: lane.index, z: platformSurface(lane), speed: 0, actorId: actor?.id });
   }

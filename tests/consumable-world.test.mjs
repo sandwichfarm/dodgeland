@@ -162,7 +162,6 @@ test('land anchors avoid scenery and cleanup follows the lagging live-seat reten
   session.consumableWorld.row(game, lane);
   const anchored = session.consumableSnapshot().pickups.find(pickup => pickup.row === row);
   assert.equal(anchored.x, -1, 'the deterministic nearest unblocked anchor replaces a blocked center cell');
-  const blockedRow = row + 1;
   const blockedSeedRow = Array.from({ length: 20000 }, (_, index) => index + row + 1)
     .find(index => sampleConsumableDrop({ courseSeed: game.seed, row: index, slot: 0 }).itemId);
   assert.ok(blockedSeedRow);
