@@ -104,6 +104,8 @@ This script type-checks/builds first, runs `test:phase1` (which includes immutab
 
 The full script also runs `tests/render.test.mjs` through the strict runner immediately after Phase 1. Its independently archived/current exact pixel comparison is mandatory: the Phase 1 model/regression package scripts alone do not include that renderer oracle. The UI subgroup additionally includes the session-label render-unit test described above.
 
+Because Plan06 changes the existing market/hand state and CSS, the complete phase script also runs `node tests/run-hand-runtime.mjs` against the same build. Its real solo sale, pack selection, keyboard focus, persistent shelf, minimum-size and death cleanup scenarios must remain passing; multiplayer-specific geometry must not change solo styles.
+
 The complete phase script also includes `pnpm test:runtime`, the actual Paja opaque-iframe solo smoke gate required by Plan06 Task1. Its default solo entry, menu, input, theme and wave checks must remain present alongside the session-specific fixtures.
 
 Lockfile integrity compares the working tree against immutable baseline `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, so a committed lockfile change cannot disappear from this check merely because the worktree is clean.
