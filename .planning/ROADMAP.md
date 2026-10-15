@@ -89,7 +89,7 @@ Plans:
 
 - [x] 03-01-PLAN.md — Verify prior gates and integrate live solo adoption, joins and participant lifecycle.
 - [x] 03-02-PLAN.md — Add personal recovery, earned progress, safe return and team results.
-- [ ] 03-03-PLAN.md — Define validated consumable contracts, inventory and isolated seeded probability rolls.
+- [x] 03-03-PLAN.md — Define validated consumable contracts, inventory and isolated seeded probability rolls.
 - [ ] 03-04-PLAN.md — Integrate mode-owned world pickups, atomic use and death clearing/spill.
 - [ ] 03-05-PLAN.md — Add owner-aware item economy and deterministic shared card effects.
 - [ ] 03-06-PLAN.md — Connect lifecycle, recovery and team results to the runtime interface.
@@ -184,7 +184,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 |-------|----------------|--------|-----------|
 | 1. Composable Solo Baseline | 4/4 | Complete    | 2026-10-14 |
 | 2. Shared Local Session | 6/6 | Complete    | 2026-10-14 |
-| 3. Survive Together & Consumables | 2/7 | Executing consumables | - |
+| 3. Survive Together & Consumables | 3/7 | World integration next | - |
 | 4. Relay | 0/6 | Reviewed; awaits Phase 3 | - |
 | 5. Race | 0/7 | Reviewed; awaits dependencies | - |
 | 6. Cross-Mode Presentation | 0/TBD | Not started | - |

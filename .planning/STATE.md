@@ -5,21 +5,21 @@ milestone_name: milestone
 current_phase: 03
 current_phase_name: survive-together-consumables
 status: executing
-stopped_at: "Phase03 Plans01-02 complete; Plan03 consumable contracts executor started."
-last_updated: "2026-10-15T08:21:39Z"
-last_activity_desc: Live RNG/schema isolation7/7 and tracer5/5 pass; executor final regressions and strict aggregate pending.
+stopped_at: "Phase03 Plans01-03 complete; Plan04 world pickups next."
+last_updated: "2026-10-15T08:26:20Z"
+last_activity_desc: Consumable catalog/sampler accepted with strict18 and all gates; world pickup integration next.
 progress:
   total_phases: 7
   completed_phases: 2
   total_plans: 30
-  completed_plans: 12
+  completed_plans: 13
 ---
 
 # Project State
 
 ## Current Position
 
-Phase03 — Survive Together & Consumables, Plan03 of7, wave2, executing.
+Phase03 — Survive Together & Consumables, Plan04 of7, wave3, ready to execute.
 All seven Phase03 plans and UI contract are reviewed. Phase01 and02 are independently verified; Phase03 remains incomplete. No complete multiplayer mode or PR yet.
 
 Full unchanged goal: `.planning/USER-REQUEST.md`, `.planning/PROJECT.md`, `.planning/REQUIREMENTS.md`. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
@@ -40,13 +40,15 @@ Implemented shared personal/Revival/Flare validation and commit, 8-active-second
 
 Root supplemental regressions: tests/survive-recovery-boundaries.test.mjs(13), tests/recovery-plan-boundaries.test.mjs(6), tests/survive-recovery-terminal.test.mjs(10). Historical RED evidence and fixes include early staging attachment, backtracking/forced-progress credit, stale all-dead clock, invalid target counts, living Flare health/counters, fractional owner placement, airborne row retention, unsupported last-safe anchors, alias progress reset, terminal late admission, and solo-adoption historical frontier. Commits/logs remain in history; all final36 cases pass. `pnpm test:survive-recovery` strictly rejects skipped/TODO/cancelled evidence and is included in the final phase gate.
 
-Active: `/root/multiplayer_consumable_catalog`, sequential typed gsd-executor for03-03, owning only src/consumables.ts, src/consumable-drops.ts, tests/consumables.test.mjs, tests/consumable-drops.test.mjs and03-03SUMMARY. Root owns tracking/package. No worktree isolation is configured; do not overlap executors/builds. Plan03 defines immutable owner/generation/target-bound credit/debit and exact keyed item-drop-schema-1 sampler, with exhaustive1/2/2497 buckets and released RNG isolation. Then03-04 world integration,03-05 economy,03-06 lifecycle/recovery/resultsUI,03-07 hand/market/final gates. Independently verify the whole phase before Relay/Race; root stops related work during verifier.
+## Completed Consumable Contracts and Next Work
 
-Plan03 current evidence: Task1 tests `94adfac`, production `999f3a5`, initial isolation `5dd46dd`. Focused11/11 and type-check passed (`/tmp/down-to-duck-03-03-task1-final-focused.log`, `-task1-final-typecheck.log`); earlier failed handle10127 is terminal. Initial RED `/tmp/down-to-duck-03-03-red.log` records missing source before implementation; its piped shell status was masked, so summary must report actual chronology honestly. Executor reported sequential regressions handle3223 live: seed/market/mob passed, solo parity underway; executor owns polling, do not restart on observation timeout.
+Plan03-03 complete: tests `94adfac`, source `999f3a5`, initial isolation `5dd46dd`, root tracer `bae4b1f`, corrected isolation `0003f84`, summary `4f78b97`. Immutable snapshot-only CONSUMABLES/credit/debit catalog (Revival24,Flare36,max1each), item-drop-schema-1 sampler (uint32seed,int32row,uint32slot), exact exclusive buckets1/2/2497, positive and rejection-retry goldens. No production RNG/seed schema or dependency changes.
 
-Root review found the first isolation fixture reset generators between calls; its subsequent callback revision exhausted the4/6-anchor queue during early terrain, leaving market/mob callbacks empty. Root temporarily took ownership of tests/consumable-drops.test.mjs and fixed this in `0003f84`, then released the file back to executor. Every boundary now samples full forward/reverse/sparse/duplicate orders and asserts nonzero sampling per named stage; observations include whole lane actor patterns, real nonempty markets and first/next mobs, live market state, and next4 raw market/mob RNG outputs. A compiled test-only item schema key/salt variation changes item IDs/buckets while preserving released ph1/ph2/ph3 observations. Strict7/7 passed `/tmp/down-to-duck-03-03-root-isolation.log`. Production unchanged. Final strict aggregate(expected18 tests), full regression/build gates and SUMMARY remain required before accepting03-03.
+Final strict18/18 (`/tmp/down-to-duck-03-03-final-consumables.log`); sequential seed12/12,market62/62,mob18/18,solo-parity21/21 (`/tmp/down-to-duck-03-03-task2-regressions.log`), handle3223 terminal exit0. Executor platform10714 reported exit0 but its log was empty; root independently reran type-check/build/guidance/conformance/immutable-lockfile gate to exit0 (handle72960, `/tmp/down-to-duck-03-03-root-platform.log`). Conformance5pass/0fail/5unmeasured, not10passes. Source/summary self-checks passed and prior executor released all reservations. ITEM requirements stay pending until world/economy/UI integration and phase verification.
 
-Root `7bdb0e3`/`cc3c521`/`bae4b1f` owns tests/consumable-boundaries.test.mjs, included in strict `pnpm test:consumables` and final phase gate. Five focused checks pass at `/tmp/down-to-duck-03-03-root-tracer.log`: known positive drops→catalog→credit tracer, two-seat Flare with only owner alive, independent class capacity/debit, invalid numeric charges, and sparse empty-charge semantics. Initial root2/3 failure was an overly strict expectation that omitted optional charges are invalid; corrected to actual Partial<Record> without product changes. Review caught draft Flare's unnecessary additional living teammate requirement and sparse-vector ordering, corrected by executor. Signed row support accommodates initial negative buffered rows. Root independently derived rejection-retry vector (seed0x87405b12,row0,slot0: draw0=4294967295 rejected, retry1=2472345421, bucket421); executor pinned it in passing golden test. Root has no live process/build reservation.
+Root supplement tests/consumable-boundaries.test.mjs (5cases), strict script and final phase gate are committed. Review corrected two-seat Flare semantics, sparse-vector ordering, and a test that overrestricted omitted optional charges; no product workaround. Rejection vector seed0x87405b12,row0,slot0 forces draw4294967295→retry2472345421→bucket421. Initial isolation fixtures reset generators or exhausted the sample queue before markets/mobs; corrected tests now sample at every named boundary, assert real nonempty markets/mobs, compare whole lane actors plus actual next raw RNG outputs, and vary the item schema only in an isolated compiled test copy. Initial RED chronology/failed checks are recorded in03-03SUMMARY.
+
+Next: sequential typed gsd-executor03-04. Owns src/session.ts,src/game.ts,src/survive-together.ts,src/render.ts,tests/solo-parity-snapshot.mjs,tests/consumable-world.test.mjs and03-04SUMMARY. Root owns tracking/package and supplemental tests; no overlapping executors/builds. Integrate optional handler-installed world item capability after committed adoption, absent solo path, keyed initial/future drops, baseline-gravity fractional/swept pickup claims, owned atomic/replay-safe activation, death clearing, projection/teardown and oracle proof. Then03-05 economy,03-06 lifecycle/recovery/resultsUI,03-07 hand/market/final gates. Independent phase verification precedes Relay/Race. Root stops related work during verifier.
 
 Root also reconciled03-04 with the actual Survive attach/debit seam, explicitly included src/survive-together.ts ownership, and corrected its parity commands: the snapshot helper alone has no assertion suite; pnpm test:solo-parity is required. MCP graph lookup is available again for this project.
 

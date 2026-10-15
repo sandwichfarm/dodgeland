@@ -146,6 +146,8 @@ The original RED runner used a pipeline that obscured its nonzero test command s
 
 Plan 03-04 can attach this catalog to the shipped Survive handler: it should sample stable world anchors, choose deterministic contenders, invoke the frozen planners, then commit only after same-tick placement/lifecycle revalidation. This plan does not mark Phase 3 or its requirements complete; world pickup, economy, and UI integration remain pending.
 
+Root acceptance independently reran type-check, production build, guidance, conformance, and immutable-lockfile check to exit0 (handle72960, `/tmp/down-to-duck-03-03-root-platform.log`), because the executor platform log was empty. Conformance measured5pass/0fail with5unmeasured skips.
+
 ## Self-Check: PASSED
 
 - Confirmed `src/consumables.ts` and `src/consumable-drops.ts` exist.
