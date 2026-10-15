@@ -49,7 +49,7 @@ test('Revival and Flare have independent capacity and debits preserve the other 
 
 test('neither planner admits an invalid held-charge snapshot', () => {
   for (const itemId of ['revival', 'flare']) {
-    for (const invalid of [-1, 0.5, 2, NaN, Infinity, '1', undefined]) {
+    for (const invalid of [-1, 0.5, 2, NaN, Infinity, '1']) {
       const input = { ...request({ revival: 1, flare: 1, [itemId]: invalid }, itemId), targets: [dead] };
       const before = structuredClone(input);
       for (const planner of [planConsumableCredit, planConsumableDebit]) {
@@ -61,4 +61,14 @@ test('neither planner admits an invalid held-charge snapshot', () => {
       }
     }
   }
+});
+
+test('an omitted charge is empty under the sparse inventory contract', () => {
+  const input = { ...request({}, 'revival'), targets: [dead] };
+  const before = structuredClone(input);
+  const credit = planConsumableCredit(input);
+  assert.equal(credit.ok, true);
+  assert.deepEqual(credit.resultingCharges, { revival: 1, flare: 0 });
+  assert.equal(planConsumableDebit(input).ok, false, 'an omitted charge cannot be spent');
+  assert.deepEqual(input, before);
 });
