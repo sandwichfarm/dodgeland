@@ -49,6 +49,13 @@ let setupDraft: SessionSetupSeat[] = [];
 let sessionBoard: LocalSessionBoard | undefined;
 let soloGamepad: GamepadDevice | undefined;
 let hudSelected: SeatId = 'p1';
+let hudDetailsOpen = false;
+let hudInspectWasPlaying = false;
+function closeHudInspection(resume = true): void {
+  const shouldResume = resume && hudInspectWasPlaying && frameAvailable();
+  hudDetailsOpen = false; hudInspectWasPlaying = false;
+  if (shouldResume) { sessionPaused = false; game.resume(); activateNativeKeyboard(); }
+}
 let sessionHudRoster = '';
 const controllerDevices = new Map<number, GamepadDevice>();
 let sessionPaused = false;
@@ -136,6 +143,7 @@ const router: GamepadRouter = new GamepadRouter({
     return false;
   },
   action: (seat, action) => {
+    if (hudDetailsOpen && (action === 'confirm' || action === 'pause' || action === 'back')) { closeHudInspection(); updateHud(); return; }
     if (action === 'call') { localSession?.running ? callSessionCharacter(seat) : callCharacter(); return; }
     if (action === 'confirm') {
       if (displayedRunState() !== 'playing' || localStage || hand.isOpen() || game.run.isOpen || !el('drawer').hidden) { confirmMenu(); return; }
@@ -427,11 +435,18 @@ function updateHud(): void {
       seats.replaceChildren(...localSession.players.map(player => {
         const tile = document.createElement('article'); tile.className = 'session-hud-tile'; tile.dataset.seat = player.seat;
         const identity = document.createElement('button'); identity.type = 'button'; identity.className = 'session-hud-identity'; identity.dataset.sessionHud = 'identity';
-        identity.addEventListener('click', () => { hudSelected = player.seat; updateHud(); });
+        identity.addEventListener('click', () => {
+          if (innerHeight <= 319 && hudSelected === player.seat) {
+            if (hudDetailsOpen) closeHudInspection();
+            else { hudInspectWasPlaying = displayedRunState() === 'playing'; hudDetailsOpen = true; if (hudInspectWasPlaying) { sessionPaused = true; game.pause(); } }
+          } else { if (hudDetailsOpen) closeHudInspection(); hudSelected = player.seat; }
+          updateHud();
+        });
         const details = document.createElement('div'); details.className = 'session-hud-details';
         for (const field of ['device', 'health', 'power', 'wallet', 'revive', 'item'] as const) {
           const value = document.createElement('span'); value.dataset.sessionHud = field; if (field === 'revive' || field === 'item') value.className = 'session-future'; details.append(value);
         }
+        const close = document.createElement('button'); close.type = 'button'; close.className = 'session-hud-close'; close.dataset.sessionHudClose = 'true'; close.textContent = 'Close details'; close.addEventListener('click', () => { closeHudInspection(); updateHud(); queueMicrotask(() => identity.focus({ preventScroll: true })); }); details.append(close);
         tile.append(identity, details); return tile;
       }));
       if (focusSeat) queueMicrotask(() => seats.querySelector<HTMLButtonElement>(`[data-seat="${focusSeat}"] .session-hud-identity`)?.focus({ preventScroll: true }));
@@ -442,14 +457,19 @@ function updateHud(): void {
       const identity = tile.querySelector<HTMLButtonElement>('[data-session-hud="identity"]')!;
       identity.textContent = `${player.seat.toUpperCase()} ${seatMarker(player.seat)} · ${character.name}`;
       identity.setAttribute('aria-label', `${player.seat.toUpperCase()} ${seatMarker(player.seat)} ${character.name}, ${player.device}, ${player.health} of ${player.maxHealth} feathers`);
-      tile.querySelector<HTMLElement>('[data-session-hud="device"]')!.textContent = player.participation === 'device-lost' ? 'Waiting to reclaim' : player.device;
+      const inspectable = innerHeight <= 319 && hudSelected === player.seat;
+      identity.setAttribute('aria-pressed', String(inspectable && hudDetailsOpen));
+      identity.title = inspectable && hudDetailsOpen ? `Close ${player.seat.toUpperCase()} details` : `Show ${player.seat.toUpperCase()} details`;
       const compactHud = innerWidth <= 479 || innerHeight <= 419;
+      const compactDevice = player.device.replace(/^gamepad-(\d+)$/, (_match, index: string) => `Pad ${Number(index) + 1}`);
+      tile.querySelector<HTMLElement>('[data-session-hud="device"]')!.textContent = player.participation === 'device-lost' ? 'Waiting to reclaim' : compactHud ? compactDevice : player.device;
       tile.querySelector<HTMLElement>('[data-session-hud="health"]')!.textContent = compactHud ? `${player.health}/${player.maxHealth} feathers · ${player.statistics.distance} tiles` : `${player.health} / ${player.maxHealth} feathers · ${player.statistics.distance} tiles`;
       tile.querySelector<HTMLElement>('[data-session-hud="power"]')!.textContent = `${player.power.name} · ${player.powerReady ? 'Ready' : `${player.powerRemaining} tiles`}`;
       tile.querySelector<HTMLElement>('[data-session-hud="wallet"]')!.textContent = `${player.run.wallet} coins · ${player.run.cards.length} cards`;
       tile.querySelector<HTMLElement>('[data-session-hud="revive"]')!.textContent = 'Revive —';
       tile.querySelector<HTMLElement>('[data-session-hud="item"]')!.textContent = 'Item —';
     }
+    seats.dataset.sessionHudInspect = String(hudDetailsOpen);
   } else if (sessionHudRoster) { sessionHudRoster = ''; seats.replaceChildren(); }
   el('score').textContent = String(game.maxY); el('coins').textContent = String(game.run.wallet);
   el('best').textContent = `${game.mode === 'stroll' ? 'STROLL BEST' : 'BEST'} ${game.mode === 'stroll' ? progress.strollBest : progress.best}`;
@@ -480,8 +500,10 @@ function updateHud(): void {
     const pause = el<HTMLButtonElement>('pause'); pause.textContent = state === 'paused' ? '▷' : 'Ⅱ'; pause.setAttribute('aria-label', state === 'paused' ? 'Resume game' : 'Pause game'); pause.title = state === 'paused' ? 'Resume game' : 'Pause game'; pause.disabled = state === 'dead' || state === 'ready';
     el('hint').textContent = state === 'playing' ? controllerConnected ? 'Stick / D-pad · A hop · X call · Start pause' : 'Tap ↑ · Swipe to dodge' : state === 'paused' ? 'Paused · take your time' : state === 'dead' ? 'Every run is a new path' : 'Tap anywhere to begin';
   }
-  el('run-panel').hidden = state === 'playing' || presentingDeathSpill() || game.run.isOpen || !el('drawer').hidden || (hand.isOpen() && handPausedPlay);
-  el('app').dataset.modalOpen = String((!el('run-panel').hidden || !el('drawer').hidden || hand.isOpen()) && !(import.meta.env.DEV && devTools?.isOpen));
+  // HUD inspection is its own modal: do not leave the normal paused board in
+  // the accessibility tree behind the compact details sheet.
+  el('run-panel').hidden = hudDetailsOpen || state === 'playing' || presentingDeathSpill() || game.run.isOpen || !el('drawer').hidden || (hand.isOpen() && handPausedPlay);
+  el('app').dataset.modalOpen = String((hudDetailsOpen || !el('run-panel').hidden || !el('drawer').hidden || hand.isOpen()) && !(import.meta.env.DEV && devTools?.isOpen));
   el('app').classList.toggle('ui-less-motion', progress.reduced || mediaQuery.matches);
   pauseUI.update(!localStage && state === 'paused' && !el('run-panel').hidden && !(import.meta.env.DEV && devTools?.isOpen), progress.reduced || mediaQuery.matches);
   runMenuUI.update({
@@ -732,6 +754,7 @@ function move(direction: Direction): void {
 }
 function confirmMenu(): void {
   if (!frameAvailable()) return;
+  if (hudDetailsOpen) { closeHudInspection(); updateHud(); return; }
   if (localStage) {
     const focused = document.activeElement;
     if (focused instanceof HTMLButtonElement && el('local-session-setup').contains(focused) && !focused.disabled) focused.click();
@@ -746,6 +769,7 @@ function confirmMenu(): void {
 }
 function togglePause(): void {
   if (!frameAvailable() || localStage) return;
+  if (hudDetailsOpen) { closeHudInspection(); updateHud(); return; }
   if (hand.close()) return;
   if (game.run.isOpen) { market.close(); return; }
   if (!el('drawer').hidden) return;
@@ -754,7 +778,7 @@ function togglePause(): void {
   else game.pause();
   updateHud();
 }
-function suspendPlay(): void { releaseNativeKeyboard(); if (localSession) sessionPaused = true; pointer = null; audio.stop(); handPausedPlay = false; hand.close(); game.closeMarket(false); game.pause(); restoreAfterDrawer = false; restoreModalFocus = false; updateHud(); restoreModalFocus = true; }
+function suspendPlay(): void { closeHudInspection(false); releaseNativeKeyboard(); if (localSession) sessionPaused = true; pointer = null; audio.stop(); handPausedPlay = false; hand.close(); game.closeMarket(false); game.pause(); restoreAfterDrawer = false; restoreModalFocus = false; updateHud(); restoreModalFocus = true; }
 function openDrawer(): void {
   if (localStage || !frameAvailable()) return;
   const wasPlaying = handPausedPlay || game.state === 'playing'; handPausedPlay = false; hand.close();
@@ -769,6 +793,7 @@ function closeDrawer(): void {
   el(game.state === 'playing' ? 'collection' : 'play').focus({ preventScroll: true });
 }
 function backMenu(): void {
+  if (hudDetailsOpen) { closeHudInspection(); updateHud(); return; }
   if (localStage) { backToSolo(); return; }
   if (hand.close()) return;
   if (game.run.isOpen) market.close();
@@ -788,7 +813,7 @@ let pointer: { x: number; y: number; id: number } | null = null;
 renderer.canvas.addEventListener('pointerdown', event => { if (!event.isPrimary) return; audio.unlock(); pointer = { x: event.clientX, y: event.clientY, id: event.pointerId }; renderer.canvas.setPointerCapture(event.pointerId); });
 renderer.canvas.addEventListener('pointerup', event => { if (!pointer || pointer.id !== event.pointerId) return; const dx = event.clientX - pointer.x, dy = event.clientY - pointer.y; pointer = null; if (Math.max(Math.abs(dx), Math.abs(dy)) < 18) move('forward'); else move(Math.abs(dx) > Math.abs(dy) ? dx < 0 ? 'left' : 'right' : dy < 0 ? 'forward' : 'back'); });
 renderer.canvas.addEventListener('pointercancel', () => { pointer = null; });
-const observer = new ResizeObserver(() => { renderer.resize(); if (innerWidth < 240 || innerHeight < 240) suspendPlay(); }); observer.observe(el('app'));
+const observer = new ResizeObserver(() => { renderer.resize(); if (innerWidth < 240 || innerHeight < 240) suspendPlay(); else if (hudDetailsOpen && innerHeight > 319) { closeHudInspection(); updateHud(); } }); observer.observe(el('app'));
 document.addEventListener('visibilitychange', () => { if (document.hidden) suspendPlay(); });
 window.addEventListener('blur', () => { localFocus = false; suspendPlay(); });
 window.addEventListener('focus', () => { localFocus = true; });

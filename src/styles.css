@@ -56,7 +56,6 @@ h2 { font-size: 25px; line-height: 1.1; letter-spacing: -.7px; margin: 4px 0 6px
 .primary { width: 100%; background: var(--primary); color: var(--bg); border-color: transparent; min-height: 36px; display: flex; justify-content: space-between; align-items: center; font-weight: 750; } .primary:hover { background: color-mix(in srgb, var(--primary) 88%, var(--fg)); }
 .panel-bottom { display: flex; gap: 8px; justify-content: space-between; margin-top: 8px; } .panel-bottom button { border: 0; background: transparent; font-size: 11px; padding: 2px 0; min-height: 24px; color: var(--muted); }
 .local-session-setup { display: grid; gap: 6px; margin-top: 8px; font-size: 12px; color: var(--muted); } .local-session-setup button { min-height: 28px; }
-#session-seats { display: flex; gap: 4px; align-items: center; font-size: 11px; font-weight: 700; color: var(--fg); } #session-seats span { padding: 3px 5px; border: 1px solid var(--border); border-radius: 4px; background: var(--bg); }
 .goal { font-size: 11px; border-top: 1px solid var(--border); padding-top: 10px; color: var(--muted); margin: 8px 0 0; } .reward { color: var(--primary); font-weight: 650; } #reason { color: var(--muted); font-size: 12px; }
 .bottom-bar { position: absolute; bottom: 12px; left: 16px; right: 12px; display: flex; justify-content: space-between; gap: 8px; align-items: center; }
 #hint { font-size: 10px; color: var(--fg); background: color-mix(in srgb, var(--bg) 88%, transparent); padding: 5px 8px; border-radius: 4px; }
