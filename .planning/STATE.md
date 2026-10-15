@@ -5,7 +5,7 @@ milestone_name: milestone
 current_phase: 03
 current_phase_name: survive-together-consumables
 status: executing
-stopped_at: "Phase03 Plan01: admission model17/17; executor adding progressed Flow and final confirmation browser proof."
+stopped_at: "Phase03 Plan01: focused21/21; mixed controller/keyboard staging fixed; awaiting final phase2 terminal report."
 last_updated: "2026-10-15T05:38:55Z"
 last_activity: 2026-10-14
 last_activity_desc: Phase02 independent verifier passed5/5; full maintained gate exit0; starting approved Phase03 plans.
@@ -67,3 +67,5 @@ Root owns tracking/package/test coordination. `/root/multiplayer_phase3_tracer` 
 Latest03-01 review: root201104d added a failing active-wave admission regression plus Flow strategy control. Executor fixed wave-safe placement; independent strict admission run now13/13 exit0 (`/tmp/down-to-duck-03-01-wave-admission-green.log`). Earlier failures are retained in separate logs. The previously green14/14 focused tracer predates further main edits and does not prove the final build. Root found live setup committing only roster[0] and late arrivals auto-admitting without confirmation; executor is fixing both and extending real opaque iframe proof before final gates. Prior combined shell PID28026 is now absent; its outcome must come from terminal output, not inferred from disappearance. Plan01 remains incomplete; do not release dependent wave2 yet.
 
 Subsequent batch proof: root0bbd0e0 covers all four selected seats, exact original world/P1/run references, distinct placements/inventories, failed final-seat atomicity, and batch wave/traffic rejection. Strict admission17/17 exit0 (`/tmp/down-to-duck-03-01-batch-admission.log`). Executor retains all three working files and is adding progressed Flow browser coverage and cancel-first live-adoption focus. Latest announced next command is `pnpm test:survive-tracer`; no new full-gate result is yet recorded.
+
+Latest browser/gate evidence: rebuilt focused tracer21/21 passes with nonzero pre-join score assertions in Arcade and Flow and cancel-first focus. Separate phase1 parity21/regressions271 passed. First phase2 run failed in the mixed four-seat runtime: P1's actual solo binding remained keyboard-a while the draft used gamepad-1, so P3 keyboard-a was rejected as duplicate. Root reproduced this with production objects; changing only primary binding allowed all4 seats. Executor added transactional `primaryDevice` staging, cancel/failure restoration, and commit-time provenance on the selected controller; focused21/21 remains green. Replacement final phase2 PID84751 was observed live then absent; obtain its retained terminal report from executor before claiming success or starting wave2. Rootdcfa0c7 also reconciles03-02 with missing production progress/result dispatch and all-dead offer clocks, explicitly assigning the necessary generic `session.ts` integration to that plan.
