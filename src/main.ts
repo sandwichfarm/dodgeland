@@ -203,16 +203,17 @@ function openRecoveryBoard(ownerSeat: SeatId, itemId?: 'revival' | 'flare'): voi
     let target = dead[0]!;
     let targetDeathGeneration = target.recovery?.deathGeneration;
     let targetParticipantId = target.participantId;
+    board.dataset.recoveryTarget = target.seat;
     if (kind === 'revival') for (const player of dead) {
       const option = document.createElement('button'); option.type = 'button'; option.textContent = `Revive ${player.seat.toUpperCase()}`; option.dataset.target = player.seat; option.setAttribute('aria-pressed', String(player === target));
-      option.addEventListener('click', () => { target = player; targetDeathGeneration = player.recovery?.deathGeneration; targetParticipantId = player.participantId; for (const control of actions.querySelectorAll<HTMLButtonElement>('[data-target]')) control.setAttribute('aria-pressed', String(control.dataset.target === player.seat)); }); actions.append(option);
+      option.addEventListener('click', () => { target = player; targetDeathGeneration = player.recovery?.deathGeneration; targetParticipantId = player.participantId; board.dataset.recoveryTarget = player.seat; for (const control of actions.querySelectorAll<HTMLButtonElement>('[data-target]')) control.setAttribute('aria-pressed', String(control.dataset.target === player.seat)); }); actions.append(option);
     } else { const affected = document.createElement('p'); affected.textContent = `Return ${dead.map(player => player.seat.toUpperCase()).join(', ')} and regroup the flock safely.`; actions.append(affected); }
     const commit = document.createElement('button'); commit.type = 'button'; commit.className = 'primary'; commit.textContent = kind === 'revival' ? 'Use Revival' : 'Use Flare';
     commit.addEventListener('click', () => {
       const currentOwner = session.players.find(player => player.seat === ownerSeat), currentCharge = itemCharge(ownerSeat), currentTarget = session.players.find(player => player.seat === target.seat);
-      if (!currentOwner || currentOwner.participantId !== ownerContext.participantId || !currentCharge || currentCharge.ownerGeneration !== ownerContext.ownerGeneration || currentCharge.inventoryGeneration !== ownerContext.inventoryGeneration || (kind === 'revival' && (currentTarget?.participantId !== targetParticipantId || currentTarget.participation !== 'dead' || currentTarget.recovery?.deathGeneration !== targetDeathGeneration))) { status.textContent = 'That recovery choice changed. Choose again.'; return; }
+      if (!currentOwner || currentOwner.participantId !== ownerContext.participantId || !currentCharge || currentCharge.ownerGeneration !== ownerContext.ownerGeneration || currentCharge.inventoryGeneration !== ownerContext.inventoryGeneration || (kind === 'revival' && (currentTarget?.participantId !== targetParticipantId || currentTarget.participation !== 'dead' || currentTarget.recovery?.deathGeneration !== targetDeathGeneration))) { status.textContent = kind === 'revival' ? `${target.seat.toUpperCase()} can’t return safely yet. Revival kept.` : 'The flock can’t regroup safely yet. Flare kept.'; return; }
       const ok = session.useConsumable({ actionId: `ui-recovery-${++recoveryActionId}`, ownerSeat, itemId: kind, targetSeat: kind === 'revival' ? target.seat : undefined, expectedInventoryGeneration: ownerContext.inventoryGeneration, expectedOwnerGeneration: ownerContext.ownerGeneration, expectedTargetDeathGeneration: kind === 'revival' ? targetDeathGeneration : undefined, expectedTargetParticipantId: kind === 'revival' ? targetParticipantId : undefined });
-      status.textContent = ok ? kind === 'revival' ? `${ownerSeat.toUpperCase()} revived ${target.seat.toUpperCase()}.` : 'The flock regrouped safely.' : kind === 'revival' ? `${target.seat.toUpperCase()} can’t return safely yet. Revival kept.` : 'The flock can’t regroup safely yet. Flare kept.';
+      status.textContent = ok ? kind === 'revival' ? `${ownerSeat.toUpperCase()} revived ${target.seat.toUpperCase()}.` : `${ownerSeat.toUpperCase()} used Flare — the flock regrouped.` : kind === 'revival' ? `${target.seat.toUpperCase()} can’t return safely yet. Revival kept.` : 'The flock can’t regroup safely yet. Flare kept.';
       if (ok) { notify(status.textContent); closeRecoveryBoard(false); } else updateHud();
     });
     actions.append(back, resume, commit); queueMicrotask(() => (kind === 'revival' ? actions.querySelector<HTMLButtonElement>('[data-target]') : back)?.focus({ preventScroll: true }));
@@ -263,6 +264,17 @@ const soundscape = new Soundscape(audio);
 const spillAudio = new DeathSpillAudio(audio);
 const sounds = createSoundSettings(audio, () => progress, (fields, save = true) => { fields.forEach(key => changedPreferences.add(key)); updateCallControl(); if (save) persist(); });
 let lastCall = -Infinity, callShortcut = '', marketShortcut = '', controllerConnected = false, localFocus = true, restoreModalFocus = true;
+let tinyReturnFocus: HTMLElement | undefined;
+let tinyReturnMarket = false;
+let wasTiny = false;
+function canRestoreTinyFocus(candidate: HTMLElement | undefined): candidate is HTMLElement {
+  if (!candidate?.isConnected || !candidate.getClientRects().length) return false;
+  for (let node: HTMLElement | null = candidate; node; node = node.parentElement) {
+    const style = getComputedStyle(node);
+    if (node.inert || node.hidden || style.display === 'none' || style.visibility === 'hidden') return false;
+  }
+  return true;
+}
 const sessionCalls = new Map<SeatId, number>();
 let keyboardBindings: KeyboardBindings = DEFAULT_KEYBOARD_BINDINGS;
 let keyboardInput: KeyboardInput | undefined;
@@ -692,12 +704,13 @@ function hasPendingRecoveryOffer(): boolean {
 }
 function updateHud(): void {
   const terminalResult = localSession?.result;
-  if (terminalResult?.mode === 'survive-together') surviveResults.show(terminalResult as SurviveTogetherResult);
+  if (terminalResult?.mode === 'survive-together') surviveResults.show(terminalResult as SurviveTogetherResult, game.seedCode);
   else surviveResults.hide();
   if (recoveryBoardOwner) {
     const owner = localSession?.players.find(player => player.seat === recoveryBoardOwner!.seat), charge = owner && itemCharge(owner.seat);
     if (!owner || owner.participation !== 'active' || owner.participantId !== recoveryBoardOwner.participantId || !charge || charge.ownerGeneration !== recoveryBoardOwner.ownerGeneration || charge.inventoryGeneration !== recoveryBoardOwner.inventoryGeneration) {
-      discardRecoveryBoard('Recovery choice changed. Choose again.');
+      const page = recoveryBoard?.dataset.recoveryPage, target = recoveryBoard?.dataset.recoveryTarget;
+      discardRecoveryBoard(page === 'revival' && target ? `${target.toUpperCase()} can’t return safely yet. Revival kept.` : page === 'flare' ? 'The flock can’t regroup safely yet. Flare kept.' : 'Recovery choice changed. Choose again.');
     }
   }
   const seats = el('session-seats');
@@ -1204,7 +1217,29 @@ for (const button of document.querySelectorAll<HTMLButtonElement>('[data-directi
 renderer.canvas.addEventListener('pointerdown', event => { if (!event.isPrimary) return; audio.unlock(); pointer = { x: event.clientX, y: event.clientY, id: event.pointerId }; renderer.canvas.setPointerCapture(event.pointerId); });
 renderer.canvas.addEventListener('pointerup', event => { if (!pointer || pointer.id !== event.pointerId) return; const dx = event.clientX - pointer.x, dy = event.clientY - pointer.y; pointer = null; if (Math.max(Math.abs(dx), Math.abs(dy)) < 18) move('forward'); else move(Math.abs(dx) > Math.abs(dy) ? dx < 0 ? 'left' : 'right' : dy < 0 ? 'forward' : 'back'); });
 renderer.canvas.addEventListener('pointercancel', () => { pointer = null; });
-const observer = new ResizeObserver(() => { renderer.resize(); if (innerWidth < 240 || innerHeight < 240) suspendPlay(); else if (hudDetailsOpen && innerHeight > 319) { closeHudInspection(); updateHud(); } }); observer.observe(el('app'));
+const observer = new ResizeObserver(() => {
+  renderer.resize();
+  const tiny = innerWidth < 240 || innerHeight < 240;
+  if (tiny) {
+    if (!wasTiny) {
+      tinyReturnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : undefined;
+      tinyReturnMarket = market.isOpen();
+    }
+    wasTiny = true; suspendPlay(); return;
+  }
+  if (wasTiny) {
+    wasTiny = false;
+    const priorFocus = tinyReturnFocus, restoreMarket = tinyReturnMarket;
+    tinyReturnFocus = undefined; tinyReturnMarket = false;
+    queueMicrotask(() => {
+      if (restoreMarket) market.openForSelected();
+      if (canRestoreTinyFocus(priorFocus)) priorFocus.focus({ preventScroll: true });
+      else if (restoreMarket && market.isOpen()) market.focusSelectedOwner();
+      else el<HTMLElement>('scene').focus({ preventScroll: true });
+    });
+  }
+  if (hudDetailsOpen && innerHeight > 319) { closeHudInspection(); updateHud(); }
+}); observer.observe(el('app'));
 document.addEventListener('visibilitychange', () => { if (document.hidden) suspendPlay(); });
 window.addEventListener('blur', () => { localFocus = false; suspendPlay(); });
 window.addEventListener('focus', () => { localFocus = true; });
