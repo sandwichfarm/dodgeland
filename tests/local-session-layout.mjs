@@ -144,7 +144,13 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
       const controls = [...document.querySelectorAll('button, [role="button"], input, select')].filter(visible).map(bound);
       const identity = [...document.querySelectorAll('#session-seats [data-seat]')].filter(visible).map(node => {
         const style = getComputedStyle(node);
-        return { seat: node.dataset.seat, text: node.textContent?.replace(/\s+/g, ' ').trim(), label: node.getAttribute('aria-label'), contrast: contrast(style.color, style.backgroundColor) };
+        return {
+          seat: node.dataset.seat,
+          text: node.textContent?.replace(/\s+/g, ' ').trim(),
+          label: node.getAttribute('aria-label'),
+          detailVisible: Boolean(node.querySelector('.session-hud-details') && rendered(node.querySelector('.session-hud-details'))),
+          contrast: contrast(style.color, style.backgroundColor),
+        };
       });
       const selectedFields = [...document.querySelectorAll('#session-seats .session-hud-selected [data-session-hud]')].map(node => ({
         field: node.getAttribute('data-session-hud'), text: node.textContent?.trim(), fullyVisible: rendered(node, true),
@@ -190,7 +196,7 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
       if (state === 'hud' && width >= 240) {
         if (!value.sceneVisible) fail(`${state}/${theme}/${width}×${height} shared scene is not visible`, value);
         if (value.identity.length !== 4 || value.identity.some(seat => !/P[1-4].*[▲●◆■]/.test(`${seat.text} ${seat.label}`))) fail(`${state}/${theme}/${width}×${height} HUD identity is incomplete`, value.identity);
-        const detailed = value.identity.filter(seat => /Revive\s*—/.test(seat.text ?? '') && /Item\s*—/.test(seat.text ?? ''));
+        const detailed = value.identity.filter(seat => seat.detailVisible);
         const compactHud = width < 480 || height < 420;
         if (compactHud ? detailed.length !== 1 : detailed.length !== 4) fail(`${state}/${theme}/${width}×${height} must show ${compactHud ? 'one selected detailed tile plus identity chips' : 'four detailed tiles'}`, value.identity);
         const requiredFields = ['identity', 'device', 'health', 'power', 'wallet', 'revive', 'item'];
@@ -280,7 +286,18 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
     assert.equal(await frame.evaluate(() => document.activeElement?.closest('[data-seat]')?.getAttribute('data-seat')), 'p2', 'HUD update must preserve focus on the selected player identity control');
     for (const theme of Object.keys(themes)) {
       await setTheme(theme);
-      for (const [width, height] of frames) { await resize(width, height); await assertFrame('hud', width, height, theme); }
+      for (const [width, height] of frames) {
+        await resize(width, height);
+        if (width === 240 && height === 240) {
+          assert.equal(await frame.locator('#app').getAttribute('data-run-state'), 'paused', 'restoring from the below-minimum notice deliberately holds the local session paused');
+          assert.equal(await frame.locator('#session-seats [data-seat]').count(), 4, 'safety pause retains all four session owners');
+          const resume = frame.getByRole('button', { name: /Keep hopping/ });
+          assert.equal(await resume.isVisible(), true, 'restored working frame exposes the real resume control');
+          await resume.click();
+          await frame.waitForFunction(() => document.querySelector('#app')?.dataset.runState === 'playing' && !document.querySelector('#session-seats')?.hasAttribute('hidden'));
+        }
+        await assertFrame('hud', width, height, theme);
+      }
     }
 
     await page.emulateMedia({ reducedMotion: 'reduce' });
