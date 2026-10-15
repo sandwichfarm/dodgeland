@@ -6,8 +6,8 @@ current_phase: 03
 current_phase_name: survive-together-consumables
 status: executing
 stopped_at: "Phase03 Plans01-05 accepted; Plan06 results and recovery milestones verified; lifecycle and full visual matrix remain."
-last_updated: "2026-10-15T16:45:16.268982+00:00"
-last_activity_desc: Team result seed sharing and tiny-resize focus verified; full co-op recovery/menu visual matrix remains open.
+last_updated: "2026-10-15T17:12:18.235148+00:00"
+last_activity_desc: Compact recovery menus verified across123 views; HUD tiny-focus and lifecycle boards still in progress.
 progress:
   total_phases: 7
   completed_phases: 2
@@ -25,6 +25,10 @@ All seven Phase03 plans and UI contract are reviewed. Phase01 and02 are independ
 Full unchanged goal: `.planning/USER-REQUEST.md`, `.planning/PROJECT.md`, `.planning/REQUIREMENTS.md`. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
 
 ## Active03-06 Tracer and Ownership
+
+Current ownership: root owns `src/main.ts`, `src/session-ui.css`, recovery-board layout/outcome tests and build reservation while fixing compact integration. Executor `/root/multiplayer_recovery_ui` owns lifecycle layout and HUD focus investigation/tests; no overlapping source edits or builds. Earlier ownership paragraphs below are historical.
+
+Root compact recovery milestone: bounded People/Actions pages retain every dead teammate and selectable target, distinct selected traveler name, short visual action labels with stable accessible names, 44px controls, visible-only Tab/controller navigation, first enabled action on an empty shelf, and responsive focus fallback. Initial overflow568px at240px is resolved. Intermediate root gate23144 caught hidden pager focus on resize;82406 caught255px Revival overflow from a wrapping People button; both fixed. Strict current-source gate64287 terminal0 (`/tmp/down-to-duck-03-06-root-compact-final-identity.log`) passes7/7: recovery layout123 screenshots across8 states,5 sizes,dark/light main cases, owner controller, four committed/rejected recovery outcomes, and actual result seed. Type-check/build passed immediately before this gate in41758; that intermediate test run failed only the old target textContent expectation after the visible target became `P3 · Pip`, now asserted by authoritative target identity. Root inspected240px target/failure views. Broader17779 gate remains failed on HUD P3 focus restoration; bounded waiting did not solve it. Executor is investigating and expanding actual departure/reclaim/offer/ghost visual proof. Plan06 remains incomplete; no phase acceptance or PR claim.
 
 Sequential typed gsd-executor `/root/multiplayer_recovery_ui` owns03-06 source, paused model/runtime/layout tests, and SUMMARY. Root owns supplemental board-boundaries, result-component, offer-clock and recovery-owner tests, result presentation module/CSS, tracking/package. Executor holds build/browser reservation; preview5175 untouched and all Chromium muted. Root pure model tests do not consume that reservation.
 

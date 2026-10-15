@@ -62,7 +62,7 @@ for (const [owner, target] of [['p1', 'p3'], ['p2', 'p1']]) test(`${owner}: four
     const board = await openItem(app, owner, 'Revival');
     assert.equal(await board.getByRole('heading', { name: 'Choose a teammate', exact: true }).isVisible(), true);
     assert.deepEqual(await board.locator('[data-target]').evaluateAll(nodes => nodes.map(node => node.dataset.target)), [target, 'p4']);
-    assert.equal(await app.frame.evaluate(() => document.activeElement?.textContent), `Revive ${target.toUpperCase()}`, 'the first eligible target owns initial focus');
+    assert.equal(await app.frame.evaluate(() => document.activeElement?.getAttribute('data-target')), target, 'the first eligible target owns initial focus');
     const before = await observe(app);
     await board.getByRole('button', { name: `Revive ${target.toUpperCase()}`, exact: true }).click();
     await board.getByRole('button', { name: 'Use Revival', exact: true }).click();

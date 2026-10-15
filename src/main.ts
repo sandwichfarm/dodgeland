@@ -180,7 +180,9 @@ function openRecoveryBoard(ownerSeat: SeatId, itemId?: 'revival' | 'flare'): voi
   if (!initialCharge) return;
   const ownerContext = Object.freeze({ participantId: owner.participantId, ownerGeneration: initialCharge.ownerGeneration, inventoryGeneration: initialCharge.inventoryGeneration });
   const board = document.createElement('section'); board.id = 'survive-recovery-board'; board.className = 'survive-recovery-board'; board.setAttribute('role', 'dialog'); board.setAttribute('aria-modal', 'true');
-  const title = document.createElement('h2'); title.textContent = `Viewing ${ownerSeat.toUpperCase()} · ${characterById(owner.characterId).name}`;
+  const title = document.createElement('h2');
+  const prefix = document.createElement('span'); prefix.className = 'recovery-heading-prefix'; prefix.textContent = 'Viewing ';
+  title.append(prefix, `${ownerSeat.toUpperCase()} · ${characterById(owner.characterId).name}`);
   const subjects = document.createElement('div'); subjects.className = 'survive-recovery-subjects';
   const subjectCard = (player: typeof owner, label: string): HTMLElement => {
     const card = document.createElement('div'); card.className = 'survive-recovery-subject';
@@ -191,12 +193,14 @@ function openRecoveryBoard(ownerSeat: SeatId, itemId?: 'revival' | 'flare'): voi
   subjects.append(subjectCard(owner, 'Owner'));
   const status = document.createElement('p'); status.className = 'survive-recovery-status'; status.setAttribute('aria-live', 'polite');
   const actions = document.createElement('div'); actions.className = 'survive-recovery-actions';
-  const back = document.createElement('button'); back.type = 'button'; back.textContent = 'Back to paused run'; back.addEventListener('click', () => closeRecoveryBoard(false));
-  const resume = document.createElement('button'); resume.type = 'button'; resume.textContent = 'Resume run'; resume.addEventListener('click', () => closeRecoveryBoard(true));
+  const compactPager = document.createElement('div'); compactPager.className = 'survive-recovery-pager'; compactPager.setAttribute('aria-label', 'Recovery board pages');
+  const back = document.createElement('button'); back.type = 'button'; back.textContent = 'Back to paused run'; back.dataset.compactLabel = 'Back'; back.setAttribute('aria-label', back.textContent); back.addEventListener('click', () => closeRecoveryBoard(false));
+  const resume = document.createElement('button'); resume.type = 'button'; resume.className = 'recovery-resume'; resume.textContent = 'Resume run'; resume.addEventListener('click', () => closeRecoveryBoard(true));
   const choose = (kind: 'revival' | 'flare') => {
     actions.replaceChildren();
     const dead = session.players.filter(player => player.participation === 'dead' && player.state === 'dead');
     subjects.replaceChildren(subjectCard(owner, 'Owner'), ...dead.map(player => subjectCard(player, kind === 'revival' ? 'Target' : 'Returning')));
+    [...subjects.children].forEach((subject, index) => subject.setAttribute('data-recovery-subject', String(index)));
     const heading = document.createElement('h3'); heading.textContent = kind === 'revival' ? 'Choose a teammate' : 'Bring the flock together?'; actions.append(heading);
     board.dataset.recoveryPage = kind;
     if (!dead.length) { status.textContent = kind === 'revival' ? 'No teammate can be revived right now.' : 'No teammate needs a flare right now.'; actions.append(back, resume); queueMicrotask(() => back.focus({ preventScroll: true })); return; }
@@ -204,17 +208,48 @@ function openRecoveryBoard(ownerSeat: SeatId, itemId?: 'revival' | 'flare'): voi
     let targetDeathGeneration = target.recovery?.deathGeneration;
     let targetParticipantId = target.participantId;
     board.dataset.recoveryTarget = target.seat;
+    let compactView: 'people' | 'actions' = 'actions';
+    let compactSubject = 0;
+    const previous = document.createElement('button'); previous.type = 'button'; previous.textContent = '←'; previous.setAttribute('aria-label', 'Previous teammate');
+    const page = document.createElement('button'); page.type = 'button';
+    const next = document.createElement('button'); next.type = 'button'; next.textContent = '→'; next.setAttribute('aria-label', 'Next teammate');
+    const syncCompact = () => {
+      board.dataset.recoveryCompactView = compactView;
+      board.dataset.recoveryCompactSubject = String(compactSubject);
+      page.textContent = compactView === 'people' ? 'Actions' : 'People';
+      previous.disabled = compactView === 'people' ? subjects.children.length < 2 : kind !== 'revival' || dead.length < 2;
+      next.disabled = previous.disabled;
+    };
+    const selectTarget = (player: typeof target) => {
+      target = player; targetDeathGeneration = player.recovery?.deathGeneration; targetParticipantId = player.participantId; board.dataset.recoveryTarget = player.seat;
+      delete board.dataset.recoveryError; status.textContent = '';
+      const apply = actions.querySelector<HTMLButtonElement>('.primary'); if (apply) apply.dataset.compactLabel = `Revive ${player.seat.toUpperCase()}`;
+      for (const control of actions.querySelectorAll<HTMLButtonElement>('[data-target]')) control.setAttribute('aria-pressed', String(control.dataset.target === player.seat));
+    };
+    previous.addEventListener('click', () => {
+      if (compactView === 'people') compactSubject = (compactSubject + subjects.children.length - 1) % subjects.children.length;
+      else if (kind === 'revival') { const index = dead.indexOf(target); selectTarget(dead[(index + dead.length - 1) % dead.length]!); }
+      syncCompact();
+    });
+    next.addEventListener('click', () => {
+      if (compactView === 'people') compactSubject = (compactSubject + 1) % subjects.children.length;
+      else if (kind === 'revival') { const index = dead.indexOf(target); selectTarget(dead[(index + 1) % dead.length]!); }
+      syncCompact();
+    });
+    page.addEventListener('click', () => { compactView = compactView === 'people' ? 'actions' : 'people'; syncCompact(); });
+    compactPager.replaceChildren(previous, page, next); syncCompact();
     if (kind === 'revival') for (const player of dead) {
-      const option = document.createElement('button'); option.type = 'button'; option.textContent = `Revive ${player.seat.toUpperCase()}`; option.dataset.target = player.seat; option.setAttribute('aria-pressed', String(player === target));
-      option.addEventListener('click', () => { target = player; targetDeathGeneration = player.recovery?.deathGeneration; targetParticipantId = player.participantId; board.dataset.recoveryTarget = player.seat; for (const control of actions.querySelectorAll<HTMLButtonElement>('[data-target]')) control.setAttribute('aria-pressed', String(control.dataset.target === player.seat)); }); actions.append(option);
+      const option = document.createElement('button'); option.type = 'button'; option.textContent = `${player.seat.toUpperCase()} · ${characterById(player.characterId).name}`; option.setAttribute('aria-label', `Revive ${player.seat.toUpperCase()}`); option.dataset.target = player.seat; option.setAttribute('aria-pressed', String(player === target));
+      option.addEventListener('click', () => selectTarget(player)); actions.append(option);
     } else { const affected = document.createElement('p'); affected.textContent = `Return ${dead.map(player => player.seat.toUpperCase()).join(', ')} and regroup the flock safely.`; actions.append(affected); }
     const commit = document.createElement('button'); commit.type = 'button'; commit.className = 'primary'; commit.textContent = kind === 'revival' ? 'Use Revival' : 'Use Flare';
+    if (kind === 'revival') { commit.dataset.compactLabel = `Revive ${target.seat.toUpperCase()}`; commit.setAttribute('aria-label', commit.textContent); }
     commit.addEventListener('click', () => {
       const currentOwner = session.players.find(player => player.seat === ownerSeat), currentCharge = itemCharge(ownerSeat), currentTarget = session.players.find(player => player.seat === target.seat);
-      if (!currentOwner || currentOwner.participantId !== ownerContext.participantId || !currentCharge || currentCharge.ownerGeneration !== ownerContext.ownerGeneration || currentCharge.inventoryGeneration !== ownerContext.inventoryGeneration || (kind === 'revival' && (currentTarget?.participantId !== targetParticipantId || currentTarget.participation !== 'dead' || currentTarget.recovery?.deathGeneration !== targetDeathGeneration))) { status.textContent = kind === 'revival' ? `${target.seat.toUpperCase()} can’t return safely yet. Revival kept.` : 'The flock can’t regroup safely yet. Flare kept.'; return; }
+      if (!currentOwner || currentOwner.participantId !== ownerContext.participantId || !currentCharge || currentCharge.ownerGeneration !== ownerContext.ownerGeneration || currentCharge.inventoryGeneration !== ownerContext.inventoryGeneration || (kind === 'revival' && (currentTarget?.participantId !== targetParticipantId || currentTarget.participation !== 'dead' || currentTarget.recovery?.deathGeneration !== targetDeathGeneration))) { board.dataset.recoveryError = 'true'; status.textContent = kind === 'revival' ? `${target.seat.toUpperCase()} can’t return safely yet. Revival kept.` : 'The flock can’t regroup safely yet. Flare kept.'; return; }
       const ok = session.useConsumable({ actionId: `ui-recovery-${++recoveryActionId}`, ownerSeat, itemId: kind, targetSeat: kind === 'revival' ? target.seat : undefined, expectedInventoryGeneration: ownerContext.inventoryGeneration, expectedOwnerGeneration: ownerContext.ownerGeneration, expectedTargetDeathGeneration: kind === 'revival' ? targetDeathGeneration : undefined, expectedTargetParticipantId: kind === 'revival' ? targetParticipantId : undefined });
       status.textContent = ok ? kind === 'revival' ? `${ownerSeat.toUpperCase()} revived ${target.seat.toUpperCase()}.` : `${ownerSeat.toUpperCase()} used Flare — the flock regrouped.` : kind === 'revival' ? `${target.seat.toUpperCase()} can’t return safely yet. Revival kept.` : 'The flock can’t regroup safely yet. Flare kept.';
-      if (ok) { notify(status.textContent); closeRecoveryBoard(false); } else updateHud();
+      if (ok) { notify(status.textContent); closeRecoveryBoard(false); } else { board.dataset.recoveryError = 'true'; updateHud(); }
     });
     actions.append(back, resume, commit); queueMicrotask(() => (kind === 'revival' ? actions.querySelector<HTMLButtonElement>('[data-target]') : back)?.focus({ preventScroll: true }));
   };
@@ -222,17 +257,17 @@ function openRecoveryBoard(ownerSeat: SeatId, itemId?: 'revival' | 'flare'): voi
     const revival = document.createElement('button'); revival.type = 'button'; revival.textContent = `Use Revival ×${initialCharge.revival}`; revival.disabled = !initialCharge.revival; revival.addEventListener('click', () => choose('revival'));
     const flare = document.createElement('button'); flare.type = 'button'; flare.textContent = `Use Flare ×${initialCharge.flare}`; flare.disabled = !initialCharge.flare; flare.addEventListener('click', () => choose('flare'));
     const leave = document.createElement('button'); leave.type = 'button'; leave.textContent = `Leave ${ownerSeat.toUpperCase()} run`; leave.addEventListener('click', () => openDepartureBoard(ownerSeat));
-    board.dataset.recoveryPage = 'items'; actions.append(revival, flare, back, resume, leave); queueMicrotask(() => revival.focus({ preventScroll: true }));
+    board.dataset.recoveryPage = 'items'; actions.append(revival, flare, back, resume, leave); queueMicrotask(() => visibleModalControls(board)[0]?.focus({ preventScroll: true }));
   }
   board.addEventListener('keydown', event => {
     if (event.key !== 'Tab') return;
-    const controls = [...board.querySelectorAll<HTMLButtonElement>('button:not([disabled])')];
+    const controls = visibleModalControls(board);
     if (!controls.length) return;
     const first = controls[0]!, last = controls.at(-1)!;
     if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
     else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
   });
-  board.append(title, subjects, status, actions); el('app').append(board); recoveryBoard = board; recoveryBoardOwner = { seat: ownerSeat, ...ownerContext }; setRecoveryModalInert(board); updateHud();
+  board.append(title, subjects, status, actions, compactPager); el('app').append(board); recoveryBoard = board; recoveryBoardOwner = { seat: ownerSeat, ...ownerContext }; setRecoveryModalInert(board); updateHud();
 }
 function usePersonalRevive(seat: SeatId): void {
   const session = localSession; if (!session) return;
@@ -1239,6 +1274,11 @@ const observer = new ResizeObserver(() => {
     });
   }
   if (hudDetailsOpen && innerHeight > 319) { closeHudInspection(); updateHud(); }
+  if (recoveryBoard) queueMicrotask(() => {
+    if (!recoveryBoard) return;
+    const controls = visibleModalControls(recoveryBoard);
+    if (!controls.includes(document.activeElement as HTMLButtonElement)) controls[0]?.focus({ preventScroll: true });
+  });
 }); observer.observe(el('app'));
 document.addEventListener('visibilitychange', () => { if (document.hidden) suspendPlay(); });
 window.addEventListener('blur', () => { localFocus = false; suspendPlay(); });

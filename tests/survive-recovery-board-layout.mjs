@@ -35,7 +35,7 @@ test('four-player recovery boards fit every supported frame without scrolling or
     }), true);
     await advance(50);
 
-    async function capture(state, theme, width, height) {
+    async function capture(state, theme, width, height, pageIndex = 0) {
       await resize(width, height);
       const board = frame.locator('#survive-recovery-board');
       const metrics = await board.evaluate(root => {
@@ -49,24 +49,97 @@ test('four-player recovery boards fit every supported frame without scrolling or
         const focused = document.activeElement, rect = focused?.getBoundingClientRect();
         return { overflow, controls, focused: focused?.textContent, focusVisible: root.contains(focused) && visible(focused) && rect.left >= 0 && rect.top >= 0 && rect.right <= innerWidth && rect.bottom <= innerHeight };
       });
-      evidence.frames.push({ state, theme, width, height, metrics });
-      await iframe.screenshot({ path: new URL(`survive-recovery-${state}-${theme}-${width}x${height}.png`, output).pathname });
+      evidence.frames.push({ state, theme, width, height, pageIndex, metrics });
+      await iframe.screenshot({ path: new URL(`survive-recovery-${state}-${theme}-${width}x${height}-${pageIndex}.png`, output).pathname });
       assert.deepEqual(metrics.overflow, [], `${state}/${theme}/${width}×${height}: no board or content scrollbars`);
       assert.ok(metrics.controls.length > 0 && metrics.controls.every(control => control.valid), `${state}/${theme}/${width}×${height}: all visible44px actions fit and receive pointer input: ${JSON.stringify(metrics.controls)}`);
       assert.equal(metrics.focusVisible, true, `${state}/${theme}/${width}×${height}: focus remains visible inside the retained board`);
+      const controls = board.locator('button:visible:not([disabled])');
+      await controls.first().focus(); await page.keyboard.press('Shift+Tab');
+      assert.equal(await controls.last().evaluate(node => document.activeElement === node), true, 'reverse Tab wraps to the last visible action, excluding controls on other pages');
+      await page.keyboard.press('Tab');
+      assert.equal(await controls.first().evaluate(node => document.activeElement === node), true, 'Tab wraps within the current bounded page');
+    }
+
+    async function checkPages(state, theme, width, height) {
+      const board = frame.locator('#survive-recovery-board'), seen = new Set();
+      const expected = state === 'items' ? ['Use Revival ×1', 'Use Flare ×1', 'Leave P1 run']
+        : state === 'revival' ? ['p2', 'p3', 'p4'] : ['Sunny', 'Pip', 'Petal'];
+      for (let pageIndex = 0; pageIndex < 8; pageIndex++) {
+        await capture(state, theme, width, height, pageIndex);
+        if (state === 'revival') {
+          for (const target of await board.locator('[data-target]').all()) if (await target.isVisible()) {
+            const seat = await target.getAttribute('data-target'); await target.click();
+            assert.equal(await board.getAttribute('data-recovery-target'), seat, 'every displayed target can actually be selected');
+            seen.add(seat);
+          }
+        } else {
+          const text = await board.innerText(); for (const value of expected) if (text.includes(value)) seen.add(value);
+        }
+        if (expected.every(value => seen.has(value))) break;
+        const next = await board.getByRole('button', { name: /next/i }).all();
+        let advanced = false;
+        for (const control of next) if (await control.isVisible() && await control.isEnabled()) { await control.click(); advanced = true; break; }
+        if (!advanced) {
+          const people = board.getByRole('button', { name: 'People', exact: true });
+          if (await people.isVisible()) { await people.click(); advanced = true; }
+        }
+        if (!advanced) break;
+      }
+      assert.deepEqual([...seen].sort(), [...expected].sort(), `${state}/${theme}/${width}×${height}: pagination must keep every action or affected teammate reachable`);
+      const actions = board.getByRole('button', { name: 'Actions', exact: true });
+      if (await actions.isVisible()) await actions.click();
     }
 
     for (const [theme, value] of Object.entries(themes)) {
       await frame.evaluate(value => window.marketGameFixture.setTheme(value), value);
+      await resize(900, 600);
+      await frame.locator('#session-seats [data-seat="p1"] [data-session-hud="item"]').click();
+      for (const [width, height] of sizes) await checkPages('items', theme, width, height);
+      await resize(900, 600);
+      await frame.getByRole('button', { name: 'Back to paused run', exact: true }).click();
       for (const item of ['Flare', 'Revival']) {
         await resize(900, 600);
         await frame.locator('#session-seats [data-seat="p1"] [data-session-hud="item"]').click();
         await frame.getByRole('button', { name: `Use ${item} ×1`, exact: true }).click();
-        for (const [width, height] of sizes) await capture(item.toLowerCase(), theme, width, height);
+        for (const [width, height] of sizes) await checkPages(item.toLowerCase(), theme, width, height);
         await resize(900, 600);
+        {
+          await onSession(function () { for (const lane of this.world.rows.values()) lane.blocked = Array.from({ length: 11 }, (_, index) => index - 5); });
+          const before = await onSession(function () { return { charges: this.consumableSnapshot().charges, positions: this.players.map(player => [player.x, player.y, player.participation]) }; });
+          const target = await frame.locator('#survive-recovery-board').getAttribute('data-recovery-target');
+          const message = item === 'Flare' ? 'The flock can’t regroup safely yet. Flare kept.' : `${target.toUpperCase()} can’t return safely yet. Revival kept.`;
+          await frame.getByRole('button', { name: `Use ${item}`, exact: true }).click();
+          for (const [width, height] of sizes) {
+            if (item === 'Flare') await checkPages('kept-flare', theme, width, height);
+            else await capture('kept-revival', theme, width, height);
+            assert.equal(await frame.getByText(message, { exact: true }).isVisible(), true, 'the retained-charge outcome remains visible after resize and paging');
+          }
+          assert.deepEqual(await onSession(function () { return { charges: this.consumableSnapshot().charges, positions: this.players.map(player => [player.x, player.y, player.participation]) }; }), before);
+          await onSession(function () { for (const lane of this.world.rows.values()) lane.blocked = []; });
+          await resize(900, 600);
+        }
         await frame.getByRole('button', { name: 'Back to paused run', exact: true }).click();
       }
     }
+    // Once everyone uses their real personal offer, both item selectors must
+    // show the no-target outcome without spending the owner's charges.
+    assert.equal(await onSession(function () {
+      return ['p2', 'p3', 'p4'].every(ownerSeat => this.recover({ kind: 'personal', ownerSeat }));
+    }), true);
+    await advance(50);
+    for (const item of ['Flare', 'Revival']) {
+      await resize(900, 600);
+      await frame.locator('#session-seats [data-seat="p1"] [data-session-hud="item"]').click();
+      await frame.getByRole('button', { name: `Use ${item} ×1`, exact: true }).click();
+      for (const [width, height] of sizes) await capture(`no-target-${item.toLowerCase()}`, 'light', width, height);
+      await resize(900, 600);
+      await frame.getByRole('button', { name: 'Back to paused run', exact: true }).click();
+    }
+    // An empty owner's item shelf must focus its first usable action, rather
+    // than the disabled Revival button, and remain usable at the minimum size.
+    await frame.locator('#session-seats [data-seat="p2"] [data-session-hud="item"]').click();
+    for (const [width, height] of sizes) await capture('empty-items', 'light', width, height);
     assert.deepEqual(evidence.errors, []); assert.deepEqual(evidence.external, []);
   } finally {
     await writeFile(new URL('survive-recovery-board-layout.json', output), JSON.stringify(evidence, null, 2));

@@ -44,19 +44,45 @@ body:has(#local-session-setup:not([hidden]) #session-board), body:has(#session-s
 .session-hud-tile button.session-future { width: 100%; min-height: 44px; padding: 3px 4px; border: 1px solid color-mix(in srgb, var(--session-edge) 65%, var(--primary)); border-radius: 4px; background: transparent; color: inherit; font: inherit; text-align: left; }
 .survive-recovery-board { position: absolute; z-index: 12; inset: 12px; display: grid; grid-template-areas: 'title' 'subjects' 'status' 'actions'; align-content: start; gap: 16px; padding: 16px; overflow: auto; border: 4px solid var(--game-wood, var(--border)); border-radius: 8px; background: var(--game-paper, var(--bg)); box-shadow: 0 5px 0 var(--game-edge, var(--border)); color: var(--game-ink, var(--fg)); font-family: var(--game-font, ui-rounded, system-ui, sans-serif); }
 .survive-recovery-board h2, .survive-recovery-board h3, .survive-recovery-board p { margin: 0; overflow-wrap: anywhere; font-family: inherit; }
-.survive-recovery-board h2 { grid-area: title; font-size: 44px; line-height: 1.05; }
+.survive-recovery-board h2 { grid-area: title; font-size: 44px; line-height: 1.1; }
 .survive-recovery-subjects { grid-area: subjects; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; }
 .survive-recovery-subject { display: grid; grid-template-columns: 44px minmax(0, 1fr); align-items: center; gap: 8px; min-height: 44px; padding: 4px 8px; border: 3px solid var(--game-wood, var(--border)); background: color-mix(in srgb, var(--game-gold, #edcd70) 42%, var(--game-paper, #fff0c5)); font: 600 16px/1.2 var(--game-font, ui-rounded, system-ui, sans-serif); }
 .survive-recovery-subject img { width: 44px; height: 44px; object-fit: contain; }
 .survive-recovery-actions { grid-area: actions; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.survive-recovery-pager { display: none; grid-area: pager; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
 .survive-recovery-actions h3, .survive-recovery-actions p { grid-column: 1 / -1; }
-.survive-recovery-actions button { min-width: 44px; min-height: 44px; padding: 8px; border: 3px solid var(--game-wood, var(--border)); border-radius: 6px; background: var(--game-paper, #fff0c5); box-shadow: 0 3px 0 var(--game-edge, var(--border)); color: var(--game-ink, #263c38) !important; font: 400 20px/1.2 var(--game-font, ui-rounded, system-ui, sans-serif); overflow-wrap: anywhere; }
+.survive-recovery-actions button, .survive-recovery-pager button { min-width: 44px; min-height: 44px; padding: 8px; border: 3px solid var(--game-wood, var(--border)); border-radius: 6px; background: var(--game-paper, #fff0c5); box-shadow: 0 3px 0 var(--game-edge, var(--border)); color: var(--game-ink, #263c38) !important; font: 400 20px/1.2 var(--game-font, ui-rounded, system-ui, sans-serif); overflow-wrap: anywhere; }
 .survive-recovery-actions button.primary { background: var(--game-gold, #edcd70); }
 .survive-recovery-actions button.danger { border-color: #b84939; background: color-mix(in srgb, #b84939 18%, var(--game-paper, #fff0c5)); color: #7c2d24 !important; }
-.survive-recovery-actions button:focus-visible { outline: 3px solid var(--primary, #4eaca4); outline-offset: 3px; }
+.survive-recovery-actions button:focus-visible, .survive-recovery-pager button:focus-visible { outline: 3px solid var(--primary, #4eaca4); outline-offset: 3px; }
 .survive-recovery-status { grid-area: status; min-height: 22px; font-size: 16px; line-height: 1.35; }
 @media (min-width: 900px) { .survive-recovery-board { grid-template-columns: minmax(240px, .7fr) minmax(0, 1.3fr); grid-template-areas: 'title title' 'subjects actions' 'status actions'; align-content: center; } .survive-recovery-subjects { grid-template-columns: 1fr; align-content: start; } .survive-recovery-actions { align-content: start; } }
-@media (max-width: 479px), (max-height: 419px) { .survive-recovery-board { inset: 0; gap: 8px; padding: 8px; border-width: 0; border-radius: 0; box-shadow: none; } .survive-recovery-board h2 { font-size: 28px; } .survive-recovery-subjects { grid-template-columns: 1fr; gap: 4px; } .survive-recovery-actions { grid-template-columns: 1fr; gap: 6px; } .survive-recovery-actions button { font-size: 20px; } }
+@media (max-width: 479px), (max-height: 419px) {
+  .survive-recovery-board { inset: 0; grid-template-columns: minmax(0, 1fr); grid-template-areas: 'title' 'status' 'actions' 'pager'; gap: 8px; padding: 8px; overflow: hidden; border-width: 0; border-radius: 0; box-shadow: none; align-content: start; }
+  .survive-recovery-board h2 { font-size: 28px; }
+  .recovery-heading-prefix, .survive-recovery-subjects { display: none; }
+  .survive-recovery-actions h3 { font-size: 20px; line-height: 1.1; }
+  .survive-recovery-actions p, .survive-recovery-actions .recovery-resume { display: none; }
+  .survive-recovery-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; align-content: start; }
+  .survive-recovery-actions [data-target] { grid-column: 1 / -1; }
+  .survive-recovery-actions [data-target]:not([aria-pressed="true"]) { display: none; }
+  .survive-recovery-actions button, .survive-recovery-pager button { min-height: 44px; padding: 4px; font-size: 20px; }
+  .survive-recovery-actions button[data-compact-label] { font-size: 0; }
+  .survive-recovery-actions button[data-compact-label]::before { content: attr(data-compact-label); font: 400 20px/1.2 var(--game-font, ui-rounded, system-ui, sans-serif); }
+  .survive-recovery-pager { display: grid; grid-template-columns: 44px minmax(0, 1fr) 44px; }
+  .survive-recovery-status:empty, .survive-recovery-pager:empty { display: none; }
+  .survive-recovery-board[data-recovery-error="true"] .survive-recovery-actions h3,
+  .survive-recovery-board[data-recovery-error="true"] .survive-recovery-actions [data-target] { display: none; }
+  .survive-recovery-board[data-recovery-compact-view="people"] { grid-template-areas: 'title' 'subjects' 'pager'; }
+  .survive-recovery-board[data-recovery-compact-view="people"] .survive-recovery-actions,
+  .survive-recovery-board[data-recovery-compact-view="people"] .survive-recovery-status { display: none; }
+  .survive-recovery-board[data-recovery-compact-view="people"] .survive-recovery-subjects { display: block; }
+  .survive-recovery-board[data-recovery-compact-view="people"] .survive-recovery-subject { display: none; }
+  .survive-recovery-board[data-recovery-compact-view="people"][data-recovery-compact-subject="0"] .survive-recovery-subject[data-recovery-subject="0"],
+  .survive-recovery-board[data-recovery-compact-view="people"][data-recovery-compact-subject="1"] .survive-recovery-subject[data-recovery-subject="1"],
+  .survive-recovery-board[data-recovery-compact-view="people"][data-recovery-compact-subject="2"] .survive-recovery-subject[data-recovery-subject="2"],
+  .survive-recovery-board[data-recovery-compact-view="people"][data-recovery-compact-subject="3"] .survive-recovery-subject[data-recovery-subject="3"] { display: grid; }
+}
 /* The generic modal veil hides direct game-surface children.  Compact HUD
    inspection deliberately uses that veil, so restore this one interactive
    HUD layer above it while the ordinary pause board remains hidden. */
