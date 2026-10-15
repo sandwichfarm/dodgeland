@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
-import { mkdir, stat, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, stat, writeFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 import { test } from 'node:test';
 import { createMarketGameFixture } from './market-game-fixture.mjs';
 
@@ -18,13 +19,17 @@ const pad = (index, pressed = []) => ({
 
 test('four real inventories remain inspectable through one responsive owner surface', { timeout: 180_000 }, async () => {
   const artifact = await stat(new URL('../dist/index.html', import.meta.url));
+  const digest = async file => createHash('sha256').update(await readFile(new URL(`../${file}`, import.meta.url))).digest('hex');
+  const sourceDigests = {};
   for (const file of ['src/main.ts', 'src/market-ui.ts', 'src/run-hand.ts', 'src/hand-layout.css']) {
     assert.ok((await stat(new URL(`../${file}`, import.meta.url))).mtimeMs <= artifact.mtimeMs, `${file} requires a new production build`);
+    sourceDigests[file] = await digest(file);
   }
   await mkdir(output, { recursive: true });
   const evidence = {
     artifact: 'Actual production module, muted opaque allow-scripts iframe',
     fixture: 'Authorized shell pad snapshots enter four-seat play. CDP stages distinct real RunInventory contents; all inspection and owner selection uses production controls.',
+    artifactSha256: await digest('dist/index.html'), sourceDigests,
     frames: [], deficiencies: [], errors: [], external: [],
   };
   const app = await createMarketGameFixture(evidence, { gamepads: true });
@@ -180,6 +185,8 @@ test('four real inventories remain inspectable through one responsive owner surf
     await resize(900, 600); await settle();
     await snapshot('reduced-motion', 900, 600, 'light');
     assert.deepEqual(await onSession(function () { return this.players.map(player => ({ seat: player.seat, character: player.characterId, cards: player.run.cards, wallet: player.run.wallet })); }), inventories, 'read-only inspection does not mutate any inventory');
+    for (const [file, hash] of Object.entries(sourceDigests)) assert.equal(await digest(file), hash, `${file} changed during visual verification`);
+    assert.equal(await digest('dist/index.html'), evidence.artifactSha256, 'production artifact changed during visual verification');
     assert.deepEqual(evidence.errors, []); assert.deepEqual(evidence.external, []);
     assert.deepEqual(evidence.deficiencies, [], 'every required frame must remain readable and interactive');
   } catch (error) {
