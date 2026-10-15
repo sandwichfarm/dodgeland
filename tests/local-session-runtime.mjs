@@ -131,11 +131,11 @@ test('two shell controllers and two remapped keyboards enter four-seat Local Pla
     assert.doesNotMatch(await frame.locator('#run-cards').innerText(), new RegExp(inventories.first.name), 'same local card id cannot retain P1 content in P2 hand');
     await send([pad(0, alpha), pad(1, beta)]); await send([pad(0, alpha), pad(1, beta, [4])]); await send([pad(0, alpha), pad(1, beta)]);
     await waitFor(() => document.querySelector('#market-owner')?.textContent?.includes('Viewing P1'), 'P1 controller owner selection after hand invalidation');
-    await onSession(function () { for (const player of this.players.slice(0, 2)) player.run.open(); });
-    await waitFor(() => !document.querySelector('#market')?.hasAttribute('hidden'), 'P1 read-only market');
+    await frame.locator('#market-open').click();
+    await waitFor(() => !document.querySelector('#market')?.hasAttribute('hidden'), 'P1 owner-context market');
     assert.equal(await frame.locator('#market-owner-strip button').count(), 4, 'one owner strip exposes every real session seat');
     await frame.locator('#market-offers button:not(:disabled)').first().click();
-    assert.equal(await frame.locator('#market-inspect-action').isDisabled(), true, 'shared market mutations remain unavailable');
+    assert.equal(await frame.locator('#market-inspect-action').isEnabled(), true, 'the visible owner can transact through the validated market context');
     await frame.locator('#market-close').click();
     // LB is P2's real router action. It switches the shared owner while P1's
     // 160ms close callback is pending, so the stale callback must not close P2.
@@ -154,8 +154,8 @@ test('two shell controllers and two remapped keyboards enter four-seat Local Pla
       'newly joined P3 has no fabricated market window');
     await frame.locator('#market-owner-strip [data-id="p3"]').click();
     await waitFor(() => document.querySelector('#market-owner')?.textContent?.includes('Viewing P3'), 'P3 owner selected from shared market');
-    assert.equal(await frame.evaluate(() => document.activeElement?.getAttribute('aria-pressed')), 'true',
-      'owner change restores focus to the selected owner control, never a stale offer');
+    assert.deepEqual(await frame.evaluate(() => ({ id: document.activeElement?.id, text: document.activeElement?.textContent })), { id: 'market-owner', text: await frame.locator('#market-owner').innerText() },
+      'owner change restores focus to the labelled owner heading, never a stale offer');
     assert.equal(await frame.locator('#market').isVisible(), true, 'an owner without stock keeps the single read-only surface open');
     assert.equal(await frame.locator('#run-panel').isVisible(), false, 'virtual empty-owner market hides the underlying solo panel');
     assert.match(await frame.locator('#market-window').innerText(), /No active market is open for this player/);
@@ -184,7 +184,7 @@ test('two shell controllers and two remapped keyboards enter four-seat Local Pla
     await waitFor(() => document.querySelector('#market-owner')?.textContent?.includes('Viewing P3'), 'P3 virtual market before owner death');
     await onSession(function () { const player = this.players.find(candidate => candidate.seat === 'p3'); player.run.alive = false; player.run.changed(); });
     await waitFor(() => document.querySelector('#market')?.hasAttribute('hidden'), 'dead empty owner closes only its virtual surface');
-    assert.equal(await frame.locator('#run-panel').isVisible(), true, 'dead virtual owner never leaves a hidden pause panel behind');
+    assert.equal(await frame.locator('#session-seats').isVisible(), true, 'closing a dead owner surface returns to the still-running shared session');
     await frame.locator('#play').click();
     await mkdir(new URL('../artifacts/', import.meta.url), { recursive: true });
     await page.locator('#napplet').screenshot({ path: new URL('../artifacts/local-session-runtime-live-900.png', import.meta.url).pathname });

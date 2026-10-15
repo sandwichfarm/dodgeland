@@ -50,6 +50,7 @@ function textNode<K extends keyof HTMLElementTagNameMap>(tag: K, text: string, c
 export function createMarketUI(options: MarketUIOptions) {
   const overlay = element('market'), opener = element<HTMLButtonElement>('market-open');
   const owner = textNode('span', '', 'market-owner'); owner.id = 'market-owner'; owner.hidden = true;
+  owner.tabIndex = -1; owner.setAttribute('role', 'heading'); owner.setAttribute('aria-level', '2');
   const ownerStrip = textNode('div', '', 'market-owner-strip'); ownerStrip.id = 'market-owner-strip'; ownerStrip.hidden = true; ownerStrip.setAttribute('role', 'group'); ownerStrip.setAttribute('aria-label', 'Local Play owner');
   overlay.querySelector('.market-toolbar')!.prepend(ownerStrip, owner);
   const offers = element('market-offers');
@@ -444,7 +445,7 @@ export function createMarketUI(options: MarketUIOptions) {
     element('market-wallet').textContent = `${run.wallet} ◆`;
     element('market-tab-wallet').textContent = `${run.wallet} ◆`;
     element('market-heading').textContent = window ? `Market · ${window.milestone}` : 'Market';
-    element('market-window').textContent = mutationsAvailable() ? 'Take your time. The trail is paused.' : window ? unavailableReason() : `${unavailableReason()} No active market is open for this player.`;
+    element('market-window').textContent = window && mutationsAvailable() ? 'Take your time. The trail is paused.' : window ? unavailableReason() : `${unavailableReason()} No active market is open for this player.`;
     if (window && window.milestone !== lastMilestone) {
       lastMilestone = window.milestone; resetView();
       element('market-announcement').textContent = `Market open at ${window.milestone} points. Press ${options.shortcut()} or use Market. You have 15 seconds of play to visit.`;
@@ -523,9 +524,8 @@ export function createMarketUI(options: MarketUIOptions) {
     virtualPresentation = virtual; update(); options.changed(); return true;
   }
   function focusSelectedOwner(): boolean {
-    const selected = ownerStrip.querySelector<HTMLButtonElement>('[data-market-action="owner-seat"][aria-pressed="true"]');
-    if (!selected || selected.closest('[hidden], [inert]') || !selected.getClientRects().length) return false;
-    selected.focus({ preventScroll: true }); return true;
+    if (owner.hidden || owner.closest('[hidden], [inert]') || !owner.getClientRects().length) return false;
+    owner.focus({ preventScroll: true }); return true;
   }
   function toggle(): void {
     if (closingRun) return;

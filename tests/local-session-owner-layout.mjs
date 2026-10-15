@@ -157,7 +157,7 @@ test('four real inventories remain inspectable through one responsive owner surf
           const card = frame.locator(`[data-hand-card="${inventory.cards[0].id}"]`);
           await card.click(); await settle();
           assert.equal(await frame.locator('#run-hand-name').innerText(), inventory.cards[0].name, 'displayed card belongs to the selected owner, even when IDs collide');
-          assert.equal(await frame.locator('#run-hand-sell').isDisabled(), true, 'unimplemented shared sale is explicitly unavailable');
+          assert.equal(await frame.locator('#run-hand-sell').isEnabled(), true, 'the labelled active owner can sell through the validated context');
           await snapshot(`hand-${inventory.seat}`, width, height, theme);
           const descriptionPages = [];
           for (let index = 0; index < 30; index++) {

@@ -420,7 +420,9 @@ const market = createMarketUI({
   open: () => {
     if (localSession?.running) {
       const result = coOpMarketTransaction({ kind: 'open' });
-      if (!result.ok) return false;
+      // Selection remains inspectable even without a current market window;
+      // the virtual surface has no mutations until an authoritative open does.
+      if (!result.ok && !coOpMarketContext) return false;
       sessionPaused = true; game.pause(); handPausedPlay = false; hand.close(); audio.stop(); return true;
     }
     if (!game.openMarket()) return false; handPausedPlay = false; hand.close(); audio.stop(); return true;
@@ -428,7 +430,8 @@ const market = createMarketUI({
   close: resume => {
     const allowed = resume && !disposed && !document.hidden && localFocus && innerWidth >= 240 && innerHeight >= 240;
     if (localSession?.running) {
-      coOpMarketTransaction({ kind: 'close' }); if (allowed) { sessionPaused = false; game.resume(); audio.unlock(); }
+      const resumeUnavailableOwner = !selectedOwnerRun().alive && !disposed && !document.hidden && localFocus && innerWidth >= 240 && innerHeight >= 240;
+      coOpMarketTransaction({ kind: 'close' }); if (allowed || resumeUnavailableOwner) { sessionPaused = false; game.resume(); audio.unlock(); }
       return;
     }
     game.closeMarket(allowed); if (allowed) audio.unlock();
