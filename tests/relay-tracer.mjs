@@ -56,9 +56,9 @@ function installRuntime() {
 }
 const pad = (index, buttons = []) => ({ index, id: `relay-${index}`, mapping: 'standard', connected: true, timestamp: 1, axes: [0, 0, 0, 0], buttons: Array.from({ length: 17 }, (_, button) => ({ value: buttons.includes(button) ? 1 : 0, pressed: buttons.includes(button), touched: buttons.includes(button) })) });
 
-// Dependency regression: the primary compatibility facade still derives its
-// personal score from spatial maxY. Keep these RED until the shared engine is
-// repaired; a Relay-only offset would conceal the same recovery defect.
+// Dependency regression: primary and secondary participants must both derive
+// personal score from earned movement. A Relay-only offset would conceal the
+// same defect in other forms of non-crediting placement.
 for (const check of ['innate cooldown', 'economy score']) {
   test(`returning P1 preserves earned ${check} across a real two-leg transfer`, async () => {
     const sources = await loadSources(['game', 'relay']);

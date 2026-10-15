@@ -308,6 +308,8 @@ export class SessionPlayer {
   declare healedMilestone: number;
   declare touchingCars: Set<string>;
   earnedDistance = 0;
+  /** Solo progress retained at adoption; forced placement never changes it. */
+  scoreBaseline = 0;
   /** Only completed forward hops feed personal revival credit. */
   completedForwardTiles = 0;
   /** Spatial high-water is reset by forced return placement; only landed new rows count. */
@@ -349,7 +351,8 @@ export class SessionPlayer {
   get groundX(): number { return this.powerRescue ? this.x + (this.powerRescue.fromX - this.x) * this.rescueFraction : this.x + (this.fromX - this.x) * this.hop / this.world.rules.movement.hopDuration; }
   get groundY(): number { return this.powerRescue ? this.y + (this.powerRescue.fromY - this.y) * this.rescueFraction : this.y + (this.fromY - this.y) * this.hop / this.world.rules.movement.hopDuration; }
   get power(): CharacterPower { return this.primary ? this.world.host.power : characterPower(this.characterId); }
-  get powerRemaining(): number { return Math.max(0, Math.ceil(this.powerReadyAt - (this.primary ? this.maxY : this.earnedDistance))); }
+  get personalScore(): number { return this.primary && !this.world.sessionActive ? this.maxY : this.scoreBaseline + this.earnedDistance; }
+  get powerRemaining(): number { return Math.max(0, Math.ceil(this.powerReadyAt - this.personalScore)); }
   get powerReady(): boolean { return this.powerRemaining === 0 && !this.powerRescue; }
   get powerFlash(): number { return this.primary ? this.world.host.powerFlash : Math.min(1, this.powerNotice / .9); }
   render(): PlayerRender {
@@ -597,7 +600,9 @@ export class LocalSession {
   }
 
   start(): void {
+    if (this.active) return;
     for (const player of this.players) {
+      if (player.primary) player.scoreBaseline = player.maxY - player.earnedDistance;
       if (!player.recovery) this.bindRecovery(player, { device: player.device, characterId: player.characterId, participantId: `${this.id}:${player.seat}` });
       player.session = this; player.personalFrontierY = Math.max(player.personalFrontierY, player.groundY);
       player.start();
@@ -846,7 +851,7 @@ export class LocalSession {
     return true;
   }
   private collectCompletedState(player: SessionPlayer, prior: RunState): { player: SessionPlayer; previous: SessionParticipation; cause: string } | undefined {
-    player.statistics.distance = Math.max(player.statistics.distance, player.primary ? player.maxY : player.earnedDistance);
+    player.statistics.distance = Math.max(player.statistics.distance, player.personalScore);
     player.statistics.coins = player.coins;
     if (prior === 'playing' && player.state === 'dead') {
       const previous = player.participation; player.participation = 'dead'; player.statistics.deaths++; player.statistics.deathCause = player.deathCause;

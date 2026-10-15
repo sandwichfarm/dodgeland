@@ -338,7 +338,8 @@ export class Game {
     return t * t * (3 - 2 * t);
   }
   get power(): CharacterPower { return characterPower(this.characterId); }
-  private get currentScore(): number { return this.operationPlayer && !this.operationPlayer.primary ? this.operationPlayer.earnedDistance : this.maxY; }
+  private get scoringPlayer(): SessionPlayer | null { return this.operationPlayer ?? (this.world?.sessionActive ? this.player : null); }
+  private get currentScore(): number { return this.scoringPlayer?.personalScore ?? this.maxY; }
   get powerRemaining(): number { return Math.max(0, Math.ceil(this.powerReadyAt - this.currentScore)); }
   get powerReady(): boolean { return this.powerRemaining === 0 && !this.powerRescue; }
   get powerFlash(): number { return Math.min(1, this.powerNotice / .9); }
@@ -450,7 +451,7 @@ export class Game {
     this.fromX = this.x; this.fromY = this.y; this.x = nx; this.y = ny; this.hop = this.rules.movement.hopDuration;
     if (ny > this.maxY) {
       this.maxY = ny; this.idle = 0;
-      if (this.operationPlayer) this.operationPlayer.earnedDistance++;
+      if (this.scoringPlayer) this.scoringPlayer.earnedDistance++;
       this.world?.noteProgress(ny);
       this.awardCoins(this.run.advanceScore(this.currentScore)); this.ensureRows(); this.regenerate(); this.lifecycle('progress');
     }

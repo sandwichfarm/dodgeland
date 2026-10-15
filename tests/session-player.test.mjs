@@ -144,3 +144,49 @@ test('one session tick advances shared time, effects, wave/director, and pulls o
   assert.deepEqual({ state: game.state, x: game.x, y: game.y, coins: game.coins, wallet: game.run.wallet, cause: game.deathCause }, snapshot, 'the terminal primary remains untouched');
   assert.equal(p2.state, 'playing');
 });
+
+test('adopted P1 keeps solo progress but transfer placement cannot earn power, healing or market milestones', () => {
+  const game = new Game(29, 'pond', 'stroll', false, [], 'butter');
+  const clear = () => { for (const row of game.rows.keys()) setLane(game, row); game.mobs.length = 0; };
+  for (let hop = 0; hop < 98; hop++) {
+    clear(); assert.equal(game.move('forward'), true); clear();
+    game.update(game.rules.movement.hopDuration);
+  }
+  assert.equal(game.maxY, 98); assert.equal(game.run.maxScore, 98);
+  game.end('Adoption power test', 'water');
+  assert.equal(game.powerRescue?.power.id, 'water-bounce');
+  clear(); game.update(game.power.duration + step);
+  assert.equal(game.powerRescue, null);
+  game.health = 1;
+  const before = { score: game.run.maxScore, power: game.powerRemaining, health: game.health, wallet: game.run.wallet };
+  LocalSession.stage(game, { secondaryCharacterId: 'pip' }).cancel();
+  assert.deepEqual({ score: game.run.maxScore, power: game.powerRemaining, health: game.health, wallet: game.run.wallet }, before);
+  const session = LocalSession.stage(game, { secondaryCharacterId: 'pip' }).commit();
+  const [p1, p2] = session.players;
+  assert.equal(p1.earnedDistance, 0, 'pre-adoption distance is retained separately from session-earned movement');
+  assert.equal(p1.powerRemaining, before.power);
+  // Stage the outgoing runner on a distant safe bank, then use the generic
+  // production transfer API. No Relay-specific score adjustment is involved.
+  session.world.noteProgress(200); game.ensureRows(); clear();
+  p2.y = p2.fromY = p2.maxY = 200; p2.hop = 0;
+  assert.equal(session.transferPosition('p2', 'p1'), true);
+  assert.equal(p1.maxY, 200);
+  assert.equal(p1.run.maxScore, 98);
+  assert.equal(p1.run.wallet, before.wallet);
+  assert.equal(p1.powerRemaining, before.power, 'placement alone never recharges the adopted power');
+  session.start();
+  assert.equal(p1.personalScore, 98, 'repeated start cannot rebase score onto the transferred position');
+  assert.equal(session.dispatch({ seat: 'p1', direction: 'forward' }), true);
+  assert.equal(p1.run.maxScore, 99, 'the first post-transfer hop continues the adopted personal score');
+  assert.equal(p1.health, 1, 'placement cannot grant the skipped 100/200-row healing thresholds');
+  assert.equal(p1.run.market, null, 'placement cannot create a market invitation');
+  assert.equal(p1.powerRemaining, before.power - 1);
+  assert.equal(game.powerRemaining, p1.powerRemaining, 'the primary facade and player HUD agree outside an operation');
+  clear(); tick(session, game.rules.movement.hopDuration);
+  assert.equal(p1.statistics.distance, 99);
+  assert.equal(session.dispatch({ seat: 'p1', direction: 'forward' }), true);
+  assert.equal(p1.run.maxScore, 100);
+  assert.equal(p1.health, 1.5, 'the actual second earned tile reaches the retained 100-point threshold');
+  assert.equal(p1.run.market.milestone, 100);
+  assert.equal(p1.earnedDistance, 2);
+});
