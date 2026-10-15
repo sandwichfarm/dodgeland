@@ -114,7 +114,7 @@ Plans:
 
 Plans:
 
-- [ ] 04-01-PLAN.md — Reconcile completed APIs and build Relay setup with a real continuity tracer.
+- [x] 04-01-PLAN.md — Reconcile completed APIs and build Relay setup with a real continuity tracer.
 - [ ] 04-02-PLAN.md — Settle exact boundaries and transfer the single live world safely.
 - [ ] 04-03-PLAN.md — Implement Relay disconnect, reclaim, skip, leave, recovery, and waiting policy.
 - [ ] 04-04-PLAN.md — Record immutable leg contributions and tied podium results.
@@ -186,7 +186,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 1. Composable Solo Baseline | 4/4 | Complete    | 2026-10-14 |
 | 2. Shared Local Session | 6/6 | Complete    | 2026-10-14 |
 | 3. Survive Together & Consumables | 8/8 | Complete    | 2026-10-15 |
-| 4. Relay | 0/6 | Ready for execution | - |
+| 4. Relay | 1/6 | In progress | - |
 | 5. Race | 0/7 | Reviewed; awaits dependencies | - |
 | 6. Cross-Mode Presentation | 0/TBD | Not started | - |
 | 7. Release Evidence & PR | 0/TBD | Not started | - |
