@@ -189,7 +189,9 @@ try {
     await send([], [0, 0], { pads: [] }); await advance(20); assert.equal((await snapshot()).state, 'paused', 'disconnect pauses');
     assert.equal(await frame.locator('#gamepad-help').isHidden(), true);
     await send([0]); await advance(20); assert.equal((await snapshot()).state, 'paused', 'reconnect held A does not resume');
-    await press(0); assert.equal((await snapshot()).state, 'playing');
+    const beforeReclaim = await snapshot(); await press(0); const reclaimed = await snapshot();
+    assert.equal(reclaimed.state, 'playing');
+    assert.deepEqual({ x: reclaimed.x, y: reclaimed.y, score: reclaimed.score }, { x: beforeReclaim.x, y: beforeReclaim.y, score: beforeReclaim.score }, 'the reclaim edge resumes solo play without also hopping');
     await onGame(function () { this.end('Fixture train encounter.', 'train'); }); await advance(400);
     assert.equal((await snapshot()).state, 'dead');
     await resize(320,560); await focusControl('[data-run-topic="stats"]');
