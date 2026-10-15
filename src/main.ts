@@ -57,6 +57,7 @@ let soloGamepad: GamepadDevice | undefined;
 let hudSelected: SeatId = 'p1';
 let hudDetailsOpen = false;
 let hudInspectWasPlaying = false;
+let hudDetailsPage = 0;
 function selectedSessionOwner() { return localSession?.players.find(player => player.seat === hudSelected); }
 function selectedOwnerRun() { return selectedSessionOwner()?.run ?? game.run; }
 function selectedOwnerCharacter() { return characterById(selectedSessionOwner()?.characterId ?? progress.selected); }
@@ -82,6 +83,7 @@ function selectHudOwner(seat: SeatId): void {
   // Market inspection is deliberately read-only in Local Play. The incoming
   // run may have no active window, but its actual empty inventory still owns
   // the same surface.
+  hudDetailsPage = 0;
   if (marketWasOpen && localSession?.running) market.openForSelected();
   market.update(); market.focusSelectedOwner(); updateHud();
 }
@@ -93,7 +95,7 @@ function selectNextHudOwner(): void {
 }
 function closeHudInspection(resume = true): void {
   const shouldResume = resume && hudInspectWasPlaying && frameAvailable();
-  hudDetailsOpen = false; hudInspectWasPlaying = false;
+  hudDetailsOpen = false; hudInspectWasPlaying = false; hudDetailsPage = 0;
   if (shouldResume) { sessionPaused = false; game.resume(); activateNativeKeyboard(); }
 }
 function itemCharge(seat: SeatId) { return localSession?.consumableSnapshot()?.charges.find(charge => charge.seat === seat); }
@@ -767,7 +769,7 @@ function updateHud(): void {
         identity.addEventListener('click', () => {
           if (innerHeight <= 319 && hudSelected === player.seat) {
             if (hudDetailsOpen) closeHudInspection();
-            else { hudInspectWasPlaying = displayedRunState() === 'playing'; hudDetailsOpen = true; if (hudInspectWasPlaying) { sessionPaused = true; game.pause(); } }
+            else { hudInspectWasPlaying = displayedRunState() === 'playing'; hudDetailsOpen = true; hudDetailsPage = 0; if (hudInspectWasPlaying) { sessionPaused = true; game.pause(); } }
           } else { if (hudDetailsOpen) closeHudInspection(); selectHudOwner(player.seat); }
           updateHud();
         });
@@ -779,7 +781,12 @@ function updateHud(): void {
           if (field === 'item') value.addEventListener('click', () => openRecoveryBoard(player.seat));
           details.append(value);
         }
-        const close = document.createElement('button'); close.type = 'button'; close.className = 'session-hud-close'; close.dataset.sessionHudClose = 'true'; close.textContent = 'Close details'; close.addEventListener('click', () => { closeHudInspection(); updateHud(); queueMicrotask(() => identity.focus({ preventScroll: true })); }); details.append(close);
+        const pager = document.createElement('div'); pager.className = 'session-hud-pager'; pager.dataset.sessionHudPager = 'true';
+        const previous = document.createElement('button'); previous.type = 'button'; previous.textContent = 'Previous details'; previous.setAttribute('aria-label', 'Previous details'); previous.addEventListener('click', () => { hudDetailsPage = (hudDetailsPage + 3) % 4; updateHud(); });
+        const label = document.createElement('span'); label.dataset.sessionHudPageLabel = 'true';
+        const next = document.createElement('button'); next.type = 'button'; next.textContent = 'Next details'; next.setAttribute('aria-label', 'Next details'); next.addEventListener('click', () => { hudDetailsPage = (hudDetailsPage + 1) % 4; updateHud(); });
+        pager.append(previous, label, next);
+        const close = document.createElement('button'); close.type = 'button'; close.className = 'session-hud-close'; close.dataset.sessionHudClose = 'true'; close.textContent = 'Close details'; close.addEventListener('click', () => { closeHudInspection(); updateHud(); queueMicrotask(() => identity.focus({ preventScroll: true })); }); details.append(pager, close);
         tile.append(identity, details); return tile;
       }));
       if (focusSeat) queueMicrotask(() => seats.querySelector<HTMLButtonElement>(`[data-seat="${focusSeat}"] .session-hud-identity`)?.focus({ preventScroll: true }));
@@ -787,6 +794,7 @@ function updateHud(): void {
     for (const player of localSession.players) {
       const character = characterById(player.characterId), tile = seats.querySelector<HTMLElement>(`[data-seat="${player.seat}"]`)!;
       tile.classList.toggle('session-hud-selected', hudSelected === player.seat);
+      tile.dataset.sessionHudPage = String(hudDetailsPage);
       const identity = tile.querySelector<HTMLButtonElement>('[data-session-hud="identity"]')!;
       const compactHud = innerWidth <= 479 || innerHeight <= 419;
       identity.textContent = compactHud ? `${player.seat.toUpperCase()} ${seatMarker(player.seat)}` : `${player.seat.toUpperCase()} ${seatMarker(player.seat)} · ${character.name}`;
@@ -807,6 +815,7 @@ function updateHud(): void {
       items.textContent = `Items: ${charge && (charge.revival || charge.flare) ? `${charge.revival ? `Revival ×${charge.revival}` : ''}${charge.revival && charge.flare ? ' · ' : ''}${charge.flare ? `Flare ×${charge.flare}` : ''}` : '—'}`;
       items.disabled = player.participation !== 'active';
       tile.querySelector<HTMLElement>('[data-session-hud="lifecycle"]')!.textContent = lifecycleLabel(player);
+      tile.querySelector<HTMLElement>('[data-session-hud-page-label]')!.textContent = `${hudDetailsPage === 0 ? 'Status' : hudDetailsPage === 1 ? 'Run' : hudDetailsPage === 2 ? 'Recovery' : 'Items'} ${hudDetailsPage + 1} of 4`;
     }
     seats.dataset.sessionHudInspect = String(hudDetailsOpen);
   } else if (sessionHudRoster) { sessionHudRoster = ''; seats.replaceChildren(); }
@@ -1221,7 +1230,12 @@ function togglePause(): void {
   else game.pause();
   updateHud();
 }
-function suspendPlay(): void { closeHudInspection(false); releaseNativeKeyboard(); if (localSession) sessionPaused = true; pointer = null; audio.stop(); handPausedPlay = false; hand.close(); if (market.isOpen()) market.close(false); else game.closeMarket(false); game.pause(); restoreAfterDrawer = false; restoreModalFocus = false; updateHud(); restoreModalFocus = true; }
+function suspendPlay({ preserveHudInspection = false }: { preserveHudInspection?: boolean } = {}): void {
+  if (!preserveHudInspection) closeHudInspection(false);
+  releaseNativeKeyboard(); if (localSession) sessionPaused = true; pointer = null; audio.stop(); handPausedPlay = false;
+  hand.close(); if (market.isOpen()) market.close(false); else game.closeMarket(false); game.pause();
+  restoreAfterDrawer = false; restoreModalFocus = false; updateHud(); restoreModalFocus = true;
+}
 function openDrawer(): void {
   if (localStage || !frameAvailable()) return;
   const wasPlaying = handPausedPlay || game.state === 'playing'; handPausedPlay = false; hand.close();
@@ -1267,7 +1281,7 @@ const observer = new ResizeObserver(() => {
       tinyReturnFocus = active instanceof HTMLElement && active !== el('app') && el('app').contains(active) ? active : lastAppFocus;
       tinyReturnMarket = market.isOpen();
     }
-    wasTiny = true; suspendPlay(); return;
+    wasTiny = true; suspendPlay({ preserveHudInspection: true }); return;
   }
   if (wasTiny) {
     wasTiny = false;

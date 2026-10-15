@@ -34,7 +34,9 @@ test('the built co-op HUD stays bounded across its muted theme and size matrix',
     assert.equal(await frame.locator('#session-seats .session-hud-tile').count(), 4, 'the regular HUD renders all four authoritative seats');
     const p3 = frame.locator('#session-seats [data-seat="p3"] [data-session-hud="identity"]');
     await p3.focus();
+    assert.equal(await frame.evaluate(() => document.activeElement?.closest('[data-seat]')?.getAttribute('data-seat')), 'p3', 'P3 is focused before the tiny resize captures it');
     await resize(200, 160); await resize(320, 560);
+    await frame.waitForFunction(() => document.activeElement?.closest('[data-seat]')?.getAttribute('data-seat') === 'p3');
     assert.equal(await frame.evaluate(() => document.activeElement?.closest('[data-seat]')?.getAttribute('data-seat')), 'p3', 'a selected owner retains reachable focus after tiny-to-supported resize');
     for (const [name, theme] of Object.entries(themes)) for (const [width, height] of frames) {
       await frame.evaluate(value => window.marketGameFixture.setTheme(value), theme);
