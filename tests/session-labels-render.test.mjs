@@ -70,8 +70,9 @@ test('session labels remain complete, separate and seat-stable when travelers me
       const name = `${scene.width}×${scene.height}/${scene.count}/${scene.arrangement}`;
       assert.equal(scene.labels.length, scene.count, `${name}: every traveler has a label`);
       assert.deepEqual(scene.reversed, scene.labels, `${name}: roster order never changes label placement`);
+      const expectedLabels = ['▲ P1 · Butter', '● P2 · Sunny', '◆ P3 · Pip', '■ P4 · Petal'];
       for (const [index, label] of scene.labels.entries()) {
-        assert.match(label.text, new RegExp(`P${index + 1} · (Butter|Sunny|Pip|Petal)$`), `${name}: seat and character remain visible`);
+        assert.equal(label.text, expectedLabels[index], `${name}: shape, seat and assigned character match exactly`);
         assert.ok(label.left >= 0 && label.right <= scene.width && label.top >= 0 && label.bottom <= scene.height, `${name}: visible traveler label stays in frame: ${JSON.stringify(label)}`);
         for (const previous of scene.labels.slice(0, index)) {
           const overlaps = label.left < previous.right && label.right > previous.left && label.top < previous.bottom && label.bottom > previous.top;
