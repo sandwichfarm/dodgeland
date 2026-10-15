@@ -278,7 +278,8 @@ export class Game {
   awardSessionPickup(player: SessionPlayer, raw: number): number { return this.inPlayerOperation(player, context => context.awardCoins(raw)); }
   /** One director advances once, with fixed views for every eligible player. */
   updateSessionMobs(players: readonly SessionPlayer[], dt: number, samples: ReadonlyMap<SessionPlayer, { x: number; y: number }>): void {
-    const participants = players.map(player => ({ seat: player.seat, game: this.operationFor(player), previousX: samples.get(player)!.x, previousY: samples.get(player)!.y }));
+    const participants = players.filter(player => player.state === 'playing' && player.participation === 'active').map(player => ({ seat: player.seat, game: this.operationFor(player), previousX: samples.get(player)!.x, previousY: samples.get(player)!.y }));
+    if (!participants.length) return;
     const primary = participants[0]!;
     const anchor = [...participants].sort((a, b) => b.game.groundY - a.game.groundY || a.seat.localeCompare(b.seat))[0]!;
     this.mobDirector.update(this, dt, primary.previousX, primary.previousY, participants, { effects: defaultModifiers(), frontier: this.world.frontier, anchor: anchor.game });
@@ -583,10 +584,58 @@ export class Game {
     if (this.state === 'playing') this.collectCoins(this.time - previousTime, true);
     if (this.state === 'playing' && drivesWorld) this.updateMobs(this.time - previousTime, previousX, previousY);
   }
+  private sessionPickupContact(rewardLane: Lane, coin: { x: number; y: number }, player: SessionPlayer, x: number, y: number): { time: number; distance: number } {
+    const previous = this.world.frame?.playerGround.get(player);
+    const previousTime = this.world.frame?.previousTime ?? this.time;
+    const priorCoin = coinPosition(rewardLane, previousTime) ?? coin;
+    const startX = (previous?.x ?? x) - priorCoin.x, startY = (previous?.y ?? y) - priorCoin.y;
+    const deltaX = (x - coin.x) - startX, deltaY = (y - coin.y) - startY;
+    const denomination = coinDenomination(rewardLane.coinDenomination);
+    const radiusX = rewardLane.coinDenomination && rewardLane.coinDenomination !== 'coin' ? .2 + denomination.width / 2 : .32;
+    const radiusY = rewardLane.coinDenomination && rewardLane.coinDenomination !== 'coin' ? .2 + denomination.depth / 2 : .32;
+    const a = deltaX ** 2 / radiusX ** 2 + deltaY ** 2 / radiusY ** 2;
+    const b = 2 * (startX * deltaX / radiusX ** 2 + startY * deltaY / radiusY ** 2);
+    const c = startX ** 2 / radiusX ** 2 + startY ** 2 / radiusY ** 2 - 1;
+    const fraction = c <= 0 ? 0 : a <= 1e-12 ? 1 : Math.max(0, Math.min(1, (-b - Math.sqrt(Math.max(0, b ** 2 - 4 * a * c))) / (2 * a)));
+    return { time: previousTime + fraction * (this.time - previousTime), distance: Math.hypot(startX + deltaX * fraction, startY + deltaY * fraction) };
+  }
+  /** Session candidates remain immutable until every seat has had an equal contact opportunity. */
+  private collectSessionCoins(player: SessionPlayer, dt: number, landed: boolean): void {
+    const lane = this.lane, x = this.groundX, y = this.groundY, gravity = this.run.effects.coinRadius;
+    for (const rewardLane of new Set([...this.rows.values(), ...this.attractedCoins.values()])) {
+      if (rewardLane.coinPull && rewardLane.coinPull.y < this.maxY - this.rules.retention.rowsBehind) continue;
+      const coin = coinPosition(rewardLane, this.time);
+      if (!coin) continue;
+      const contactSafe = landed || lane.kind !== 'river' || (this.fromY === this.y && platformSupports(lane, x, this.time));
+      const ordinary = contactSafe && (!rewardLane.coinPull || gravity <= 0) && touchesCoin(rewardLane.coinDenomination, coin.x - x, coin.y - y);
+      const value = coinDenomination(rewardLane.coinDenomination).value;
+      const bonus = lane.kind === 'road' ? this.run.effects.roadCoinBonus : lane.kind === 'river' ? this.run.effects.riverCoinBonus : 0;
+      if (ordinary) {
+        const contact = this.sessionPickupContact(rewardLane, coin, player, x, y);
+        this.world.claimPickup(player, rewardLane, contact.time, contact.distance, value + bonus);
+        continue;
+      }
+      if (gravity <= 0) continue;
+      const owner = this.world.pickupOwners.get(rewardLane.index);
+      if (owner && owner !== player.seat) continue;
+      let pull = rewardLane.coinPull ? { ...rewardLane.coinPull } : undefined;
+      if (!pull) {
+        if (!landed || Math.hypot(coin.x - x, coin.y - y) > this.rules.retention.captureDistance + gravity) continue;
+        pull = { ...coin, z: platformSurface(rewardLane), speed: 0 };
+      }
+      advanceCoinPull(pull, x, y, platformSurface(lane), dt);
+      const distance = Math.hypot(pull.x - x, pull.y - y);
+      const contact = this.sessionPickupContact(rewardLane, coin, player, x, y);
+      if (landed && distance <= this.rules.retention.pullCompletionDistance) this.world.claimPickup(player, rewardLane, contact.time, distance, value + bonus);
+      else this.world.claimPickupPull(player, rewardLane, contact.time, distance, pull);
+    }
+  }
   /** Captured coins accelerate visibly toward the duck; pay only on safe contact. */
   private collectCoins(dt: number, landed: boolean): void {
     const lane = this.lane, x = this.groundX, y = this.groundY, gravity = this.run.effects.coinRadius;
-    const sessionSeat = this.world?.sessionActive ? this.world.resolvingPlayer?.seat ?? 'p1' : undefined;
+    const sessionPlayer = this.world?.sessionActive ? this.world.resolvingPlayer : undefined;
+    if (sessionPlayer) { this.collectSessionCoins(sessionPlayer, dt, landed); return; }
+    const sessionSeat = undefined;
     for (const rewardLane of new Set([...this.rows.values(), ...this.attractedCoins.values()])) {
       const pickupOwner = sessionSeat ? this.world.pickupOwners.get(rewardLane.index) : undefined;
       if (pickupOwner && pickupOwner !== sessionSeat) continue;
@@ -625,16 +674,6 @@ export class Game {
       }
       const value = coinDenomination(rewardLane.coinDenomination).value;
       const bonus = lane.kind === 'road' ? this.run.effects.roadCoinBonus : lane.kind === 'river' ? this.run.effects.riverCoinBonus : 0;
-      const resolvingPlayer = this.world?.resolvingPlayer;
-      if (resolvingPlayer && this.world.sessionActive) {
-        const previous = this.world.frame?.playerGround.get(resolvingPlayer);
-        const dx = x - (previous?.x ?? x), dy = y - (previous?.y ?? y);
-        const travelX = coin.x - (previous?.x ?? x), travelY = coin.y - (previous?.y ?? y);
-        const fraction = Math.max(0, Math.min(1, (travelX * dx + travelY * dy) / (dx * dx + dy * dy || 1)));
-        const collisionTime = (this.world.frame?.previousTime ?? this.time) + fraction * (this.time - (this.world.frame?.previousTime ?? this.time));
-        this.world.claimPickup(resolvingPlayer, rewardLane, collisionTime, Math.hypot(coin.x - x, coin.y - y), value + bonus);
-        continue;
-      }
       rewardLane.coin = null;
       delete rewardLane.coinDenomination;
       delete rewardLane.coinPull;

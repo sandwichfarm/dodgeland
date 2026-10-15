@@ -98,6 +98,8 @@ export class SharedWorld {
   /** The explicit player being resolved, retained as a stack for callback re-entry. */
   private readonly resolvingPlayers: SessionPlayer[] = [];
   private readonly pickupClaims: { player: SessionPlayer; lane: Lane; time: number; distance: number; raw: number }[] = [];
+  /** Pull ownership is elected after every seat has proposed, never during seat iteration. */
+  private readonly pickupPullClaims: { player: SessionPlayer; lane: Lane; time: number; distance: number; pull: NonNullable<Lane['coinPull']> }[] = [];
   frame: WorldFrame | null = null;
   declare rows: Map<number, Lane>;
   declare attractedCoins: Map<number, Lane>;
@@ -141,6 +143,9 @@ export class SharedWorld {
   claimPickup(player: SessionPlayer, lane: Lane, collisionTime: number, distance: number, raw: number): void {
     this.pickupClaims.push({ player, lane, time: collisionTime, distance, raw });
   }
+  claimPickupPull(player: SessionPlayer, lane: Lane, collisionTime: number, distance: number, pull: NonNullable<Lane['coinPull']>): void {
+    this.pickupPullClaims.push({ player, lane, time: collisionTime, distance, pull });
+  }
   resolvePickups(): void {
     this.pickupClaims.sort((a, b) => a.time - b.time || a.distance - b.distance || a.player.seat.localeCompare(b.player.seat));
     for (const claim of this.pickupClaims) {
@@ -151,6 +156,16 @@ export class SharedWorld {
       claim.player.statistics.pickups++;
     }
     this.pickupClaims.length = 0;
+    this.pickupPullClaims.sort((a, b) => a.time - b.time || a.distance - b.distance || a.player.seat.localeCompare(b.player.seat));
+    const electedPulls = new Set<number>();
+    for (const claim of this.pickupPullClaims) {
+      if (claim.lane.coin === null || electedPulls.has(claim.lane.index)) continue;
+      claim.lane.coinPull = claim.pull;
+      this.attractedCoins.set(claim.lane.index, claim.lane);
+      this.pickupOwners.set(claim.lane.index, claim.player.seat);
+      electedPulls.add(claim.lane.index);
+    }
+    this.pickupPullClaims.length = 0;
   }
   selectMobTarget(players: readonly SessionPlayer[]): SessionPlayer | undefined {
     return [...players].sort((a, b) => {

@@ -185,6 +185,18 @@ test('one director selects per-mob nearest targets and sweeps every active playe
   assert.deepEqual(collision.session.lifecycle.filter(record => record.type === 'player-death').map(record => record.seat), ['p1', 'p2']);
 });
 
+test('director ignores a player made terminal by an earlier personal hazard in the same frame', () => {
+  const { game, session, players } = roster(2);
+  const [p1, p2] = players;
+  p1.health = 1; p1.powerReadyAt = 1_000_000;
+  p1.x = p1.fromX = 0; p2.x = p2.fromX = 3;
+  Object.assign(game.rows.get(0), { kind: 'road', blocked: [], coin: null, phase: 0, speed: 0, spacing: 20, length: 1.15 });
+  game.mobs.push({ id: 4, kind: 'wasp', x: 1.5, y: 0, fromX: 1.5, fromY: 0, targetX: 1.5, targetY: 0, phase: 'rest', phaseLeft: 0, phaseDuration: 1 });
+  session.update(0);
+  assert.equal(p1.state, 'dead'); assert.equal(p2.state, 'playing');
+  assert.equal(game.mobs[0].targetX, 3);
+});
+
 test('earliest contested contact beats stable seat when one player reaches the pickup later', () => {
   const { game, session, players } = roster(2);
   const [p1, p2] = players;
@@ -194,6 +206,19 @@ test('earliest contested contact beats stable seat when one player reaches the p
   assert.equal(session.dispatch({ seat: 'p1', direction: 'right' }), true);
   session.update(game.rules.movement.hopDuration);
   assert.equal(p1.coins, 0); assert.equal(p2.coins, 1);
+});
+
+test('competing gravity pulls elect the nearest seat and stable-seat ties once after all proposals', () => {
+  const claim = (p1x, p2x) => {
+    const { game, session, players } = roster(2);
+    players[0].x = players[0].fromX = p1x;
+    players[1].x = players[1].fromX = p2x;
+    game.rows.get(0).coin = 0; game.rows.get(0).coinActor = undefined;
+    session.update(0);
+    return game.world.pickupOwners.get(0);
+  };
+  assert.equal(claim(-.62, .55), 'p2');
+  assert.equal(claim(.55, .55), 'p1');
 });
 
 test('device loss, reclaim, and departure preserve personal inventory and emit disjoint lifecycle records', () => {

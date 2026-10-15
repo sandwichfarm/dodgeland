@@ -199,7 +199,9 @@ export class MobDirector {
     }
     const retained: Mob[] = [];
     for (const mob of this.mobs) {
-      const target = [...targets].sort((a, b) => Math.hypot(a.game.groundX - mob.x, a.game.groundY - mob.y) - Math.hypot(b.game.groundX - mob.x, b.game.groundY - mob.y) || a.seat.localeCompare(b.seat))[0]!;
+      const eligible = targets.filter(participant => participant.game.state === 'playing');
+      if (!eligible.length) { retained.push(mob); continue; }
+      const target = [...eligible].sort((a, b) => Math.hypot(a.game.groundX - mob.x, a.game.groundY - mob.y) - Math.hypot(b.game.groundX - mob.x, b.game.groundY - mob.y) || a.seat.localeCompare(b.seat))[0]!;
       const targetGame = target.game;
       const radius = mobDefinition(mob.kind).radius;
       if (mob.y <= game.waveRow + radius || mob.y < score - 8 || mob.y > highestGround + 9 || Math.abs(mob.x) > 5.5) continue;
@@ -225,7 +227,7 @@ export class MobDirector {
         }
         const start = dt > 0 ? elapsed / dt : 0, end = !frozen && dt > 0 ? (elapsed + duration) / dt : 1;
         if (mob.y <= game.waveRow + radius || (mob.kind !== 'wasp' && game.mobHazard(oldX, oldY, mob.x, mob.y, game.time - dt + elapsed, frozen ? game.time : game.time - dt + elapsed + duration, radius))) { removed = true; break; }
-        if (!harmless) for (const participant of targets) {
+        if (!harmless) for (const participant of eligible) {
           const player = participant.game;
           if (player.state !== 'playing' || player.powerAvoidsMobs || player.run.effects.shield > 0) continue;
           if (!sweptMobContact(oldX, oldY, mob.x, mob.y, participant.previousX + (player.groundX - participant.previousX) * start, participant.previousY + (player.groundY - participant.previousY) * start, participant.previousX + (player.groundX - participant.previousX) * end, participant.previousY + (player.groundY - participant.previousY) * end, radius + PLAYER_MOB_RADIUS)) continue;
