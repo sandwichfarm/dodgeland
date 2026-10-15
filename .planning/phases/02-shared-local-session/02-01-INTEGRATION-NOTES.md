@@ -180,3 +180,32 @@ the router into the actual main loop and 02-06 passes the full phase gate.
 Keyboard editor visual review found pale text on the pale board and truncated
 profile labels; 02-04 owns correction and fresh compact/regular screenshots.
 No multiplayer mode or Phase 2 completion is claimed at this checkpoint.
+
+## Shared model checkpoint accepted
+
+`96f3cc5` fixes the shared mob policy, terminal-primary retention, per-player
+callback consistency, four-seat markers, occupied-device reclaim, and settled
+terminal lifecycle delivery. Its actor differential passes **5/5**, preserving
+the original unconditional solo return after a mob hit, including rescues.
+
+`6a76cd5` moves new gravity pulls into post-player arbitration. The prior
+counterexample (P1 at x=-0.55 starts pulling before P2 at x=0 can touch the coin)
+now awards P2 exactly once. Existing pulls retain continuity; new contact and
+pull candidates resolve by time, distance, and stable seat. The model also
+filters participants eliminated earlier in the same frame.
+
+Final source gates, completed with recorded exit code zero:
+
+- Focused model/session/world/lifecycle/mob suite: **44/44** (executor).
+- Immutable original-versus-current solo suite: **21/21**, no skips or failures,
+  59.6 seconds; `/tmp/down-to-duck-phase2-model-final-parity.log`.
+- Full solo regression: **271/271**, no skips or failures, 24.1 seconds;
+  `/tmp/down-to-duck-phase2-model-final-regression.log`.
+- The real spawn/RNG regression compares two eligible spawns, their complete
+  mob snapshots/IDs, and shared tick/time for one, two, and four seats.
+
+`2e2e342` only adds temporary test-module disposal, with local session tests
+14/14; production source is unchanged after the final model gate. Plan 02-02
+can close. Phase acceptance still requires the final 02-04 editor visual
+proofs, 02-05 setup/HUD/controller main integration, and 02-06 owner hand/market
+integration and phase-wide verification.
