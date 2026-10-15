@@ -56,6 +56,46 @@ function installRuntime() {
 }
 const pad = (index, buttons = []) => ({ index, id: `relay-${index}`, mapping: 'standard', connected: true, timestamp: 1, axes: [0, 0, 0, 0], buttons: Array.from({ length: 17 }, (_, button) => ({ value: buttons.includes(button) ? 1 : 0, pressed: buttons.includes(button), touched: buttons.includes(button) })) });
 
+// Dependency regression: the primary compatibility facade still derives its
+// personal score from spatial maxY. Keep these RED until the shared engine is
+// repaired; a Relay-only offset would conceal the same recovery defect.
+for (const check of ['innate cooldown', 'economy score']) {
+  test(`returning P1 preserves earned ${check} across a real two-leg transfer`, async () => {
+    const sources = await loadSources(['game', 'relay']);
+    try {
+      const { Game } = await sources.import('game');
+      const { createRelaySession } = await sources.import('relay');
+      const game = new Game(113, 'pond', 'arcade', false, [], 'butter');
+      const relay = createRelaySession(game, { seats: [
+        { seat: 'p1', characterId: 'butter', device: 'keyboard-a' },
+        { seat: 'p2', characterId: 'pip', device: 'keyboard-b' },
+      ], tilesPerLeg: 1 });
+      const primary = game.player;
+      if (check === 'innate cooldown') {
+        game.end('Water power regression', 'water');
+        assert.equal(primary.powerRescue?.power.id, 'water-bounce');
+        assert.equal(primary.powerRemaining, 100);
+        for (let i = 0; i < 400 && primary.powerRescue; i++) relay.session.update(1 / 120);
+        assert.equal(primary.powerRescue, null);
+      }
+      for (let leg = 1; leg <= 2; leg++) {
+        assert.equal(relay.session.dispatch({ seat: relay.activeSeat, direction: 'forward' }), true);
+        for (let i = 0; i < 100 && relay.snapshot().phase !== 'handoff'; i++) relay.session.update(1 / 120);
+        assert.equal(relay.snapshot().phase, 'handoff');
+        const incoming = relay.session.players.find(player => player.seat === relay.incomingSeat);
+        assert.equal(relay.confirm({ seat: incoming.seat, device: incoming.device, generation: relay.snapshot().transferGeneration }), true);
+      }
+      assert.equal(primary.earnedDistance, 1);
+      if (check === 'innate cooldown') assert.equal(primary.powerRemaining, 99, 'P2 movement and P1 placement cannot recharge P1 innate power');
+      else {
+        assert.equal(relay.session.dispatch({ seat: 'p1', direction: 'forward' }), true);
+        assert.equal(primary.earnedDistance, 2);
+        assert.equal(primary.run.maxScore, 2, 'the next P1 hop cannot mint skipped-row economy milestones');
+      }
+    } finally { await sources.dispose(); }
+  });
+}
+
 test('muted built opaque iframe configures Relay and consumes fresh incoming confirmation', { timeout: 30_000 }, async () => {
   const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
   assert.match(built, /Start Relay/, 'build must contain the real Relay setup');
