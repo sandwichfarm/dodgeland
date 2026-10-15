@@ -74,6 +74,7 @@ status: complete
 ## Validation
 
 - `node tests/strict-node-tests.mjs tests/survive-economy.test.mjs tests/survive-economy-boundaries.test.mjs` passed **19/19** in `/tmp/down-to-duck-03-05-economy-river-damage-mob-rerun.log`.
+- `pnpm test:market` passed **62/62** in `/tmp/down-to-duck-03-05-final-market.log`.
 - Root's independent market/wearable boundary expansion passed **10/10** in `/tmp/down-to-duck-03-05-root-wallet-wearables.log` (`a217abe`).
 - The earlier broad source gate passed solo parity **21/21**, mobs **18/18**, type-check, and build in `/tmp/down-to-duck-03-05-remaining-verification.log`; the immutable solo baseline remains `a310a81ed6c76df4b265c9012c23b8c83f4802e5`.
 - The compact market-pack correction in `18a7169` passed the browser pack gate in `/tmp/down-to-duck-03-05-pack-preview-fix.log` and muted production visual proof in `/tmp/down-to-duck-03-05-pack-visual-proof-supported-first.log`; it supports the later UI work but does not close UI-03.
