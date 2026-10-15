@@ -82,7 +82,7 @@ Plans:
   4. Players can acquire and deliberately use mode-eligible Revival and Flare consumables from shop or world pickups: a mutually exclusive seeded sampler yields Revival at 1:2500 and Flare at 1:1250, awards contested pickups once deterministically, and preserves default pickup gravity regardless of coin-magnet cards.
   5. The multiplayer hand, market, inventory, pricing, and consumable targeting always identify the selected owner and retain every player/run state across menus.
 
-**Plans**: 7 reviewed plans (execution depends on verified Phase 2)
+**Plans**: 7 reviewed plans plus 1 independent-verification gap closure (execution depends on verified Phase 2)
 **UI hint**: yes
 
 Plans:
@@ -93,7 +93,8 @@ Plans:
 - [x] 03-04-PLAN.md — Integrate mode-owned world pickups, atomic use and death clearing/spill.
 - [x] 03-05-PLAN.md — Add owner-aware item economy and deterministic shared card effects.
 - [x] 03-06-PLAN.md — Connect lifecycle, recovery and team results to the runtime interface.
-- [ ] 03-07-PLAN.md — Complete the single hand/market tree and run the complete browser/model gate.
+- [x] 03-07-PLAN.md — Complete the single hand/market tree and run the complete browser/model gate.
+- [ ] 03-08-PLAN.md — Include unreclaimed ghost intervals in departure and settlement contributions.
 
 ### Phase 4: Relay
 
