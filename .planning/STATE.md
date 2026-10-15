@@ -24,6 +24,12 @@ All seven Phase03 plans and UI contract are reviewed. Phase01 and02 are independ
 
 Full unchanged goal: `.planning/USER-REQUEST.md`, `.planning/PROJECT.md`, `.planning/REQUIREMENTS.md`. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
 
+## Active03-06 Tracer and Ownership
+
+Sequential typed gsd-executor `/root/multiplayer_recovery_ui` owns03-06 source, paused model/runtime/layout tests, and SUMMARY. Root owns supplemental `tests/survive-board-boundaries.test.mjs`, tracking/package. Executor holds build/browser reservation; preview5175 untouched and all Chromium muted. Root pure model tests do not consume that reservation.
+
+Independent root four-case RED `/tmp/down-to-duck-03-06-root-board-red.log` terminal1 reached actual assertions: paused P1 cannot use paid Flare; P2 Flare excludes paused P1 from protection/regroup; P2 Revival returns onto paused P1's occupied cell; P4 disconnect during board drops P1's shared traffic effect from.88 to1. Fixtures use real owner purchases and actual river death. Desired assertions include four distinct placements, retained host pause/protection clock until explicit resume, and unchanged traffic positions. These are pending-fix failures, not passing evidence.03-07 final gate now includes this root file. No root live process.
+
 ## Latest Accepted Step — 03-05
 
 Plan03-05 accepted after corrected final SUMMARY `61f12af` (earlier summary679e678/c7d1daa). Strict economy19/19, standard market62/62 (`/tmp/down-to-duck-03-05-final-market.log`), root boundary10/10, prior final-source solo21/mobs18/type-check/build, full compact pack browser and corrected visual proof, guidance6/6, conformance5pass/0fail/5unmeasured, and unchanged immutable lockfile all pass. Root reviewed adapter/resolver wiring and strengthened live river payout, mob movement, and collision assertions. Source commits a3cd8e1/15a974e; expanded tests af428e0/7f4492f/a217abe; root compact layout18a7169. No live economy process remains.
