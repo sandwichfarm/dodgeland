@@ -36,6 +36,10 @@ try {
   await ready; browser = await chromium.launch({ headless: true, args: ['--mute-audio'] }); const page = await browser.newPage({ viewport: { width: 1400, height: 900 } });
   await page.clock.install();
   await page.addInitScript(() => {
+    // Paja polls the browser's real hardware. Keep this keyboard/pointer smoke
+    // independent of controllers connected to the developer's machine; the
+    // dedicated gamepad suites supply their own deterministic shell snapshots.
+    Object.defineProperty(navigator, 'getGamepads', { configurable: true, value: () => [] });
     const native = window.AudioContext;
     window.callAudioObservations = [];
     window.AudioContext = class extends native {
