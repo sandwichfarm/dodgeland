@@ -14,6 +14,7 @@ import { installHealthMeter, readyPursuitCopy, updateChaseMeter, updateHealthMet
 import { Renderer, modelThumbnail } from './render.js';
 import { LocalSession } from './session.js';
 import type { DeviceId, SeatId, SessionSeatSpec } from './session.js';
+import { createSurviveTogetherDefinition } from './survive-together.js';
 import { createKeyboardInput, DEFAULT_KEYBOARD_BINDINGS } from './keyboard-input.js';
 import { createKeyboardBindingStore } from './keyboard-input.js';
 import type { BindingValidation, KeyboardBindings, KeyboardBindingStore, KeyboardInput } from './keyboard-input.js';
@@ -46,6 +47,8 @@ let game = new Game(1, undefined, undefined, undefined, ITEM_CATALOG);
 let localStage: ReturnType<typeof LocalSession.stage> | undefined;
 let localSession: LocalSession | undefined;
 let setupDraft: SessionSetupSeat[] = [];
+let stagingSurviveTogether = false;
+let stagedLiveJoin: GamepadDevice | undefined;
 let sessionBoard: LocalSessionBoard | undefined;
 let soloGamepad: GamepadDevice | undefined;
 let hudSelected: SeatId = 'p1';
@@ -637,9 +640,21 @@ const markerDevice = (device: GamepadDevice): DeviceId => device.deviceId;
 const deviceLabel = (device: GamepadDevice): string => `Controller ${device.index + 1}: ${device.id}`;
 const nextUnusedCharacter = (seats: readonly SessionSetupSeat[]): string | null => CHARACTERS.find(character => !seats.some(seat => seat.characterId === character.id))?.id ?? null;
 function nextOpenSeat(seats: readonly SessionSetupSeat[]): SeatId | undefined { return allSeats.find(seat => !seats.some(candidate => candidate.seat === seat)); }
-function renderSetup(message = ''): void { sessionBoard?.render(message); }
+function renderSetup(message = ''): void {
+  sessionBoard?.render(message);
+  const together = stagingSurviveTogether || !!stagedLiveJoin;
+  const heading = document.querySelector<HTMLElement>('#local-session-heading');
+  const subtitle = document.querySelector<HTMLElement>('#session-board .session-subtitle');
+  const start = el<HTMLButtonElement>('local-session-start');
+  const back = el<HTMLButtonElement>('local-session-back');
+  if (heading) heading.textContent = stagedLiveJoin ? 'Join this run' : together ? 'Play together?' : 'Local Play';
+  if (subtitle) subtitle.textContent = together ? 'Choose a free traveler. This run will keep its course and progress.' : 'Pick a traveler and a controller for every player.';
+  const joiningSeat = setupDraft.find(seat => seat.device === (stagedLiveJoin ? markerDevice(stagedLiveJoin) : ''))?.seat;
+  start.textContent = stagedLiveJoin ? `Join as ${(joiningSeat ?? 'p2').toUpperCase()}` : together ? 'Start together' : 'Start Local Play';
+  back.textContent = stagedLiveJoin ? 'Not now' : together ? 'Keep playing solo' : 'Back to solo';
+}
 function addKeyboardSeat(): void {
-  if (!localStage || setupDraft.length >= localStage.session.config.capacity) return;
+  if (!localStage || stagedLiveJoin || setupDraft.length >= localStage.session.config.capacity) return;
   const seat = nextOpenSeat(setupDraft), characterId = nextUnusedCharacter(setupDraft);
   const device = (['keyboard-a', 'keyboard-b'] as const).find(candidate => !setupDraft.some(seat => seat.device === candidate));
   if (!seat || !characterId || !device) return;
@@ -648,12 +663,12 @@ function addKeyboardSeat(): void {
   renderSetup(`${seat.toUpperCase()} ready — ${characterById(characterId).name} on ${label}.`);
 }
 function chooseSetupCharacter(seat: SeatId, characterId: string): void {
-  if (!localStage || setupDraft.some(other => other.seat !== seat && other.characterId === characterId)) return;
+  if (!localStage || ((stagingSurviveTogether || stagedLiveJoin) && !!localSession?.players.some(player => player.seat === seat)) || setupDraft.some(other => other.seat !== seat && other.characterId === characterId)) return;
   setupDraft = setupDraft.map(candidate => candidate.seat === seat ? { ...candidate, characterId } : candidate);
   renderSetup(`${seat.toUpperCase()} chose ${characterById(characterId).name}.`);
 }
 function leaveSetupSeat(seat: SeatId): void {
-  if (!localStage || seat === 'p1') return;
+  if (!localStage || seat === 'p1' || (stagedLiveJoin && localSession?.players.some(player => player.seat === seat))) return;
   router.release(seat);
   setupDraft = setupDraft.filter(candidate => candidate.seat !== seat);
   renderSetup(`${seat.toUpperCase()} left Local Play.`);
@@ -661,7 +676,8 @@ function leaveSetupSeat(seat: SeatId): void {
 /** Setup freezes the existing loop without advancing it; roster edits remain UI-only drafts. */
 function openLocalPlay(joining?: GamepadDevice): void {
   if (!frameAvailable() || localStage || localSession || game.state === 'dead' || !el('drawer').hidden || hand.isOpen() || market.isOpen() || selectedOwnerRun().pendingPack) return;
-  try { localStage = LocalSession.stage(game, { roster: [] }); }
+  stagingSurviveTogether = game.state === 'playing';
+  try { localStage = LocalSession.stage(game, { roster: [], mode: stagingSurviveTogether ? createSurviveTogetherDefinition(game.definition) : undefined }); }
   catch { notify('Local Play needs a safe second starting spot on this course.'); return; }
   const primaryDevice: DeviceId = soloGamepad ? markerDevice(soloGamepad) : 'keyboard-a';
   setupDraft = [{ seat: 'p1', device: primaryDevice, deviceLabel: soloGamepad ? deviceLabel(soloGamepad) : 'Keyboard A', characterId: game.characterId }];
@@ -675,15 +691,22 @@ function openLocalPlay(joining?: GamepadDevice): void {
   accumulator = 0; pointer = null; audio.stop();
   const setup = el<HTMLDivElement>('local-session-setup');
   setup.hidden = false; setup.setAttribute('role', 'dialog'); setup.setAttribute('aria-modal', 'true'); setup.setAttribute('aria-label', 'Local Play');
-  sessionKeyboardEditor.close(); renderSetup(joining ? 'Controller joined an open seat. Its joining press was consumed.' : 'Choose a traveler and controller for every player.');
-  updateHud(); sessionBoard?.focusStart();
+  sessionKeyboardEditor.close(); renderSetup(joining ? stagingSurviveTogether ? 'A controller wants to join. Its joining press was consumed.' : 'Controller joined an open seat. Its joining press was consumed.' : 'Choose a traveler and controller for every player.');
+  updateHud();
+  if (stagingSurviveTogether || stagedLiveJoin) el<HTMLButtonElement>('local-session-back').focus({ preventScroll: true });
+  else sessionBoard?.focusStart();
 }
 /** Back to solo cancels the empty stage; no draft ever changed the adopted owner. */
 function backToSolo(): void {
   if (!localStage) return;
+  if (stagedLiveJoin) {
+    const joiningSeat = setupDraft.find(seat => seat.device === markerDevice(stagedLiveJoin!))?.seat;
+    if (joiningSeat) router.release(joiningSeat); localStage.cancel(); localStage = undefined; setupDraft = []; stagedLiveJoin = undefined;
+    sessionKeyboardEditor.close(); el<HTMLDivElement>('local-session-setup').hidden = true; updateHud(); el('scene').focus({ preventScroll: true }); return;
+  }
   for (const seat of setupDraft) if (seat.device?.startsWith('gamepad-')) router.release(seat.seat);
   const restoreController = soloGamepad;
-  game = localStage.cancel(); localStage = undefined; setupDraft = [];
+  game = localStage.cancel(); localStage = undefined; setupDraft = []; stagingSurviveTogether = false;
   if (restoreController) router.assign(restoreController, 'p1');
   accumulator = 0;
   sessionKeyboardEditor.close();
@@ -700,6 +723,35 @@ function startLocalPlay(): void {
   const roster = valid.filter((seat): seat is SessionSetupSeat & { characterId: string; device: DeviceId } => seat.seat !== 'p1' && !!seat.characterId && !!seat.device)
     .map(seat => ({ seat: seat.seat as Exclude<SeatId, 'p1'>, device: seat.device, characterId: seat.characterId })) satisfies readonly SessionSeatSpec[];
   const emptyStage = localStage;
+  if (stagedLiveJoin) {
+    const joining = stagedLiveJoin;
+    const candidate = setupDraft.find(seat => seat.device === markerDevice(joining));
+    const session = localSession;
+    if (!session || !candidate?.device || !candidate.characterId || !session.admit({ seat: candidate.seat as Exclude<SeatId, 'p1'>, device: candidate.device, characterId: candidate.characterId })) { renderSetup(`Couldn’t place ${candidate?.seat.toUpperCase() ?? 'player'} safely. Try again.`); return; }
+    localStage.cancel(); localStage = undefined; setupDraft = []; const joiningDevice = stagedLiveJoin; stagedLiveJoin = undefined;
+    const player = session.players.find(candidate => candidate.device === markerDevice(joiningDevice));
+    if (player) router.assign(joiningDevice, player.seat);
+    router.seedAll(); sessionKeyboardEditor.close(); el<HTMLDivElement>('local-session-setup').hidden = true;
+    updateHud(); el('scene').focus({ preventScroll: true }); return;
+  }
+  if (stagingSurviveTogether) {
+    let candidate: ReturnType<typeof LocalSession.stage>;
+    const originalCharacter = game.characterId;
+    try {
+      game.setCharacter(primary.characterId);
+      candidate = LocalSession.stage(game, { roster, primaryDevice: primary.device, config: emptyStage.session.config, mode: emptyStage.session.mode, onLifecycle: record => notify(`${record.seat.toUpperCase()} ${record.type.replace('-', ' ')}.`) });
+    } catch {
+      game.setCharacter(originalCharacter);
+      renderSetup('Couldn’t place the selected players safely. Try again.'); return;
+    }
+    emptyStage.cancel();
+    const session = candidate.commit();
+    localSession = session; localStage = undefined; setupDraft = []; stagingSurviveTogether = false;
+    router.seedAll(); game.resume(); sessionPaused = false; accumulator = 0;
+    sessionKeyboardEditor.close(); el<HTMLDivElement>('local-session-setup').hidden = true;
+    activateNativeKeyboard(); audio.unlock(); updateHud(); el('scene').focus({ preventScroll: true });
+    return;
+  }
   const originalCharacter = game.characterId;
   const originalDevice = emptyStage.session.players.find(player => player.seat === 'p1')!.device;
   let candidate: ReturnType<typeof LocalSession.stage>;
@@ -713,7 +765,7 @@ function startLocalPlay(): void {
     renderSetup('Local Play could not safely place that roster on this course.'); return;
   }
   emptyStage.cancel();
-  localSession = candidate.commit(); localStage = undefined; setupDraft = [];
+  localSession = candidate.commit(); localStage = undefined; setupDraft = []; stagingSurviveTogether = false;
   // The active router lease changes from setup to session in this transaction.
   // Seed the last complete shell snapshot so the next deliberate edge is not
   // swallowed as a context change.
@@ -724,6 +776,21 @@ function startLocalPlay(): void {
   activateNativeKeyboard(); audio.unlock(); updateHud(); el('scene').focus({ preventScroll: true });
 }
 function requestControllerSeat(device: GamepadDevice): void {
+  if (localSession?.running) {
+    if (localStage || localSession.players.length >= localSession.config.capacity) { notify('Game full — four players are already in this run.'); return; }
+    const activeSeats = localSession.players.map(player => ({ seat: player.seat, device: player.device, deviceLabel: '', characterId: player.characterId }));
+    const characterId = nextUnusedCharacter(activeSeats);
+    if (!characterId) { notify('Game full — four players are already in this run.'); return; }
+    const seat = nextOpenSeat(activeSeats);
+    if (!seat || seat === 'p1') { notify('Game full — four players are already in this run.'); return; }
+    try { localStage = LocalSession.stage(game, { roster: [], mode: localSession.mode }); }
+    catch { notify('Couldn’t place a player safely. Try again.'); return; }
+    stagedLiveJoin = device;
+    setupDraft = [...activeSeats.map(active => ({ ...active, deviceLabel: `Current ${active.seat.toUpperCase()}` })), { seat, device: markerDevice(device), deviceLabel: deviceLabel(device), characterId }];
+    const setup = el<HTMLDivElement>('local-session-setup'); setup.hidden = false; setup.setAttribute('role', 'dialog'); setup.setAttribute('aria-modal', 'true'); setup.setAttribute('aria-label', 'Join this run');
+    accumulator = 0; pointer = null; sessionKeyboardEditor.close(); renderSetup('Joining… The controller press was consumed.'); updateHud();
+    el<HTMLButtonElement>('local-session-back').focus({ preventScroll: true }); return;
+  }
   if (!localSession && !localStage) {
     if (!soloGamepad) return;
     openLocalPlay(device); return;

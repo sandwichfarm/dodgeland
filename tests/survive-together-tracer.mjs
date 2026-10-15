@@ -1,5 +1,8 @@
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import { createServer } from 'node:http';
 import test, { after } from 'node:test';
+import { chromium } from 'playwright';
 import { loadSources } from './source-loader.mjs';
 
 const sources = await loadSources(['game', 'mode-rules', 'session', 'survive-together']);
@@ -25,12 +28,18 @@ test('Survive Together adopts a progressed Arcade run and safely joins a unique 
   };
 
   const definition = createSurviveTogetherDefinition(SOLO_ARCADE_MODE);
-  const stage = LocalSession.stage(game, { roster: [], mode: definition });
+  const stage = LocalSession.stage(game, { roster: [], primaryDevice: 'gamepad-1', mode: definition });
   assert.strictEqual(stage.cancel(), game, 'cancel must leave the live solo owner in place');
   assert.strictEqual(game.world, before.world);
   assert.strictEqual(game.player, before.player);
+  assert.equal(game.player.device, 'keyboard-a', 'cancelling a staged controller owner restores the solo device identity');
   assert.strictEqual(game.run, before.run);
   assert.deepEqual({ time: game.time, seed: game.seed, x: game.x, y: game.y }, { time: before.time, seed: before.seed, x: before.x, y: before.y });
+
+  const emptyStage = LocalSession.stage(game, { roster: [], mode: definition });
+  const promotedStage = LocalSession.stage(game, { roster: [], primaryDevice: 'gamepad-1', mode: definition });
+  emptyStage.cancel();
+  assert.equal(promotedStage.commit().players[0]?.device, 'gamepad-1', 'commit reapplies the selected P1 device after cancelling a prior setup stage');
 
   const session = LocalSession.stage(game, { roster: [], mode: definition }).commit();
   assert.strictEqual(session.world, before.world, 'commit retains the original world');
@@ -59,4 +68,115 @@ test('the same Survive Together composition accepts Flow rules without core mode
   assert.equal(session.admit({ device: 'keyboard-b', characterId: 'pip' }), true);
   assert.equal(session.definition.rules, SOLO_STROLL_MODE.rules, 'the composition keeps the stored Flow rules intact');
   assert.equal(session.players.length, 2);
+});
+
+function installSurviveRuntime(mode = 'arcade') {
+  const listeners = new Set();
+  let pads = [];
+  window.surviveFixture = {
+    emit(next) { pads = next; for (const listener of listeners) listener({ available: true, focused: true, pads }); },
+  };
+  window.napplet = {
+    storage: { async getItem() { return JSON.stringify({ mode, muted: true, selected: 'butter', travelerVersion: 2 }); }, async setItem() {} },
+    theme: { async get() { return { colors: { background: '#242b32', text: '#f0eee5', primary: '#9fc28a' } }; }, onChanged() { return { close() {} }; } },
+    keys: { async registerAction(action) { return { actionId: action.id, binding: action.defaultKey }; }, onAction() { return { close() {} }; }, unregisterAction() {} },
+    gamepad: { get available() { return true; }, get focused() { return true; }, getGamepads() { return pads; }, onChange(listener) { listeners.add(listener); return { close() { listeners.delete(listener); } }; } },
+  };
+}
+
+const pad = (index, id, buttons = []) => ({ index, id, mapping: 'standard', connected: true, timestamp: 1, axes: [0, 0, 0, 0], buttons: Array.from({ length: 17 }, (_, button) => ({ value: buttons.includes(button) ? 1 : 0, pressed: buttons.includes(button), touched: buttons.includes(button) })) });
+
+test('the muted opaque iframe consumes a live second-controller edge, cancels unchanged, then commits two players', { timeout: 30_000 }, async () => {
+  const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
+  assert.match(built, /survive-together|Play together\?/, 'run pnpm build after wiring Survive Together');
+  const setup = `<script>(${installSurviveRuntime.toString()})('arcade');</script>`;
+  const harness = `<!doctype html><iframe sandbox="allow-scripts" style="border:0;width:900px;height:600px"></iframe><script>document.querySelector('iframe').srcdoc=${JSON.stringify(built.replace('<head>', '<head>' + setup)).replaceAll('<', '\\u003c')};</script>`;
+  const server = createServer((_request, response) => { response.writeHead(200, { 'Content-Type': 'text/html' }); response.end(harness); });
+  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+  const browser = await chromium.launch({ args: ['--mute-audio'] });
+  try {
+    const page = await browser.newPage({ viewport: { width: 900, height: 600 } });
+    const errors = [];
+    page.on('pageerror', error => errors.push(error.message));
+    await page.goto(`http://127.0.0.1:${server.address().port}`);
+    const frame = await (await page.locator('iframe').elementHandle()).contentFrame();
+    assert.ok(frame);
+    await frame.locator('#play').waitFor();
+    const send = pads => frame.evaluate(next => window.surviveFixture.emit(next), pads);
+    const neutral = [pad(0, 'alpha'), pad(1, 'beta')];
+    await send(neutral); await send([pad(0, 'alpha', [0]), pad(1, 'beta')]); await send(neutral);
+    await frame.waitForFunction(() => document.querySelector('#app')?.dataset.runState === 'playing');
+    await send([pad(0, 'alpha', [12]), pad(1, 'beta')]); await send(neutral);
+    await frame.waitForFunction(() => Number(document.querySelector('#score')?.textContent ?? 0) > 0);
+    const before = await frame.locator('#score').textContent();
+    assert.ok(Number(before) > 0, 'the Arcade adoption begins from a progressed live run');
+    await send([pad(0, 'alpha'), pad(1, 'beta', [0])]); await send(neutral);
+    await frame.waitForFunction(() => !document.querySelector('#local-session-setup')?.hasAttribute('hidden'));
+    assert.equal(await frame.locator('#local-session-heading').textContent(), 'Play together?');
+    assert.equal(await frame.locator('#local-session-back').textContent(), 'Keep playing solo');
+    assert.equal(await frame.evaluate(() => document.activeElement?.id), 'local-session-back', 'preserving a solo run makes the safe cancel action the initial focus');
+    await frame.locator('#local-session-back').click();
+    assert.equal(await frame.locator('#score').textContent(), before, 'cancel leaves the progressed solo run unchanged');
+    // Cancelling restores the solo controller lease. A neutral snapshot must
+    // seed that restored context before the next deliberate join edge.
+    await send(neutral); await page.waitForTimeout(40);
+    await send([pad(0, 'alpha'), pad(1, 'beta', [0])]); await send(neutral);
+    await frame.locator('#local-session-start').click();
+    await frame.waitForFunction(() => document.querySelectorAll('#session-seats [data-seat]').length === 2);
+    assert.equal(await frame.locator('#score').textContent(), before, 'commit preserves the live solo score');
+    assert.deepEqual(await frame.locator('#session-seats [data-seat]').evaluateAll(nodes => nodes.map(node => node.dataset.seat)), ['p1', 'p2']);
+    const threeNeutral = [pad(0, 'alpha'), pad(1, 'beta'), pad(2, 'gamma')];
+    await send(threeNeutral); await send([pad(0, 'alpha'), pad(1, 'beta'), pad(2, 'gamma', [0])]); await send(threeNeutral);
+    await frame.waitForFunction(() => !document.querySelector('#local-session-setup')?.hasAttribute('hidden'));
+    assert.equal(await frame.locator('#local-session-heading').textContent(), 'Join this run');
+    assert.equal(await frame.locator('#local-session-start').textContent(), 'Join as P3');
+    await frame.locator('#local-session-back').click();
+    assert.equal(await frame.locator('#session-seats [data-seat]').count(), 2, 'declining a live join never creates a player');
+    await send(threeNeutral); await page.waitForTimeout(40);
+    await send([pad(0, 'alpha'), pad(1, 'beta'), pad(2, 'gamma', [0])]); await send(threeNeutral);
+    await frame.locator('#local-session-start').click();
+    await frame.waitForFunction(() => document.querySelectorAll('#session-seats [data-seat]').length === 3);
+    assert.deepEqual(await frame.locator('#session-seats [data-seat]').evaluateAll(nodes => nodes.map(node => node.dataset.seat)), ['p1', 'p2', 'p3']);
+    assert.deepEqual(errors, []);
+  } finally {
+    await browser.close(); await new Promise(resolve => server.close(resolve));
+  }
+});
+
+test('the muted opaque iframe joins a progressed Flow run without replacing its run state', { timeout: 30_000 }, async () => {
+  const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
+  const setup = `<script>(${installSurviveRuntime.toString()})('stroll');</script>`;
+  const harness = `<!doctype html><iframe sandbox="allow-scripts" style="border:0;width:900px;height:600px"></iframe><script>document.querySelector('iframe').srcdoc=${JSON.stringify(built.replace('<head>', '<head>' + setup)).replaceAll('<', '\\u003c')};</script>`;
+  const server = createServer((_request, response) => { response.writeHead(200, { 'Content-Type': 'text/html' }); response.end(harness); });
+  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+  const browser = await chromium.launch({ args: ['--mute-audio'] });
+  try {
+    const page = await browser.newPage({ viewport: { width: 900, height: 600 } });
+    const errors = [];
+    page.on('pageerror', error => errors.push(error.message));
+    await page.goto(`http://127.0.0.1:${server.address().port}`);
+    const frame = await (await page.locator('iframe').elementHandle()).contentFrame();
+    assert.ok(frame);
+    await frame.locator('#play').waitFor();
+    const send = pads => frame.evaluate(next => window.surviveFixture.emit(next), pads);
+    const neutral = [pad(0, 'alpha'), pad(1, 'beta')];
+    await send(neutral); await send([pad(0, 'alpha', [0]), pad(1, 'beta')]); await send(neutral);
+    await frame.waitForFunction(() => document.querySelector('#app')?.dataset.runState === 'playing');
+    await send([pad(0, 'alpha', [12]), pad(1, 'beta')]); await send(neutral);
+    await frame.waitForFunction(() => Number(document.querySelector('#score')?.textContent ?? 0) > 0);
+    const before = await frame.locator('#score').textContent();
+    assert.ok(Number(before) > 0, 'the Flow adoption begins from a progressed live run');
+    await send([pad(0, 'alpha'), pad(1, 'beta', [0])]); await send(neutral);
+    await frame.waitForFunction(() => !document.querySelector('#local-session-setup')?.hasAttribute('hidden'));
+    assert.equal(await frame.locator('#local-session-heading').textContent(), 'Play together?');
+    assert.equal(await frame.locator('#local-session-back').textContent(), 'Keep playing solo');
+    assert.equal(await frame.evaluate(() => document.activeElement?.id), 'local-session-back');
+    await frame.locator('#local-session-start').click();
+    await frame.waitForFunction(() => document.querySelectorAll('#session-seats [data-seat]').length === 2);
+    assert.equal(await frame.locator('#score').textContent(), before, 'Flow keeps its live score when the new player commits');
+    assert.deepEqual(await frame.locator('#session-seats [data-seat]').evaluateAll(nodes => nodes.map(node => node.dataset.seat)), ['p1', 'p2']);
+    assert.deepEqual(errors, []);
+  } finally {
+    await browser.close(); await new Promise(resolve => server.close(resolve));
+  }
 });
