@@ -59,6 +59,7 @@ function closeHudInspection(resume = true): void {
 let sessionHudRoster = '';
 const controllerDevices = new Map<number, GamepadDevice>();
 let sessionPaused = false;
+let pointer: { x: number; y: number; id: number } | null = null;
 let preparedLaunch: GameLaunch | undefined;
 let shortLosses = 0, previousState = '', chapter = 0, toastUntil = 0, toastMessage = '';
 let restoreAfterDrawer = false, disposed = false, raf = 0;
@@ -166,8 +167,7 @@ const router: GamepadRouter = new GamepadRouter({
   lifecycle: event => handleControllerLifecycle(event),
   onFrameSafetyLost: suspendPlay,
 });
-const gamepad = createGamepadControls({ context: () => 'session-router', enabled: () => !disposed, direction: () => {}, confirm: () => {}, pause: () => {}, call: () => {}, back: () => {}, menu: () => {} }, undefined, undefined, undefined,
-  (state, now) => router.receive(state, now));
+let gamepad: ReturnType<typeof createGamepadControls>;
 const unlocked = (c: typeof CHARACTERS[number]): boolean => progress.coins >= c.coins && progress.best >= c.distance;
 function notify(message: string): void { toastMessage = message; toastUntil = performance.now() + 3200; }
 function featherAmount(value: number): string {
@@ -680,7 +680,13 @@ function reclaimControllerSeat(device: GamepadDevice, seat: SeatId): void {
     setupDraft = setupDraft.map(candidate => candidate.seat === seat ? { ...candidate, device: markerDevice(device), deviceLabel: deviceLabel(device), disconnected: false } : candidate);
     router.reclaim(device); renderSetup(`Controller ready to reclaim ${seat.toUpperCase()}.`); return;
   }
-  if (!localSession && seat === 'p1') { soloGamepad = device; router.reclaim(device); notify('Controller reclaimed solo play.'); return; }
+  if (!localSession && seat === 'p1') {
+    soloGamepad = device; router.reclaim(device); notify('Controller reclaimed solo play.');
+    // A deliberate reconnect edge restores a safety-paused solo run, but is
+    // consumed by reclaim so it never also hops the newly reclaimed player.
+    if (game.state === 'paused' && frameAvailable()) play();
+    return;
+  }
   if (!localSession?.offerReclaim(seat, markerDevice(device)) || !localSession.reclaim(seat, markerDevice(device))) return;
   router.reclaim(device); notify(`Controller reclaimed ${seat.toUpperCase()}.`); updateHud();
 }
@@ -818,7 +824,6 @@ el('character-call').addEventListener('pointerdown', () => audio.unlock());
 el('mode').addEventListener('click', () => { changedPreferences.add('mode'); progress.mode = game.mode === 'arcade' ? 'stroll' : 'arcade'; reset(); persist(); });
 el<HTMLInputElement>('reduced-motion').addEventListener('change', event => { changedPreferences.add('reduced'); progress.reduced = (event.target as HTMLInputElement).checked; persist(); });
 for (const button of document.querySelectorAll<HTMLButtonElement>('[data-direction]')) button.addEventListener('click', () => move(button.dataset.direction as Direction));
-let pointer: { x: number; y: number; id: number } | null = null;
 renderer.canvas.addEventListener('pointerdown', event => { if (!event.isPrimary) return; audio.unlock(); pointer = { x: event.clientX, y: event.clientY, id: event.pointerId }; renderer.canvas.setPointerCapture(event.pointerId); });
 renderer.canvas.addEventListener('pointerup', event => { if (!pointer || pointer.id !== event.pointerId) return; const dx = event.clientX - pointer.x, dy = event.clientY - pointer.y; pointer = null; if (Math.max(Math.abs(dx), Math.abs(dy)) < 18) move('forward'); else move(Math.abs(dx) > Math.abs(dy) ? dx < 0 ? 'left' : 'right' : dy < 0 ? 'forward' : 'back'); });
 renderer.canvas.addEventListener('pointercancel', () => { pointer = null; });
@@ -857,6 +862,10 @@ function frame(now: number): void {
   if (import.meta.env.DEV) devTools?.update();
   raf = requestAnimationFrame(frame);
 }
+// A complete injected binding may synchronously deliver its initial unfocused
+// snapshot. Construct it only after every safety-pause dependency exists.
+gamepad = createGamepadControls({ context: () => 'session-router', enabled: () => !disposed, direction: () => {}, confirm: () => {}, pause: () => {}, call: () => {}, back: () => {}, menu: () => {} }, undefined, undefined, undefined,
+  (state, now) => router.receive(state, now));
 async function boot(): Promise<void> {
   sounds.sync(); renderer.resize(); reset(); raf = requestAnimationFrame(frame);
   if (import.meta.env.DEV) {

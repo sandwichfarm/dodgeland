@@ -10,7 +10,7 @@ const built = await readFile(new URL('../dist/index.html', import.meta.url), 'ut
 assert.ok(built.includes('gamepad.subscribe') && built.includes('gamepad-help'), 'Build current gamepad integration first.');
 function installFixture(mode) {
   Math.random = () => 0;
-  const observation = window.gamepadFixture = { voices: [], writes: [], closed: 0, hydrated: false };
+  const observation = window.gamepadFixture = { mode, voices: [], writes: [], closed: 0, hydrated: false };
   const Native = window.AudioContext;
   window.AudioContext = class extends Native {
     createBufferSource() {
@@ -70,12 +70,12 @@ try {
   await page.route('**/*', route => { if (new URL(route.request().url()).hostname === '127.0.0.1') return route.continue(); evidence.external.push(route.request().url()); return route.abort(); });
   await page.goto(`http://127.0.0.1:${server.address().port}`);
   let frame;
-  async function currentFrame() {
+  async function currentFrame(expectedMode) {
     frame = await (await page.locator('#napplet').elementHandle()).contentFrame();
-    await frame.waitForFunction(() => window.gamepadFixture?.hydrated);
+    await frame.waitForFunction(mode => window.gamepadFixture?.hydrated && window.gamepadFixture.mode === mode, expectedMode);
     await frame.locator('#play').waitFor();
   }
-  await currentFrame(); await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 50);
+  await currentFrame('wire'); await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 50);
   const advance = ms => page.clock.runFor(ms);
   async function gameObject() {
     const { frameTree } = await cdp.send('Page.getFrameTree');
@@ -127,8 +127,19 @@ try {
   const effects = () => frame.evaluate(() => window.gamepadFixture.voices.filter(voice => !voice.loop));
 
   for (const mode of ['wire', 'binding']) {
-    if (mode !== 'wire') { await page.evaluate(mode => window.mount(mode), mode); await currentFrame(); }
-    await frame.waitForFunction(() => document.querySelector('#character-call').textContent.includes('· X'));
+    if (mode !== 'wire') { await page.evaluate(mode => window.mount(mode), mode); await currentFrame(mode); }
+    // The opaque-frame subscription is delivered as a task. The deterministic
+    // page clock is paused, so advance one frame to flush its initial neutral
+    // snapshot instead of depending on wall-clock scheduling.
+    await advance(32);
+    await frame.waitForFunction(() => document.querySelector('#character-call')?.textContent.includes('· X'), undefined, { timeout: 8_000 }).catch(async error => {
+      const [transport, ui] = await Promise.all([
+        page.evaluate(() => window.messages),
+        frame.evaluate(() => ({ call: document.querySelector('#character-call')?.textContent, state: document.querySelector('#app')?.dataset.runState, fixture: window.gamepadFixture })),
+      ]);
+      throw new Error(`gamepad bootstrap did not deliver a connected snapshot (${mode}): ${JSON.stringify({ transport, ui })}\n${error.message}`);
+    });
+    if (mode === 'binding') assert.equal(await frame.evaluate(() => window.gamepadFixture.closed), 0, 'an initially unfocused binding remains subscribed until teardown');
     assert.equal(await frame.evaluate(() => location.origin), 'null');
     assert.equal(await page.locator('#napplet').getAttribute('sandbox'), 'allow-scripts');
     await focusControl('[data-run-topic="help"]');
@@ -209,7 +220,7 @@ try {
     assert.ok(messages.every(message => Object.keys(message).length === 1 && ['gamepad.subscribe', 'gamepad.unsubscribe'].includes(message.type)), 'canonical no-ID messages');
     evidence.scenarios.push({ mode, controls: ['ready instructions and view-change input seeding', 'start', 'D-pad', 'stick repeat', 'deadzone', 'character call PCM', 'pause information/resume and input seeding', 'collection traveler/section/sound navigation and input seeding', 'shell focus', 'disconnect/reconnect', 'result stats/seed copy/back/retry and input seeding', 'small frame', 'teardown'], messages });
   }
-  await page.evaluate(() => window.mount('absent')); await currentFrame();
+  await page.evaluate(() => window.mount('absent')); await currentFrame('absent');
   assert.equal(await frame.locator('#gamepad-help').isHidden(), true); await send(); await send([0, 12]); await advance(500);
   assert.equal((await snapshot()).state, 'ready'); assert.deepEqual(await page.evaluate(() => window.messages), []);
   await frame.locator('#play').click(); assert.equal((await snapshot()).state, 'playing');
