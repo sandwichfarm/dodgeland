@@ -52,159 +52,10 @@
 #app[data-hand-visible="true"]:has(#run-hand-owner:not([hidden])):has(#run-hand-items:not([hidden])) { --hand-space: 228px; }
 #app #run-inventory:has(#run-hand-owner:not([hidden])):has(#run-hand-items:not([hidden])) { height: 196px; padding-top: 44px; }
 
-/* The short owner toolbar has two stacked rows. Keep the first offer plane
-   above its decorative scene when the shelf leaves only a compact workspace. */
-#market[data-market-short="true"]:has(#market-owner:not([hidden])) .market-workspace,
-#market[data-market-short="true"]:has(#market-owner:not([hidden])) .market-workspace .market-item { position: relative; z-index: 2; }
-
-/* The left session HUD uses the lower-left corner at regular widths. */
-#app:has(#session-seats:not([hidden])) .market-invitation { left: auto; right: 16px; bottom: 16px; }
-#app:has(#session-seats:not([hidden])) #session-seats { z-index: 2; }
-
-@media (max-height: 419px) {
-  #app[data-hand-visible="true"]:has(#run-hand-items:not([hidden])) { --hand-space: 112px; }
-  #app #run-inventory:has(#run-hand-items:not([hidden])) { height: 96px; grid-template-rows: minmax(0, 1fr) 44px; }
-  #app #run-inventory:has(#run-hand-items:not([hidden])) .run-hand-pager { bottom: 48px; }
-  #app[data-hand-visible="true"]:has(#run-hand-owner:not([hidden])):has(#run-hand-items:not([hidden])) { --hand-space: 156px; }
-  #app #run-inventory:has(#run-hand-owner:not([hidden])):has(#run-hand-items:not([hidden])) { height: 140px; }
-  /* The market already labels the current owner. Do not reserve a second
-     hidden owner strip on the shelf, or the short market loses its 44px offer
-     row and its controls spill underneath the hand. */
-  #app[data-hand-visible="true"]:has(#market:not([hidden])):has(#run-hand-items:not([hidden])) { --hand-space: 112px; }
-  #app:has(#market:not([hidden])) #run-inventory:has(#run-hand-items:not([hidden])) { height: 96px; padding-top: 0; }
-  /* The short market owns the visible interaction plane; its compact offer
-     controls must remain clickable above the shelf's reserved edge. */
-  #app:has(#market:not([hidden])) #run-inventory { z-index: 2; }
-  #app:has(#market:not([hidden])) #run-inventory.is-inspecting { z-index: 10; }
-}
-
-/* A shared owner strip replaces the ordinary short toolbar only while Local
-   Play supplies an owner. Four marker buttons stay in one horizontal row. */
-#market[data-market-short="true"]:has(#market-owner:not([hidden])) {
-  grid-template-rows: 90px minmax(0, 1fr) 44px;
-}
-#market[data-market-short="true"]:has(#market-owner:not([hidden])) .market-toolbar {
-  display: grid; grid-template-columns: minmax(0, 1fr) 44px; grid-template-rows: 44px 44px;
-  gap: 2px 4px; align-items: stretch;
-}
-#market[data-market-short="true"]:has(#market-owner:not([hidden])) #market-owner {
-  display: block; grid-row: 1; grid-column: 1; min-width: 0; min-height: 44px; padding: 3px 6px;
-  overflow-wrap: anywhere; white-space: normal; font-size: 16px; line-height: 1.1;
-}
-#market[data-market-short="true"]:has(#market-owner:not([hidden])) .market-owner-strip {
-  display: grid; grid-row: 2; grid-column: 1 / -1; grid-template-columns: repeat(4, minmax(44px, 1fr));
-  gap: 4px; min-width: 0; overflow: hidden;
-}
-#market[data-market-short="true"]:has(#market-owner:not([hidden])) .market-owner-seat { width: 100%; min-width: 44px; }
-#market[data-market-short="true"]:has(#market-owner:not([hidden])) #market-close { grid-row: 1; grid-column: 2; }
-#market[data-market-short="true"]:has(#market-owner:not([hidden])) #market-wallet { display: none; }
-#market[data-market-short="true"]:has(#market-owner:not([hidden])) .market-view-tabs { display: none !important; }
-#market[data-market-short="true"]:has(#market-owner:not([hidden])) .market-workspace { grid-row: 2; grid-column: 1; }
-
-/* market.css flattens the toolbar and tabs in a short ordinary market.  A
-   shared owner has an additional, required row, so keep its toolbar as the
-   bounded two-row grid instead of letting its children become root-grid
-   items.  The ID pair intentionally beats that compact ordinary-market rule. */
-#market[data-market-short="true"]:is([data-market-view="shop"], [data-market-view="wardrobe"]):has(#market-owner:not([hidden])) {
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: 90px minmax(0, 1fr);
-  padding: 4px 6px 6px;
-  gap: 4px;
-}
-#market[data-market-short="true"]:is([data-market-view="shop"], [data-market-view="wardrobe"]):has(#market-owner:not([hidden])) .market-toolbar {
-  display: grid;
-  grid-row: 1;
-  grid-column: 1;
-  grid-template-columns: minmax(0, 1fr) 44px;
-  grid-template-rows: 44px 44px;
-  gap: 2px 4px;
-  min-width: 0;
-  padding: 0;
-}
-#market[data-market-short="true"]:is([data-market-view="shop"], [data-market-view="wardrobe"]):has(#market-owner:not([hidden])) .market-view-tabs { display: none !important; }
-#market[data-market-short="true"]:is([data-market-view="shop"], [data-market-view="wardrobe"]):has(#market-owner:not([hidden])) #market-owner {
-  grid-row: 1;
-  grid-column: 1;
-  min-width: 0;
-  min-height: 44px;
-  padding: 3px 6px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-#market[data-market-short="true"]:is([data-market-view="shop"], [data-market-view="wardrobe"]):has(#market-owner:not([hidden])) .market-owner-strip {
-  display: grid;
-  grid-row: 2;
-  grid-column: 1 / -1;
-  grid-template-columns: repeat(4, minmax(44px, 1fr));
-  gap: 4px;
-  min-width: 0;
-  overflow: hidden;
-}
-#market[data-market-short="true"]:is([data-market-view="shop"], [data-market-view="wardrobe"]):has(#market-owner:not([hidden])) #market-close {
-  grid-row: 1;
-  grid-column: 2;
-  width: 44px;
-  min-width: 44px;
-  padding-inline: 4px;
-}
-#market[data-market-short="true"]:is([data-market-view="shop"], [data-market-view="wardrobe"]):has(#market-owner:not([hidden])) #market-wallet { display: none; }
-#market[data-market-short="true"]:is([data-market-view="shop"], [data-market-view="wardrobe"]):has(#market-owner:not([hidden])) .market-workspace {
-  grid-row: 2;
-  grid-column: 1;
-  min-width: 0;
-  padding: 2px 0 4px;
-}
-
 /* The market supplies the owner control, while the one physical card shelf
    remains available underneath it.  Remove only that duplicate owner button. */
 #run-inventory:has(#run-hand-owner:not([hidden])):has(~ #market:not([hidden])) #run-hand-owner { display: none; }
 #run-inventory:has(#run-hand-owner:not([hidden])):has(~ #market:not([hidden])) #run-hand-owner-note { display: none !important; }
-
-@media (max-width: 479px) {
-  #market:has(#market-owner:not([hidden])) #market-close {
-    width: 44px;
-    min-width: 44px;
-    min-height: 44px;
-    height: 44px;
-    padding-inline: 4px;
-    font-size: 0;
-    line-height: 1;
-  }
-  #market:has(#market-owner:not([hidden])) #market-close .market-close-label { display: none; }
-  #market:has(#market-owner:not([hidden])) #market-close > [aria-hidden="true"] { font-size: 20px; }
-}
-@media (max-width: 479px) and (max-height: 319px) {
-  #market[data-market-short="true"]:is([data-market-view="shop"], [data-market-view="wardrobe"]):has(#market-owner:not([hidden])) {
-    padding: 2px 4px;
-    gap: 2px;
-  }
-  #market[data-market-short="true"]:is([data-market-view="shop"], [data-market-view="wardrobe"]):has(#market-owner:not([hidden])) .market-workspace {
-    padding: 2px 0 2px;
-  }
-  #market[data-market-short="true"]:is([data-market-view="shop"], [data-market-view="wardrobe"]):has(#market-owner:not([hidden])) #market-offers {
-    grid-template-rows: repeat(2, 44px);
-    align-content: start;
-    gap: 3px;
-  }
-}
-
-@media (max-width: 479px) and (min-height: 330px) {
-  #market:is([data-market-view="shop"], [data-market-view="wardrobe"]):has(#market-owner:not([hidden])) {
-    grid-template-rows: 96px minmax(0, 1fr); padding: 6px 8px 8px; gap: 4px;
-  }
-  #market:has(#market-owner:not([hidden])) .market-toolbar {
-    display: grid; grid-row: 1; grid-template-columns: minmax(0, 1fr) 44px; grid-template-rows: 44px 44px;
-    gap: 4px; padding-left: 0;
-  }
-  #market:has(#market-owner:not([hidden])) #market-owner { grid-row: 1; grid-column: 1; min-width: 0; min-height: 44px; padding: 3px 6px; overflow-wrap: anywhere; white-space: normal; font-size: 16px; line-height: 1.1; }
-  #market:has(#market-owner:not([hidden])) .market-owner-strip { display: grid; grid-row: 2; grid-column: 1 / -1; grid-template-columns: repeat(4, minmax(44px, 1fr)); gap: 4px; min-width: 0; overflow: hidden; }
-  #market:has(#market-owner:not([hidden])) .market-owner-seat { width: 100%; min-width: 44px; }
-  #market:has(#market-owner:not([hidden])) #market-close { grid-row: 1; grid-column: 2; }
-  #market:has(#market-owner:not([hidden])) #market-wallet,
-  #market:has(#market-owner:not([hidden])) .market-view-tabs { display: none !important; }
-  #market:is([data-market-view="shop"], [data-market-view="wardrobe"]):has(#market-owner:not([hidden])) .market-workspace { grid-row: 2; grid-column: 1; padding: 2px 0 4px; }
-}
 
 @media (max-height: 419px) {
   #app[data-hand-visible="true"]:has(#run-hand-owner:not([hidden])) { --hand-space: 112px; }
@@ -227,35 +78,6 @@
   #run-hand-detail:has(#run-hand-detail-owner:not([hidden])) .run-hand-detail-pages { display: flex; grid-row: 4; }
   #run-hand-detail:has(#run-hand-detail-owner:not([hidden])) .run-hand-actions { grid-row: 5; }
   #run-hand-detail:has(#run-hand-detail-owner:not([hidden])) :is(#run-hand-copy, #run-hand-status) { font-size: 16px; line-height: 1.15; }
-}
-
-/* Keep the compact market reservation later than the generic short hand rule:
-   the latter otherwise restores a 112px shelf after the market has opened.
-   This is deliberately Local Play-only; solo keeps its established shelf. */
-@media (max-width: 479px) and (max-height: 319px) {
-  #app[data-hand-visible="true"]:has(#market:not([hidden]) #market-owner:not([hidden])) { --hand-space: 49px; }
-  #app #run-inventory:has(#run-hand-owner:not([hidden])):has(~ #market:not([hidden])) {
-    right: 4px;
-    bottom: 0;
-    left: 4px;
-    height: 44px;
-    padding: 0;
-  }
-  #app #run-inventory:has(#run-hand-owner:not([hidden])):has(~ #market:not([hidden])) #run-cards {
-    height: 44px;
-    padding: 0;
-    border-bottom-width: 0;
-  }
-  #app #run-inventory:has(#run-hand-owner:not([hidden])):has(~ #market:not([hidden])) :is(.run-hand-card, .run-hand-empty) {
-    height: 44px;
-    min-height: 44px;
-  }
-  /* The market strip is the active owner surface, so its covered world HUD
-     cannot intercept an offer beneath it. */
-  #app:has(#market:not([hidden]) #market-owner:not([hidden])) #session-seats {
-    visibility: hidden;
-    pointer-events: none;
-  }
 }
 
 /* The detail owner is the foreground owner switcher while a hand card is
@@ -321,3 +143,107 @@
   #app[data-hand-visible="true"] #drawer [data-sound-page] h3, #app[data-hand-visible="true"] #drawer [data-camp-page] h3 { display: none; }
   #app[data-hand-visible="true"] #drawer #collection-reader-copy { font-size: 16px; line-height: 1.2; }
 }
+
+/* A co-op market and its persistent hand share the viewport as two bounded
+   surfaces. Each visible market section gets a grid track; no footer floats
+   above stock. These rules leave ordinary solo market geometry unchanged. */
+#app[data-hand-visible="true"]:has(#market:not([hidden]) #market-owner:not([hidden])) { --hand-space: 160px; }
+#app #run-inventory:has(#run-hand-items:not([hidden])):has(~ #market:not([hidden])) {
+  bottom: 8px; height: 152px; padding: 0;
+  grid-template-rows: minmax(0, 1fr) 44px; gap: 4px;
+}
+#app #market[data-market-view="shop"]:has(#market-owner:not([hidden])) {
+  display: grid; grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: 90px 44px minmax(0, 1fr) 44px;
+  padding: 4px; gap: 4px; background: #203d31;
+}
+#app #market[data-market-view="shop"]:has(#market-owner:not([hidden])) .market-toolbar {
+  display: grid; grid-row: 1; grid-column: 1; padding: 0;
+  grid-template-columns: minmax(0, 1fr) auto 44px; grid-template-rows: 44px 44px; gap: 2px 4px;
+}
+#app #market[data-market-view="shop"]:has(#market-owner:not([hidden])) #market-owner {
+  grid-row: 1; grid-column: 1; min-width: 0; min-height: 0;
+  padding: 4px; font-size: 16px; line-height: 1.1; white-space: normal;
+}
+#app #market[data-market-view="shop"]:has(#market-owner:not([hidden])) #market-wallet {
+  display: block; position: static; grid-row: 1; grid-column: 2;
+  width: auto; height: auto; clip-path: none; margin: 0; padding: 4px; font-size: 16px;
+}
+#app #market[data-market-view="shop"]:has(#market-owner:not([hidden])) #market-close {
+  grid-row: 1; grid-column: 3; width: 44px; min-width: 44px; height: 44px; padding: 4px;
+}
+#app #market[data-market-view="shop"]:has(#market-owner:not([hidden])) #market-close .market-close-label { display: none; }
+#app #market[data-market-view="shop"]:has(#market-owner:not([hidden])) .market-owner-strip {
+  display: grid; grid-row: 2; grid-column: 1 / -1;
+  grid-template-columns: repeat(4, minmax(44px, 1fr)); gap: 4px;
+}
+#app #market[data-market-view="shop"]:has(#market-owner:not([hidden])) .market-owner-seat { min-height: 44px; padding: 2px; font-size: 16px; }
+#app #market[data-market-view="shop"]:has(#market-owner:not([hidden])) :is(#market-heading, .market-view-heading, #market-traveler) { display: none; }
+#app #market[data-market-view="shop"]:has(#market-owner:not([hidden])) .market-view-tabs {
+  display: flex; grid-row: 2; grid-column: 1; gap: 4px;
+}
+#app #market[data-market-view="shop"]:has(#market-owner:not([hidden])) .market-workspace {
+  position: relative; grid-row: 3; grid-column: 1; min-height: 0; padding: 4px; z-index: 1;
+}
+#app #market[data-market-view="shop"]:has(#market-owner:not([hidden])) .market-bottom {
+  position: relative; inset: auto; grid-row: 4; grid-column: 1;
+  min-height: 0; height: 44px; padding: 0; margin: 0; gap: 0;
+}
+#app #market[data-market-view="shop"]:has(#market-owner:not([hidden])) .market-item {
+  max-width: none; max-height: none; min-height: 44px; padding: 4px; gap: 4px;
+}
+#app #market[data-market-view="shop"]:has(#market-owner:not([hidden])) :is(.card-name, .market-cosmetic-name, .market-tile-price) {
+  font-size: 16px; line-height: 1.1;
+}
+#app #market[data-market-view="shop"]:has(#market-owner:not([hidden])) .market-tile-price { flex: none; padding: 2px 4px; }
+#app:has(#market:not([hidden]) #market-owner:not([hidden])) #session-seats { visibility: hidden; pointer-events: none; }
+
+@media (max-height: 329px) {
+  #app[data-hand-visible="true"]:has(#market:not([hidden]) #market-owner:not([hidden])) { --hand-space: 88px; }
+  #app #run-inventory:has(#run-hand-items:not([hidden])):has(~ #market:not([hidden])) {
+    left: 0; right: 0; bottom: 0; height: 88px; padding: 0;
+    grid-template-rows: 44px 44px; gap: 0; background: #263e32;
+  }
+  #app #run-inventory:has(#run-hand-items:not([hidden])):has(~ #market:not([hidden])) #run-cards {
+    height: 44px; padding: 0; border: 0;
+  }
+  #app #run-inventory:has(#run-hand-items:not([hidden])):has(~ #market:not([hidden])) :is(.run-hand-card, .run-hand-empty) { height: 44px; min-height: 44px; }
+  #app #market[data-market-view="shop"]:has(#market-owner:not([hidden])) {
+    padding: 0; gap: 0; grid-template-rows: 64px minmax(44px, 1fr) 44px;
+  }
+  #app #market[data-market-view="shop"]:has(#market-owner:not([hidden])) .market-toolbar {
+    grid-template-columns: repeat(5, minmax(44px, 1fr)); grid-template-rows: 20px 44px; gap: 0;
+  }
+  #app #market[data-market-view="shop"]:has(#market-owner:not([hidden])) #market-owner {
+    grid-row: 1; grid-column: 1 / -1; height: 20px; padding: 2px 4px; border: 0;
+    font-size: 16px; line-height: 16px; white-space: nowrap;
+  }
+  #app #market[data-market-view="shop"]:has(#market-owner:not([hidden])) .market-owner-strip { display: contents; }
+  #app #market[data-market-view="shop"]:has(#market-owner:not([hidden])) .market-owner-seat { grid-row: 2; width: 100%; height: 44px; }
+  #app #market[data-market-view="shop"]:has(#market-owner:not([hidden])) #market-close { grid-row: 2; grid-column: 5; width: 100%; font-size: 20px; }
+  #app #market[data-market-view="shop"]:has(#market-owner:not([hidden])) :is(#market-wallet, .market-view-tabs) { display: none; }
+  #app #market[data-market-view="shop"]:has(#market-owner:not([hidden])) .market-workspace { grid-row: 2; padding: 0; }
+  #app #market[data-market-view="shop"]:has(#market-owner:not([hidden])) .market-bottom { grid-row: 3; }
+  #app #market[data-market-view="shop"]:has(#market-owner:not([hidden])) #market-offers {
+    grid-template-rows: minmax(44px, 1fr); gap: 0;
+  }
+  #app #market[data-market-view="shop"]:has(#market-owner:not([hidden])) .market-item {
+    flex-direction: row; padding: 2px 4px; gap: 4px;
+  }
+  #app #market[data-market-view="shop"]:has(#market-owner:not([hidden])) :is(.card-illustration, .market-cosmetic-display) { display: none; }
+  #app #market[data-market-view="shop"]:has(#market-owner:not([hidden])) .playing-card-face { flex: 1; min-width: 0; justify-content: center; }
+  #app #market[data-market-view="shop"]:has(#market-owner:not([hidden])) :is(.card-name, .market-cosmetic-name) { flex: 1; display: block; max-height: none; white-space: normal; overflow: visible; }
+  #app #market[data-market-single-offer="true"]:has(#market-owner:not([hidden])) #market-offers { grid-template-columns: minmax(0, 1fr); }
+}
+/* The bounded shop tiles cannot tilt outside their assigned track. Selection
+   still opens the full item inspection; hover uses light without displacement. */
+#app #market[data-market-view="shop"]:has(#market-owner:not([hidden])) .playing-card:hover { transform: none; filter: brightness(1.06); }
+#app #market[data-market-view="shop"]:has(#market-owner:not([hidden])) :is(.card-name, .market-cosmetic-name) { overflow-wrap: anywhere; }
+
+/* The shop has its own voxel scenery. Hide world labels during the open shop
+   so entrance animation opacity cannot put them over readable merchandise. */
+#app:has(#market:not([hidden]):not(.is-closing) #market-owner:not([hidden])) #scene { visibility: hidden; }
+/* Live owner actions stay above the decorative movement bar; the market's
+   active owner strip hides this HUD while its own surface is open. */
+#app:has(#session-seats:not([hidden])) #session-seats { z-index: 2; }
+#app:has(#session-seats:not([hidden])) .market-invitation { left: auto; right: 16px; }
