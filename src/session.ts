@@ -665,7 +665,7 @@ export class LocalSession {
   recoverySafeCells(kind: RecoveryKind, owner: SessionPlayer, targets: readonly SessionPlayer[]): readonly Readonly<{ x: number; y: number }>[] {
     const returning = new Set(kind === 'flare' ? [owner, ...targets] : targets);
     if (kind === 'personal') returning.add(owner);
-    const living = this.players.filter(isLivingRecoverySubject);
+    const living = this.players.filter(player => isLivingRecoverySubject(player) && (this.mode?.handlers.simulates?.(player) ?? true));
     const livingAnchor = [...living].sort((a, b) => b.groundY - a.groundY || a.seat.localeCompare(b.seat))[0];
     const allDeadPersonal = kind === 'personal' && !livingAnchor;
     const anchor = allDeadPersonal && owner.recovery?.lastSafe ? owner.recovery.lastSafe
@@ -673,7 +673,7 @@ export class LocalSession {
         : livingAnchor ? { x: livingAnchor.groundX, y: livingAnchor.groundY } : undefined;
     if (!anchor) return Object.freeze([]);
     const frontier = livingAnchor?.groundY ?? anchor.y;
-    const occupied = new Set(this.players.filter(player => !returning.has(player) && isLivingRecoverySubject(player)).map(player => `${Math.round(player.groundX)}:${Math.round(player.groundY)}`));
+    const occupied = new Set(living.filter(player => !returning.has(player)).map(player => `${Math.round(player.groundX)}:${Math.round(player.groundY)}`));
     const cells: { x: number; y: number }[] = [];
     const offsets = [0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5];
     for (const row of [Math.round(anchor.y), Math.round(anchor.y) - 1, Math.round(anchor.y) - 2]) {

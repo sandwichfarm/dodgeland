@@ -2,7 +2,8 @@ import { CHARACTERS } from './content.js';
 import type { Game } from './game.js';
 import type { ModeDefinition } from './mode-rules.js';
 import { LocalSession } from './session.js';
-import type { DeviceId, SeatId, SessionModeDefinition, SessionPlayer } from './session.js';
+import { SessionRecoveryController } from './session-recovery.js';
+import type { DeviceId, SeatId, SessionModeDefinition, SessionPlayer, SessionRecoveryRequest } from './session.js';
 
 export interface RelaySeat { readonly seat: SeatId; readonly characterId: string; readonly device: DeviceId; readonly disconnected?: boolean }
 export interface RelayProposal { readonly seats: readonly RelaySeat[]; readonly tilesPerLeg?: string | number }
@@ -32,11 +33,15 @@ export class RelayCoordinator {
   private pending = false;
   private phase: 'running' | 'handoff' = 'running';
   private generation = 0;
+  private readonly recovery = new SessionRecoveryController();
   constructor(readonly setup: RelaySetup) {}
   get session(): LocalSession { if (!this.attached) throw new Error('Relay is not started.'); return this.attached; }
   get activeSeat(): SeatId { return this.setup.seats[this.index]!.seat; }
   get incomingSeat(): SeatId { return this.setup.seats[(this.index + 1) % this.setup.seats.length]!.seat; }
-  attach(session: LocalSession): void { this.attached = session; this.frontier = session.world.frontier; }
+  attach(session: LocalSession): void { this.attached = session; this.frontier = session.world.frontier; this.recovery.attach(session); }
+  death(seat: SeatId): void { if (seat === this.activeSeat) { this.pending = false; this.recovery.death(seat); } }
+  pendingRecovery(session: LocalSession): boolean { return this.recovery.pending(session); }
+  recover(session: LocalSession, request: SessionRecoveryRequest): boolean { return request.ownerSeat === this.activeSeat && this.recovery.recover(session, request); }
   canAct(seat: SeatId): boolean { return this.phase === 'running' && !this.pending && seat === this.activeSeat; }
   progress(player: SessionPlayer, session: LocalSession): void {
     if (player.seat !== this.activeSeat || this.phase !== 'running') return;
@@ -45,6 +50,7 @@ export class RelayCoordinator {
     if (this.distance >= this.setup.tilesPerLeg) this.pending = true;
   }
   tick(session: LocalSession): void {
+    this.recovery.tick(session);
     const player = session.players.find(candidate => candidate.seat === this.activeSeat);
     if (this.pending && player?.participation === 'active' && player.state === 'playing' && session.isRecoverySafePosition(player)) { this.phase = 'handoff'; this.generation++; this.pending = false; }
   }
@@ -71,6 +77,9 @@ export function createRelayDefinition(base: ModeDefinition, relay: RelayCoordina
     simulates: (player: SessionPlayer) => player.seat === relay.activeSeat,
     canAdvance: () => relay.snapshot().phase === 'running',
     progress: (player: SessionPlayer, session: LocalSession) => relay.progress(player, session),
+    death: (record: { seat: SeatId }) => relay.death(record.seat),
+    pending: (session: LocalSession) => relay.pendingRecovery(session),
+    recover: (session: LocalSession, request: SessionRecoveryRequest) => relay.recover(session, request),
     tick: (session: LocalSession) => relay.tick(session),
   }) });
 }
