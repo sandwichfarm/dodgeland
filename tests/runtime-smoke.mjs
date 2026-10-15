@@ -149,11 +149,22 @@ try {
   await f.getByRole('button', { name: 'Camp', exact: true }).click();
   await f.getByRole('checkbox', { name: 'Less motion' }).check();
   await f.getByRole('button', { name: 'Close collection', exact: true }).click();
-  await f.waitForFunction(async () => JSON.parse(await window.napplet.storage.getItem('puddlehop.progress.v1')).world === 'snowdrop');
+  await f.waitForFunction(async () => {
+    const saved = JSON.parse(await window.napplet.storage.getItem('puddlehop.progress.v1'));
+    return saved.world === 'snowdrop' && saved.reduced === true;
+  });
   await page.waitForTimeout(3100);
-  await page.getByRole('button', { name: 'Reload', exact: true }).click(); await page.waitForTimeout(400); f = await currentFrame();
+  await Promise.all([
+    page.waitForEvent('framenavigated', { predicate: frame => frame.parentFrame() === page.mainFrame() }),
+    page.getByRole('button', { name: 'Reload', exact: true }).click(),
+  ]);
+  f = await currentFrame();
   await f.locator('#choose').waitFor();
-  await f.locator('#choose').click(); await f.getByRole('button', { name: 'Camp', exact: true }).click(); assert.equal(await f.getByRole('checkbox', { name: 'Less motion' }).isChecked(), true);
+  await f.locator('#choose').click(); await f.getByRole('button', { name: 'Camp', exact: true }).click();
+  // Controls exist before the shell's asynchronous saved-progress read settles.
+  // Assert restored state after hydration, rather than racing a fixed sleep.
+  await f.waitForFunction(() => document.querySelector('#reduced-motion')?.checked === true, undefined, { timeout: 5_000 });
+  assert.equal(await f.getByRole('checkbox', { name: 'Less motion' }).isChecked(), true);
   await f.getByRole('button', { name: 'Close collection', exact: true }).click();
   evidence.scenarios.push('current traveler, a paged world choice, and motion preference persist across shell reload');
   assert.equal(await f.locator('#idle').isVisible(), false, 'the wave warning stays hidden before play');
