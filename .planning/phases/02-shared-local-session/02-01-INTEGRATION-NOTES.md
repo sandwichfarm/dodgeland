@@ -302,3 +302,18 @@ pad was seeded by reconcile's context mismatch and never requested setup. Observ
 events: `claim:0`, `p1:confirm`; expected additional `setup:1`. The executor owns
 the correction and focused/browser regressions. Pre-existing held controls and
 join/reclaim consumption must remain protected.
+
+### Setup control review at e6e28d3
+
+Current `move` setup branch rotates focus only between Start and Back;
+`confirmMenu` starts for every focused control other than Back. Full setup
+acceptance therefore needs controller navigation/activation of actual seat,
+traveler, leave, and binding-editor controls, plus retained focus after render.
+This includes protecting a focused editor action from accidentally starting play.
+
+`addKeyboardSeat` currently offers only Keyboard B. When P1 belongs to a
+controller, Keyboard A remains unused and unavailable to join, preventing a
+four-seat combination of two controllers and both keyboard profiles. Offer the
+remaining available keyboard profile by actual assignment; retain correct
+profile-to-seat routing and labels. Executor owns both corrections and browser
+regressions. These are pending findings, not passing proof.
