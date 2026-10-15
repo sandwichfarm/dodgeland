@@ -5,7 +5,7 @@ milestone_name: milestone
 current_phase: 03
 current_phase_name: survive-together-consumables
 status: executing
-stopped_at: "Phase02 independently passed; Phase03 Plan01 executor implementing live admission tracer."
+stopped_at: "Phase03 Plan01: admission model13/13; executor completing multi-seat and confirmed late-join browser flow."
 last_updated: "2026-10-15T05:38:55Z"
 last_activity: 2026-10-14
 last_activity_desc: Phase02 independent verifier passed5/5; full maintained gate exit0; starting approved Phase03 plans.
@@ -63,3 +63,5 @@ Progress: 10/30 currently authored plans;2/7 phases verified. Later modes and fi
 ## Session Continuity
 
 Root owns tracking/package/test coordination. `/root/multiplayer_phase3_tracer` owns03-01 files (`survive-together.ts`, `session.ts`, `main.ts`, `survive-together-tracer.mjs`, SUMMARY) plus build/browser. Phase02 agents completed. Phase06 UI workflow was read in preparation, but its context requires actual verified Phase03–05 lifecycle/result APIs before final contract authoring; no speculative UI-SPEC was created. Root must stop related work while each independent phase verifier runs. No goal completion, pause or blocked status is warranted.
+
+Latest03-01 review: root201104d added a failing active-wave admission regression plus Flow strategy control. Executor fixed wave-safe placement; independent strict admission run now13/13 exit0 (`/tmp/down-to-duck-03-01-wave-admission-green.log`). Earlier failures are retained in separate logs. The previously green14/14 focused tracer predates further main edits and does not prove the final build. Root found live setup committing only roster[0] and late arrivals auto-admitting without confirmation; executor is fixing both and extending real opaque iframe proof before final gates. Prior combined shell PID28026 is now absent; its outcome must come from terminal output, not inferred from disappearance. Plan01 remains incomplete; do not release dependent wave2 yet.
