@@ -5,10 +5,10 @@ milestone_name: milestone
 current_phase: 02
 current_phase_name: shared-local-session
 status: executing
-stopped_at: "Phase 02 wave 3: model, controller router, and keyboard editor accepted; setup/HUD integration starting."
-last_updated: "2026-10-15T00:50:00Z"
+stopped_at: "Phase 02 wave 3: first production setup flow passes; full input/HUD/adoption evidence pending."
+last_updated: "2026-10-15T01:33:03Z"
 last_activity: 2026-10-14
-last_activity_desc: Plan05 setup/router integration is in progress. Behavioral iframe reaches setup but finds Start outside the 900x600 viewport; responsive board correction and full runtime evidence remain. Coverage calibration research is independent preparation only.
+last_activity_desc: Plan05 first production setup slice and first-activity controller ownership are committed. Initial built wire flow passes; root reproduced simultaneous fresh controller edge loss across solo start context change. Full mixed-device/calls/adoption/HUD matrix remains.
 progress:
   total_phases: 7
   completed_phases: 1
@@ -30,7 +30,7 @@ See: `.planning/PROJECT.md` (updated 2026-10-14)
 Phase: 02 — Shared Local Session
 Plan: 5 of 6 (wave 3)
 Status: Plans01–04 complete; Plan05 behavioral integration/layout fixes active, phase acceptance pending
-Last activity: 2026-10-14 — Plan05 WIP passes type-check/build and existing tracer but its new built-iframe flow fails a real Start click at900x600 (outsideviewport). Source-regex guardabc4812 is superseded/unaccepted as behavioral evidence; root review cases recorded ine9afb1e. Full mixed-device/calls/layout/adoption proof stillrequired.
+Last activity: 2026-10-14 — Plan05 source checkpoints 0ce5cf0 and 7d786e4 pass initial built-iframe flow and focused router tests. Root reproduced second simultaneous fresh confirm being swallowed when first confirm changes solo ready to playing; assigned executor is correcting it. Source-regex guardabc4812 remains superseded/unaccepted. Full mixed-device/calls/layout/adoption proof still required.
 
 Progress: [██░░░░░░░░] 27% of currently planned plans (phase acceptance remains pending)
 
@@ -89,5 +89,5 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-10-14
-Stopped at: Phase02 plans01–04 accepted. multiplayer_phase2_setup owns Plan05 main/session UI/runtime tests, the necessary keyboard-input.ts seat-mapping seam, and shared build/browser reservation. Latest new flow fails Start outside900x600; /tmp/down-to-duck-02-05-runtime.log. multiplayer_phase2_owner completed read-only06 preparation and must wait for05acceptance. multiplayer_coverage_calibration owns only research docs/temp probes; noPhase07execution. Use empty-stage UI draft then one validated commit transaction (02-01-INTEGRATION-NOTES). Model source6a76cd5 retains original parity21/21 and regression271/271. No multiplayer mode is complete; after05 execute06 and verify phase.
+Stopped at: Phase02 plans01–04 accepted. multiplayer_phase2_setup owns Plan05 main/session UI/runtime tests, the necessary keyboard-input.ts seat-mapping seam, and shared build/browser reservation. Initial wire flow now passes after responsive Start and transition seeding fixes; 0ce5cf0. First-activity ownership 7d786e4 has a reproduced simultaneous-edge context-transition gap; executor notified. Full Plan05 acceptance remains pending. multiplayer_phase2_owner completed read-only06 preparation and must wait for05acceptance. Coverage calibration research is complete with root corrections fc622c7 and linked from Phase07 context; no Phase07 execution. Use empty-stage UI draft then one validated commit transaction (02-01-INTEGRATION-NOTES). Model source6a76cd5 retains original parity21/21 and regression271/271. No multiplayer mode is complete; after05 execute06 and verify phase.
 Resume file: None

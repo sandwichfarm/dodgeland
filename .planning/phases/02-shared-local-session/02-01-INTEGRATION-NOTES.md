@@ -287,3 +287,18 @@ live state before teardown, and separately verify teardown ignores late
 callbacks. The world label currently overlaps a HUD identity, and world
 labels still need the same geometric markers as the HUD. Plan 02-05 remains
 in progress.
+
+
+### First-activity review at 7d786e4
+
+Neutral controller connections no longer claim P1. The first fresh controller edge
+claims solo P1 and remains available for the initial action; the initial built wire
+flow remains passing. This is a checkpoint, not Plan05 acceptance.
+
+Root executed the production GamepadRouter through the source loader with two
+neutral pads followed by simultaneous fresh confirm buttons. The first pad claimed
+P1 and its confirm changed context from `solo:ready` to `solo:playing`. The second
+pad was seeded by reconcile's context mismatch and never requested setup. Observed
+events: `claim:0`, `p1:confirm`; expected additional `setup:1`. The executor owns
+the correction and focused/browser regressions. Pre-existing held controls and
+join/reclaim consumption must remain protected.
