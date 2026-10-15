@@ -140,10 +140,12 @@ The implementation should expose one script whose coverage mode is explicit rath
 ~~~bash
 DOWN_TO_DUCK_COVERAGE=1 \\
 COVERAGE_OUT="$(mktemp -d)" \\
-node tests/coverage-runner.mjs tests/local-session-runtime.mjs
+node tests/coverage-runner.mjs tests/local-session.test.mjs tests/session-world.test.mjs
 ~~~
 
-`coverage-runner.mjs` owns temporary cleanup and invokes the existing strict runner's child Node process with `--import` before `--test`; it must not pass a dash-prefixed flag to `tests/strict-node-tests.mjs`. The actual runner command and test list must be committed with Phase 7, because this report does not alter the present test suite. [VERIFIED: current strict runner and isolated local fixture]
+`coverage-runner.mjs` owns temporary cleanup and invokes the existing strict runner's child Node process with `--import` before `--test`; it must not pass a dash-prefixed flag to `tests/strict-node-tests.mjs`. `local-session.test.mjs` and `session-world.test.mjs` are Node model tests that load TypeScript through `source-loader.mjs`; the command deliberately does **not** name a `*-runtime.mjs` or browser-only test. The actual runner command and test list must be committed with Phase 7, because this report does not alter the present test suite. [VERIFIED: current strict runner, current Node model tests, and isolated local fixture]
+
+The preload collector cannot observe `globalThis.__coverage__` inside an iframe or another browser realm. Browser-only/runtime suites require a separately calibrated browser instrumentation and collection path, and must be rejected from this Node-only command rather than counted as absent Node coverage. [VERIFIED: isolated Node fixture; ASSUMED]
 
 ### Required dependencies
 
@@ -158,6 +160,88 @@ istanbul-reports@3.2.0
 ~~~
 
 The first three package versions were extracted from npm registry tarballs into an isolated temporary directory and their instrumentation/remapping path was executed there. The temporary harness adapted Babel's module entry point because package-manager installation was unavailable; Phase 7 must rerun the committed fixture against the normal resolved dependency tree. The report packages were registry-inspected only. [VERIFIED: isolated local fixture; CITED: https://registry.npmjs.org/istanbul-lib-instrument/6.0.3; CITED: https://registry.npmjs.org/istanbul-lib-coverage/3.2.2; CITED: https://registry.npmjs.org/istanbul-lib-source-maps/5.0.6]
+
+### Reproduction status and isolated probe
+
+The measurements in this report are one-off exploratory observations from an erased temporary fixture, not a durable executable proof in this repository. The compatibility harness used `@babel/standalone` to satisfy `istanbul-lib-instrument`'s Babel entry point after ordinary package-manager installation failed; therefore its results establish the AST counter behavior but do **not** validate the normal installed dependency tree. Phase 7 must commit and run an equivalent fixture before treating these values as a release gate. [VERIFIED: isolated local fixture]
+
+The following is the minimal normal-install reproduction candidate. It was reconstructed from the measured fixture after temporary cleanup and is supplied so Phase 7 can persist and execute it; it has not been rerun under this normal installation command. [VERIFIED: isolated local fixture; ASSUMED]
+
+~~~bash
+PROBE_DIR="$(mktemp -d)"
+cd "$PROBE_DIR"
+npm init -y
+npm install --ignore-scripts --save-exact \\
+  typescript@5.9.3 \\
+  istanbul-lib-instrument@6.0.3 \\
+  istanbul-lib-coverage@3.2.2 \\
+  istanbul-lib-source-maps@5.0.6
+node probe.mjs
+~~~
+
+Create `probe.mjs` in that isolated directory before the last command:
+
+~~~js
+import { mkdtemp, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { dirname, join } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import ts from 'typescript';
+import { createInstrumenter } from 'istanbul-lib-instrument';
+import { createCoverageMap } from 'istanbul-lib-coverage';
+import { createSourceMapStore } from 'istanbul-lib-source-maps';
+
+const root = await mkdtemp(join(tmpdir(), 'istanbul-calibration-'));
+const exercised = join(root, 'exercised.ts');
+const unexecuted = join(root, 'unexecuted.ts');
+await writeFile(exercised, `// ignored comment
+export interface ErasedContract { value: number }
+export type ErasedLabel = 'yes' | 'no';
+export function choose(value: number): string {
+  if (value > 0) return 'positive';
+  return 'nonpositive';
+}
+export function neverCalled(): string { return 'never'; }
+`);
+await writeFile(unexecuted, `export function untouched(flag: boolean): string {
+  return flag ? 'true-branch' : 'false-branch';
+}
+`);
+
+function emit(source, sourcePath) {
+  const output = ts.transpileModule(source, {
+    fileName: sourcePath,
+    compilerOptions: {
+      module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022,
+      inlineSourceMap: true, inlineSources: true, sourceRoot: dirname(sourcePath) + '/',
+    },
+  }).outputText;
+  const encoded = output.match(/sourceMappingURL=data:application\/json;base64,([^\n]+)/)?.[1];
+  if (!encoded) throw new Error('missing inline TypeScript source map');
+  return { output, inputMap: JSON.parse(Buffer.from(encoded, 'base64').toString('utf8')) };
+}
+function instrument(tsPath) {
+  const { output, inputMap } = emit(ts.sys.readFile(tsPath), tsPath);
+  const generatedPath = tsPath.replace(/\.ts$/, '.mjs');
+  const instrumenter = createInstrumenter({ esModules: true, compact: false, produceSourceMap: true });
+  return { generatedPath, code: instrumenter.instrumentSync(output, generatedPath, inputMap), zero: instrumenter.lastFileCoverage() };
+}
+const used = instrument(exercised);
+const unused = instrument(unexecuted);
+await writeFile(used.generatedPath, used.code);
+globalThis.__coverage__ = {};
+const { choose } = await import(pathToFileURL(used.generatedPath).href);
+choose(1);
+const map = createCoverageMap(globalThis.__coverage__);
+map.merge({ [unused.generatedPath]: unused.zero });
+const remapped = await createSourceMapStore().transformCoverage(map);
+console.log(JSON.stringify({
+  total: remapped.getCoverageSummary().toJSON(),
+  files: remapped.files().sort(),
+}, null, 2));
+~~~
+
+Expected output for `choose(1)` is total `lines: 1/4`, `branches: 1/4`, `functions: 1/3`, and `statements: 2/5`, with original `exercised.ts` and `unexecuted.ts` identities. Add a second `choose(-1)` run and a both-calls run when committing the fixture to lock the measured 2/4 lines, 1/4 branches, 1/3 functions and 2/4 lines, 2/4 branches, 1/3 functions cases respectively. These expected values remain exploratory until the normal-install fixture passes. [VERIFIED: isolated local fixture; ASSUMED]
 
 ## Required Failures
 
