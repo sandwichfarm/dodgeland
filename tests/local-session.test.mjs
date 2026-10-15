@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
-import test from 'node:test';
+import test, { after } from 'node:test';
 import { loadSources } from './source-loader.mjs';
 
 const sources = await loadSources(['game', 'session']);
+after(() => sources.dispose());
 const { Game } = await sources.import('game');
 const { LocalSession, SessionPlayer } = await sources.import('session');
 
