@@ -272,12 +272,12 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
     await resize(900, 600);
     await frame.locator('#local-session-start').click();
     await frame.waitForFunction(() => document.querySelectorAll('#session-seats [data-seat]').length === 4);
-    const selectedHud = frame.locator('#session-seats [data-seat="p2"]');
+    const selectedHud = frame.locator('#session-seats [data-seat="p2"] .session-hud-identity');
     await selectedHud.focus();
     await frame.evaluate(async () => {
       for (let frame = 0; frame < 5; frame++) await new Promise(resolve => requestAnimationFrame(resolve));
     });
-    assert.equal(await frame.evaluate(() => document.activeElement?.getAttribute('data-seat')), 'p2', 'HUD update must preserve focus on the selected player identity control');
+    assert.equal(await frame.evaluate(() => document.activeElement?.closest('[data-seat]')?.getAttribute('data-seat')), 'p2', 'HUD update must preserve focus on the selected player identity control');
     for (const theme of Object.keys(themes)) {
       await setTheme(theme);
       for (const [width, height] of frames) { await resize(width, height); await assertFrame('hud', width, height, theme); }
