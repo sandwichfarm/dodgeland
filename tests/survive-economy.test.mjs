@@ -2,21 +2,29 @@ import test, { after } from 'node:test';
 import assert from 'node:assert/strict';
 import { loadSources } from './source-loader.mjs';
 
-const source = await loadSources(['game', 'session', 'survive-together', 'consumables', 'shared-world-effects', 'market/run']);
+const source = await loadSources(['game', 'session', 'survive-together', 'consumables', 'shared-world-effects', 'market/run', 'market/catalog']);
 const { Game } = await source.import('game');
 const { LocalSession } = await source.import('session');
 const { createSurviveTogetherDefinition } = await source.import('survive-together');
 const { defaultModifiers } = await source.import('market/run');
 const { SHARED_WORLD_EFFECTS, resolveSharedWorldEffects } = await source.import('shared-world-effects');
+const { ITEM_CATALOG } = await source.import('market/catalog');
 after(() => source.dispose());
 
 function surviveSession() {
-  const game = new Game(0x03505, 'pond', 'arcade');
+  const game = new Game(0x03505, 'pond', 'arcade', false, ITEM_CATALOG);
   const session = LocalSession.stage(game, {
     roster: [{ seat: 'p2', device: 'keyboard-b', characterId: 'pip' }],
     mode: createSurviveTogetherDefinition(game.definition),
   }).commit();
   return { game, session, p1: session.players.find(player => player.seat === 'p1'), p2: session.players.find(player => player.seat === 'p2') };
+}
+
+let actionNumber = 0;
+function marketRequest(player, context, kind, payload = {}) {
+  return { actionId: `owned-economy-${++actionNumber}`, seat: player.seat, device: player.device, participantId: player.participantId,
+    expectedOwnerGeneration: context.ownerGeneration, expectedInventoryGeneration: context.inventoryGeneration,
+    expectedRunRevision: context.runRevision, expectedContextGeneration: context.contextGeneration, kind, ...payload };
 }
 
 test('P2 buys one Revival through the owner-attributed market without changing P1', () => {
@@ -56,6 +64,83 @@ test('shared effect descriptors exhaust actual modifier keys and select one stab
   assert.equal(left.effects.mobSpawnDelay, 3);
   assert.equal(left.effects.riverCoinBonus, .7);
   assert.deepEqual(resolveSharedWorldEffects([{ seat: 'p1', effects: p1 }]).effects, p1, 'one active seat keeps exact modifier values');
+});
+
+test('every shared descriptor direction selects one contributor while local fields remain the owner values', () => {
+  const base = defaultModifiers();
+  for (const [key, descriptor] of Object.entries(SHARED_WORLD_EFFECTS)) {
+    const p1 = { ...base }, p2 = { ...base };
+    p1[key] = descriptor.direction === 'higher' ? base[key] + .1 : Math.max(0, base[key] - .1);
+    p2[key] = descriptor.direction === 'higher' ? base[key] + .2 : Math.max(0, base[key] - .2);
+    const resolved = resolveSharedWorldEffects([{ seat: 'p2', effects: p2 }, { seat: 'p1', effects: p1 }]);
+    if (descriptor.scope === 'world-shared') {
+      assert.equal(resolved.effects[key], p2[key], key);
+      assert.equal(resolved.contributors[key], 'p2', key);
+    } else {
+      assert.equal(resolved.contributors[key], undefined, key);
+      assert.equal(resolved.effects[key], p1[key], `${key} keeps the stable first owner's private value out of shared selection`);
+    }
+  }
+});
+
+test('actual future rows receive only the resolved shared generation policy', () => {
+  const { game, session, p1, p2 } = surviveSession();
+  const baseline = new Game(game.seed, 'pond', 'arcade', false, ITEM_CATALOG);
+  p1.run.effects = { ...defaultModifiers(), trafficSpacing: 1.6, platformLength: 1.5, trainPeriod: 1.15, trainWarning: .4, coinChance: .6, sceneryClear: .85, riverCoinBonus: 1 };
+  p2.run.effects = { ...defaultModifiers(), trafficSpacing: 1.12, platformLength: 1.2, trainPeriod: 1.05, trainWarning: .2, coinChance: .08, sceneryClear: .15, riverCoinBonus: .2 };
+  session.update(0);
+  const resolved = session.sharedWorldEffectsSnapshot();
+  assert.equal(resolved.contributors.trafficSpacing, 'p1');
+  assert.equal(resolved.contributors.riverCoinBonus, 'p1');
+  game.world.frontier = baseline.maxY = 600; game.world.activeFloor = 0;
+  game.ensureRows(); baseline.ensureRows();
+  const road = [...game.rows.values()].find(lane => lane.index > 590 && lane.kind === 'road');
+  const river = [...game.rows.values()].find(lane => lane.index > 590 && lane.kind === 'river');
+  const rail = [...game.rows.values()].find(lane => lane.index > 590 && lane.kind === 'rail');
+  assert.ok(road && river && rail, 'future shared generation includes road, river, and rail lanes');
+  const baseRoad = baseline.rows.get(road.index), baseRiver = baseline.rows.get(river.index), baseRail = baseline.rows.get(rail.index);
+  assert.equal(road.spacing, baseRoad.length + (baseRoad.spacing - baseRoad.length) * 1.6);
+  assert.equal(river.length, baseRiver.length * 1.5);
+  assert.equal(rail.period, baseRail.period * 1.15);
+  assert.equal(rail.warning, baseRail.warning + .4);
+  assert.equal(p2.run.effects.riverCoinBonus, .2, 'generation selection never overwrites a teammate payout modifier');
+});
+
+test('resolved wave and mob values drive the shared course once while private damage stays private', () => {
+  const { game, session, p1, p2 } = surviveSession();
+  p1.run.effects = { ...defaultModifiers(), waveSpeed: .8, waveTrail: 1, mobSpeed: .8, rearDamage: .5 };
+  p2.run.effects = { ...defaultModifiers(), waveSpeed: .9, waveTrail: 2, mobSpeed: .9, rearDamage: 1 };
+  session.update(0);
+  game.world.frontier = -100; game.world.waveRow = -50; game.time = 4;
+  const beforeWave = game.world.waveRow;
+  const previous = game.advanceSharedWorld(1);
+  game.advanceSharedPursuit(previous);
+  assert.equal(game.world.waveRow, beforeWave + game.rules.pursuit.speed * .8, 'lower wave-speed contribution moves the one shared front');
+  const mob = { id: 900, kind: 'slime', x: 4, y: 0, fromX: 4, fromY: 0, targetX: 3.5, targetY: 0, phase: 'walking', phaseLeft: 1, phaseDuration: 1, motionSpeed: .65 };
+  game.mobs.push(mob);
+  game.updateSessionMobs([p1, p2], .1, new Map([[p1, { x: p1.groundX, y: p1.groundY }], [p2, { x: p2.groundX, y: p2.groundY }]]));
+  assert.ok(mob.x > 3.95, 'the best lower shared mob speed rebases a real walking mob instead of stacking both cards');
+  assert.equal(p1.run.effects.rearDamage, .5);
+  assert.equal(p2.run.effects.rearDamage, 1, 'damage modifiers remain on their respective owners');
+});
+
+test('wrong device, stale versions, lifecycle changes, and stopped sessions cannot debit an owner', () => {
+  const { session, p1, p2 } = surviveSession();
+  p1.run.advanceScore(100); p1.run.creditCoins(36);
+  let context = session.openCoOpMarket({ seat: p1.seat, device: p1.device, participantId: p1.participantId });
+  context = session.actCoOpMarket(marketRequest(p1, context, 'open')).context;
+  const stale = marketRequest(p1, context, 'buy-consumable', { itemId: 'flare' });
+  const before = p1.run.wallet;
+  assert.equal(session.actCoOpMarket({ ...stale, actionId: 'wrong-device', device: p2.device }).ok, false);
+  assert.equal(session.actCoOpMarket({ ...stale, actionId: 'wrong-owner-generation', expectedOwnerGeneration: stale.expectedOwnerGeneration + 1 }).ok, false);
+  assert.equal(session.actCoOpMarket({ ...stale, actionId: 'wrong-run-revision', expectedRunRevision: stale.expectedRunRevision + 1 }).ok, false);
+  assert.equal(p1.run.wallet, before);
+  assert.equal(session.deviceLost('p1'), true);
+  assert.equal(session.actCoOpMarket(stale).ok, false);
+  assert.equal(p1.run.wallet, before);
+  session.stop();
+  assert.equal(session.actCoOpMarket(stale).ok, false);
+  assert.equal(p1.run.wallet, before);
 });
 
 test('lost, dead, and departed seats stop contributing while reclaim restores only their shared value', () => {
