@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { loadSources } from './source-loader.mjs';
 
 const source = await loadSources(['game', 'session', 'survive-together', 'consumables', 'shared-world-effects', 'market/run', 'market/catalog']);
-const { Game } = await source.import('game');
+const { Game, laneActors, coinPosition } = await source.import('game');
 const { LocalSession } = await source.import('session');
 const { createSurviveTogetherDefinition } = await source.import('survive-together');
 const { defaultModifiers } = await source.import('market/run');
@@ -106,7 +106,34 @@ test('actual future rows receive only the resolved shared generation policy', ()
   assert.equal(p2.run.effects.riverCoinBonus, .2, 'generation selection never overwrites a teammate payout modifier');
 });
 
-test('resolved wave and mob values drive the shared course once while private damage stays private', () => {
+test('a generated river coin uses the shared course but awards the collecting owner private river bonus', () => {
+  const { game, session, p1, p2 } = surviveSession();
+  p1.run.effects = { ...defaultModifiers(), riverCoinBonus: 1 };
+  p2.run.effects = { ...defaultModifiers(), riverCoinBonus: .2 };
+  session.update(0);
+  assert.equal(session.sharedWorldEffectsSnapshot().contributors.riverCoinBonus, 'p1', 'P1 supplies the shared river-generation value');
+
+  game.world.frontier = 600; game.world.activeFloor = 0;
+  game.ensureRows();
+  const river = [...game.rows.values()].find(lane => lane.index > 590 && lane.kind === 'river' && lane.actors);
+  assert.ok(river, 'the live shared course contains a generated platform river');
+  const platform = laneActors(river, game.time).find(actor => Math.abs(actor.x) < 5);
+  assert.ok(platform, 'a generated platform is available inside the play field');
+  river.coin = 0;
+  river.coinActor = platform.id;
+  const coin = coinPosition(river, game.time);
+  assert.ok(coin, 'the injected reward remains bound to the generated platform');
+  p2.x = coin.x; p2.y = river.index; p2.fromX = coin.x; p2.fromY = river.index; p2.hop = 0;
+  game.inPlayerOperation(p2, context => session.world.resolvePlayer(p2, () => context.collectCoins(0, true)));
+  session.world.resolvePickups();
+
+  assert.equal(river.coin, null, 'the production session pickup election consumed the river coin');
+  assert.equal(p1.run.wallet, 0, 'the non-collecting generator owner receives no private payout');
+  assert.equal(p2.run.wallet, 1);
+  assert.equal(p2.run.creditCoins(.8), 1, 'P2 retained its .2 river bonus fraction instead of receiving P1’s shared generation bonus');
+});
+
+test('resolved wave and mob values drive the shared course once while production damage stays private', () => {
   const { game, session, p1, p2 } = surviveSession();
   p1.run.effects = { ...defaultModifiers(), waveSpeed: .8, waveTrail: 1, mobSpeed: .8, rearDamage: .5 };
   p2.run.effects = { ...defaultModifiers(), waveSpeed: .9, waveTrail: 2, mobSpeed: .9, rearDamage: 1 };
@@ -119,9 +146,18 @@ test('resolved wave and mob values drive the shared course once while private da
   const mob = { id: 900, kind: 'slime', x: 4, y: 0, fromX: 4, fromY: 0, targetX: 3.5, targetY: 0, phase: 'walking', phaseLeft: 1, phaseDuration: 1, motionSpeed: .65 };
   game.mobs.push(mob);
   game.updateSessionMobs([p1, p2], .1, new Map([[p1, { x: p1.groundX, y: p1.groundY }], [p2, { x: p2.groundX, y: p2.groundY }]]));
-  assert.ok(mob.x > 3.95, 'the best lower shared mob speed rebases a real walking mob instead of stacking both cards');
-  assert.equal(p1.run.effects.rearDamage, .5);
-  assert.equal(p2.run.effects.rearDamage, 1, 'damage modifiers remain on their respective owners');
+  assert.equal(mob.x, 3.96, 'the selected .8 speed rebases the live walking duration exactly once (default speed would end at 3.95)');
+
+  const sourceRoad = [...game.rows.values()].find(lane => lane.kind === 'road');
+  assert.ok(sourceRoad, 'a generated road supplies the production collision world data');
+  const impactRoad = { ...sourceRoad, index: 97, speed: 0, spacing: 20, length: 2, phase: 0, direction: 1, actors: undefined, coin: null };
+  game.rows.set(impactRoad.index, impactRoad);
+  for (const player of [p1, p2]) {
+    player.x = 0; player.y = impactRoad.index; player.fromX = 0; player.fromY = impactRoad.index; player.hop = 0;
+    game.inPlayerOperation(player, context => context.collideVehicles(-3, impactRoad.index, game.time));
+  }
+  assert.equal(p1.health, p1.maxHealth - .5, 'P1’s rear collision follows P1’s private rear-damage modifier');
+  assert.equal(p2.health, p2.maxHealth - 1, 'P2’s identical rear collision follows P2’s private rear-damage modifier');
 });
 
 test('wrong device, stale versions, lifecycle changes, and stopped sessions cannot debit an owner', () => {
