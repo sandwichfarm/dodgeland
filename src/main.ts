@@ -115,7 +115,7 @@ let recoveryInertSiblings = new Map<HTMLElement, boolean>();
 function setRecoveryModalInert(board: HTMLElement): void {
   recoveryReturnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : undefined;
   recoveryInertSiblings = new Map([...el('app').children]
-    .filter((child): child is HTMLElement => child instanceof HTMLElement && child !== board)
+    .filter((child): child is HTMLElement => child instanceof HTMLElement && child !== board && !child.classList.contains('too-small'))
     .map(child => [child, child.inert]));
   for (const sibling of recoveryInertSiblings.keys()) sibling.inert = true;
 }
@@ -300,6 +300,12 @@ const spillAudio = new DeathSpillAudio(audio);
 const sounds = createSoundSettings(audio, () => progress, (fields, save = true) => { fields.forEach(key => changedPreferences.add(key)); updateCallControl(); if (save) persist(); });
 let lastCall = -Infinity, callShortcut = '', marketShortcut = '', controllerConnected = false, localFocus = true, restoreModalFocus = true;
 let tinyReturnFocus: HTMLElement | undefined;
+// Responsive CSS can blur a hidden control before ResizeObserver runs.
+// Keep its identity from focusin so the supported frame can restore it.
+let lastAppFocus: HTMLElement | undefined;
+el('app').addEventListener('focusin', event => {
+  if (event.target instanceof HTMLElement && event.target !== el('app')) lastAppFocus = event.target;
+});
 let tinyReturnMarket = false;
 let wasTiny = false;
 function canRestoreTinyFocus(candidate: HTMLElement | undefined): candidate is HTMLElement {
@@ -1257,7 +1263,8 @@ const observer = new ResizeObserver(() => {
   const tiny = innerWidth < 240 || innerHeight < 240;
   if (tiny) {
     if (!wasTiny) {
-      tinyReturnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : undefined;
+      const active = document.activeElement;
+      tinyReturnFocus = active instanceof HTMLElement && active !== el('app') && el('app').contains(active) ? active : lastAppFocus;
       tinyReturnMarket = market.isOpen();
     }
     wasTiny = true; suspendPlay(); return;
@@ -1274,9 +1281,10 @@ const observer = new ResizeObserver(() => {
     });
   }
   if (hudDetailsOpen && innerHeight > 319) { closeHudInspection(); updateHud(); }
-  if (recoveryBoard) queueMicrotask(() => {
-    if (!recoveryBoard) return;
-    const controls = visibleModalControls(recoveryBoard);
+  if (recoveryBoard || lifecycleBoard) queueMicrotask(() => {
+    const modal = recoveryBoard ?? lifecycleBoard;
+    if (!modal) return;
+    const controls = visibleModalControls(modal);
     if (!controls.includes(document.activeElement as HTMLButtonElement)) controls[0]?.focus({ preventScroll: true });
   });
 }); observer.observe(el('app'));

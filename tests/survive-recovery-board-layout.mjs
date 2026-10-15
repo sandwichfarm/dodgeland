@@ -103,6 +103,12 @@ test('four-player recovery boards fit every supported frame without scrolling or
         await frame.locator('#session-seats [data-seat="p1"] [data-session-hud="item"]').click();
         await frame.getByRole('button', { name: `Use ${item} ×1`, exact: true }).click();
         for (const [width, height] of sizes) await checkPages(item.toLowerCase(), theme, width, height);
+        const retainedTarget = await frame.locator('#survive-recovery-board').getAttribute('data-recovery-target');
+        await resize(200, 160);
+        assert.equal(await frame.locator('.too-small').isVisible(), true);
+        assert.equal(await frame.locator('#survive-recovery-board button:visible').count(), 0, 'unsupported frames expose only the size notice');
+        await capture(`restored-${item.toLowerCase()}`, theme, 240, 240);
+        assert.equal(await frame.locator('#survive-recovery-board').getAttribute('data-recovery-target'), retainedTarget, 'tiny-frame suspension retains the selected target');
         await resize(900, 600);
         {
           await onSession(function () { for (const lane of this.world.rows.values()) lane.blocked = Array.from({ length: 11 }, (_, index) => index - 5); });

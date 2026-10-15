@@ -83,6 +83,9 @@ body:has(#local-session-setup:not([hidden]) #session-board), body:has(#session-s
   .survive-recovery-board[data-recovery-compact-view="people"][data-recovery-compact-subject="2"] .survive-recovery-subject[data-recovery-subject="2"],
   .survive-recovery-board[data-recovery-compact-view="people"][data-recovery-compact-subject="3"] .survive-recovery-subject[data-recovery-subject="3"] { display: grid; }
 }
+@media (max-width: 239px), (max-height: 239px) {
+  .survive-recovery-board { display: none; }
+}
 /* The generic modal veil hides direct game-surface children.  Compact HUD
    inspection deliberately uses that veil, so restore this one interactive
    HUD layer above it while the ordinary pause board remains hidden. */
