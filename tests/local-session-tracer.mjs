@@ -362,7 +362,7 @@ test('the built opaque iframe transfers solo shell shortcuts to native local inp
     frame = await (await page.locator('iframe').elementHandle()).contentFrame();
     await frame.waitForFunction(() => typeof window.localSessionFixture.handlers['puddlehop.forward-w'] === 'function');
     assert.equal(await frame.locator('#session-seats').isHidden(), true, 'a new instance starts in the default solo flow');
-    await frame.locator('#play').click();
+    await pressVisiblePlay();
     await shellAction('puddlehop.forward-w');
     await frame.waitForFunction(() => document.querySelector('#score')?.textContent === '1');
     assert.deepEqual(errors, [], 'the built opaque iframe reports no boot errors');

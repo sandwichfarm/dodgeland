@@ -224,7 +224,7 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
         const compactHud = width < 480 || height < 420;
         const shortHud = height < 320;
         if (shortHud ? detailed.length > 1 : compactHud ? detailed.length !== 1 : detailed.length !== 4) fail(`${state}/${theme}/${width}×${height} must show ${shortHud ? 'one selected status plus identity chips' : compactHud ? 'one selected detailed tile plus identity chips' : 'four detailed tiles'}`, value.identity);
-        const requiredFields = ['identity', 'device', 'health', 'power', 'wallet', 'revive', 'item'];
+        const requiredFields = ['identity', 'device', 'health', 'power', 'wallet', 'revive', 'item', 'lifecycle'];
         const visibleFields = value.selectedFields.filter(field => field.fullyVisible && field.readable && field.text);
         const hasSelectedStatus = ['identity', 'health'].every(field => visibleFields.some(value => value.field === field));
         if (!hasSelectedStatus || (!shortHud && (value.selectedFields.length !== requiredFields.length || requiredFields.some(field => !visibleFields.some(value => value.field === field))))) {
@@ -338,8 +338,10 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
         if (width === 240 && height === 240) {
           assert.equal(await frame.locator('#app').getAttribute('data-run-state'), 'paused', 'restoring from the below-minimum notice deliberately holds the local session paused');
           assert.equal(await frame.locator('#session-seats [data-seat]').count(), 4, 'safety pause retains all four session owners');
-          const resume = frame.getByRole('button', { name: /Keep hopping/ });
-          assert.equal(await resume.isVisible(), true, 'restored working frame exposes the real resume control');
+          // Shared Local Play keeps its owner HUD visible and hides the solo
+          // run panel, so its toolbar Pause control is the real resume action.
+          const resume = frame.getByRole('button', { name: 'Resume game', exact: true });
+          assert.equal(await resume.isVisible(), true, 'restored working frame exposes the real shared resume control');
           await resume.click();
           await frame.waitForFunction(() => document.querySelector('#app')?.dataset.runState === 'playing' && !document.querySelector('#session-seats')?.hasAttribute('hidden'));
         }
@@ -356,9 +358,20 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
           await frame.waitForFunction(() => document.querySelector('#session-seats')?.dataset.sessionHudInspect === 'true');
           assert.equal(await frame.locator('#app').getAttribute('data-run-state'), 'paused', 'opening short details pauses an active local session');
           assert.equal(await frame.locator('.bottom-bar').isVisible(), false, 'short details hide pointer controls while inspecting');
-          const inspected = await metrics('hud-inspect', width, height);
-          const fields = ['identity', 'device', 'health', 'power', 'wallet', 'revive', 'item'];
-          if (fields.some(field => !inspected.selectedFields.some(value => value.field === field && value.fullyVisible && value.readable && value.text))) fail('short details must expose every real selected field without an overlapping control', inspected.selectedFields);
+          const detailPages = [
+            ['identity', 'device', 'health'],
+            ['identity', 'power', 'wallet'],
+            ['identity', 'revive', 'lifecycle'],
+            ['identity', 'item'],
+          ];
+          for (let page = 0; page < detailPages.length; page++) {
+            const inspected = await metrics('hud-inspect', width, height);
+            if (detailPages[page].some(field => !inspected.selectedFields.some(value => value.field === field && value.fullyVisible && value.readable && value.text))) {
+              fail(`short details page ${page + 1} must expose its real selected fields without an overlapping control`, inspected.selectedFields);
+            }
+            await iframe.screenshot({ path: new URL(`local-session-layout-hud-240x240-inspect-page-${page + 1}-dark.png`, output).pathname });
+            if (page < detailPages.length - 1) await frame.locator('#session-seats .session-hud-selected .session-hud-pager button').last().click();
+          }
           await iframe.screenshot({ path: new URL('local-session-layout-hud-240x240-inspect-dark.png', output).pathname });
           await page.keyboard.down('w');
           const closeDetails = frame.locator('#session-seats .session-hud-selected button[data-session-hud-close="true"]');
@@ -389,7 +402,9 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
           await resize(width, height);
           assert.equal(await frame.locator('#app').getAttribute('data-run-state'), 'paused', 'safety suspension while inspecting never auto-resumes the session');
           assert.equal(await frame.locator('#session-seats [data-seat]').count(), 4, 'safety suspension preserves the four session owners');
-          await frame.getByRole('button', { name: /Keep hopping/ }).click();
+          const closeInspection = frame.getByRole('button', { name: 'Close details', exact: true });
+          assert.equal(await closeInspection.isVisible(), true, 'restored inspection exposes its accessible shared-session exit');
+          await closeInspection.click();
           await frame.waitForFunction(() => document.querySelector('#app')?.dataset.runState === 'playing' && !document.querySelector('#session-seats')?.hasAttribute('hidden'));
         }
       }
