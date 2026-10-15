@@ -141,4 +141,20 @@ completed plan establishes the transport/router portion of those requirements.
 ## Self-Check: PASSED
 
 - `src/gamepad.ts`, `src/session-input.ts`, `tests/gamepad.test.mjs`, `tests/session-input.test.mjs`, and `docs/gamepad.md` exist.
-- Commits `5fa1219`, `bd9c4d7`, `b505f1b`, `180ea36`, and `006ea02` are present in history.
+- Commits `5fa1219`, `bd9c4d7`, `b505f1b`, `180ea36`, `006ea02`, `75a7703`, and `2bce3f6` are present in history.
+
+## Addendum: Released Seat Leases
+
+Plan 02-05 needs to release controller policy when setup Leave or Back to solo
+removes a seat. `GamepadRouter.release(seat)` now clears that seat's connected and
+remembered reclaim assignments while seeding current held input. A neutral fresh
+edge is required before the same controller can request Local Play again; other
+controllers retain independent movement and repeat state. This is router policy
+only: the caller continues to own session/mode departure.
+
+- **RED:** `75a7703` adds connected-release, remembered-reclaim release, neutral,
+  idempotence, and other-seat repeat tests.
+- **GREEN:** `2bce3f6` adds release plus neutral D-pad reset for unassigned pads.
+- **Verification:** `node --test tests/gamepad.test.mjs tests/session-input.test.mjs` — 31/31; `pnpm type-check` — pass.
+- **Integration note:** Plan 02-05 must preserve solo's first controller path and
+  only request setup for a genuine second unassigned device edge.

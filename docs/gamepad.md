@@ -38,6 +38,13 @@ again before reclaim or play. Browser/shell focus loss, hidden frames, an unders
 surface, modal ownership changes, seat assignment, and teardown seed or clear all
 relevant latches. Global focus and size safety remains the separate pause policy.
 
+When setup Leave or Back to solo removes a seat, its caller also invokes
+`GamepadRouter.release(seat)`. That clears both the connected assignment and any
+remembered reclaim association for that seat without changing the session's mode
+state. The router seeds the current held controls, so the departing controller must
+return to neutral and make a fresh input before it can request Local Play again.
+Other controller leases and their repeat schedules continue unchanged.
+
 The original one-controller callback adapter remains for solo callers. Plan 02-05
 will construct the router and connect it to the frame loop; the transport-only
 browser regression does not claim that integration. Audio still follows the
