@@ -99,7 +99,7 @@ export interface SessionRecoveryRequest {
 export interface ConsumablePickupSnapshot { readonly id: string; readonly itemId: ConsumableId; readonly row: number; readonly slot: number; readonly x: number; readonly y: number; readonly z: number }
 export interface ConsumableChargeSnapshot { readonly seat: SeatId; readonly ownerGeneration: number; readonly inventoryGeneration: number; readonly revival: number; readonly flare: number }
 export interface ConsumableWorldSnapshot { readonly generation: number; readonly pickups: readonly ConsumablePickupSnapshot[]; readonly charges: readonly ConsumableChargeSnapshot[]; readonly claims: readonly Readonly<{ pickupId: string; seat: SeatId }>[]; readonly protected: readonly Readonly<{ seat: SeatId; until: number }>[] }
-export interface ConsumableAction { readonly actionId: string; readonly ownerSeat: SeatId; readonly itemId: ConsumableId; readonly targetSeat?: SeatId; readonly expectedInventoryGeneration: number; readonly expectedOwnerGeneration: number; readonly expectedTargetDeathGeneration?: number }
+export interface ConsumableAction { readonly actionId: string; readonly ownerSeat: SeatId; readonly itemId: ConsumableId; readonly targetSeat?: SeatId; readonly expectedInventoryGeneration: number; readonly expectedOwnerGeneration: number; readonly expectedTargetDeathGeneration?: number; readonly expectedTargetParticipantId?: string }
 export interface SessionContribution {
   readonly seat: SeatId;
   readonly characterId: string;
@@ -472,7 +472,7 @@ class ConsumableWorld implements GameWorldExtension {
     if (charge.inventoryGeneration !== action.expectedInventoryGeneration || charge.ownerGeneration !== action.expectedOwnerGeneration) return false;
     const targets = action.itemId === 'revival' ? action.targetSeat ? this.session.players.filter(player => player.seat === action.targetSeat) : []
       : this.session.players.filter(player => player !== owner && ((player.participation === 'dead' && player.state === 'dead') || isLivingRecoverySubject(player)));
-    if (action.itemId === 'revival' && (!targets[0]?.recovery || action.expectedTargetDeathGeneration === undefined || targets[0].recovery.deathGeneration !== action.expectedTargetDeathGeneration)) return false;
+    if (action.itemId === 'revival' && (!targets[0]?.recovery || !action.expectedTargetParticipantId || targets[0].participantId !== action.expectedTargetParticipantId || action.expectedTargetDeathGeneration === undefined || targets[0].recovery.deathGeneration !== action.expectedTargetDeathGeneration)) return false;
     const plan = planConsumableDebit({ mode: { capabilities: ['survive-together'] }, owner: { id: owner.seat, generation: charge.ownerGeneration }, inventory: { owner: { id: owner.seat, generation: charge.ownerGeneration }, generation: charge.inventoryGeneration, charges: { revival: charge.revival, flare: charge.flare } }, expectedInventoryGeneration: action.expectedInventoryGeneration, itemId: action.itemId, targets: targets.map(player => ({ id: player.seat, lifecycle: player.participation === 'dead' && player.state === 'dead' ? 'dead' : 'living' })) });
     if (!plan.ok) return false;
     const request: SessionRecoveryRequest = action.itemId === 'revival' ? { kind: 'revival', ownerSeat: owner.seat, targetSeat: action.targetSeat, debit: () => this.debit(action, plan.resultingCharges) }
@@ -510,6 +510,7 @@ export class LocalSession {
   private readonly pendingForwardHops = new Map<SessionPlayer, number>();
   private resultRecord: SessionResult | undefined;
   private nextGrant = 1;
+  private nextParticipant = 1;
   private active = false;
   private consumableWorld: ConsumableWorld | undefined;
   private releaseWorldExtension: (() => void) | undefined;
@@ -702,11 +703,11 @@ export class LocalSession {
   }
   private bindRecovery(player: SessionPlayer, admission: SessionAdmission): void {
     const recovery = this.recoveryFor(admission);
-    const aliases = new Set([...recovery.aliases, `device:${admission.device}`, `character:${admission.characterId}`]);
-    if (admission.participantId) aliases.add(`participant:${admission.participantId}`);
+    const participantId = admission.participantId ?? `${this.id}:anonymous-${this.nextParticipant++}`;
+    const aliases = new Set([...recovery.aliases, `device:${admission.device}`, `character:${admission.characterId}`, `participant:${participantId}`]);
     const bound = Object.freeze({ ...recovery, aliases: Object.freeze([...aliases].sort()), spatialFrontierY: Math.max(recovery.spatialFrontierY, player.groundY, player.maxY), lastSafe: recovery.lastSafe ?? Object.freeze({ x: player.groundX, y: player.groundY }) });
     for (const alias of bound.aliases) this.provenanceAliases.set(alias, bound);
-    player.participantId = admission.participantId ?? bound.participantId; player.recovery = bound;
+    player.participantId = participantId; player.recovery = bound;
     player.completedForwardTiles = bound.personalHighWater; player.personalFrontierY = bound.spatialFrontierY;
   }
   private addRecoveryDeviceAlias(player: SessionPlayer, device: DeviceId): void {
