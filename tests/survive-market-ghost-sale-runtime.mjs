@@ -55,6 +55,7 @@ test('a disconnected owner cannot sell a retained card until explicitly reclaimi
     assert.equal(await frame.locator('#run-hand-name').innerText(), card.name, 'ghost inspection retains its own same-ID card');
     assert.equal(await frame.locator('#run-hand-sell').isDisabled(), true);
     assert.match(await frame.locator('#run-hand-sell').getAttribute('title'), /P2 must reclaim their controller first\./);
+    assert.match(await frame.locator('#run-hand-detail').innerText(), /P2 must reclaim their controller first\./, 'the disabled action explains reclaim visibly, without requiring a tooltip');
     assert.deepEqual(await inventory(), before);
     await iframe.screenshot({ path: new URL('survive-market-ghost-sale.png', output).pathname });
     await frame.locator('#run-hand-close').click(); await settle();
