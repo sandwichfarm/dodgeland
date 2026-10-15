@@ -317,3 +317,13 @@ four-seat combination of two controllers and both keyboard profiles. Offer the
 remaining available keyboard profile by actual assignment; retain correct
 profile-to-seat routing and labels. Executor owns both corrections and browser
 regressions. These are pending findings, not passing proof.
+
+### Same-snapshot context guard counterexample
+
+Root exercised the proposed snapshot-wide context preservation with two already
+assigned controllers. P1's Start button changed `session:playing` to
+`session:paused`; P2's simultaneous fresh confirm then activated the newly opened
+menu and resumed play. Observed actions: `p1:pause`, `p2:confirm`; final context
+was `session:playing`. This is not the intended join exception. The correction
+must retain fresh unassigned joining activity while seeding assigned-seat input
+across a new modal/context boundary. Executor notified; regression pending.
