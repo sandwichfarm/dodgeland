@@ -3,6 +3,8 @@ import type { Direction } from './game.js';
 import type { Character } from './content.js';
 import type { RunInventory } from './market/run.js';
 import type { HeldCard, MarketResult, Rarity, CosmeticDefinition, ItemDefinition } from './market/types.js';
+import { CONSUMABLES } from './consumables.js';
+import type { CoOpMarketContext } from './co-op-market.js';
 import { createMarketPreview } from './market-preview.js';
 import { createMarketScene } from './market-scene.js';
 import { runHandControls } from './run-hand.js';
@@ -17,6 +19,8 @@ interface MarketUIOptions {
   selectNextOwner?(): void;
   canMutate?(): boolean;
   unavailableReason?(): string;
+  getCoOpContext?(): CoOpMarketContext | undefined;
+  transaction?(request: { kind: 'buy' | 'buy-consumable' | 'sell' | 'claim-pack' | 'skip-pack' | 'equip'; offerId?: string; itemId?: string; cardId?: string; ids?: readonly string[]; discardIds?: readonly string[] }): MarketResult;
   canOpen(): boolean;
   open(): boolean;
   close(resume: boolean): void;
@@ -27,7 +31,7 @@ interface MarketUIOptions {
 }
 
 type View = 'shop' | 'wardrobe';
-type Source = 'offer' | 'card' | 'power' | 'look' | 'choice' | 'discard';
+type Source = 'offer' | 'consumable' | 'card' | 'power' | 'look' | 'choice' | 'discard';
 type StockSection = 'cards' | 'rare' | 'extras';
 type Face = Pick<HeldCard, 'icon' | 'name' | 'rarity' | 'description' | 'color'>;
 interface DisplayItem {
@@ -250,6 +254,11 @@ export function createMarketUI(options: MarketUIOptions) {
       result.push({ key: `offer:${offer.id}`, id: offer.id, source: 'offer', item, definition: item, price: offer.price, sold: offer.sold,
         section: offer.section ?? (item.kind === 'card' ? 'cards' : item.kind === 'cosmetic' ? 'extras' : 'rare') });
     }
+    for (const offer of options.getCoOpContext?.()?.offers.filter(candidate => candidate.source === 'consumable') ?? []) {
+      const item = CONSUMABLES.find(candidate => candidate.id === offer.itemId);
+      if (!item) continue;
+      result.push({ key: `consumable:${offer.id}`, id: offer.id, source: 'consumable', item: { name: item.name, icon: item.id === 'revival' ? '✚' : '✦', rarity: 'rare', color: item.id === 'revival' ? '#5aa795' : '#d59d4b', description: `${item.name} item. ${item.id === 'revival' ? 'Return one dead teammate safely.' : 'Regroup dead teammates safely.'}` }, price: offer.price, sold: offer.sold, section: 'rare' });
+    }
     for (const card of run.cards) {
       const source = run.pendingPack && replacing ? 'discard' : 'card';
       result.push({ key: `${source}:${card.id}`, id: card.id, source, item: card, price: card.saleValue });
@@ -267,7 +276,7 @@ export function createMarketUI(options: MarketUIOptions) {
   function currentEntries(run: RunInventory, all = entries(run)): DisplayItem[] {
     if (run.pendingPack) return all.filter(entry => entry.source === (replacing ? 'discard' : 'choice'));
     if (view === 'wardrobe') return all.filter(entry => entry.source === 'look');
-    return all.filter(entry => entry.source === 'offer');
+    return all.filter(entry => entry.source === 'offer' || entry.source === 'consumable');
   }
   function tile(entry: DisplayItem, index: number): HTMLButtonElement {
     const control = button('', `inspect:${entry.key}`, 'inspect', entry.key);
@@ -311,8 +320,8 @@ export function createMarketUI(options: MarketUIOptions) {
     element('market-inspect-note').classList.remove('market-error');
     action.hidden = false; action.disabled = false; action.dataset.id = entry.id;
     let actionName = '', label = '', note = entry.note ?? 'Lasts this run.';
-    if (entry.source === 'offer') {
-      actionName = 'buy'; label = `${entry.definition?.kind === 'pack' ? 'Open' : 'Buy'} · ${entry.price} ◆`;
+    if (entry.source === 'offer' || entry.source === 'consumable') {
+      actionName = entry.source === 'consumable' ? 'buy-consumable' : 'buy'; label = entry.source === 'consumable' ? `Buy ${entry.item.name} · ${entry.price} ◆` : `${entry.definition?.kind === 'pack' ? 'Open' : 'Buy'} · ${entry.price} ◆`;
       action.disabled = run.wallet < entry.price!;
       if (action.disabled) note = `Need ${entry.price! - run.wallet} more coins.`;
       else if (entry.definition?.kind === 'pack') note = 'Choose after opening. Skipping keeps no cards and gives no refund.';
@@ -533,7 +542,7 @@ export function createMarketUI(options: MarketUIOptions) {
     if (!target || target.disabled) return;
     const run = options.getRun(), id = target.dataset.id!, action = target.dataset.marketAction;
     if (action === 'owner-seat') { if (id) options.selectOwner?.(id); return; }
-    if (action && ['buy', 'sell', 'equip', 'choice', 'discard', 'claim', 'skip'].includes(action) && !mutationsAvailable()) {
+    if (action && ['buy', 'buy-consumable', 'sell', 'equip', 'choice', 'discard', 'claim', 'skip'].includes(action) && !mutationsAvailable()) {
       element('market-status').textContent = unavailableReason(); return;
     }
     if (action && ['view', 'page', 'inspect'].includes(action)) element('market-status').textContent = '';
@@ -554,7 +563,7 @@ export function createMarketUI(options: MarketUIOptions) {
       if (discarded.has(id)) discarded.delete(id); else discarded.add(id);
       back();
     } else if (action === 'skip' && run.pendingPack) {
-      const result = run.skipPack();
+      const result = options.transaction?.({ kind: 'skip-pack' }) ?? run.skipPack();
       if (result.ok) view = 'shop';
       finish(result);
     }
@@ -568,13 +577,15 @@ export function createMarketUI(options: MarketUIOptions) {
     } else if (action === 'claim' && run.pendingPack) {
       if (!replacing && picked.size === run.pendingPack.picks && !run.previewPack([...picked]).valid) {
         replacing = true; inspection = undefined; page = 0; rendered = ''; update(); focusControl();
-      } else finish(run.claimPack([...picked], replacing ? [...discarded] : []));
+      } else finish(options.transaction?.({ kind: 'claim-pack', ids: [...picked], discardIds: replacing ? [...discarded] : [] }) ?? run.claimPack([...picked], replacing ? [...discarded] : []));
     }
     else if (action === 'buy') {
-      const entry = entries(run).find(item => item.key === `offer:${id}`); finish(run.buy(id), entry);
-    } else if (action === 'sell') finish(run.sell(id));
+      const entry = entries(run).find(item => item.key === `offer:${id}`); finish(options.transaction?.({ kind: 'buy', offerId: id }) ?? run.buy(id), entry);
+    } else if (action === 'buy-consumable') {
+      const entry = entries(run).find(item => item.key === `consumable:${id}`); finish(options.transaction?.({ kind: 'buy-consumable', offerId: id, itemId: entry?.item.name.toLowerCase() }) ?? { ok: false, message: 'That item is unavailable.' }, entry);
+    } else if (action === 'sell') finish(options.transaction?.({ kind: 'sell', cardId: id }) ?? run.sell(id));
     else if (action === 'equip') {
-      const entry = entries(run).find(item => item.key === `look:${id}`); finish(run.equipCosmetic(id), entry);
+      const entry = entries(run).find(item => item.key === `look:${id}`); finish(options.transaction?.({ kind: 'equip', itemId: id }) ?? run.equipCosmetic(id), entry);
     }
   }
   function navigate(direction: Direction): void {

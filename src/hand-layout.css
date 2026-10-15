@@ -31,6 +31,9 @@
 #run-inventory[data-owner-mutation-unavailable="true"] #run-hand-owner-note {
   grid-column: 1 / -1; margin: 0; color: #5b3029; font: 700 16px/1.2 var(--game-font);
 }
+#run-hand-items { display: flex; gap: 4px; align-items: center; min-width: 0; }
+#run-hand-items .run-hand-item { min-width: 44px; min-height: 44px; border: 2px solid var(--game-edge); border-radius: 5px; background: var(--game-gold); color: var(--game-ink); font: 400 14px/1.1 var(--game-font); }
+.run-hand-items-empty { font: 400 14px/1.1 var(--game-font); color: var(--game-paper); }
 
 /* A shared owner strip replaces the ordinary short toolbar only while Local
    Play supplies an owner. Four marker buttons stay in one horizontal row. */

@@ -22,6 +22,9 @@ interface RunHandOptions {
   unavailableReason?(): string;
   onOpenChange(open: boolean): void;
   onSell(result: MarketResult): void;
+  sell?(cardId: string): MarketResult;
+  getItems?(): Readonly<{ revival: number; flare: number }> | undefined;
+  onUseItem?(itemId: 'revival' | 'flare'): void;
 }
 
 /** One physical hand stays on the table while the content above it changes. */
@@ -37,6 +40,7 @@ export function createRunHand(options: RunHandOptions) {
     <div id="run-cards" role="group" aria-label="Your hand"></div>
     <button id="run-hand-next" class="run-hand-pager" data-hand-key="next" aria-label="Next hand cards" hidden>›</button>
     <p id="run-hand-owner-note" role="status" hidden></p>
+    <div id="run-hand-items" role="group" aria-label="Items"></div>
     <section id="run-hand-detail" aria-labelledby="run-hand-name" aria-owns="run-cards run-hand-prev run-hand-next" hidden>
       <h2 id="run-hand-name"></h2>
       <button id="run-hand-detail-owner" type="button" data-hand-key="owner" hidden></button>
@@ -60,7 +64,7 @@ export function createRunHand(options: RunHandOptions) {
   const previous = get<HTMLButtonElement>('run-hand-prev'), next = get<HTMLButtonElement>('run-hand-next');
   const previousDetail = get<HTMLButtonElement>('run-hand-detail-prev'), nextDetail = get<HTMLButtonElement>('run-hand-detail-next');
   const pageCount = get('run-hand-page-count'), closeButton = get<HTMLButtonElement>('run-hand-close'), sell = get<HTMLButtonElement>('run-hand-sell');
-  const ownerNote = get('run-hand-owner-note');
+  const ownerNote = get('run-hand-owner-note'), items = get('run-hand-items');
   const detailPager = root.querySelector<HTMLElement>('.run-hand-detail-pages')!;
   const reading = root.querySelector<HTMLElement>('.run-hand-reading')!;
   const measure = document.createElement('canvas').getContext('2d')!;
@@ -119,6 +123,16 @@ export function createRunHand(options: RunHandOptions) {
       button.title = card.name; button.append(illustration, title); fragment.append(button);
     }
     cards.replaceChildren(fragment);
+    const charges = options.getItems?.();
+    const itemControls: HTMLElement[] = [];
+    for (const [id, quantity] of [['revival', charges?.revival ?? 0], ['flare', charges?.flare ?? 0]] as const) {
+      if (!quantity) continue;
+      const control = document.createElement('button'); control.type = 'button'; control.className = 'run-hand-item'; control.dataset.handItem = id; control.dataset.handKey = `item:${id}`;
+      control.textContent = `${id === 'revival' ? 'Revival' : 'Flare'} ×${quantity}`; control.setAttribute('aria-label', `Use ${id === 'revival' ? 'Revival' : 'Flare'} ×${quantity}`);
+      itemControls.push(control);
+    }
+    if (!itemControls.length) itemControls.push(Object.assign(document.createElement('span'), { className: 'run-hand-items-empty', textContent: 'Items: —' }));
+    items.replaceChildren(...itemControls);
     restoreKey(focused);
   }
 
@@ -205,6 +219,7 @@ export function createRunHand(options: RunHandOptions) {
     if (target === ownerLabel || target === detailOwner) options.selectNextOwner?.();
     else if (target.dataset.handCard) open(target.dataset.handCard);
     else if (target === closeButton) close();
+    else if (target.dataset.handItem === 'revival' || target.dataset.handItem === 'flare') options.onUseItem?.(target.dataset.handItem);
     else if (target === previous || target === next) {
       handPage += target === previous ? -1 : 1; paintHand();
       focus(target.disabled ? cards.querySelector<HTMLButtonElement>('button') : target);
@@ -212,7 +227,7 @@ export function createRunHand(options: RunHandOptions) {
       detailPage += target === previousDetail ? -1 : 1; paintDetailPage();
     } else if (target === sell && selected) {
       if (!options.canSell()) { message = options.unavailableReason?.() ?? 'This action is unavailable.'; detailPage = 0; updateDetail(); return; }
-      const result = options.getRun().sell(selected);
+      const result = options.sell?.(selected) ?? options.getRun().sell(selected);
       if (result.ok) close();
       else { message = result.message; detailPage = 0; updateDetail(); }
       options.onSell(result);
@@ -269,7 +284,7 @@ export function createRunHand(options: RunHandOptions) {
       }
       if (selected && !selectedCard()) close();
       paintHand();
-      if (selected) sell.disabled = !options.canSell();
+      if (selected) updateDetail();
     },
     isOpen: () => Boolean(selected),
     close,

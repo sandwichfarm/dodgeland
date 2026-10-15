@@ -15,6 +15,8 @@ import { installHealthMeter, readyPursuitCopy, updateChaseMeter, updateHealthMet
 import { Renderer, modelThumbnail } from './render.js';
 import { LocalSession } from './session.js';
 import type { DeviceId, SeatId, SessionSeatSpec } from './session.js';
+import type { CoOpMarketContext } from './co-op-market.js';
+import type { MarketResult } from './market/types.js';
 import { createSurviveTogetherDefinition } from './survive-together.js';
 import { createSurviveResultsBoard } from './survive-results-ui.js';
 import type { SurviveTogetherResult } from './survive-results.js';
@@ -58,6 +60,8 @@ let hudSelected: SeatId = 'p1';
 let hudDetailsOpen = false;
 let hudInspectWasPlaying = false;
 let hudDetailsPage = 0;
+let coOpMarketContext: CoOpMarketContext | undefined;
+let coOpMarketActionId = 0;
 function selectedSessionOwner() { return localSession?.players.find(player => player.seat === hudSelected); }
 function selectedOwnerRun() { return selectedSessionOwner()?.run ?? game.run; }
 function selectedOwnerCharacter() { return characterById(selectedSessionOwner()?.characterId ?? progress.selected); }
@@ -73,16 +77,39 @@ function sharedOwners() {
   const session = localSession;
   return session?.players.map(player => ({ key: `${session.id}:${player.seat}`, seat: player.seat, marker: seatMarker(player.seat), character: characterById(player.characterId) })) ?? [];
 }
-function ownerMutationsAvailable(): boolean { return !localSession?.running; }
-function ownerMutationReason(): string { return 'Market changes are not available during Local Play yet. You can inspect this player’s current run.'; }
+function ownerMutationsAvailable(): boolean {
+  const owner = selectedSessionOwner();
+  return !localSession?.running || !!owner && owner.participation === 'active' && owner.state !== 'dead' && owner.run.alive;
+}
+function ownerMutationReason(): string {
+  const owner = selectedSessionOwner();
+  if (owner?.participation === 'device-lost') return `${owner.seat.toUpperCase()} must reclaim their controller first.`;
+  if (owner?.participation === 'dead') return `${owner.seat.toUpperCase()} cannot use market actions while recovering.`;
+  if (owner?.participation === 'departed') return `${owner.seat.toUpperCase()} left this run.`;
+  return 'This market action is unavailable.';
+}
+function coOpMarketTransaction(request: { kind: 'open' | 'close' | 'buy' | 'buy-consumable' | 'sell' | 'claim-pack' | 'skip-pack' | 'equip'; offerId?: string; itemId?: string; cardId?: string; ids?: readonly string[]; discardIds?: readonly string[] }): MarketResult {
+  const session = localSession, owner = selectedSessionOwner();
+  if (!session?.running || !owner) return { ok: false, message: 'That market interaction is unavailable.' };
+  // A direct shelf sale is valid outside a market window, but still starts one
+  // fresh owner interaction. Existing contexts are never replaced to rescue a
+  // delayed action after an owner/lifecycle change.
+  if (!coOpMarketContext && (request.kind === 'open' || request.kind === 'sell')) coOpMarketContext = session.openCoOpMarket({ seat: owner.seat, device: owner.device, participantId: owner.participantId });
+  const context = coOpMarketContext;
+  if (!context || context.seat !== owner.seat || context.participantId !== owner.participantId) return { ok: false, message: 'That market interaction is no longer current.' };
+  const result = session.actCoOpMarket({ actionId: `ui-market-${++coOpMarketActionId}`, seat: context.seat, device: owner.device, participantId: context.participantId,
+    expectedOwnerGeneration: context.ownerGeneration, expectedInventoryGeneration: context.inventoryGeneration, expectedRunRevision: context.runRevision, expectedContextGeneration: context.contextGeneration,
+    kind: request.kind, offerId: request.offerId, itemId: request.itemId, cardId: request.cardId, ids: request.ids, discardIds: request.discardIds });
+  coOpMarketContext = result.context;
+  return { ok: result.ok, message: result.message };
+}
 function selectHudOwner(seat: SeatId): void {
   if (hudSelected === seat) return;
   // Both shared surfaces retain ephemeral UI state. Invalidate that state while
   // the old inventory is still resolvable, before a new seat becomes current.
-  const marketWasOpen = market.invalidateOwner(); hand.invalidateOwner(); hudSelected = seat;
-  // Market inspection is deliberately read-only in Local Play. The incoming
-  // run may have no active window, but its actual empty inventory still owns
-  // the same surface.
+  const marketWasOpen = market.invalidateOwner(); hand.invalidateOwner(); coOpMarketContext = undefined; router.seedAll(); hudSelected = seat;
+  // The incoming owner keeps its own inventory and may expose an empty
+  // inspection surface, but never inherits a previous interaction context.
   hudDetailsPage = 0;
   if (marketWasOpen && localSession?.running) market.openForSelected();
   market.update(); market.focusSelectedOwner(); updateHud();
@@ -337,6 +364,12 @@ const hand = createRunHand({
   selectNextOwner: selectNextHudOwner,
   canSell: () => ownerMutationsAvailable() && selectedOwnerRun().alive && !disposed && !document.hidden && localFocus,
   unavailableReason: ownerMutationReason,
+  sell: cardId => localSession?.running ? coOpMarketTransaction({ kind: 'sell', cardId }) : selectedOwnerRun().sell(cardId),
+  getItems: () => {
+    const charge = itemCharge(hudSelected);
+    return charge ? { revival: charge.revival, flare: charge.flare } : undefined;
+  },
+  onUseItem: itemId => openRecoveryBoard(hudSelected, itemId),
   onOpenChange: open => {
     if (open && game.state === 'playing') { handPausedPlay = true; audio.stop(); game.pause(); }
     else if (!open) {
@@ -381,12 +414,13 @@ const market = createMarketUI({
   selectNextOwner: selectNextHudOwner,
   canMutate: ownerMutationsAvailable,
   unavailableReason: ownerMutationReason,
-  canOpen: () => !localStage && !disposed && !(import.meta.env.DEV && devTools?.isOpen) && !document.hidden && localFocus && innerWidth >= 240 && innerHeight >= 240 && el('drawer').hidden && (game.state === 'playing' || (game.state === 'paused' && (localSession?.running || !!selectedOwnerRun().pendingPack))) && (localSession?.running || !!selectedOwnerRun().market),
+  getCoOpContext: () => coOpMarketContext,
+  transaction: request => localSession?.running ? coOpMarketTransaction(request) : { ok: false, message: 'That market interaction is unavailable.' },
+  canOpen: () => !localStage && !disposed && !(import.meta.env.DEV && devTools?.isOpen) && !document.hidden && localFocus && innerWidth >= 240 && innerHeight >= 240 && el('drawer').hidden && (localSession?.running || game.state === 'playing' || (game.state === 'paused' && !!selectedOwnerRun().pendingPack)) && (localSession?.running || !!selectedOwnerRun().market),
   open: () => {
     if (localSession?.running) {
-      // A newly joined owner can have no market window yet. Keep the one shared
-      // surface open so their actual empty inventory remains inspectable.
-      selectedOwnerRun().open();
+      const result = coOpMarketTransaction({ kind: 'open' });
+      if (!result.ok) return false;
       sessionPaused = true; game.pause(); handPausedPlay = false; hand.close(); audio.stop(); return true;
     }
     if (!game.openMarket()) return false; handPausedPlay = false; hand.close(); audio.stop(); return true;
@@ -394,7 +428,7 @@ const market = createMarketUI({
   close: resume => {
     const allowed = resume && !disposed && !document.hidden && localFocus && innerWidth >= 240 && innerHeight >= 240;
     if (localSession?.running) {
-      selectedOwnerRun().close(); if (allowed) { sessionPaused = false; game.resume(); audio.unlock(); }
+      coOpMarketTransaction({ kind: 'close' }); if (allowed) { sessionPaused = false; game.resume(); audio.unlock(); }
       return;
     }
     game.closeMarket(allowed); if (allowed) audio.unlock();
@@ -843,7 +877,8 @@ function updateHud(): void {
   updateChaseHud();
   const state = displayedRunState();
   const ownerRun = selectedOwnerRun();
-  hand.update({ visible: !terminalResult && !localStage && ownerRun.alive && (state === 'playing' || state === 'paused') && (ownerRun.cards.length > 0 || ownerRun.isOpen) && !(import.meta.env.DEV && devTools?.isOpen), reduced: progress.reduced || mediaQuery.matches });
+  const ownerCharge = itemCharge(hudSelected);
+  hand.update({ visible: !terminalResult && !localStage && ownerRun.alive && (state === 'playing' || state === 'paused') && (ownerRun.cards.length > 0 || ownerRun.isOpen || Boolean(ownerCharge?.revival || ownerCharge?.flare)) && !(import.meta.env.DEV && devTools?.isOpen), reduced: progress.reduced || mediaQuery.matches });
   seedUI.update(state === 'dead' && !presentingDeathSpill() ? game.seedCode : null);
   el<HTMLButtonElement>('character-call').disabled = progress.muted || (state !== 'ready' && state !== 'playing');
   const viewState = `${state}:${Boolean(selectedOwnerRun().pendingPack)}:${Boolean(localStage)}:${Boolean(localSession)}`;
