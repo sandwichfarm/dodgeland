@@ -200,3 +200,58 @@ test('a full-hand paid pack stays with its owner across context switches, sale, 
   assert.ok(ids.every(id => owner.run.cards.some(card => card.id === id)));
   assert.equal(ownerSnapshot(other, session), otherBefore);
 });
+
+test('read-only market snapshots preserve a valid sell-anywhere action and its closed window', () => {
+  const { session } = fixture();
+  const [owner, other] = session.players;
+  buy(owner.run, 'coin-multiplier');
+  assert.equal(owner.run.isOpen, false);
+  const context = contextFor(session, owner);
+  const card = owner.run.cards[0];
+  const sale = request(owner, context, 'sell', { cardId: card.id });
+  const before = ownerSnapshot(owner, session);
+  const otherBefore = ownerSnapshot(other, session);
+  for (let index = 0; index < 100; index++) {
+    const observed = session.coOpMarketSnapshot();
+    assert.deepEqual(observed, context);
+    assert.equal(Object.isFrozen(observed), true);
+    assert.equal(Object.isFrozen(observed.offers), true);
+  }
+  assert.equal(ownerSnapshot(owner, session), before);
+  const result = session.actCoOpMarket(sale);
+  assert.equal(result.ok, true, 'HUD reads cannot invalidate the selected sale');
+  assert.equal(owner.run.wallet, card.saleValue);
+  assert.equal(owner.run.cards.length, 0);
+  assert.equal(owner.run.isOpen, false, 'selling away from a market does not open one');
+  assert.equal(ownerSnapshot(other, session), otherBefore);
+});
+
+test('skipping a paid pack keeps the offer sold without a refund, reroll, or teammate mutation', () => {
+  const { session } = fixture();
+  const [other, owner] = session.players;
+  owner.run.advanceScore(100);
+  const pack = owner.run.catalog.get('pack-satchel');
+  owner.run.creditCoins(pack.price);
+  let result = session.actCoOpMarket(request(owner, contextFor(session, owner), 'open'));
+  assert.equal(result.ok, true);
+  const offer = { id: 'root-skip-pack', itemId: pack.id, price: pack.price, sold: false };
+  owner.run.market.offers.push(offer);
+  result = session.actCoOpMarket(request(owner, result.context, 'buy', { offerId: offer.id }));
+  assert.equal(result.ok, true);
+  assert.ok(owner.run.pendingPack);
+  assert.equal(owner.run.wallet, 0);
+  const otherBefore = ownerSnapshot(other, session);
+  const skip = request(owner, result.context, 'skip-pack');
+  result = session.actCoOpMarket(skip);
+  assert.equal(result.ok, true);
+  assert.equal(owner.run.pendingPack, null);
+  assert.deepEqual(owner.run.cards, []);
+  assert.equal(owner.run.wallet, 0);
+  assert.equal(offer.sold, true);
+  assert.equal(ownerSnapshot(other, session), otherBefore);
+  const after = ownerSnapshot(owner, session);
+  assert.equal(session.actCoOpMarket(skip).ok, false);
+  assert.equal(ownerSnapshot(owner, session), after);
+  assert.equal(session.actCoOpMarket(request(owner, result.context, 'buy', { offerId: offer.id })).ok, false);
+  assert.equal(ownerSnapshot(owner, session), after);
+});
