@@ -115,3 +115,43 @@ test('a disconnected controller explicitly reclaims its retained seat', { timeou
     assert.deepEqual(evidence.errors, []);
   } finally { await app.close(); }
 });
+
+test('the one P2-labelled market buys and uses Revival through visible production controls', { timeout: 60_000 }, async () => {
+  const evidence = { errors: [], external: [] };
+  const app = await createMarketGameFixture(evidence, { gamepads: true });
+  const { frame, advance, onSession } = app;
+  try {
+    await frame.locator('#play').click(); await frame.locator('#pause').click(); await frame.locator('#local-play').click();
+    await frame.getByRole('button', { name: /start together/i }).click(); await advance(100);
+    const staged = await onSession(function () {
+      const p1 = this.players.find(player => player.seat === 'p1');
+      const p2 = this.players.find(player => player.seat === 'p2');
+      p2.run.creditCoins(24);
+      p2.run.market = { milestone: 100, remaining: 15, offers: [] };
+      p2.run.revision++;
+      this.world.host.inPlayerOperation(p1, context => context.end('P2 Revival tracer', 'traffic', 'front'));
+      this.update(1 / 120);
+      return { p1: p1.participation, p2Wallet: p2.run.wallet };
+    });
+    assert.deepEqual(staged, { p1: 'dead', p2Wallet: 24 });
+
+    await frame.locator('#session-seats [data-seat="p2"] [data-session-hud="identity"]').click();
+    await frame.locator('#market-open').click(); await advance(100);
+    assert.equal(await frame.locator('#market-owner').innerText(), 'Viewing P2 ● · Sunny', 'the one market tree labels its visible owner');
+    await frame.getByRole('button', { name: /Revival.*View details/i }).click();
+    await frame.getByRole('button', { name: /Buy Revival/i }).click();
+    await frame.locator('#market-close').click(); await advance(300);
+    await frame.locator('#session-seats [data-seat="p2"] [data-session-hud="item"]').click();
+    await frame.getByRole('button', { name: /Use Revival/i }).click();
+    await frame.getByRole('button', { name: /Revive P1/i }).click();
+    await frame.getByRole('button', { name: 'Use Revival', exact: true }).click(); await advance(100);
+    const committed = await onSession(function () {
+      const p1 = this.players.find(player => player.seat === 'p1');
+      const p2 = this.players.find(player => player.seat === 'p2');
+      const charge = this.consumableSnapshot()?.charges.find(value => value.seat === 'p2');
+      return { p1: p1.participation, wallet: p2.run.wallet, revival: charge?.revival ?? 0 };
+    });
+    assert.deepEqual(committed, { p1: 'active', wallet: 0, revival: 0 }, 'the committed visible P2 action spends exactly one owned Revival');
+    assert.deepEqual(evidence.errors, []);
+  } finally { await app.close(); }
+});
