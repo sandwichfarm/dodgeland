@@ -102,6 +102,8 @@ This script type-checks/builds first, runs `test:phase1` (which includes immutab
 
 The full script also runs `tests/render.test.mjs` through the strict runner immediately after Phase 1. Its independently archived/current exact pixel comparison is mandatory: the Phase 1 model/regression package scripts alone do not include that renderer oracle. The UI subgroup additionally includes the session-label render-unit test described above.
 
+Lockfile integrity compares the working tree against immutable baseline `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, so a committed lockfile change cannot disappear from this check merely because the worktree is clean.
+
 Read every report. A skipped conformance evidence row remains skipped and must be named in `02-06-SUMMARY.md`. Deterministic injected shell snapshots prove transport logic; a physical-controller check may remain an explicitly recorded external limitation, but it cannot replace the automated transport proof.
 
 ## Requirement Evidence Matrix
