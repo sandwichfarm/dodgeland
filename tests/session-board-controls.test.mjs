@@ -63,6 +63,10 @@ async function setup(t, { width = 900, height = 600 } = {}) {
       seatForProfile:profile=>seats.find(seat=>seat.device===profile)?.seat,
     });
     board.render();
+    window.disconnectComponentSeat = id => {
+      seats = seats.map(seat => seat.seat === id ? {...seat, disconnected:true} : seat);
+      board.render();
+    };
     window.componentReady = true;
     </script>`;
   await page.setContent('<iframe sandbox="allow-scripts" style="width:100vw;height:100vh;border:0"></iframe><style>body{margin:0}</style>');
@@ -116,4 +120,16 @@ test('compact roster lets a player inspect an open seat without jumping back to 
   assert.equal(await frame.locator('.session-seat-chip').nth(2).getAttribute('aria-pressed'), 'true');
   assert.equal(await frame.locator('#session-seat-detail').isVisible(), true, 'selected open-seat instructions must be visible');
   assert.match(await frame.locator('#session-seat-detail').innerText(), /P3 is open/);
+});
+
+test('an unresolved disconnected seat disables Start even when two other players are ready', async t => {
+  const { frame } = await setup(t);
+  await frame.getByRole('button', { name: 'Add Keyboard A', exact: true }).click();
+  assert.equal(await frame.locator('#local-session-start').isDisabled(), false);
+  // The owner reports a controller lifecycle change to this component. Input
+  // transport and the actual main-owned roster are tested in the built fixture.
+  await frame.evaluate(() => window.disconnectComponentSeat('p2'));
+  assert.match(await frame.locator('.session-seat-card[data-seat="p2"]').innerText(), /Disconnected/);
+  assert.equal(await frame.locator('#local-session-start').isDisabled(), true,
+    'Start cannot promise to launch a roster that main will reject; reclaim or leave first');
 });
