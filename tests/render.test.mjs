@@ -722,8 +722,8 @@ test('shared travelers use world depth ordering, platform height, and persistent
   for (const result of results) {
     assert.ok(result.opaque > 100, 'the independently rendered second character has a visible pixel mask');
     assert.equal(result.stable, true, 'roster array order cannot change the scene');
-    assert.ok(result.labels.includes('P1 · Butter'));
-    assert.ok(result.labels.includes('P2 · Pip'));
+    assert.ok(result.labels.includes('▲ P1 · Butter'), 'first traveler keeps its shape, seat and character identity');
+    assert.ok(result.labels.includes('● P2 · Pip'), 'second traveler keeps its distinct shape, seat and character identity');
     const pip = result.calls.find(call => call.kind === 'pip');
     assert.ok(pip, 'the actual Pip voxel model enters the shared scene');
     assert.equal(pip.lift, result.surface);
