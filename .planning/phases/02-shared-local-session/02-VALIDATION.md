@@ -86,6 +86,8 @@ The layout report must record muted screenshots and assertions for:
 
 Run dark and light runtime themes and reduced motion. Verify marker + P-number + character identity, non-color disconnect/status cues, focus visibility, 44px primary touch targets, real health/power/stat values, and visibly unavailable non-interactive `Revive —` / `Item —` fields.
 
+`tests/session-labels-render.test.mjs` adds a browser render-unit check using native Canvas text metrics: two/four initial and co-located travelers at five supported sizes must retain separate complete labels, stay in frame, and keep placement stable when roster order reverses. This source-render check complements the built-iframe screenshots; it does not replace main/router integration or the immutable solo pixel oracle.
+
 ### Gate 4 — Shared owner and final phase proof
 
 Plan 02-06 proves that `Viewing P{n} · {character}` controls one market/hand DOM tree and switching owner invalidates selected card/offer, pack draft, purchase target, pending confirmation, and stale focus before rendering the next view. The display must state the actual Phase 2 economy source and claim no Phase 3 mechanic.
