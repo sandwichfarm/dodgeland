@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test, { after } from 'node:test';
 import { loadSources } from './source-loader.mjs';
 
-const source = await loadSources(['consumable-drops']);
+const source = await loadSources(['consumable-drops', 'run-seed', 'levels/index', 'coin-denominations', 'market/run', 'market/catalog', 'game']);
 after(source.dispose);
 const {
   ITEM_DROP_SCHEMA,
@@ -10,6 +10,12 @@ const {
   consumablePickupId,
   sampleConsumableDrop,
 } = await source.import('consumable-drops');
+const { createRunSeed, encodeRunSeed, decodeRunSeed } = await source.import('run-seed');
+const { generateSeedLane } = await source.import('levels/index');
+const { coinDenominationForRow } = await source.import('coin-denominations');
+const { RunInventory } = await source.import('market/run');
+const { ITEM_CATALOG } = await source.import('market/catalog');
+const { Game } = await source.import('game');
 
 const anchor = Object.freeze({ courseSeed: 0x12345678, row: 37, slot: 4 });
 
@@ -63,4 +69,50 @@ test('anchor sampling is pure across duplicate, reverse, sparse, and pruning-sty
   assert.deepEqual([sparse[1], sparse[4], sparse[3], sparse[0]], expected);
   assert.deepEqual(sparse[2], expected[3]);
   assert.deepEqual(sparse[5], expected[0]);
+});
+
+function releasedObservations(interleave = () => {}) {
+  const rowsToObserve = [-8, -1, 0, 1, 6, 37, 89, 90];
+  const runs = [1, 2, 3].map(schema => createRunSeed(0x76543210, 'pond', 'arcade', false, schema));
+  interleave();
+  const lanes = runs.map(run => rowsToObserve.map(row => {
+    interleave();
+    const lane = generateSeedLane(run, row);
+    const { index, kind, speed, length, spacing, phase, variant, blocked, decorations, coin, coinDenomination, period, warning } = lane;
+    return { index, kind, speed, length, spacing, phase, variant, blocked, decorations, coin, coinDenomination: coinDenomination ?? null, period, warning };
+  }));
+  const denominations = rowsToObserve.map(row => { interleave(); return coinDenominationForRow(runs[2].seed, row); });
+  const inventory = new RunInventory(runs[2].seed, ITEM_CATALOG);
+  interleave(); inventory.advanceScore(100);
+  const firstMarket = JSON.parse(JSON.stringify(inventory.market));
+  interleave(); inventory.close(); inventory.advanceScore(200);
+  const nextMarket = JSON.parse(JSON.stringify(inventory.market));
+  const game = new Game(runs[2].seed, 'pond', 'arcade', false, ITEM_CATALOG);
+  game.x = game.fromX = 0; game.y = game.fromY = game.maxY = 160; game.time = 45; game.ensureRows();
+  for (const [index, lane] of game.rows) game.rows.set(index, { ...lane, kind: 'meadow', blocked: [], decorations: [], coin: null });
+  game.state = 'playing'; interleave(); game.update(0);
+  const firstMob = JSON.parse(JSON.stringify(game.mobs));
+  game.mobs.length = 0; game.x = game.fromX = 0; game.y = game.fromY = game.maxY = 184; game.time += 18; game.ensureRows();
+  for (const [index, lane] of game.rows) game.rows.set(index, { ...lane, kind: 'meadow', blocked: [], decorations: [], coin: null });
+  interleave(); game.update(0);
+  const nextMob = JSON.parse(JSON.stringify(game.mobs));
+  assert.ok(firstMob.length > 0 && nextMob.length > 0, 'the observation captures actual first and next mob RNG outputs');
+  const codes = runs.map(encodeRunSeed);
+  return { codes, decoded: codes.map(decodeRunSeed), lanes, denominations, firstMarket, nextMarket, firstMob, nextMob };
+}
+
+test('item calls never perturb real terrain, denomination, market, or mob snapshots and next outputs', () => {
+  const anchors = [
+    { courseSeed: 0x76543210, row: -8, slot: 0 }, { courseSeed: 0x76543210, row: 90, slot: 3 },
+    { courseSeed: 0x76543210, row: 503, slot: 7 }, { courseSeed: 0x76543210, row: 19_003, slot: 12 },
+  ];
+  const before = releasedObservations();
+  const forward = [...anchors];
+  const during = releasedObservations(() => { if (forward.length) sampleConsumableDrop(forward.shift()); });
+  const reordered = [anchors[3], anchors[0], anchors[3], anchors[2], anchors[1], anchors[0]];
+  const after = releasedObservations(() => { if (reordered.length) sampleConsumableDrop(reordered.shift()); });
+  assert.deepEqual(during, before);
+  assert.deepEqual(after, before);
+  assert.deepEqual(before.codes, ['ph1-76543210-pond-a-n', 'ph2-76543210-pond-a-n', 'ph3-76543210-pond-a-n'], 'released seed encoding remains schemas 1 through 3');
+  assert.equal(before.codes.some(code => code.includes(ITEM_DROP_SCHEMA)), false, 'the item schema is never substituted into released run identities');
 });
