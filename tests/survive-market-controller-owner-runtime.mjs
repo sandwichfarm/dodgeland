@@ -39,7 +39,7 @@ test('only the displayed hand owner can navigate, dismiss or confirm a card sale
     assert.match(await frame.locator('#run-hand-detail-owner').innerText(), /Viewing P2 /);
     assert.equal(await frame.locator('#run-hand-sell').isEnabled(), true);
     await frame.locator('#run-hand-sell').focus();
-    const frozen = await read();
+    let frozen = await read();
     for (const button of [0, 15, 1, 9, 3]) {
       await press(0, button);
       assert.deepEqual(await read(), frozen, `P1 button ${button} cannot sell, move or resume P2's transaction`);
@@ -55,15 +55,21 @@ test('only the displayed hand owner can navigate, dismiss or confirm a card sale
     const p1Card = frozen.players.find(player => player.seat === 'p1').cards[0];
     await frame.locator(`[data-hand-card="${p1Card.id}"]`).click(); await advance(80);
     await frame.locator('#run-hand-sell').focus();
+    const heldView = await read();
+    const inventory = state => state.players.map(({ seat, participantId, wallet, cards }) => ({ seat, participantId, wallet, cards }));
+    assert.deepEqual(inventory(heldView), inventory(frozen), 'switching inspection preserves both inventories');
     for (let repeat = 0; repeat < 3; repeat++) {
       await sendPads([pad(0, [0]), pad(1)]); await advance(80);
-      assert.deepEqual(await read(), frozen, 'held confirmation cannot sell after switching to its owner');
+      assert.deepEqual(await read(), heldView, 'held confirmation cannot sell after switching to its owner');
       assert.equal(await frame.locator('#run-hand-detail').isVisible(), true);
     }
     await sendPads([pad(0), pad(1)]);
     await frame.locator('#run-hand-detail-owner').click(); await advance(80);
     assert.match(await frame.locator('#run-hand-owner').innerText(), /Viewing P2 /);
     await frame.locator(`[data-hand-card="${card.id}"]`).click(); await advance(80);
+    const resumedView = await read();
+    assert.deepEqual(inventory(resumedView), inventory(frozen));
+    frozen = resumedView; // Closing an inspector may briefly resume the course.
     await frame.locator('#run-hand-close').focus();
     for (let index = 0; index < 12 && await focus() !== 'sell'; index++) {
       const previous = await focus(); await press(1, 15);
