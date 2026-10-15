@@ -21,6 +21,10 @@ An isolated Node probe imported the installed engine directly and exercised thes
 
 The fake manifest above is solely a negative calibration fixture. It is not a deployment event, was never signed or published, and must not be supplied as evidence about this napplet.
 
+## Manifest version boundary
+
+The installed engine probe above uses legacy `path` tags. The locally installed `napplet-test/SKILL.md` instead describes a direct artifact `x` hash and `R`/`O` domain tags, and explicitly identifies path/aggregate events as legacy. These are different validation contracts. Before constructing Phase 7 candidate evidence, resolve the required format against the living NIP-5D authority and identify which validator version implements it. Do not change a production manifest to satisfy this older engine, treat a legacy structural pass as current-protocol validation, or silently migrate/publish a manifest as part of coverage work. This note records an observed local tooling mismatch; it does not establish the current protocol from the skill alone.
+
 ## Implementation guidance for the release phase
 
 1. Retain the current CLI report unchanged and explicitly list its measured and skipped checks.
