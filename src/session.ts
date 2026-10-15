@@ -91,7 +91,7 @@ export interface SessionRecoveryRequest {
   /** Later consumable plans supply an owned debit capability. */
   readonly debit?: () => boolean;
 }
-export interface ConsumablePickupSnapshot { readonly id: string; readonly itemId: ConsumableId; readonly row: number; readonly slot: number; readonly x: number; readonly y: number }
+export interface ConsumablePickupSnapshot { readonly id: string; readonly itemId: ConsumableId; readonly row: number; readonly slot: number; readonly x: number; readonly y: number; readonly z: number }
 export interface ConsumableChargeSnapshot { readonly seat: SeatId; readonly ownerGeneration: number; readonly inventoryGeneration: number; readonly revival: number; readonly flare: number }
 export interface ConsumableWorldSnapshot { readonly generation: number; readonly pickups: readonly ConsumablePickupSnapshot[]; readonly charges: readonly ConsumableChargeSnapshot[]; readonly claims: readonly Readonly<{ pickupId: string; seat: SeatId }>[]; readonly protected: readonly Readonly<{ seat: SeatId; until: number }>[] }
 export interface ConsumableAction { readonly actionId: string; readonly ownerSeat: SeatId; readonly itemId: ConsumableId; readonly targetSeat?: SeatId; readonly expectedInventoryGeneration: number; readonly expectedOwnerGeneration: number; readonly expectedTargetDeathGeneration?: number }
@@ -459,7 +459,7 @@ class ConsumableWorld implements GameWorldExtension {
   }
   clear(player: SessionPlayer): void { const charge = this.charges.get(this.ownerId(player)); if (charge) { charge.revival = 0; charge.flare = 0; charge.inventoryGeneration = this.nextInventoryGeneration++; charge.ownerGeneration++; this.generation++; } }
   snapshot(): ConsumableWorldSnapshot {
-    const pickups = [...this.pickups.values()].map(({ z: _z, speed: _speed, actorId: _actorId, ...pickup }) => Object.freeze({ ...pickup })).sort((a, b) => a.id.localeCompare(b.id));
+    const pickups = [...this.pickups.values()].map(({ speed: _speed, actorId: _actorId, ...pickup }) => Object.freeze({ ...pickup })).sort((a, b) => a.id.localeCompare(b.id));
     const charges = this.session.players.map(player => Object.freeze({ seat: player.seat, ...this.charges.get(this.ownerId(player))! })).sort((a, b) => a.seat.localeCompare(b.seat));
     const claims = [...this.claims.entries()].map(([pickupId, seat]) => Object.freeze({ pickupId, seat })).sort((a, b) => a.pickupId.localeCompare(b.pickupId));
     const protectedSeats = this.session.players.filter(player => (player.recovery?.protectionUntil ?? 0) > this.session.world.time).map(player => Object.freeze({ seat: player.seat, until: player.recovery?.protectionUntil ?? 0 }));

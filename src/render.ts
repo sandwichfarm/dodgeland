@@ -309,9 +309,19 @@ export class Renderer {
     for (const pickup of consumables?.pickups ?? []) {
       const color = pickup.itemId === 'revival' ? '#76d6a1' : '#f28b55';
       objects.push({ x: pickup.x, y: pickup.y, draw: () => {
-        this.shadow(pickup.x, pickup.y, .42);
-        this.cube(box(0, 0, .02, .38, .30, .34, color), pickup.x, pickup.y);
-        const [tx, ty] = this.project(pickup.x, pickup.y, .48);
+        this.shadow(pickup.x, pickup.y, .42, pickup.z);
+        if (pickup.itemId === 'revival') {
+          // A cross-shaped marker remains recognizable after color is removed
+          // (and at reduced-motion frame rates), rather than relying on a tint.
+          this.cube(box(0, 0, .02, .16, .22, .58, color), pickup.x, pickup.y, pickup.z);
+          this.cube(box(0, 0, .22, .46, .18, .18, '#b9f6d2'), pickup.x, pickup.y, pickup.z);
+        } else {
+          // The Flare uses a squat canister and a rising cap, deliberately a
+          // different silhouette from Revival's cross.
+          this.cube(box(0, 0, .02, .38, .30, .24, color), pickup.x, pickup.y, pickup.z);
+          this.cube(box(0, 0, .24, .18, .18, .30, '#ffe0a3'), pickup.x, pickup.y, pickup.z);
+        }
+        const [tx, ty] = this.project(pickup.x, pickup.y, pickup.z + .64);
         ctx.save(); ctx.font = `bold ${Math.max(9, this.scale * .18)}px sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'bottom'; ctx.lineWidth = Math.max(2, this.scale * .035); ctx.strokeStyle = '#263c38'; ctx.strokeText(pickup.itemId === 'revival' ? 'Revival' : 'Flare', tx, ty); ctx.fillStyle = '#fff8d8'; ctx.fillText(pickup.itemId === 'revival' ? 'Revival' : 'Flare', tx, ty); ctx.restore();
       } });
     }
@@ -329,7 +339,7 @@ export class Renderer {
     const travelerOverlays: (() => void)[] = [];
     if (players) {
       const orderedPlayers = [...players].sort((a, b) => a.seat.localeCompare(b.seat));
-      const labels = this.packSessionLabels(orderedPlayers);
+      const labels = this.packSessionLabels(orderedPlayers, game.time);
       for (const player of orderedPlayers) {
         const lane = game.rows.get(player.y);
         if (!lane) continue;
@@ -353,8 +363,9 @@ export class Renderer {
   }
 
   /** Keep session identities readable when their travelers share a spawn or tile. */
-  private packSessionLabels(players: readonly PlayerRender[]): Map<PlayerRender['seat'], Point> {
+  private packSessionLabels(players: readonly PlayerRender[], time: number): Map<PlayerRender['seat'], Point> {
     const ctx = this.ctx, fontSize = Math.max(10, this.scale * .22), lineHeight = fontSize + Math.max(4, this.scale * .06);
+    const statusLineHeight = Math.max(9, this.scale * .17) + Math.max(4, this.scale * .06);
     const placed: { left: number; right: number; top: number; bottom: number }[] = [];
     const labels = new Map<PlayerRender['seat'], Point>();
     ctx.save(); ctx.font = `bold ${fontSize}px sans-serif`;
@@ -362,11 +373,14 @@ export class Renderer {
       const marker = ({ p1: '▲', p2: '●', p3: '◆', p4: '■' } as const)[player.seat];
       const text = `${marker} ${player.seat.toUpperCase()} · ${characterById(player.characterId).name}`;
       const width = ctx.measureText(text).width + Math.max(4, this.scale * .09);
+      // Protected is a status line, not part of an identity. Reserve its own
+      // native-text-height slot so it cannot be moved into the seat label.
+      const statusHeight = (player.protectionUntil ?? 0) > time ? statusLineHeight : 0;
       let [x, y] = this.project(player.groundX, player.groundY, 1.1);
-      let rect = { left: x - width / 2, right: x + width / 2, top: y - lineHeight, bottom: y };
+      let rect = { left: x - width / 2, right: x + width / 2, top: y - lineHeight - statusHeight, bottom: y };
       for (let attempt = 0; attempt < 8 && placed.some(other => rect.left < other.right && rect.right > other.left && rect.top < other.bottom && rect.bottom > other.top); attempt++) {
         y -= lineHeight;
-        rect = { left: x - width / 2, right: x + width / 2, top: y - lineHeight, bottom: y };
+        rect = { left: x - width / 2, right: x + width / 2, top: y - lineHeight - statusHeight, bottom: y };
       }
       placed.push(rect); labels.set(player.seat, [x, y]);
     }
@@ -463,7 +477,12 @@ export class Renderer {
       if ((game.protectionUntil ?? 0) > game.time) {
         const [x, y] = this.project(px, py, lift + .78);
         ctx.save(); ctx.strokeStyle = '#bdf7ff'; ctx.lineWidth = Math.max(2, this.scale * .04); ctx.beginPath(); ctx.ellipse(x, y, this.scale * .55, this.scale * .25, .18, 0, Math.PI * 2); ctx.stroke();
-        ctx.font = `bold ${Math.max(9, this.scale * .17)}px sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'bottom'; ctx.fillStyle = '#e8fdff'; ctx.fillText('Protected', x, y - this.scale * .22); ctx.restore();
+        ctx.font = `bold ${Math.max(9, this.scale * .17)}px sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+        const status = labelPosition
+          ? [labelPosition[0], labelPosition[1] - Math.max(9, this.scale * .17) - Math.max(4, this.scale * .06)] as Point
+          : [x, y - this.scale * .46] as Point;
+        ctx.strokeStyle = '#18313d'; ctx.lineWidth = Math.max(2, this.scale * .035); ctx.strokeText('Protected', ...status);
+        ctx.fillStyle = '#e8fdff'; ctx.fillText('Protected', ...status); ctx.restore();
       }
       ctx.restore();
     } });
