@@ -201,3 +201,22 @@ test('Flare preserves living teammates health and counts only dead teammates as 
   assert.equal(living.run.wallet, 7);
   assert.equal(owner.statistics.teammateRevives, revivedBefore + 1, 'one dead target means one teammate revival');
 });
+
+test('a non-primary Flare owner keeps its exact safe fractional position as the regroup anchor', () => {
+  const { game, session, player: owner } = setup('p2');
+  assert.equal(session.admit({ device: 'keyboard-c', characterId: 'pip' }), true);
+  const target = session.players.find(player => player.seat === 'p3');
+  owner.x = owner.fromX = -1.375;
+  target.x = target.fromX = 0;
+  target.y = target.fromY = target.maxY = 2;
+  target.powerReadyAt = 10000;
+  lane(game, 2, 'river', { phase: 10, length: 1 });
+  session.update(STEP);
+  assert.equal(target.state, 'dead');
+  clearCourse(game);
+  const anchor = [owner.x, owner.y];
+  assert.equal(session.recover({ kind: 'flare', ownerSeat: 'p2', debit: () => true }), true);
+  assert.deepEqual([owner.x, owner.y], anchor, 'seat ordering must not give another teammate the owner anchor or snap its grid');
+  assert.equal(target.state, 'playing');
+  assert.equal(new Set(session.players.map(player => `${player.x}:${player.y}`)).size, 3);
+});
