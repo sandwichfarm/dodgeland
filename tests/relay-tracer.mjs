@@ -205,3 +205,55 @@ test('muted built opaque iframe configures Relay and consumes fresh incoming con
     assert.deepEqual(errors, []);
   } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); }
 });
+
+test('setup validates every roster size and length atomically and freezes copied stable order', async () => {
+  const sources = await loadSources(['game', 'relay']);
+  try {
+    const { Game } = await sources.import('game'), { createRelaySession, validateRelaySetup } = await sources.import('relay');
+    const seats = [
+      { seat: 'p1', characterId: 'butter', device: 'keyboard-a' },
+      { seat: 'p2', characterId: 'pip', device: 'keyboard-b' },
+      { seat: 'p3', characterId: 'clover', device: 'gamepad-0' },
+      { seat: 'p4', characterId: 'ember', device: 'gamepad-1' },
+    ];
+    // Obtain the fourth catalog identity from the shipped catalog, not a test catalog.
+    const content = await sources.import('content');
+    seats.forEach((seat, index) => { seat.characterId = content.CHARACTERS[index].id; });
+    for (const count of [2, 3, 4]) for (const length of [undefined, 1, 50, 999]) {
+      const draft = seats.slice(0, count).map(seat => ({ ...seat })).reverse();
+      const relay = createRelaySession(new Game(113, 'pond', 'arcade', false, [], 'butter'), { seats: draft, tilesPerLeg: length });
+      assert.deepEqual(relay.setup.seats.map(seat => seat.seat), draft.map(seat => seat.seat));
+      assert.equal(relay.activeSeat, draft[0].seat); assert.equal(relay.setup.tilesPerLeg, length ?? 50);
+      assert.equal(relay.session.players.length, count);
+      const frozen = JSON.stringify(relay.setup); draft[0].characterId = 'changed'; draft.reverse();
+      assert.equal(JSON.stringify(relay.setup), frozen);
+      assert.ok(Object.isFrozen(relay.setup) && Object.isFrozen(relay.setup.seats) && relay.setup.seats.every(Object.isFrozen));
+      assert.equal(relay.session.admit({ device: 'gamepad-9', characterId: 'butter' }), false);
+    }
+    const bad = ['', '1.5', '-1', '+1', '0', '1000', ' 50', '50 ', '01'].map(tilesPerLeg => ({ seats: seats.slice(0, 2), tilesPerLeg }));
+    bad.push(...[
+      [], seats.slice(0, 1), [seats[1], seats[2]], [seats[0], seats[0]],
+      [seats[0], { ...seats[1], characterId: seats[0].characterId }],
+      [seats[0], { ...seats[1], device: 'keyboard-a' }],
+      [seats[0], { ...seats[1], device: null }],
+      [seats[0], { ...seats[1], disconnected: true }],
+    ].map(seats => ({ seats, tilesPerLeg: 50 })));
+    for (const proposal of bad) {
+      const game = new Game(113, 'pond', 'arcade', false, [], 'butter'), world = game.world, player = game.player;
+      const before = semanticValue(snapshotGame(game, await sources.import('game')));
+      assert.throws(() => validateRelaySetup(proposal)); assert.throws(() => createRelaySession(game, proposal));
+      assert.strictEqual(game.world, world); assert.strictEqual(game.player, player);
+      assert.deepEqual(semanticValue(snapshotGame(game, await sources.import('game'))), before);
+    }
+  } finally { await sources.dispose(); }
+});
+
+test('invalid Relay length stays disabled through the existing roster editor', { timeout: 30_000 }, async () => withRelayBrowser(async ({ frame }) => {
+  await frame.locator('#local-play').click(); await frame.locator('#relay-play').click();
+  await frame.locator('#relay-tiles').fill('0');
+  assert.equal(await frame.locator('#local-session-start').isDisabled(), true);
+  await frame.locator('#session-roster [data-seat="p2"]').click();
+  assert.equal(await frame.locator('#relay-tiles').inputValue(), '0');
+  assert.equal(await frame.locator('#local-session-start').isDisabled(), true);
+  assert.equal(await frame.locator('#local-session-start').textContent(), 'Start Relay');
+}));
