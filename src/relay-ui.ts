@@ -30,8 +30,9 @@ export function createRelaySetup(options: { root: HTMLElement; seats(): readonly
   input.oninput = () => { value = input.value; validate(); };
   panel.append(choice, nav, label, input, order, error);
   function render(available: boolean) {
-      if (!available) { panel.remove(); return; }
-      const board = options.root.querySelector<HTMLElement>('#session-board'); board?.append(panel);
+      const board = options.root.querySelector<HTMLElement>('#session-board');
+      if (!available) { panel.remove(); if (board) delete board.dataset.relayPage; return; }
+      board?.append(panel);
       const active = options.active(); panel.dataset.active = String(active); choice.hidden = active; nav.hidden = !active;
       if (board) board.dataset.relayPage = active ? page : '';
       label.hidden = input.hidden = error.hidden = !active || page !== 'length'; order.hidden = !active || page !== 'order';

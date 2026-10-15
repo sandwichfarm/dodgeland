@@ -333,3 +333,16 @@ test('Relay configuration and handoff remain bounded across frame sizes and runt
   assert.equal(await frame.locator('#relay-handoff').isVisible(), false);
   assert.match(await frame.locator('body').innerText(), /Needs 240×240 to play/);
 }));
+
+test('leaving Relay setup preserves the original solo and Survive Together setup paths', { timeout: 30_000 }, async () => withRelayBrowser(async ({ page, frame }) => {
+  await frame.locator('#local-play').click(); await frame.locator('#relay-play').click();
+  await frame.locator('#relay-tiles').fill('0'); await frame.locator('#local-session-back').click();
+  await frame.locator('#play').click(); await frame.locator('#scene').focus(); await page.keyboard.press('w');
+  await frame.locator('#pause').click(); await frame.locator('#local-play').click();
+  await frame.getByRole('heading', { name: 'Play together?', exact: true }).waitFor();
+  assert.equal(await frame.locator('#relay-configuration').count(), 0);
+  assert.equal(await frame.locator('#session-roster').isVisible(), true);
+  assert.equal(await frame.locator('#local-session-start').isEnabled(), true);
+  await frame.locator('#local-session-start').click();
+  assert.equal(await frame.locator('#session-seats [data-seat]').count(), 2);
+}));
