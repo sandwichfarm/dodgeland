@@ -5,15 +5,15 @@ milestone_name: milestone
 current_phase: 02
 current_phase_name: shared-local-session
 status: executing
-stopped_at: "Phase 02 Plan05: layout and solo gates green; remaining runtime/conformance chain active before Plan06 handoff."
-last_updated: "2026-10-15T03:59:48Z"
+stopped_at: "Phase02 Plan05 accepted; Plan06 owner hand/market integration released."
+last_updated: "2026-10-15T04:17:25Z"
 last_activity: 2026-10-14
-last_activity_desc: Layout24frames and all session UI subgroups pass. Model71/71, immutable solo21/21, regression271/271 and render19/19 pass. Remaining runtime/guidance/conformance chain active;05 summary and06 handoff pending.
+last_activity_desc: Accepted05 after final source26f57e1, regressionb371c36 and summary9bd4398. SharedUI16/16 with24frames, solo/runtime/controller gates pass; conformance5pass/5unmeasured recorded. Plan06 released; wholephase remains pending.
 progress:
   total_phases: 7
   completed_phases: 1
   total_plans: 30
-  completed_plans: 8
+  completed_plans: 9
 ---
 
 # Project State
@@ -28,17 +28,17 @@ See: `.planning/PROJECT.md` (updated 2026-10-14)
 ## Current Position
 
 Phase: 02 — Shared Local Session
-Plan: 5 of 6 (wave 3)
-Status: Plans01–04 complete; Plan05 responsive setup/HUD and model/solo evidence pass, remaining runtime and conformance gates active
-Last activity: 2026-10-14 — Final Plan05 layout report has24frames, zero deficiencies/page errors. Root corrected stale render label expectations in f03ad14 after verifying actual shape+seat+name labels. Render19/19 now includes exact original Arcade/Stroll pixels. Prior final-gates.log proves shared model71/71, immutable model21/21 and solo regression271/271. Setup owns remaining final-tail.log gate chain and05 summary;06 remains gated.
+Plan: 6 of 6 (wave 4)
+Status: Plans01–05 complete; Plan06 explicit owner hand/market integration active
+Last activity: 2026-10-14 — Root reviewed05 summary9bd4398 and authoritative logs. Final shared UI16/16 across9files,24frames with zero deficiencies/pageerrors; runtime10scenarios/12frames/8wavechecks; legacy wire/binding/absent mode and consumed reconnect edge pass. Typecheck/build/guidance6 pass; conformance5pass/0fail/5unmeasured retained. Model71/71, immutable solo21/21, regression271/271 and renderer19/19 remain valid. Root fullphase script2bdb371 now includes required Paja runtime smoke.
 
-Progress: [██░░░░░░░░] 27% of currently planned plans (phase acceptance remains pending)
+Progress: [███░░░░░░░] 30% of currently planned plans (phase acceptance remains pending)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 8 (Phase02 requirements await integrated plans05/06 and verification)
+- Total plans completed: 9 (Phase02 requirements await integrated plans05/06 and verification)
 - Average duration: 57.7 min for Plans 01-01 through 01-03 (Plan 01-04 duration not recorded)
 - Recorded execution time: 173 min for Plans 01-01 through 01-03
 
@@ -68,7 +68,7 @@ Recent decisions affecting current work:
 
 ### Pending Todos
 
-- Execute Phase2 Plan05: transactional four-seat setup, actual main-owned controller routing, and responsive identity HUD. Plans02/03/04 accepted.
+- Execute Phase2 Plan06: selected-owner hand/market, stale-action invalidation, full maintained test:phase2 gate, then independent phase verification. Plans01–05 accepted.
 - Phase 2 plans independently pass; reconcile live Phase 1 APIs and preserve per-seat call cues/cooldowns.
 - Phase 3 UI contract and seven plans independently approved; execute only after verified Phase 2 with current API reconciliation.
 - Relay UI/six plans and Race UI/seven plans independently approved; execution awaits their prior-phase gates.
@@ -89,5 +89,5 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-10-14
-Stopped at: Phase02 plans01–04 accepted;05 awaiting final runtime/conformance results and summary;06 remains gated. Setup owns src/main.ts/session-ui and build/browser reservation. Root-owned f03ad14 fixes exact persistent-label expectations;9be01aa reconciles Plan06 remaining stale one-run wording with actual distinct SessionPlayer.run. Evidence: /tmp/down-to-duck-02-05-final-gates.log model71/71, solo parity21/21, regression271/271; first render run18/19 stopped at stale glyph expectation. /tmp/down-to-duck-02-05-final-tail.log rerun render19/19, then remaining runtime/gamepad/guidance/conformance/immutable lockfile chain (ask setup for current handle; do not restart). UI evidence: component6/6 and labels1/1 in local-session-ui-final.log, corrected tracer3/3 in local-session-tracer-current.log, keyboard1/1 in local-session-keyboard-current.log, mixed/gamepad/audio/adoption/layout all pass in02-05-remaining-ui.log. artifacts/local-session-layout.json has24frames, zero deficiencies/pageerrors; artifacts/session-labels-render.json has20 nativeCanvas scenes. Root inspected compact inspector, regular and wide screenshots; recorded real regular900x600 HUD actor occlusion in Phase06 CONTEXT (bb3d4f2), so do not claim all actors visible at every frame. Existing owner executor is idle and may receive02-06 only after05 acceptance; transfer main/runtime/browser ownership explicitly. Plan06 resolves actual selected player.run, invalidates all stale synchronous/asynchronous owner actions, then runs fullphase2. Independent phase verifier follows allsixplans. No multiplayer mode complete.
+Stopped at: Phase02 plans01–05 accepted. Setup executor completed9bd4398 and released product/browser ownership, no live gate. Root reviewed26f57e1 late transport construction (prevents synchronous initial-unfocused snapshot from closing binding on uninitialized UI state), b371c36 explicit no-hop reclaim assertion, f03ad14 exact renderer identity expectations,2521319 exact20scene seat/name/shape label test. Final source evidence: /tmp/down-to-duck-02-05-local-session-ui-green.log16/16; /tmp/down-to-duck-02-05-legacy-gamepad-final.log wire/binding/absent PASS; /tmp/down-to-duck-02-05-final-runtime-docs.log runtime10scenarios/12frames/8wave, guidance6/6, conformance5pass/0fail/5skips; immutable lock diff clean. Earlier final-gates.log model71,parity21,regression271 allpass; correctedrender19pass in final-tail.log. Artifacts layout24frames zero deficiencies/errors and labels20scenes; hardware not manuallytested. Phase06 broadpresentation still owns observed regular900x600 HUD obscuring P2/P4 (bb3d4f2). Plan02-06 executor receives sole source ownership market-ui/run-hand/hand-layout/main/tests-local-session-runtime plus build/browser; root owns STATE/ROADMAP/requirements/package scripts. Resolve selected player's actual distinct run; invalidate old sync/async actions including pending close on owner switch; no fabricated Phase03 purchases/shared effects. Run full test:phase2 including new Paja runtime smoke2bdb371, exactpixeloracle andbaseline-lock check. Then independent verifier before03 execution. Root reconciled03 entry/finalgates to maintainedphase2 script d782938/bae5481. No multiplayer mode complete.
 Resume file: None

@@ -84,13 +84,15 @@ Implemented the reviewed Local Play flow: solo staging/adoption, mixed keyboard 
    - A fresh reclaim edge resumes solo play while remaining consumed for movement.
 
 5. **[Rule 1 - Bug] Legacy gamepad fixture could observe its previous iframe during a remount.**
-   - The fixture now waits for its expected mode/generation, advances one deterministic task frame, and reports transport/UI diagnostics on bootstrap failure.
+   - The fixture now waits for its expected fixture mode, advances one deterministic task frame, and reports transport/UI diagnostics on bootstrap failure.
 
 The early source-regex tracer guard from `abc4812` was superseded by the built production iframe runtime, transport, audio, adoption, and layout suites; it is not counted as behavioral acceptance evidence.
 
 ## Deferred Follow-up
 
 At regular 900px composition, the persistent left HUD can cover nearby P2/P4 world actors in some arrangements. The actor labels themselves are complete and non-overlapping, but Phase 06 owns the broader HUD/camera composition refinement. This is recorded in the Phase 06 context; this plan does not claim every actor is unobscured in every regular-frame composition.
+
+Physical-controller hardware and target-shell compatibility were not manually exercised. Both authorized transport implementations were tested with deterministic shell snapshots in the actual built opaque iframe; this is not physical hardware evidence.
 
 ## Known Stubs
 
@@ -103,4 +105,4 @@ None.
 
 ## Handoff
 
-Plan 05 releases its product-source and browser-test reservation. Root retains planning-state ownership and may proceed with the Phase 06 handoff.
+Plan 05 releases its product-source and browser-test reservation. Root retains planning-state ownership and may proceed with the Phase 02 Plan06 handoff.
