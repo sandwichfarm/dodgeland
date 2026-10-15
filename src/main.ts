@@ -1263,8 +1263,13 @@ function nativeKeyboardKeydown(event: KeyboardEvent): void {
 function nativeKeyboardKeyup(event: KeyboardEvent): void {
   observedNativeKeys.delete(event.key);
   const menuButton = event.target instanceof HTMLButtonElement && (hand.isOpen() || hand.containsFocus() || market.isOpen());
-  if (!nativeKeyboardActive || (!isNativeKeyboardTarget(event.target) && !menuButton)) return;
-  if (keyboardInput?.keyup(event.key)) { event.preventDefault(); event.stopPropagation(); }
+  if (!nativeKeyboardActive) return;
+  // A pause or other native button can own focus when a held profile key is
+  // released. Always clear that internal held edge; only consume it when the
+  // target is a surface that accepts profile controls.
+  const released = keyboardInput?.keyup(event.key) ?? false;
+  if ((!isNativeKeyboardTarget(event.target) && !menuButton) || !released) return;
+  event.preventDefault(); event.stopPropagation();
 }
 document.addEventListener('keydown', nativeKeyboardKeydown);
 document.addEventListener('keyup', nativeKeyboardKeyup);

@@ -156,7 +156,9 @@ test('four assigned travelers call independently of the saved solo traveler and 
     assert.equal(await frame.locator('#app').getAttribute('data-run-state'), 'paused');
     await callAll();
     assert.deepEqual(await countCalls(), twice, 'pause blocks calls even after their cooldowns expire');
-    await send(); await frame.locator('#play').click(); await frame.locator('#scene').focus();
+    // Shared Local Play hides the solo run panel while paused, so its visible
+    // pause control is the user-facing resume action.
+    await send(); await frame.locator('#pause').click(); await frame.locator('#scene').focus();
     assert.equal(await frame.locator('#app').getAttribute('data-run-state'), 'playing');
     await frame.locator('#sound-toggle').click(); await frame.locator('#scene').focus();
     assert.equal(await frame.locator('#sound-toggle').getAttribute('aria-pressed'), 'true');

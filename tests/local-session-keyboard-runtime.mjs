@@ -94,7 +94,10 @@ test('opaque iframe receives native keyboard profiles only after overlapping own
     await frame.evaluate(() => window.dispatchEvent(new Event('blur')));
     await frame.waitForFunction(() => document.querySelector('#app')?.dataset.runState === 'paused');
     await frame.evaluate(() => window.dispatchEvent(new Event('focus')));
-    await frame.locator('#play').click();
+    // A running LocalSession hides the solo run panel; resume through the
+    // visible shared pause control instead of its hidden solo Play button.
+    await frame.locator('#pause').click();
+    await frame.waitForFunction(() => document.querySelector('#app')?.dataset.runState === 'playing');
     const resumed = await seatRows(frame);
     await page.keyboard.down('w');
     await page.waitForTimeout(60);
