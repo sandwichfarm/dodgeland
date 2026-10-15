@@ -4,7 +4,9 @@ import { test } from 'node:test';
 import { createMarketGameFixture } from './market-game-fixture.mjs';
 
 const output = new URL('../artifacts/', import.meta.url);
-const sizes = [[200, 160], [240, 240], [320, 560], [900, 600], [1000, 280], [2400, 1200]];
+// Capture normal, portrait and short-wide evidence before the smallest frame:
+// one compact interaction failure should not erase useful larger-frame proof.
+const sizes = [[900, 600], [320, 560], [1000, 280], [2400, 1200], [200, 160], [240, 240]];
 const themes = {
   dark: { colors: { background: '#242b32', text: '#f0eee5', primary: '#9fc28a' } },
   light: { colors: { background: '#f5f0df', text: '#243b32', primary: '#477953' } },
