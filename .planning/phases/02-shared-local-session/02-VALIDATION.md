@@ -93,16 +93,10 @@ Plan 02-06 proves that `Viewing P{n} · {character}` controls one market/hand DO
 Then run the complete final bundle gate:
 
 ```bash
-pnpm test:phase1
-pnpm test:solo-parity
-node --test tests/local-session-tracer.mjs tests/local-session.test.mjs tests/gamepad.test.mjs tests/session-input.test.mjs tests/keyboard-input.test.mjs tests/local-session-gamepad-runtime.mjs tests/local-session-keyboard-runtime.mjs tests/local-session-runtime.mjs tests/local-session-layout.mjs
-node tests/gamepad-runtime.mjs
-pnpm type-check
-pnpm build
-pnpm test:guidance
-pnpm test:conformance
-git diff --exit-code -- pnpm-lock.yaml
+pnpm test:phase2
 ```
+
+This script type-checks/builds first, runs `test:phase1` (which includes immutable solo parity), then `test:local-session-model` and `test:local-session-ui`, the legacy controller runtime, guidance, conformance and the lockfile check. The model script includes `local-session`, `session-world`, `session-player`, `session-lifecycle`, `gamepad`, `session-input` and `keyboard-input`. The UI script runs each browser file sequentially: setup component, tracer, keyboard runtime, mixed-session runtime, both controller transports, assigned audio, progressed adoption and the full layout matrix. Both groups use the existing strict runner, rejecting empty evidence, skips, TODOs, failures and cancellations. The UI subgroup expects a fresh build; the full phase script supplies it. A green subgroup does not establish phase completion.
 
 Read every report. A skipped conformance evidence row remains skipped and must be named in `02-06-SUMMARY.md`. Deterministic injected shell snapshots prove transport logic; a physical-controller check may remain an explicitly recorded external limitation, but it cannot replace the automated transport proof.
 
