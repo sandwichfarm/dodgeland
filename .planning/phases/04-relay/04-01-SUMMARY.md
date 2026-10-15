@@ -1,17 +1,17 @@
 ---
 phase: 04-relay
 plan: 01
-status: blocked
+status: executing
 tasks_completed: 0
 tasks_total: 2
-checkpoint: dependency-gap
+checkpoint: dependency-repaired-resume-pending
 ---
 
 # Phase 04 Plan 01: Relay setup and first handoff
 
 ## Pre-edit dependency reconciliation
 
-Recorded before production edits. Generic executor fallback uses the inherited default model after the typed GSD executor remained pending_init and was cancelled; this is not a typed-agent execution claim.
+Recorded before production edits. Generic executor fallback uses the inherited default model after typed GSD verifier dispatch remained pending_init and was cancelled; this is not a typed-agent execution claim.
 
 The exact canonical `pnpm test:phase3` (including `pnpm test:phase2`) passed on source `6017f9f`, session73933, durable log `/tmp/down-to-duck-ghost-duration-final-gate.log`. Inspection on entry found no diff from that commit in `src`, `tests`, `package.json`, or `pnpm-lock.yaml`. All Phase01 (4), Phase02 (6), and Phase03 (8) summaries exist. Phase03 independent verification is42/42. Oracle stays `a310a81ed6c76df4b265c9012c23b8c83f4802e5`. Conformance remains5passed/0failed/5unmeasured (manifest3, wire1, lifecycle1); physical controllers are unmeasured.
 
@@ -32,7 +32,11 @@ The exact canonical `pnpm test:phase3` (including `pnpm test:phase2`) passed on 
 | Render | `LocalSession.views`, `SessionPlayer.render`, `Renderer.drawSession`; one scene, stable seat labels. |
 | Result | `SessionResult`, `completeResult`, immutable `SessionContribution`, `createSurviveTogetherResult`; Relay-specific results remain later-plan scope. |
 
-## Execution checkpoint — not complete
+## Dependency repair accepted — plan not complete
+
+Root repaired the shared scoring dependency in`fdad9f0`; complete inherited gate plus expanded Relay tracer4/4 passed as session78662, `/tmp/down-to-duck-personal-score-full-gate.log`. See`04-DEPENDENCY-REPAIR.md`. Resume Task1 remaining acceptance and Task2; historical checkpoint below explains the defect and is superseded by this repair evidence.
+
+## Historical execution checkpoint — not complete
 
 Task1 has a committed working setup/first-handoff tracer, but is **not complete** because the second return to P1 exposes a missing dependency contract. Task2 validation expansion has not started. No Relay requirement, phase, or milestone is marked complete.
 
