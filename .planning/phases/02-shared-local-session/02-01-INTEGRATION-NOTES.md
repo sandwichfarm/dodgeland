@@ -341,3 +341,14 @@ P3/P4 editor labels passed; selected chip focus, focus after leaving a seat, and
 compact open-seat selection failed. Log:
 `/tmp/down-to-duck-session-board-controls.log`. Browser and server were closed.
 The setup executor owns the corresponding product fixes and broader integration.
+
+### Root regression rerun after pending setup corrections
+
+On the executor's current working source, the component suite now passes 4/4
+(exit 0, no skips/cancellations), including the visible compact open-seat
+instructions assertion. Root also ran `tests/session-input.test.mjs`: 16/16
+passed (exit 0), including simultaneous first join and assigned-seat pause/confirm
+isolation. Logs: `/tmp/down-to-duck-session-board-controls.log` and
+`/tmp/down-to-duck-router-context-review.log`. Product source remains executor
+owned and pending commit; these narrow checks do not accept the full Plan05
+built-main/call/adoption/HUD requirements.
