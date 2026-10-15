@@ -6,8 +6,8 @@ current_phase: 03
 current_phase_name: survive-together-consumables
 status: executing
 stopped_at: "Phase03 Plans01-02 complete; Plan03 consumable contracts executor started."
-last_updated: "2026-10-15T07:57:43Z"
-last_activity_desc: Recovery accepted with final strict36, tracer22, parity21; consumable catalog and isolated sampler next.
+last_updated: "2026-10-15T08:10:36Z"
+last_activity_desc: Consumable source implemented; root boundaries4/4; executor finishing type-check and RNG isolation matrix.
 progress:
   total_phases: 7
   completed_phases: 2
@@ -41,6 +41,10 @@ Implemented shared personal/Revival/Flare validation and commit, 8-active-second
 Root supplemental regressions: tests/survive-recovery-boundaries.test.mjs(13), tests/recovery-plan-boundaries.test.mjs(6), tests/survive-recovery-terminal.test.mjs(10). Historical RED evidence and fixes include early staging attachment, backtracking/forced-progress credit, stale all-dead clock, invalid target counts, living Flare health/counters, fractional owner placement, airborne row retention, unsupported last-safe anchors, alias progress reset, terminal late admission, and solo-adoption historical frontier. Commits/logs remain in history; all final36 cases pass. `pnpm test:survive-recovery` strictly rejects skipped/TODO/cancelled evidence and is included in the final phase gate.
 
 Active: `/root/multiplayer_consumable_catalog`, sequential typed gsd-executor for03-03, owning only src/consumables.ts, src/consumable-drops.ts, tests/consumables.test.mjs, tests/consumable-drops.test.mjs and03-03SUMMARY. Root owns tracking/package. No worktree isolation is configured; do not overlap executors/builds. Plan03 defines immutable owner/generation/target-bound credit/debit and exact keyed item-drop-schema-1 sampler, with exhaustive1/2/2497 buckets and released RNG isolation. Then03-04 world integration,03-05 economy,03-06 lifecycle/recovery/resultsUI,03-07 hand/market/final gates. Independently verify the whole phase before Relay/Race; root stops related work during verifier.
+
+Plan03 current evidence: executor authored catalog/sampler and reports focused11/11 in `/tmp/down-to-duck-03-03-task1-focused.log`; prior type-check handle10127 failed5 TS errors and is terminal, fixes applied with rerun pending. Initial RED log `/tmp/down-to-duck-03-03-red.log` records missing source before implementation; piped shell status was masked, so rely on actual failure output and report that chronology honestly. No live handle in executor's latest report. Source is not accepted until final strict/type/regression gates and SUMMARY.
+
+Root `7bdb0e3`/`cc3c521` adds tests/consumable-boundaries.test.mjs to strict `pnpm test:consumables` and final phase gate. Four focused checks pass at `/tmp/down-to-duck-03-03-root-boundaries.log`: two-seat Flare with only owner alive, independent class capacity/debit, invalid numeric charges, and sparse empty-charge semantics. Initial root2/3 failure was an overly strict expectation that omitted optional charges are invalid; corrected to the actual Partial<Record> contract without product changes. Review caught draft Flare's unnecessary additional living teammate requirement and sparse-vector ordering, both corrected by executor. Signed row support accommodates initial negative buffered rows. Root independently derived a rejection-retry vector (seed0x87405b12,row0,slot0: draw0=4294967295 rejected, retry1=2472345421, bucket421), supplied to executor for a pinned test. Root has no live process/build reservation.
 
 Root also reconciled03-04 with the actual Survive attach/debit seam, explicitly included src/survive-together.ts ownership, and corrected its parity commands: the snapshot helper alone has no assertion suite; pnpm test:solo-parity is required. MCP graph lookup is available again for this project.
 
