@@ -164,7 +164,7 @@ This research does not claim release coverage, threshold compliance, or completi
 - Node v26.7 test-runner coverage behavior: https://nodejs.org/download/release/v26.7.0/docs/api/test.html [CITED]
 - Node CLI coverage include-all and threshold behavior: https://nodejs.org/api/cli.html [CITED]
 - IstanbulJS V8 converter: https://github.com/istanbuljs/v8-to-istanbul [CITED]
-- Local fixture: /tmp/down-to-duck-coverage-calibration.xjZXL5 [VERIFIED: local fixture]
+- Local fixture: measured in an isolated temporary directory, then removed after documentation. [VERIFIED: local fixture]
 
 ## Assumptions Log
 
