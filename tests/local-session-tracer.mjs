@@ -126,7 +126,7 @@ function installLocalRuntime() {
   let releaseStorage;
   const storedProgress = delayedHydration ? new Promise(resolve => { releaseStorage = resolve; }) : Promise.resolve(JSON.stringify({ ...savedProgress, coins: 0, selected: 'butter' }));
   const fixture = window.localSessionFixture = {
-    hydrated: false, actions: [], handlers: {}, writes: [], unregistered: [], delayedHydration,
+    hydrated: false, actions: [], handlers: {}, staleMovementHandlers: [], writes: [], unregistered: [], delayedHydration,
     releaseHydration(value = savedProgress) { releaseStorage?.(JSON.stringify(value)); },
   };
   const themeListeners = new Set();
@@ -142,7 +142,11 @@ function installLocalRuntime() {
     },
     keys: {
       async registerAction(action) { fixture.actions.push(action); return { actionId: action.id, binding: action.defaultKey }; },
-      onAction(id, handler) { fixture.handlers[id] = handler; return { close() { delete fixture.handlers[id]; } }; },
+      onAction(id, handler) {
+        fixture.handlers[id] = handler;
+        if (id === 'puddlehop.forward-w' || id === 'puddlehop.forward') fixture.staleMovementHandlers.push(handler);
+        return { close() { delete fixture.handlers[id]; } };
+      },
       unregisterAction(id) { fixture.unregistered.push(id); delete fixture.handlers[id]; },
     },
   };
@@ -156,13 +160,15 @@ const server = createServer((_request, response) => { response.writeHead(200, { 
 function seatRows(frame) {
   return frame.locator('#session-seats [data-seat]').evaluateAll(nodes => nodes.map(node => {
     const text = node.textContent ?? '';
-    return { seat: node.dataset.seat, text, y: Number(text.split('·').at(-1)?.trim()) };
+    const value = node.querySelector('[data-session-hud="health"]')?.textContent?.match(/(\d+)\s+tiles\b/)?.[1];
+    if (value === undefined) throw new Error(`Missing real distance for ${node.dataset.seat}`);
+    return { seat: node.dataset.seat, text, y: Number(value) };
   }));
 }
 
 const sceneSnapshot = frame => frame.locator('#scene').evaluate(canvas => canvas.toDataURL());
 
-test('the built opaque iframe drives Local Play through the injected shell-action fixture', async () => {
+test('the built opaque iframe transfers solo shell shortcuts to native local input', async () => {
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   const serverPort = server.address().port;
   const browser = await chromium.launch({ args: ['--mute-audio'] });
@@ -211,16 +217,17 @@ test('the built opaque iframe drives Local Play through the injected shell-actio
     assert.deepEqual(before.map(player => player.seat), ['p1', 'p2']);
     assert.ok(before.every(player => /^P[12] /.test(player.text)), 'the actual HUD retains marker and P-number labels');
 
-    await shellAction('puddlehop.forward-w');
-    await shellAction('puddlehop.forward');
+    await frame.waitForFunction(() => !window.localSessionFixture.handlers['puddlehop.forward-w'] && !window.localSessionFixture.handlers['puddlehop.forward']);
+    await frame.locator('#scene').press('w');
+    await frame.locator('#scene').press('ArrowUp');
     const expectedRows = before.map(player => ({ seat: player.seat, y: player.y + 1 }));
     await frame.waitForFunction(expected => [...document.querySelectorAll('#session-seats [data-seat]')].every(node => {
-      const y = Number(node.textContent?.split('·').at(-1)?.trim());
+      const y = Number(node.querySelector('[data-session-hud="health"]')?.textContent?.match(/(\d+)\s+tiles\b/)?.[1]);
       return expected.find(player => player.seat === node.dataset.seat)?.y === y;
     }), expectedRows);
     const after = await seatRows(frame);
 
-    assert.deepEqual(after.map(player => player.y), before.map(player => player.y + 1), 'W routes P1 and ArrowUp route through the real shell action handlers');
+    assert.deepEqual(after.map(player => player.y), before.map(player => player.y + 1), 'native W and ArrowUp move distinct session players after overlapping shell leases close');
 
     await frame.locator('#pause').click();
     await frame.waitForFunction(() => document.querySelector('#app')?.dataset.runState === 'paused');
@@ -229,7 +236,7 @@ test('the built opaque iframe drives Local Play through the injected shell-actio
     await page.waitForTimeout(180);
     assert.deepEqual(await seatRows(frame), paused, 'pause freezes both live seat observations');
     assert.equal(await sceneSnapshot(frame), pausedScene, 'pause freezes the shared world rendering as well as both seats');
-    await shellAction('puddlehop.forward');
+    await page.keyboard.press('ArrowUp');
     await page.waitForTimeout(80);
     assert.deepEqual(await seatRows(frame), paused, 'P2 actions are ignored while the shared session is paused');
 
@@ -238,7 +245,7 @@ test('the built opaque iframe drives Local Play through the injected shell-actio
     await frame.evaluate(() => window.dispatchEvent(new Event('blur')));
     await frame.waitForFunction(() => document.querySelector('#app')?.dataset.runState === 'paused');
     const blurred = await seatRows(frame);
-    await shellAction('puddlehop.forward');
+    await page.keyboard.press('ArrowUp');
     await page.waitForTimeout(80);
     assert.deepEqual(await seatRows(frame), blurred, 'P2 actions are ignored after the iframe blurs');
 
@@ -248,7 +255,7 @@ test('the built opaque iframe drives Local Play through the injected shell-actio
     await page.locator('iframe').evaluate(node => { node.style.width = '200px'; node.style.height = '160px'; });
     await frame.waitForFunction(() => innerWidth < 240 || innerHeight < 240);
     const undersized = await seatRows(frame);
-    await shellAction('puddlehop.forward');
+    await page.keyboard.press('ArrowUp');
     await page.waitForTimeout(80);
     assert.deepEqual(await seatRows(frame), undersized, 'P2 actions are ignored below the playable frame size');
 
@@ -272,13 +279,14 @@ test('the built opaque iframe drives Local Play through the injected shell-actio
     await frame.locator('#local-session-start').click();
     await frame.locator('#session-seats [data-seat="p1"]').waitFor();
     await frame.evaluate(() => window.localSessionFixture.releaseHydration());
-    await frame.waitForFunction(() => window.localSessionFixture.hydrated && typeof window.localSessionFixture.handlers['puddlehop.forward-w'] === 'function');
+    await frame.waitForFunction(() => window.localSessionFixture.hydrated && !window.localSessionFixture.handlers['puddlehop.forward-w']);
     assert.match((await seatRows(frame)).find(player => player.seat === 'p1')?.text ?? '', /Butter/, 'delayed hydration cannot replace an active primary traveler');
 
     const disposedSeats = await seatRows(frame);
     const registrations = await frame.evaluate(() => {
       const fixture = window.localSessionFixture;
-      const retainedMoves = [fixture.handlers['puddlehop.forward-w'], fixture.handlers['puddlehop.forward']];
+      const retainedMoves = fixture.staleMovementHandlers;
+      if (retainedMoves.length !== 2) throw new Error('Expected both real registered solo movement callbacks before their session release');
       const ids = fixture.actions.map(action => action.id).sort();
       // Exercise the real disposal handler twice, including a stale delivery
       // already queued by the shell before the subscriptions were closed.

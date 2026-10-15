@@ -35,7 +35,7 @@ const harness = `<!doctype html><body style="margin:0"><iframe title="Native key
 const server = createServer((_request, response) => { response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); response.end(harness); });
 after(() => new Promise(resolve => server.close(resolve)));
 
-const seatRows = frame => frame.locator('#session-seats [data-seat]').evaluateAll(nodes => nodes.map(node => ({ seat: node.dataset.seat, y: Number(node.textContent?.split('·').at(-1)?.trim()) })));
+const seatRows = frame => frame.locator('#session-seats [data-seat]').evaluateAll(nodes => nodes.map(node => ({ seat: node.dataset.seat, y: Number(node.querySelector('[data-session-hud="health"]')?.textContent?.match(/(\d+)\s+tiles\b/)?.[1]) })));
 const editorBounds = frame => frame.evaluate(() => {
   const editor = document.querySelector('#session-keyboard-editor');
   const controls = [...editor.querySelectorAll('button')].map(button => {
@@ -82,9 +82,10 @@ test('opaque iframe receives native keyboard profiles only after overlapping own
     assert.ok(activeHandlers.includes('puddlehop.pause') && activeHandlers.includes('puddlehop.play') && activeHandlers.includes('puddlehop.back-menu'), 'global pause, confirm, and Escape safety shortcuts stay registered');
 
     const before = await seatRows(frame);
+    assert.ok(before.every(row => Number.isFinite(row.y)), 'each keyboard seat reports a real personal distance');
     await frame.locator('#scene').press('w');
     await frame.locator('#scene').press('ArrowUp');
-    await frame.waitForFunction(expected => [...document.querySelectorAll('#session-seats [data-seat]')].every(node => Number(node.textContent?.split('·').at(-1)?.trim()) === expected[node.dataset.seat]), Object.fromEntries(before.map(row => [row.seat, row.y + 1])));
+    await frame.waitForFunction(expected => [...document.querySelectorAll('#session-seats [data-seat]')].every(node => Number(node.querySelector('[data-session-hud="health"]')?.textContent?.match(/(\d+)\s+tiles\b/)?.[1]) === expected[node.dataset.seat]), Object.fromEntries(before.map(row => [row.seat, row.y + 1])));
     const after = await seatRows(frame);
     assert.deepEqual(after.map(row => row.y), before.map(row => row.y + 1), 'real native W and ArrowUp move independent seats through the opaque iframe');
 
@@ -102,7 +103,7 @@ test('opaque iframe receives native keyboard profiles only after overlapping own
     await page.waitForTimeout(260);
     await frame.locator('#scene').focus();
     await frame.locator('#scene').press('w');
-    await frame.waitForFunction(expected => Number([...document.querySelectorAll('#session-seats [data-seat="p1"]')][0]?.textContent?.split('·').at(-1)?.trim()) === expected, resumed.find(row => row.seat === 'p1').y + 1);
+    await frame.waitForFunction(expected => Number([...document.querySelectorAll('#session-seats [data-seat="p1"]')][0]?.querySelector('[data-session-hud="health"]')?.textContent?.match(/(\d+)\s+tiles\b/)?.[1]) === expected, resumed.find(row => row.seat === 'p1').y + 1);
 
     await page.goto(`http://127.0.0.1:${server.address().port}`);
     frame = await (await page.locator('iframe').elementHandle()).contentFrame();
