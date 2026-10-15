@@ -511,4 +511,10 @@ export class Renderer {
     this.drawScene(world.host, world.host.characterId, dt, players);
   }
 }
-export function modelThumbnail(model: Model): string { const canvas = document.createElement('canvas'); canvas.width = 160; canvas.height = 140; const renderer = new Renderer(canvas); renderer.width = 160; renderer.height = 140; renderer.scale = 82; renderer.camera = 0; renderer.shadow(0, 0); renderer.model(model.map(v => ({ ...v, x: -v.x, y: -v.y })), 0, 0); return canvas.toDataURL(); }
+export function modelThumbnail(model: Model, size = 160): string {
+  const canvas = document.createElement('canvas'); canvas.width = size; canvas.height = size * .875;
+  const renderer = new Renderer(canvas); renderer.width = canvas.width; renderer.height = canvas.height;
+  renderer.scale = size * (82 / 160); renderer.camera = 0;
+  renderer.shadow(0, 0); renderer.model(model.map(v => ({ ...v, x: -v.x, y: -v.y })), 0, 0);
+  return canvas.toDataURL();
+}
