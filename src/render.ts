@@ -318,14 +318,14 @@ export class Renderer {
     }
     const travelerOverlays: (() => void)[] = [];
     if (players) {
-      for (const player of [...players].sort((a, b) => a.seat.localeCompare(b.seat))) {
+      const orderedPlayers = [...players].sort((a, b) => a.seat.localeCompare(b.seat));
+      const labels = this.packSessionLabels(orderedPlayers);
+      for (const player of orderedPlayers) {
         const lane = game.rows.get(player.y);
         if (!lane) continue;
         const traveler: TravelerScene = { ...player, lane, rows: game.rows, rules: game.rules, time: game.time, mobs: game.mobs };
         const marker = ({ p1: '▲', p2: '●', p3: '◆', p4: '■' } as const)[player.seat];
-        const labelOffset = ({ p1: -.48, p2: .48, p3: -.48, p4: .48 } as const)[player.seat];
-        const labelLift = ({ p1: 1.1, p2: 1.1, p3: 1.45, p4: 1.45 } as const)[player.seat];
-        travelerOverlays.push(this.appendTraveler(traveler, player.characterId, rows, objects, markers, showWave, `${marker} ${player.seat.toUpperCase()} · ${characterById(player.characterId).name}`, labelOffset, labelLift));
+        travelerOverlays.push(this.appendTraveler(traveler, player.characterId, rows, objects, markers, showWave, `${marker} ${player.seat.toUpperCase()} · ${characterById(player.characterId).name}`, labels.get(player.seat)));
       }
     } else {
       travelerOverlays.push(this.appendTraveler(game, character, rows, objects, markers, showWave));
@@ -342,8 +342,30 @@ export class Renderer {
     for (const mob of game.mobs) this.mobWindupWarning(mob);
   }
 
+  /** Keep session identities readable when their travelers share a spawn or tile. */
+  private packSessionLabels(players: readonly PlayerRender[]): Map<PlayerRender['seat'], Point> {
+    const ctx = this.ctx, fontSize = Math.max(10, this.scale * .22), lineHeight = fontSize + Math.max(4, this.scale * .06);
+    const placed: { left: number; right: number; top: number; bottom: number }[] = [];
+    const labels = new Map<PlayerRender['seat'], Point>();
+    ctx.save(); ctx.font = `bold ${fontSize}px sans-serif`;
+    for (const player of players) {
+      const marker = ({ p1: '▲', p2: '●', p3: '◆', p4: '■' } as const)[player.seat];
+      const text = `${marker} ${player.seat.toUpperCase()} · ${characterById(player.characterId).name}`;
+      const width = ctx.measureText(text).width + Math.max(4, this.scale * .09);
+      let [x, y] = this.project(player.groundX, player.groundY, 1.1);
+      let rect = { left: x - width / 2, right: x + width / 2, top: y - lineHeight, bottom: y };
+      for (let attempt = 0; attempt < 8 && placed.some(other => rect.left < other.right && rect.right > other.left && rect.top < other.bottom && rect.bottom > other.top); attempt++) {
+        y -= lineHeight;
+        rect = { left: x - width / 2, right: x + width / 2, top: y - lineHeight, bottom: y };
+      }
+      placed.push(rect); labels.set(player.seat, [x, y]);
+    }
+    ctx.restore();
+    return labels;
+  }
+
   /** Queue each body, trail, rescue, and spill in the same layers as the world. */
-  private appendTraveler(game: TravelerScene, character: string, rows: readonly Lane[], objects: SceneObject[], markers: SceneObject[], showWave: boolean, label?: string, labelOffset = 0, labelLift = 1.1): () => void {
+  private appendTraveler(game: TravelerScene, character: string, rows: readonly Lane[], objects: SceneObject[], markers: SceneObject[], showWave: boolean, label?: string, labelPosition?: Point): () => void {
     const ctx = this.ctx;
     if (game.deathSpill) for (const drop of game.deathSpill.drops) {
       const pose = spillPose(drop, game.deathSpill.age, this.reduced);
@@ -440,7 +462,7 @@ export class Renderer {
         this.cube(box(0, 0, .02, .64, .12, .1, '#f2ffde'), px, py - .29);
       }
       if (label) {
-        const [x, y] = this.project(px + labelOffset, py, lift + labelLift);
+        const [x, y] = labelPosition ?? this.project(px, py, lift + 1.1);
         ctx.save();
         ctx.font = `bold ${Math.max(10, this.scale * .22)}px sans-serif`;
         ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';

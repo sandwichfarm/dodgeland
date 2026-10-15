@@ -455,14 +455,14 @@ function updateHud(): void {
       const character = characterById(player.characterId), tile = seats.querySelector<HTMLElement>(`[data-seat="${player.seat}"]`)!;
       tile.classList.toggle('session-hud-selected', hudSelected === player.seat);
       const identity = tile.querySelector<HTMLButtonElement>('[data-session-hud="identity"]')!;
-      identity.textContent = `${player.seat.toUpperCase()} ${seatMarker(player.seat)} · ${character.name}`;
+      const compactHud = innerWidth <= 479 || innerHeight <= 419;
+      identity.textContent = compactHud ? `${player.seat.toUpperCase()} ${seatMarker(player.seat)}` : `${player.seat.toUpperCase()} ${seatMarker(player.seat)} · ${character.name}`;
       identity.setAttribute('aria-label', `${player.seat.toUpperCase()} ${seatMarker(player.seat)} ${character.name}, ${player.device}, ${player.health} of ${player.maxHealth} feathers`);
       const inspectable = innerHeight <= 319 && hudSelected === player.seat;
       identity.setAttribute('aria-pressed', String(inspectable && hudDetailsOpen));
       identity.title = inspectable && hudDetailsOpen ? `Close ${player.seat.toUpperCase()} details` : `Show ${player.seat.toUpperCase()} details`;
-      const compactHud = innerWidth <= 479 || innerHeight <= 419;
       const compactDevice = player.device.replace(/^gamepad-(\d+)$/, (_match, index: string) => `Pad ${Number(index) + 1}`);
-      tile.querySelector<HTMLElement>('[data-session-hud="device"]')!.textContent = player.participation === 'device-lost' ? 'Waiting to reclaim' : compactHud ? compactDevice : player.device;
+      tile.querySelector<HTMLElement>('[data-session-hud="device"]')!.textContent = player.participation === 'device-lost' ? 'Waiting to reclaim' : compactHud ? `${character.name} · ${compactDevice}` : player.device;
       tile.querySelector<HTMLElement>('[data-session-hud="health"]')!.textContent = compactHud ? `${player.health}/${player.maxHealth} feathers · ${player.statistics.distance} tiles` : `${player.health} / ${player.maxHealth} feathers · ${player.statistics.distance} tiles`;
       tile.querySelector<HTMLElement>('[data-session-hud="power"]')!.textContent = `${player.power.name} · ${player.powerReady ? 'Ready' : `${player.powerRemaining} tiles`}`;
       tile.querySelector<HTMLElement>('[data-session-hud="wallet"]')!.textContent = `${player.run.wallet} coins · ${player.run.cards.length} cards`;
