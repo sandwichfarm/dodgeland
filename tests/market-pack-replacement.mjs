@@ -40,7 +40,11 @@ async function pack(state = 0) {
   assert.deepEqual(after.cards, before.cards, 'Opening does not equip candidates or discard old cards');
   assert.ok(after.pending); return { before, after, offer };
 }
-const ordinary = draft => draft.choices.filter(card => !['extra-pocket', 'travel-light'].includes(card.components[0].itemId));
+// These scenarios assert a three-slot hand. Expanded inventory adds three
+// more slot-changing cards; exercise those semantics in the explicit capacity
+// scenarios below rather than accidentally selecting one as a neutral pick.
+const slotCards = new Set(['extra-pocket', 'travel-light', 'field-pack', 'ballast', 'glass-purse']);
+const ordinary = draft => draft.choices.filter(card => card.components.every(component => !slotCards.has(component.itemId)));
 async function choose(card) { await transact('choice', card.id); }
 async function makeRoom() {
   assert.equal(await frame.locator('#market-claim').textContent(), 'Make room');
