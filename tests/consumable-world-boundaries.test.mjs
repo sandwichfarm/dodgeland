@@ -16,8 +16,7 @@ function advance(session, seconds) {
   const count = Math.max(1, Math.ceil(seconds / STEP));
   for (let index = 0; index < count; index++) session.update(seconds / count);
 }
-function fixture({ itemId = 'revival', mode = 'arcade', seat = 'p1' } = {}) {
-  const seed = SEEDS[itemId];
+function fixture({ itemId = 'revival', mode = 'arcade', seat = 'p1', seed = SEEDS[itemId] } = {}) {
   assert.equal(sampleConsumableDrop({ courseSeed: seed, row: 1, slot: 0 }).itemId, itemId);
   const game = new Game(seed, 'pond', mode, false, ITEM_CATALOG, 'butter');
   for (const lane of game.rows.values()) Object.assign(lane, {
@@ -109,4 +108,63 @@ test('coin magnet cards alter neither item pull range nor its frame-by-frame mot
     });
     assert.deepEqual(traces[1], traces[0], `${mode}/${seat}/${distance}: magnet must only affect coins`);
   }
+});
+
+function twoOwnedItems() {
+  // The real sampler yields Revival on row1 and Flare on row2 for this seed.
+  const context = fixture({ seed: 0xb4184ed2, mode: 'stroll' });
+  assert.equal(sampleConsumableDrop({ courseSeed: context.game.seed, row: 2, slot: 0 }).itemId, 'flare');
+  for (const [index, player] of context.session.players.entries()) {
+    player.x = player.fromX = 0;
+    player.y = player.fromY = player.maxY = index + 1;
+    player.run.creditCoins(17 + index);
+  }
+  advance(context.session, .3);
+  assert.equal(charge(context.session, 'p1', 'revival'), 1);
+  assert.equal(charge(context.session, 'p2', 'flare'), 1);
+  return context;
+}
+
+for (const seat of ['p1', 'p2']) {
+  test(`${seat}: actual death clears only its held item and recovery cannot restore it`, () => {
+    const { game, session } = twoOwnedItems();
+    const dead = session.players.find(player => player.seat === seat);
+    const survivor = session.players.find(player => player !== dead);
+    const before = structuredClone(session.consumableSnapshot().charges.find(value => value.seat === survivor.seat));
+    const wallet = survivor.run.wallet;
+    dead.powerReadyAt = 10000;
+    Object.assign(game.rows.get(dead.y), { kind: 'river', phase: 10, speed: 0, length: 1, spacing: 20 });
+    session.update(STEP);
+    assert.equal(dead.state, 'dead', 'an actual unsupported river contact must execute death clearing');
+    assert.equal(dead.run.wallet, 0);
+    assert.equal(charge(session, seat, 'revival'), 0);
+    assert.equal(charge(session, seat, 'flare'), 0);
+    assert.equal(survivor.state, 'playing');
+    assert.equal(survivor.run.wallet, wallet);
+    assert.deepEqual(session.consumableSnapshot().charges.find(value => value.seat === survivor.seat), before);
+    Object.assign(game.rows.get(dead.y), { kind: 'meadow', phase: 0 });
+    assert.equal(session.recover({ kind: 'personal', ownerSeat: seat }), true);
+    assert.equal(charge(session, seat, 'revival'), 0);
+    assert.equal(charge(session, seat, 'flare'), 0);
+    assert.equal(dead.run.wallet, 0);
+  });
+}
+
+test('a disconnected ghost retains its held item and wallet through another player death', () => {
+  const { game, session } = twoOwnedItems();
+  const primary = session.players.find(player => player.seat === 'p1');
+  const ghost = session.players.find(player => player.seat === 'p2');
+  const wallet = ghost.run.wallet;
+  assert.equal(session.deviceLost(ghost.seat), true);
+  assert.equal(charge(session, ghost.seat, 'flare'), 1);
+  primary.powerReadyAt = 10000;
+  Object.assign(game.rows.get(primary.y), { kind: 'river', phase: 10, speed: 0, length: 1, spacing: 20 });
+  session.update(STEP);
+  assert.equal(primary.state, 'dead');
+  assert.equal(ghost.participation, 'device-lost');
+  assert.equal(charge(session, ghost.seat, 'flare'), 1);
+  assert.equal(ghost.run.wallet, wallet);
+  assert.equal(session.reclaim(ghost.seat, 'gamepad-7'), true);
+  assert.equal(charge(session, ghost.seat, 'flare'), 1);
+  assert.equal(ghost.run.wallet, wallet);
 });
