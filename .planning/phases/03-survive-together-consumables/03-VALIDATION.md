@@ -59,6 +59,8 @@ Before any Phase 3 production edit:
 
 Plan 03-01 proves one complete path first: active solo Arcade stages `Play together?`, cancel resumes unchanged, commit adopts the exact owners, a second unique character spawns safely after consumed input, and both players continue in one course. The same handler composition is parameterized over Arcade and Flow. Expansion scenarios cover seats 2–4, full capacity, safe-join failure, deliberate leave, controller ghost, reclaim, and new join after departure.
 
+`pnpm test:survive-tracer` builds the production artifact and executes the tracer through the existing strict runner, rejecting empty, skipped, TODO, failed or cancelled evidence. This focused command does not replace the complete final phase gate.
+
 The tracer reruns the immutable solo oracle immediately after mode/session integration. Any new product-facing observability used only by tests is forbidden; test adapters may inspect production state using the established source-loader/parity patterns.
 
 ### Gate 2 — Recovery, terminal state, and results
