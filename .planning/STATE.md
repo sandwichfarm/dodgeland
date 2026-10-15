@@ -2,100 +2,47 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 03
-current_phase_name: survive-together-consumables
 status: executing
-stopped_at: "Phase03 independent verification39/40; ghost-duration gap fixed and canonical gate passed; independent re-verification pending."
-last_updated: "2026-10-15T20:21:35.861302+00:00"
-last_activity_desc: Co-op market tracer passes; root ownership, fresh-context and responsive regressions drive03-07 fixes.
+current_phase: 04
+current_phase_name: relay
+stopped_at: Phase03 independently verified42/42; ready for Relay01 execution.
+last_activity_desc: Closed ghost-duration result gap; full canonical gate and independent re-verification passed.
 progress:
   total_phases: 7
-  completed_phases: 2
-  total_plans: 30
-  completed_plans: 16
+  completed_phases: 3
+  total_plans: 31
+  completed_plans: 18
 ---
 
 # Project State
 
 ## Current Position
 
-Phase03 — Survive Together & Consumables, Plan07 of7, wave6, executing.
-All seven Phase03 plans and UI contract are reviewed. Phase01 and02 are independently verified; Phase03 remains incomplete. No complete multiplayer mode or PR yet.
+Phase04 Relay, Plan01 of6. Phases01–03 independently verified. Survive Together is complete; Relay, Race, cross-mode presentation and release/PR remain mandatory. Original scope: USER-REQUEST.md and REQUIREMENTS.md. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
 
-Full unchanged goal: `.planning/USER-REQUEST.md`, `.planning/PROJECT.md`, `.planning/REQUIREMENTS.md`. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
+## Accepted Relay Entry Evidence
 
-## Active03-07 Ownership and Accepted Entry
+Source6017f9f fixes the independent Phase03 verifier's sole ghost-duration gap. Full canonical `pnpm test:phase3` session73933 exit0, `/tmp/down-to-duck-ghost-duration-final-gate.log`: exact Phase02 prefix, solo parity21/regressions271, all session/runtime/layout checks, all Phase03 groups, recovery44/44 and final browser34/34. Type-check/build/guidance/lockfile pass. Independent re-verification reports42/42 passed with no residual gap in03-VERIFICATION.md.03-07 and03-08 summaries map evidence. No source changes since that gate; docs-only phase completion follows it. Use this unchanged pre-edit gate as Relay entry evidence, do not rerun it gratuitously.
 
-Plan03-06 accepted at source12f6fba with SUMMARYba7e6a9. Root final gate7110 terminal0 (`/tmp/down-to-duck-03-06-root-final-owner-gate.log`) passed type-check/build,22 named tests,guidance,conformance5pass/0fail/5unmeasured,and unchanged lockfile against immutable solo oracle. Physical controller hardware is separately unmeasured. No unchanged gate rerun needed at07entry;07final canonical inherited gate remains mandatory. Phase03 overall remains incomplete; UI-03 requires07 and independent verification.
+Root owns orchestration, no live build/browser process. Relay01 executor dispatch is next. All browsers muted; preview5175 untouched; no installs/dependency changes/publish/merge. Only requested final PR is authorized.
 
-Root owns the03-08 ghost-duration gap closure and sole build/browser reservation. Independent verifier fallback returned gaps_found39/40; report committed in6017f9f. Typed worker never initialized and was explicitly canceled; fallback is recorded honestly. Eight new production-path cases reproduced missing duration; focused25/25 plus type-check pass after narrow departure/settlement fix6017f9f. Full canonical `pnpm test:phase3` completed session73933 exit0, log `/tmp/down-to-duck-ghost-duration-final-gate.log`; recovery44/44 and final browser34/34.08SUMMARY written; no live root process. Independent fallback verifier re-verification is next. Phase03 and all later goal work remain incomplete.
+## Execution Runtime
 
-Root03-07 supplemental `tests/survive-market-pack-owner-runtime.mjs` committedba21d42; final gate includes it in c43d4ba. Actual built RED44739 terminal1 (`/tmp/down-to-duck-03-07-root-pack-red.log`) reaches the P2 full-hand Large Pack inspection, where purchase is disabled. Setup and owner selection succeeded; subsequent paid-pack/switch/sale/claim assertions remain unproven. Browser reservation released to executor, root no live process. Executor own initial RED reports4 existing cases pass/1 new P2Revival case fails at disabled market opener (`/tmp/down-to-duck-03-07-red-p2-revival.log`).
-
-Root entry review identified Phase02 temporary-disabled assertions in local-session-runtime.mjs:138 and local-session-owner-layout.mjs:160; executor may narrowly reconcile those and the owner-heading focus assertion to approved03-07 behavior while preserving all existing isolation/layout/close-callback coverage. No backend or solo behavior changes authorized by that reconciliation.
-
-Root03-07 checkpoint review: executor commitsf5e67c5/4d79334/e338c9c/7c9160d wire initial UI transactions; executor7/7 pointer purchase+pack+ghost suite passes. Root independently92090 terminal1 (`/tmp/down-to-duck-03-07-root-owner-checkpoint.log`) confirms pack+ghost2pass but inherited recovery-owner fails because enabled market invitation intercepts P1 Items click at900x600. Root6330 terminal1 (`/tmp/down-to-duck-03-07-root-solo-red.log`) confirms solo market buys0cards instead of3: always-present dispatcher rejected solo fallback. Root39107 terminal1 (`/tmp/down-to-duck-03-07-root-shelf-red.log`) confirms real purchase charge1 but physical shelf stays empty because its fingerprint omitted charges. New shelf test7201c75 added to final gate. Executor owns source fixes and build reservation; root no live process.
-
-Root new controller-hand ownership test9fc4050 is syntax-checked only; source review found any seat's confirmation still reaches market/hand and assigned-owner D-pad drops. Root also flagged ghost market inspection losing its surface when no eligible transaction context exists, direct oldRun.close bypass, and14px item text below16px contract. Executor has resumed full approved03-07 completion; no SUMMARY accepted. Its inherited reclaim failure is first being reconciled with03-06 explicit confirmation, not worked around with unintended automatic reclaim. Full Task2 acceptance, owner/lifecycle/keyboard/controller/visual matrices and canonical inherited gate remain required.
-
-Root added committed physical-shelf purchase/use7201c75, controller-hand ownership9fc4050, visible ghost explanationd0704b0, and ghost market close/reopena3da5f0; all appear in07 final gate. Root inspected900px pack-sale and ghost-sale artifacts; Items text was small beside cards, and reclaim copy tooltip-only. Executor is fixing UI contract rather than weakening assertions. Source changes currently uncommitted and executor owns build/browser.
-
-Latest reviewed executor checkpoint `/tmp/down-to-duck-03-07-r3-runtime.log` terminal failure:6pass2fail, with inherited recovery-owner+five Survive runtime cases passing; ghost market disabled-state repaint and1000×280 market offer hit-targets still failing. Prior R1 checkpoint report10pass4fail included physical shelf,solo tiny,controller,pack,andghost-sale checks, but final current-source recheck remains required. Inherited local-session reclaim now uses explicit Reclaim dialog, nonowner rejection, then owner confirmation; executor reports that standalone test passes. No root live process. Plan07 full controller/keyboard/pointer/action/lifecycle/visual matrices and Task2 integration/canonical gates remain incomplete; no07SUMMARY accepted.
-
-Root added fresh interaction suite f6cabec/17238ce (`tests/survive-market-fresh-context-runtime.mjs`, syntax-only pending first run): same-owner market reopening after earned coins, repeated new hand sales, and stale already-open sale rejection until explicit reinspection. The final07 gate includes all three cases. Executor retains sole build/browser reservation; root does not run competing builds.
-
-## Latest Checkpoint Review
-
-Source checkpoint `5a89570` passes the executor's R8 focused runtime suite (18/18, `/tmp/down-to-duck-03-07-r8-runtime.log`) and type-check/build. This supersedes earlier intermediate failures above but does not complete Plan07. Root reviewed screenshots and found bottom cosmetic labels/prices clipped at1000×280; at240×240 session HUD bleeds through the offers and the Items row is absent. Existing center-hit and iframe bounds assertions do not prove clipping-ancestor/text visibility. Executor owns correction and stronger charged-item visual coverage.
-
-Root confirmed in `src/market-ui.ts` that both consumables are appended to the rare stock but only its first entry is rendered. Flare is inaccessible behind Revival, and a normal rare offer can hide both; executor must retain access to all eligible items within the bounded market design. Root regression `bf1ecd1` adds a second case to `tests/survive-market-ghost-inspection-runtime.mjs`: actual paid pack purchase → disconnect → dismiss read-only market without changing paid draft/wallet/cards. Syntax passes; runtime pending. Current source hides Close and refuses dismissal for all pending packs, including ghosts.
-
-Executor inherited final gate PID70894 terminated after about1:43 during `pnpm test:phase2`, before its incorrectly scoped trailing log redirect; no final-gate log was created and no pass is claimed. Root requested the original tool session output to identify the exact failing assertion/exit status. Next gate must redirect the entire command at launch. Executor acknowledged missing Task2 full built acceptance scenario and keyboard/failed-action/equip/skip/held-input/visual coverage; these and current fixes are required before a new final gate. No07SUMMARY accepted. Root owns only tracking/supplemental tests and has no build/browser process.
-
-Root read `/tmp/down-to-duck-03-07-r9-runtime.log`: terminal1,7pass/3fail. Paid ghost-pack regression `bf1ecd1` fails at hidden Close; actual Flare purchase test fails at unreachable offer; owner layout fails at covered Previous/Next controls at1000×280 and240×240 in both themes. This is concrete runtime evidence, superseding the earlier syntax-only status. Existing physical shelf purchase/use and ordinary ghost inspection pass. Executor owns fixes; no final pass claimed.
-
-Root committed native keyboard hand-ownership regression `304bb2f` (syntax passes, runtime pending): P1 WASD/Q cannot affect P2 hand focus/economy/world; P2 native arrows navigate focused buttons and Enter sells only P2. `4e29043` consolidates the exact full03-07 command into `pnpm test:phase3`, with Phase02 prerequisite, all supplemental tests and immutable lockfile check preserved.03VALIDATION and downstream04/05 copied prerequisites now reference it. Add new standalone Phase03 tests to this maintained script. Static expansion equality and named-file existence checks pass; root guidance6/6 passes (`/tmp/down-to-duck-03-07-root-gate-guidance.log`). No production build/runtime gate was run by root. Original PID70894 output cannot be recovered; exact original failing assertion/exit remains unmeasured. Next full gate uses grouped logging and the canonical phase3 command after required coverage/fixes.
-
-Root integrated acceptance ownership: `tests/survive-complete-run-runtime.mjs` and small harness additions in `tests/market-game-fixture.mjs` (optional initial NAP-INTENT and explicit owner-cache refresh after retry) committed `2e9b5e1`, locator correction `6251d15`, input/kept-charge extension `07c7418`. Current draft covers seeded Arcade live cancel/adoption retaining actual references, four players, contested deterministic drop, simultaneous keyboard moves, disconnect/reclaim, spent personal revive→leave/new participation provenance, two-owner consumable/card/sale/pack claim/skip, no-target charge retention, personal/Revival/Flare recovery, all-dead expiry, immutable results and solo retry. Syntax passes; complete runtime remains unproven. Executor may run it under its build/browser reservation; root owns test corrections. Add it to canonical `test:phase3` once reconciled, before final acceptance. Exact100/250/8-second/2-second details and final solo oracle assertions still need coverage audit against focused suites and integrated proof; no fullTask2 completion claim.
-
-Root read R10/R11 terminal logs: each8pass/2fail. R11 `/tmp/down-to-duck-03-07-r11-runtime.log` proves ghost paid-draft dismissal and visible Flare purchase now pass. Layout still fails because pagination overlaps offers. Integrated draft reached Buy Revival, then failed on an exact locator omitting the displayed price; `6251d15` corrects that test locator. Keyboard first run failed at incorrect ready-state setup; `1277474` now enters live solo→pause→LocalPlay, runtime pending. Executor owns source/layout fixes including the consumable inspector mistakenly labelled Card, plus remaining focused action/visual coverage. Root has no live process; executor retains reservation.
-
-Root reviewed R12/R13 terminal logs and screenshots. R12 `/tmp/down-to-duck-03-07-r12-runtime.log`:8pass/1fail; native keyboard ownership passes, integrated scenario reaches final solo movement assertion. `8782e0e` fixes that test to verify restored shell `forward-w` registration and invoke the actual solo shell path (native keyboard routing belongs only to local multiplayer). R13 `/tmp/down-to-duck-03-07-r13-runtime.log`:1pass/1fail; the full integrated scenario at8782e0e passes through live adoption, four players, contested pickup, controller lifecycle, departure/newjoin provenance, markets/packs, recoveries, settlement and solo retry. Root subsequently strengthened exact two-second/250-new-tile/eight-active-second timing, pause-aware final offers, and final contribution ledger in `cc7ce24`; syntax passes, runtime pending. These do not constitute overall Phase03 completion.
-
-Root visual review and now-active text-containment assertions expose genuine remaining layout gaps:900/320/2400 market bottom prices are covered by `.market-bottom`/pagination;1000×280 one offer name crosses its clipping ancestor;240×240 Items row lies at244..288 below the viewport and scene labels bleed through the market. Executor is correcting source and must prove charged-item visibility too. Initial green center-hit layout checks did not prove these requirements. Root has no browser/build process; executor retains reservation. Pending canonical `test:phase3` must include the integrated file before final gate; executor asked to add it. No SUMMARY acceptance or phase completion claim.
-
-Root accepted temporary CSS/browser handoff after executor R15 layout failure. Structural co-op shop rewrite committed `a9dae6d` removes overlapping footer/toolbar overrides and partitions the viewport between market tracks and a distinct card/Items shelf. Tiny240×240 uses the executor's single-offer pager; regular shop retains grouped stock. Required owner heading/chips,44px controls,16px text, full name/price containment, and both charged items fit. Underlying world canvas is hidden during open co-op market to prevent character-label bleed during entry opacity; ordinary solo geometry is preserved. Prior redundant `market.css` patch was removed because the co-op-specific hand-layout rules now own the correction.
-
-Root layoutR3 passed existing six-frame/both-theme text-containment assertions. RootR4 `/tmp/down-to-duck-03-07-root-layout-r4.log` passed stronger charged matrix (P1 Revival+Flare, others empty) and both solo tiny cases, but integrated test caught a live HUD item obscured by bottom bar after old z-index rule removal. Restoring live HUD layering fixes it: finalCSS R5 `/tmp/down-to-duck-03-07-root-layout-r5.log` integrated and recovery-owner2/2 pass. Root visually inspected charged240×240 and1000×280 screenshots: both item buttons, owner labels, complete offer text/price fit, world labels absent. Exact final-source full gate still required; no07SUMMARY acceptance.
-
-CSS/build/browser reservation returned to executor `/root/multiplayer_hand_market`; root no live process. Executor retains owned main/market-ui and runtime/layout/package edits uncommitted, including tiny single-offer paging, native button-key routing, paid ghost-pack dismissal, Flare access/ontology, charged-layout assertions, and canonical integrated inclusion. Remaining wardrobe/equip/failed-action/held-state/visual matrix plus full `pnpm test:phase3` are mandatory before summary/independentPhase03 verification. Compact wardrobe tab access needs particular review because the current short shop hides ordinary tabs. Root test ownership stays with its supplemental/integrated files.
-
-Root supplemental controller coverage `c55bcd0` adds a held-confirmation transition: P1 A rejected under P2, pointer-switch to P1, fresh card inspection, repeated held snapshots cannot sell; release and deliberate P2 confirmation retain the existing success check. Syntax and diff checks pass; runtime is pending under executor reservation. Executor R16 compact wardrobe test reaches purchase and wardrobe inspection, then fails locating `Wear it`; purchased cosmetics may already be equipped, so the test must exercise the actual take-off/wear controls. The 240×240 wardrobe navigation requirement still needs direct proof. No root browser process or final-gate claim.
-
-Executor R18 focused checkpoint is terminal green:20/20,0fail (`/tmp/down-to-duck-03-07-r18-focused-runtime.log`), independently read by root. Includes latest held-input regression `c55bcd0`/`bcb3ea0`, keyboard isolation, ghost/paid-draft, physical Items shelf, charged owner layout, fresh-context sale, full integrated run, and240×240 wardrobe purchase/equip. Executor now saves wardrobe visual evidence and finishes explicit insufficient-funds/capacity UI outcomes before its owned commit and canonical full gate. Focused success does not complete03-07; fullgate/SUMMARY/independentPhase03verification remain. Root has no browser/build process.
-
-Root took source/build/browser ownership after executor handoff at R67; executor is now complete/idle and no03-07SUMMARY exists. Root instrumented actual Paja messages and identified live Stadia controller input (moving axes and A presses) entering the smoke browser, causing unrequested moves/menu actions. Evidence `/tmp/down-to-duck-root-smoke-trace.log`. Root restored the original committed smoke assertions and added only browser-harness `navigator.getGamepads = () => []`, preserving production shell input and dedicated controlled-gamepad tests. Focused original smoke now passes terminal0 (session4435),10scenarios/12themeframes/8activewaveframes, `/tmp/down-to-duck-root-smoke-isolated.log`. Earlier speculative key/clock/drawer diagnostic edits were removed, not accepted as fixes. Root owns remaining03-07finalgate and summary; all originalgoal/phases remain required.
-
-Root Phase03 suffix45982 passed every focused model group and32/34browsercases; two lifecycle layouts exposed compact `.hud-tools` anchored below a zero-height `.hud`. Root fix `e13d598` anchors toolbar to frame and reserves handspace; focused12009 terminal0 passes inheritedHUDlayout,chargedownerlayout,andbothlifecyclecases4/4 (`/tmp/down-to-duck-root-toolbar-layout.log`). Root inspected corrected320×560 personal-offer image with visible sound/pause/collection controls. Full canonical `pnpm test:phase3` is now running as root session96861 with durable log `/tmp/down-to-duck-root-phase3-final.log`. Re-poll this exacthandle; no competingbuild/browser. No SUMMARY/phasecompletion yet.
-
-Root final gate96861 terminated1: Phase02 prefix and all Phase03 model groups passed; browser33/34 failed tiny Revival focus. Focused diagnostic passed1/1 and layout group4/4, but full browser batch reproduced equivalent Reclaim focus failure33/34. Native resize callback tracing proved the virtual-clock helper could return with BODY focused before app resize observers restored focus. Fixture-only fix67b282b waits for native ResizeObserver delivery and queued microtasks; it never supplies focus and retains all assertions. Instrumented full browser batch92443 passed34/34 (`/tmp/down-to-duck-focus-barrier.log`); temporary diagnostic logging removed. Full canonical gate45733 completed exit0 on committed helper, `/tmp/down-to-duck-root-phase3-resize-gate.log`; all inherited checks, all Phase03 groups,34/34 final browser cases, guidance and lockfile pass. Both conformance reports5pass/0fail/5unmeasured. Plan07 SUMMARY records exact counts and requirement evidence; independent Phase03 verifier is next.
-
-## Historical Evidence
-
-The full Phase03 plans01–06 execution chronology, intermediate failures, fixes and terminal gate logs are preserved in `.planning/phases/03-survive-together-consumables/03-EXECUTION-HISTORY.md`. Accepted summaries and independent phase verification remain authoritative; historical ownership statements do not supersede this current state.
+Typed gsd-verifier stayed pending_init across multiple turns and was explicitly canceled. Generic fallback applying full local gsd-verifier instructions completed independent review and re-review. Reports honestly label this fallback. A late-starting canceled worker must do nothing. Prefer working default-agent fallback with the relevant full role instructions when typed dispatch cannot initialize; never imply typed guarantees.
 
 ## Invariants
 
 - One session owns world/RNG/clocks/claims; players own movement, health, inventory, innate power and contributions.
 - Live solo cancel preserves actual owners and future state; commit adopts them. Relay/Race start fresh.
-- Existing innate100-block powers stay separate from personal250-new-tile revival. Forced movement, backtracking, reclaim/rejoin and aliases cannot farm charges.
+- Innate100-block powers are separate from personal250-new-tile revival. Forced movement, backtracking, reclaim/rejoin and aliases cannot farm charges.
 - Death spills/clears only the dead owner's run inventory; ghosts/departure retain it. Recovery does not restore lost purchases.
 - Four seats and Race500tiles/180active seconds remain validated provisional defaults; Relay default50tiles.
-- SDK boundaries only, no new runtime packages; all browsers muted, preview5175 untouched. Explicit owned-path commits only.
+- Graph-first code discovery; SDK boundaries only. Paja pointer/keyboard smoke isolates native hardware, dedicated controller tests use shell snapshots. Native resize delivery barrier preserves actual app focus assertions.
 
-## Remaining Evidence and Presentation Work
+## Remaining Evidence and Presentation
 
-- Phase06 must fix regular900×600 HUD overlap with nearby P2/P4 actors. It requires actual verified03–05 lifecycle/results before final UI contract authoring; no speculative06UI-SPEC exists.
-- Conformance5pass/0fail/5unmeasured skips (manifest3,wire1,lifecycle1), not10passes. Physical controllers unmeasured. See `.planning/research/CONFORMANCE-EVIDENCE.md`.
-- Phase07 honest coverage calibration remains exploratory until normal-install and browser instrumentation are proven; see `.planning/research/COVERAGE-CALIBRATION.md`.
-- Deliver all three modes, their interfaces and visual proofs, high honest coverage, and an open PR against main. No merge/publish/deploy. Goal remains active; no blocker or completion claim.
+- Execute all6 Relay plans,7 Race plans, Phase06 UI, Phase07 full audit and PR. Do not shrink stop condition.
+- Phase06 must address regular900×600 HUD overlap with nearby actors using actual completed lifecycle/results flows.
+- Conformance5pass/0fail/5unmeasured (manifest3,wire1,lifecycle1), not10passes. Physical controllers unmeasured. See research/CONFORMANCE-EVIDENCE.md.
+- Coverage calibration remains exploratory until normal-install/browser instrumentation proven; see research/COVERAGE-CALIBRATION.md.
+- Detailed Phase03 intermediate history is archived in phases/03-survive-together-consumables/03-EXECUTION-HISTORY.md. Accepted summaries and final VERIFICATION are authoritative.

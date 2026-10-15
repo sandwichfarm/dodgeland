@@ -26,8 +26,8 @@ harder to start or changing its established mechanics.
 ### Active
 
 - [ ] Extend composed rules with shared-session and multiplayer lifecycle handlers.
-- [ ] Shared local session, distinct characters, multiple devices and keyboard bindings.
-- [ ] Survive Together in Arcade and Flow, dynamic joining/leaving, revival and consumables.
+- [x] Shared local session, distinct characters, multiple devices and keyboard bindings.
+- [x] Survive Together in Arcade and Flow, dynamic joining/leaving, revival and consumables.
 - [ ] Configurable Relay with closed roster, turn handoffs and dropout continuity.
 - [ ] Timed Race with leader-relative feather-damaging fog and contextual items.
 - [ ] In-game setup, player HUD, inventory, disconnect/reconnect and result/podium screens.
@@ -55,10 +55,13 @@ harder to start or changing its established mechanics.
 
 ## Current State
 
-Phase 1 is complete and independently verified (12/12 must-haves). The final
-strict gate passed 21 immutable comparisons and 270 regressions; built runtime
-and health checks passed with browser output muted. Phase 2 begins the shared
-world/player extraction. No multiplayer mode is complete yet.
+Phases01–03 are complete and independently verified. Survive Together now has live
+join/leave, personal recovery, world/shop consumables, owner-safe menus and immutable
+team results. Phase03 re-verification passed42/42 after fixing unreclaimed ghost-time
+accounting. Full canonical gate passed on6017f9f, including exact solo parity and34
+final browser cases. Relay execution begins next; Race, final presentation, release
+evidence and the open PR remain required. Conformance has5 passing and5 unmeasured
+checks; physical-controller behavior remains unmeasured.
 
 ## Constraints
 
@@ -89,4 +92,4 @@ state. Preserve the original request and record any unresolved gap explicitly.
 Do not mark the milestone complete until the full requirement audit and PR check pass.
 
 ---
-*Last updated: 2026-10-14 after Phase 1 verification.*
+*Last updated: 2026-10-15 after Phase03 independent re-verification.*

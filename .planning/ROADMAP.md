@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Composable Solo Baseline** - Route Arcade and Flow through typed mode rules while proving exact baseline parity. (completed 2026-10-14)
 - [x] **Phase 2: Shared Local Session** - Let distinct locally controlled characters share one world, input system, renderer, and setup flow. (completed 2026-10-14)
-- [ ] **Phase 3: Survive Together & Consumables** - Deliver drop-in co-op, distinct recovery mechanics, and deterministic cooperative items.
+- [x] **Phase 3: Survive Together & Consumables** - Deliver drop-in co-op, distinct recovery mechanics, and deterministic cooperative items. (completed 2026-10-15)
 - [ ] **Phase 4: Relay** - Deliver locked-roster, turn-based continuity with mode-owned handoffs and results.
 - [ ] **Phase 5: Race** - Deliver a timed competitive race with leader-relative fog, contextual items, and deterministic standings.
 - [ ] **Phase 6: Cross-Mode Presentation** - Complete resilient mode-specific overlays, results, podiums, and responsive multiplayer views.
@@ -94,7 +94,7 @@ Plans:
 - [x] 03-05-PLAN.md — Add owner-aware item economy and deterministic shared card effects.
 - [x] 03-06-PLAN.md — Connect lifecycle, recovery and team results to the runtime interface.
 - [x] 03-07-PLAN.md — Complete the single hand/market tree and run the complete browser/model gate.
-- [ ] 03-08-PLAN.md — Include unreclaimed ghost intervals in departure and settlement contributions.
+- [x] 03-08-PLAN.md — Include unreclaimed ghost intervals in departure and settlement contributions.
 
 ### Phase 4: Relay
 
@@ -185,8 +185,8 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 |-------|----------------|--------|-----------|
 | 1. Composable Solo Baseline | 4/4 | Complete    | 2026-10-14 |
 | 2. Shared Local Session | 6/6 | Complete    | 2026-10-14 |
-| 3. Survive Together & Consumables | 6/7 | Executing owner-safe hand/market | - |
-| 4. Relay | 0/6 | Reviewed; awaits Phase 3 | - |
+| 3. Survive Together & Consumables | 8/8 | Complete    | 2026-10-15 |
+| 4. Relay | 0/6 | Ready for execution | - |
 | 5. Race | 0/7 | Reviewed; awaits dependencies | - |
 | 6. Cross-Mode Presentation | 0/TBD | Not started | - |
 | 7. Release Evidence & PR | 0/TBD | Not started | - |

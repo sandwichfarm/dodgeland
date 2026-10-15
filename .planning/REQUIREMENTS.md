@@ -25,19 +25,19 @@
 
 ## Survive Together
 
-- [ ] **COOP-01**: Multiple characters survive the same world with Arcade or Flow rules and independent collisions, health, character powers and inventories.
-- [ ] **COOP-02**: Players can join and leave an active run; joins place the newcomer safely without resetting course, score, elapsed time or existing player inventory.
-- [ ] **COOP-03**: Each player has one revival charge, recharging after 250 new tiles; cooldown, eligibility and usage have observable UI and cannot be farmed by backtracking/rejoin.
-- [ ] **COOP-04**: Living players can revive dead teammates, with explicit targeting/activation, safe placement and temporary protection; game-over behavior accounts for surviving/recoverable players.
-- [ ] **COOP-05**: Disconnect/rejoin preserves player continuity; death, temporary absence and deliberate departure are distinct states.
+- [x] **COOP-01**: Multiple characters survive the same world with Arcade or Flow rules and independent collisions, health, character powers and inventories.
+- [x] **COOP-02**: Players can join and leave an active run; joins place the newcomer safely without resetting course, score, elapsed time or existing player inventory.
+- [x] **COOP-03**: Each player has one revival charge, recharging after 250 new tiles; cooldown, eligibility and usage have observable UI and cannot be farmed by backtracking/rejoin.
+- [x] **COOP-04**: Living players can revive dead teammates, with explicit targeting/activation, safe placement and temporary protection; game-over behavior accounts for surviving/recoverable players.
+- [x] **COOP-05**: Disconnect/rejoin preserves player continuity; death, temporary absence and deliberate departure are distinct states.
 
 ## Consumables
 
-- [ ] **ITEM-01**: Introduce an extensible consumable item class separate from persistent cards and cosmetics, with mode eligibility, charges, targeting and activation validation.
-- [ ] **ITEM-02**: Revival items revive another player and occur with 1:2500 world-drop probability; flares revive dead teammates and bring everyone to the user's safe position with 1:1250 probability.
-- [ ] **ITEM-03**: Consumables can be acquired from world pickups and purchased in the shop; inventory, prices and availability are visible and mode-appropriate.
-- [ ] **ITEM-04**: World consumables use the default collection gravity so fractional log-hop grids remain viable; coin-magnet cards/powers never increase their capture range.
-- [ ] **ITEM-05**: Rare spawning is seeded, bounded and verifiable at exact probability boundaries; contested pickups award once to a deterministic eligible player.
+- [x] **ITEM-01**: Introduce an extensible consumable item class separate from persistent cards and cosmetics, with mode eligibility, charges, targeting and activation validation.
+- [x] **ITEM-02**: Revival items revive another player and occur with 1:2500 world-drop probability; flares revive dead teammates and bring everyone to the user's safe position with 1:1250 probability.
+- [x] **ITEM-03**: Consumables can be acquired from world pickups and purchased in the shop; inventory, prices and availability are visible and mode-appropriate.
+- [x] **ITEM-04**: World consumables use the default collection gravity so fractional log-hop grids remain viable; coin-magnet cards/powers never increase their capture range.
+- [x] **ITEM-05**: Rare spawning is seeded, bounded and verifiable at exact probability boundaries; contested pickups award once to a deterministic eligible player.
 - [ ] **ITEM-06**: Supply usable offensive/defensive Race consumables with clear effects and feedback; invalid use, departed targets and ineligible modes never waste charges or corrupt state.
 
 ## Relay
@@ -61,7 +61,7 @@
 
 - [x] **UI-01**: Provide game-styled mode/setup/unique-character selection screens, ready/join feedback and controller/keyboard help while preserving the simple solo start.
 - [x] **UI-02**: Render all players as actual distinct character models with persistent identifying marks, individual health/power/revival/item state and readable active-turn/leader cues.
-- [ ] **UI-03**: Multiplayer market, inventory, consumable use and persistent hand clearly identify whose wallet/items are active and preserve player/run state across menus.
+- [x] **UI-03**: Multiplayer market, inventory, consumable use and persistent hand clearly identify whose wallet/items are active and preserve player/run state across menus.
 - [ ] **UI-04**: Each mode has appropriate custom pause/disconnect, ghost/death/revival and end-of-game screens, per-character breakdowns and podium presentation.
 - [ ] **UI-05**: Small screens use purpose-built views/pages with large usable controls and no accidental scrollbars; desktop/compact/short frames and both themes remain usable.
 - [ ] **UI-06**: Revive, flare, relay transfer, fog damage and race-item interactions have contextual visual/audio feedback that respects mute and reduced motion.
@@ -96,16 +96,16 @@ behavior is implemented, verified and committed.
 | INPUT-04 | Phase 2 | Complete |
 | INPUT-05 | Phase 2 | Complete |
 | INPUT-06 | Phase 2 | Complete |
-| COOP-01 | Phase 3 | Pending |
-| COOP-02 | Phase 3 | Pending |
-| COOP-03 | Phase 3 | Pending |
-| COOP-04 | Phase 3 | Pending |
-| COOP-05 | Phase 3 | Pending |
-| ITEM-01 | Phase 3 | Pending |
-| ITEM-02 | Phase 3 | Pending |
-| ITEM-03 | Phase 3 | Pending |
-| ITEM-04 | Phase 3 | Pending |
-| ITEM-05 | Phase 3 | Pending |
+| COOP-01 | Phase 3 | Complete |
+| COOP-02 | Phase 3 | Complete |
+| COOP-03 | Phase 3 | Complete |
+| COOP-04 | Phase 3 | Complete |
+| COOP-05 | Phase 3 | Complete |
+| ITEM-01 | Phase 3 | Complete |
+| ITEM-02 | Phase 3 | Complete |
+| ITEM-03 | Phase 3 | Complete |
+| ITEM-04 | Phase 3 | Complete |
+| ITEM-05 | Phase 3 | Complete |
 | ITEM-06 | Phase 5 | Pending |
 | RELAY-01 | Phase 4 | Pending |
 | RELAY-02 | Phase 4 | Pending |
@@ -120,7 +120,7 @@ behavior is implemented, verified and committed.
 | RACE-06 | Phase 5 | Pending |
 | UI-01 | Phase 2 | Complete |
 | UI-02 | Phase 2 | Complete |
-| UI-03 | Phase 3 | Pending |
+| UI-03 | Phase 3 | Complete |
 | UI-04 | Phase 6 | Pending |
 | UI-05 | Phase 6 | Pending |
 | UI-06 | Phase 5 | Pending |
