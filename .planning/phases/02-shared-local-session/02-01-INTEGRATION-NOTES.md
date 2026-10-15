@@ -242,3 +242,28 @@ refill powers or replace inventory. Before Start, Back to solo simply cancels
 the empty stage, leaving gameplay state and RNG unchanged. Plan 02-05 must
 prove both the cancel path and successful identity-preserving adoption using
 actual production objects and built runtime evidence.
+
+## Plan 02-05 integration review cases
+
+The first implementation draft exposed the following concrete cases to cover
+before accepting the combined setup/router/HUD:
+
+- Leaving P2 from a three-seat roster must allocate the next entrant to the
+  first free seat, without duplicating P3.
+- Keyboard profiles resolve to the seat assigned that device; two controller
+  seats followed by a keyboard seat must not send keyboard movement to P2.
+- Back to solo/reset restore the valid sole controller lease. A disconnected
+  solo controller must reclaim without requiring an existing LocalSession.
+- Controller confirm activates the current menu while paused, and the first
+  solo controller retains the original one-action start behavior.
+- Candidate-stage uniqueness validation sees P1's intended device, with both
+  character and device restored if placement/validation fails.
+- Scene and HUD identities use the same geometric marker and P-number, rather
+  than repeating the model's current `P1` marker string twice.
+
+`abc4812` initially added source-regex checks for helper names. These do not
+prove any behavior and are **not accepted integration or coverage evidence**.
+The executor must supersede them with production-object/built-iframe assertions
+that fail on the actual ownership, lease, or navigation counterexample and pass
+only after its behavior is repaired. These cases remain unverified at this
+review checkpoint; source edits alone do not close Plan 02-05.
