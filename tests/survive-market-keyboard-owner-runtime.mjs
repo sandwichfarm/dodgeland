@@ -14,6 +14,7 @@ test('native keyboard profiles navigate only their displayed hand and Enter sell
   });
   const focus = () => frame.evaluate(() => document.activeElement?.getAttribute('data-hand-key'));
   try {
+    await frame.locator('#play').click(); await frame.locator('#pause').click();
     await frame.locator('#local-play').click();
     await frame.getByRole('button', { name: /start together/i }).click(); await advance(100);
     await onSession(function () {
