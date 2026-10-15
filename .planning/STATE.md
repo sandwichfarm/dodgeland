@@ -6,9 +6,9 @@ current_phase: 02
 current_phase_name: shared-local-session
 status: executing
 stopped_at: "Phase 02 wave 3: production adoption and assigned audio pass; full transport/HUD/layout evidence pending."
-last_updated: "2026-10-15T02:45:13Z"
+last_updated: "2026-10-15T03:04:56Z"
 last_activity: 2026-10-14
-last_activity_desc: Plan05 real audio pause/mute/unmute extension passes. New production adoption runtime8f32820 passes state-identical cancel, owner identities, RNG continuation, resumed solo and independent mixed-keyboard movement. Responsive matrix awaits current compact fixes; full transport/HUD gates remain.
+last_activity_desc: Strict session model gate66c6dd6 passes71/71. New resize regressionce4d616 caught stale desktop page state and malformed compact CSS; corrected component suite passes6/6. Both controller transports pass1/1. Clean CSS rebuild verified; matrix must resume intentional undersize safety pause before active HUD checks. Full phase remains incomplete.
 progress:
   total_phases: 7
   completed_phases: 1
@@ -30,7 +30,7 @@ See: `.planning/PROJECT.md` (updated 2026-10-14)
 Phase: 02 — Shared Local Session
 Plan: 5 of 6 (wave 3)
 Status: Plans01–04 complete; Plan05 four-seat/audio/adoption evidence passes, compact layout and remaining integration active
-Last activity: 2026-10-14 — Root production adoption test8f32820 passes in muted opaque iframe (1/1, no skips/errors): progressed fractional-grid solo with owned assets; draft/cancel state equality; resumed solo input; exact Game/world/P1/inventory/terrain/director/RNG identities; next deterministic market and actor draws; independent adopted/new keyboard movement. Evidence: /tmp/down-to-duck-local-session-adoption.log and artifacts/local-session-adoption-runtime.json. Real audio extension de43faa also passes pause/mute/unmute (1/1), /tmp/down-to-duck-local-session-audio.log. Earlier router16/16 and component4/4 pass; fifth component readiness case awaits final rerun. Full Plan05 transport, responsive HUD and integrated gates remain unaccepted.
+Last activity: 2026-10-14 — Root reconciled the final gate with every current session test in66c6dd6: test:local-session-model passes71/71 (/tmp/down-to-duck-phase2-model-gate.log); test:local-session-ui runs eight browser files sequentially through the strict no-skip runner; test:phase2 includes build, Phase1, both groups, legacy controller runtime, guidance/conformance/lockfile. Root resize regressionce4d616 was RED5/6 before logical-page/CSS fixes; support reports corrected suite6/6. Dedicated both-transport runtime passes1/1 (/tmp/down-to-duck-02-05-local-session-gamepad.log), reviewed exact movement/reclaim/teardown assertions. Earlier adoption8f32820 and audio de43faa pass. Build-cssfix.log is clean; preceding build-resize.log had real css-syntax-error warnings despite exit0. Full Phase05/02 gates remain unaccepted.
 
 Progress: [██░░░░░░░░] 27% of currently planned plans (phase acceptance remains pending)
 
