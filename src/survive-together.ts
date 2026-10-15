@@ -19,10 +19,11 @@ function samePlan(left: RecoveryDecision, right: RecoveryPlan): boolean {
 
 class SurviveTogetherController {
   private session: LocalSession | undefined;
-  attach(session: LocalSession): void { this.session = session; }
+  attach(session: LocalSession): void { this.session = session; session.installConsumableWorld(); }
   death(seat: string): void {
     const session = this.session, player = session?.players.find(candidate => candidate.seat === seat);
     if (!session || !player || !player.recovery || player.participation !== 'dead') return;
+    session.clearConsumables(player.seat);
     session.updateRecovery(player, recovery => {
       const deathGeneration = recovery.deathGeneration + 1;
       const offer = recovery.charge === 'available' ? Object.freeze({ generation: deathGeneration, deadline: session.world.time + OFFER_SECONDS * session.world.rules.simulation.worldTimeScale }) : undefined;

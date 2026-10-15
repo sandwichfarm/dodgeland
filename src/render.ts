@@ -14,7 +14,7 @@ import type { CosmeticDefinition } from './market/types.js';
 import { spillPose } from './death-spill.js';
 import { coinDenomination } from './coin-denominations.js';
 import { coinPickupModel } from './coin-models.js';
-import type { PlayerRender, SharedWorld } from './session.js';
+import type { ConsumableWorldSnapshot, PlayerRender, SharedWorld } from './session.js';
 const looseModels = new WeakMap<CosmeticDefinition, Model>();
 const spillCoins: Model[] = Array.from({ length: 4 }, (_, pile) => Array.from({ length: pile + 1 }, (_, i) => [
   box(i % 2 * .04, i * .07, 0, .23, .055, .28, '#f1cd64'),
@@ -34,7 +34,7 @@ function looseModel(item: CosmeticDefinition): Model {
 }
 type Point = [number, number];
 type SceneObject = { x: number; y: number; draw: () => void };
-type TravelerScene = Pick<Game, 'deathSpill' | 'hop' | 'rules' | 'groundX' | 'groundY' | 'lane' | 'rows' | 'fromY' | 'powerRescue' | 'x' | 'time' | 'mobs' | 'run' | 'hurtRemaining' | 'powerFlash' | 'power' | 'state' | 'caughtByWave'>;
+type TravelerScene = Pick<Game, 'deathSpill' | 'hop' | 'rules' | 'groundX' | 'groundY' | 'lane' | 'rows' | 'fromY' | 'powerRescue' | 'x' | 'time' | 'mobs' | 'run' | 'hurtRemaining' | 'powerFlash' | 'power' | 'state' | 'caughtByWave'> & Partial<Pick<PlayerRender, 'protectionUntil'>>;
 function shade(hex: string, amount: number): string { const n = parseInt(hex.slice(1), 16); return `rgb(${Math.max(0, Math.min(255, (n >> 16) + amount))},${Math.max(0, Math.min(255, (n >> 8 & 255) + amount))},${Math.max(0, Math.min(255, (n & 255) + amount))})`; }
 function polygon(ctx: CanvasRenderingContext2D, points: Point[], color: string): void { ctx.fillStyle = color; ctx.beginPath(); points.forEach(([x, y], i) => i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)); ctx.closePath(); ctx.fill(); }
 /** A brief whole-body look to the side, using the run clock so pausing freezes it. */
@@ -305,6 +305,16 @@ export class Renderer {
         } });
       }
     }
+    const consumables = game.worldExtensionSnapshot<ConsumableWorldSnapshot>();
+    for (const pickup of consumables?.pickups ?? []) {
+      const color = pickup.itemId === 'revival' ? '#76d6a1' : '#f28b55';
+      objects.push({ x: pickup.x, y: pickup.y, draw: () => {
+        this.shadow(pickup.x, pickup.y, .42);
+        this.cube(box(0, 0, .02, .38, .30, .34, color), pickup.x, pickup.y);
+        const [tx, ty] = this.project(pickup.x, pickup.y, .48);
+        ctx.save(); ctx.font = `bold ${Math.max(9, this.scale * .18)}px sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'bottom'; ctx.lineWidth = Math.max(2, this.scale * .035); ctx.strokeStyle = '#263c38'; ctx.strokeText(pickup.itemId === 'revival' ? 'Revival' : 'Flare', tx, ty); ctx.fillStyle = '#fff8d8'; ctx.fillText(pickup.itemId === 'revival' ? 'Revival' : 'Flare', tx, ty); ctx.restore();
+      } });
+    }
     for (const mob of game.mobs) {
       markers.push({ x: mob.x, y: mob.y, draw: () => this.mobMarker(mob) });
       objects.push({ x: mob.x, y: mob.y, draw: () => {
@@ -449,6 +459,11 @@ export class Renderer {
         const [x, y] = this.project(px, py, lift + .45);
         ctx.globalAlpha = .75; ctx.strokeStyle = game.run.effects.shield > 0 ? '#bdf7ff' : '#dcc7ff'; ctx.lineWidth = Math.max(2, this.scale * .035);
         ctx.beginPath(); ctx.ellipse(x, y, this.scale * .55, this.scale * .68, -.08, 0, Math.PI * 2); ctx.stroke();
+      }
+      if ((game.protectionUntil ?? 0) > game.time) {
+        const [x, y] = this.project(px, py, lift + .78);
+        ctx.save(); ctx.strokeStyle = '#bdf7ff'; ctx.lineWidth = Math.max(2, this.scale * .04); ctx.beginPath(); ctx.ellipse(x, y, this.scale * .55, this.scale * .25, .18, 0, Math.PI * 2); ctx.stroke();
+        ctx.font = `bold ${Math.max(9, this.scale * .17)}px sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'bottom'; ctx.fillStyle = '#e8fdff'; ctx.fillText('Protected', x, y - this.scale * .22); ctx.restore();
       }
       ctx.restore();
     } });

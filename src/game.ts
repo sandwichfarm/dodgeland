@@ -23,6 +23,7 @@ import { vehicleModel, vehicleModelWidth } from './vehicle-models.js';
 import { SOLO_ARCADE_MODE, isModeDefinition, soloModeDefinition } from './mode-rules.js';
 import type { ModeDefinition, ModeRules, SoloLifecycleEventName, SoloMode } from './mode-rules.js';
 import { SharedWorld, SessionPlayer } from './session.js';
+import type { LocalSession, WorldFrame } from './session.js';
 export type { LaneActor } from './actors.js';
 export { difficulty, random, wrap };
 export const HALF_WIDTH = 5;
@@ -39,6 +40,14 @@ export interface HurtEvent { face: ImpactFace; amount: number }
 export interface VehicleBounds { minX: number; maxX: number; minY: number; maxY: number }
 export interface VehicleContact { fraction: number; normalX: number; normalY: number; face: ImpactFace }
 export interface Lane { index: number; kind: LaneKind; world: World; speed: number; spacing: number; length: number; phase: number; variant: number; blocked: number[]; decorations: { x: number; variant: number }[]; coin: number | null; coinDenomination?: CoinDenominationId; period: number; warning: number; direction?: number; coinActor?: number | null; coinPull?: CoinPull; actors?: ActorPattern }
+/** Optional mode-owned course work.  Core Game never identifies a mode by name. */
+export interface GameWorldExtension {
+  attach?(game: Game): void;
+  row?(game: Game, lane: Lane): void;
+  tick?(game: Game, session: LocalSession, players: readonly SessionPlayer[], frame: WorldFrame, dt: number): void;
+  snapshot?(): unknown;
+  dispose?(): void;
+}
 /** Freezing an actor must not flip its model or change which bumper is front. */
 export function laneDirection(lane: Lane): number { return lane.speed < 0 ? -1 : lane.speed > 0 ? 1 : lane.direction ?? 1; }
 export type Mode = SoloMode;
@@ -174,6 +183,8 @@ export class Game {
   private touchingCars = new Set<string>();
   private mobDirector: MobDirector;
   private laneSpeeds = new WeakMap<Lane, { base: number; applied: number }>();
+  /** `declare` deliberately emits no own field: untouched solo Games retain their released shape. */
+  declare private worldExtension: GameWorldExtension | undefined;
   readonly definition: ModeDefinition;
   readonly rules: ModeRules;
   /** A permanent operation facade per secondary seat; the host always remains P1. */
@@ -317,6 +328,23 @@ export class Game {
   get waveGap(): number { return this.groundY - this.waveRow; }
   get waveSeconds(): number { return Math.max(0, this.rules.pursuit.grace - this.time) + Math.max(0, this.waveGap) / (this.rules.pursuit.speed * this.run.effects.waveSpeed); }
   get warning(): boolean { return this.rules.pursuit.strategy === 'wave' && this.waveSeconds <= this.rules.pursuit.warningSeconds; }
+  /** Installs definition-owned course behavior only after a session transaction commits. */
+  installWorldExtension(extension: GameWorldExtension): () => void {
+    if (this.worldExtension) throw new Error('A Game already has a world extension.');
+    this.worldExtension = extension;
+    extension.attach?.(this);
+    for (const lane of [...this.rows.values()].sort((a, b) => a.index - b.index)) extension.row?.(this, lane);
+    return () => {
+      if (this.worldExtension !== extension) return;
+      this.worldExtension = undefined;
+      extension.dispose?.();
+    };
+  }
+  /** Read-only presentation/test projection; no item state is retained by Game itself. */
+  worldExtensionSnapshot<T = unknown>(): T | undefined { return this.worldExtension?.snapshot?.() as T | undefined; }
+  updateSessionWorldExtension(session: LocalSession, players: readonly SessionPlayer[], frame: WorldFrame, dt: number): void {
+    this.worldExtension?.tick?.(this, session, players, frame, dt);
+  }
   ensureRows(): void {
     const frontier = this.world?.sessionActive ? this.world.frontier : this.maxY;
     const floor = this.world?.sessionActive ? Math.min(frontier, this.world.activeFloor) : frontier;
@@ -345,6 +373,7 @@ export class Game {
         if (denomination !== 'coin') lane.coinDenomination = denomination;
       }
       this.rows.set(i, lane);
+      this.worldExtension?.row?.(this, lane);
     }
     for (const i of this.rows.keys()) if (i < floor - this.rules.retention.rowsBehind) this.rows.delete(i);
     if (this.world?.sessionActive) this.resetSharedWorldEffects(); else this.syncEffects();

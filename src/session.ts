@@ -1,11 +1,15 @@
 import { CHARACTERS, DEFAULT_CHARACTER, characterById } from './content.js';
-import { laneActors, platformSupports } from './game.js';
-import type { DeathCause, Direction, Game, HurtEvent, Lane, RunState } from './game.js';
+import { laneActors, platformSupports, platformSurface } from './game.js';
+import type { DeathCause, Direction, Game, GameWorldExtension, HurtEvent, Lane, RunState } from './game.js';
 import type { ModeDefinition, ModeRules } from './mode-rules.js';
-import { RunInventory } from './market/run.js';
+import { DEFAULT_COIN_GRAVITY, RunInventory } from './market/run.js';
 import { characterPower } from './character-powers.js';
 import type { CharacterPower } from './character-powers.js';
 import type { RecoveryKind } from './recovery.js';
+import { advanceCoinPull } from './coin-pull.js';
+import { planConsumableCredit, planConsumableDebit } from './consumables.js';
+import type { ConsumableId } from './consumables.js';
+import { sampleConsumableDrop } from './consumable-drops.js';
 
 /** A stable local identity. Seat order is never simulation authority. */
 export type SeatId = 'p1' | 'p2' | 'p3' | 'p4';
@@ -77,7 +81,7 @@ export interface SessionRecoveryProvenance {
   readonly spatialFrontierY: number;
   readonly deathGeneration: number;
   readonly offer?: Readonly<{ generation: number; deadline: number }>;
-  readonly protectionUntil: number;
+  readonly protectionUntil?: number;
   readonly lastSafe?: Readonly<{ x: number; y: number }>;
 }
 export interface SessionRecoveryRequest {
@@ -87,6 +91,10 @@ export interface SessionRecoveryRequest {
   /** Later consumable plans supply an owned debit capability. */
   readonly debit?: () => boolean;
 }
+export interface ConsumablePickupSnapshot { readonly id: string; readonly itemId: ConsumableId; readonly row: number; readonly slot: number; readonly x: number; readonly y: number }
+export interface ConsumableChargeSnapshot { readonly seat: SeatId; readonly ownerGeneration: number; readonly inventoryGeneration: number; readonly revival: number; readonly flare: number }
+export interface ConsumableWorldSnapshot { readonly generation: number; readonly pickups: readonly ConsumablePickupSnapshot[]; readonly charges: readonly ConsumableChargeSnapshot[]; readonly claims: readonly Readonly<{ pickupId: string; seat: SeatId }>[]; readonly protected: readonly Readonly<{ seat: SeatId; until: number }>[] }
+export interface ConsumableAction { readonly actionId: string; readonly ownerSeat: SeatId; readonly itemId: ConsumableId; readonly targetSeat?: SeatId; readonly expectedInventoryGeneration: number; readonly expectedOwnerGeneration: number; readonly expectedTargetDeathGeneration?: number }
 export interface SessionContribution {
   readonly seat: SeatId;
   readonly characterId: string;
@@ -128,6 +136,7 @@ export interface PlayerRender {
   readonly power: CharacterPower;
   readonly caughtByWave: boolean;
   readonly deathSpill: Game['deathSpill'];
+  readonly protectionUntil?: number;
 }
 
 function alias(owner: object, host: object, keys: readonly string[]): void {
@@ -333,7 +342,11 @@ export class SessionPlayer {
   get powerRemaining(): number { return Math.max(0, Math.ceil(this.powerReadyAt - (this.primary ? this.maxY : this.earnedDistance))); }
   get powerReady(): boolean { return this.powerRemaining === 0 && !this.powerRescue; }
   get powerFlash(): number { return this.primary ? this.world.host.powerFlash : Math.min(1, this.powerNotice / .9); }
-  render(): PlayerRender { return { seat: this.seat, marker: this.marker, label: this.label, characterId: this.characterId, x: this.x, y: this.y, groundX: this.groundX, groundY: this.groundY, hop: this.hop, fromY: this.fromY, state: this.state, run: this.run, hurtRemaining: this.hurtRemaining, powerRescue: this.powerRescue, powerFlash: this.powerFlash, power: this.power, caughtByWave: this.caughtByWave, deathSpill: this.deathSpill }; }
+  render(): PlayerRender {
+    const protectionUntil = this.recovery?.protectionUntil;
+    const base: Omit<PlayerRender, 'protectionUntil'> = { seat: this.seat, marker: this.marker, label: this.label, characterId: this.characterId, x: this.x, y: this.y, groundX: this.groundX, groundY: this.groundY, hop: this.hop, fromY: this.fromY, state: this.state, run: this.run, hurtRemaining: this.hurtRemaining, powerRescue: this.powerRescue, powerFlash: this.powerFlash, power: this.power, caughtByWave: this.caughtByWave, deathSpill: this.deathSpill };
+    return protectionUntil !== undefined && protectionUntil > 0 ? { ...base, protectionUntil } : base;
+  }
 
   start(): boolean {
     return this.world.host.startPlayer(this);
@@ -351,6 +364,109 @@ export class SessionPlayer {
   }
 }
 
+type MutableConsumablePickup = Omit<ConsumablePickupSnapshot, 'x' | 'y'> & { x: number; y: number; z: number; speed: number; actorId?: number };
+type ConsumableCharge = { ownerGeneration: number; inventoryGeneration: number; revival: number; flare: number };
+/** Handler-owned item state.  It is absent until its definition explicitly installs it. */
+class ConsumableWorld implements GameWorldExtension {
+  private readonly pickups = new Map<string, MutableConsumablePickup>();
+  private readonly charges = new Map<string, ConsumableCharge>();
+  private readonly claims = new Map<string, SeatId>();
+  private readonly actions = new Map<string, number>();
+  private generation = 0;
+  private nextInventoryGeneration = 1;
+  private game: Game | undefined;
+  constructor(private readonly session: LocalSession) {}
+  attach(game: Game): void {
+    this.game = game;
+    for (const player of this.session.players) this.charge(player);
+  }
+  row(game: Game, lane: Lane): void {
+    const drop = sampleConsumableDrop({ courseSeed: game.runSeed?.seed ?? game.seed, row: lane.index, slot: 0 });
+    if (!drop.itemId || this.pickups.has(drop.pickupId) || this.claims.has(drop.pickupId)) return;
+    const actor = lane.kind === 'river' ? laneActors(lane, game.time).sort((a, b) => Math.abs(a.x) - Math.abs(b.x) || a.id - b.id)[0] : undefined;
+    this.pickups.set(drop.pickupId, { id: drop.pickupId, itemId: drop.itemId, row: lane.index, slot: 0, x: actor?.x ?? 0, y: lane.index, z: platformSurface(lane), speed: 0, actorId: actor?.id });
+  }
+  private ownerId(player: SessionPlayer): string { return player.participantId || player.seat; }
+  private charge(player: SessionPlayer): ConsumableCharge {
+    const ownerId = this.ownerId(player);
+    let charge = this.charges.get(ownerId);
+    if (!charge) {
+      charge = { ownerGeneration: player.recovery?.deathGeneration ?? 0, inventoryGeneration: this.nextInventoryGeneration++, revival: 0, flare: 0 };
+      this.charges.set(ownerId, charge);
+    }
+    return charge;
+  }
+  private eligible(player: SessionPlayer, itemId: ConsumableId): boolean {
+    if (player.participation !== 'active' || player.state !== 'playing') return false;
+    const charge = this.charge(player);
+    return planConsumableCredit({ mode: { capabilities: ['survive-together'] }, owner: { id: player.seat, generation: charge.ownerGeneration }, inventory: { owner: { id: player.seat, generation: charge.ownerGeneration }, generation: charge.inventoryGeneration, charges: { revival: charge.revival, flare: charge.flare } }, expectedInventoryGeneration: charge.inventoryGeneration, itemId }).ok;
+  }
+  tick(game: Game, _session: LocalSession, players: readonly SessionPlayer[], frame: WorldFrame, dt: number): void {
+    for (const pickup of [...this.pickups.values()]) {
+      const lane = game.rows.get(pickup.row);
+      if (lane?.kind === 'river' && pickup.actorId !== undefined) {
+        const actor = laneActors(lane, game.time).find(candidate => candidate.id === pickup.actorId);
+        if (actor) pickup.x = actor.x;
+      }
+      if (pickup.y < game.world.frontier - game.rules.retention.rowsBehind) { this.pickups.delete(pickup.id); continue; }
+      const eligible = players.filter(player => this.eligible(player, pickup.itemId));
+      const contacts = eligible.map(player => {
+        const before = frame.playerGround.get(player) ?? { x: player.groundX, y: player.groundY };
+        const startX = before.x - pickup.x, startY = before.y - pickup.y, endX = player.groundX - pickup.x, endY = player.groundY - pickup.y;
+        const dx = endX - startX, dy = endY - startY, a = dx * dx + dy * dy, b = 2 * (startX * dx + startY * dy), c = startX * startX + startY * startY - .32 ** 2;
+        const discriminant = b * b - 4 * a * c;
+        const fraction = c <= 0 ? 0 : a > 1e-12 && discriminant >= 0 ? (-b - Math.sqrt(discriminant)) / (2 * a) : Infinity;
+        return { player, distance: endX * endX + endY * endY, fraction: fraction >= 0 && fraction <= 1 ? fraction : Infinity };
+      });
+      const winner = contacts.filter(candidate => candidate.fraction !== Infinity).sort((a, b) => a.fraction - b.fraction || a.distance - b.distance || a.player.seat.localeCompare(b.player.seat))[0];
+      if (winner && this.credit(winner.player, pickup)) { this.claims.set(pickup.id, winner.player.seat); this.pickups.delete(pickup.id); continue; }
+      const candidates = contacts.filter(candidate => candidate.distance <= (game.rules.retention.captureDistance + DEFAULT_COIN_GRAVITY) ** 2);
+      if (!candidates.length) continue;
+      const target = [...candidates].sort((a, b) => a.distance - b.distance || a.player.seat.localeCompare(b.player.seat))[0]!;
+      const pull = { x: pickup.x, y: pickup.y, z: pickup.z, speed: pickup.speed };
+      advanceCoinPull(pull, target.player.groundX, target.player.groundY, platformSurface(game.rows.get(target.player.y)), dt);
+      pickup.x = pull.x; pickup.y = pull.y; pickup.z = pull.z; pickup.speed = pull.speed; delete pickup.actorId;
+    }
+  }
+  private credit(player: SessionPlayer, pickup: MutableConsumablePickup): boolean {
+    const charge = this.charge(player);
+    const plan = planConsumableCredit({ mode: { capabilities: ['survive-together'] }, owner: { id: player.seat, generation: charge.ownerGeneration }, inventory: { owner: { id: player.seat, generation: charge.ownerGeneration }, generation: charge.inventoryGeneration, charges: { revival: charge.revival, flare: charge.flare } }, expectedInventoryGeneration: charge.inventoryGeneration, itemId: pickup.itemId });
+    if (!plan.ok) return false;
+    charge.revival = plan.resultingCharges.revival; charge.flare = plan.resultingCharges.flare; charge.inventoryGeneration = this.nextInventoryGeneration++;
+    player.statistics.itemsFound++; this.generation++; return true;
+  }
+  use(action: ConsumableAction): boolean {
+    const game = this.game, owner = this.session.players.find(player => player.seat === action.ownerSeat);
+    if (!game || !owner || !/^[-a-zA-Z0-9_.]{1,128}$/.test(action.actionId) || this.actions.get(action.actionId) !== undefined || this.actions.has(`${game.world.simulationTick}:${this.ownerId(owner)}`)) return false;
+    if (owner.participation !== 'active' || owner.state !== 'playing') return false;
+    const charge = this.charge(owner);
+    if (charge.inventoryGeneration !== action.expectedInventoryGeneration || charge.ownerGeneration !== action.expectedOwnerGeneration) return false;
+    const targets = action.itemId === 'revival' ? action.targetSeat ? this.session.players.filter(player => player.seat === action.targetSeat) : []
+      : this.session.players.filter(player => player !== owner && ((player.participation === 'dead' && player.state === 'dead') || (player.participation === 'active' && player.state === 'playing')));
+    if (action.itemId === 'revival' && (!targets[0]?.recovery || action.expectedTargetDeathGeneration === undefined || targets[0].recovery.deathGeneration !== action.expectedTargetDeathGeneration)) return false;
+    const plan = planConsumableDebit({ mode: { capabilities: ['survive-together'] }, owner: { id: owner.seat, generation: charge.ownerGeneration }, inventory: { owner: { id: owner.seat, generation: charge.ownerGeneration }, generation: charge.inventoryGeneration, charges: { revival: charge.revival, flare: charge.flare } }, expectedInventoryGeneration: action.expectedInventoryGeneration, itemId: action.itemId, targets: targets.map(player => ({ id: player.seat, lifecycle: player.participation === 'dead' && player.state === 'dead' ? 'dead' : 'living' })) });
+    if (!plan.ok) return false;
+    const request: SessionRecoveryRequest = action.itemId === 'revival' ? { kind: 'revival', ownerSeat: owner.seat, targetSeat: action.targetSeat, debit: () => this.debit(action, plan.resultingCharges) }
+      : { kind: 'flare', ownerSeat: owner.seat, debit: () => this.debit(action, plan.resultingCharges) };
+    return this.session.recover(request);
+  }
+  private debit(action: ConsumableAction, charges: Readonly<Record<ConsumableId, number>>): boolean {
+    const owner = this.session.players.find(player => player.seat === action.ownerSeat), current = owner ? this.charges.get(this.ownerId(owner)) : undefined;
+    if (!current || current.inventoryGeneration !== action.expectedInventoryGeneration || this.actions.has(action.actionId) || this.actions.has(`${this.session.world.simulationTick}:${owner ? this.ownerId(owner) : ''}`)) return false;
+    current.revival = charges.revival; current.flare = charges.flare; current.inventoryGeneration = this.nextInventoryGeneration++;
+    this.actions.set(action.actionId, this.session.world.simulationTick); this.actions.set(`${this.session.world.simulationTick}:${this.ownerId(owner!)}`, this.session.world.simulationTick); this.generation++; return true;
+  }
+  clear(player: SessionPlayer): void { const charge = this.charges.get(this.ownerId(player)); if (charge) { charge.revival = 0; charge.flare = 0; charge.inventoryGeneration = this.nextInventoryGeneration++; charge.ownerGeneration++; this.generation++; } }
+  snapshot(): ConsumableWorldSnapshot {
+    const pickups = [...this.pickups.values()].map(({ z: _z, speed: _speed, actorId: _actorId, ...pickup }) => Object.freeze({ ...pickup })).sort((a, b) => a.id.localeCompare(b.id));
+    const charges = this.session.players.map(player => Object.freeze({ seat: player.seat, ...this.charge(player) })).sort((a, b) => a.seat.localeCompare(b.seat));
+    const claims = [...this.claims.entries()].map(([pickupId, seat]) => Object.freeze({ pickupId, seat })).sort((a, b) => a.pickupId.localeCompare(b.pickupId));
+    const protectedSeats = this.session.players.filter(player => (player.recovery?.protectionUntil ?? 0) > this.session.world.time).map(player => Object.freeze({ seat: player.seat, until: player.recovery?.protectionUntil ?? 0 }));
+    return Object.freeze({ generation: this.generation, pickups: Object.freeze(pickups), charges: Object.freeze(charges), claims: Object.freeze(claims), protected: Object.freeze(protectedSeats) });
+  }
+  dispose(): void { this.pickups.clear(); this.charges.clear(); this.claims.clear(); this.actions.clear(); this.game = undefined; }
+}
+
 export class LocalSession {
   readonly definition: ModeDefinition;
   readonly world: SharedWorld;
@@ -366,6 +482,8 @@ export class LocalSession {
   private resultRecord: SessionResult | undefined;
   private nextGrant = 1;
   private active = false;
+  private consumableWorld: ConsumableWorld | undefined;
+  private releaseWorldExtension: (() => void) | undefined;
 
   constructor(world: SharedWorld, players: readonly SessionPlayer[], options: { config?: SessionConfig; onLifecycle?: SessionLifecycleHandler; mode?: SessionModeDefinition } = {}) {
     this.config = options.config ?? DEFAULT_SESSION_CONFIG;
@@ -378,6 +496,16 @@ export class LocalSession {
   get players(): readonly SessionPlayer[] { return this.roster; }
   get contributions(): readonly SessionContribution[] { return this.contributionRecords; }
   get result(): SessionResult | undefined { return this.resultRecord; }
+  /** A mode handler opts in after its staged adoption is committed. */
+  installConsumableWorld(): void {
+    if (this.consumableWorld) return;
+    const capability = new ConsumableWorld(this);
+    this.releaseWorldExtension = this.world.host.installWorldExtension(capability);
+    this.consumableWorld = capability;
+  }
+  consumableSnapshot(): ConsumableWorldSnapshot | undefined { return this.consumableWorld?.snapshot(); }
+  useConsumable(action: ConsumableAction): boolean { return !!this.consumableWorld && !this.resultRecord && this.consumableWorld.use(action); }
+  clearConsumables(seat: SeatId): void { const player = this.players.find(candidate => candidate.seat === seat); if (player) this.consumableWorld?.clear(player); }
 
   static stage(game: Game, options: { secondaryCharacterId?: string; roster?: readonly SessionSeatSpec[]; config?: SessionConfig; onLifecycle?: SessionLifecycleHandler; mode?: SessionModeDefinition; primaryDevice?: DeviceId } = {}): LocalSessionStage {
     const world = (game as Game & { world?: SharedWorld }).world ?? new SharedWorld(game);
@@ -669,6 +797,7 @@ export class LocalSession {
       if (!activePlayers.includes(player)) continue;
       this.world.resolvePlayer(player, () => player.update(dt, previousTime, false));
     }
+    this.world.host.updateSessionWorldExtension(this, activePlayers, frame, this.world.time - previousTime);
     this.world.resolvePickups();
     this.world.host.updateSessionMobs(activePlayers, this.world.time - previousTime, groundBefore);
     const terminal = activePlayers.flatMap(player => {
@@ -683,7 +812,7 @@ export class LocalSession {
   advanceDeathVisuals(dt: number): void { for (const player of this.players) this.world.host.advancePlayerDeathVisuals(player, dt); }
   get running(): boolean { return this.active; }
   views(): PlayerRender[] { return this.players.map(player => player.render()); }
-  stop(): void { this.active = false; }
+  stop(): void { this.active = false; this.releaseWorldExtension?.(); this.releaseWorldExtension = undefined; this.consumableWorld = undefined; }
 }
 
 export class LocalSessionStage {
