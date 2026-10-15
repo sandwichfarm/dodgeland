@@ -33,6 +33,8 @@ export interface GamepadRouterOptions {
   action?(seat: SeatId, action: GamepadControlAction): void;
   /** A fresh unassigned-device edge enters setup and is always consumed. */
   requestLocalPlay?(device: GamepadDevice): void;
+  /** The first deliberate edge claims solo P1, then continues through that same edge. */
+  requestFirstPlayer?(device: GamepadDevice): boolean;
   /** The owning roster can reject a full or mode-locked device before setup opens. */
   acceptsDevice?(device: GamepadDevice): boolean;
   /** A remembered same-id return needs explicit mode/UI confirmation before reassignment. */
@@ -119,14 +121,14 @@ export class GamepadRouter {
   }
 
   /** Assign only the currently observed identity; a stale UI selection cannot steal a new epoch. */
-  assign(identity: GamepadDevice, seat: SeatId): boolean {
+  assign(identity: GamepadDevice, seat: SeatId, preserveCurrentInput = false): boolean {
     const lease = this.leases.get(identity.index);
     if (!lease || lease.device.id !== sanitizeId(identity.id) || lease.device.epoch !== identity.epoch) return false;
     if ([...this.leases.values()].some(candidate => candidate !== lease && candidate.seat === seat)) return false;
     lease.seat = seat;
     lease.reclaimSeat = null;
     this.reclaimable.delete(deviceKey(lease.device.index, lease.device.id));
-    this.seed(lease);
+    if (!preserveCurrentInput) this.seed(lease);
     this.options.lifecycle?.({ type: 'assigned', device: lease.device, seat });
     return true;
   }
@@ -238,10 +240,21 @@ export class GamepadRouter {
         lease.repeatAt = Infinity;
       }
       if (!freshButtons.length && !freshDirection) return;
-      if (lease.reclaimSeat) this.options.requestReclaim?.(lease.device, lease.reclaimSeat);
-      else if (this.options.acceptsDevice?.(lease.device) !== false) this.options.requestLocalPlay?.(lease.device);
-      this.seed(lease);
-      return;
+      if (lease.reclaimSeat) {
+        this.options.requestReclaim?.(lease.device, lease.reclaimSeat);
+        this.seed(lease);
+        return;
+      }
+      // A neutral connection is never participation.  The first pad with an
+      // actual edge claims P1, and preserveCurrentInput lets that same edge
+      // start or move solo play without asking for a second press.
+      if (this.options.requestFirstPlayer?.(lease.device) && lease.seat) {
+        // fall through to the assigned-seat action/direction routing below
+      } else {
+        if (this.options.acceptsDevice?.(lease.device) !== false) this.options.requestLocalPlay?.(lease.device);
+        this.seed(lease);
+        return;
+      }
     }
 
     for (const [index, action] of actionButtons) {

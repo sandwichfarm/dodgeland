@@ -147,6 +147,11 @@ const router = new GamepadRouter({
     if (action === 'market') market.toggle();
   },
   acceptsDevice: () => !localSession || localStage !== undefined || setupDraft.length < 4,
+  requestFirstPlayer: device => {
+    if (soloGamepad || localStage || localSession || game.state === 'dead') return false;
+    soloGamepad = device;
+    return router.assign(device, 'p1', true);
+  },
   requestLocalPlay: device => requestControllerSeat(device),
   requestReclaim: (device, seat) => reclaimControllerSeat(device, seat),
   lifecycle: event => handleControllerLifecycle(event),
@@ -641,7 +646,6 @@ function reclaimControllerSeat(device: GamepadDevice, seat: SeatId): void {
 function handleControllerLifecycle(event: GamepadLifecycle): void {
   if (event.type === 'seen') {
     controllerDevices.set(event.device.index, event.device);
-    if (!soloGamepad && !localStage && !localSession && game.state !== 'dead') { soloGamepad = event.device; router.assign(event.device, 'p1'); }
   }
   if (event.type === 'disconnected') controllerDevices.delete(event.device.index);
   controllerConnected = controllerDevices.size > 0; el('gamepad-help').hidden = !controllerConnected;

@@ -92,6 +92,24 @@ test('join consumed ignores idle pads and consumes second-controller activity be
   assert.equal(requests.length, 1, 'a held join edge stays consumed');
 });
 
+test('the first fresh controller claims solo P1 while its edge still dispatches, then another pad requests Local Play', () => {
+  const actions = [], joins = [];
+  let router;
+  router = new GamepadRouter({
+    context: () => 'solo',
+    dispatch: action => { actions.push(action); return true; },
+    requestFirstPlayer: device => router.assign(device, 'p1', true),
+    requestLocalPlay: device => joins.push(device),
+  });
+  router.receive(snapshot([pad(0, { id: 'Idle A' }), pad(1, { id: 'First B' })]), 0);
+  router.receive(snapshot([pad(0, { id: 'Idle A' }), pad(1, { id: 'First B', pressed: [12] })]), 1);
+  assert.deepEqual(actions, [{ seat: 'p1', direction: 'forward' }], 'B owns P1 and its original forward edge remains live');
+  assert.deepEqual(joins, []);
+  router.receive(snapshot([pad(0, { id: 'Idle A' }), pad(1, { id: 'First B' })]), 2);
+  router.receive(snapshot([pad(0, { id: 'Idle A', pressed: [0] }), pad(1, { id: 'First B' })]), 3);
+  assert.deepEqual(joins.map(device => device.index), [0], 'the later fresh A edge enters Local Play');
+});
+
 test('independent repeat schedules and unknown mappings never dispatch across devices', () => {
   const actions = [];
   const { router, events } = trackedRouter({ context: () => 'play', dispatch: action => { actions.push(action); return true; } });
