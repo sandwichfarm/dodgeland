@@ -5,8 +5,8 @@ milestone_name: milestone
 current_phase: 02
 current_phase_name: shared-local-session
 status: executing
-stopped_at: "Phase02 Plan06 active; new strict owner-layout proof exposes continuity and compact geometry failures."
-last_updated: "2026-10-15T04:37:30Z"
+stopped_at: "Phase02 Plan06 active; 53-frame owner proof narrowed to minimum-size market clipping; final combined gate pending."
+last_updated: "2026-10-15T05:12:11Z"
 last_activity: 2026-10-14
 last_activity_desc: Accepted05 after final source26f57e1, regressionb371c36 and summary9bd4398. SharedUI16/16 with24frames, solo/runtime/controller gates pass; conformance5pass/5unmeasured recorded. Plan06 released; wholephase remains pending.
 progress:
@@ -31,7 +31,7 @@ Phase: 02 — Shared Local Session
 Plan: 6 of 6 (wave 4)
 Status: Plans01–05 complete; Plan06 explicit owner hand/market integration active
 
-Current Plan06 evidence: root21c6828 adds `tests/local-session-owner-layout.mjs` to the strict shared UI/fullphase gate. First actual production run `/tmp/down-to-duck-owner-layout-red.log` failed because switching to P2 closes the market; `artifacts/local-session-owner-layout.json` and inspected240×240 screenshot also expose clipped owner labels, unreachable P4, a30px hand-owner target and covered offers. These are open defects, not accepted limitations. Owner executor retains source/build/browser responsibility and is fixing them; root owns the new fixture/package wiring. Phase02 remains unverified. Coverage research b7c3830 is preparatory only and requires durable fixture reproduction; legacy manifest tooling boundary documented31b5959. No mode completion claim.
+Current Plan06 evidence: root-owned `tests/local-session-owner-layout.mjs` is wired into strict shared UI/fullphase gates. Latest source-bound report has 53 frames and six failures: three second-row offers clipped at 240×240 in each theme; owner labels, four distinct inventories with colliding card IDs, foreground owner controls and full paginated descriptions pass that matrix. Root/setup identified a later short-frame CSS rule overriding the market's hand reservation. Setup executor owns `src/hand-layout.css` and the final muted visual/build run; owner executor owns TS/runtime and then the complete `pnpm test:phase2` gate/SUMMARY. Source fixes cover empty-owner virtual market continuity, stale close callbacks, selected-owner focus and lifecycle cleanup; final combined runtime proof remains pending. Root a4c9408 binds visual reports to exact source/dist SHA256; 25f8046 adds the existing solo hand runtime to the full phase gate. Phase02 remains unverified; no multiplayer mode completion claim.
 Last activity: 2026-10-14 — Root reviewed05 summary9bd4398 and authoritative logs. Final shared UI16/16 across9files,24frames with zero deficiencies/pageerrors; runtime10scenarios/12frames/8wavechecks; legacy wire/binding/absent mode and consumed reconnect edge pass. Typecheck/build/guidance6 pass; conformance5pass/0fail/5unmeasured retained. Model71/71, immutable solo21/21, regression271/271 and renderer19/19 remain valid. Root fullphase script2bdb371 now includes required Paja runtime smoke.
 
 Progress: [███░░░░░░░] 30% of currently planned plans (phase acceptance remains pending)
