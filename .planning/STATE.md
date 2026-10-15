@@ -5,7 +5,7 @@ milestone_name: milestone
 current_phase: 03
 current_phase_name: survive-together-consumables
 status: executing
-stopped_at: "Phase03 Plans01-06 accepted; Plan07 visual clipping, hidden consumables, paid-draft dismissal and full acceptance coverage remain."
+stopped_at: "Phase03 Plans01-06 accepted; Plan07 shop layout and integrated run pass; wardrobe/action matrix and canonical gate remain."
 last_updated: "2026-10-15T20:21:35.861302+00:00"
 last_activity_desc: Co-op market tracer passes; root ownership, fresh-context and responsive regressions drive03-07 fixes.
 progress:
@@ -69,6 +69,8 @@ Root accepted temporary CSS/browser handoff after executor R15 layout failure. S
 Root layoutR3 passed existing six-frame/both-theme text-containment assertions. RootR4 `/tmp/down-to-duck-03-07-root-layout-r4.log` passed stronger charged matrix (P1 Revival+Flare, others empty) and both solo tiny cases, but integrated test caught a live HUD item obscured by bottom bar after old z-index rule removal. Restoring live HUD layering fixes it: finalCSS R5 `/tmp/down-to-duck-03-07-root-layout-r5.log` integrated and recovery-owner2/2 pass. Root visually inspected charged240×240 and1000×280 screenshots: both item buttons, owner labels, complete offer text/price fit, world labels absent. Exact final-source full gate still required; no07SUMMARY acceptance.
 
 CSS/build/browser reservation returned to executor `/root/multiplayer_hand_market`; root no live process. Executor retains owned main/market-ui and runtime/layout/package edits uncommitted, including tiny single-offer paging, native button-key routing, paid ghost-pack dismissal, Flare access/ontology, charged-layout assertions, and canonical integrated inclusion. Remaining wardrobe/equip/failed-action/held-state/visual matrix plus full `pnpm test:phase3` are mandatory before summary/independentPhase03 verification. Compact wardrobe tab access needs particular review because the current short shop hides ordinary tabs. Root test ownership stays with its supplemental/integrated files.
+
+Root supplemental controller coverage `c55bcd0` adds a held-confirmation transition: P1 A rejected under P2, pointer-switch to P1, fresh card inspection, repeated held snapshots cannot sell; release and deliberate P2 confirmation retain the existing success check. Syntax and diff checks pass; runtime is pending under executor reservation. Executor R16 compact wardrobe test reaches purchase and wardrobe inspection, then fails locating `Wear it`; purchased cosmetics may already be equipped, so the test must exercise the actual take-off/wear controls. The 240×240 wardrobe navigation requirement still needs direct proof. No root browser process or final-gate claim.
 
 ## Historical Evidence
 
