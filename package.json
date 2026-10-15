@@ -64,7 +64,8 @@
     "test:phase2": "pnpm type-check && pnpm build && pnpm test:phase1 && node tests/strict-node-tests.mjs tests/render.test.mjs && pnpm test:local-session-model && pnpm test:local-session-ui && node tests/run-hand-runtime.mjs && pnpm test:runtime && node tests/gamepad-runtime.mjs && pnpm test:guidance && pnpm test:conformance && git diff --exit-code a310a81ed6c76df4b265c9012c23b8c83f4802e5 -- pnpm-lock.yaml",
     "test:survive-tracer": "pnpm build && node tests/strict-node-tests.mjs tests/survive-together-tracer.mjs tests/survive-admission.test.mjs",
     "test:survive-recovery": "node tests/strict-node-tests.mjs tests/survive-together.test.mjs tests/survive-recovery-boundaries.test.mjs tests/recovery-plan-boundaries.test.mjs tests/survive-recovery-terminal.test.mjs",
-    "test:consumables": "node tests/strict-node-tests.mjs tests/consumables.test.mjs tests/consumable-drops.test.mjs tests/consumable-boundaries.test.mjs"
+    "test:consumables": "node tests/strict-node-tests.mjs tests/consumables.test.mjs tests/consumable-drops.test.mjs tests/consumable-boundaries.test.mjs",
+    "test:consumable-world": "node tests/strict-node-tests.mjs tests/consumable-world.test.mjs tests/consumable-world-boundaries.test.mjs"
   },
   "dependencies": {
     "@napplet/sdk": "^0.29.0"
