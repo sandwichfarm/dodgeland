@@ -327,3 +327,17 @@ menu and resumed play. Observed actions: `p1:pause`, `p2:confirm`; final context
 was `session:playing`. This is not the intended join exception. The correction
 must retain fresh unassigned joining activity while seeding assigned-seat input
 across a new modal/context boundary. Executor notified; regression pending.
+
+### Executable setup component regression guards
+
+Root added `tests/session-board-controls.test.mjs` in 2eb3d12, with the
+open-seat visibility assertion strengthened in 822774c. It compiles the actual
+production UI dependency graph through the existing source loader and runs it
+in a muted opaque iframe. Fixture callbacks supply only the roster/editor owner
+contract; it is component evidence, not built-main/controller/adoption evidence.
+
+The initial run exited 1 with 1/4 passing: both keyboard profiles and actual
+P3/P4 editor labels passed; selected chip focus, focus after leaving a seat, and
+compact open-seat selection failed. Log:
+`/tmp/down-to-duck-session-board-controls.log`. Browser and server were closed.
+The setup executor owns the corresponding product fixes and broader integration.
