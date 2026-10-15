@@ -21,7 +21,7 @@ const server = createServer((_request, response) => { response.writeHead(200, { 
 after(() => new Promise(resolve => server.close(resolve)));
 const pad = (index, id, buttons = []) => ({ index, id, mapping: 'standard', connected: true, timestamp: 1, axes: [0, 0, 0, 0], buttons: Array.from({ length: 17 }, (_, button) => ({ value: buttons.includes(button) ? 1 : 0, pressed: buttons.includes(button), touched: buttons.includes(button) })) });
 
-test('two shell controllers enter Local Play, move independently, reclaim, and teardown once', { timeout: 30_000 }, async () => {
+test('two shell controllers and two remapped keyboards enter four-seat Local Play, move independently, reclaim, and teardown once', { timeout: 30_000 }, async () => {
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   const browser = await chromium.launch({ args: ['--mute-audio'] });
   try {
@@ -41,32 +41,45 @@ test('two shell controllers enter Local Play, move independently, reclaim, and t
     await waitFor(() => window.localRuntime?.hydrated, 'runtime hydration');
     const send = async (pads, focused = true) => { await page.evaluate(([next, focus]) => window.snapshot(next, focus), [pads, focused]); await frame.evaluate(() => Promise.resolve()); await page.waitForTimeout(30); };
     const alpha = 'Alpha controller', beta = 'Beta controller';
-    await send([pad(0, alpha)]); await send([pad(0, alpha, [0])]);
-    await waitFor(() => document.querySelector('#app')?.dataset.runState === 'playing', 'first controller solo start');
+    // Two pads can be connected without taking part. B is deliberately the
+    // first active pad despite A occupying the lower shell index.
     await send([pad(0, alpha), pad(1, beta)]); await send([pad(0, alpha), pad(1, beta, [0])]);
+    await waitFor(() => document.querySelector('#app')?.dataset.runState === 'playing', 'first active B controller solo start');
+    await send([pad(0, alpha), pad(1, beta)]); await send([pad(0, alpha, [0]), pad(1, beta)]);
     await waitFor(() => !document.querySelector('#local-session-setup')?.hasAttribute('hidden'), 'second controller Local Play setup');
+    const addBox = await frame.locator('#session-add-keyboard').boundingBox();
+    assert.ok(addBox && addBox.x >= 0 && addBox.y >= 0 && addBox.x + addBox.width <= 900 && addBox.y + addBox.height <= 600,
+      `setup actions stay visible at 900×600: ${JSON.stringify(addBox)}`);
+    await frame.locator('#session-add-keyboard').click();
+    assert.match(await frame.locator('#session-roster [data-seat="p3"]').innerText(), /Keyboard A/);
+    await frame.locator('#session-add-keyboard').click();
+    assert.match(await frame.locator('#session-roster [data-seat="p4"]').innerText(), /Keyboard B/);
     assert.equal(await frame.locator('#local-session-start').isDisabled(), false);
     await frame.locator('#local-session-start').click();
-    await waitFor(() => document.querySelectorAll('#session-seats [data-seat]').length === 2, 'session HUD after Start');
+    await waitFor(() => document.querySelectorAll('#session-seats [data-seat]').length === 4, 'four-seat session HUD after Start');
     const labels = await frame.locator('#session-seats [data-seat]').allInnerTexts();
-    assert.ok(labels.every(label => /P[12].*[▲●]/.test(label)), `HUD identity combines P-number and a geometric marker: ${labels.join(' | ')}`);
+    assert.ok(labels.every(label => /P[1-4].*[▲●◆■]/.test(label)), `HUD identity combines P-number and a geometric marker: ${labels.join(' | ')}`);
     const distance = async seat => Number((await frame.locator(`#session-seats [data-seat="${seat}"]`).innerText()).match(/(\d+) tiles/)?.[1] ?? -1);
     const beforeMoves = await Promise.all(['p1', 'p2'].map(distance));
     await send([pad(0, alpha, [12]), pad(1, beta, [12])]); await page.waitForTimeout(120); await send([pad(0, alpha), pad(1, beta)]);
     const afterMoves = await Promise.all(['p1', 'p2'].map(distance));
     assert.ok(afterMoves[0] > beforeMoves[0] && afterMoves[1] > beforeMoves[1], `fresh edges independently advance both visible production seats (${beforeMoves} -> ${afterMoves})`);
-    await send([pad(0, alpha)]); await page.waitForTimeout(50);
+    const keyboardBefore = await Promise.all(['p3', 'p4'].map(distance));
+    await frame.locator('#scene').press('w'); await frame.locator('#scene').press('ArrowUp'); await page.waitForTimeout(100);
+    const keyboardAfter = await Promise.all(['p3', 'p4'].map(distance));
+    assert.ok(keyboardAfter[0] > keyboardBefore[0] && keyboardAfter[1] > keyboardBefore[1], `Keyboard A/B move their remapped P3/P4 seats (${keyboardBefore} -> ${keyboardAfter})`);
+    await mkdir(new URL('../artifacts/', import.meta.url), { recursive: true });
+    await page.locator('#napplet').screenshot({ path: new URL('../artifacts/local-session-runtime-live-900.png', import.meta.url).pathname });
+    await send([pad(1, beta)]); await page.waitForTimeout(50);
     assert.match(await frame.locator('#session-seats [data-seat="p2"]').innerText(), /Waiting to reclaim/);
-    await send([pad(0, alpha), pad(1, beta, [0])]); await page.waitForTimeout(30); await send([pad(0, alpha), pad(1, beta)]);
+    await send([pad(0, alpha, [0]), pad(1, beta)]); await page.waitForTimeout(30); await send([pad(0, alpha), pad(1, beta)]);
     assert.match(await frame.locator('#session-seats [data-seat="p2"]').innerText(), /Waiting to reclaim/, 'returning held input is seeded, never reclaimed');
-    await send([pad(0, alpha), pad(1, beta, [0])]); await page.waitForTimeout(30); await send([pad(0, alpha), pad(1, beta)]);
+    await send([pad(0, alpha, [0]), pad(1, beta)]); await page.waitForTimeout(30); await send([pad(0, alpha), pad(1, beta)]);
     assert.doesNotMatch(await frame.locator('#session-seats [data-seat="p2"]').innerText(), /Waiting to reclaim/, 'only a fresh post-neutral edge reclaims P2');
     const before = await page.evaluate(() => window.messages.filter(message => message.type === 'gamepad.unsubscribe').length);
     await frame.evaluate(() => dispatchEvent(new Event('pagehide')));
     await page.waitForFunction(count => window.messages.filter(message => message.type === 'gamepad.unsubscribe').length === count + 1, before);
-    await mkdir(new URL('../artifacts/', import.meta.url), { recursive: true });
-    await page.locator('#napplet').screenshot({ path: new URL('../artifacts/local-session-runtime-900.png', import.meta.url).pathname });
-    await writeFile(new URL('../artifacts/local-session-runtime.json', import.meta.url), JSON.stringify({ scenarios: ['first solo controller', 'second controller setup', 'two seat run', 'disconnect/reclaim', 'single teardown'], errors }, null, 2));
+    await writeFile(new URL('../artifacts/local-session-runtime.json', import.meta.url), JSON.stringify({ scenarios: ['first active controller claims solo with two neutral pads', 'second controller setup', 'two keyboard profiles fill P3/P4', 'four-seat run', 'disconnect/reclaim', 'single teardown'], errors }, null, 2));
     assert.deepEqual(errors, []);
   } finally { await browser.close(); }
 });

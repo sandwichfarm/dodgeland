@@ -263,6 +263,7 @@ const sessionKeyboardEditor = createSessionKeyboardEditor({
   bindings: () => keyboardBindings,
   commit: commitKeyboardBindings,
   capture: active => active ? keyboardInput?.beginCapture() : keyboardInput?.endCapture([...observedNativeKeys]),
+  seatForProfile: keyboardSeatForProfile,
 });
 type ShellShortcutDefinition = { id: string; defaultKey: string; handler: () => void };
 const shellShortcutDefinitions: readonly ShellShortcutDefinition[] = [
@@ -539,11 +540,13 @@ const nextUnusedCharacter = (seats: readonly SessionSetupSeat[]): string | null 
 function nextOpenSeat(seats: readonly SessionSetupSeat[]): SeatId | undefined { return allSeats.find(seat => !seats.some(candidate => candidate.seat === seat)); }
 function renderSetup(message = ''): void { sessionBoard?.render(message); }
 function addKeyboardSeat(): void {
-  if (!localStage || setupDraft.some(seat => seat.device === 'keyboard-b') || setupDraft.length >= localStage.session.config.capacity) return;
+  if (!localStage || setupDraft.length >= localStage.session.config.capacity) return;
   const seat = nextOpenSeat(setupDraft), characterId = nextUnusedCharacter(setupDraft);
-  if (!seat || !characterId) return;
-  setupDraft = [...setupDraft, { seat, device: 'keyboard-b', deviceLabel: 'Keyboard B', characterId }];
-  renderSetup(`${seat.toUpperCase()} ready — ${characterById(characterId).name} on Keyboard B.`);
+  const device = (['keyboard-a', 'keyboard-b'] as const).find(candidate => !setupDraft.some(seat => seat.device === candidate));
+  if (!seat || !characterId || !device) return;
+  const label = device === 'keyboard-a' ? 'Keyboard A' : 'Keyboard B';
+  setupDraft = [...setupDraft, { seat, device, deviceLabel: label, characterId }];
+  renderSetup(`${seat.toUpperCase()} ready — ${characterById(characterId).name} on ${label}.`);
 }
 function chooseSetupCharacter(seat: SeatId, characterId: string): void {
   if (!localStage || setupDraft.some(other => other.seat !== seat && other.characterId === characterId)) return;
@@ -695,9 +698,12 @@ document.addEventListener('keyup', nativeKeyboardKeyup);
 function move(direction: Direction): void {
   if (!frameAvailable()) return;
   if (localStage) {
-    const buttons = [el('local-session-start'), el('local-session-back')];
+    const buttons = [...el('local-session-setup').querySelectorAll<HTMLButtonElement>('button')]
+      .filter(button => !button.disabled && !button.hidden && button.getClientRects().length > 0);
+    if (!buttons.length) return;
     const current = buttons.indexOf(document.activeElement as HTMLElement);
-    buttons[(current + 1) % buttons.length]!.focus({ preventScroll: true }); return;
+    const delta = direction === 'left' || direction === 'back' ? -1 : 1;
+    buttons[(current + delta + buttons.length) % buttons.length]!.focus({ preventScroll: true }); return;
   }
   if (hand.isOpen() || (game.state === 'playing' && hand.containsFocus())) { hand.navigate(direction); return; }
   if (game.run.isOpen) { market.navigate(direction); return; }
@@ -711,7 +717,9 @@ function move(direction: Direction): void {
 function confirmMenu(): void {
   if (!frameAvailable()) return;
   if (localStage) {
-    if (document.activeElement === el('local-session-back')) backToSolo(); else startLocalPlay();
+    const focused = document.activeElement;
+    if (focused instanceof HTMLButtonElement && el('local-session-setup').contains(focused) && !focused.disabled) focused.click();
+    else sessionBoard?.focusStart();
     return;
   }
   if (hand.isOpen() || hand.containsFocus()) { hand.confirm(); return; }

@@ -184,27 +184,35 @@ export class GamepadRouter {
 
   private reconcile(pads: readonly GamepadSnapshot[], now: number, dispatch = true): void {
     const byIndex = new Map(pads.map(pad => [pad.index, pad]));
+    // One shell snapshot is an atomic set of simultaneous controller edges.
+    // Keep the input context observed at its start so an earlier pad starting
+    // solo does not seed and erase a later pad's equally-fresh join edge.
+    const snapshotContext = this.options.context();
     for (const [index, lease] of [...this.leases]) {
       const next = byIndex.get(index);
       if (!next || sanitizeId(next.id) !== lease.device.id) this.disconnect(lease);
     }
     for (const pad of pads.slice().sort((a, b) => a.index - b.index)) {
       let lease = this.leases.get(pad.index);
-      if (!lease) lease = this.createLease(pad);
+      if (!lease) lease = this.createLease(pad, snapshotContext);
       lease.pad = pad;
-      const context = this.options.context();
-      if (!dispatch || lease.context !== context) { this.seed(lease); continue; }
+      // Assigned seats obey every context transition immediately: a pause/menu
+      // opened by P1 must seed P2's same-frame input.  An unassigned lease is
+      // the sole exception, so simultaneous first-join edges survive the solo
+      // start that an earlier pad caused in this same shell snapshot.
+      const expectedContext = lease.seat ? this.options.context() : snapshotContext;
+      if (!dispatch || lease.context !== expectedContext) { this.seed(lease); continue; }
       this.process(lease, now);
     }
   }
 
-  private createLease(pad: GamepadSnapshot): Lease {
+  private createLease(pad: GamepadSnapshot, context = this.options.context()): Lease {
     const id = sanitizeId(pad.id);
     const device: GamepadDevice = { index: pad.index, id, epoch: ++this.epoch, deviceId: `gamepad-${pad.index}` };
     const reclaimSeat = this.reclaimable.get(deviceKey(device.index, device.id)) ?? null;
-    const lease: Lease = { device, seat: null, reclaimSeat, pad, held: new Set(), direction: null, directionArmed: false, repeatAt: Infinity, context: this.options.context() };
+    const lease: Lease = { device, seat: null, reclaimSeat, pad, held: new Set(), direction: null, directionArmed: false, repeatAt: Infinity, context };
     this.leases.set(pad.index, lease);
-    this.seed(lease);
+    this.seed(lease, context);
     this.options.lifecycle?.({ type: 'seen', device });
     if (reclaimSeat) this.options.lifecycle?.({ type: 'reclaim-offered', device, seat: reclaimSeat });
     return lease;
@@ -217,8 +225,8 @@ export class GamepadRouter {
     this.options.lifecycle?.({ type: 'disconnected', device: lease.device, ...(lease.seat ? { seat: lease.seat } : {}) });
   }
 
-  private seed(lease: Lease): void {
-    lease.context = this.options.context();
+  private seed(lease: Lease, context = this.options.context()): void {
+    lease.context = context;
     lease.held = new Set(observedButtons.filter(index => pressed(lease.pad, index)));
     lease.direction = directionOf(lease.pad, null);
     lease.directionArmed = false; lease.repeatAt = Infinity;

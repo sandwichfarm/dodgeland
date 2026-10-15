@@ -7,7 +7,6 @@ import type { DeviceId, SeatId } from './session.js';
 const actionLabels: Record<KeyboardAction, string> = {
   forward: 'Up / forward', left: 'Left', back: 'Down / back', right: 'Right', call: 'Call',
 };
-const profileSeats: Record<KeyboardProfileId, string> = { 'keyboard-a': 'P1', 'keyboard-b': 'P2' };
 const profileNames: Record<KeyboardProfileId, string> = { 'keyboard-a': 'Keyboard A', 'keyboard-b': 'Keyboard B' };
 
 export interface SessionKeyboardEditorOptions {
@@ -15,6 +14,7 @@ export interface SessionKeyboardEditorOptions {
   readonly bindings: () => KeyboardBindings;
   readonly commit: (next: KeyboardBindings) => Promise<BindingValidation>;
   readonly capture: (active: boolean) => void;
+  readonly seatForProfile?: (profile: KeyboardProfileId) => SeatId | undefined;
 }
 
 export interface SessionKeyboardEditor {
@@ -44,6 +44,10 @@ export function createSessionKeyboardEditor(options: SessionKeyboardEditorOption
   let reset: KeyboardProfileId | undefined;
   let page = 0;
   let disposed = false;
+  const profileSeat = (profile: KeyboardProfileId): string => {
+    const seat = options.seatForProfile?.(profile);
+    return seat ? `P${seat.slice(1)}` : 'Unassigned';
+  };
   const status = document.createElement('p');
   status.className = 'session-controls-status'; status.setAttribute('aria-live', 'polite');
 
@@ -54,7 +58,7 @@ export function createSessionKeyboardEditor(options: SessionKeyboardEditorOption
   const errorFor = (result: BindingValidation): string => {
     if (result.ok) return '';
     const conflict = result.conflicts[0];
-    return conflict ? `${conflict.key} already controls ${profileSeats[conflict.first.profile]} ${actionLabels[conflict.first.action]}. Choose another key.` : result.reason ?? 'Controls could not be saved.';
+    return conflict ? `${conflict.key} already controls ${profileSeat(conflict.first.profile)} ${actionLabels[conflict.first.action]}. Choose another key.` : result.reason ?? 'Controls could not be saved.';
   };
   const focusBinding = (action: KeyboardAction): void => {
     queueMicrotask(() => [...panel.querySelectorAll<HTMLButtonElement>('.session-binding')]
@@ -64,20 +68,20 @@ export function createSessionKeyboardEditor(options: SessionKeyboardEditorOption
   const render = (message = ''): void => {
     if (disposed) return;
     panel.replaceChildren();
-    const heading = document.createElement('h3'); heading.id = 'session-controls-heading'; heading.tabIndex = -1; heading.textContent = `${profileSeats[selected]} controls · ${profileNames[selected]}`;
+    const heading = document.createElement('h3'); heading.id = 'session-controls-heading'; heading.tabIndex = -1; heading.textContent = `${profileSeat(selected)} controls · ${profileNames[selected]}`;
     panel.append(heading);
     const profiles = document.createElement('div'); profiles.className = 'session-controls-profiles'; profiles.setAttribute('role', 'tablist');
     for (const profile of ['keyboard-a', 'keyboard-b'] as const) {
       const tab = document.createElement('button'); tab.type = 'button';
       const compact = matchMedia('(max-width: 319px), (max-height: 319px)').matches;
-      tab.textContent = compact ? profileSeats[profile] : `${profileSeats[profile]} · ${profileNames[profile]}`;
-      tab.setAttribute('aria-label', `${profileSeats[profile]} · ${profileNames[profile]}`); tab.setAttribute('role', 'tab'); tab.setAttribute('aria-selected', String(profile === selected));
+      tab.textContent = compact ? profileSeat(profile) : `${profileSeat(profile)} · ${profileNames[profile]}`;
+      tab.setAttribute('aria-label', `${profileSeat(profile)} · ${profileNames[profile]}`); tab.setAttribute('role', 'tab'); tab.setAttribute('aria-selected', String(profile === selected));
       tab.addEventListener('click', () => { selected = profile; capture = undefined; reset = undefined; options.capture(false); render(); queueMicrotask(() => panel.querySelector<HTMLButtonElement>('[role="tab"][aria-selected="true"]')?.focus({ preventScroll: true })); }); profiles.append(tab);
     }
     panel.append(profiles);
     if (reset) {
       const confirm = document.createElement('section'); confirm.className = 'session-controls-confirm'; confirm.setAttribute('role', 'alertdialog'); confirm.setAttribute('aria-labelledby', 'session-controls-reset-copy');
-      const copy = document.createElement('p'); copy.id = 'session-controls-reset-copy'; copy.textContent = `Reset ${profileSeats[reset]} to the shared-keyboard defaults?`;
+      const copy = document.createElement('p'); copy.id = 'session-controls-reset-copy'; copy.textContent = `Reset ${profileSeat(reset)} to the shared-keyboard defaults?`;
       const keep = document.createElement('button'); keep.type = 'button'; keep.textContent = 'Keep current controls';
       const apply = document.createElement('button'); apply.type = 'button'; apply.className = 'danger'; apply.textContent = 'Reset controls';
       keep.addEventListener('click', () => { reset = undefined; render(); queueMicrotask(() => panel.querySelector<HTMLButtonElement>('.danger')?.focus({ preventScroll: true })); });
@@ -191,7 +195,7 @@ export function createLocalSessionBoard(options: LocalSessionBoardOptions): Loca
   pages.append(rosterPage, characterPage);
   const status = document.createElement('p'); status.id = 'session-status'; status.setAttribute('aria-live', 'polite');
   const actions = document.createElement('div'); actions.className = 'session-actions';
-  const addKeyboard = document.createElement('button'); addKeyboard.id = 'session-add-keyboard'; addKeyboard.type = 'button'; addKeyboard.textContent = 'Add Keyboard B';
+  const addKeyboard = document.createElement('button'); addKeyboard.id = 'session-add-keyboard'; addKeyboard.type = 'button';
   const start = document.createElement('button'); start.id = 'local-session-start'; start.type = 'button'; start.className = 'primary'; start.textContent = 'Start Local Play';
   const back = document.createElement('button'); back.id = 'local-session-back'; back.type = 'button'; back.textContent = 'Back to solo';
   actions.append(addKeyboard, start, back); board.append(heading, subtitle, strip, pages, roster, detail, status, actions); root.replaceChildren(board);
@@ -202,10 +206,13 @@ export function createLocalSessionBoard(options: LocalSessionBoardOptions): Loca
   const ready = (seat: SessionSetupSeat): boolean => !!seat.device && !!seat.characterId && !seat.disconnected;
   const compact = (): boolean => matchMedia('(max-width: 479px), (max-height: 419px)').matches;
   const render = (nextMessage = message): void => {
+    const active = document.activeElement instanceof HTMLElement && board.contains(document.activeElement) ? document.activeElement : undefined;
+    const focusId = active?.id;
+    const focusSeat = active?.dataset.seat;
+    const focusRole = active?.dataset.sessionFocus;
     message = nextMessage;
     const seats = options.seats();
     const bySeat = new Map(seats.map(seat => [seat.seat, seat]));
-    if (!bySeat.has(selected)) selected = seats[0]?.seat ?? 'p1';
     board.dataset.page = compact() ? page : 'both';
     rosterPage.setAttribute('aria-pressed', String(page === 'roster'));
     characterPage.setAttribute('aria-pressed', String(page === 'character'));
@@ -214,9 +221,10 @@ export function createLocalSessionBoard(options: LocalSessionBoardOptions): Loca
     for (let index = 1; index <= options.capacity; index++) {
       const seat = `p${index}` as SeatId;
       const chip = document.createElement('button'); chip.type = 'button'; chip.className = 'session-seat-chip'; chip.textContent = `${markerFor(seat)} ${index}`;
+      chip.dataset.seat = seat;
       chip.setAttribute('aria-label', `${seatLabel(seat)} ${bySeat.has(seat) ? 'selected seat' : 'open seat'}`);
       chip.setAttribute('aria-pressed', String(selected === seat));
-      chip.addEventListener('click', () => { selected = seat; if (compact() && bySeat.has(seat)) page = 'character'; render(); }); strip.append(chip);
+      chip.addEventListener('click', () => { selected = seat; if (compact()) page = 'character'; render(); }); strip.append(chip);
     }
     roster.replaceChildren();
     for (let index = 1; index <= options.capacity; index++) {
@@ -245,9 +253,9 @@ export function createLocalSessionBoard(options: LocalSessionBoardOptions): Loca
       const currentIndex = Math.max(0, candidates.findIndex(candidate => candidate.id === current.characterId));
       const candidate = candidates[currentIndex] ?? candidates[0];
       const picker = document.createElement('div'); picker.className = 'session-character-picker';
-      const previous = document.createElement('button'); previous.type = 'button'; previous.textContent = 'Previous traveler'; previous.setAttribute('aria-label', 'Previous available traveler');
-      const next = document.createElement('button'); next.type = 'button'; next.textContent = 'Next traveler'; next.setAttribute('aria-label', 'Next available traveler');
-      const choose = document.createElement('button'); choose.type = 'button'; choose.className = 'session-character-choice';
+      const previous = document.createElement('button'); previous.type = 'button'; previous.dataset.sessionFocus = 'previous'; previous.textContent = 'Previous traveler'; previous.setAttribute('aria-label', 'Previous available traveler');
+      const next = document.createElement('button'); next.type = 'button'; next.dataset.sessionFocus = 'next'; next.textContent = 'Next traveler'; next.setAttribute('aria-label', 'Next available traveler');
+      const choose = document.createElement('button'); choose.type = 'button'; choose.className = 'session-character-choice'; choose.dataset.sessionFocus = 'choice';
       if (candidate) {
         const image = document.createElement('img'); image.src = modelThumbnail(candidate.model); image.alt = `${candidate.name} voxel preview`; image.className = 'session-preview';
         const name = document.createElement('strong'); name.textContent = candidate.name;
@@ -260,19 +268,31 @@ export function createLocalSessionBoard(options: LocalSessionBoardOptions): Loca
       }
       previous.disabled = candidates.length < 2; next.disabled = candidates.length < 2;
       picker.append(previous, choose, next); detail.append(title, device, picker);
-      const leave = document.createElement('button'); leave.type = 'button'; leave.className = 'session-leave'; leave.textContent = 'Leave this seat'; leave.disabled = selected === 'p1';
-      leave.addEventListener('click', () => { options.onLeave(selected); page = 'roster'; }); detail.append(leave);
+      const leave = document.createElement('button'); leave.type = 'button'; leave.className = 'session-leave'; leave.dataset.sessionFocus = 'leave'; leave.textContent = 'Leave this seat'; leave.disabled = selected === 'p1';
+      leave.addEventListener('click', () => { selected = seats.find(seat => seat.seat !== selected)?.seat ?? 'p1'; page = 'roster'; options.onLeave(current.seat); }); detail.append(leave);
     } else {
       const title = document.createElement('h3'); title.textContent = `${markerFor(selected)} ${seatLabel(selected)} is open`;
       const copy = document.createElement('p'); copy.textContent = 'Press a fresh controller button to join this seat, or add Keyboard B.';
       detail.append(title, copy);
     }
     const readyCount = seats.filter(ready).length;
-    start.disabled = readyCount < 2;
-    start.title = start.disabled ? 'Choose two ready players first.' : 'Start Local Play';
-    addKeyboard.disabled = seats.some(seat => seat.device === 'keyboard-b') || seats.length >= options.capacity;
-    addKeyboard.hidden = seats.some(seat => seat.device === 'keyboard-b');
+    start.disabled = readyCount < 2 || readyCount !== seats.length;
+    start.title = start.disabled
+      ? seats.some(seat => seat.disconnected) ? 'Reconnect or remove every disconnected player first.' : 'Choose a traveler and device for every player first.'
+      : 'Start Local Play';
+    const keyboard = (['keyboard-a', 'keyboard-b'] as const).find(device => !seats.some(seat => seat.device === device));
+    addKeyboard.textContent = keyboard === 'keyboard-a' ? 'Add Keyboard A' : 'Add Keyboard B';
+    addKeyboard.disabled = !keyboard || seats.length >= options.capacity;
+    addKeyboard.hidden = !keyboard;
     status.textContent = message || (options.controllerAvailable() ? 'Press a controller button to join an open seat.' : 'Controllers aren’t available in this shell. Keyboard players can still join.');
+    if (active) queueMicrotask(() => {
+      const restore = (focusId ? board.querySelector<HTMLElement>(`#${CSS.escape(focusId)}`) : undefined)
+        ?? (focusSeat ? board.querySelector<HTMLElement>(`[data-seat="${focusSeat}"]`) : undefined)
+        ?? (focusRole ? board.querySelector<HTMLElement>(`[data-session-focus="${focusRole}"]:not(:disabled)`) : undefined)
+        ?? board.querySelector<HTMLElement>('.session-seat-chip[aria-pressed="true"]')
+        ?? start;
+      restore.focus({ preventScroll: true });
+    });
   };
   rosterPage.addEventListener('click', () => { page = 'roster'; render(); });
   characterPage.addEventListener('click', () => { page = 'character'; render(); });

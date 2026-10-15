@@ -1,6 +1,6 @@
 .local-session-setup { --session-ink: var(--game-ink, #263c38); color: var(--session-ink); font-size: 16px; font-weight: 650; }
 .local-session-setup > button { min-height: 44px; }
-#app:has(#session-board:not([hidden])) #run-panel.run-panel { position: absolute; z-index: 7; inset: 12px; width: auto; max-height: none; padding: 12px; overflow: auto; background: var(--game-paper, var(--bg)); color: var(--session-ink); }
+#app:has(#session-board:not([hidden])) #run-panel.run-panel { position: absolute; z-index: 7; inset: 12px; transform: none; animation: none; width: auto; max-height: none; padding: 12px; overflow: auto; background: var(--game-paper, var(--bg)); color: var(--session-ink); }
 #app:has(#session-board:not([hidden])) #ready-content,
 #app:has(#session-board:not([hidden])) #play,
 #app:has(#session-board:not([hidden])) .panel-bottom,

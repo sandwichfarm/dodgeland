@@ -110,6 +110,37 @@ test('the first fresh controller claims solo P1 while its edge still dispatches,
   assert.deepEqual(joins.map(device => device.index), [0], 'the later fresh A edge enters Local Play');
 });
 
+test('simultaneous first-pad start and second-pad join survive the context change in one shell snapshot', () => {
+  const joins = [];
+  let context = 'solo:ready';
+  let router;
+  router = new GamepadRouter({
+    context: () => context,
+    dispatch: () => true,
+    action: (_seat, action) => { if (action === 'confirm') context = 'solo:playing'; },
+    requestFirstPlayer: device => router.assign(device, 'p1', true),
+    requestLocalPlay: device => joins.push(device),
+  });
+  router.receive(snapshot([pad(0), pad(1)]), 0);
+  router.receive(snapshot([pad(0, { pressed: [0] }), pad(1, { pressed: [0] })]), 1);
+  assert.deepEqual(joins.map(device => device.index), [1], 'the later stable-index edge opens setup instead of being seeded away');
+});
+
+test('an assigned second seat is seeded when a same-frame pause changes context', () => {
+  const actions = [];
+  let context = 'session:playing';
+  const { router, events } = trackedRouter({
+    context: () => context,
+    dispatch: () => true,
+    action: (seat, action) => { actions.push({ seat, action }); if (action === 'pause') context = 'session:paused'; },
+  });
+  router.receive(snapshot([pad(0), pad(1)]), 0);
+  router.assign(issued(events, 0), 'p1'); router.assign(issued(events, 1), 'p2');
+  router.receive(snapshot([pad(0), pad(1)]), 1);
+  router.receive(snapshot([pad(0, { pressed: [9] }), pad(1, { pressed: [0] })]), 2);
+  assert.deepEqual(actions, [{ seat: 'p1', action: 'pause' }], 'P2 confirm is seeded instead of acting through P1’s newly opened pause context');
+});
+
 test('independent repeat schedules and unknown mappings never dispatch across devices', () => {
   const actions = [];
   const { router, events } = trackedRouter({ context: () => 'play', dispatch: action => { actions.push(action); return true; } });
