@@ -106,7 +106,7 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
       }
       assert.fail('keyboard editor did not restore a real binding page');
     };
-    const fail = (message, metrics) => { evidence.deficiencies.push({ message, metrics }); assert.fail(`${message}: ${JSON.stringify(metrics)}`); };
+    const fail = (message, metrics) => { evidence.deficiencies.push({ message, metrics }); };
     const metrics = async (state, width, height) => frame.evaluate(({ state, width, height }) => {
       const contrast = (foreground, background) => {
         const rgb = value => (value.match(/\d+(?:\.\d+)?/g) ?? []).slice(0, 3).map(Number);
@@ -116,6 +116,14 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
         }).reduce((sum, value, index) => sum + value * [.2126, .7152, .0722][index], 0);
         const [a, b] = [luminance(rgb(foreground)), luminance(rgb(background))].sort((left, right) => right - left);
         return (a + .05) / (b + .05);
+      };
+      const paintedBackground = node => {
+        for (let ancestor = node; ancestor; ancestor = ancestor.parentElement) {
+          const color = getComputedStyle(ancestor).backgroundColor;
+          const channels = color.match(/\d+(?:\.\d+)?/g) ?? [];
+          if (channels.length < 4 || Number(channels[3]) > 0) return color;
+        }
+        return getComputedStyle(document.documentElement).backgroundColor;
       };
       const intersects = (inner, outer) => inner.left >= outer.left - .5 && inner.top >= outer.top - .5 && inner.right <= outer.right + .5 && inner.bottom <= outer.bottom + .5;
       const rendered = (node, fully = false) => {
@@ -149,11 +157,12 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
           text: node.textContent?.replace(/\s+/g, ' ').trim(),
           label: node.getAttribute('aria-label'),
           detailVisible: Boolean(node.querySelector('.session-hud-details') && rendered(node.querySelector('.session-hud-details'))),
-          contrast: contrast(style.color, style.backgroundColor),
+          contrast: contrast(style.color, paintedBackground(node)),
         };
       });
       const selectedFields = [...document.querySelectorAll('#session-seats .session-hud-selected [data-session-hud]')].map(node => ({
         field: node.getAttribute('data-session-hud'), text: node.textContent?.trim(), fullyVisible: rendered(node, true),
+        contrast: contrast(getComputedStyle(node).color, paintedBackground(node)),
       }));
       const slots = [...document.querySelectorAll('#session-seats [data-seat] *')].filter(node => /^(Revive|Item)\b/.test(node.textContent?.trim() ?? '')).map(node => ({
         text: node.textContent?.trim(), interactive: Boolean(node.closest('button, [role="button"], input, select, a[href]')),
@@ -164,9 +173,18 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
           value: node.textContent?.replace(/\s+/g, ' ').trim(), font: Number.parseFloat(getComputedStyle(node).fontSize),
         }));
       const app = document.querySelector('#app'), board = document.querySelector('#session-board'), scene = document.querySelector('#scene');
+      const sceneUsable = (() => {
+        if (!(scene instanceof HTMLElement) || !visible(scene)) return false;
+        const rect = scene.getBoundingClientRect();
+        for (let y = rect.top + 22; y <= Math.min(rect.bottom, height) - 22; y += 22) for (let x = rect.left + 22; x <= Math.min(rect.right, width) - 22; x += 22) {
+          const samples = [[x - 22, y - 22], [x + 22, y - 22], [x - 22, y + 22], [x + 22, y + 22]];
+          if (samples.every(([pointX, pointY]) => document.elementFromPoint(pointX, pointY) === scene)) return true;
+        }
+        return false;
+      })();
       return {
         state, document: { width: document.documentElement.scrollWidth, height: document.documentElement.scrollHeight },
-        app: app ? getComputedStyle(app).backgroundColor : '', boardVisible: !!board && visible(board), sceneVisible: !!scene && visible(scene),
+        app: app ? getComputedStyle(app).backgroundColor : '', boardVisible: !!board && visible(board), sceneVisible: !!scene && visible(scene), sceneUsable,
         controls, identity, selectedFields, slots, text,
       };
     }, { state, width, height });
@@ -195,15 +213,20 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
       if (state === 'setup' && width >= 240 && !value.boardVisible) fail(`${state}/${theme}/${width}×${height} setup board is not visible`, value);
       if (state === 'hud' && width >= 240) {
         if (!value.sceneVisible) fail(`${state}/${theme}/${width}×${height} shared scene is not visible`, value);
+        if (!value.sceneUsable) fail(`${state}/${theme}/${width}×${height} must leave a usable 44px scene area beside the session shelf`, value);
         if (value.identity.length !== 4 || value.identity.some(seat => !/P[1-4].*[▲●◆■]/.test(`${seat.text} ${seat.label}`))) fail(`${state}/${theme}/${width}×${height} HUD identity is incomplete`, value.identity);
         const detailed = value.identity.filter(seat => seat.detailVisible);
         const compactHud = width < 480 || height < 420;
-        if (compactHud ? detailed.length !== 1 : detailed.length !== 4) fail(`${state}/${theme}/${width}×${height} must show ${compactHud ? 'one selected detailed tile plus identity chips' : 'four detailed tiles'}`, value.identity);
+        const shortHud = height < 320;
+        if (shortHud ? detailed.length > 1 : compactHud ? detailed.length !== 1 : detailed.length !== 4) fail(`${state}/${theme}/${width}×${height} must show ${shortHud ? 'one selected status plus identity chips' : compactHud ? 'one selected detailed tile plus identity chips' : 'four detailed tiles'}`, value.identity);
         const requiredFields = ['identity', 'device', 'health', 'power', 'wallet', 'revive', 'item'];
-        if (value.selectedFields.length !== requiredFields.length || requiredFields.some(field => !value.selectedFields.some(value => value.field === field && value.fullyVisible && value.text))) {
+        const visibleFields = value.selectedFields.filter(field => field.fullyVisible && field.text);
+        const hasSelectedStatus = ['identity', 'health'].every(field => visibleFields.some(value => value.field === field));
+        if (!hasSelectedStatus || (!shortHud && (value.selectedFields.length !== requiredFields.length || requiredFields.some(field => !visibleFields.some(value => value.field === field))))) {
           fail(`${state}/${theme}/${width}×${height} selected HUD must keep identity, real state, and unavailable future fields fully visible`, value.selectedFields);
         }
         if (value.identity.some(seat => seat.contrast < 4.5)) fail(`${state}/${theme}/${width}×${height} HUD paper/ink contrast is below 4.5:1`, value.identity);
+        if (visibleFields.some(field => field.contrast < 4.5)) fail(`${state}/${theme}/${width}×${height} selected HUD field contrast is below 4.5:1`, visibleFields);
         if (value.slots.some(slot => slot.interactive)) fail(`${state}/${theme}/${width}×${height} reserved fields must remain noninteractive`, value.slots);
       }
     };
@@ -220,6 +243,25 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
     await frame.locator('#session-add-keyboard').click();
     await frame.waitForFunction(() => document.querySelectorAll('#session-roster [data-seat]').length === 4);
     assert.equal(await frame.locator('#local-session-start').isDisabled(), false, 'four ready seats must expose the real Start action');
+
+    for (const [width, height] of [[240, 240], [320, 560]]) {
+      await resize(width, height);
+      await frame.locator('.session-seat-chip[data-seat="p3"]').click();
+      for (const [name, visible, hidden] of [
+        ['Roster', '#session-roster', '#session-seat-detail'],
+        ['Traveler', '#session-seat-detail', '#session-roster'],
+        ['Controls', '#local-session-controls', '#session-roster'],
+      ]) {
+        await frame.getByRole('button', { name, exact: true }).click();
+        assert.equal(await frame.locator('#session-board').getAttribute('data-page'), name.toLowerCase() === 'traveler' ? 'character' : name.toLowerCase(), `${name} selects its compact page at ${width}×${height}`);
+        assert.equal(await frame.locator(visible).isVisible(), true, `${name} exposes its real compact content at ${width}×${height}`);
+        assert.equal(await frame.locator(hidden).isVisible(), false, `${name} does not leave another compact page exposed at ${width}×${height}`);
+        const pageMetrics = await metrics('setup', width, height);
+        if (pageMetrics.document.width > width || pageMetrics.document.height > height) fail(`${name} page must not scroll at ${width}×${height}`, pageMetrics.document);
+        for (const control of pageMetrics.controls) if (!control.fits || !control.hit) fail(`${name} page has an unreachable control at ${width}×${height}`, control);
+        await iframe.screenshot({ path: new URL(`local-session-layout-setup-${width}x${height}-page-${name.toLowerCase()}-dark.png`, output).pathname });
+      }
+    }
 
     // This is deliberately one live board, not a reload per frame. The
     // selected seat, keyboard-editor page, and focus are state that must live
@@ -297,6 +339,44 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
           await frame.waitForFunction(() => document.querySelector('#app')?.dataset.runState === 'playing' && !document.querySelector('#session-seats')?.hasAttribute('hidden'));
         }
         await assertFrame('hud', width, height, theme);
+        if (width === 240 && height === 240 && theme === 'dark') {
+          const identity = frame.locator('#session-seats .session-hud-selected .session-hud-identity');
+          const scoreBeforeInspect = await frame.locator('#score').innerText();
+          await identity.focus();
+          await identity.click();
+          await frame.waitForFunction(() => document.querySelector('#session-seats')?.dataset.sessionHudInspect === 'true');
+          assert.equal(await frame.locator('#app').getAttribute('data-run-state'), 'paused', 'opening short details pauses an active local session');
+          assert.equal(await frame.locator('.bottom-bar').isVisible(), false, 'short details hide pointer controls while inspecting');
+          const inspected = await metrics('hud-inspect', width, height);
+          const fields = ['identity', 'device', 'health', 'power', 'wallet', 'revive', 'item'];
+          if (fields.some(field => !inspected.selectedFields.some(value => value.field === field && value.fullyVisible && value.text))) fail('short details must expose every real selected field without scrolling', inspected.selectedFields);
+          await iframe.screenshot({ path: new URL('local-session-layout-hud-240x240-inspect-dark.png', output).pathname });
+          await page.keyboard.down('w');
+          const closeDetails = frame.locator('#session-seats .session-hud-selected button[data-session-hud-close="true"]');
+          assert.equal(await closeDetails.isVisible(), true, 'short details expose a real Close action');
+          await closeDetails.click();
+          await frame.waitForFunction(() => document.querySelector('#session-seats')?.dataset.sessionHudInspect !== 'true' && document.querySelector('#app')?.dataset.runState === 'playing');
+          await page.waitForTimeout(80);
+          assert.equal(await frame.locator('#score').innerText(), scoreBeforeInspect, 'held native movement cannot leak through detail close before a neutral edge');
+          await page.keyboard.up('w');
+          assert.equal(await frame.evaluate(() => document.activeElement?.closest('[data-seat]')?.dataset.seat), 'p1', 'closing details restores focus to the inspected identity');
+
+          await identity.click();
+          await frame.waitForFunction(() => document.querySelector('#session-seats')?.dataset.sessionHudInspect === 'true');
+          await resize(320, 560);
+          await frame.waitForFunction(() => document.querySelector('#session-seats')?.dataset.sessionHudInspect !== 'true');
+          assert.equal(await frame.locator('#app').getAttribute('data-run-state'), 'playing', 'short to tall resize predictably closes inspection and restores play');
+          await resize(width, height);
+          await identity.click();
+          await frame.waitForFunction(() => document.querySelector('#session-seats')?.dataset.sessionHudInspect === 'true');
+          await resize(200, 160);
+          await frame.waitForFunction(() => document.querySelector('.too-small')?.checkVisibility());
+          await resize(width, height);
+          assert.equal(await frame.locator('#app').getAttribute('data-run-state'), 'paused', 'safety suspension while inspecting never auto-resumes the session');
+          assert.equal(await frame.locator('#session-seats [data-seat]').count(), 4, 'safety suspension preserves the four session owners');
+          await frame.getByRole('button', { name: /Keep hopping/ }).click();
+          await frame.waitForFunction(() => document.querySelector('#app')?.dataset.runState === 'playing' && !document.querySelector('#session-seats')?.hasAttribute('hidden'));
+        }
       }
     }
 
@@ -309,6 +389,7 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
     assert.deepEqual(evidence.errors, []);
     await writeFile(new URL('local-session-layout.json', output), JSON.stringify(evidence, null, 2));
     console.log(JSON.stringify({ frames: evidence.frames.length, deficiencies: evidence.deficiencies, errors: evidence.errors }, null, 2));
+    assert.equal(evidence.deficiencies.length, 0, `layout matrix deficiencies: ${JSON.stringify(evidence.deficiencies)}`);
   } catch (error) {
     evidence.failure = String(error);
     if (page) await page.locator('#napplet').screenshot({ path: new URL('local-session-layout-failure.png', output).pathname }).catch(() => {});
