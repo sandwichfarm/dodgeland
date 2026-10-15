@@ -44,7 +44,7 @@ body:has(#local-session-setup:not([hidden]) #session-board), body:has(#session-s
 .session-hud-tile .session-future { color: color-mix(in srgb, var(--session-ink) 70%, var(--primary)); }
 .session-hud-tile button.session-future { width: 100%; min-height: 44px; padding: 3px 4px; border: 1px solid color-mix(in srgb, var(--session-edge) 65%, var(--primary)); border-radius: 4px; background: transparent; color: inherit; font: inherit; text-align: left; }
 @media (min-width: 720px) and (min-height: 320px) {
-  #session-seats { grid-template-columns: repeat(4, minmax(0, 1fr)); width: min(680px, calc(100vw - 120px)); }
+  #session-seats { grid-template-columns: repeat(4, minmax(0, 1fr)); width: min(680px, calc(100vw - 220px)); }
   #session-seats .session-hud-tile span { overflow: visible; text-overflow: clip; white-space: normal; overflow-wrap: anywhere; }
 }
 .survive-recovery-board { position: absolute; z-index: 12; inset: 12px; display: grid; grid-template-areas: 'title' 'subjects' 'status' 'actions'; align-content: start; gap: 16px; padding: 16px; overflow: auto; border: 4px solid var(--game-wood, var(--border)); border-radius: 8px; background: var(--game-paper, var(--bg)); box-shadow: 0 5px 0 var(--game-edge, var(--border)); color: var(--game-ink, var(--fg)); font-family: var(--game-font, ui-rounded, system-ui, sans-serif); }

@@ -167,6 +167,12 @@ test('four real inventories remain inspectable through one responsive owner surf
     assert.deepEqual(charged, [{ seat: 'p1', revival: 1, flare: 1 }, { seat: 'p2', revival: 0, flare: 0 }, { seat: 'p3', revival: 0, flare: 0 }, { seat: 'p4', revival: 0, flare: 0 }], 'the layout fixture credits both P1 consumables through the authoritative co-op adapter only');
     assert.equal(new Set(inventories.map(value => value.cards[0].id)).size, 1, 'fixture deliberately exercises colliding per-inventory card IDs');
     assert.equal(new Set(inventories.map(value => value.cards[0].name)).size, 4, 'all four inventories have different actual card contents');
+    await resize(720, 600); await settle();
+    assert.equal(await frame.locator('#session-seats [data-seat="p1"] [data-session-hud="power"]').evaluate(node => {
+      const range = document.createRange(); range.selectNodeContents(node);
+      return [...range.getClientRects()].every(rect => [rect.left + 1, rect.left + rect.width / 2, rect.right - 1]
+        .every(x => node.contains(document.elementFromPoint(x, rect.top + rect.height / 2))));
+    }), true, 'the 720px shared shelf keeps wrapped owner power text readable beside the reserved Market lane');
     await settle();
     await frame.locator('#market-open').click(); await settle();
     assert.equal(await frame.locator('#market').isVisible(), true, 'shared market must actually open');
