@@ -280,3 +280,56 @@ test('the real shared market pause permits either living owner to buy while worl
     assert.equal(ownerSnapshot(other, session), otherBefore);
   }
 });
+
+test('insufficient currency and competing same-version purchases never partially credit either item class', () => {
+  for (const seat of ['p1', 'p2']) for (const [itemId, price] of [['revival', 24], ['flare', 36]]) {
+    const { session } = fixture();
+    const owner = session.players.find(player => player.seat === seat);
+    const other = session.players.find(player => player !== owner);
+    owner.run.advanceScore(100); owner.run.creditCoins(price - .125); owner.run.open();
+    let context = contextFor(session, owner);
+    const before = ownerSnapshot(owner, session), otherBefore = ownerSnapshot(other, session);
+    assert.equal(session.actCoOpMarket(request(owner, context, 'buy-consumable', { itemId })).ok, false);
+    assert.equal(ownerSnapshot(owner, session), before, 'insufficient whole coins preserve charge, wallet fraction and all revisions');
+    owner.run.creditCoins(.125 + price);
+    context = contextFor(session, owner);
+    const first = request(owner, context, 'buy-consumable', { itemId });
+    const competing = request(owner, context, 'buy-consumable', { itemId: itemId === 'revival' ? 'flare' : 'revival' });
+    assert.equal(session.actCoOpMarket(first).ok, true);
+    const committed = ownerSnapshot(owner, session);
+    assert.equal(session.actCoOpMarket(competing).ok, false, 'a different action sharing the old version cannot also commit');
+    assert.equal(ownerSnapshot(owner, session), committed);
+    assert.equal(ownerSnapshot(other, session), otherBefore);
+  }
+});
+
+test('power and wearable purchases plus re-equipping mutate only the selected living owner', () => {
+  const power = ITEM_CATALOG.find(item => item.kind === 'power');
+  const hats = ITEM_CATALOG.filter(item => item.kind === 'cosmetic' && item.appearance.style === 'hat').slice(0, 2);
+  assert.ok(power); assert.equal(hats.length, 2);
+  for (const seat of ['p1', 'p2']) {
+    const { session } = fixture();
+    const owner = session.players.find(player => player.seat === seat);
+    const other = session.players.find(player => player !== owner);
+    const stock = [power, ...hats];
+    owner.run.advanceScore(100); owner.run.creditCoins(stock.reduce((total, item) => total + item.price, 0)); owner.run.open();
+    const otherBefore = ownerSnapshot(other, session);
+    let context = contextFor(session, owner);
+    for (const item of stock) {
+      const offer = { id: `owner-looks-${item.id}`, itemId: item.id, price: item.price, sold: false };
+      owner.run.market.offers.push(offer);
+      const result = session.actCoOpMarket(request(owner, context, 'buy', { offerId: offer.id }));
+      assert.equal(result.ok, true, item.id); context = result.context;
+      assert.equal(offer.sold, true);
+      assert.equal(ownerSnapshot(other, session), otherBefore);
+    }
+    assert.equal(owner.run.wallet, 0);
+    assert.equal(owner.run.powers.find(item => item.itemId === power.id).remaining, power.duration);
+    assert.ok(owner.run.equippedCosmetics.some(item => item.id === hats[1].id));
+    const result = session.actCoOpMarket(request(owner, context, 'equip', { itemId: hats[0].id }));
+    assert.equal(result.ok, true);
+    assert.ok(owner.run.equippedCosmetics.some(item => item.id === hats[0].id));
+    assert.equal(owner.run.equippedCosmetics.some(item => item.id === hats[1].id), false);
+    assert.equal(ownerSnapshot(other, session), otherBefore);
+  }
+});
