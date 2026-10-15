@@ -209,3 +209,18 @@ Final source gates, completed with recorded exit code zero:
 can close. Phase acceptance still requires the final 02-04 editor visual
 proofs, 02-05 setup/HUD/controller main integration, and 02-06 owner hand/market
 integration and phase-wide verification.
+
+## Controller departure integration accepted
+
+`2bce3f6` adds `GamepadRouter.release(seat)` after the regression tests in
+`75a7703`. It clears active and remembered reclaim associations, seeds held
+input, and preserves other controllers' repeat schedules. Root independently
+reran the transport/router suites at `9ff17a3`: **31/31**, exit zero, with no
+skips or cancellations (`/tmp/down-to-duck-release-review.log`).
+
+Plan 02-05 must call this router operation when a seat leaves or returns to
+solo, alongside the caller-owned session departure policy. An unassigned
+controller's fresh edge is not inherently a second-player edge: main must
+preserve the first solo controller path before offering Local Play for a
+genuine additional controller. The actual main-loop/iframe integration is
+still pending; the unit evidence does not establish that user-facing flow.
