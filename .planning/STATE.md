@@ -5,8 +5,8 @@ milestone_name: milestone
 status: executing
 current_phase: 04
 current_phase_name: relay
-stopped_at: Phase03 independently verified42/42; ready for Relay01 execution.
-last_activity_desc: Closed ghost-duration result gap; full canonical gate and independent re-verification passed.
+stopped_at: Relay04-01 dependency checkpoint; primary personal scoring must be repaired before completion.
+last_activity_desc: Committed working first-handoff tracer and two RED primary-progress regressions; no Relay plan completed.
 progress:
   total_phases: 7
   completed_phases: 3
@@ -24,7 +24,9 @@ Phase04 Relay, Plan01 of6. Phases01–03 independently verified. Survive Togethe
 
 Source6017f9f fixes the independent Phase03 verifier's sole ghost-duration gap. Full canonical `pnpm test:phase3` session73933 exit0, `/tmp/down-to-duck-ghost-duration-final-gate.log`: exact Phase02 prefix, solo parity21/regressions271, all session/runtime/layout checks, all Phase03 groups, recovery44/44 and final browser34/34. Type-check/build/guidance/lockfile pass. Independent re-verification reports42/42 passed with no residual gap in03-VERIFICATION.md.03-07 and03-08 summaries map evidence. No source changes since that gate; docs-only phase completion follows it. Use this unchanged pre-edit gate as Relay entry evidence, do not rerun it gratuitously.
 
-Root owns orchestration, no live build/browser process. Relay01 executor dispatch is next. All browsers muted; preview5175 untouched; no installs/dependency changes/publish/merge. Only requested final PR is authorized.
+Root owns orchestration, no live build/browser process. Relay01 generic fallback returned a dependency checkpoint: Game.currentScore and SessionPlayer.powerRemaining still use spatial maxY for P1. A P2→P1 baton placement recharges innate power without earned movement; the next hop overcredits inventory score. WIP8bb8faf and RED regressions d9288f8 are committed;04-01SUMMARY records actual APIs, evidence and resume frontier. No Relay plan or requirement completed. Task2 remains unexecuted.
+
+Post-tracer full canonical `pnpm test:phase3 && node --test tests/relay-tracer.mjs` session74107 exit0, `/tmp/down-to-duck-04-01-full-gate.log`, before the two dependency assertions. Current Relay tracer2pass/2fail, session14906 exit1, `/tmp/down-to-duck-04-01-dependency-red.log`. Root should repair the generic primary participant scoring seam and preserve adopted-solo baselines/immutable parity before resuming04-01. All browsers muted; preview5175 untouched; no installs/dependency changes/publish/merge. Only requested final PR is authorized.
 
 ## Execution Runtime
 
