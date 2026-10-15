@@ -100,6 +100,8 @@ pnpm test:phase2
 
 This script type-checks/builds first, runs `test:phase1` (which includes immutable solo parity), then `test:local-session-model` and `test:local-session-ui`, the legacy controller runtime, guidance, conformance and the lockfile check. The model script includes `local-session`, `session-world`, `session-player`, `session-lifecycle`, `gamepad`, `session-input` and `keyboard-input`. The UI script runs each browser file sequentially: setup component, tracer, keyboard runtime, mixed-session runtime, both controller transports, assigned audio, progressed adoption and the full layout matrix. Both groups use the existing strict runner, rejecting empty evidence, skips, TODOs, failures and cancellations. The UI subgroup expects a fresh build; the full phase script supplies it. A green subgroup does not establish phase completion.
 
+The full script also runs `tests/render.test.mjs` through the strict runner immediately after Phase 1. Its independently archived/current exact pixel comparison is mandatory: the Phase 1 model/regression package scripts alone do not include that renderer oracle. The UI subgroup additionally includes the session-label render-unit test described above.
+
 Read every report. A skipped conformance evidence row remains skipped and must be named in `02-06-SUMMARY.md`. Deterministic injected shell snapshots prove transport logic; a physical-controller check may remain an explicitly recorded external limitation, but it cannot replace the automated transport proof.
 
 ## Requirement Evidence Matrix
