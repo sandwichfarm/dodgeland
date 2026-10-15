@@ -87,6 +87,27 @@ test('a failed final seat in batch promotion leaves solo ownership and provenanc
   assert.equal(game.world.sessionActive, false);
 });
 
+test('replacing the empty setup commits the selected primary device after the original stage cancels', () => {
+  const game = new Game(113, 'pond', 'arcade', false, [], 'butter'); meadow(game);
+  const mode = createSurviveTogetherDefinition(game.definition);
+  const original = LocalSession.stage(game, { roster: [], mode });
+  const candidate = LocalSession.stage(game, {
+    mode, primaryDevice: 'gamepad-1', roster: [
+      { seat: 'p2', device: 'gamepad-0', characterId: 'sunny' },
+      { seat: 'p3', device: 'keyboard-a', characterId: 'pip' },
+      { seat: 'p4', device: 'keyboard-b', characterId: 'petal' },
+    ],
+  });
+  original.cancel();
+  const session = candidate.commit();
+  assert.deepEqual(session.players.map(player => player.device),
+    ['gamepad-1', 'gamepad-0', 'keyboard-a', 'keyboard-b'],
+    'committing the replacement must use its validated bindings, including P1');
+  assert.equal(new Set(session.players.map(player => player.device)).size, 4);
+  assert.ok(session.players[0].recovery.aliases.includes('device:gamepad-1'),
+    'the primary recovery provenance belongs to the committed controller');
+});
+
 for (const hazard of ['traffic', 'wave']) test(`batch promotion rejects ${hazard} before any selected player becomes active`, () => {
   const game = new Game(113, 'pond', 'arcade', false, [], 'butter'); meadow(game);
   if (hazard === 'wave') game.waveRow = game.y;
