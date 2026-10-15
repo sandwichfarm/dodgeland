@@ -92,6 +92,8 @@ Run dark and light runtime themes and reduced motion. Verify marker + P-number +
 
 Plan 02-06 proves that `Viewing P{n} · {character}` controls one market/hand DOM tree and switching owner invalidates selected card/offer, pack draft, purchase target, pending confirmation, and stale focus before rendering the next view. The display must state the actual Phase 2 economy source and claim no Phase 3 mechanic.
 
+`tests/local-session-owner-layout.mjs` separately exercises four distinct real inventories with colliding local card IDs through the existing market and hand trees. It checks owner switching inside an open market, actual card inspection, read-only mutation guards, six required sizes in both themes, reduced motion, complete owner labels, 44px owner targets, hit testing and absence of scrolling. Its JSON and muted screenshots are written to `artifacts/local-session-owner-*`. Failures remain failures until the production layout and continuity are corrected.
+
 Then run the complete final bundle gate:
 
 ```bash
