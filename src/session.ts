@@ -10,6 +10,10 @@ import { advanceCoinPull } from './coin-pull.js';
 import { planConsumableCredit, planConsumableDebit } from './consumables.js';
 import type { ConsumableId } from './consumables.js';
 import { sampleConsumableDrop } from './consumable-drops.js';
+import { CoOpMarketAdapter } from './co-op-market.js';
+import type { CoOpMarketContext, CoOpMarketRequest, CoOpMarketResult } from './co-op-market.js';
+import { resolveSharedWorldEffects } from './shared-world-effects.js';
+import type { ResolvedSharedWorldEffects } from './shared-world-effects.js';
 
 /** A stable local identity. Seat order is never simulation authority. */
 export type SeatId = 'p1' | 'p2' | 'p3' | 'p4';
@@ -441,6 +445,24 @@ class ConsumableWorld implements GameWorldExtension {
     charge.revival = plan.resultingCharges.revival; charge.flare = plan.resultingCharges.flare; charge.inventoryGeneration = this.nextInventoryGeneration++;
     player.statistics.itemsFound++; this.generation++; return true;
   }
+  marketState(player: SessionPlayer): Readonly<{ ownerGeneration: number; inventoryGeneration: number }> | undefined {
+    const charge = this.charges.get(this.ownerId(player));
+    return charge && Object.freeze({ ownerGeneration: charge.ownerGeneration, inventoryGeneration: charge.inventoryGeneration });
+  }
+  canMarketCredit(player: SessionPlayer, itemId: ConsumableId, expectedOwnerGeneration: number, expectedInventoryGeneration: number): boolean {
+    const charge = this.charges.get(this.ownerId(player));
+    if (!charge || player.participation !== 'active' || player.state === 'dead' || charge.ownerGeneration !== expectedOwnerGeneration || charge.inventoryGeneration !== expectedInventoryGeneration) return false;
+    return planConsumableCredit({ mode: { capabilities: ['survive-together'] }, owner: { id: player.seat, generation: charge.ownerGeneration }, inventory: { owner: { id: player.seat, generation: charge.ownerGeneration }, generation: charge.inventoryGeneration, charges: { revival: charge.revival, flare: charge.flare } }, expectedInventoryGeneration, itemId }).ok;
+  }
+  marketCredit(player: SessionPlayer, itemId: ConsumableId, expectedOwnerGeneration: number, expectedInventoryGeneration: number): boolean {
+    if (!this.canMarketCredit(player, itemId, expectedOwnerGeneration, expectedInventoryGeneration)) return false;
+    const charge = this.charges.get(this.ownerId(player))!;
+    const plan = planConsumableCredit({ mode: { capabilities: ['survive-together'] }, owner: { id: player.seat, generation: charge.ownerGeneration }, inventory: { owner: { id: player.seat, generation: charge.ownerGeneration }, generation: charge.inventoryGeneration, charges: { revival: charge.revival, flare: charge.flare } }, expectedInventoryGeneration, itemId });
+    if (!plan.ok) return false;
+    charge.revival = plan.resultingCharges.revival; charge.flare = plan.resultingCharges.flare; charge.inventoryGeneration = this.nextInventoryGeneration++;
+    this.generation++;
+    return true;
+  }
   use(action: ConsumableAction): boolean {
     const game = this.game, owner = this.session.players.find(player => player.seat === action.ownerSeat);
     if (!game || !owner || !/^[-a-zA-Z0-9_.]{1,128}$/.test(action.actionId) || this.actions.get(action.actionId) !== undefined || this.actions.has(`${game.world.simulationTick}:${this.ownerId(owner)}`)) return false;
@@ -490,6 +512,9 @@ export class LocalSession {
   private active = false;
   private consumableWorld: ConsumableWorld | undefined;
   private releaseWorldExtension: (() => void) | undefined;
+  private coOpMarket: CoOpMarketAdapter | undefined;
+  private sharedEffectPolicy = false;
+  private resolvedSharedEffects: ResolvedSharedWorldEffects | undefined;
 
   constructor(world: SharedWorld, players: readonly SessionPlayer[], options: { config?: SessionConfig; onLifecycle?: SessionLifecycleHandler; mode?: SessionModeDefinition } = {}) {
     this.config = options.config ?? DEFAULT_SESSION_CONFIG;
@@ -512,6 +537,33 @@ export class LocalSession {
   consumableSnapshot(): ConsumableWorldSnapshot | undefined { return this.consumableWorld?.snapshot(); }
   useConsumable(action: ConsumableAction): boolean { return !!this.consumableWorld && !this.resultRecord && this.consumableWorld.use(action); }
   clearConsumables(seat: SeatId): void { const player = this.players.find(candidate => candidate.seat === seat); if (player) this.consumableWorld?.clear(player); }
+  /** Survive Together installs the owner router only after its staged adoption commits. */
+  installCoOpMarket(): void {
+    if (this.coOpMarket) return;
+    this.installConsumableWorld();
+    this.coOpMarket = new CoOpMarketAdapter({
+      coOpMarketEnabled: () => this.active && this.coOpMarket !== undefined && !this.resultRecord,
+      coOpMarketOwners: () => this.players,
+      coOpMarketConsumableState: owner => this.consumableWorld?.marketState(owner as SessionPlayer),
+      coOpMarketCanCredit: (owner, itemId, expectedOwnerGeneration, expectedInventoryGeneration) => !!this.consumableWorld?.canMarketCredit(owner as SessionPlayer, itemId, expectedOwnerGeneration, expectedInventoryGeneration),
+      coOpMarketCredit: (owner, itemId, expectedOwnerGeneration, expectedInventoryGeneration) => !!this.consumableWorld?.marketCredit(owner as SessionPlayer, itemId, expectedOwnerGeneration, expectedInventoryGeneration),
+    });
+  }
+  /** Selects an owner interaction context even when their market window is closed. */
+  openCoOpMarket(owner: Readonly<{ seat: SeatId; device: DeviceId; participantId?: string }>): CoOpMarketContext | undefined { return this.coOpMarket?.select(owner); }
+  /** A read-only refresh never changes the selected owner or context generation. */
+  coOpMarketSnapshot(): CoOpMarketContext | undefined { return this.coOpMarket?.snapshot(); }
+  actCoOpMarket(request: CoOpMarketRequest): CoOpMarketResult { return this.coOpMarket?.act(request) ?? Object.freeze({ ok: false, message: 'Co-op market is unavailable.', context: undefined }); }
+  /** Mode policy opt-in; Game consumes this resolved projection without knowing a mode ID. */
+  installSharedWorldEffects(): void { this.sharedEffectPolicy = true; this.refreshSharedWorldEffects(); }
+  sharedWorldEffectsSnapshot(): ResolvedSharedWorldEffects | undefined { return this.resolvedSharedEffects; }
+  private refreshSharedWorldEffects(): void {
+    if (!this.sharedEffectPolicy) return;
+    this.resolvedSharedEffects = resolveSharedWorldEffects(this.players
+      .filter(player => player.participation === 'active' && player.state === 'playing')
+      .map(player => ({ seat: player.seat, effects: player.run.effects })));
+    this.world.host.setSharedWorldEffects(this.resolvedSharedEffects.effects);
+  }
 
   static stage(game: Game, options: { secondaryCharacterId?: string; roster?: readonly SessionSeatSpec[]; config?: SessionConfig; onLifecycle?: SessionLifecycleHandler; mode?: SessionModeDefinition; primaryDevice?: DeviceId } = {}): LocalSessionStage {
     const world = (game as Game & { world?: SharedWorld }).world ?? new SharedWorld(game);
@@ -562,6 +614,7 @@ export class LocalSession {
   }
   private publish(record: SessionLifecycleRecord): void { this.lifecycleRecords.push(record); this.lifecycleHandler(record); }
   private emit(type: SessionLifecycleType, player: SessionPlayer, previous: SessionParticipation, next: SessionParticipation, cause: string, offeredDevice?: DeviceId): { readonly releaseSeat?: boolean } | void {
+    this.coOpMarket?.invalidate(); this.refreshSharedWorldEffects();
     const record = this.lifecycleRecord(type, player, previous, next, cause, offeredDevice);
     const disposition = this.dispatchMode(record); this.publish(record);
     return disposition;
@@ -707,7 +760,7 @@ export class LocalSession {
   }
   completeResult(result: SessionResult): boolean {
     if (this.resultRecord) return false;
-    this.resultRecord = result; this.mode?.handlers.result?.(this); return true;
+    this.resultRecord = result; this.coOpMarket?.invalidate(); this.refreshSharedWorldEffects(); this.mode?.handlers.result?.(this); return true;
   }
   prepareAdmission(admission: SessionAdmission): SessionAdmissionPlan | undefined {
     if (!isDeviceId(admission.device) || !CHARACTERS.some(character => character.id === admission.characterId)) return undefined;
@@ -756,7 +809,7 @@ export class LocalSession {
   depart(seat: SeatId, cause = 'departed'): boolean {
     const player = this.players.find(candidate => candidate.seat === seat);
     if (!player || player.participation === 'departed') return false;
-    const previous = player.participation; player.participation = 'departed';
+    const previous = player.participation; player.participation = 'departed'; this.coOpMarket?.invalidate(); this.refreshSharedWorldEffects();
     const record = this.lifecycleRecord('departed', player, previous, 'departed', cause);
     const disposition = this.dispatchMode(record);
     if (disposition?.releaseSeat) {
@@ -786,6 +839,7 @@ export class LocalSession {
     // There is exactly one course advance per fixed tick. Seat iteration is
     // deterministic only for personal timers, never as world authority.
     const activePlayers = this.players.filter(player => player.state === 'playing' && player.participation === 'active');
+    this.refreshSharedWorldEffects();
     if (!activePlayers.length) {
       if (!this.mode?.handlers.pending?.(this)) { this.mode?.handlers.tick?.(this); return; }
       this.world.update(dt);
@@ -818,7 +872,7 @@ export class LocalSession {
   advanceDeathVisuals(dt: number): void { for (const player of this.players) this.world.host.advancePlayerDeathVisuals(player, dt); }
   get running(): boolean { return this.active; }
   views(): PlayerRender[] { return this.players.map(player => player.render()); }
-  stop(): void { this.active = false; this.releaseWorldExtension?.(); this.releaseWorldExtension = undefined; this.consumableWorld = undefined; }
+  stop(): void { const hadSharedEffectPolicy = this.sharedEffectPolicy; this.active = false; this.coOpMarket?.dispose(); this.coOpMarket = undefined; this.sharedEffectPolicy = false; this.resolvedSharedEffects = undefined; if (hadSharedEffectPolicy) this.world.host.setSharedWorldEffects(undefined); this.releaseWorldExtension?.(); this.releaseWorldExtension = undefined; this.consumableWorld = undefined; }
 }
 
 export class LocalSessionStage {

@@ -139,6 +139,15 @@ export class RunInventory {
     return whole;
   }
 
+  /** A narrow wallet primitive that commits a prevalidated companion plan with its debit. */
+  spendCoins(amount: number, commit?: () => boolean): boolean {
+    if (!this.alive || !Number.isSafeInteger(amount) || amount <= 0 || this.wallet < amount) return false;
+    if (commit && !commit()) return false;
+    this.wallet -= amount;
+    this.revision++;
+    return true;
+  }
+
   /** Income is raw so the engine can apply its central coin award hook exactly once. */
   advanceScore(score: number): number {
     if (!this.alive || !Number.isFinite(score) || score <= this.maxScore) return 0;

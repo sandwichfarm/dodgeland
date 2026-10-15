@@ -19,7 +19,7 @@ function samePlan(left: RecoveryDecision, right: RecoveryPlan): boolean {
 
 class SurviveTogetherController {
   private session: LocalSession | undefined;
-  attach(session: LocalSession): void { this.session = session; session.installConsumableWorld(); }
+  attach(session: LocalSession): void { this.session = session; session.installCoOpMarket(); session.installSharedWorldEffects(); }
   death(seat: string): void {
     const session = this.session, player = session?.players.find(candidate => candidate.seat === seat);
     if (!session || !player || !player.recovery || player.participation !== 'dead') return;
