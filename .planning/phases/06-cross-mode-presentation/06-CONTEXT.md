@@ -43,6 +43,19 @@ not become a place to defer a missing mechanic, item, controller flow, or result
 
 ## Evidence and scope
 
+### Observed HUD footprint to resolve
+
+Phase 2's four-player 900x600 capture shows the left 2x2 HUD covering part of
+nearby P2/P4 actors and their world labels. The label renderer now separates
+overlapping labels, and the setup layout matrix checks reachable controls and
+an exposed world area, but neither proves that DOM panels leave every nearby
+traveler readable. Resolve this regular-frame HUD/camera composition in the
+cross-mode presentation work (including removal of redundant solo personal
+status in shared sessions). Test the initial four-seat group and left/right
+course positions against the actual HUD footprint, then inspect built-iframe
+screenshots. This remains an explicit final-presentation gap; a green label
+rectangle or DOM layout test must not be cited as proof that it is resolved.
+
 Read all verified Phase 2-5 contracts, actual runtime interfaces and result
 records before planning. Build a state-by-mode-by-frame matrix from those facts;
 name every missing or inconsistent cell and close it with a real user flow.
