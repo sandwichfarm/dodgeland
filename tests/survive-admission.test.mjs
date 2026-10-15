@@ -53,6 +53,49 @@ for (const mode of ['arcade', 'stroll']) test(`${mode}: staging and cancelling c
   assert.deepEqual(snapshotGame(game, gameModule), solo, 'the original future-state snapshot stays exact');
 });
 
+const batchRoster = [
+  { seat: 'p2', device: 'keyboard-b', characterId: 'sunny' },
+  { seat: 'p3', device: 'gamepad-2', characterId: 'pip' },
+  { seat: 'p4', device: 'gamepad-3', characterId: 'petal' },
+];
+
+test('four-seat promotion stages every selected player without mutating the live solo owners', () => {
+  const game = new Game(113, 'pond', 'arcade', false, [], 'butter');
+  meadow(game); game.move('forward'); game.update(game.rules.movement.hopDuration);
+  const { world, player, run } = game;
+  const before = { game: snapshotGame(game, gameModule), player: semanticValue(player) };
+  const stage = LocalSession.stage(game, { roster: batchRoster, mode: createSurviveTogetherDefinition(game.definition) });
+  assert.deepEqual({ game: snapshotGame(game, gameModule), player: semanticValue(player) }, before);
+  const session = stage.commit();
+  assert.strictEqual(session.world, world);
+  assert.strictEqual(session.players[0], player);
+  assert.strictEqual(session.players[0].run, run);
+  assert.deepEqual(session.players.map(member => member.seat), ['p1', 'p2', 'p3', 'p4']);
+  assert.deepEqual(session.players.slice(1).map(member => member.device), batchRoster.map(member => member.device));
+  assert.equal(new Set(session.players.map(member => `${member.x},${member.y}`)).size, 4);
+  assert.equal(new Set(session.players.map(member => member.run)).size, 4);
+  assert.equal(game.time, before.game.time);
+});
+
+test('a failed final seat in batch promotion leaves solo ownership and provenance unchanged', () => {
+  const game = new Game(113, 'pond', 'stroll', false, [], 'butter'); meadow(game);
+  // Two spare cells can fit P2/P3, but there is no cell for P4.
+  for (const lane of game.rows.values()) lane.blocked = [-5, -4, -3, -2, 2, 3, 4, 5];
+  const before = { game: snapshotGame(game, gameModule), player: semanticValue(game.player) };
+  assert.throws(() => LocalSession.stage(game, { roster: batchRoster, mode: createSurviveTogetherDefinition(game.definition) }), /safe|place|seat/i);
+  assert.deepEqual({ game: snapshotGame(game, gameModule), player: semanticValue(game.player) }, before);
+  assert.equal(game.world.sessionActive, false);
+});
+
+for (const hazard of ['traffic', 'wave']) test(`batch promotion rejects ${hazard} before any selected player becomes active`, () => {
+  const game = new Game(113, 'pond', 'arcade', false, [], 'butter'); meadow(game);
+  if (hazard === 'wave') game.waveRow = game.y;
+  else for (const lane of game.rows.values()) Object.assign(lane, { kind: 'road', phase: 0, speed: 0, spacing: .25, length: 2 });
+  const before = { game: snapshotGame(game, gameModule), player: semanticValue(game.player) };
+  assert.throws(() => LocalSession.stage(game, { roster: batchRoster, mode: createSurviveTogetherDefinition(game.definition) }), /safe|place|seat/i);
+  assert.deepEqual({ game: snapshotGame(game, gameModule), player: semanticValue(game.player) }, before);
+});
+
 test('invalid identities and exhausted capacity reject admission without changing live owners', () => {
   const { game, session } = setup({ capacity: 3 });
   assert.equal(session.admit({ device: 'keyboard-b', characterId: 'sunny' }), true);
