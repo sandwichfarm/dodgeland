@@ -5,21 +5,21 @@ milestone_name: milestone
 current_phase: 03
 current_phase_name: survive-together-consumables
 status: executing
-stopped_at: "Phase03 Plan01 complete; Plan02 recovery executor started."
-last_updated: "2026-10-15T07:48:43Z"
-last_activity_desc: Recovery integration and lifecycle fixes implemented; focused tests green, solo parity running, final placement proofs pending.
+stopped_at: "Phase03 Plans01-02 complete; Plan03 consumable contracts next."
+last_updated: "2026-10-15T07:57:43Z"
+last_activity_desc: Recovery accepted with final strict36, tracer22, parity21; consumable catalog and isolated sampler next.
 progress:
   total_phases: 7
   completed_phases: 2
   total_plans: 30
-  completed_plans: 11
+  completed_plans: 12
 ---
 
 # Project State
 
 ## Current Position
 
-Phase03 — Survive Together & Consumables, Plan02 of7, wave2, executing.
+Phase03 — Survive Together & Consumables, Plan03 of7, wave2, ready to execute.
 All seven Phase03 plans and UI contract are reviewed. Phase01 and02 are independently verified; Phase03 remains incomplete. No complete multiplayer mode or PR yet.
 
 Full unchanged goal: `.planning/USER-REQUEST.md`, `.planning/PROJECT.md`, `.planning/REQUIREMENTS.md`. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
@@ -32,21 +32,17 @@ Regression history is preserved in03-01SUMMARY. Root tests `201104d`, `0bbd0e0`,
 
 Phase02 verification remains `.planning/phases/02-shared-local-session/02-VERIFICATION.md` (passed5/5), completion `0c3f50c`.
 
-## Active Ownership and Next Work
+## Completed Recovery Plan and Next Work
 
-`/root/multiplayer_recovery` is the typed gsd-executor for03-02. Owns recovery.ts, session.ts, survive-together.ts, survive-results.ts, survive-together.test.mjs,03-02SUMMARY and build/browser. Necessary narrow generic Game protection integration may be required; preserve exact solo behavior. Root owns tracking/package and supplementary tests. Prior tracer executor completed; no test process remained when recovery started.
+Plan03-02 source `55ba925`, summary `797b931`. Root spot-checked production recovery/result artifacts, commit state, final logs, unchanged lockfile, and summary self-check. Final strict recovery36/36, admission/tracer22/22 with production build, exact solo parity21/21, character-power/death-spill regressions, type-check, guidance, and conformance passed. Logs `/tmp/down-to-duck-03-02-final-survive-recovery.log`, `-final-survive-tracer.log`, and `/tmp/down-to-duck-03-02-solo-parity.log`. Parity handle29547 completed exit0; do not restart it. Conformance remains5pass/0fail/5unmeasured skips. This accepts recovery mechanics; observable recovery/result UI and real consumable ownership remain later plans. Phase requirements remain pending until complete phase verification.
 
-Root `dcfa0c7` reconciles03-02 with actual APIs: progress/result callbacks currently lack dispatch; all-dead update returns immediately. Recovery must integrate real production context, progress, fixed-time offers and settlement, not isolated helpers. Plan02 then03 in wave2, followed by03-04..07 in dependency order. Independently verify the complete phase before Relay/Race. Root stops related work while a phase verifier runs.
+Implemented shared personal/Revival/Flare validation and commit, 8-active-second offers, 2-active-second protection, alias-retained 250-new-tile recharge, exact fractional owner anchors, safe all-or-nothing relocation, terminal clock freeze, and immutable archived team contributions. Necessary generic session/Game dispatch and narrow RunInventory.resumeAfterDeath() extensions preserve the solo oracle and resume an empty returned player's economy without restoring purchases. Source summary records actual APIs and deviations.
 
-Plan02 executor remains live with Task1 RED commit `9652a1a`; recovery/session/result implementation is in progress, not accepted. Root commits `fe340c8` and `ca3d8d6` add ten supplementary P1/P2 production-hazard and completed-hop cases in `tests/survive-recovery-boundaries.test.mjs`. Initial eight-case run failed at the missing recovery offer after actual river death (`/tmp/down-to-duck-03-02-root-boundaries-red.log`); two fatal-250th-hop cases were subsequently added and await implementation validation. The checks cover traffic health mutation before death, water/train protection and expiry, backtracking, airborne progress, exact249/250/251, and fatal qualifying landings. Root owns this file. `cea53b6` adds strict `pnpm test:survive-recovery` and includes these tests in the final phase gate. No green recovery claim yet.
+Root supplemental regressions: tests/survive-recovery-boundaries.test.mjs(13), tests/recovery-plan-boundaries.test.mjs(6), tests/survive-recovery-terminal.test.mjs(10). Historical RED evidence and fixes include early staging attachment, backtracking/forced-progress credit, stale all-dead clock, invalid target counts, living Flare health/counters, fractional owner placement, airborne row retention, unsupported last-safe anchors, alias progress reset, terminal late admission, and solo-adoption historical frontier. Commits/logs remain in history; all final36 cases pass. `pnpm test:survive-recovery` strictly rejects skipped/TODO/cancelled evidence and is included in the final phase gate.
 
-Root `f2e7087` adds six immutable planner/debit boundary tests in `tests/recovery-plan-boundaries.test.mjs`, also in the strict recovery/final gates. Initial run3pass/3fail (`/tmp/down-to-duck-03-02-plan-boundaries-red.log`) exposed multi-target Revival, empty-target Flare, and self-target via copied identity; executor is fixing these. Root review also found early staging attachment, repeat-forward-hop credit, and unbounded terminal clock risks. Executor reports staging attachment moved to commit/start and all-dead time gated by a valid pending-offer predicate. Root independently verified staging/cancel2/2 in Arcade/Flow (`/tmp/down-to-duck-03-02-live-adoption-check.log`); this is a narrow proof, not full recovery acceptance. Executor has no active command handle as of its latest report and is resolving controller/type integration before its first focused run. Root waits for settled APIs/results; no overlapping builds.
+Next: sequential typed gsd-executor for03-03, owning only src/consumables.ts, src/consumable-drops.ts, tests/consumables.test.mjs, tests/consumable-drops.test.mjs and03-03SUMMARY. Root owns tracking/package. No worktree isolation is configured; do not overlap executors/builds. Plan03 defines immutable owner/generation/target-bound credit/debit and exact keyed item-drop-schema-1 sampler, with exhaustive1/2/2497 buckets and released RNG isolation. Then03-04 world integration,03-05 economy,03-06 lifecycle/recovery/resultsUI,03-07 hand/market/final gates. Independently verify the whole phase before Relay/Race; root stops related work during verifier.
 
-Latest03-02 state supersedes that early integration report: executor reports strict recovery31/31 exit0 in `/tmp/down-to-duck-03-02-survive-recovery-eighth.log`, before the additional live-adoption regression. Root owns three supplemental files now: recovery-plan-boundaries(6), survive-recovery-boundaries(13), and survive-recovery-terminal(10). Commits `34ac15c`, `fd9db04`, `c917bb5`, `d23a663` cover backward/forward frontier distinctions, living Flare health/counters/economy, exact fractional non-primary owner anchor, pause/decline/expiry, alias partial recharge, ghosts/departure, supported last-safe positions, immutable archived counters and late-action rejection. Initial failures are preserved in regroup/terminal logs. Root independently observed nine terminal cases passing before the added adoption-after-backtracking case failed; executor has since patched initialization to include retained solo maxY. Full final strict run remains required.
-
-Production fixes include generic session result/tick/progress seams, immutable provenance with spatial frontier, session-only hazard protection and hop normalization, retained airborne rows, exact owner-anchored regroup, and an authorized narrow `RunInventory.resumeAfterDeath()` extension so returned empty players can earn/trade without restoring purchases. Executor owns src/market/run.ts in addition to original files. Its own wave/mob, character-power and death-spill suites report exit0. **Live process: solo parity handle29547**, log `/tmp/down-to-duck-03-02-solo-parity.log`; executor owns polling, never restart on observation timeout. Remaining before source-ready: explicit unsafe-placement all-or-nothing and forced-forward Flare/next-hop credit proofs, final strict/type/prerequisite checks and03-02SUMMARY. Root does not run overlapping gates or mark plan complete yet.
-
-Root `fcb2fd0` explicitly includes narrow Game damage/death protection in03-02 ownership. `746c31e` makes03-03's already-required debit contract concrete: immutable one-charge plans, owner/generation/target validation, empty/stale/invalid rejection, and full focused tests. Generated local skill-install artifacts were removed from the worktree by their executor owner. Previous git-init status-only turn made no multiplayer progress; this goal turn adds executable regression evidence and closes a plan coverage gap.
+The previous git-init status-only turn made no multiplayer progress. This continuation revalidated final evidence, accepted Plan02, corrected summary evidence scope, and advanced execution. No blocker.
 
 ## Invariants
 
