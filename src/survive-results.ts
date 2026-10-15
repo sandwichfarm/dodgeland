@@ -23,14 +23,14 @@ export interface SurviveTogetherResult {
   readonly contributions: readonly SurviveContribution[];
 }
 
-function contribution(player: SessionPlayer): SurviveContribution {
+function contribution(player: SessionPlayer, time: number): SurviveContribution {
   return Object.freeze({
     seat: player.seat, characterId: player.characterId, participantId: player.participantId,
     lifecycle: player.participation, furthestDistance: Math.max(player.statistics.distance, player.completedForwardTiles),
     coins: player.statistics.coins, deaths: player.statistics.deaths,
     selfRevives: player.statistics.selfRevives, teammateRevives: player.statistics.teammateRevives,
     itemsFound: player.statistics.itemsFound, itemsUsed: player.statistics.itemsUsed,
-    ghostSeconds: player.statistics.deviceLostDuration,
+    ghostSeconds: player.statistics.deviceLostDuration + Math.max(0, time - (player.deviceLostAt ?? time)),
   });
 }
 function archived(record: SessionContribution): SurviveContribution {
@@ -44,7 +44,7 @@ function archived(record: SessionContribution): SurviveContribution {
 
 /** Freeze the final shared team record once; callers retain no mutable session objects. */
 export function createSurviveTogetherResult(input: { readonly time: number; readonly distance: number; readonly players: readonly SessionPlayer[]; readonly archived: readonly SessionContribution[] }): SurviveTogetherResult {
-  const contributions = [...input.players].sort((a, b) => a.seat.localeCompare(b.seat)).map(contribution)
+  const contributions = [...input.players].sort((a, b) => a.seat.localeCompare(b.seat)).map(player => contribution(player, input.time))
     .concat([...input.archived].sort((a, b) => a.seat.localeCompare(b.seat)).map(archived));
   return Object.freeze({ mode: 'survive-together', outcome: 'all-dead', distance: input.distance, elapsedSeconds: input.time, podium: 'team', contributions: Object.freeze(contributions) });
 }

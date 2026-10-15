@@ -812,6 +812,10 @@ export class LocalSession {
   depart(seat: SeatId, cause = 'departed'): boolean {
     const player = this.players.find(candidate => candidate.seat === seat);
     if (!player || player.participation === 'departed') return false;
+    // Close an unreclaimed interval before archiving; later team time must not
+    // accrue to a participant who has deliberately left.
+    player.statistics.deviceLostDuration += Math.max(0, this.world.time - (player.deviceLostAt ?? this.world.time));
+    player.deviceLostAt = null;
     const previous = player.participation; player.participation = 'departed'; this.coOpMarket?.invalidate(); this.refreshSharedWorldEffects();
     const record = this.lifecycleRecord('departed', player, previous, 'departed', cause);
     const disposition = this.dispatchMode(record);

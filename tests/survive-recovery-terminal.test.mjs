@@ -221,3 +221,53 @@ test('archived team results retain real death, revival, coin and ghost counters 
   assert.strictEqual(session.result, result);
   assert.equal(JSON.stringify(result), before, 'later owner mutations cannot rewrite final contributions');
 });
+
+for (const mode of ['arcade', 'stroll']) for (const ending of ['settlement', 'departure']) for (const priorReclaim of [false, true]) {
+  test(`${mode}: ${ending} includes an open ghost interval${priorReclaim ? ' after a previous reclaim' : ''}`, () => {
+    const { game, session } = setup(2, mode);
+    const [primary, traveler] = session.players;
+    let completedGhostSeconds = 0;
+    tick(session, .2);
+    if (priorReclaim) {
+      assert.equal(session.deviceLost(traveler.seat), true);
+      const firstLostAt = session.world.time;
+      tick(session, .5);
+      completedGhostSeconds = session.world.time - firstLostAt;
+      assert.equal(session.reclaim(traveler.seat, traveler.device), true);
+      assert.equal(traveler.deviceLostAt, null);
+      assert.equal(traveler.statistics.deviceLostDuration, completedGhostSeconds);
+      tick(session, .2);
+    }
+    assert.equal(session.deviceLost(traveler.seat), true);
+    const lostAt = session.world.time;
+    tick(session, .5);
+    const pausedAt = session.world.time;
+    game.pause(); tick(session, 20);
+    assert.equal(session.world.time, pausedAt, 'paused wall time never counts as ghost time');
+    game.resume(); tick(session, .25);
+    let intervalEnd;
+    if (ending === 'departure') {
+      intervalEnd = session.world.time;
+      assert.equal(session.depart(traveler.seat), true);
+      assert.equal(session.depart(traveler.seat), false, 'repeated departure cannot add time');
+      tick(session, .5);
+    }
+    drown(game, session, primary);
+    tick(session, 8.1);
+    const result = session.result;
+    assert.ok(result);
+    intervalEnd ??= result.elapsedSeconds;
+    const contribution = result.contributions.find(value => value.participantId === traveler.participantId);
+    const expected = completedGhostSeconds + intervalEnd - lostAt;
+    assert.ok(Math.abs(contribution.ghostSeconds - expected) < 1e-9,
+      `expected ${expected} active ghost seconds, got ${contribution.ghostSeconds}`);
+    assert.equal(contribution.lifecycle, ending === 'departure' ? 'departed' : 'device-lost');
+    assert.ok(Object.isFrozen(contribution));
+    const saved = JSON.stringify(result);
+    traveler.statistics.deviceLostDuration = 999;
+    traveler.deviceLostAt = -999;
+    tick(session, 20);
+    assert.strictEqual(session.result, result);
+    assert.equal(JSON.stringify(session.result), saved, 'result reads retain the terminal snapshot');
+  });
+}
