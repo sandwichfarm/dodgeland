@@ -183,3 +183,63 @@ test('an actual personal return draws protection only until its active-time dead
   assert.equal(result.expired, true);
   assert.deepEqual(result.expiredLabels, []);
 });
+
+test('river-bound items render above each platform surface after real actor movement', async () => {
+  const page = await browser.newPage({ viewport: { width: 900, height: 600 }, deviceScaleFactor: 1 });
+  await page.goto(`http://127.0.0.1:${server.address().port}`);
+  const observations = await page.evaluate(async () => {
+    const [{ Renderer }, { Game, platformSurface }, { LocalSession }, { createSurviveTogetherDefinition }] = await Promise.all([
+      import('/render.js'), import('/game.js'), import('/session.js'), import('/survive-together.js'),
+    ]);
+    const results = [];
+    for (const variant of [0, 1, 2]) {
+      const game = new Game(0xc7045dbd, 'pond', 'stroll', false, [], 'butter');
+      for (const lane of game.rows.values()) Object.assign(lane, {
+        kind: 'meadow', blocked: [], decorations: [], coin: null, coinActor: undefined,
+        actors: undefined, phase: 0, speed: 0, spacing: 20, length: 4,
+      });
+      const river = game.rows.get(1);
+      Object.assign(river, { kind: 'river', phase: .375, speed: .75, variant });
+      const session = LocalSession.stage(game, {
+        roster: [{ seat: 'p2', device: 'keyboard-b', characterId: 'sunny' }],
+        mode: createSurviveTogetherDefinition(game.definition),
+      }).commit();
+      for (const [index, player] of session.players.entries()) {
+        player.x = player.fromX = index ? 3 : -3;
+        player.y = player.fromY = player.maxY = 0;
+      }
+      const initial = session.consumableSnapshot().pickups.find(item => item.row === 1);
+      for (let frame = 0; frame < 12; frame++) session.update(1 / 120);
+      const pickup = session.consumableSnapshot().pickups.find(item => item.row === 1);
+      const renderer = new Renderer(document.querySelector('canvas'));
+      renderer.resize(); renderer.reduced = true;
+      let drawingItem = false, minimumZ = Infinity, itemShadows = 0, shadowLift;
+      const project = renderer.project.bind(renderer), shadow = renderer.shadow.bind(renderer);
+      renderer.project = (x, y, z = 0) => {
+        if (drawingItem) minimumZ = Math.min(minimumZ, z);
+        return project(x, y, z);
+      };
+      renderer.shadow = (x, y, width, lift = 0) => {
+        shadow(x, y, width, lift);
+        if (x === pickup.x && y === pickup.y) {
+          drawingItem = true; itemShadows++; shadowLift = lift;
+        }
+      };
+      const fill = renderer.ctx.fillText.bind(renderer.ctx);
+      renderer.ctx.fillText = (text, ...rest) => { fill(text, ...rest); if (text === 'Revival') drawingItem = false; };
+      renderer.drawSession(game.world, session.views(), 0);
+      results.push({ variant, initialX: initial.x, x: pickup.x, minimumZ,
+        itemShadows, shadowLift, surface: platformSurface(river) });
+    }
+    return results;
+  });
+  await page.close();
+  await writeFile(new URL('../artifacts/consumable-river-render.json', import.meta.url), JSON.stringify(observations, null, 2));
+  for (const observation of observations) {
+    assert.ok(observation.surface > 0);
+    assert.notEqual(observation.x, observation.initialX, 'the observed item rides a moving actor');
+    assert.equal(observation.itemShadows, 1);
+    assert.ok(observation.minimumZ >= observation.surface, `variant${observation.variant}: item geometry must not intersect its platform`);
+    assert.ok(Math.abs(observation.shadowLift - observation.surface) < 1e-8, 'the item shadow belongs on the platform surface');
+  }
+});
