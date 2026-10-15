@@ -5,7 +5,7 @@ milestone_name: milestone
 current_phase: 03
 current_phase_name: survive-together-consumables
 status: executing
-stopped_at: "Phase03 Plans01-06 accepted; Plan07 ownership and compact market regressions being fixed."
+stopped_at: "Phase03 Plans01-06 accepted; Plan07 visual clipping, hidden consumables, paid-draft dismissal and full acceptance coverage remain."
 last_updated: "2026-10-15T20:21:35.861302+00:00"
 last_activity_desc: Co-op market tracer passes; root ownership, fresh-context and responsive regressions drive03-07 fixes.
 progress:
@@ -43,6 +43,14 @@ Root added committed physical-shelf purchase/use7201c75, controller-hand ownersh
 Latest reviewed executor checkpoint `/tmp/down-to-duck-03-07-r3-runtime.log` terminal failure:6pass2fail, with inherited recovery-owner+five Survive runtime cases passing; ghost market disabled-state repaint and1000×280 market offer hit-targets still failing. Prior R1 checkpoint report10pass4fail included physical shelf,solo tiny,controller,pack,andghost-sale checks, but final current-source recheck remains required. Inherited local-session reclaim now uses explicit Reclaim dialog, nonowner rejection, then owner confirmation; executor reports that standalone test passes. No root live process. Plan07 full controller/keyboard/pointer/action/lifecycle/visual matrices and Task2 integration/canonical gates remain incomplete; no07SUMMARY accepted.
 
 Root added fresh interaction suite f6cabec/17238ce (`tests/survive-market-fresh-context-runtime.mjs`, syntax-only pending first run): same-owner market reopening after earned coins, repeated new hand sales, and stale already-open sale rejection until explicit reinspection. The final07 gate includes all three cases. Executor retains sole build/browser reservation; root does not run competing builds.
+
+## Latest Checkpoint Review
+
+Source checkpoint `5a89570` passes the executor's R8 focused runtime suite (18/18, `/tmp/down-to-duck-03-07-r8-runtime.log`) and type-check/build. This supersedes earlier intermediate failures above but does not complete Plan07. Root reviewed screenshots and found bottom cosmetic labels/prices clipped at1000×280; at240×240 session HUD bleeds through the offers and the Items row is absent. Existing center-hit and iframe bounds assertions do not prove clipping-ancestor/text visibility. Executor owns correction and stronger charged-item visual coverage.
+
+Root confirmed in `src/market-ui.ts` that both consumables are appended to the rare stock but only its first entry is rendered. Flare is inaccessible behind Revival, and a normal rare offer can hide both; executor must retain access to all eligible items within the bounded market design. Root regression `bf1ecd1` adds a second case to `tests/survive-market-ghost-inspection-runtime.mjs`: actual paid pack purchase → disconnect → dismiss read-only market without changing paid draft/wallet/cards. Syntax passes; runtime pending. Current source hides Close and refuses dismissal for all pending packs, including ghosts.
+
+Executor inherited final gate PID70894 was live at last update. Keep that process to terminal; do not restart for observation timeouts. Executor acknowledged missing Task2 full built acceptance scenario and keyboard/failed-action/equip/skip/held-input/visual coverage, and will add them after the current gate terminates, before a new final gate. No07SUMMARY accepted. Root owns only tracking/supplemental tests and has no build/browser process.
 
 ## Historical Evidence
 
