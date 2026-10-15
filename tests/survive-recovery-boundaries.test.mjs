@@ -107,4 +107,23 @@ for (const seat of ['p1', 'p2']) {
     hop('forward');
     assert.equal(player.recovery.charge, 'available', 'the 251st hop cannot add a second charge');
   });
+
+  test(`${seat}: dying on the qualifying hop cannot create a fresh personal recovery offer`, () => {
+    const { game, session, player } = setup(seat);
+    for (let count = 0; count < 249; count++) {
+      lane(game, player.y + 1);
+      assert.equal(player.move('forward'), true);
+      clearCourse(game);
+      tick(session, game.rules.movement.hopDuration);
+      assert.equal(player.state, 'playing');
+    }
+    assert.equal(player.recovery.charge, 'spent');
+    lane(game, player.y + 1, 'river', { phase: player.x + 10, length: 1 });
+    assert.equal(player.move('forward'), true);
+    tick(session, game.rules.movement.hopDuration);
+    assert.equal(player.state, 'dead', 'the unsupported landing is an actual death');
+    assert.equal(player.recovery.charge, 'spent', 'a fatal landing must not award its pending progress');
+    assert.equal(Boolean(player.recovery.offer), false, 'death must not create an offer from unearned charge');
+    assert.equal(session.recover({ kind: 'personal', ownerSeat: seat }), false);
+  });
 }
