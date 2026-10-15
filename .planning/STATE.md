@@ -5,9 +5,9 @@ milestone_name: milestone
 current_phase: 03
 current_phase_name: survive-together-consumables
 status: executing
-stopped_at: "Phase03 Plans01-05 accepted; Plan06 lifecycle/recovery UI starting."
-last_updated: "2026-10-15T14:36:47.888777+00:00"
-last_activity_desc: Economy19,market62,solo21,pack browser and platform checks passed; starting lifecycle/recovery UI.
+stopped_at: "Phase03 Plans01-05 accepted; Plan06 results and recovery milestones verified; lifecycle and full visual matrix remain."
+last_updated: "2026-10-15T15:27:22.567730+00:00"
+last_activity_desc: Result component and renderer20 pass; built offer-clock, controller ownership and recovery milestone6 pass. Full03-06 remains open.
 progress:
   total_phases: 7
   completed_phases: 2
@@ -26,7 +26,7 @@ Full unchanged goal: `.planning/USER-REQUEST.md`, `.planning/PROJECT.md`, `.plan
 
 ## Active03-06 Tracer and Ownership
 
-Sequential typed gsd-executor `/root/multiplayer_recovery_ui` owns03-06 source, paused model/runtime/layout tests, and SUMMARY. Root owns supplemental `tests/survive-board-boundaries.test.mjs`, tracking/package. Executor holds build/browser reservation; preview5175 untouched and all Chromium muted. Root pure model tests do not consume that reservation.
+Sequential typed gsd-executor `/root/multiplayer_recovery_ui` owns03-06 source, paused model/runtime/layout tests, and SUMMARY. Root owns supplemental board-boundaries, result-component, offer-clock and recovery-owner tests, result presentation module/CSS, tracking/package. Executor holds build/browser reservation; preview5175 untouched and all Chromium muted. Root pure model tests do not consume that reservation.
 
 Independent root four-case RED `/tmp/down-to-duck-03-06-root-board-red.log` terminal1 reached actual assertions: paused P1 cannot use paid Flare; P2 Flare excludes paused P1 from protection/regroup; P2 Revival returns onto paused P1's occupied cell; P4 disconnect during board drops P1's shared traffic effect from.88 to1. Fixtures use real owner purchases and actual river death. Desired assertions include four distinct placements, retained host pause/protection clock until explicit resume, and unchanged traffic positions. These are pending-fix failures, not passing evidence.03-07 final gate now includes this root file. No root live process.
 
@@ -39,6 +39,8 @@ Root03-06 result component is implemented in `src/survive-results-ui.ts/css`, wi
 Root added `tests/survive-offer-clock-runtime.mjs`: two actual production train terminal events followed only by main browser animation-clock advancement, countdown decrease, explicit pause/resume with10seconds of wall time, unchanged participantIDs, automatic finaloffer expiry and immutable result. First built run64824 terminal1 (`/tmp/down-to-duck-03-06-root-offer-clock.log`) now passes main-loop/countdown assertions but fails because `Pause game` stays disabled when all players are dead with valid offers. Executor owns the main correction; no root live process. This is failing evidence, not completion. Plans06/07 finalgates include the new root file.
 
 Root supplemental runtime fixes are now verified: executor36224 terminal0 (`/tmp/down-to-duck-03-06-offer-pause-runtime.log`) passes the actual all-down countdown/pause/resume/autoexpiry test. New `tests/survive-recovery-owner-runtime.mjs` stages a real Flare purchase and two shell-controller seats, then asserts Back initial focus, rejection of every nonowner menu/button/direction action, working owner D-pad, cross-owner primary-confirm rejection and single owner commit with protected team while paused. First9753 terminal1 saw incorrect UseFlare initialfocus (`/tmp/down-to-duck-03-06-root-owner-modal-red.log`). Executor corrected captured modalowner/page routing, focus and inert restoration; combined95467 terminal0 passes6/6 including both root tests, paused2, runtime1, HUD layout1 (`/tmp/down-to-duck-03-06-modal-owner-runtime.log`), and focused rebuilt77803 terminal0 also passes the owner test. Root inspected the full6-pass log; no root live process. Plan06 remains open for full lifecycle, all item/outcome/resize/layout states and platform gates; these are accepted milestones only.
+
+Executor source milestone `33bce27` integrates the result component, live offer clock, pause/resume and owner-bound recovery menus. Root new tests are committed `c45db2b` (clock) and `c484a02` (controller ownership). Root visually inspected actual built `survive-offer-clock-result.png` (good) and `survive-recovery-owner-flare.png` (pending correction: low-contrast dark Back/Resume buttons, default website font, unfinished large-frame composition). Executor is continuing explicit reclaim/depart/newjoin, both item outcomes/stale contexts, four-seat HUD and complete12-frame board-state matrix before final06SUMMARY; no06acceptance or fullmode/PRclaim. Inherited end-of-run seed-copy reachability under the new inert result modal should be checked and tracked atPhase06UI if not integrated here. No root process or build reservation; executor retains production build/browser reservation.
 
 ## Latest Accepted Step — 03-05
 
