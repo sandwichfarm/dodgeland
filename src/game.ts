@@ -336,7 +336,7 @@ export class Game {
     for (const lane of [...this.rows.values()].sort((a, b) => a.index - b.index)) extension.row?.(this, lane);
     return () => {
       if (this.worldExtension !== extension) return;
-      this.worldExtension = undefined;
+      delete (this as unknown as { worldExtension?: GameWorldExtension }).worldExtension;
       extension.dispose?.();
     };
   }
