@@ -5,7 +5,7 @@ milestone_name: milestone
 current_phase: 03
 current_phase_name: survive-together-consumables
 status: executing
-stopped_at: "Phase03 Plans01-03 complete; Plan04 world pickups next."
+stopped_at: "Phase03 Plans01-03 complete; Plan04 world pickup executor started."
 last_updated: "2026-10-15T08:26:20Z"
 last_activity_desc: Consumable catalog/sampler accepted with strict18 and all gates; world pickup integration next.
 progress:
@@ -19,7 +19,7 @@ progress:
 
 ## Current Position
 
-Phase03 — Survive Together & Consumables, Plan04 of7, wave3, ready to execute.
+Phase03 — Survive Together & Consumables, Plan04 of7, wave3, executing.
 All seven Phase03 plans and UI contract are reviewed. Phase01 and02 are independently verified; Phase03 remains incomplete. No complete multiplayer mode or PR yet.
 
 Full unchanged goal: `.planning/USER-REQUEST.md`, `.planning/PROJECT.md`, `.planning/REQUIREMENTS.md`. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
@@ -48,7 +48,7 @@ Final strict18/18 (`/tmp/down-to-duck-03-03-final-consumables.log`); sequential 
 
 Root supplement tests/consumable-boundaries.test.mjs (5cases), strict script and final phase gate are committed. Review corrected two-seat Flare semantics, sparse-vector ordering, and a test that overrestricted omitted optional charges; no product workaround. Rejection vector seed0x87405b12,row0,slot0 forces draw4294967295→retry2472345421→bucket421. Initial isolation fixtures reset generators or exhausted the sample queue before markets/mobs; corrected tests now sample at every named boundary, assert real nonempty markets/mobs, compare whole lane actors plus actual next raw RNG outputs, and vary the item schema only in an isolated compiled test copy. Initial RED chronology/failed checks are recorded in03-03SUMMARY.
 
-Next: sequential typed gsd-executor03-04. Owns src/session.ts,src/game.ts,src/survive-together.ts,src/render.ts,tests/solo-parity-snapshot.mjs,tests/consumable-world.test.mjs and03-04SUMMARY. Root owns tracking/package and supplemental tests; no overlapping executors/builds. Integrate optional handler-installed world item capability after committed adoption, absent solo path, keyed initial/future drops, baseline-gravity fractional/swept pickup claims, owned atomic/replay-safe activation, death clearing, projection/teardown and oracle proof. Then03-05 economy,03-06 lifecycle/recovery/resultsUI,03-07 hand/market/final gates. Independent phase verification precedes Relay/Race. Root stops related work during verifier.
+Active: `/root/multiplayer_consumable_world`, sequential typed gsd-executor03-04. Owns src/session.ts,src/game.ts,src/survive-together.ts,src/render.ts,tests/solo-parity-snapshot.mjs,tests/consumable-world.test.mjs and03-04SUMMARY. Root owns tracking/package and supplemental tests; no overlapping executors/builds. Integrate optional handler-installed world item capability after committed adoption, absent solo path, keyed initial/future drops, baseline-gravity fractional/swept pickup claims, owned atomic/replay-safe activation, death clearing, projection/teardown and oracle proof. Then03-05 economy,03-06 lifecycle/recovery/resultsUI,03-07 hand/market/final gates. Independent phase verification precedes Relay/Race. Root stops related work during verifier.
 
 Root also reconciled03-04 with the actual Survive attach/debit seam, explicitly included src/survive-together.ts ownership, and corrected its parity commands: the snapshot helper alone has no assertion suite; pnpm test:solo-parity is required. MCP graph lookup is available again for this project.
 
