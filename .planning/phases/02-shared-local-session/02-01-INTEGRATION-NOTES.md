@@ -370,3 +370,35 @@ assigned only new `tests/local-session-layout.mjs` and its artifacts as Plan05
 support. It must coordinate the shared browser slot and inspect real matrix
 screenshots. Product source/build/Plan05 SUMMARY stay setup-owned. Plan06 is
 still prepared but not released.
+
+### Four-seat checkpoint and actual assigned-call proof
+
+Executor committed 6f2a36b after the built four-seat flow passed. The earlier
+900x600 Add Keyboard failure is corrected in that slice. The independent layout
+matrix (1b59894, corrected contract c98d13d) remains RED at240x240. Root inspected
+`artifacts/local-session-layout-setup-240x240-dark.png`: tall single-letter control
+columns cover the view. Real16px labels,44px targets and persistent seat identity
+remain required; pseudo-label/font shrinking is not an acceptable substitute for
+compact pages.
+
+Root added `tests/local-session-audio-runtime.mjs` (bd8b3c3). It records actual
+AudioContext PCM buffer fingerprints with Chromium muted, calibrates five solo
+traveler calls through visible controls, then starts four real mixed-device seats
+(Sunny/Butter/Pip/Petal) while the saved host traveler remains Rust. No product
+debug hook or fabricated audio callback is used.
+
+Its first run caught a real solo-ready regression: setup `:has()` CSS matched a
+board under hidden `#local-session-setup`, hiding both ready content and Start.
+Root inspected the blank paper screenshot
+`artifacts/local-session-audio-failure-sunny.png`; the accompanying JSON confirms
+ready state, hidden setup, matched selector and display:none controls. Executor
+scoped selectors to the visible setup root and rebuilt. Root then obtained exit0,
+1/1 passing for visible solo calibration, setup call guard, actual four assigned
+calls, simultaneous independent cooldowns, held suppression and cooldown expiry.
+Evidence: `artifacts/local-session-audio-runtime.json`,
+`/tmp/down-to-duck-local-session-audio.log`.
+
+Follow-up de43faa adds pause-after-cooldown and actual mute/unmute assertions;
+these new assertions await the next built-artifact run and are not yet claimed
+passing. Product source/build slot remains setup-owned, layout test/artifacts
+remain support-executor-owned, and audio/component tests remain root-owned.

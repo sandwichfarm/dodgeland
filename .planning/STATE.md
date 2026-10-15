@@ -6,9 +6,9 @@ current_phase: 02
 current_phase_name: shared-local-session
 status: executing
 stopped_at: "Phase 02 wave 3: first production setup flow passes; full input/HUD/adoption evidence pending."
-last_updated: "2026-10-15T02:12:33Z"
+last_updated: "2026-10-15T02:29:36Z"
 last_activity: 2026-10-14
-last_activity_desc: Plan05 first production setup slice and first-activity controller ownership are committed. Initial built wire flow passes. Root verified four setup component cases and 16 router cases; a new fifth component case reproduces Start enabled with an unresolved disconnected seat. Built four-seat flow finds Add Keyboard outside 900x600. Source corrections and full runtime/HUD matrix remain.
+last_activity_desc: Plan05 second source slice 6f2a36b has a passing four-seat built flow. Actual assigned-call/cooldown audio test passed after hidden-root CSS correction; pause/mute extension awaits rerun. Responsive matrix is RED at240x240; full adoption/transport/HUD checks remain.
 progress:
   total_phases: 7
   completed_phases: 1
@@ -29,8 +29,8 @@ See: `.planning/PROJECT.md` (updated 2026-10-14)
 
 Phase: 02 — Shared Local Session
 Plan: 5 of 6 (wave 3)
-Status: Plans01–04 complete; Plan05 behavioral integration/layout fixes active, phase acceptance pending
-Last activity: 2026-10-14 — Plan05 source checkpoints 0ce5cf0 and 7d786e4 pass initial built-iframe flow and focused router tests. Root verified pending source fixes: 4/4 real component iframe tests for focus, open seats and mixed keyboard labels; 16/16 router tests including simultaneous joining and pause/confirm isolation. Source commit and full built-runtime acceptance remain executor-owned. Source-regex guardabc4812 remains superseded/unaccepted. Full mixed-device/calls/layout/adoption proof still required.
+Status: Plans01–04 complete; Plan05 four-seat flow and call evidence advance, compact layout and remaining integration active
+Last activity: 2026-10-14 — Plan05 source checkpoints 0ce5cf0 and 7d786e4 pass initial built-iframe flow and focused router tests. Root verified pending source fixes: 4/4 real component iframe tests for focus, open seats and mixed keyboard labels; 16/16 router tests including simultaneous joining and pause/confirm isolation. Corrections are committed in6f2a36b and built four-seat flow passes; full built-runtime acceptance remains executor-owned. Source-regex guardabc4812 remains superseded/unaccepted. Full mixed-device/calls/layout/adoption proof still required.
 
 Progress: [██░░░░░░░░] 27% of currently planned plans (phase acceptance remains pending)
 
