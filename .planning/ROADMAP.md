@@ -65,7 +65,7 @@ Plans:
 - [x] 02-01-PLAN.md — Commit live two-player tracer, solo adoption, renderer, and immutable parity checkpoint; known callback defects remain mandatory02-02 fixes.
 - [x] 02-02-PLAN.md — Prove deterministic shared simulation, pickup ownership, lifecycle, and per-player state.
 - [x] 02-03-PLAN.md — Route independent controllers through the existing authorized snapshot transport; main-loop integration remains in 02-05.
-- [ ] 02-04-PLAN.md — Implement shared-keyboard routing, binding capture, conflicts, reset, and persistence.
+- [x] 02-04-PLAN.md — Implement shared-keyboard routing, binding capture, conflicts, reset, and persistence.
 - [ ] 02-05-PLAN.md — Integrate setup, controller/keyboard input, multi-character scene, HUD, and responsive proofs.
 - [ ] 02-06-PLAN.md — Establish selected-owner hand/market routing and run the shared-session evidence gate.
 
@@ -183,7 +183,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Composable Solo Baseline | 4/4 | Complete    | 2026-10-14 |
-| 2. Shared Local Session | 3/6 | Wave2 editor proof pending; model/router verified | - |
+| 2. Shared Local Session | 4/6 | Wave3 setup/HUD integration active | - |
 | 3. Survive Together & Consumables | 0/7 | Reviewed; awaits Phase 2 | - |
 | 4. Relay | 0/6 | Reviewed; awaits Phase 3 | - |
 | 5. Race | 0/7 | Reviewed; awaits dependencies | - |

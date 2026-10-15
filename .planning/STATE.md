@@ -5,15 +5,15 @@ milestone_name: milestone
 current_phase: 02
 current_phase_name: shared-local-session
 status: executing
-stopped_at: "Phase 02 wave 2: shared model and controller router complete; keyboard editor visual proof remains."
-last_updated: "2026-10-15T00:05:13Z"
+stopped_at: "Phase 02 wave 3: model, controller router, and keyboard editor accepted; setup/HUD integration starting."
+last_updated: "2026-10-15T00:28:00Z"
 last_activity: 2026-10-14
-last_activity_desc: Shared model accepted at 6a76cd5 with 44 focused tests, immutable solo parity 21/21, and regression 271/271. Controller router complete; keyboard editor visual fixes active.
+last_activity_desc: Keyboard editor 47a72b7 accepted with 6 focused tests, runtime smoke, and inspected compact/regular screenshots. Controller release 2bce3f6 passes 31 input tests. Plan05 setup/HUD integration released.
 progress:
   total_phases: 7
   completed_phases: 1
   total_plans: 30
-  completed_plans: 7
+  completed_plans: 8
 ---
 
 # Project State
@@ -28,17 +28,17 @@ See: `.planning/PROJECT.md` (updated 2026-10-14)
 ## Current Position
 
 Phase: 02 — Shared Local Session
-Plan: 4 of 6 (wave 2)
-Status: Plan01 tracer checkpoint handed off; executing wave2, phase acceptance pending
-Last activity: 2026-10-14 — Plan02 summary 6974476 accepted: shared model 6a76cd5 passes focused44/44, original solo parity21/21, regression271/271. Plan03 router complete. Plan04 keyboard functional runtime passes but compact editor layout/contrast/focus fixes still need final visual evidence.
+Plan: 5 of 6 (wave 3)
+Status: Plans01–04 complete; executing setup/HUD integration, phase acceptance pending
+Last activity: 2026-10-14 — Plan04 summary 9d90a77 accepted: keyboard/editor6/6, runtime smoke, guidance6/6, conformance5 pass/5 evidence skips. Root inspected compact capture/conflict/reset and regular theme screenshots. Plan03 release addendum accepted31/31. Plan05 prepared and released for implementation.
 
-Progress: [██░░░░░░░░] 23% of currently planned plans (phase acceptance remains pending)
+Progress: [██░░░░░░░░] 27% of currently planned plans (phase acceptance remains pending)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 7 (Phase02 requirements await integrated plans05/06 and verification)
+- Total plans completed: 8 (Phase02 requirements await integrated plans05/06 and verification)
 - Average duration: 57.7 min for Plans 01-01 through 01-03 (Plan 01-04 duration not recorded)
 - Recorded execution time: 173 min for Plans 01-01 through 01-03
 
@@ -68,7 +68,7 @@ Recent decisions affecting current work:
 
 ### Pending Todos
 
-- Finish Phase2 wave2: native keyboard editor compact/regular visual and focus proof. Shared model and controller router are complete.
+- Execute Phase2 Plan05: transactional four-seat setup, actual main-owned controller routing, and responsive identity HUD. Plans02/03/04 accepted.
 - Phase 2 plans independently pass; reconcile live Phase 1 APIs and preserve per-seat call cues/cooldowns.
 - Phase 3 UI contract and seven plans independently approved; execute only after verified Phase 2 with current API reconciliation.
 - Relay UI/six plans and Race UI/seven plans independently approved; execution awaits their prior-phase gates.
@@ -76,7 +76,7 @@ Recent decisions affecting current work:
 ### Blockers/Concerns
 
 - Phase 1 is verified. The original `a310a81` model/render oracle remains immutable throughout multiplayer extraction.
-- Phase2 requirements remain pending integration and full verification. Shared model defects are fixed and exact solo gates pass; Plan04 editor must pass actual compact/regular visual checks before05 setup/HUD/controller main integration and06 owner hand/market gate.
+- Phase2 requirements remain pending integration and full verification. Shared model defects are fixed and exact solo gates pass; Plan04 editor passed compact/regular visual checks; Plan05 setup/HUD/controller main integration and06 owner hand/market gate remain.
 - NAP-GAMEPAD remains an authorized draft adapter; no native controller polling. Missing gamepad support must leave keyboard/pointer play available.
 - Race fog tuning and the provisional seat/race defaults require later product confirmation, but no requested capability is deferred.
 
@@ -89,5 +89,5 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-10-14
-Stopped at: Phase02 model and router complete; multiplayer_phase2_keyboard owns final editor changes and shared build/browser reservation. Root parity46818 and regression69086 completed exit0 (logs /tmp/down-to-duck-phase2-model-final-{parity,regression}.log). After04 accepted, dispatch05 then06 and verify phase. No multiplayer mode is complete yet.
+Stopped at: Phase02 plans01–04 accepted. multiplayer_phase2_setup owns Plan05 main/session UI/runtime tests and shared build/browser reservation. Use empty-stage UI draft then one validated commit transaction (02-01-INTEGRATION-NOTES). Model source6a76cd5 retains original parity21/21 and regression271/271. No multiplayer mode is complete; after05 execute06 and verify phase.
 Resume file: None

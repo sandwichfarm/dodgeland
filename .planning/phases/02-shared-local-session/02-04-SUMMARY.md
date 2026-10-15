@@ -21,7 +21,8 @@ key-files:
 key-decisions:
   - "Reset is per keyboard profile, preserving the other profile after whole-map validation as required by the UI contract."
   - "The editor uses a stable one-action page sequence so resizing never remaps the selected action."
-requirements-completed: [INPUT-03, INPUT-04, INPUT-06, UI-01]
+requirements-completed: []
+requirements-advanced: [INPUT-03, INPUT-04, INPUT-06, UI-01]
 coverage:
   - id: D1
     description: Native opaque-iframe Keyboard A/B movement and shell shortcut suspension
@@ -117,7 +118,7 @@ None.
 
 ## Next Phase Readiness
 
-Plan 05 can consume the stable keyboard/session action contract and the local setup editor. This plan intentionally leaves final cross-plan HUD/setup integration to Plan 05.
+Plan 05 can consume the stable keyboard/session action contract and the local setup editor. Final setup/HUD integration and the phase-wide input/UI requirements remain pending Plans 05/06 and phase verification; this plan proves their keyboard/editor portion.
 
 ## Self-Check: PASSED
 
