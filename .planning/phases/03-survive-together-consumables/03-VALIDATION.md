@@ -116,7 +116,7 @@ Run the complete final bundle gate and read every report:
 
 ```bash
 pnpm test:phase2
-node tests/strict-node-tests.mjs tests/survive-together-tracer.mjs tests/survive-admission.test.mjs tests/survive-together.test.mjs tests/survive-recovery-boundaries.test.mjs tests/recovery-plan-boundaries.test.mjs tests/survive-recovery-terminal.test.mjs tests/consumable-drops.test.mjs tests/consumables.test.mjs tests/consumable-world.test.mjs tests/survive-economy.test.mjs
+node tests/strict-node-tests.mjs tests/survive-together-tracer.mjs tests/survive-admission.test.mjs tests/survive-together.test.mjs tests/survive-recovery-boundaries.test.mjs tests/recovery-plan-boundaries.test.mjs tests/survive-recovery-terminal.test.mjs tests/consumable-drops.test.mjs tests/consumables.test.mjs tests/consumable-boundaries.test.mjs tests/consumable-world.test.mjs tests/survive-economy.test.mjs
 pnpm test:market
 pnpm test:magnet
 pnpm test:mobs
