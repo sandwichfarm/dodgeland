@@ -7,6 +7,7 @@ import type { DeviceId, SeatId, SessionModeDefinition, SessionPlayer } from './s
 export interface RelaySeat { readonly seat: SeatId; readonly characterId: string; readonly device: DeviceId; readonly disconnected?: boolean }
 export interface RelayProposal { readonly seats: readonly RelaySeat[]; readonly tilesPerLeg?: string | number }
 export interface RelaySetup { readonly seats: readonly RelaySeat[]; readonly tilesPerLeg: number }
+export interface RelayConfirmation { readonly seat: SeatId; readonly device: DeviceId; readonly generation: number; readonly participantId: string; readonly lifecycleGeneration: number }
 export const RELAY_LOCKED = 'Relay roster is locked for this run.';
 
 /** Validate the whole proposal before touching a live game or participant. */
@@ -50,10 +51,14 @@ export class RelayCoordinator {
   snapshot() {
     return Object.freeze({ phase: this.phase, activeSeat: this.activeSeat, incomingSeat: this.incomingSeat, leg: this.leg, distance: this.distance, tilesPerLeg: this.setup.tilesPerLeg, transferGeneration: this.generation, roster: this.setup.seats });
   }
+  confirmation(): RelayConfirmation {
+    const incoming = this.session.players.find(player => player.seat === this.incomingSeat)!;
+    return Object.freeze({ seat: incoming.seat, device: incoming.device, participantId: incoming.participantId, generation: this.generation, lifecycleGeneration: this.session.lifecycle.length });
+  }
   /** Only a fresh router edge bound to this transfer generation may call this. */
-  confirm(input: Readonly<{ seat: SeatId; device: DeviceId; generation: number }>): boolean {
+  confirm(input: RelayConfirmation): boolean {
     const incoming = this.session.players.find(player => player.seat === this.incomingSeat);
-    if (this.phase !== 'handoff' || input.generation !== this.generation || input.seat !== this.incomingSeat || input.device !== incoming?.device || !this.session.transferPosition(this.activeSeat, this.incomingSeat)) return false;
+    if (this.phase !== 'handoff' || input.generation !== this.generation || input.lifecycleGeneration !== this.session.lifecycle.length || input.participantId !== incoming?.participantId || input.seat !== this.incomingSeat || input.device !== incoming?.device || !this.session.transferPosition(this.activeSeat, this.incomingSeat)) return false;
     this.index = (this.index + 1) % this.setup.seats.length; this.leg++; this.distance = 0; this.frontier = this.session.world.frontier; this.phase = 'running';
     return true;
   }

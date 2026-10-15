@@ -39,10 +39,11 @@ test('Relay settles a real hop, freezes, and transfers one unchanged world to a 
     assert.equal(JSON.stringify({ time: world.time, tick: world.simulationTick, rows: [...world.rows], seed: world.seed, mobs: world.mobs, frontier: world.frontier }), before);
     const incoming = session.players[1], credit = incoming.completedForwardTiles, wallet = incoming.run.wallet;
     const ticket = relay.snapshot().transferGeneration;
-    assert.equal(relay.confirm({ seat: 'p1', device: 'keyboard-a', generation: ticket }), false);
-    assert.equal(relay.confirm({ seat: 'p2', device: 'keyboard-b', generation: ticket - 1 }), false);
-    assert.equal(relay.confirm({ seat: 'p2', device: 'keyboard-b', generation: ticket }), true);
-    assert.equal(relay.confirm({ seat: 'p2', device: 'keyboard-b', generation: ticket }), false);
+    assert.equal(relay.confirm({ ...relay.confirmation(), seat: 'p1', device: 'keyboard-a', generation: ticket }), false);
+    assert.equal(relay.confirm({ ...relay.confirmation(), generation: ticket - 1 }), false);
+    const confirmation = relay.confirmation();
+    assert.equal(relay.confirm(confirmation), true);
+    assert.equal(relay.confirm(confirmation), false);
     assert.strictEqual(session.world, world);
     assert.equal(JSON.stringify({ time: world.time, tick: world.simulationTick, rows: [...world.rows], seed: world.seed, mobs: world.mobs, frontier: world.frontier }), before);
     assert.equal(incoming.completedForwardTiles, credit); assert.equal(incoming.run.wallet, wallet);
@@ -70,6 +71,7 @@ test('a confirmation captured before incoming-seat disconnect cannot authorize r
     const stale = { seat: incoming.seat, device: incoming.device, generation: relay.snapshot().transferGeneration, participantId: incoming.participantId, lifecycleGeneration: session.lifecycle.length };
     assert.equal(session.deviceLost('p2'), true); assert.equal(session.offerReclaim('p2', 'gamepad-0'), true); assert.equal(session.reclaim('p2', 'gamepad-0'), true);
     assert.equal(relay.confirm(stale), false, 'old lifecycle token cannot confirm after reconnect');
+    assert.equal(relay.confirm(relay.confirmation()), true, 'fresh original-seat identity may continue');
   } finally { await sources.dispose(); }
 });
 
@@ -84,6 +86,46 @@ function installRuntime() {
   };
 }
 const pad = (index, buttons = []) => ({ index, id: `relay-${index}`, mapping: 'standard', connected: true, timestamp: 1, axes: [0, 0, 0, 0], buttons: Array.from({ length: 17 }, (_, button) => ({ value: buttons.includes(button) ? 1 : 0, pressed: buttons.includes(button), touched: buttons.includes(button) })) });
+
+async function withRelayBrowser(run) {
+  const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
+  const harness = `<!doctype html><iframe sandbox="allow-scripts" style="border:0;width:900px;height:600px"></iframe><script>document.querySelector('iframe').srcdoc=${JSON.stringify(built.replace('<head>', `<head><script>(${installRuntime.toString()})();</script>`)).replaceAll('<', '\\u003c')};</script>`;
+  const server = createServer((_request, response) => { response.writeHead(200, { 'Content-Type': 'text/html' }); response.end(harness); });
+  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+  const browser = await chromium.launch({ args: ['--mute-audio'] });
+  try {
+    const page = await browser.newPage({ viewport: { width: 930, height: 630 } });
+    const errors = []; page.on('pageerror', error => errors.push(error.message));
+    await page.goto(`http://127.0.0.1:${server.address().port}`);
+    const frame = await (await page.locator('iframe').elementHandle()).contentFrame();
+    await frame.locator('#play').waitFor();
+    await run({ page, frame, send: pads => frame.evaluate(next => window.relayFixture.emit(next), pads) });
+    assert.deepEqual(errors, []);
+  } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); }
+}
+
+test('held inactive controller input cannot confirm the transfer or become the next hop', { timeout: 30_000 }, async () => withRelayBrowser(async ({ page, frame, send }) => {
+  await frame.locator('#local-play').click();
+  await frame.locator('#session-roster [data-seat="p2"]').click();
+  await frame.getByRole('button', { name: 'Leave this seat', exact: true }).click();
+  await send([pad(0)]); await send([pad(0, [0])]); await send([pad(0)]);
+  await frame.locator('#relay-play').click(); await frame.locator('#relay-tiles').fill('1');
+  await frame.locator('#local-session-start').click();
+  await send([pad(0)]); await send([pad(0, [0, 9, 5])]);
+  await frame.locator('#scene').focus(); await page.keyboard.press('w');
+  await frame.getByRole('heading', { name: 'Leg 1 complete', exact: true }).waitFor();
+  await send([pad(0, [0, 9, 5])]); await page.waitForTimeout(120);
+  assert.equal(await frame.locator('#relay-handoff').count(), 1, 'held inactive confirm/pause/market cannot act');
+  await send([pad(0)]); await send([pad(0, [0])]);
+  await frame.waitForFunction(() => !document.querySelector('#relay-handoff'));
+  const score = await frame.locator('#score').textContent();
+  await send([pad(0, [0])]); await page.waitForTimeout(120);
+  assert.equal(await frame.locator('#score').textContent(), score, 'confirm edge and held confirm never hop');
+  await send([pad(0)]); await send([pad(0, [12])]); await send([pad(0)]);
+  await frame.getByRole('heading', { name: 'Leg 2 complete', exact: true }).waitFor();
+  await send([pad(0), pad(1)]); await send([pad(0), pad(1, [0])]);
+  assert.equal(await frame.locator('#session-seats [data-seat]').count(), 2);
+}));
 
 // Dependency regression: primary and secondary participants must both derive
 // personal score from earned movement. A Relay-only offset would conceal the
@@ -112,7 +154,7 @@ for (const check of ['innate cooldown', 'economy score']) {
         for (let i = 0; i < 100 && relay.snapshot().phase !== 'handoff'; i++) relay.session.update(1 / 120);
         assert.equal(relay.snapshot().phase, 'handoff');
         const incoming = relay.session.players.find(player => player.seat === relay.incomingSeat);
-        assert.equal(relay.confirm({ seat: incoming.seat, device: incoming.device, generation: relay.snapshot().transferGeneration }), true);
+        assert.equal(relay.confirm({ ...relay.confirmation(), seat: incoming.seat, device: incoming.device }), true);
       }
       assert.equal(primary.earnedDistance, 1);
       if (check === 'innate cooldown') assert.equal(primary.powerRemaining, 99, 'P2 movement and P1 placement cannot recharge P1 innate power');

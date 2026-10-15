@@ -26,7 +26,7 @@ import type { BindingValidation, KeyboardBindings, KeyboardBindingStore, Keyboar
 import { createLocalSessionBoard, createSessionKeyboardEditor } from './session-ui.js';
 import type { LocalSessionBoard, SessionSetupSeat } from './session-ui.js';
 import { createRelaySession, RELAY_LOCKED } from './relay.js';
-import type { RelayCoordinator } from './relay.js';
+import type { RelayCoordinator, RelayConfirmation } from './relay.js';
 import { createRelaySetup, createRelayHandoff } from './relay-ui.js';
 import { GameAudio } from './audio.js';
 import { Soundscape } from './soundscape.js';
@@ -689,16 +689,17 @@ const relaySetup = createRelaySetup({ root: el('local-session-setup'), seats: ()
   reorder: (seat, offset) => { const index = setupDraft.findIndex(candidate => candidate.seat === seat), next = index + offset; if (index < 0 || next < 0 || next >= setupDraft.length) return; [setupDraft[index], setupDraft[next]] = [setupDraft[next]!, setupDraft[index]!]; renderSetup(); },
 });
 function clearRelayInput(): void { router.seedAll(); keyboardInput?.suspend(); keyboardInput?.resume([...observedNativeKeys]); pointer = null; accumulator = 0; }
-function confirmRelay(seat: SeatId): void {
+function confirmRelay(seat: SeatId, captured?: RelayConfirmation): void {
   if (!relayHandoff || !relay || !frameAvailable()) return;
   const player = relay.session.players.find(candidate => candidate.seat === seat);
-  if (!player || !relay.confirm({ seat, device: player.device, generation: relay.snapshot().transferGeneration })) return;
+  if (!player || !relay.confirm({ ...(captured ?? relay.confirmation()), seat, device: player.device })) return;
   relayHandoff.remove(); relayHandoff = undefined; selectHudOwner(seat); clearRelayInput(); updateHud(); el('scene').focus({ preventScroll: true });
 }
 function syncRelayHandoff(): void {
   if (!relay || relay.snapshot().phase !== 'handoff' || relayHandoff) return;
   clearRelayInput();
-  relayHandoff = createRelayHandoff(el('app'), relay, () => confirmRelay(relay!.snapshot().incomingSeat));
+  const confirmation = relay.confirmation();
+  relayHandoff = createRelayHandoff(el('app'), relay, () => confirmRelay(confirmation.seat, confirmation));
 }
 const sessionKeyboardEditor = createSessionKeyboardEditor({
   root: el('local-session-setup'),
