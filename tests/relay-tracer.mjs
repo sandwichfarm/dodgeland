@@ -298,6 +298,27 @@ test('Relay configuration and handoff remain bounded across frame sizes and runt
       await page.waitForTimeout(30);
       const outside = await frame.evaluate(() => [...document.querySelectorAll('#session-board input, #session-board button, #relay-handoff button')].filter(node => node.getClientRects().length && getComputedStyle(node).visibility !== 'hidden').filter(node => { const rect = node.getBoundingClientRect(); return rect.width < 44 || rect.height < 44 || rect.left < 0 || rect.top < 0 || rect.right > innerWidth + 1 || rect.bottom > innerHeight + 1; }).map(node => ({ text: node.textContent, rect: node.getBoundingClientRect().toJSON() })));
       assert.deepEqual(outside, [], `${name} ${width}x${height} ${light ? 'light' : 'dark'}`);
+      const clipped = await frame.evaluate(() => [...document.querySelectorAll('#session-board button, #session-board input, #relay-handoff button')].filter(node => node.getClientRects().length).filter(node => {
+        const rect = node.getBoundingClientRect();
+        for (let parent = node.parentElement; parent; parent = parent.parentElement) {
+          const style = getComputedStyle(parent); if (!/(hidden|clip|auto|scroll)/.test(style.overflow)) continue;
+          const bounds = parent.getBoundingClientRect();
+          if (rect.left < bounds.left + parseFloat(style.borderLeftWidth) - 1 || rect.right > bounds.right - parseFloat(style.borderRightWidth) + 1 || rect.top < bounds.top + parseFloat(style.borderTopWidth) - 1 || rect.bottom > bounds.bottom - parseFloat(style.borderBottomWidth) + 1) return true;
+        }
+        return false;
+      }).map(node => node.textContent));
+      assert.deepEqual(clipped, [], `${name} controls cannot intersect a clipping ancestor at ${width}x${height}`);
+      if (name === 'handoff') {
+        const ratios = await frame.evaluate(() => [...document.querySelectorAll('#relay-handoff button:not(:disabled)')].filter(node => node.getClientRects().length).map(node => {
+          const style = getComputedStyle(node);
+          const canvas = document.createElement('canvas'); canvas.width = canvas.height = 1; const context = canvas.getContext('2d');
+          const luminance = color => { context.clearRect(0, 0, 1, 1); context.fillStyle = color; context.fillRect(0, 0, 1, 1); return [...context.getImageData(0, 0, 1, 1).data].slice(0, 3).map(channel => { const value = channel / 255; return value <= .04045 ? value / 12.92 : ((value + .055) / 1.055) ** 2.4; }).reduce((sum, value, index) => sum + value * [.2126, .7152, .0722][index], 0); };
+          const foreground = luminance(style.color), background = luminance(style.backgroundColor);
+          return (Math.max(foreground, background) + .05) / (Math.min(foreground, background) + .05);
+        }));
+        assert.ok(ratios.every(ratio => ratio >= 4.5), `handoff contrast ratios: ${ratios}`);
+      }
+
       await page.locator('iframe').screenshot({ path: `/tmp/relay-${name}-${width}x${height}-${light ? 'light' : 'dark'}.png` });
     }
   }

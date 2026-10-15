@@ -219,3 +219,12 @@ body:has(#local-session-setup:not([hidden]) #session-board), body:has(#session-s
  #session-board:is([data-relay-page="length"], [data-relay-page="order"]) { gap: 4px; }
  #session-board:is([data-relay-page="length"], [data-relay-page="order"]) .session-actions { padding-top: 0; }
 }
+.relay-handoff button { background: var(--game-paper, #fff0c5); color: var(--game-ink, #263c38); border: 2px solid var(--game-wood, #655236); border-radius: 6px; padding: 8px; }
+@media (max-height: 319px) {
+ #app:has(#local-session-setup:not([hidden]) #session-board[data-relay-page]:not([data-relay-page=""])) #run-panel.run-panel { inset: 0; padding: 8px; border: 0; border-radius: 0; box-shadow: none; }
+ #app:has(#session-board[data-relay-page]:not([data-relay-page=""])) #run-panel::before,
+ #app:has(#session-board[data-relay-page]:not([data-relay-page=""])) #run-panel::after { display: none; }
+}
+@media (max-width: 479px), (max-height: 419px) {
+ #session-board[data-relay-page="players"] > :is(h2, #session-status) { display: none; }
+}
