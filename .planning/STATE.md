@@ -5,26 +5,32 @@ milestone_name: milestone
 current_phase: 03
 current_phase_name: survive-together-consumables
 status: executing
-stopped_at: "Phase03 Plans01-04 accepted; Plan05 economy executor started."
-last_updated: "2026-10-15T13:51:04.605247+00:00"
-last_activity_desc: Plan04 accepted after final24 world,3 renderer,36 recovery,21 solo parity and platform gates; economy plan ready.
+stopped_at: "Phase03 Plans01-05 accepted; Plan06 lifecycle/recovery UI starting."
+last_updated: "2026-10-15T14:36:47.888777+00:00"
+last_activity_desc: Economy19,market62,solo21,pack browser and platform checks passed; starting lifecycle/recovery UI.
 progress:
   total_phases: 7
   completed_phases: 2
   total_plans: 30
-  completed_plans: 14
+  completed_plans: 15
 ---
 
 # Project State
 
 ## Current Position
 
-Phase03 — Survive Together & Consumables, Plan05 of7, wave4, executing.
+Phase03 — Survive Together & Consumables, Plan06 of7, wave5, executing.
 All seven Phase03 plans and UI contract are reviewed. Phase01 and02 are independently verified; Phase03 remains incomplete. No complete multiplayer mode or PR yet.
 
 Full unchanged goal: `.planning/USER-REQUEST.md`, `.planning/PROJECT.md`, `.planning/REQUIREMENTS.md`. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
 
-## Latest Accepted Step — 03-04
+## Latest Accepted Step — 03-05
+
+Plan03-05 accepted after corrected final SUMMARY `61f12af` (earlier summary679e678/c7d1daa). Strict economy19/19, standard market62/62 (`/tmp/down-to-duck-03-05-final-market.log`), root boundary10/10, prior final-source solo21/mobs18/type-check/build, full compact pack browser and corrected visual proof, guidance6/6, conformance5pass/0fail/5unmeasured, and unchanged immutable lockfile all pass. Root reviewed adapter/resolver wiring and strengthened live river payout, mob movement, and collision assertions. Source commits a3cd8e1/15a974e; expanded tests af428e0/7f4492f/a217abe; root compact layout18a7169. No live economy process remains.
+
+Next sequential typed executor owns03-06 lifecycle/recovery/results UI plus intentional menu-pause reconciliation. Plan03-07 still owns co-op market owner/action UI wiring and final integration gates. UI-03 is not complete merely because the backend adapter passed. Earlier paragraphs below retain historical evidence;03-04 and03-05 are now accepted. Phase03 remains incomplete, Relay/Race remain unimplemented, and full visuals/coverage/open PR are outstanding.
+
+## Previously Accepted Step — 03-04
 
 Plan03-04 is now accepted after the earlier incomplete SUMMARY was corrected in `d24e287`. World24/24 (root14 + owned10), native renderer3/3, recovery36/36, immutable solo21/21, mobs18/18, type-check/build/guidance6/conformance5pass+5unmeasured, and unchanged baseline lockfile passed in `/tmp/down-to-duck-03-04-final-combined.log` (45648 terminal0). Final equivalent anchor expression cleanup `3ea61e7` imports canonical HALF_WIDTH=5; focused final-source type-check/world24/render3 passed61400 (`/tmp/down-to-duck-03-04-final-halwidth-focused.log`). Redundant broad rerun72317 intentionally stopped at solo parity, exit130; not counted as a full pass. No live process/reservation remains with the completed03-04 executor.
 
