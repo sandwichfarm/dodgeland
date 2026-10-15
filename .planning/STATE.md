@@ -5,7 +5,7 @@ milestone_name: milestone
 current_phase: 03
 current_phase_name: survive-together-consumables
 status: executing
-stopped_at: "Phase03 Plans01-04 accepted; Plan05 owner economy and shared effects next."
+stopped_at: "Phase03 Plans01-04 accepted; Plan05 economy executor started."
 last_updated: "2026-10-15T13:51:04.605247+00:00"
 last_activity_desc: Plan04 accepted after final24 world,3 renderer,36 recovery,21 solo parity and platform gates; economy plan ready.
 progress:
@@ -19,7 +19,7 @@ progress:
 
 ## Current Position
 
-Phase03 — Survive Together & Consumables, Plan05 of7, wave4, ready to execute.
+Phase03 — Survive Together & Consumables, Plan05 of7, wave4, executing.
 All seven Phase03 plans and UI contract are reviewed. Phase01 and02 are independently verified; Phase03 remains incomplete. No complete multiplayer mode or PR yet.
 
 Full unchanged goal: `.planning/USER-REQUEST.md`, `.planning/PROJECT.md`, `.planning/REQUIREMENTS.md`. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
@@ -30,7 +30,7 @@ Plan03-04 is now accepted after the earlier incomplete SUMMARY was corrected in 
 
 Additional fixes `4e1461b`: deterministic unblocked land anchors and pruning at min(frontier,activeFloor), so a leading player cannot remove an item retained for a lagging living seat. Tests cover blocked/full-blocked anchors and retained-floor progression through direct capability seams. Renderer artifacts remain render-unit proof, not built-main UI proof. Full user-facing co-op flows remain03-06/07.
 
-Next sequential executor owns03-05 co-op market + exhaustive non-stacking shared effects. Plan entry reconciled `24e156e` includes the actual Survive attach handler; Game consumers must use the resolver, not merely test an unused helper. Root owns tracking/package and supplemental tests. Phase03 remains incomplete; Relay/Race/whole-mode visual acceptance/PR are outstanding. Earlier status paragraphs below are historical evidence superseded by this latest acceptance.
+Active sequential typed gsd-executor `/root/multiplayer_economy` owns03-05 co-op market + exhaustive non-stacking shared effects. Plan entry reconciled `24e156e` includes the actual Survive attach handler; Game consumers must use the resolver, not merely test an unused helper. Root owns tracking/package and supplemental tests. Phase03 remains incomplete; Relay/Race/whole-mode visual acceptance/PR are outstanding. Earlier status paragraphs below are historical evidence superseded by this latest acceptance.
 
 ## Completed Admission Plan
 
