@@ -172,3 +172,16 @@ test('a dead primary cannot cull mobs that are still beside a living secondary',
   assert.equal(game.mobs.length, 1, 'world retention follows the living course, not the terminal host position');
   assert.ok(game.mobs[0].x > -3, 'the surviving player still receives advancing mob encounters');
 });
+
+test('an earlier seat cannot start a gravity pull before another player claims actual contact', () => {
+  const { game, session, players } = setup();
+  const [p1, p2] = players;
+  p1.x = p1.fromX = -.55;
+  p2.x = p2.fromX = 0;
+  game.rows.get(0).coin = 0;
+  session.update(0);
+  assert.equal(p2.coins, 1, 'the player already touching the coin wins over a newly proposed pull');
+  assert.equal(p1.coins, 0);
+  assert.equal(game.rows.get(0).coin, null);
+  assert.equal(game.world.pickupOwners.size, 0);
+});
