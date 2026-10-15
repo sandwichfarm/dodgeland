@@ -2,9 +2,10 @@ import assert from 'node:assert/strict';
 import test, { after } from 'node:test';
 import { loadSources } from './source-loader.mjs';
 
-const source = await loadSources(['consumables']);
+const source = await loadSources(['consumables', 'consumable-drops']);
 after(source.dispose);
-const { planConsumableCredit, planConsumableDebit } = await source.import('consumables');
+const { CONSUMABLES, planConsumableCredit, planConsumableDebit } = await source.import('consumables');
+const { sampleConsumableDrop } = await source.import('consumable-drops');
 
 const mode = { capabilities: ['survive-together'] };
 const owner = { id: 'p1', generation: 7 };
@@ -12,6 +13,26 @@ const dead = { id: 'p2', lifecycle: 'dead' };
 function request(charges, itemId) {
   return { mode, owner, inventory: { owner, generation: 11, charges }, expectedInventoryGeneration: 11, itemId };
 }
+
+test('known world anchors resolve through the catalog into exactly one held charge plan', () => {
+  for (const [row, slot, itemId] of [[60, 3, 'revival'], [106, 12, 'flare']]) {
+    const drop = sampleConsumableDrop({ courseSeed: 0x12345678, row, slot });
+    assert.equal(drop.itemId, itemId);
+    const definition = CONSUMABLES.find(item => item.id === drop.itemId);
+    assert.equal(definition?.kind, 'consumable');
+    const input = request({}, definition.id);
+    const before = structuredClone(input.inventory);
+    const plan = planConsumableCredit(input);
+    assert.equal(plan.ok, true);
+    assert.equal(plan.ownerId, owner.id);
+    assert.equal(plan.inventoryGeneration, before.generation);
+    assert.deepEqual(input.inventory, before, 'sampling and planning never award a charge directly');
+    const localCopy = { ...before, generation: before.generation + 1, charges: { ...plan.resultingCharges } };
+    assert.equal(localCopy.charges[itemId], 1);
+    assert.equal(Object.values(localCopy.charges).reduce((sum, value) => sum + value, 0), 1);
+    assert.equal(planConsumableCredit({ ...input, inventory: localCopy, expectedInventoryGeneration: localCopy.generation }).ok, false, 'the awarded class is now at capacity');
+  }
+});
 
 test('a two-player team can Flare with only its owner alive', () => {
   const input = { ...request({ revival: 0, flare: 1 }, 'flare'), targets: [dead] };
