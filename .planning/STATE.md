@@ -6,8 +6,8 @@ current_phase: 03
 current_phase_name: survive-together-consumables
 status: executing
 stopped_at: "Phase03 Plans01-03 complete; Plan04 world pickup executor started."
-last_updated: "2026-10-15T08:26:20Z"
-last_activity_desc: Consumable catalog/sampler accepted with strict18 and all gates; world pickup integration next.
+last_updated: "2026-10-15T08:41:10Z"
+last_activity_desc: World integration source underway; five root pickup/gravity/death boundary cases committed pending API implementation.
 progress:
   total_phases: 7
   completed_phases: 2
@@ -49,6 +49,10 @@ Final strict18/18 (`/tmp/down-to-duck-03-03-final-consumables.log`); sequential 
 Root supplement tests/consumable-boundaries.test.mjs (5cases), strict script and final phase gate are committed. Review corrected two-seat Flare semantics, sparse-vector ordering, and a test that overrestricted omitted optional charges; no product workaround. Rejection vector seed0x87405b12,row0,slot0 forces draw4294967295→retry2472345421→bucket421. Initial isolation fixtures reset generators or exhausted the sample queue before markets/mobs; corrected tests now sample at every named boundary, assert real nonempty markets/mobs, compare whole lane actors plus actual next raw RNG outputs, and vary the item schema only in an isolated compiled test copy. Initial RED chronology/failed checks are recorded in03-03SUMMARY.
 
 Active: `/root/multiplayer_consumable_world`, sequential typed gsd-executor03-04. Owns src/session.ts,src/game.ts,src/survive-together.ts,src/render.ts,tests/solo-parity-snapshot.mjs,tests/consumable-world.test.mjs and03-04SUMMARY. Root owns tracking/package and supplemental tests; no overlapping executors/builds. Integrate optional handler-installed world item capability after committed adoption, absent solo path, keyed initial/future drops, baseline-gravity fractional/swept pickup claims, owned atomic/replay-safe activation, death clearing, projection/teardown and oracle proof. Then03-05 economy,03-06 lifecycle/recovery/resultsUI,03-07 hand/market/final gates. Independent phase verification precedes Relay/Race. Root stops related work during verifier.
+
+Plan03-04 executor is editing Game/Session and its owned world test after running prerequisites (`/tmp/down-to-duck-03-04-precondition.log` reaches conformance tail; explicit terminal handle/exit report requested). Proposed stable observation API: session.consumableSnapshot() is undefined absent/after teardown, otherwise frozen {generation,pickups:[id,itemId,row,slot,x,y],charges:[seat,ownerGeneration,inventoryGeneration,revival,flare],claims:[pickupId,seat],protected:[seat,until]}. Action API session.useConsumable({actionId,ownerSeat,itemId,targetSeat?,expectedInventoryGeneration}) returns boolean. Generic Game.setWorldExtension seam; sample each row at slot0, initial x=lane.coin??0, river binding follows existing actor-position policy. Final exported types remain executor-owned.
+
+Root owns tests/consumable-world-boundaries.test.mjs, commits `df261c2`/`8d3123c`, plus strict pnpm test:consumable-world and final phase gate wiring. Five cases: real moving-log ride/bank hop across19 offsets×both items×both modes×P1/P2×both directions, exact fractional-grid preservation/single claim, real purchased magnet movement/range isolation, actual P1/P2 death clearing only its item and wallet with empty personal return, and ghost retention through primary death/reclaim. Pure sampler fixtures row1/slot0 Revival seed0xc7045dbd, Flare0x4905bf13; seed0xb4184ed2 gives row1Revival+row2Flare for real dual-owner collection. Initial first2 cases RED on missing session.consumableSnapshot (`/tmp/down-to-duck-03-04-root-boundaries-red.log`, handle84671 terminal exit1); later3 cases syntax-checked only, await source-ready. No production hacks or sampler overrides. Root has no live process; executor owns all builds. Do not treat these as passing yet.
 
 Root also reconciled03-04 with the actual Survive attach/debit seam, explicitly included src/survive-together.ts ownership, and corrected its parity commands: the snapshot helper alone has no assertion suite; pnpm test:solo-parity is required. MCP graph lookup is available again for this project.
 
