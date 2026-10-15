@@ -5,6 +5,7 @@ import type { ModeDefinition, ModeRules } from './mode-rules.js';
 import { DEFAULT_COIN_GRAVITY, RunInventory } from './market/run.js';
 import { characterPower } from './character-powers.js';
 import type { CharacterPower } from './character-powers.js';
+import { isLivingRecoverySubject } from './recovery.js';
 import type { RecoveryKind } from './recovery.js';
 import { advanceCoinPull } from './coin-pull.js';
 import { planConsumableCredit, planConsumableDebit } from './consumables.js';
@@ -404,7 +405,7 @@ class ConsumableWorld implements GameWorldExtension {
     return charge;
   }
   private eligible(player: SessionPlayer, itemId: ConsumableId): boolean {
-    if (player.participation !== 'active' || player.state !== 'playing') return false;
+    if (!isLivingRecoverySubject(player)) return false;
     const charge = this.charge(player);
     return planConsumableCredit({ mode: { capabilities: ['survive-together'] }, owner: { id: player.seat, generation: charge.ownerGeneration }, inventory: { owner: { id: player.seat, generation: charge.ownerGeneration }, generation: charge.inventoryGeneration, charges: { revival: charge.revival, flare: charge.flare } }, expectedInventoryGeneration: charge.inventoryGeneration, itemId }).ok;
   }
@@ -466,11 +467,11 @@ class ConsumableWorld implements GameWorldExtension {
   use(action: ConsumableAction): boolean {
     const game = this.game, owner = this.session.players.find(player => player.seat === action.ownerSeat);
     if (!game || !owner || !/^[-a-zA-Z0-9_.]{1,128}$/.test(action.actionId) || this.actions.get(action.actionId) !== undefined || this.actions.has(`${game.world.simulationTick}:${this.ownerId(owner)}`)) return false;
-    if (owner.participation !== 'active' || owner.state !== 'playing') return false;
+    if (!isLivingRecoverySubject(owner)) return false;
     const charge = this.charge(owner);
     if (charge.inventoryGeneration !== action.expectedInventoryGeneration || charge.ownerGeneration !== action.expectedOwnerGeneration) return false;
     const targets = action.itemId === 'revival' ? action.targetSeat ? this.session.players.filter(player => player.seat === action.targetSeat) : []
-      : this.session.players.filter(player => player !== owner && ((player.participation === 'dead' && player.state === 'dead') || (player.participation === 'active' && player.state === 'playing')));
+      : this.session.players.filter(player => player !== owner && ((player.participation === 'dead' && player.state === 'dead') || isLivingRecoverySubject(player)));
     if (action.itemId === 'revival' && (!targets[0]?.recovery || action.expectedTargetDeathGeneration === undefined || targets[0].recovery.deathGeneration !== action.expectedTargetDeathGeneration)) return false;
     const plan = planConsumableDebit({ mode: { capabilities: ['survive-together'] }, owner: { id: owner.seat, generation: charge.ownerGeneration }, inventory: { owner: { id: owner.seat, generation: charge.ownerGeneration }, generation: charge.inventoryGeneration, charges: { revival: charge.revival, flare: charge.flare } }, expectedInventoryGeneration: action.expectedInventoryGeneration, itemId: action.itemId, targets: targets.map(player => ({ id: player.seat, lifecycle: player.participation === 'dead' && player.state === 'dead' ? 'dead' : 'living' })) });
     if (!plan.ok) return false;
@@ -560,7 +561,7 @@ export class LocalSession {
   private refreshSharedWorldEffects(): void {
     if (!this.sharedEffectPolicy) return;
     this.resolvedSharedEffects = resolveSharedWorldEffects(this.players
-      .filter(player => player.participation === 'active' && player.state === 'playing')
+      .filter(isLivingRecoverySubject)
       .map(player => ({ seat: player.seat, effects: player.run.effects })));
     this.world.host.setSharedWorldEffects(this.resolvedSharedEffects.effects);
   }
@@ -639,7 +640,7 @@ export class LocalSession {
   recoverySafeCells(kind: RecoveryKind, owner: SessionPlayer, targets: readonly SessionPlayer[]): readonly Readonly<{ x: number; y: number }>[] {
     const returning = new Set(kind === 'flare' ? [owner, ...targets] : targets);
     if (kind === 'personal') returning.add(owner);
-    const living = this.players.filter(player => player.participation === 'active' && player.state === 'playing');
+    const living = this.players.filter(isLivingRecoverySubject);
     const livingAnchor = [...living].sort((a, b) => b.groundY - a.groundY || a.seat.localeCompare(b.seat))[0];
     const allDeadPersonal = kind === 'personal' && !livingAnchor;
     const anchor = allDeadPersonal && owner.recovery?.lastSafe ? owner.recovery.lastSafe
@@ -647,7 +648,7 @@ export class LocalSession {
         : livingAnchor ? { x: livingAnchor.groundX, y: livingAnchor.groundY } : undefined;
     if (!anchor) return Object.freeze([]);
     const frontier = livingAnchor?.groundY ?? anchor.y;
-    const occupied = new Set(this.players.filter(player => !returning.has(player) && player.participation === 'active' && player.state === 'playing').map(player => `${Math.round(player.groundX)}:${Math.round(player.groundY)}`));
+    const occupied = new Set(this.players.filter(player => !returning.has(player) && isLivingRecoverySubject(player)).map(player => `${Math.round(player.groundX)}:${Math.round(player.groundY)}`));
     const cells: { x: number; y: number }[] = [];
     const offsets = [0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5];
     for (const row of [Math.round(anchor.y), Math.round(anchor.y) - 1, Math.round(anchor.y) - 2]) {

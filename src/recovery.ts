@@ -42,12 +42,14 @@ export type RecoveryDecision = RecoveryPlan | RecoveryRejection;
 
 const reject = (reason: string): RecoveryRejection => Object.freeze({ ok: false, reason });
 const stable = <T extends RecoverySubject>(subjects: readonly T[]): readonly T[] => [...subjects].sort((a, b) => a.seat.localeCompare(b.seat));
+/** A board pause freezes simulation time; it does not make an active seat dead. */
+export const isLivingRecoverySubject = (subject: Pick<RecoverySubject, 'participation' | 'state'>): boolean => subject.participation === 'active' && (subject.state === 'playing' || subject.state === 'paused');
 
 /** Return a complete, distinct placement plan without changing mutable session state. */
 export function planRecovery(request: RecoveryRequest): RecoveryDecision {
   const { owner, targets, cells } = request;
   if (!Number.isFinite(request.now) || !Number.isInteger(request.tick) || request.tick < 0 || !Number.isFinite(request.protectionSeconds) || request.protectionSeconds <= 0) return reject('invalid-clock');
-  if (request.kind !== 'personal' && (owner.participation !== 'active' || owner.state !== 'playing')) return reject('inactive-owner');
+  if (request.kind !== 'personal' && !isLivingRecoverySubject(owner)) return reject('inactive-owner');
   const selected = request.kind === 'personal' ? [owner] : request.kind === 'flare' ? stable(request.participants ?? [owner, ...targets]) : stable(targets);
   if (!selected.length) return reject('no-targets');
   if (request.kind === 'personal') {
@@ -55,7 +57,7 @@ export function planRecovery(request: RecoveryRequest): RecoveryDecision {
     if (!owner.charged || owner.offerGeneration !== owner.deathGeneration || owner.offerDeadline === undefined || request.now >= owner.offerDeadline) return reject('personal-offer-invalid');
   } else if ((request.kind === 'revival' && targets.length !== 1) || (request.kind === 'flare' && targets.length < 1)) return reject('invalid-target-count');
   else if (targets.some(target => target.seat === owner.seat || target.participation !== 'dead' || target.state !== 'dead')) return reject('ineligible-target');
-  if (new Set(selected.map(subject => subject.seat)).size !== selected.length || (request.kind === 'flare' && (!selected.some(subject => subject.seat === owner.seat) || targets.some(target => !selected.some(subject => subject.seat === target.seat)) || selected.some(subject => subject.participation !== 'active' && subject.participation !== 'dead')))) return reject('invalid-participants');
+  if (new Set(selected.map(subject => subject.seat)).size !== selected.length || (request.kind === 'flare' && (!selected.some(subject => subject.seat === owner.seat) || targets.some(target => !selected.some(subject => subject.seat === target.seat)) || selected.some(subject => subject.participation !== 'dead' && !isLivingRecoverySubject(subject))))) return reject('invalid-participants');
   if (cells.length < selected.length) return reject('no-safe-placement');
   const seen = new Set<string>();
   const placements = [] as { seat: string; cell: RecoveryCell; deathGeneration: number }[];

@@ -1,5 +1,5 @@
 import type { ModeDefinition } from './mode-rules.js';
-import { commitRecoveryPlan, planRecovery } from './recovery.js';
+import { commitRecoveryPlan, isLivingRecoverySubject, planRecovery } from './recovery.js';
 import type { RecoveryDecision, RecoveryKind, RecoveryPlan, RecoverySubject } from './recovery.js';
 import { createSurviveTogetherResult } from './survive-results.js';
 import type { LocalSession, SessionModeDefinition, SessionPlayer, SessionRecoveryRequest } from './session.js';
@@ -41,7 +41,7 @@ class SurviveTogetherController {
       if (player.participation === 'active' && player.state === 'playing' && player.recovery && session.isRecoverySafePosition(player)) session.updateRecovery(player, recovery => ({ ...recovery, lastSafe: Object.freeze({ x: player.groundX, y: player.groundY }) }));
       if (player.recovery?.offer && player.recovery.offer.deadline <= session.world.time) session.updateRecovery(player, recovery => ({ ...recovery, offer: undefined }));
     }
-    const active = session.players.some(player => player.participation === 'active' && player.state === 'playing');
+    const active = session.players.some(isLivingRecoverySubject);
     if (!active && !this.pending(session) && !session.result) session.completeResult(createSurviveTogetherResult({ time: session.world.time, distance: session.world.frontier, players: session.players, archived: session.contributions }));
   }
   recover(session: LocalSession, request: SessionRecoveryRequest): boolean {
@@ -50,7 +50,7 @@ class SurviveTogetherController {
     const targets = request.kind === 'personal' ? [] : request.kind === 'revival'
       ? (request.targetSeat ? session.players.filter(player => player.seat === request.targetSeat) : [])
       : session.players.filter(player => player.participation === 'dead' && player.state === 'dead');
-    const participants = request.kind === 'flare' ? session.players.filter(player => (player.participation === 'active' && player.state === 'playing') || (player.participation === 'dead' && player.state === 'dead')) : undefined;
+    const participants = request.kind === 'flare' ? session.players.filter(player => isLivingRecoverySubject(player) || (player.participation === 'dead' && player.state === 'dead')) : undefined;
     const makePlan = (): RecoveryDecision => planRecovery({ kind: request.kind, tick: session.world.simulationTick, now: session.world.time, owner: subject(owner),
       targets: targets.map(subject), participants: participants?.map(subject), cells: session.recoverySafeCells(request.kind, owner, request.kind === 'flare' ? participants ?? [] : targets), protectionSeconds: PROTECTION_SECONDS * session.world.rules.simulation.worldTimeScale });
     const decision = makePlan();
@@ -66,7 +66,7 @@ class SurviveTogetherController {
       player.maxY = Math.max(player.maxY, placement.cell.y); player.personalFrontierY = Math.max(player.personalFrontierY, placement.cell.y);
       session.cancelForwardHop(player); player.hop = 0; player.caughtByWave = false; player.powerRescue = null;
       if (revived.has(player.seat)) { player.health = player.maxHealth; player.hurtRemaining = 0; player.run.resumeAfterDeath(); }
-      player.state = 'playing'; player.participation = 'active';
+      player.state = player.primary && session.world.host.state === 'paused' ? 'paused' : 'playing'; player.participation = 'active';
       session.updateRecovery(player, recovery => ({ ...recovery, offer: undefined, protectionUntil: plan.protectionUntil, lastSafe: Object.freeze({ ...placement.cell }), spatialFrontierY: Math.max(recovery.spatialFrontierY, placement.cell.y), charge: kind === 'personal' ? 'spent' : recovery.charge, nextRecharge: kind === 'personal' ? recovery.personalHighWater + 250 : recovery.nextRecharge }));
     }
     if (kind === 'personal') owner.statistics.selfRevives++;
