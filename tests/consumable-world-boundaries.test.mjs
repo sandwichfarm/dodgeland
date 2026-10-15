@@ -360,3 +360,59 @@ test('reading an item snapshot after late admission cannot change subsequent own
   });
   assert.deepEqual(outcomes[1], outcomes[0], 'HUD and renderer reads must not allocate or mutate authoritative inventory state');
 });
+
+function purchaseBelongings(run, index) {
+  const hats = [...run.catalog.values()].filter(item => item.kind === 'cosmetic' && item.appearance.style === 'hat');
+  const shirt = run.catalog.get('look-shirt-sailor');
+  const looks = [...hats.slice(index * 2, index * 2 + 2), shirt];
+  assert.equal(looks.length, 3); assert.ok(looks.every(Boolean));
+  run.advanceScore(100);
+  assert.equal(run.open(), true);
+  run.creditCoins(1000);
+  for (const id of [...looks.map(item => item.id), 'magnet', 'power-coin-rush', 'pack-satchel']) {
+    const item = run.catalog.get(id);
+    assert.ok(item);
+    const offer = { id: `belongings-${index}-${id}`, itemId: id, price: item.price, sold: false };
+    run.market.offers.push(offer);
+    assert.equal(run.buy(offer.id).ok, true, `purchase ${id}`);
+  }
+  assert.ok(run.pendingPack);
+  assert.ok(run.cards.length && run.powers.length);
+  assert.ok(run.equippedCosmetics.length < run.cosmetics.length, 'fixture includes an owned unequipped look');
+  return looks;
+}
+
+for (const seat of ['p1', 'p2']) test(`${seat}: terminal clearing spills only its purchased looks and wallet, including with a pending pack`, () => {
+  const { game, session } = twoOwnedItems();
+  const looksBySeat = new Map(session.players.map((player, index) => [player.seat, purchaseBelongings(player.run, index)]));
+  const dead = session.players.find(player => player.seat === seat);
+  const survivor = session.players.find(player => player !== dead);
+  const survivorInventory = JSON.stringify(survivor.run);
+  const survivorCharge = session.consumableSnapshot().charges.find(value => value.seat === survivor.seat);
+  const wallet = dead.run.wallet, origin = { x: dead.groundX, y: dead.groundY };
+  dead.powerReadyAt = 10000;
+  // Exercise the production terminal operation directly: a pack screen freezes
+  // ordinary hazard updates, but terminal cleanup must still own this state.
+  game.inPlayerOperation(dead, context => context.end('Terminal boundary fixture', 'water'));
+  session.update(0);
+  assert.equal(dead.state, 'dead');
+  assert.equal(dead.participation, 'dead');
+  assert.equal(dead.deathSpill.wallet, wallet);
+  assert.deepEqual(dead.deathSpill.cosmetics, looksBySeat.get(seat));
+  assert.deepEqual(dead.deathSpill.drops.filter(drop => drop.kind === 'cosmetic').map(drop => drop.item), looksBySeat.get(seat));
+  for (const drop of dead.deathSpill.drops) assert.deepEqual({ x: drop.originX, y: drop.originY }, origin);
+  assert.equal(dead.run.wallet, 0);
+  for (const key of ['cards', 'powers', 'cosmetics', 'equippedCosmetics']) assert.deepEqual(dead.run[key], []);
+  assert.equal(dead.run.pendingPack, null);
+  assert.equal(dead.run.market, null);
+  assert.equal(dead.run.isOpen, false);
+  assert.equal(charge(session, seat, 'revival'), 0);
+  assert.equal(charge(session, seat, 'flare'), 0);
+  assert.equal(JSON.stringify(survivor.run), survivorInventory, 'the surviving owner retains byte-identical wallet, looks, cards, powers, offers and pack draft');
+  assert.deepEqual(session.consumableSnapshot().charges.find(value => value.seat === survivor.seat), survivorCharge);
+  assert.equal(survivor.deathSpill, null);
+  assert.equal(session.recover({ kind: 'personal', ownerSeat: seat }), true);
+  assert.equal(dead.run.wallet, 0);
+  assert.deepEqual(dead.run.cosmetics, []);
+  assert.equal(dead.run.pendingPack, null, 'revival must not resurrect abandoned pack contents');
+});
