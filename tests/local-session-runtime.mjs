@@ -59,6 +59,14 @@ test('two shell controllers and two remapped keyboards enter four-seat Local Pla
     await waitFor(() => document.querySelectorAll('#session-seats [data-seat]').length === 4, 'four-seat session HUD after Start');
     const labels = await frame.locator('#session-seats [data-seat]').allInnerTexts();
     assert.ok(labels.every(label => /P[1-4].*[▲●◆■]/.test(label)), `HUD identity combines P-number and a geometric marker: ${labels.join(' | ')}`);
+    // The market and hand remain one surface, but their owner must follow the
+    // stable player chosen from the live HUD. This is deliberately asserted
+    // through the built iframe rather than a model-only hook.
+    assert.match(await frame.locator('#market-owner').innerText(), /Viewing P1 .* · /,
+      'the shared market owner toolbar starts on the adopted P1 traveler');
+    await frame.locator('#session-seats [data-seat="p2"] .session-hud-identity').click();
+    assert.match(await frame.locator('#market-owner').innerText(), /Viewing P2 .* · /,
+      'selecting an existing HUD identity changes the one market/hand owner');
     const distance = async seat => Number((await frame.locator(`#session-seats [data-seat="${seat}"]`).innerText()).match(/(\d+) tiles/)?.[1] ?? -1);
     const beforeMoves = await Promise.all(['p1', 'p2'].map(distance));
     await send([pad(0, alpha, [12]), pad(1, beta, [12])]); await page.waitForTimeout(120); await send([pad(0, alpha), pad(1, beta)]);
