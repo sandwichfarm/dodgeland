@@ -127,3 +127,77 @@ for (const seat of ['p1', 'p2']) {
     assert.equal(session.recover({ kind: 'personal', ownerSeat: seat }), false);
   });
 }
+
+test('a teammate return behind the old frontier cannot recharge by retracing previously earned tiles', () => {
+  const { game, session, player } = setup('p2');
+  const owner = session.players.find(member => member.seat === 'p1');
+  for (let count = 0; count < 30; count++) {
+    lane(game, player.y + 1);
+    assert.equal(player.move('forward'), true);
+    if (count >= 10) {
+      lane(game, owner.y + 1);
+      assert.equal(owner.move('forward'), true);
+    }
+    clearCourse(game);
+    tick(session, game.rules.movement.hopDuration);
+    assert.equal(player.state, 'playing');
+  }
+  const earned = player.recovery.personalHighWater;
+  const frontier = player.y;
+  assert.equal(earned, 30);
+  lane(game, player.y, 'river', { phase: player.x + 10, length: 1 });
+  session.update(STEP);
+  assert.equal(player.state, 'dead');
+  assert.equal(owner.state, 'playing', 'the trailing teammate remains alive to use the Revival');
+  clearCourse(game);
+  let debits = 0;
+  assert.equal(session.recover({ kind: 'revival', ownerSeat: 'p1', targetSeat: 'p2',
+    debit: () => { debits++; return true; } }), true);
+  assert.equal(debits, 1);
+  assert.ok(player.y < frontier, 'fixture returns the target behind its former frontier');
+  assert.equal(player.recovery.personalHighWater, earned, 'placement itself earns nothing');
+  while (player.y < frontier) {
+    lane(game, player.y + 1);
+    assert.equal(player.move('forward'), true);
+    clearCourse(game);
+    tick(session, game.rules.movement.hopDuration);
+    assert.equal(player.state, 'playing');
+    assert.equal(player.recovery.personalHighWater, earned, 'old ground remains old after revival');
+  }
+  lane(game, player.y + 1);
+  assert.equal(player.move('forward'), true);
+  clearCourse(game);
+  tick(session, game.rules.movement.hopDuration);
+  assert.equal(player.recovery.personalHighWater, earned + 1, 'only one genuinely new completed tile is credited');
+});
+
+test('Flare preserves living teammates health and counts only dead teammates as revivals', () => {
+  const { game, session, player: living } = setup('p2');
+  assert.equal(session.admit({ device: 'keyboard-c', characterId: 'pip' }), true);
+  const owner = session.players.find(player => player.seat === 'p1');
+  const target = session.players.find(player => player.seat === 'p3');
+  owner.health = 1.5; living.health = 2.25;
+  owner.run.creditCoins(13);
+  assert.equal(living.run.creditCoins(7), 7, 'a returned player can earn new coins after death cleared their old wallet');
+  target.x = target.fromX = 0;
+  target.y = target.fromY = target.maxY = 2;
+  target.powerReadyAt = 10000;
+  lane(game, 2, 'river', { phase: 10, length: 1 });
+  session.update(STEP);
+  assert.equal(target.state, 'dead');
+  clearCourse(game);
+  const revivedBefore = owner.statistics.teammateRevives;
+  let debits = 0;
+  assert.equal(session.recover({ kind: 'flare', ownerSeat: 'p1',
+    debit: () => { debits++; return true; } }), true);
+  assert.equal(debits, 1);
+  assert.equal(target.state, 'playing');
+  assert.equal(target.health, target.maxHealth, 'the dead traveler receives revival health');
+  assert.equal(target.run.wallet, 0, 'revival does not restore the old economy');
+  assert.equal(target.run.alive, true, 'revived travelers can earn and trade again');
+  assert.equal(owner.health, 1.5, 'regrouping does not heal the living owner');
+  assert.equal(living.health, 2.25, 'regrouping does not heal living teammates');
+  assert.equal(owner.run.wallet, 13);
+  assert.equal(living.run.wallet, 7);
+  assert.equal(owner.statistics.teammateRevives, revivedBefore + 1, 'one dead target means one teammate revival');
+});
