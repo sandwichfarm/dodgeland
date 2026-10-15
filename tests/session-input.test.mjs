@@ -208,3 +208,53 @@ test('held input received while unfocused is seeded before focus returns', () =>
   router.receive(snapshot([pad(0, { pressed: [12] })]), 4);
   assert.deepEqual(actions.map(action => action.direction), ['forward']);
 });
+
+test('release clears a connected seat until a neutral fresh edge requests local play', () => {
+  const requests = [];
+  const { router, events } = trackedRouter({
+    context: () => 'setup', dispatch: () => true, requestLocalPlay: device => requests.push(device),
+  });
+  router.receive(snapshot([pad(0)]), 0);
+  assert.equal(router.assign(issued(events, 0), 'p1'), true);
+  router.receive(snapshot([pad(0, { pressed: [12] })]), 1);
+  assert.equal(router.release('p1'), true);
+  assert.equal(router.release('p1'), false, 'releasing an already-free seat is idempotent');
+  router.receive(snapshot([pad(0, { pressed: [12] })]), 2);
+  router.update(10000);
+  assert.deepEqual(requests, [], 'held input cannot instantly rejoin after release');
+  router.receive(snapshot([pad(0)]), 3);
+  router.receive(snapshot([pad(0, { pressed: [12] })]), 4);
+  assert.equal(requests.length, 1);
+});
+
+test('release clears a disconnected remembered lease before the same controller returns', () => {
+  const requests = [], reclaimRequests = [];
+  const { router, events } = trackedRouter({
+    context: () => 'setup', dispatch: () => true,
+    requestLocalPlay: device => requests.push(device),
+    requestReclaim: (device, seat) => reclaimRequests.push({ device, seat }),
+  });
+  router.receive(snapshot([pad(1, { id: 'Alpha' })]), 0);
+  assert.equal(router.assign(issued(events, 1), 'p1'), true);
+  router.receive(snapshot([]), 1);
+  assert.equal(router.release('p1'), true);
+  router.receive(snapshot([pad(1, { id: 'Alpha', pressed: [0] })]), 2);
+  assert.deepEqual(reclaimRequests, []);
+  assert.deepEqual(requests, [], 'the return snapshot is seeded after departure');
+  router.receive(snapshot([pad(1, { id: 'Alpha' })]), 3);
+  router.receive(snapshot([pad(1, { id: 'Alpha', pressed: [0] })]), 4);
+  assert.equal(requests.length, 1, 'the departed seat returns only through a fresh join request');
+});
+
+test('release leaves another seat movement and repeat schedule independent', () => {
+  const actions = [];
+  const { router, events } = trackedRouter({ context: () => 'play', dispatch: action => { actions.push(action); return true; } });
+  router.receive(snapshot([pad(0), pad(1)]), 0);
+  router.assign(issued(events, 0), 'p1');
+  router.assign(issued(events, 1), 'p2');
+  router.receive(snapshot([pad(0, { pressed: [12] }), pad(1, { pressed: [15] })]), 1);
+  assert.equal(router.release('p1'), true);
+  router.update(281);
+  router.update(441);
+  assert.deepEqual(actions.map(action => action.seat), ['p1', 'p2', 'p2', 'p2']);
+});
