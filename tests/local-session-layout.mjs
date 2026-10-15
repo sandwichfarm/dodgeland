@@ -85,12 +85,53 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
       await settle();
     };
     const setTheme = async (name) => { await page.evaluate(value => window.setLayoutTheme(value), themes[name]); await settle(); };
+    const closeEditor = async () => {
+      for (let index = 0; index < 7; index++) {
+        const pager = frame.locator('.session-controls-pages button').last();
+        const label = await pager.innerText();
+        await pager.click();
+        if (label === 'Finish') {
+          await frame.waitForFunction(() => !document.querySelector('#session-board')?.hasAttribute('hidden'));
+          return;
+        }
+      }
+      assert.fail('keyboard editor did not expose its Finish action');
+    };
+    const showBindingPage = async () => {
+      for (let index = 0; index < 7; index++) {
+        if (await frame.locator('.session-binding').count()) return;
+        const back = frame.locator('.session-controls-pages button').first();
+        if (await back.isDisabled()) break;
+        await back.click();
+      }
+      assert.fail('keyboard editor did not restore a real binding page');
+    };
     const fail = (message, metrics) => { evidence.deficiencies.push({ message, metrics }); assert.fail(`${message}: ${JSON.stringify(metrics)}`); };
     const metrics = async (state, width, height) => frame.evaluate(({ state, width, height }) => {
-      const visible = node => {
-        const style = getComputedStyle(node), rect = node.getBoundingClientRect();
-        return !node.closest('[hidden], [inert]') && style.visibility !== 'hidden' && style.display !== 'none' && rect.width > 0 && rect.height > 0;
+      const contrast = (foreground, background) => {
+        const rgb = value => (value.match(/\d+(?:\.\d+)?/g) ?? []).slice(0, 3).map(Number);
+        const luminance = color => color.map(channel => {
+          const value = channel / 255;
+          return value <= .04045 ? value / 12.92 : ((value + .055) / 1.055) ** 2.4;
+        }).reduce((sum, value, index) => sum + value * [.2126, .7152, .0722][index], 0);
+        const [a, b] = [luminance(rgb(foreground)), luminance(rgb(background))].sort((left, right) => right - left);
+        return (a + .05) / (b + .05);
       };
+      const intersects = (inner, outer) => inner.left >= outer.left - .5 && inner.top >= outer.top - .5 && inner.right <= outer.right + .5 && inner.bottom <= outer.bottom + .5;
+      const rendered = (node, fully = false) => {
+        const style = getComputedStyle(node), rect = node.getBoundingClientRect();
+        if (node.closest('[hidden], [inert]') || style.visibility === 'hidden' || style.display === 'none' || rect.width <= 0 || rect.height <= 0) return false;
+        const viewport = { left: 0, top: 0, right: width, bottom: height };
+        if (fully ? !intersects(rect, viewport) : rect.right <= 0 || rect.bottom <= 0 || rect.left >= width || rect.top >= height) return false;
+        for (let parent = node.parentElement; parent; parent = parent.parentElement) {
+          const overflow = getComputedStyle(parent);
+          if (!/(hidden|clip|scroll|auto)/.test(`${overflow.overflow} ${overflow.overflowX} ${overflow.overflowY}`)) continue;
+          const clip = parent.getBoundingClientRect();
+          if (fully ? !intersects(rect, clip) : rect.right <= clip.left || rect.bottom <= clip.top || rect.left >= clip.right || rect.top >= clip.bottom) return false;
+        }
+        return true;
+      };
+      const visible = node => rendered(node);
       const bound = node => {
         const rect = node.getBoundingClientRect();
         const x = Math.min(width - 1, Math.max(0, rect.left + Math.min(rect.width / 2, 22)));
@@ -101,7 +142,13 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
           hit: hit === node || hit?.closest('button, [role="button"], input, select') === node };
       };
       const controls = [...document.querySelectorAll('button, [role="button"], input, select')].filter(visible).map(bound);
-      const identity = [...document.querySelectorAll('#session-seats [data-seat]')].filter(visible).map(node => ({ seat: node.dataset.seat, text: node.textContent?.replace(/\s+/g, ' ').trim(), label: node.getAttribute('aria-label') }));
+      const identity = [...document.querySelectorAll('#session-seats [data-seat]')].filter(visible).map(node => {
+        const style = getComputedStyle(node);
+        return { seat: node.dataset.seat, text: node.textContent?.replace(/\s+/g, ' ').trim(), label: node.getAttribute('aria-label'), contrast: contrast(style.color, style.backgroundColor) };
+      });
+      const selectedFields = [...document.querySelectorAll('#session-seats .session-hud-selected [data-session-hud]')].map(node => ({
+        field: node.getAttribute('data-session-hud'), text: node.textContent?.trim(), fullyVisible: rendered(node, true),
+      }));
       const slots = [...document.querySelectorAll('#session-seats [data-seat] *')].filter(node => /^(Revive|Item)\b/.test(node.textContent?.trim() ?? '')).map(node => ({
         text: node.textContent?.trim(), interactive: Boolean(node.closest('button, [role="button"], input, select, a[href]')),
       }));
@@ -114,7 +161,7 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
       return {
         state, document: { width: document.documentElement.scrollWidth, height: document.documentElement.scrollHeight },
         app: app ? getComputedStyle(app).backgroundColor : '', boardVisible: !!board && visible(board), sceneVisible: !!scene && visible(scene),
-        controls, identity, slots, text,
+        controls, identity, selectedFields, slots, text,
       };
     }, { state, width, height });
     const assertFrame = async (state, width, height, theme) => {
@@ -146,6 +193,11 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
         const detailed = value.identity.filter(seat => /Revive\s*—/.test(seat.text ?? '') && /Item\s*—/.test(seat.text ?? ''));
         const compactHud = width < 480 || height < 420;
         if (compactHud ? detailed.length !== 1 : detailed.length !== 4) fail(`${state}/${theme}/${width}×${height} must show ${compactHud ? 'one selected detailed tile plus identity chips' : 'four detailed tiles'}`, value.identity);
+        const requiredFields = ['identity', 'device', 'health', 'power', 'wallet', 'revive', 'item'];
+        if (value.selectedFields.length !== requiredFields.length || requiredFields.some(field => !value.selectedFields.some(value => value.field === field && value.fullyVisible && value.text))) {
+          fail(`${state}/${theme}/${width}×${height} selected HUD must keep identity, real state, and unavailable future fields fully visible`, value.selectedFields);
+        }
+        if (value.identity.some(seat => seat.contrast < 4.5)) fail(`${state}/${theme}/${width}×${height} HUD paper/ink contrast is below 4.5:1`, value.identity);
         if (value.slots.some(slot => slot.interactive)) fail(`${state}/${theme}/${width}×${height} reserved fields must remain noninteractive`, value.slots);
       }
     };
@@ -166,10 +218,27 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
     // This is deliberately one live board, not a reload per frame. The
     // selected seat, keyboard-editor page, and focus are state that must live
     // through the compact breakpoint and return unchanged.
+    // Every compact setup tab must be a real reachable page. In particular,
+    // Controls cannot merely hide roster/detail without exposing the editor.
+    await resize(320, 560);
+    await frame.locator('.session-seat-chip[data-seat="p3"]').click();
+    await frame.getByRole('button', { name: 'Controls', exact: true }).click();
+    assert.equal(await frame.locator('#session-board').getAttribute('data-page'), 'controls', 'Controls tab selects its compact page');
+    assert.equal(await frame.locator('#local-session-controls').isVisible(), true, 'Controls page keeps a real editor action reachable');
+    await resize(900, 600);
+    assert.equal(await frame.locator('#session-board').getAttribute('data-page'), 'controls', 'Controls page survives compact to regular resize');
+    await resize(320, 560);
+    assert.equal(await frame.locator('#session-board').getAttribute('data-page'), 'controls', 'Controls page survives regular to compact resize');
+    assert.equal(await frame.locator('#local-session-controls').isVisible(), true, 'Controls action stays reachable after live resize');
+    await frame.locator('#local-session-controls').click();
+    assert.match(await frame.locator('#session-controls-heading').innerText(), /P3 controls/, 'Controls page preserves the selected seat in the editor');
+    await closeEditor();
+
     await resize(900, 600);
     await frame.locator('.session-seat-chip[data-seat="p3"]').click();
     assert.equal(await frame.locator('.session-seat-chip[data-seat="p3"]').getAttribute('aria-pressed'), 'true');
     await frame.locator('#local-session-controls').click();
+    await showBindingPage();
     await frame.locator('.session-controls-pages button', { hasText: 'More' }).click();
     const editorState = await frame.evaluate(() => ({
       heading: document.querySelector('#session-controls-heading')?.textContent,
@@ -192,12 +261,7 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
       focus: document.activeElement?.getAttribute('aria-label') ?? document.activeElement?.textContent,
     }));
     assert.deepEqual(regularEditor, compactEditor, 'compact to regular resize retains selected seat, editor page, and focus');
-    for (let index = 0; index < 6; index++) {
-      const pager = frame.locator('.session-controls-pages button').last();
-      if (await pager.innerText() === 'Finish') { await pager.click(); break; }
-      await pager.click();
-    }
-    await frame.waitForFunction(() => !document.querySelector('#session-board')?.hasAttribute('hidden'));
+    await closeEditor();
     assert.equal(await frame.locator('.session-seat-chip[data-seat="p3"]').getAttribute('aria-pressed'), 'true', 'closing editor returns to the selected P3 setup seat');
 
     for (const theme of Object.keys(themes)) {
@@ -208,6 +272,12 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
     await resize(900, 600);
     await frame.locator('#local-session-start').click();
     await frame.waitForFunction(() => document.querySelectorAll('#session-seats [data-seat]').length === 4);
+    const selectedHud = frame.locator('#session-seats [data-seat="p2"]');
+    await selectedHud.focus();
+    await frame.evaluate(async () => {
+      for (let frame = 0; frame < 5; frame++) await new Promise(resolve => requestAnimationFrame(resolve));
+    });
+    assert.equal(await frame.evaluate(() => document.activeElement?.getAttribute('data-seat')), 'p2', 'HUD update must preserve focus on the selected player identity control');
     for (const theme of Object.keys(themes)) {
       await setTheme(theme);
       for (const [width, height] of frames) { await resize(width, height); await assertFrame('hud', width, height, theme); }
