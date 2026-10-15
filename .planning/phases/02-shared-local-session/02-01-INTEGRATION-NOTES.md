@@ -352,3 +352,21 @@ isolation. Logs: `/tmp/down-to-duck-session-board-controls.log` and
 `/tmp/down-to-duck-router-context-review.log`. Product source remains executor
 owned and pending commit; these narrow checks do not accept the full Plan05
 built-main/call/adoption/HUD requirements.
+
+### Readiness and integrated-layout follow-up
+
+66c26aa adds a fifth production component case: with three drafted seats and
+P2 disconnected, Start remains enabled even though main rejects that unresolved
+roster. Initial result 4/5 pass, exit1;
+`/tmp/down-to-duck-session-board-readiness.log`. The executor is aligning Start
+enablement/reasons with whole-roster readiness.
+
+The built four-seat flow also found Add Keyboard outside the 900x600 frame.
+This is a distinct integrated-layout failure despite passing component focus
+checks. Source correction remains with multiplayer_phase2_setup.
+
+To advance Plan05 without source conflicts, multiplayer_phase2_owner is now
+assigned only new `tests/local-session-layout.mjs` and its artifacts as Plan05
+support. It must coordinate the shared browser slot and inspect real matrix
+screenshots. Product source/build/Plan05 SUMMARY stay setup-owned. Plan06 is
+still prepared but not released.
