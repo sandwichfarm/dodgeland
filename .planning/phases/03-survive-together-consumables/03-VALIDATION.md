@@ -78,6 +78,8 @@ Plan 03-02 uses production death, progress, safe-placement, and fixed-tick state
 
 Plan 03-03 tests the production catalog, charge/eligibility/target contracts, and exact sampler. Boundary inputs `-1`, `0`, `1`, `2`, `3`, and `2499` prove validation and exclusive classification. Golden keyed vectors pin `item-drop-schema-1`. Creating item rolls before, during, after, and out of order with terrain/coin/market/mob operations must leave every non-item snapshot and next RNG output identical.
 
+`pnpm test:consumables` runs the catalog/debit and drop-sampler assertions through the strict runner; missing files, empty suites, failures, cancellations, skips, and TODOs are not accepted as evidence. This focused gate does not replace the released RNG regression and solo parity gates in Plan03-03.
+
 ### Gate 4 — World pickup integration and economy
 
 Plans 03-04 and 03-05 use real rows, pull geometry, shared claims, player inventories, death, markets, and effects:
