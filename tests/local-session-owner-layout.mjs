@@ -152,7 +152,13 @@ test('four real inventories remain inspectable through one responsive owner surf
           assert.equal(await frame.locator('#run-hand-name').innerText(), inventory.cards[0].name, 'displayed card belongs to the selected owner, even when IDs collide');
           assert.equal(await frame.locator('#run-hand-sell').isDisabled(), true, 'unimplemented shared sale is explicitly unavailable');
           await snapshot(`hand-${inventory.seat}`, width, height, theme);
-          await frame.locator('#run-hand-close').click(); await settle();
+          if (inventory.seat === 'p4') {
+            await frame.locator('#run-hand-detail-owner').click(); await settle();
+            assert.match(await frame.locator('#market-owner').innerText(), /Viewing P1 /, 'foreground owner control actually selects the next real inventory');
+            assert.equal(await frame.locator('#run-hand-detail').isVisible(), false, 'owner switch clears the previous card inspector');
+          } else {
+            await frame.locator('#run-hand-close').click(); await settle();
+          }
           assert.equal(await frame.locator('#run-panel').isVisible(), false, 'closing an inspected card returns to the selected owner’s market');
         }
         assert.equal(await marketNode.evaluate(node => node === document.querySelector('#market')), true, 'one existing market tree');
