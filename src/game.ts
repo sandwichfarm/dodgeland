@@ -5,7 +5,7 @@ import type { LaneKind, Voxel, World } from './content.js';
 import { MobDirector } from './mobs.js';
 import type { Mob } from './mobs.js';
 import { RunInventory, defaultModifiers } from './market/run.js';
-import type { ItemDefinition } from './market/types.js';
+import type { ItemDefinition, RunModifiers } from './market/types.js';
 import type { CoinPull } from './coin-pull.js';
 import { createDeathSpill } from './death-spill.js';
 import type { DeathSpill } from './death-spill.js';
@@ -186,6 +186,7 @@ export class Game {
   /** `declare` deliberately emits no own field: untouched solo Games retain their released shape. */
   declare private worldExtension: GameWorldExtension | undefined;
   readonly definition: ModeDefinition;
+  declare private sharedWorldEffects: RunModifiers | undefined;
   readonly rules: ModeRules;
   /** A permanent operation facade per secondary seat; the host always remains P1. */
   private readonly playerOperations = new WeakMap<SessionPlayer, Game>();
@@ -272,8 +273,9 @@ export class Game {
   /** Session terrain uses the resolved base definition; player cards stay personal. */
   advanceSharedPursuit(previousTime: number): void {
     if (!this.world?.sessionActive || this.rules.pursuit.strategy !== 'wave') return;
+    const effects = this.sharedWorldEffects ?? defaultModifiers();
     const chaseTime = Math.max(0, this.time - this.rules.pursuit.grace) - Math.max(0, previousTime - this.rules.pursuit.grace);
-    this.waveRow = Math.max(this.waveRow + chaseTime * this.rules.pursuit.speed, this.world.frontier - this.rules.pursuit.waveTrail);
+    this.waveRow = Math.max(this.waveRow + chaseTime * this.rules.pursuit.speed * effects.waveSpeed, this.world.frontier - this.rules.pursuit.waveTrail - effects.waveTrail);
   }
   /**
    * Resolve one participant after LocalSession has advanced SharedWorld.
@@ -297,7 +299,13 @@ export class Game {
     if (!participants.length) return;
     const primary = participants[0]!;
     const anchor = [...participants].sort((a, b) => b.game.groundY - a.game.groundY || a.seat.localeCompare(b.seat))[0]!;
-    this.mobDirector.update(this, dt, primary.previousX, primary.previousY, participants, { effects: defaultModifiers(), frontier: this.world.frontier, anchor: anchor.game });
+    this.mobDirector.update(this, dt, primary.previousX, primary.previousY, participants, { effects: this.sharedWorldEffects ?? defaultModifiers(), frontier: this.world.frontier, anchor: anchor.game });
+  }
+  /** Definition-owned session policy provides one resolved value set per world tick. */
+  setSharedWorldEffects(effects: RunModifiers | undefined): void {
+    if (effects === undefined) delete this.sharedWorldEffects;
+    else this.sharedWorldEffects = effects;
+    this.syncSharedWorldEffects();
   }
   /** Remove player-card lane mutations when a shared world takes ownership. */
   resetSharedWorldEffects(): void {
@@ -305,6 +313,20 @@ export class Game {
       const motion = this.laneSpeeds.get(lane);
       if (!motion || lane.speed === motion.base) continue;
       lane.phase += this.time * (lane.speed - motion.base); lane.speed = motion.base; motion.applied = motion.base;
+    }
+  }
+  private syncSharedWorldEffects(): void {
+    if (!this.world?.sessionActive) return;
+    const effects = this.sharedWorldEffects ?? defaultModifiers();
+    for (const lane of this.rows.values()) {
+      if (lane.kind !== 'road' && lane.kind !== 'river') continue;
+      let motion = this.laneSpeeds.get(lane);
+      if (!motion || motion.applied !== lane.speed) { motion = { base: lane.speed, applied: lane.speed }; this.laneSpeeds.set(lane, motion); }
+      const speed = motion.base * (lane.kind === 'road' ? effects.trafficSpeed : effects.riverSpeed) || 0;
+      if (lane.speed === speed) continue;
+      lane.direction = laneDirection(lane);
+      lane.phase += this.time * (lane.speed - speed);
+      lane.speed = speed; motion.applied = speed;
     }
   }
   get mobs(): Mob[] { return this.mobDirector.mobs; }
@@ -349,7 +371,7 @@ export class Game {
     const frontier = this.world?.sessionActive ? this.world.frontier : this.maxY;
     const floor = this.world?.sessionActive ? Math.min(frontier, this.world.activeFloor) : frontier;
     for (let i = floor - this.rules.retention.rowsBehind; i <= frontier + this.rules.retention.rowsAhead; i++) if (!this.rows.has(i)) {
-      const lane = this.runSeed ? generateSeedLane(this.runSeed, i) : generateLane(this.seed, i, this.home, this.gentle), effects = this.world?.sessionActive ? defaultModifiers() : this.run.effects;
+      const lane = this.runSeed ? generateSeedLane(this.runSeed, i) : generateLane(this.seed, i, this.home, this.gentle), effects = this.world?.sessionActive ? this.sharedWorldEffects ?? defaultModifiers() : this.run.effects;
       const rng = random((this.runSeed?.seed ?? this.seed) ^ Math.imul(i + 100, 0x19ab61f));
       if (lane.kind === 'road') lane.spacing = lane.length + (lane.spacing - lane.length) * effects.trafficSpacing;
       if (lane.kind === 'river') { const gap = lane.spacing - lane.length; lane.length *= effects.platformLength; lane.spacing = lane.length + gap; }
@@ -376,7 +398,7 @@ export class Game {
       this.worldExtension?.row?.(this, lane);
     }
     for (const i of this.rows.keys()) if (i < floor - this.rules.retention.rowsBehind) this.rows.delete(i);
-    if (this.world?.sessionActive) this.resetSharedWorldEffects(); else this.syncEffects();
+    if (this.world?.sessionActive) this.syncSharedWorldEffects(); else this.syncEffects();
     for (const lane of this.rows.values()) if (lane.coinActor === null && lane.index <= frontier + this.rules.retention.pickupBindingAhead) {
       // Rows are generated 28 ahead. Bind near the visible approach so a log
       // reward has not already left the world before its lane can be reached.
