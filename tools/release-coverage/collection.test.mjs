@@ -5,6 +5,31 @@ import { readFile, writeFile, mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { buildInventory } from './inventory.mjs';
+import { instrumentSources } from './instrument.mjs';
+import vm from 'node:vm';
+
+test('browser realm registration fails closed before missing duplicate or mismatched capture',async()=>{
+ const {createBrowserCollector}=await import('./browser.mjs');
+ const inventory=instrumentSources({'fixture.ts':'export const answer = 42;'},'/coverage-browser');
+ const context=vm.createContext({});vm.runInContext(inventory['fixture.ts'].code.replace('export const','const'),context);
+ const raw=JSON.parse(JSON.stringify(context.__coverage__));
+ const output=await mkdtemp(join(tmpdir(),'browser-realms-'));
+ try {
+  const collector=createBrowserCollector({runId:'browser-proof',payloadDirectory:output},inventory);
+  const identity={suite:'test-owner',scenario:'actual-start',frame:'opaque-app',generation:0,scope:'current'};
+  const frame={evaluate:async()=>raw};
+  collector.registerRealm(frame,identity);
+  assert.throws(()=>collector.finishRealms(),/Missing/);
+  assert.throws(()=>collector.registerRealm(frame,identity),/Duplicate/);
+  await collector.collectRealm(frame,identity);
+  assert.equal(collector.finishRealms().length,1);
+  await assert.rejects(collector.collectRealm(frame,identity),/Duplicate/);
+  const next={...identity,generation:1};collector.registerRealm(frame,next);
+  const malformed=structuredClone(raw);Object.values(malformed)[0].statementMap={};
+  await assert.rejects(collector.collectRealm({evaluate:async()=>malformed},next),/Schema/);
+  assert.throws(()=>collector.finishRealms(),/Missing/);
+ } finally {await rm(output,{recursive:true,force:true});}
+});
 
 test('independent tracked-source inventory retains all source classes and canonical zeros',async()=>{
  const result=await buildInventory();
