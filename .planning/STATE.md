@@ -3,23 +3,23 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed07-07 component adapters; next07-08 local-input adapters
+stopped_at: Completed07-08 local-input adapters; next07-09 remaining owners and full report
 last_updated: "2026-10-16T14:19:13.059Z"
 progress:
   total_phases: 7
   completed_phases: 6
   total_plans: 42
-  completed_plans: 36
+  completed_plans: 37
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Seven component browser owners verified07-07;6 phases and36/42 plans complete.
+last_activity_desc: Seven local-input owners and19 browser generations verified07-08;6 phases and37/42 plans complete.
 ---
 
 # Project State
 
-Current position: Phase07 plans01/02/07 complete. Component adapters07-07 passed exact82673 (collection5/5, instrumented32/32, ordinary32/32) and required suffix81375.14 independent owners remain. Next07-08 local-input →07-09 remaining owners/full initial report →07-03 gaps →07-04 conformance →07-05 evidence →07-06 release runner/PR. Full collection/floor compliance remain unclaimed.
+Current position: Phase07 plans01/02/07/08 complete.07-08 exact86113 passed collection5/5, instrumented9/9 with20 payloads and ordinary9/9; final suffix2280 passed.7 independent owners remain. Next07-09 remaining owners/full initial report →07-03 gaps →07-04 conformance →07-05 evidence →07-06 release runner/PR. Full collection/floor compliance remain unclaimed.
 
-Actual tracking: **6 completed phases,36/42 plans complete**. User explicitly tested and accepted Survive/Relay/Race presentation on2026-10-16; UAT5eb3c46 and verification addenda ba9540c. Security40f42bd has zero open threats (Race30/30,presentation7/7); validation3496365 maps every task/requirement to existing evidence. Both canonical UAT/verification predicates and phase.complete passed with no warnings. Technical05 verification40/40 and06 verification47/47 retain their original source/provenance limits. Root corrected CLI counting of checkpoint summaries and historical plan artifacts; roadmap totals are authoritative.
+Actual tracking: **6 completed phases,37/42 plans complete**. User explicitly tested and accepted Survive/Relay/Race presentation on2026-10-16; UAT5eb3c46 and verification addenda ba9540c. Security40f42bd has zero open threats (Race30/30,presentation7/7); validation3496365 maps every task/requirement to existing evidence. Both canonical UAT/verification predicates and phase.complete passed with no warnings. Technical05 verification40/40 and06 verification47/47 retain their original source/provenance limits. Root corrected CLI counting of checkpoint summaries and historical plan artifacts; roadmap totals are authoritative.
 
 07-01 exact Node/opaque-browser calibration10/10 passed32469exit0 onf04d332. Audited standalone dependencies/own lock are installed: historical Node HTTPS EBADF resolved through installed Bun running pinned pnpm, followed by ordinary frozen reinstall. Root lock/oracle unchanged. Production shared-tracer data is partial; no full coverage or floor-compliance claim.07-09 must account for all audited/transitive realms before07-03 uses the initial report.
 
