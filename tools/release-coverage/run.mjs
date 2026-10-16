@@ -45,7 +45,8 @@ export function validateFullManifest(manifest,inventory){
  const {jobs,controls}=manifest.execution;if(!jobs?.length||!Array.isArray(controls))throw Error('Missing execution jobs/controls');
  const ids=new Set();for(const job of jobs){if(ids.has(job.id))throw Error('Duplicate job');ids.add(job.id);if(!['node','browser','mixed'].includes(job.role)||!job.requiredRealms?.length||JSON.stringify(job.requiredRealms)!==JSON.stringify(job.role==='mixed'?['node','browser']:[job.role]))throw Error('Missing declared realm requirements');}
  for(const entry of inventory.entries)if(!jobs.some(j=>j.file===entry.path)&&!controls.includes(entry.path))throw Error(`Missing owner ${entry.path}`);
- for(const c of inventory.commands)if(c.env.DOWN_TO_DUCK_AUDIO_BROWSER){const file=c.args.find(p=>p.endsWith('.mjs'));if(!jobs.some(j=>j.file===file&&j.env?.DOWN_TO_DUCK_AUDIO_BROWSER===c.env.DOWN_TO_DUCK_AUDIO_BROWSER))throw Error('Missing browser variant');}
+ const variantFiles=new Set(inventory.commands.filter(c=>c.env.DOWN_TO_DUCK_AUDIO_BROWSER).flatMap(c=>c.args.filter(p=>p.endsWith('.mjs'))));
+ for(const c of inventory.commands)for(const file of c.args.filter(p=>variantFiles.has(p))){const browser=c.env.DOWN_TO_DUCK_AUDIO_BROWSER??'chromium';if(!jobs.some(j=>j.file===file&&(j.env?.DOWN_TO_DUCK_AUDIO_BROWSER??'chromium')===browser))throw Error(`Missing browser variant ${file}: ${browser}`);}
  return true;
 }
 
@@ -70,7 +71,7 @@ export async function auditExecutionInventory(manifest){
  return {...resolved,closure:[...closure.values()].sort((a,b)=>a.path.localeCompare(b.path)),developmentControls,startingDiscovery:{entries:133,closure:138},scope:'Mechanically resolved current package commands, canonical arrays and local import closure; counts are discovery, not executed suites'};
 }
 
-async function preserveJobArtifacts(job,directory,action){
+export async function preserveJobArtifacts(job,directory,action){
  const patterns=job.artifactPatterns??[];
  for(const pattern of patterns)if(!pattern.startsWith('artifacts/')||pattern.includes('..')||pattern==='artifacts/**'||pattern.startsWith('artifacts/release-coverage'))throw Error('Unsafe artifact preservation pattern');
  const expand=()=>{const found=[...new Set(patterns.flatMap(p=>globSync(p,{cwd:repositoryRoot})))].sort();return found.filter(p=>!found.some(parent=>p!==parent&&p.startsWith(parent+'/')));};

@@ -2857,7 +2857,9 @@
           "artifacts/solo-render-parity.json",
           "artifacts/solo-render-parity.png",
           "artifacts/wave-approaching.png",
-          "artifacts/wave-caught.png"
+          "artifacts/wave-caught.png",
+          "artifacts/local-session-render-foreground.png",
+          "artifacts/local-session-render-river.png"
         ]
       },
       {
