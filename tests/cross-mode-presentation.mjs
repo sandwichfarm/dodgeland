@@ -116,7 +116,7 @@ for(const variant of ['arcade','flow','race','relay'])test(`P6 frames ${variant}
  }finally{await writeFile(new URL(`${variant}-frames.json`,output),JSON.stringify(evidence,null,2));await app.close();}
 });
 const compactControlReport={errors:[],external:[],captures:[],completedVariants:[],complete:false};
-for(const variant of ['arcade','race','relay'])test(`P6 compact controls ${variant} leave the actual travelers and eighty pixels of live course clear`,{timeout:60000},async()=>{
+for(const variant of ['arcade','race','relay'])test(`P6 compact controls ${variant} leave the actual travelers and eighty pixels of live course clear`,{timeout:60000},async(t)=>{
  const evidence={errors:[],external:[],captures:[]};let app;
  try{
   app=await createMarketGameFixture(evidence,{gamepads:true,auditBoundary:true,initialIntent:intent});await setup(app,variant);await app.resize(240,240);
@@ -124,6 +124,7 @@ for(const variant of ['arcade','race','relay'])test(`P6 compact controls ${varia
   const controls=await app.frame.evaluate(()=>[...document.querySelectorAll('#session-seats,.hud-tools button,.bottom-bar button,#run-hand-owner,#run-hand-items button')].filter(n=>n.getClientRects().length&&getComputedStyle(n).visibility!=='hidden'&&!n.closest('[hidden]')).map(n=>({name:n.id||n.className,text:n.textContent,rect:n.getBoundingClientRect().toJSON()})));
   evidence.captures.at(-1).controls=controls;await app.close();app=null;
   assert.deepEqual(evidence.captures.flatMap(c=>c.collisions),[],`${variant} live control footprints must not cover actual travelers`);
+  t.signal.throwIfAborted();
   compactControlReport.completedVariants.push(variant);
  }finally{
   compactControlReport.errors.push(...evidence.errors);compactControlReport.external.push(...evidence.external);compactControlReport.captures.push(...evidence.captures);
