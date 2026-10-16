@@ -397,3 +397,9 @@ No browser/test calibration, full gate, installation, source edit, lockfile chan
 
 **Valid until:** Any source/loader/build/toolchain change invalidates its measured environment/API assumptions; recheck installed dependencies and living protocol authority during execution.
 
+## Read-only delivery preflight — 2026-10-16 23:17 UTC
+
+During full collection11460, root confirmed the intended remote is `sandwichfarm/down-to-duck`. `gh repo view --json nameWithOwner,url,defaultBranchRef,viewerPermission` exited0 and reported default branch `main` and current viewer permission `ADMIN`. `git ls-remote origin refs/heads/main refs/heads/feat/local-multiplayer` exited0: remote main is the immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`; no remote feature branch was returned. `gh pr list --base main --head feat/local-multiplayer --state all --json number,url,state,baseRefName,headRefName` exited0 with `[]`.
+
+This establishes current read access, the intended destination and absence of a matching PR. It does not prove a future push will succeed and does not satisfy delivery. No branch push, PR creation/edit, merge or publication occurred.07-06 must recheck live base/head/PR state after the final technical gate, then perform the already authorized non-force push and PR creation. Source/tests/tooling and the running collection were unchanged by this preflight.
+
