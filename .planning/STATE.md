@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-12 Race repair proven; unchanged Relay diagnostic11826 canceled at aggregate deadline
+stopped_at: 07-12 Relay focused and cancellation proof passed; awaiting root full-collection acceptance
 last_updated: "2026-10-16T19:12:24.841988+00:00"
 progress:
   total_phases: 7
@@ -12,10 +12,12 @@ progress:
   completed_plans: 40
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Race focused10/10 and cancellation negative verified; unchanged Relay252-cell diagnostic timed out, awaiting bounded test ownership.
+last_activity_desc: Relay repair3920d11 focused5/5 and cancellation negative passed; no active process, full report pending.
 ---
 
 # Project State
+
+Latest accepted-scope work: Relay repair3920d11 statically reviewed5747c11; focused86745 exited0 with5/5,252 cells/21 states/four stages/three original canonical realms, complete=true and all required checks. Cancellation probe54679 exited0 validating expected child1, incomplete24-cell report, no later acquisition, browser teardown,256 restored ordinary files and unchanged dist. Evidence is in07-12-RELAY-LAYOUT-REPAIR.md. No active process; full rerun awaits root acceptance/runtime review. Prior diagnostic failures below remain historical evidence, not current unresolved layout assertions. Full report/floors and07-12 completion remain pending.
 
 Latest checkpoint: Race repair64b76e9 independently reviewed6e9d277; focused48452 exited0 with10/10,420 cells/35 states, complete=true, type/build/guidance7/conformance5pass5unmeasured and immutable lock check. Runtime first-stage cancellation negative proved incomplete24-cell report and browser exit before next test acquisition; see07-12-RACE-LAYOUT-REPAIR.md/fdf586d. Root-requested unchanged Relay diagnostic11826 exited1 at180000ms (total188832ms), runf5db4de1-ad5a-40ad-92a8-27dd239f220e, log`/tmp/down-to-duck-07-12-relay-layout-diagnostic.log`. Archived report has252 cells/21 states and zero geometry/errors/external, but cancellation remains failure. Proposed four bounded same-journey stages await Relay test ownership; no Relay edits or full rerun. No active process. Full report/floors and07-12 completion remain pending.
 
