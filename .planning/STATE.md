@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-12 full collection93747 active on verified layout repairs
-last_updated: "2026-10-16T19:41:51.735387+00:00"
+stopped_at: 07-12 full collection93747 exited1 after69 production jobs at Race results timeouts
+last_updated: "2026-10-16T20:20:36.799591+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,12 @@ progress:
   completed_plans: 40
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Root accepted layout repairs and runtime reviews; frozen complete collection93747 running, full report pending.
+last_activity_desc: Race matrix passed10/10; Race results14pass5cancel requires narrow timing diagnosis; full report pending.
 ---
 
 # Project State
 
-CURRENT ACTIVE execution: session93747, collector PID46458/shell46266, run`59b261c8-5604-4c26-8b26-5d97f40d8e4a`, log`/tmp/down-to-duck-07-12-full-collection-layouts-verified.log`. Root accepted Relay focused/negative220cf6a and independent runtime reviewcb0e569; frozen source/tests/toolingcb0e569 (last implementation3920d11). All132 jobs remain required; no full report/floor/plan completion claim. Earlier no-active/checkpoint statements below are historical and superseded by this live run.
+LATEST TERMINAL execution: session93747 exit1, former collector PID46458/shell46266, run`59b261c8-5604-4c26-8b26-5d97f40d8e4a`, log`/tmp/down-to-duck-07-12-full-collection-layouts-verified.log`. Root accepted Relay focused/negative220cf6a and independent runtime reviewcb0e569; frozen source/tests/toolingcb0e569 (last implementation3920d11). All132 jobs remain required; no full report/floor/plan completion claim. This run terminated after69 timestamped production PASS records. Race matrix passed10/10 with420 exact cells. Race results had14pass/5cancel/0assertion failures:90s main results case,30s time/left cases,60s four-tied/four-distinct cases. All six browser realms captured, but timeout is authoritative failure.78 fresh result PNGs preserved with hashes in`/tmp/down-to-duck-07-12-race-results-failure-evidence/manifest.json`. Cleanup/collection timings need diagnosis before repair; no source edits or rerun. No process remains active; prior active statements below are historical.
 
 Latest accepted-scope work: Relay repair3920d11 statically reviewed5747c11; focused86745 exited0 with5/5,252 cells/21 states/four stages/three original canonical realms, complete=true and all required checks. Cancellation probe54679 exited0 validating expected child1, incomplete24-cell report, no later acquisition, browser teardown,256 restored ordinary files and unchanged dist. Evidence is in07-12-RELAY-LAYOUT-REPAIR.md. No active process; full rerun awaits root acceptance/runtime review. Prior diagnostic failures below remain historical evidence, not current unresolved layout assertions. Full report/floors and07-12 completion remain pending.
 
