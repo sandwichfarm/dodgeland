@@ -18,6 +18,49 @@ await writeFile(join(sources.directory, 'mode-authoring-example.js'), ts.transpi
 }).outputText);
 const { createEveningRun } = await sources.import('mode-authoring-example');
 
+test('exact multiplayer authoring example compiles and dispatches every real session lifecycle', async () => {
+  const examples = [...guide.matchAll(/<!-- executable-session-example:start -->\s*```ts\n([\s\S]*?)\n```\s*<!-- executable-session-example:end -->/g)];
+  assert.equal(examples.length, 1, 'one exact executable multiplayer example');
+  const example = examples[0][1];
+  const filename = join(root, 'src/__session-authoring-example.ts');
+  const config = ts.readConfigFile(join(root, 'tsconfig.json'), ts.sys.readFile);
+  const parsed = ts.parseJsonConfigFileContent(config.config, ts.sys, root);
+  const host = ts.createCompilerHost(parsed.options), get = host.getSourceFile.bind(host);
+  host.getSourceFile = (file, version, error, fresh) => resolve(file) === filename ? ts.createSourceFile(filename, example, version, true) : get(file,version,error,fresh);
+  const diagnostics = ts.getPreEmitDiagnostics(ts.createProgram([filename,join(root,'src/env.d.ts')],parsed.options,host));
+  assert.equal(diagnostics.length,0,ts.formatDiagnosticsWithColorAndContext(diagnostics,{getCanonicalFileName:f=>f,getCurrentDirectory:()=>root,getNewLine:()=> '\n'}));
+  await writeFile(join(sources.directory,'session-authoring-example.js'),ts.transpileModule(example,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText);
+  const { createPracticeSession } = await sources.import('session-authoring-example');
+  assert.throws(() => createPracticeSession(113,{unknown:1}));
+  for (const value of [0,1.5,Infinity,NaN]) assert.throws(() => createPracticeSession(113,{finishTiles:value}));
+  const { composeSessionModeDefinition } = await sources.import('session');
+  const { SOLO_ARCADE_MODE } = await sources.import('mode-rules');
+  assert.throws(() => composeSessionModeDefinition(SOLO_ARCADE_MODE,{unknown:()=>{}}));
+  assert.throws(() => composeSessionModeDefinition(SOLO_ARCADE_MODE,{tick:4}));
+  for (const target of [1,2]) {
+    const {game,session,events,settings} = createPracticeSession(113,{finishTiles:target});
+    assert.ok(Object.isFrozen(settings));
+    assert.equal(session.admit({seat:'p3',characterId:'sunny',device:'gamepad-0'}),true);
+    assert.equal(session.deviceLost('p3'),true); assert.equal(session.offerReclaim('p3','gamepad-0'),true); assert.equal(session.reclaim('p3','gamepad-0'),true);
+    assert.equal(session.depart('p3'),true);
+    game.end('Authoring death', 'traffic'); session.update(1/120);
+    assert.ok(events.some(e=>e.type==='player-death' && e.seat==='p1'));
+    for (let hop=1;hop<=target;hop++) {
+      assert.equal(session.dispatch({seat:'p2',direction:'forward'}),true);
+      for (let i=0;i<60&&!session.result;i++) session.update(1/120);
+      assert.equal(!!session.result,hop===target,'validated custom setting changes finish policy');
+    }
+    assert.deepEqual(events.filter(e=>e.type!=='progress').map(e=>e.type),['attach','player-joined','device-lost','reclaimed','departed','player-death','result']);
+    assert.ok(events.every(e=>e.sessionId===session.id && Number.isInteger(e.simulationTick)));
+    const result=session.result;
+    assert.ok(Object.isFrozen(result)); assert.ok(Object.isFrozen(result.distances));
+    assert.throws(()=>{result.distances[0].distance=999;});
+    assert.equal(session.completeResult(Object.freeze({mode:'other',outcome:'late'})),false);
+    session.update(1); assert.strictEqual(session.result,result);
+    assert.equal(events.filter(e=>e.type==='result').length,1);
+  }
+});
+
 test('the exact documented example type-checks against public project exports', () => {
   const filename = join(root, 'src/__mode-authoring-example.ts');
   const config = ts.readConfigFile(join(root, 'tsconfig.json'), ts.sys.readFile);
