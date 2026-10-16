@@ -10,7 +10,7 @@ A little duck. A very big adventure.
 
 </div>
 
-Down to Duck is an endless voxel crossing game built as a **napplet**: a self-contained game that runs inside a Nostr application's sandbox. Start as Butter the duck, dodge traffic, ride river platforms, and build a three-card hand while hopping through six changing worlds.
+Down to Duck is a voxel crossing game for solo play or two to four local players, built as a **napplet**: a self-contained game that runs inside a Nostr application's sandbox. Start as Butter the duck, dodge traffic, ride river platforms, and build a three-card hand while hopping through six changing worlds. Play together in Survive Together, take turns in Relay, or compete in Race.
 
 ![Butter crossing the voxel landscape with the gameplay HUD visible](docs/images/gameplay.png)
 
@@ -47,7 +47,7 @@ Open the printed **Paja URL**. Rebuild after source changes, then reload the fra
 | Visit an available market | Market button | M |
 | Back / close a menu | Back button | Escape |
 
-Keyboard shortcuts require the shell's optional **NAP-KEYS** support. Controllers use the shell's **NAP-GAMEPAD** adapter: stick/D-pad to move, A to confirm, X to call, Start to pause, Y for the collection, and LB for the market. See [controller support](docs/gamepad.md).
+The solo shortcuts above use the shell's optional **NAP-KEYS** support. Local Play also reads its keyboard profiles directly inside the focused game frame. Controllers use the shell's **NAP-GAMEPAD** adapter: stick/D-pad to move, A to confirm, X to call, Start to pause, Y for the collection, and LB for the market. See [controller support](docs/gamepad.md).
 
 - **Arcade or Stroll.** Outrun a visible wave and progressively tougher pursuers, or explore with slower hazards and no chase. Each mode tracks its own best distance.
 - **Pluck and traveler powers.** Start with three feathers. Rear car bumps cost one; side hits cost two. Recover half a feather every 100 new points. Automatic powers can avert matching hazards, then recharge over 100 new blocks.
@@ -57,6 +57,18 @@ Keyboard shortcuts require the shell's optional **NAP-KEYS** support. Controller
 - **Interchangeable sound.** Pond and Pocket Arcade are bundled packs. Scene-aware engines, water, horns, character calls, and death sounds share separate music, ambience, and effects controls. Shared packs use the game's [NIP-51/NIP-94 profile](docs/sound-packs.md).
 
 The game supports panes of **240×240 or larger**, with compact menu pages and a Less motion setting. Losing focus or shrinking the pane pauses play.
+
+## Local multiplayer
+
+Open **Local Play**, assign two to four players, and choose a different traveler for each. Mix supported controllers with keyboard profiles, or share one keyboard: Keyboard A defaults to **WASD / Q** and Keyboard B to **arrow keys / .** for movement and calls. The setup's keyboard editor checks for conflicting bindings. An idle connected controller does not join; an unassigned controller requests a place when used.
+
+| Mode | How it plays |
+| --- | --- |
+| **Survive Together** | Share the course in Arcade or Flow (Stroll). Players can join or leave during the run, with personal health, wallets, and inventories. Revival items and flares help teammates return. |
+| **Relay** | One active runner at a time, with a configurable leg length of **50 tiles** by default. The incoming runner confirms the handoff. Players can leave or reclaim their existing place; the roster closes when the run starts. |
+| **Race** | Race to **500 tiles** within **180 active seconds** by default, with configurable settings. The leader drives the trailing fog, which plucks feathers from racers caught behind. Mud and Lantern consumables provide offensive and defensive options. The roster closes at the start. |
+
+Each player has a personal revival that recharges after **250 new tiles**, separate from their traveler's automatic **100-block** power. The HUD identifies each traveler and their state; the Controls drawer keeps actions compact. Markets and hands show whose inventory is selected, and each mode ends with its own results. Controller loss follows the mode's recovery rules; losing frame focus remains a separate pause condition.
 
 ## Market and wardrobe
 
@@ -90,6 +102,10 @@ Conformance reports skipped checks when manifest, wire, or lifecycle evidence is
 | `pnpm test:market` | Inventory, effects, capacity, cosmetics |
 | `pnpm test:intents` | Built-game intent delivery, validation, lifecycle |
 | `pnpm test:devtools-runtime` | Inspector behavior and production exclusion |
+| `pnpm test:solo-parity` | Solo behavior compared with the immutable pre-multiplayer baseline |
+| `pnpm test:local-session-model` | Shared world, player state, lifecycle, and keyboard/controller routing |
+| `pnpm build && pnpm test:local-session-ui` | Built-game setup, input, ownership, audio, and responsive layouts |
+| `pnpm test:survive-recovery` | Revival behavior and recharge boundaries |
 
 More suites are listed in [package.json](package.json); [verification notes](docs/verification.md) record scenarios and limitations. Browser suites require Playwright's corresponding browser. Tests write generated evidence to `artifacts/`.
 
@@ -121,7 +137,11 @@ The **game** archetype advertises `napplet:game/open` with optional `seed` and `
 │   ├── content.ts        # Travelers, world models, and palettes
 │   ├── game.ts           # Simulation, movement, hazards, and scoring
 │   ├── main.ts           # Run flow, controls, UI, and SDK integration
-│   └── render.ts         # Isometric voxel renderer
+│   ├── mode-rules.ts     # Validated composable mode definitions
+│   ├── race.ts           # Race clock, finish, fog, and lifecycle policy
+│   ├── relay.ts          # Turn order, handoffs, and lifecycle policy
+│   ├── render.ts         # Isometric voxel renderer
+│   └── session.ts        # Shared world and individual local players
 ├── tests/                # Model tests and built-game browser scenarios
 ├── index.html            # Game surface
 ├── package.json          # Dependencies and commands
@@ -140,6 +160,7 @@ The **game** archetype advertises `napplet:game/open` with optional `seed` and `
 | [Seeds](docs/seeds.md) · [Intents](docs/intents.md) | Reproducible courses and external launch requests |
 | [Sound packs](docs/sound-packs.md) · [Soundscape](docs/soundscape.md) | Asset mapping, scene audio, and mixing |
 | [Development tools](docs/development.md) | Score jumps, state inspection, and sandbox isolation |
+| [Mode authoring](docs/mode-rules.md) · [Controller support](docs/gamepad.md) | Composable policies, input transport, and device lifecycle |
 | [Architecture boundaries](docs/boundaries.md) · [Context map](docs/context-map.md) | App/runtime responsibilities and contributor orientation |
 
 ## Contributing
