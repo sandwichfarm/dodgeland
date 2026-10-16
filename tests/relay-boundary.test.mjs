@@ -1,15 +1,18 @@
 import assert from 'node:assert/strict';
 import test, { after } from 'node:test';
 import { loadSources } from './source-loader.mjs';
+import { semanticValue, snapshotGame } from './solo-parity-snapshot.mjs';
 
-const sources = await loadSources(['game', 'relay']);
+const sources = await loadSources(['game', 'relay', 'market/catalog']);
 after(() => sources.dispose());
-const { Game, generateLane } = await sources.import('game');
+const gameModule = await sources.import('game');
+const { Game, generateLane, laneActors, coinPosition } = gameModule;
+const { ITEM_CATALOG } = await sources.import('market/catalog');
 const { createRelaySession } = await sources.import('relay');
 const STEP = 1 / 120;
 
-function setup(length = 50, mode = 'stroll') {
-  const game = new Game(121, 'pond', mode, false, [], 'butter');
+function setup(length = 50, mode = 'stroll', catalog = []) {
+  const game = new Game(121, 'pond', mode, false, catalog, 'butter');
   for (const row of game.rows.keys()) courseLane(game, row);
   const relay = createRelaySession(game, { seats: [
     { seat: 'p1', characterId: 'butter', device: 'keyboard-a' },
@@ -167,4 +170,134 @@ test('fractional platform carry settles before the board freezes actor motion', 
   ticks(run.session, 120); assert.equal(run.session.world.time, time); assert.equal(player.groundX, position.x);
   assert.equal(run.relay.confirm(run.relay.confirmation()), true);
   assert.deepEqual({ x: run.session.players[1].groundX, y: run.session.players[1].groundY }, position);
+});
+
+function personalState(player) {
+  // The only excluded fields are the explicit arrival position/credit floor.
+  const { world, session, x, y, fromX, fromY, maxY, personalFrontierY, recovery, ...owned } = player;
+  const { spatialFrontierY, lastSafe, ...personalRecovery } = recovery;
+  return semanticValue({ ...owned, recovery: personalRecovery, score: player.personalScore,
+    powerRemaining: player.powerRemaining, powerReady: player.powerReady,
+    // Primary facade aliases need explicit inclusion even if non-enumerable.
+    run: player.run, health: player.health, coins: player.coins, powerReadyAt: player.powerReadyAt,
+    healedMilestone: player.healedMilestone, touchingCars: player.touchingCars });
+}
+
+function worldState(run) {
+  const { host, frame, ...owned } = run.session.world;
+  const snapshot = snapshotGame(run.game, gameModule);
+  return semanticValue({ owned, frame: frame && { previousTime: frame.previousTime,
+    playerGround: [...frame.playerGround].map(([player, position]) => [player.seat, position]) },
+    rows: snapshot.rows, attractedCoins: snapshot.attractedCoins, mobs: snapshot.mobs,
+    laneSpeeds: snapshot.gameFuture.laneSpeeds, extensions: run.game.worldExtensionSnapshot(),
+    sharedEffects: run.game.sharedWorldEffects, effectPolicy: run.session.sharedWorldEffectsSnapshot(),
+    consumables: run.session.consumableSnapshot(), lifecycle: run.session.lifecycle,
+    contributions: run.session.contributions, result: run.session.result });
+}
+
+function prepareContinuity(platform) {
+  const run = setup(1, 'stroll', ITEM_CATALOG);
+  snapshotGame(run.game, gameModule); // Track the production RNG before any draws.
+  if (platform) {
+    courseLane(run.game, 0, { kind: 'river', speed: .7, length: 4 });
+    ticks(run.session, 12);
+    courseLane(run.game, 1, { kind: 'river', speed: .7, length: 4 });
+  }
+  run.session.dispatch({ seat: 'p1', direction: 'forward' });
+  ticks(run.session, 120);
+  assert.equal(run.relay.snapshot().phase, 'handoff');
+  for (const player of run.session.players) {
+    const inventory = player.run;
+    // Existing market fixture pattern: real purchases populate every asset kind.
+    inventory.advanceScore(100); assert.equal(inventory.open(), true); inventory.creditCoins(10000.375);
+    for (const kind of ['card', 'power', 'cosmetic']) {
+      const item = ITEM_CATALOG.find(item => item.kind === kind);
+      const offer = { id: `fixture-${kind}`, itemId: item.id, price: item.price, sold: false };
+      inventory.market.offers.push(offer); assert.equal(inventory.buy(offer.id).ok, true);
+    }
+    inventory.close(); player.health -= .25;
+    assert.ok(inventory.cards.length && inventory.powers.length && inventory.equippedCosmetics.length);
+    assert.ok(inventory.fraction > 0);
+  }
+  // A nearby unclaimed coin must not be collected by confirmation itself.
+  const lane = run.game.rows.get(1);
+  lane.coin = run.session.players[0].groundX; lane.coinDenomination = 5;
+  const retained = courseLane(run.game, 3, { coin: 3 });
+  run.session.world.claimPickupPull(run.session.players[0], retained, run.game.time, 4,
+    { x: 3, y: 3, z: 0, speed: 0 });
+  run.session.world.resolvePickups();
+  assert.equal(run.session.world.pickupOwners.get(3), 'p1');
+  assert.strictEqual(run.session.world.attractedCoins.get(3), retained);
+  // Relay has not opted into the later cooperative item/effect policies.
+  assert.equal(run.session.consumableSnapshot(), undefined);
+  assert.equal(run.session.sharedWorldEffectsSnapshot(), undefined);
+  return run;
+}
+
+for (const platform of [false, true]) test(`${platform ? 'fractional platform' : 'ground'}: confirmation preserves all shared future owners and personal assets`, () => {
+  const run = prepareContinuity(platform), control = prepareContinuity(platform);
+  const world = run.session.world, rows = [...world.rows], descriptor = world.runSeed;
+  const rng = world.mobDirector.rng, beforeWorld = worldState(run);
+  const beforePlayers = run.session.players.map(personalState);
+  const target = { x: run.session.players[0].groundX, y: run.session.players[0].groundY };
+  if (platform) assert.notEqual(target.x, Math.round(target.x));
+  assert.equal(run.relay.confirm(run.relay.confirmation()), true);
+  assert.strictEqual(run.session.world, world); assert.strictEqual(world.runSeed, descriptor);
+  assert.strictEqual(world.mobDirector.rng, rng);
+  for (const [row, lane] of rows) assert.strictEqual(world.rows.get(row), lane);
+  assert.deepEqual(worldState(run), beforeWorld);
+  assert.deepEqual(run.session.players.map(personalState), beforePlayers);
+  assert.deepEqual({ x: run.session.players[1].groundX, y: run.session.players[1].groundY }, target);
+  assert.equal(run.game.rows.get(1).coin, target.x);
+  // An unconfirmed twin retains the same next RNG, actor and pickup outputs.
+  for (let draw = 0; draw < 8; draw++) assert.equal(world.mobDirector.rng(), control.session.world.mobDirector.rng());
+  for (const offset of [0, .125, 1, 10]) for (const [row, lane] of rows) {
+    const future = world.time + offset, twinLane = control.session.world.rows.get(row);
+    assert.deepEqual(laneActors(lane, future), laneActors(twinLane, future));
+    assert.deepEqual(coinPosition(lane, future), coinPosition(twinLane, future));
+  }
+  for (const row of [100, 251, 1000]) assert.deepEqual(generateLane(world.seed, row, world.home),
+    generateLane(control.session.world.seed, row, control.session.world.home));
+  const incoming = run.session.players[1], earned = incoming.personalScore, completed = incoming.completedForwardTiles;
+  step(run, 'back'); step(run);
+  assert.equal(incoming.personalScore, earned); assert.equal(incoming.completedForwardTiles, completed);
+  step(run);
+  assert.equal(incoming.personalScore, earned + 1); assert.equal(incoming.completedForwardTiles, completed + 1);
+});
+
+test('returning placement cannot recharge the actual 100-distance innate meter', () => {
+  const run = setup(99), player = run.session.players[0];
+  // Trigger the real innate rescue before any authored distance.
+  run.game.end('Fixture water contact', 'water');
+  assert.ok(player.powerRescue); assert.equal(player.powerRemaining, 100);
+  for (let tick = 0; tick < 600 && player.powerRescue; tick++) run.session.update(STEP);
+  for (let hop = 0; hop < 99; hop++) step(run);
+  assert.equal(player.personalScore, 99); assert.equal(player.powerRemaining, 1);
+  assert.equal(run.relay.confirm(run.relay.confirmation()), true);
+  for (let hop = 0; hop < 99; hop++) step(run);
+  assert.equal(run.relay.confirm(run.relay.confirmation()), true);
+  assert.equal(player.personalScore, 99); assert.equal(player.powerRemaining, 1);
+  assert.equal(run.game.currentScore, 99); assert.equal(player.powerReady, false);
+  step(run, 'back'); step(run);
+  assert.equal(player.personalScore, 99); assert.equal(player.powerRemaining, 1);
+  step(run); assert.equal(player.personalScore, 100); assert.equal(player.powerRemaining, 0); assert.equal(player.powerReady, true);
+});
+
+test('returning placement cannot recharge the actual 250-settled-tile personal revival meter', () => {
+  const run = setup(249), player = run.session.players[0];
+  run.game.end('Fixture fatal traffic contact', 'traffic'); run.session.update(STEP);
+  assert.equal(player.participation, 'dead'); assert.ok(player.recovery.offer);
+  assert.equal(run.session.recover({ kind: 'personal', ownerSeat: 'p1' }), true);
+  assert.equal(player.recovery.charge, 'spent'); assert.equal(player.recovery.nextRecharge, 250);
+  for (let hop = 0; hop < 249; hop++) step(run);
+  assert.equal(player.completedForwardTiles, 249); assert.equal(player.recovery.charge, 'spent');
+  assert.equal(run.relay.confirm(run.relay.confirmation()), true);
+  for (let hop = 0; hop < 249; hop++) step(run);
+  assert.equal(run.relay.confirm(run.relay.confirmation()), true);
+  assert.equal(player.completedForwardTiles, 249); assert.equal(player.recovery.personalHighWater, 249);
+  assert.equal(player.recovery.charge, 'spent');
+  step(run, 'back'); step(run);
+  assert.equal(player.completedForwardTiles, 249); assert.equal(player.recovery.charge, 'spent');
+  step(run); assert.equal(player.completedForwardTiles, 250); assert.equal(player.recovery.charge, 'available');
+  assert.equal(player.statistics.selfRevives, 1); assert.equal(player.statistics.deaths, 1);
 });
