@@ -61,6 +61,10 @@ export class RelayCoordinator {
   private futureBoundary(): number { return this.origin + (Math.floor((this.frontier - this.origin) / this.setup.tilesPerLeg) + 1) * this.setup.tilesPerLeg; }
   private lifecycleGeneration(seat: SeatId): number { return this.session.lifecycle.filter(record => record.seat === seat).length; }
   private eligible(seat: SeatId): boolean { const p = this.session.players.find(p => p.seat === seat); return this.connections.get(seat) === true && p?.participation === 'active' && p.state === 'playing'; }
+  private lifecycleActor(seat: SeatId): boolean {
+    const player = this.session.players.find(p => p.seat === seat);
+    return this.eligible(seat) || (this.connections.get(seat) === true && seat === this.activeSeat && player?.participation === 'dead' && !!player.recovery?.offer);
+  }
   private nextEligible(): SeatId | undefined {
     for (let offset = 1; offset <= this.setup.seats.length; offset++) { const seat = this.setup.seats[(this.index + offset) % this.setup.seats.length]!.seat; if (this.eligible(seat)) return seat; }
     return undefined;
@@ -91,9 +95,10 @@ export class RelayCoordinator {
   }
   private refreshAvailability(): void {
     if (this.phase === 'ended') return;
-    if (this.confirmationState && !this.eligible(this.confirmationState.actor)) { const prior = this.confirmationState.phase; this.confirmationState = undefined; this.setPhase(prior); }
+    if (this.confirmationState && (!this.lifecycleActor(this.confirmationState.actor) || (this.confirmationState.kind === 'skip' && this.connections.get(this.activeSeat)))) { const prior = this.confirmationState.phase; this.confirmationState = undefined; this.setPhase(prior); }
     if (this.rotationPending) { this.rotate(); return; }
     if (!this.connections.get(this.activeSeat)) {
+      if (this.phase === 'running' || this.phase === 'handoff' || this.phase === 'recovery') this.suspended = this.phase;
       this.setPhase(this.nextEligible() ? 'disconnected' : 'waiting-for-reclaim'); return;
     }
     if (this.phase === 'disconnected' || this.phase === 'waiting-for-reclaim') this.setPhase(this.suspended);
@@ -103,9 +108,9 @@ export class RelayCoordinator {
   }
   command(input: RelayActionToken & { kind: 'skip' | 'leave' | 'cancel' | 'confirm' }): boolean {
     const token = this.actionToken(input.actor);
-    if (this.phase === 'ended' || !this.eligible(input.actor) || input.generation !== token.generation || input.lifecycleGeneration !== token.lifecycleGeneration || input.participantId !== token.participantId) return false;
+    if (this.phase === 'ended' || !this.lifecycleActor(input.actor) || input.generation !== token.generation || input.lifecycleGeneration !== token.lifecycleGeneration || input.participantId !== token.participantId) return false;
     if (input.kind === 'skip' || input.kind === 'leave') {
-      if (this.confirmationState || (input.kind === 'skip' && (this.connections.get(this.activeSeat) || input.actor === this.activeSeat))) return false;
+      if (this.confirmationState || (input.kind === 'skip' && (this.connections.get(this.activeSeat) || input.actor === this.activeSeat || !!this.runner()?.recovery?.offer))) return false;
       this.confirmationState = { phase: this.phase, actor: input.actor, kind: input.kind };
       this.setPhase(input.kind === 'skip' ? 'confirm-skip' : 'confirm-leave'); return true;
     }
@@ -123,6 +128,8 @@ export class RelayCoordinator {
   }
   departed(seat: SeatId): void {
     if (this.phase === 'ended') return;
+    const player = this.session.players.find(p => p.seat === seat);
+    if (player?.recovery?.offer) this.session.updateRecovery(player, recovery => ({ ...recovery, offer: undefined }));
     this.connections.set(seat, false); this.revision++;
     if (seat === this.activeSeat) { this.closeLeg('left'); this.rotationPending = true; this.rotate(); }
     else this.refreshAvailability();

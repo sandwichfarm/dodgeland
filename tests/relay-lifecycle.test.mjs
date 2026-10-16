@@ -293,7 +293,7 @@ test('built fresh keyboard skip leaves the original reserved seat waiting after 
   await send([pad(0)]); await send([pad(0, [0])]); await frame.waitForFunction(() => !document.querySelector('#relay-handoff') && !document.querySelector('#survive-lifecycle-board'));
 }));
 
-for (const choice of ['accept', 'decline', 'expire']) test(`built personal recovery ${choice} uses the production death transaction and visible Relay board`, { timeout: 45_000 }, async () => {
+for (const choice of ['accept', 'decline', 'expire', 'leave']) test(`built personal recovery ${choice} uses the production death transaction and visible Relay board`, { timeout: 45_000 }, async () => {
   const evidence = { errors: [], external: [] }, app = await createMarketGameFixture(evidence);
   try {
     await app.frame.locator('#local-play').click(); await app.frame.locator('#relay-play').click(); await app.frame.locator('#local-session-start').click(); await app.advance(80);
@@ -316,9 +316,16 @@ for (const choice of ['accept', 'decline', 'expire']) test(`built personal recov
         await app.iframe.screenshot({ path: `/tmp/relay-lifecycle-recovery-${width}x${height}-${light ? 'light' : 'dark'}.png` });
       }
       await app.resize(900,600); await app.key('pause');
-      await app.frame.getByRole('button', { name: 'Revive P1', exact: true }).click();
+      await app.frame.getByRole('button', { name: 'Revive P1', exact: true }).focus(); await app.page.keyboard.press('Enter');
     }
     else if (choice === 'decline') await app.frame.getByRole('button', { name: 'Continue without revive', exact: true }).click();
+    else if (choice === 'leave') {
+      await app.frame.locator('#relay-handoff').getByRole('button', { name: 'Leave Relay', exact: true }).click();
+      await app.frame.getByRole('button', { name: 'Keep playing', exact: true }).click();
+      assert.equal(await app.frame.getByRole('heading', { name: 'P1 can return' }).isVisible(), true);
+      await app.frame.locator('#relay-handoff').getByRole('button', { name: 'Leave Relay', exact: true }).click();
+      await app.frame.locator('#relay-handoff').getByRole('button', { name: 'Leave Relay', exact: true }).click();
+    }
     else {
       await app.key('pause'); const before = await app.onSession(function () { return this.world.time; }); await app.advance(9000);
       assert.equal(await app.onSession(function () { return this.world.time; }), before); assert.equal(await app.frame.getByRole('heading', { name: 'P1 can return' }).isVisible(), true);
@@ -328,6 +335,7 @@ for (const choice of ['accept', 'decline', 'expire']) test(`built personal recov
     const actual = await app.onSession(function () { return this.players.map(p => ({ state: p.state, participation: p.participation, deaths: p.statistics.deaths, wallet: p.run.wallet, charge: p.recovery.charge, offer: !!p.recovery.offer })); });
     assert.equal(actual[0].deaths, 1); assert.equal(actual[0].wallet, 0); assert.equal(actual[1].wallet, 17);
     assert.equal(actual[0].state, choice === 'accept' ? 'playing' : 'dead'); assert.equal(actual[0].offer, false);
+    if (choice === 'leave') assert.equal(actual[0].participation, 'departed');
     assert.equal(await app.frame.locator('#relay-handoff').count(), 0);
     assert.deepEqual(evidence.errors, []); assert.deepEqual(evidence.external, []);
   } finally { await app.close(); }

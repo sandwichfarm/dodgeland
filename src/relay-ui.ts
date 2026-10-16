@@ -97,7 +97,7 @@ export function createRelayHandoff(root: HTMLElement, relay: RelayCoordinator, c
 
 export function createRelayLifecycle(root: HTMLElement, relay: RelayCoordinator, action: (kind: string, actor: SeatId, token: RelayActionToken) => void): HTMLElement {
   const state = relay.snapshot(), runner = relay.session.players.find(p => p.seat === state.activeSeat)!;
-  const actor = state.actionActor ?? relay.session.players.find(p => state.connections[p.seat] && p.participation === 'active' && p.state === 'playing')?.seat ?? state.activeSeat;
+  const actor = state.actionActor ?? (state.phase === 'recovery' ? state.activeSeat : relay.session.players.find(p => state.connections[p.seat] && p.participation === 'active' && p.state === 'playing')?.seat) ?? state.activeSeat;
   const board = document.createElement('section'); board.id = 'relay-handoff'; board.className = 'relay-handoff relay-lifecycle';
   board.dataset.phase = state.phase; board.dataset.actor = actor;
   board.setAttribute('role', 'dialog'); board.setAttribute('aria-modal', 'true'); board.setAttribute('aria-labelledby', 'relay-handoff-title');
@@ -114,13 +114,16 @@ export function createRelayLifecycle(root: HTMLElement, relay: RelayCoordinator,
     button('Keep playing', 'cancel'); button('Leave Relay', 'confirm');
   } else if (state.phase === 'disconnected') {
     title.textContent = `${state.activeSeat.toUpperCase()} controller disconnected.`; body.textContent = `Reclaim ${state.activeSeat.toUpperCase()} or choose the next runner.`;
-    button(`Skip ${state.activeSeat.toUpperCase()}`, 'skip'); button(`Leave as ${actor.toUpperCase()}`, 'leave');
+    if (runner.recovery?.offer) body.textContent = `Reclaim ${state.activeSeat.toUpperCase()} to resolve their personal revival.`;
+    else button(`Skip ${state.activeSeat.toUpperCase()}`, 'skip');
+    button(`Leave as ${actor.toUpperCase()}`, 'leave');
   } else if (state.phase === 'waiting-for-reclaim') {
     title.textContent = 'Waiting for a player to reclaim.'; body.textContent = 'No runner is ready. Reserved seats can return.';
     identity.textContent = relay.session.players.filter(player => player.participation !== 'departed' && !state.connections[player.seat]).map(player => `${player.seat.toUpperCase()} · ${characterById(player.characterId).name}`).join(' / ');
   } else if (state.phase === 'recovery') {
     title.textContent = `${state.activeSeat.toUpperCase()} can return`; body.textContent = 'Use your personal revive or continue without it.';
     button(`Revive ${state.activeSeat.toUpperCase()}`, 'revive', state.activeSeat); button('Continue without revive', 'decline', state.activeSeat);
+    button('Leave Relay', 'leave', state.activeSeat);
   } else {
     title.textContent = 'No runner remains.'; body.textContent = 'Your relay has ended.'; button('Hop again', 'restart');
   }
