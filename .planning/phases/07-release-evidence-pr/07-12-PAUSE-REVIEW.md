@@ -3,18 +3,18 @@ phase: 07-release-evidence-pr
 reviewed: 2026-10-16
 depth: standard
 reviewer_execution: generic-agent-fallback
-reviewed_scope: uncommitted pause repair following cea3bc7
+reviewed_scope: committed pause repair f84a7f99b2252bb94fc3ab4909bec6608862042a
 files_reviewed: 3
 files_reviewed_list:
   - src/pause.css
   - tools/release-coverage/suites.json
   - tests/pause-game-layout.mjs
 findings:
-  critical: 1
+  critical: 0
   warning: 0
   info: 0
-  total: 1
-status: issues_found
+  total: 0
+status: clean
 ---
 
 # Plan12 compact pause repair review
@@ -23,7 +23,13 @@ Generic-agent fallback applying the full local GSD code-reviewer role, not typed
 
 ## Narrative Findings (AI reviewer)
 
-### PR-01 — BLOCKER: compact grid overrides the reader's hidden bottom row
+### PR-01 — RESOLVED (original BLOCKER): compact grid overrides the reader's hidden bottom row
+
+**Final disposition at f84a7f9:** the grid selector now requires `[data-pause-page="home"]` (`src/pause.css:46`). It cannot match Rules/Power pages, so the existing non-home `display:none` rule remains authoritative. The grid uses `minmax(0, 1fr) max-content`, preserving intrinsic Local Play width and allocating the remainder to Travelers. Inline padding is2px, including the smallest-frame override at78; original font sizes,44px minimum targets, actions and focus styling remain intact. No clipping, truncation or scrolling rule was added.
+
+The repair now lives in the existing max-width899px OR max-height599px breakpoint, as explicitly authorized after ordinary27409 exposed the same wrap defect at320×360. Ordinary900×600-and-larger states do not match it. Reader markup, typography and controls remain unchanged; hidden home actions' width/padding declarations do not expose them. The complete pause-layout test has no change in this commit, and the focused manifest group remains additive to full execution obligations. No unresolved scoped findings remain.
+
+**Original finding follows:**
 
 **File:** `/Users/sandwich/Develop/crossy-road-clone/src/pause.css:76`, interacting with line27.
 
@@ -39,4 +45,8 @@ At240×240, open the real Rules or Power reader. The existing non-home selector 
 - `pause-12` adds a named report-only browser group using the existing canonical production collector. It retains the full execution inventory unchanged and requires the browser realm. Its preservation patterns cover ordinary `pause-*.png`, failure image and JSON outputs written by the unchanged suite. The duplicate failure-image match is deduplicated by the existing preservation helper. No coverage floors, source inventory or oracle identity changes.
 - Root will inspect completed screenshots. This reviewer did not inspect pending artifacts or infer a passing ordinary/instrumented run. Earlier failures remain historical evidence, not complete coverage.
 
-Only this report was written. PR-01 must be resolved before the full rerun. No phase completion or release acceptance is claimed.
+## Final evidence and review limits
+
+Independently read `/tmp/down-to-duck-07-12-pause-final-focused.log`: the unchanged ordinary pause suite passes, guidance passes7/7, conformance reports5 passed/0 failed/5 skipped, and the canonical instrumented pause suite passes with `PASS pause-game-layout` followed by the explicit report-only disclaimer. Both logged pause reports retain the24 frame/theme rows and empty runtime-error/external-request arrays. Each suite's strict terminal summary records zero failures, cancellations and skips. The orchestrator reports combined command18395 exit0; this reviewer inspected its durable log rather than its process handle. The five conformance skips remain unmeasured, not passing protocol evidence.
+
+Root owns final screenshot inspection; this reviewer did not claim independent visual acceptance. Focused success does not establish full collection completeness or coverage floors. Original instrumented/ordinary failures and the first candidate's320×360 failure remain historical evidence. Only this report was changed and committed under the explicit handoff instruction; no tests, builds, browsers or source edits were performed by the reviewer. No phase completion or release acceptance is claimed.
