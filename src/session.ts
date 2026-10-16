@@ -2,6 +2,7 @@ import { CHARACTERS, DEFAULT_CHARACTER, characterById } from './content.js';
 import { HALF_WIDTH, laneActors, platformSupports, platformSurface } from './game.js';
 import type { DeathCause, Direction, Game, GameWorldExtension, HurtEvent, Lane, RunState } from './game.js';
 import type { ModeDefinition, ModeRules } from './mode-rules.js';
+import { isModeDefinition } from './mode-rules.js';
 import { DEFAULT_COIN_GRAVITY, RunInventory } from './market/run.js';
 import { characterPower } from './character-powers.js';
 import type { CharacterPower } from './character-powers.js';
@@ -76,6 +77,17 @@ export interface SessionModeHandlers {
 export interface SessionModeDefinition {
   readonly definition: ModeDefinition;
   readonly handlers: SessionModeHandlers;
+}
+
+/** Trusted authored callbacks, validated and captured before session allocation. */
+export function composeSessionModeDefinition(definition: ModeDefinition, handlers: SessionModeHandlers): SessionModeDefinition {
+  if (!isModeDefinition(definition)) throw new TypeError('Compose a validated mode definition first.');
+  const callbacks = ['beforeDeath', 'beforeDepart', 'canLifecycle', 'canAct', 'canTransact', 'canAdmit', 'simulates', 'canAdvance', 'attach', 'join', 'deviceLost', 'reclaim', 'depart', 'death', 'progress', 'result', 'tick', 'pending', 'recover'];
+  if (!handlers || typeof handlers !== 'object' || Array.isArray(handlers)) throw new TypeError('Expected session handlers.');
+  for (const [key, value] of Object.entries(handlers)) {
+    if (key === 'preserveReclaimPosition' ? typeof value !== 'boolean' : !callbacks.includes(key) || typeof value !== 'function') throw new TypeError(`Invalid session handler: ${key}`);
+  }
+  return Object.freeze({ definition, handlers: Object.freeze({ ...handlers }) });
 }
 export interface SessionAdmission {
   readonly device: DeviceId;

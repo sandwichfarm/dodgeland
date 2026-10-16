@@ -26,6 +26,9 @@ import type { BindingValidation, KeyboardBindings, KeyboardBindingStore, Keyboar
 import { createLocalSessionBoard, createSessionKeyboardEditor } from './session-ui.js';
 import type { LocalSessionBoard, SessionSetupSeat } from './session-ui.js';
 import { createRelaySession, RELAY_LOCKED } from './relay.js';
+import { createRaceSession, validateRaceSetup } from './race.js';
+import type { RaceCoordinator } from './race.js';
+import { createRaceSetup, createRaceResultsBoard } from './race-ui.js';
 import type { RelayCoordinator, RelayConfirmation, RelayActionToken } from './relay.js';
 import { createRelaySetup, createRelayHandoff, createRelayLifecycle, createRelayResults, renderRelayHud } from './relay-ui.js';
 import { GameAudio } from './audio.js';
@@ -57,6 +60,9 @@ let localSession: LocalSession | undefined;
 let setupDraft: SessionSetupSeat[] = [];
 let stagingSurviveTogether = false;
 let stagingRelay = false;
+let stagingRace = false;
+let race: RaceCoordinator | undefined;
+let closedRosterMessage = 'The roster is locked for this run.';
 let relay: RelayCoordinator | undefined;
 let relayHandoff: HTMLElement | undefined;
 let disposeRelayResults: (() => void) | undefined;
@@ -414,6 +420,7 @@ const pauseUI = createPauseUI();
 const runMenuUI = createRunMenuUI();
 const surviveResultsRoot = document.createElement('section'); surviveResultsRoot.id = 'survive-results-root'; el('app').append(surviveResultsRoot);
 const surviveResults = createSurviveResultsBoard(surviveResultsRoot, { onAgain: () => reset() });
+const raceResults = createRaceResultsBoard(surviveResultsRoot, () => reset());
 const collectionUI = createCollectionUI({
   read: () => progress,
   selectTraveler: id => {
@@ -690,12 +697,20 @@ sessionBoard = createLocalSessionBoard({
   onCharacter: (seat, characterId) => chooseSetupCharacter(seat, characterId),
   onStart: () => startLocalPlay(),
   onBack: () => backToSolo(),
-  onRendered: () => relaySetup.render(!stagingSurviveTogether && !stagedLiveJoin && game.state === 'ready'),
+  onRendered: () => renderModeChoices(),
 });
 const relaySetup = createRelaySetup({ root: el('local-session-setup'), seats: () => setupDraft, active: () => stagingRelay,
-  choose: () => { stagingRelay = true; renderSetup(); router.seedAll(); },
+  choose: () => { stagingRelay = true; stagingRace = false; renderSetup(); router.seedAll(); },
   reorder: (seat, offset) => { const index = setupDraft.findIndex(candidate => candidate.seat === seat), next = index + offset; if (index < 0 || next < 0 || next >= setupDraft.length) return; [setupDraft[index], setupDraft[next]] = [setupDraft[next]!, setupDraft[index]!]; renderSetup(); },
 });
+const raceSetup = createRaceSetup({ root: el('local-session-setup'), seats: () => setupDraft, active: () => stagingRace,
+  choose: () => { stagingRace = true; stagingRelay = false; renderSetup(); router.seedAll(); },
+});
+function renderModeChoices(): void {
+  const available = !stagingSurviveTogether && !stagedLiveJoin && game.state === 'ready';
+  relaySetup.render(available && !stagingRace);
+  raceSetup.render(available && !stagingRelay);
+}
 function clearRelayInput(): void { router.seedAll(); keyboardInput?.suspend(); keyboardInput?.resume([...observedNativeKeys]); pointer = null; accumulator = 0; }
 function confirmRelay(seat: SeatId, captured?: RelayConfirmation): void {
   if (!relayHandoff || !relay || !frameAvailable()) return;
@@ -823,6 +838,7 @@ function runGoal(): string {
   switch (progress.runs % 3) { case 0: return 'Little goal: reach 25 hops this run.'; case 1: return 'Little goal: find 3 coins this run.'; default: return 'Little goal: reach the next world at 32 hops.'; }
 }
 function reset(launch?: GameLaunch): void {
+  raceResults.hide(); race = undefined; stagingRace = false;
   surviveResults.hide();
   deactivateNativeKeyboard(); sessionCalls.clear();
   const restoreController = soloGamepad;
@@ -923,6 +939,7 @@ function frameAvailable(): boolean {
 function displayedRunState(): typeof game.state {
   if (localStage) return 'paused';
   if (!localSession?.running) return game.state;
+  if (localSession.result) return 'dead';
   if (sessionPaused || game.state === 'paused') return 'paused';
   return localSession.players.some(player => player.state === 'playing') ? 'playing' : 'dead';
 }
@@ -931,7 +948,8 @@ function hasPendingRecoveryOffer(): boolean {
 }
 function updateHud(): void {
   const terminalResult = localSession?.result;
-  if (terminalResult?.mode === 'survive-together') surviveResults.show(terminalResult as SurviveTogetherResult, game.seedCode);
+  if (race?.result) raceResults.show(race.result);
+  else if (terminalResult?.mode === 'survive-together') surviveResults.show(terminalResult as SurviveTogetherResult, game.seedCode);
   else surviveResults.hide();
   if (recoveryBoardOwner) {
     const owner = localSession?.players.find(player => player.seat === recoveryBoardOwner!.seat), charge = owner && itemCharge(owner.seat);
@@ -1129,7 +1147,7 @@ function renderSetup(message = ''): void {
   const joiningSeat = setupDraft.find(seat => seat.device === (stagedLiveJoin ? markerDevice(stagedLiveJoin) : ''))?.seat;
   start.textContent = stagedLiveJoin ? `Join as ${(joiningSeat ?? 'p2').toUpperCase()}` : together ? 'Start together' : 'Start Local Play';
   back.textContent = stagedLiveJoin ? 'Not now' : together ? 'Keep playing solo' : 'Back to solo';
-  relaySetup.render(!together && game.state === 'ready');
+  renderModeChoices();
 }
 function addKeyboardSeat(): void {
   if (!localStage || stagedLiveJoin || setupDraft.length >= localStage.session.config.capacity) return;
@@ -1159,6 +1177,7 @@ function openLocalPlay(joining?: GamepadDevice): void {
   // from active play.  The stage keeps the exact course frozen until commit.
   stagingSurviveTogether = game.state === 'playing' || game.state === 'paused';
   stagingRelay = false; relaySetup.reset();
+  stagingRace = false; raceSetup.reset();
   try { localStage = LocalSession.stage(game, { roster: [], mode: stagingSurviveTogether ? createSurviveTogetherDefinition(game.definition) : undefined }); }
   catch { notify('Local Play needs a safe second starting spot on this course.'); return; }
   const primaryDevice: DeviceId = soloGamepad ? markerDevice(soloGamepad) : 'keyboard-a';
@@ -1182,6 +1201,7 @@ function openLocalPlay(joining?: GamepadDevice): void {
 function backToSolo(): void {
   if (!localStage) return;
   stagingRelay = false;
+  stagingRace = false;
   if (stagedLiveJoin) {
     const joiningSeat = setupDraft.find(seat => seat.device === markerDevice(stagedLiveJoin!))?.seat;
     if (joiningSeat) router.release(joiningSeat); localStage.cancel(); localStage = undefined; setupDraft = []; stagedLiveJoin = undefined;
@@ -1206,6 +1226,17 @@ function startLocalPlay(): void {
   const roster = valid.filter((seat): seat is SessionSetupSeat & { characterId: string; device: DeviceId } => seat.seat !== 'p1' && !!seat.characterId && !!seat.device)
     .map(seat => ({ seat: seat.seat as Exclude<SeatId, 'p1'>, device: seat.device, characterId: seat.characterId })) satisfies readonly SessionSeatSpec[];
   const emptyStage = localStage;
+  if (stagingRace) {
+    const proposal = raceSetup.proposal();
+    try { validateRaceSetup(proposal); }
+    catch (reason) { renderSetup((reason as Error).message); return; }
+    emptyStage.cancel();
+    try { race = createRaceSession(game, proposal); }
+    catch (reason) { localStage = LocalSession.stage(game, { roster: [] }); renderSetup((reason as Error).message); return; }
+    localSession = race.session; closedRosterMessage = 'Race roster is locked for this run.'; localStage = undefined; setupDraft = []; stagingRace = false;
+    sessionPaused = false; sessionKeyboardEditor.close(); el<HTMLDivElement>('local-session-setup').hidden = true;
+    selectHudOwner('p1'); activateNativeKeyboard(); clearRelayInput(); updateHud(); el('scene').focus({ preventScroll: true }); return;
+  }
   if (stagingRelay) {
     emptyStage.cancel();
     try { relay = createRelaySession(game, relaySetup.proposal()); }
@@ -1268,6 +1299,7 @@ function startLocalPlay(): void {
 }
 function requestControllerSeat(device: GamepadDevice): void {
   if (relay) { notify(RELAY_LOCKED); return; }
+  if (localSession?.mode?.handlers.canAdmit?.() === false) { notify(closedRosterMessage); return; }
   if (localSession?.running) {
     if (localStage || localSession.players.length >= localSession.config.capacity) { notify('Game full — four players are already in this run.'); return; }
     const activeSeats = localSession.players.map(player => ({ seat: player.seat, device: player.device, deviceLabel: '', characterId: player.characterId }));
