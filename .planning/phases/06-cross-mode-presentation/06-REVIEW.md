@@ -37,11 +37,15 @@ files_reviewed_list:
   - tests/survive-recovery-owner-runtime.mjs
   - tests/survive-together-runtime.mjs
 findings:
-  critical: 1
-  warning: 1
+  critical: 0
+  warning: 0
   info: 0
-  total: 2
-status: issues_found
+  total: 0
+status: clean
+resolved_findings: [CR-01, WR-01]
+re_reviewed: 2026-10-16T12:55:50+00:00
+re_review_head: a0f5f9f
+repair_source: b9bc44f
 ---
 
 # Phase 06 Code Review
@@ -50,7 +54,22 @@ Generic-agent fallback applying the full local `gsd-code-reviewer.toml` role and
 
 ## Narrative Findings (AI reviewer)
 
-### CR-01 — BLOCKER: Parent details trap prevents forward Tab inside a child lifecycle dialog
+**Current verdict: clean.** Both historical findings below are independently resolved by `b9bc44f`, re-reviewed at `a0f5f9f`. Counts in frontmatter describe outstanding findings; the original defect descriptions and withdrawn preliminary probe remain preserved below. This is the same generic reviewer fallback, not typed-role execution or human acceptance.
+
+### Independent repair re-review
+
+Inspected the actual two-file production repair and retained test changes, `06-REVIEW-REPAIR.md`, all four failures in `/tmp/down-to-duck-06-review-repair-red.log`, and current passing evidence in `/tmp/down-to-duck-06-review-repair-final.log`. The original RED commit `be71b19` fails both settled Race activation cases, the recovery-child case, and unchanged live-label mutation case. The later recovery assertion adjustment correctly follows the already-hidden compact Resume action; it adds an explicit visibility assertion and retains real Back/Leave wrapping rather than removing focus coverage.
+
+- **CR-01 resolved:** `localSetupKeydown` now defers Tab to existing lifecycle/recovery/Relay handoff boards before entering the parent HUD trap. Their existing native handlers retain traversal and wrapping. No owner, mutation, pause, or input authorization code changed. Retained Race tests use actual settled native Tab/Shift+Tab and Enter/Space to cancel, restore the original owner action, reopen and accept departure; they assert unchanged other participants/economy/time and held movement suppression. The retained Survive Flow recovery test asserts native traversal, original P2 focus return, unchanged inventory/time and paused state.
+- **WR-01 resolved:** Page label and owner heading are written only when their text differs. The polite region remains; unchanged rendering no longer replaces its text. The retained observer requires zero changes over 1000 ms and exactly one Tools change after actual Next controls.
+
+**Additional independent browser proof:** A separate real Race fixture at 240×240 opened participant-details → Leave Race, advanced 100 ms, and asserted Tab → Leave Race → Tab → Keep racing → Shift+Tab → Leave Race → Shift+Tab → Keep racing. Enter cancelled and restored the original P1 item action. On Controls, an independently attached observer recorded zero changes across 1000 ms, then exactly one Tools change after Next and another 1000 ms. No browser or boundary errors. Session **52826**, terminal **exit 0**, `/tmp/down-to-duck-06-review-independent-recheck.log`. The fixture launches Chromium with `--mute-audio`; no world state was injected. This confirms the previously durable failure is closed, without relying only on the executor's green gate.
+
+Current retained final evidence: session **92241**, exit 0, full cross-mode **31/31**, affected input/mode/solo runtime **104/104**, guidance **6/6**, type/build/conformance/oracle-lockfile/diff checks. The earlier complete session 21972 gate remains supplementary evidence; no broad baseline was rerun. Conformance stays **5 pass / 0 fail / 5 unmeasured**. Physical controllers and actual screen-reader speech remain unmeasured. The observer proves DOM semantics, not spoken output. Human visual/feel acceptance and separate phase goal verification remain pending.
+
+### Historical findings and original evidence
+
+### CR-01 — RESOLVED (historical BLOCKER): Parent details trap prevents forward Tab inside a child lifecycle dialog
 
 **File:** `/Users/sandwich/Develop/crossy-road-clone/src/main.ts:1489` (capture handler; related `inspectionRoot` at line 146, child trap at line 216).
 
@@ -64,7 +83,7 @@ Generic-agent fallback applying the full local `gsd-code-reviewer.toml` role and
 
 **Discarded preliminary evidence:** `/tmp/down-to-duck-06-review-modal-tab.log` initially suggested the compact Controls/Gear → Mud Splash dialog was persistently trapped. It froze RAF immediately after opening. A settled follow-up (`/tmp/down-to-duck-06-review-modal-tab-settled.log`, session 95839 exit 0) traverses target → Back → Use correctly after 100 ms. That preliminary journey is **not** the blocker; the participant-details reproduction above remains broken after settling.
 
-### WR-01 — WARNING: Controls page live region is rewritten every render
+### WR-01 — RESOLVED (historical WARNING): Controls page live region is rewritten every render
 
 **File:** `/Users/sandwich/Develop/crossy-road-clone/src/run-hand.ts:30` (live-region creation at line 16; caller `/Users/sandwich/Develop/crossy-road-clone/src/main.ts:1119`).
 
