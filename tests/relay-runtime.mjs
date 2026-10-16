@@ -228,3 +228,41 @@ for(const transition of ['death','leave']) test(`every captured market action lo
   await app.frame.getByRole('button',{name:"Start P2's leg",exact:true}).click();await app.advance(80);assert.equal((await apply(app,stale)).ok,false);assert.equal(await app.onSession(function(){return this.consumableSnapshot()===undefined;}),true);await boundaryEvidence(app,evidence);
  }finally{await app.close();}
 });
+
+for (const activation of ['Enter','Space']) test(`handoff ${activation} activates the focused Start, View, roster and Back controls without a hop`, {timeout:30000}, async()=>{
+ const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{auditBoundary:true});
+ try {
+  await app.frame.locator('#local-play').click();await app.frame.locator('#relay-play').click();await app.frame.locator('#relay-tiles').fill('1');await app.frame.locator('#local-session-start').click();await app.advance(80);
+  await app.frame.locator('#scene').focus();await app.page.keyboard.press('w');await app.advance(250);
+  const board=app.frame.locator('#relay-handoff');await app.frame.getByRole('heading',{name:'Leg 1 complete'}).waitFor();
+  const positions=()=>app.onSession(function(){return this.players.map(p=>({seat:p.seat,x:p.x,y:p.y,earned:p.completedForwardTiles}));});
+  const frozen=await positions();
+  await app.page.keyboard.press('Tab');assert.equal(await app.frame.evaluate(()=>document.activeElement.textContent),'View relay');
+  await app.page.keyboard.press(activation);assert.equal(await board.getAttribute('data-summary'),'true');assert.deepEqual(await positions(),frozen);
+  await app.page.keyboard.press('Tab');assert.equal(await app.frame.evaluate(()=>document.activeElement.textContent),'Next');await app.page.keyboard.press(activation);assert.match(await board.locator('.relay-summary').innerText(),/2\/2 · P2/);
+  await app.page.keyboard.press('Tab');assert.equal(await app.frame.evaluate(()=>document.activeElement.textContent),'Previous');await app.page.keyboard.press(activation);assert.match(await board.locator('.relay-summary').innerText(),/1\/2 · P1/);
+  assert.equal(await app.frame.evaluate(()=>document.activeElement.textContent),'Back to handoff');await app.page.keyboard.press(activation);assert.equal(await board.getAttribute('data-summary'),'false');assert.equal(await app.frame.evaluate(()=>document.activeElement.textContent),"Start P2's leg");
+  assert.deepEqual(await positions(),frozen);await app.page.keyboard.down(activation);await app.advance(120);assert.equal(await board.count(),0);
+  const placed=await positions();assert.equal(placed[1].earned,0);assert.equal(placed[1].y,1);await app.page.keyboard.down(activation);await app.advance(120);assert.deepEqual(await positions(),placed);await app.page.keyboard.up(activation);
+  assert.deepEqual(evidence.errors,[]);assert.deepEqual(evidence.external,[]);
+ }finally{await app.close();}
+});
+
+test('handoff controller focus activates read-only roster controls while only a fresh incoming seat can Start', {timeout:30000}, async()=>{
+ const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{gamepads:true,auditBoundary:true});
+ const edge=async button=>{await app.sendPads([pad(0)]);await app.sendPads([pad(0,[button])]);await app.sendPads([pad(0)]);};
+ try{
+  await app.frame.locator('#local-play').click();await app.frame.locator('#session-roster [data-seat="p2"]').click();await app.frame.getByRole('button',{name:'Leave this seat',exact:true}).click();await edge(0);
+  await app.frame.locator('#relay-play').click();await app.frame.locator('#relay-tiles').fill('1');await app.frame.locator('#local-session-start').click();await app.advance(80);
+  await app.sendPads([pad(0,[0])]);await app.frame.locator('#scene').focus();await app.page.keyboard.press('w');await app.advance(250);
+  const board=app.frame.locator('#relay-handoff');await app.frame.getByRole('heading',{name:'Leg 1 complete'}).waitFor();
+  await app.sendPads([pad(0,[0])]);assert.equal(await board.count(),1,'held incoming confirm is stale across the boundary');
+  await app.page.keyboard.press('Enter');await app.page.keyboard.press('Space');await app.page.keyboard.press('w');assert.equal(await board.count(),1,'keyboard P1 cannot start controller P2');
+  await edge(15);assert.equal(await app.frame.evaluate(()=>document.activeElement.textContent),'View relay');await edge(0);assert.equal(await board.getAttribute('data-summary'),'true');
+  await edge(15);assert.equal(await app.frame.evaluate(()=>document.activeElement.textContent),'Next');await edge(0);assert.match(await board.locator('.relay-summary').innerText(),/2\/2 · P2/);
+  await edge(15);assert.equal(await app.frame.evaluate(()=>document.activeElement.textContent),'Previous');await edge(0);assert.match(await board.locator('.relay-summary').innerText(),/1\/2 · P1/);
+  await edge(0);assert.equal(await board.getAttribute('data-summary'),'false');assert.equal(await app.frame.evaluate(()=>document.activeElement.textContent),"Start P2's leg");
+  await edge(0);assert.equal(await board.count(),0);assert.equal(await app.onSession(function(){return this.players[1].completedForwardTiles;}),0);
+  await app.advance(120);assert.equal(await app.onSession(function(){return this.players[1].y;}),1);assert.deepEqual(evidence.errors,[]);assert.deepEqual(evidence.external,[]);
+ }finally{await app.close();}
+});
