@@ -25,7 +25,7 @@ async function setup(app,variant='arcade'){
   await app.frame.locator('#pause').click();await app.advance(32);
 }
 async function footprints(app){return app.frame.evaluate(()=>{
-  const visible=n=>n.getClientRects().length&&getComputedStyle(n).visibility!=='hidden'&&!n.closest('[hidden]');
+  const visible=n=>n.getClientRects().length&&getComputedStyle(n).visibility!=='hidden'&&getComputedStyle(n).clipPath!=='inset(50%)'&&!n.closest('[hidden]');
   return [...document.querySelectorAll('.session-hud-tile,.session-hud-details,.session-hud-summary,.score-block,.coin-count,#pluck,#character-power,#active-run-powers,.world-label,#chapter-label,.hud-tools button,.bottom-bar button,#run-hand-owner,#run-hand-items button,.relay-distance,.race-distance,.race-lifecycle,#session-controls-open,#toast,#idle')].filter(visible).map(n=>{const r=n.getBoundingClientRect();return {name:n.id||n.className,rect:{left:r.left,top:r.top,right:r.right+3,bottom:r.bottom+3}};});
 });}
 async function capture(app,evidence,name){
@@ -102,11 +102,13 @@ test('P6 tracer shared personal status replaces solo widgets and regular details
 test('P6 compact disclosure reuses controls and restores prior pause and focus',{timeout:60000},async()=>{
  const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{gamepads:true,auditBoundary:true,initialIntent:intent});
  try {await setup(app,'race');await app.resize(240,240);
+ assert.equal(await app.frame.locator('#session-controls-open').textContent(),'Notice');assert.match(await app.frame.locator('#session-controls-open').getAttribute('aria-label'),/Notice available/);
  const before=await app.onSession(function(){return {time:this.world.time,players:this.players.map(p=>({seat:p.seat,x:p.x,y:p.y,wallet:p.run.wallet}))};});
  await app.frame.locator('#session-controls-open').click();
  for(const page of ['Play','Tools','Gear']){
   assert.equal(await app.frame.locator('#session-control-pages nav span').textContent(),page);
   await app.iframe.screenshot({path:new URL(`controls-${page}.png`,output).pathname});
+  if(page==='Play'){const message=await app.frame.locator('#toast').textContent();assert.equal(await app.frame.locator('#session-control-notice').textContent(),message);assert.ok(message.length>20);await app.advance(4000);assert.equal(await app.frame.locator('#session-control-notice').textContent(),message);assert.equal(await app.frame.locator('#session-control-notice').isVisible(),true);}
   if(page==='Gear'){assert.equal(await app.frame.locator('#run-hand-owner').isVisible(),true);assert.equal(await app.frame.locator('[data-hand-gear="open"]').isVisible(),true);}
   assert.deepEqual(await app.frame.locator('#session-control-pages').evaluate(root=>[...root.querySelectorAll('button')].filter(n=>!n.disabled&&!n.closest('[hidden]')&&n.getClientRects().length&&getComputedStyle(n).visibility!=='hidden').flatMap(n=>{const r=n.getBoundingClientRect();return r.width<44||r.height<44||r.left<0||r.right>innerWidth||r.top<0||r.bottom>innerHeight?[{text:n.textContent,rect:r.toJSON()}]:[];})),[]);
   await app.frame.getByRole('button',{name:'Next controls',exact:true}).click();
@@ -175,4 +177,14 @@ test('P6 earned shared card remains inspectable in embedded hand',{timeout:12000
  console.log('earned hand',JSON.stringify(await app.onSession(function(){return this.players[0].run.snapshot?.()??{cards:this.players[0].run.cards,powers:this.players[0].run.powers};})));await app.iframe.screenshot({path:new URL('earned-hand-before.png',output).pathname});assert.equal(await app.frame.locator('[data-hand-card]:visible').count(),1);await app.frame.locator('[data-hand-card]:visible').click();await app.iframe.screenshot({path:new URL('earned-hand-detail.png',output).pathname});assert.equal(await app.frame.locator('#run-hand-detail').isVisible(),true);
  const rect=await app.frame.locator('#run-hand-detail').boundingBox();assert.ok(rect.x>=0&&rect.y>=0&&rect.x+rect.width<=240&&rect.y+rect.height<=240);await app.frame.locator('#run-hand-close').click();await app.frame.getByRole('button',{name:'Close controls',exact:true}).click();assert.equal(await app.frame.locator('#run-inventory').count(),1);assert.deepEqual(evidence.errors,[]);
  }finally{await app.close();}
+});
+
+test('P6 actual pursuit warning remains visible in the bounded action band',{timeout:60000},async()=>{
+ const evidence={errors:[],external:[],captures:[]},app=await createMarketGameFixture(evidence,{gamepads:true,auditBoundary:true,initialIntent:intent});
+ try{await setup(app,'arcade');await app.frame.locator('#pause').click();
+  for(let i=0;i<50&&!await app.onGame(function(){return this.warning;});i++)await app.advance(250);
+  assert.equal(await app.onGame(function(){return this.warning;}),true);await app.resize(240,240);
+  const forward=app.frame.locator('[data-direction="forward"]');assert.match(await forward.textContent(),/^↑ \d+s$/);assert.equal(await forward.getAttribute('aria-describedby'),'chase-action');assert.equal(await forward.evaluate(n=>n.scrollHeight<=n.clientHeight&&n.scrollWidth<=n.clientWidth),true,'entire warning label fits the44px control');
+  assert.deepEqual(await capture(app,evidence,'compact-actual-wave-warning'),[]);assert.deepEqual(evidence.errors,[]);
+ }finally{await writeFile(new URL('actual-warning.json',output),JSON.stringify(evidence,null,2));await app.close();}
 });

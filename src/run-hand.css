@@ -154,3 +154,9 @@
  #app:has(#session-seats:not([hidden])) #run-inventory:not([data-embedded-controls]):has(#run-hand-owner):has(#run-hand-items) { padding-top: 44px; flex-wrap: nowrap; }
  #app:has(#session-seats:not([hidden])) #run-inventory:not([data-embedded-controls]):has(#run-hand-owner):has(#run-hand-items) #run-hand-owner { position: absolute; top: 0; bottom: auto; left: 50%; transform: translateX(-50%); width: auto; max-width: 50%; }
 }
+
+/* Shared notifications reuse the existing disclosure and paused Play surface. */
+#session-control-notice { margin: 0; flex: 1 0 100%; font: 400 16px/1.2 var(--game-font); color: var(--session-ink); overflow-wrap: anywhere; }
+#app .shared-notice-announcement { position: absolute; width: 1px; height: 1px; padding: 0; border: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); box-shadow: none; white-space: nowrap; }
+#session-control-pages[data-page="0"]:has(#session-control-notice:not([hidden])) #character-call { min-height: 44px; }
+#app #session-control-pages #character-call { width: auto; min-width: 80px; }

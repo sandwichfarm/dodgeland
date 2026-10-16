@@ -243,3 +243,6 @@ body:has(#local-session-setup:not([hidden]) #session-board), body:has(#session-s
 @media(min-width:480px) and (min-height:420px) {
  #app:has(#session-seats:not([hidden])) .bottom-bar { bottom: 8px; }
 }
+/* Keep selected identity decoration inside its control, clear of health text. */
+#app #session-seats .session-hud-selected .session-hud-identity { outline-offset: -3px; }
+#app:has(#session-seats:not([hidden])) .dpad button.escape { font-size: 16px; line-height: 20px; white-space: nowrap; }

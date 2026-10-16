@@ -460,8 +460,10 @@ const hand = createRunHand({
 let presentationTop = 0;
 const controlsDisclosure = document.createElement('button'); controlsDisclosure.id = 'session-controls-open'; controlsDisclosure.type = 'button'; controlsDisclosure.textContent = 'Controls'; controlsDisclosure.hidden = true;
 el('app').append(controlsDisclosure);
+const sharedNotice = document.createElement('p'); sharedNotice.id = 'session-control-notice'; sharedNotice.hidden = true;
+el('app').append(sharedNotice);
 const sharedControls = createSharedControlPages({ root: el('session-seats'),
-  play: [el('character-call')],
+  play: [sharedNotice, el('character-call')],
   tools: [el('sound-toggle'), el('pause'), el('collection')], hand: el('run-inventory'),
   change: delta => { hudDetailsPage = 4 + (hudDetailsPage - 4 + delta + sharedControls.pageCount()) % sharedControls.pageCount(); router.seedAll(); updateHud(); },
   close: () => { closeHudInspection(); updateHud(); },
@@ -1026,7 +1028,10 @@ function updateHud(): void {
   const seats = el('session-seats');
   const controlsPage = hudDetailsOpen && hudDetailsPage >= 4 ? hudDetailsPage - 4 : undefined;
   controlsDisclosure.hidden = !localSession?.running || !!terminalResult || hudDetailsOpen || !frameAvailable();
-  controlsDisclosure.setAttribute('aria-label', `Controls for ${selectedOwnerLabel() ?? hudSelected.toUpperCase()}`);
+  const notice = performance.now() < toastUntil ? toastMessage : '';
+  controlsDisclosure.textContent = notice ? 'Notice' : 'Controls';
+  controlsDisclosure.setAttribute('aria-label', `Controls for ${selectedOwnerLabel() ?? hudSelected.toUpperCase()}${notice ? ' · Notice available' : ''}`);
+  sharedNotice.textContent = notice; sharedNotice.hidden = !notice || controlsPage !== 0;
   seats.dataset.controlsInspect = String(controlsPage !== undefined);
   seats.dataset.controlsChild = String(controlsPage !== undefined && (market.isOpen() || !el('drawer').hidden || !!recoveryBoard || !!lifecycleBoard));
   seats.hidden = !localSession?.running || terminalResult?.mode === 'survive-together';
@@ -1184,9 +1189,10 @@ function updateChaseHud(): void {
   const meter = el('chase-meter');
   updateChaseMeter(meter, el('chase-fill'), game.waveSeconds, game.rules.pursuit.warningSeconds);
   const visible = game.rules.presentation.pursuitVisible && game.warning && game.state === 'playing', warning = el('idle');
-  warning.hidden = !visible;
+  warning.hidden = !visible; warning.classList.toggle('shared-notice-announcement', !!localSession?.running);
   const forward = document.querySelector<HTMLButtonElement>('[data-direction="forward"]')!;
   forward.classList.toggle('escape', visible);
+  forward.textContent = visible && localSession?.running ? `↑ ${Math.ceil(game.waveSeconds)}s` : '↑';
   if (!visible) { forward.removeAttribute('aria-describedby'); return; }
   forward.setAttribute('aria-describedby', 'chase-action');
   const seconds = Math.ceil(game.waveSeconds), urgent = seconds <= 2;
@@ -1688,13 +1694,14 @@ function syncRaceFeedback():void {
 }
 let last = performance.now(), accumulator = 0;
 function frame(now: number): void {
-  const dt = Math.min((now - last) / 1000, .05); last = now;
+  const elapsed = Math.max(0, now - last); const dt = Math.min(elapsed / 1000, .05); last = now;
   gamepad.update(now); router.update(now);
   const sessionUnblocked = frameAvailable() && !localStage && (!relayHandoff || relay?.snapshot().phase === 'recovery') && displayedRunState() !== 'paused' && !hand.isOpen() && el('drawer').hidden && !market.isOpen() && !selectedOwnerRun().pendingPack;
   // A valid personal offer must keep its authoritative world-time deadline
   // moving even when every seat is dead; pausing still freezes it above.
   const sessionAdvancing = sessionUnblocked && (displayedRunState() === 'playing' || localSession?.players.some(player => player.recovery?.offer));
   if (localSession?.running) {
+    if (!sessionAdvancing && toastUntil > now - elapsed) toastUntil += elapsed;
     if (sessionAdvancing) {
       const fixedStep = localSession.definition.rules.simulation.fixedStep;
       accumulator += dt;
@@ -1727,7 +1734,12 @@ function frame(now: number): void {
     renderer.drawSession(localSession.world, localSession.views(), sessionAdvancing ? dt : 0, race ? racePresentation(race) : undefined, bounded ? { top: top + 11, bottom: innerHeight - 60 } : undefined);
   } else renderer.draw(game, progress.selected, localStage ? 0 : dt);
   if(race)renderRaceEdges(raceEdges,race,renderer);else raceEdges.replaceChildren();
-  updateHud(); el('toast').textContent = now < toastUntil && !(game.state === 'playing' && game.warning) ? toastMessage : '';
+  updateHud();
+  const sharedCompact = !!localSession?.running && (innerWidth < 480 || innerHeight < 420);
+  el('toast').classList.toggle('shared-notice-announcement', sharedCompact);
+  el('toast').style.top = localSession?.running && !sharedCompact ? `${el('session-seats').getBoundingClientRect().bottom + 8}px` : '';
+  const currentToast = now < toastUntil && !(game.state === 'playing' && game.warning) ? toastMessage : '';
+  if (el('toast').textContent !== currentToast) el('toast').textContent = currentToast;
   if (import.meta.env.DEV) devTools?.update();
   raf = requestAnimationFrame(frame);
 }

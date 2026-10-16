@@ -268,3 +268,15 @@ After source freeze follow `06-VALIDATION.md`: exact Relay Gate6 and Race Gate7 
 - [x] Dimension6 Registry Safety: PASS
 
 **Approval:** Independent checker approved2026-10-16 with0 blockers; compact summary clarification applied. Actual postapproval probe executed and mapped as above. Geometry budgets and the conditional generic presentation seam are explicit implementation defaults to validate against retained RED evidence, not a claim of completed visual proof. No unresolved user preference or new gameplay decision is introduced.
+
+### Execution reconciliation: transient notifications
+
+The final capture review found a real seeded-launch toast over compact travelers;
+retained regression98ac9a4 includes toast/warning material footprints. The root
+approved a Notice indicator inside the existing44px Controls target, its accessible
+notice label, and full current text on the authoritative paused Play page. The
+single live announcement remains; paused shared time preserves the notification.
+No extra permanent row or essential health/mode/time replacement is permitted.
+Regular/wide toast placement must clear actors and interactive controls. A shared
+pursuit countdown may reuse the existing forward action in the action band, with
+its full accessible warning description and existing urgency treatment.
