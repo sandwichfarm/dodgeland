@@ -3,26 +3,22 @@ import assert from 'node:assert/strict';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { chromium } from 'playwright';
-import ts from 'typescript';
+import { compileSources } from './source-loader.mjs';
+import { registerRealm, collectRealm, artifactDirectoryForCoverage } from '../tools/release-coverage/browser.mjs';
 
-const modules = new Map();
-async function compile(name) {
-  if (modules.has(name)) return;
-  const source = await readFile(new URL(`../src/${name}.ts`, import.meta.url), 'utf8');
-  const output = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText;
-  modules.set(name, output);
-  for (const [, dependency] of output.matchAll(/from ['"]\.\/([^'"]+)\.js['"]/g)) await compile(dependency);
-}
-await compile('audio');
+const modules = await compileSources('audio');
+const output = artifactDirectoryForCoverage(new URL('../artifacts/', import.meta.url), 'audio-demo');
+const identity = { suite: new URL(import.meta.url).pathname, scenario: 'audio-demo', frame: 'offline-audio', generation: 0, scope: 'current' };
 const server = createServer((request, response) => {
-  const source = modules.get(request.url?.slice(1).replace(/\.js$/, ''));
+  const source = modules.get(request.url);
   response.writeHead(source ? 200 : 404, { 'Content-Type': 'text/javascript' }); response.end(source ?? '');
 });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
-let browser;
+let browser, page;
 try {
   browser = await chromium.launch({ args: ['--mute-audio'] });
-  const page = await browser.newPage();
+  page = await browser.newPage();
+  registerRealm(page, identity);
   await page.goto(`http://127.0.0.1:${server.address().port}`);
   const result = await page.evaluate(async () => {
     const { GameAudio, builtinBuffer } = await import('/audio.js');
@@ -99,7 +95,7 @@ try {
     }
     return [await render('scene'), await render('montage')];
   });
-  await mkdir(new URL('../artifacts/', import.meta.url), { recursive: true });
+  await mkdir(output, { recursive: true });
   const metrics = [];
   for (const { pcm, ...rendered } of result) {
     assert.ok(rendered.peak > .01 && rendered.peak < .9, `${rendered.kind} should have audible, unclipped PCM`);
@@ -108,9 +104,9 @@ try {
     header.writeUInt32LE(16, 16); header.writeUInt16LE(1, 20); header.writeUInt16LE(2, 22);
     header.writeUInt32LE(rendered.rate, 24); header.writeUInt32LE(rendered.rate * 4, 28);
     header.writeUInt16LE(4, 32); header.writeUInt16LE(16, 34); header.write('data', 36); header.writeUInt32LE(data.length, 40);
-    await writeFile(new URL(`../artifacts/soundscape-${rendered.kind}.wav`, import.meta.url), Buffer.concat([header, data]));
+    await writeFile(new URL(`soundscape-${rendered.kind}.wav`, output), Buffer.concat([header, data]));
     metrics.push(rendered);
   }
-  await writeFile(new URL('../artifacts/soundscape-audition.json', import.meta.url), JSON.stringify(metrics, null, 2) + '\n');
+  await writeFile(new URL('soundscape-audition.json', output), JSON.stringify(metrics, null, 2) + '\n');
   console.log('Rendered artifacts/soundscape-scene.wav, soundscape-montage.wav and audition metrics through GameAudio.');
-} finally { await browser?.close(); await new Promise(resolve => server.close(resolve)); }
+} finally { try { if (page) await collectRealm(page, identity); } finally { await browser?.close(); await new Promise(resolve => server.close(resolve)); } }
