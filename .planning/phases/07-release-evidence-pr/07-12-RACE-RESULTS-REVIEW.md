@@ -10,11 +10,11 @@ files_reviewed_list:
   - tests/race-results.test.mjs
   - tools/release-coverage/suites.json
 findings:
-  critical: 0
+  critical: 1
   warning: 0
   info: 0
-  total: 0
-status: clean
+  total: 1
+status: issues_found
 ---
 
 # Plan12 Race results repair review
@@ -23,7 +23,19 @@ Generic-agent fallback applying the full local GSD code-reviewer role, not typed
 
 ## Narrative Findings (AI reviewer)
 
-No concrete scoped defects found. Static review is clean; focused execution and forced-cancellation evidence remain pending.
+The initial static verdict in4dad194 missed the asynchronous coverage-before-close window. A focused follow-up trace establishes the blocker below. Focused execution and forced-cancellation evidence remain pending.
+
+### RR-01 — BLOCKER: paging can continue after abort while coverage collection keeps the browser open
+
+**File:** `/Users/sandwich/Develop/crossy-road-clone/tests/race-results.test.mjs:247–256`; related repeated navigation at266–267 and360.
+
+The abort listener at200 starts `closeOnce()`, but the real shared fixture's `close()` (`tests/market-game-fixture.mjs:253`) first awaits canonical `collectRealm(frame, identity)` and only then closes the browser. Thus initiating close does not immediately make locators unusable. If a stage aborts while an `isEnabled()`, text/geometry query or focus operation is awaiting its response, that response can still arrive during collection and the body can issue another Previous/Next click or keyboard activation. The main Previous loop has no abort check, and the main forward loop deliberately skips screenshots for intermediate pages, so screenshot-boundary checks do not cover those iterations. The selected-participant navigation and podium Previous loops have the same gap.
+
+This is a reachable continuation during the explicitly asynchronous coverage transfer, not a finding based solely on absent checks. It violates the addendum's requirement that cancellation prevent later actions. Final completeness still fails closed and subsequent scenarios still await settlement; the defect is continued input on the canceled scenario during teardown, not false suite success.
+
+**Minimal fix:** add cooperative checks at every paging-loop iteration and after awaited queries/before subsequent focus, click or keyboard operations; audit the remaining scenario action sequences for the same await-to-next-input boundary. A narrow file-local checked-operation wrapper is acceptable if it retains every original action/assertion and checks before dispatch and after settlement. Do not replace canonical coverage cleanup or force-close before capture. Keep screenshots, frame cells, timeouts and primary-error behavior unchanged. Cancellation proof should include an abort while paging/coverage cleanup overlap, or an equivalent controlled observation proving no new page/input operation is dispatched after the signal, rather than only a first-acquisition timeout.
+
+**Primary error trace:** ordinary child assertion failures are handled correctly: `t.test()` resolves with child failure, `settled.catch` stores the actual body error before the parent's incomplete-stage assertion, and the outer catch uses `??=`. Cleanup errors remain separate. No additional primary-error defect was established.
 
 ## Preserved behavior and evidence
 
@@ -37,7 +49,7 @@ No concrete scoped defects found. Static review is clean; focused execution and 
 
 - The file-local helper scopes each app, signal, first failure and WeakMap close promise to its original scenario. Child abort starts cleanup immediately. The parent awaits both body settlement and abort cleanup before returning, so the next top-level browser scenario cannot overlap an unfinished canceled body through this helper.
 - Acquisition checks surround the dynamic fixture import and opening. An opening already in progress at cancellation is closed when it returns before abort propagates. `closeOnce()` reuses the same promise across abort, explicit cleanup stage and outer finally, avoiding duplicate canonical realm completion. A failure to open before returning a fixture is still subject to the existing shared factory's lifecycle; this repair does not change that factory.
-- Every stage checks abort before/after its body and errors/external observations before credit. Screenshot checks surround capture, file write and evidence append; frame loops also check at entry. Closing the browser interrupts in-flight browser actions, while later stage entry is gated. An already-issued filesystem write may complete after cancellation but is awaited and cannot be followed by successful capture credit after the abort check.
+- Every stage checks abort before/after its body and errors/external observations before credit. Screenshot checks surround capture, file write and evidence append; frame loops also check at entry. Actual browser closure interrupts browser work, but it follows coverage transfer; RR-01 identifies actions that can continue during that interval. Later stage entry is gated. An already-issued filesystem write may complete after cancellation but is awaited and cannot be followed by successful capture credit after the abort check.
 - Original body errors are retained through first-error assignment; cleanup errors are separately recorded and cannot replace an existing primary failure. Expected stage names/order and exact cells are asserted; cleanup must finish successfully before `passed` is set. Finally reuses closure, sets `complete` only with no retained error/parent abort/cleanup failure, writes partial evidence on failure and rethrows. An aborted cleanup stage cannot produce completion even when its close eventually resolves.
 - Reports are individual scenario reports. Later original scenarios may still run after a failed scenario, as Node's runner normally permits, but only after its settled cleanup. The strict whole-file result remains authoritative; a later passing report cannot turn an earlier failure into suite success.
 
