@@ -621,7 +621,8 @@
             "artifacts/run-hand-offer-320x560.png",
             "artifacts/run-hand-pause-240x240.png",
             "artifacts/run-hand-market-900x600.png",
-            "artifacts/run-hand-market-2400x1200.png"
+            "artifacts/run-hand-market-2400x1200.png",
+            "artifacts/run-hand-pause-240x240-light.png"
           ]
         },
         {
@@ -3073,7 +3074,8 @@
           "artifacts/run-hand-offer-320x560.png",
           "artifacts/run-hand-pause-240x240.png",
           "artifacts/run-hand-market-900x600.png",
-          "artifacts/run-hand-market-2400x1200.png"
+          "artifacts/run-hand-market-2400x1200.png",
+          "artifacts/run-hand-pause-240x240-light.png"
         ]
       },
       {
