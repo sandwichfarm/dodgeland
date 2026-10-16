@@ -135,6 +135,16 @@ async function pauseLayout(label) {
     const bounds = panel.getBoundingClientRect();
     const heading = document.querySelector('#pause-heading');
     const headingText = [...heading.querySelectorAll('span')].filter(visible).flatMap(e => { const range=document.createRange();range.selectNodeContents(e);return [...range.getClientRects()].map(r=>({left:r.left,right:r.right,top:r.top,bottom:r.bottom})); });
+    const rivets = innerHeight <= 399 && document.querySelector('#app').dataset.pausePage === 'home' ? ['::before','::after'].map(pseudo => {
+      const css = getComputedStyle(panel,pseudo), parent = getComputedStyle(panel), px = v => parseFloat(v) || 0;
+      const width = px(css.width) + (css.boxSizing === 'border-box' ? 0 : px(css.borderLeftWidth)+px(css.borderRightWidth));
+      const height = px(css.height) + (css.boxSizing === 'border-box' ? 0 : px(css.borderTopWidth)+px(css.borderBottomWidth));
+      const x = css.left !== 'auto' ? bounds.left+px(parent.borderLeftWidth)+px(css.left) : bounds.right-px(parent.borderRightWidth)-px(css.right)-width;
+      const y = bounds.top+px(parent.borderTopWidth)+px(css.top);
+      const shadow = css.boxShadow.replace(/rgba?\([^)]+\)/g,'').trim().split(/\s+/).map(px);
+      const extent = (shadow[2] || 0)+(shadow[3] || 0), dx=shadow[0] || 0, dy=shadow[1] || 0;
+      return {pseudo,top:Math.min(y,y+dy-extent),bottom:Math.max(y+height,y+height+dy+extent),left:Math.min(x,x+dx-extent),right:Math.max(x+width,x+width+dx+extent),cssTop:css.top,boxShadow:css.boxShadow};
+    }) : [];
     const controls = [...panel.querySelectorAll('button')].filter(visible).map(e => {
       const r = e.getBoundingClientRect(), hit = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
       const text = [...e.childNodes].filter(n => n.nodeType === Node.TEXT_NODE && n.textContent.trim()).flatMap(n => { const range = document.createRange(); range.selectNodeContents(n); return [...range.getClientRects()]; });
@@ -143,11 +153,12 @@ async function pauseLayout(label) {
         textFits:getComputedStyle(e).fontSize === '0px' || text.every(t => t.left >= r.left && t.right <= r.right && t.top >= r.top && t.bottom <= r.bottom) };
     });
     const overlaps = controls.flatMap((a,i) => controls.slice(i+1).filter(b => a.x < b.right && a.right > b.x && a.y < b.bottom && a.bottom > b.y).map(b => [a.id,b.id]));
-    return { controls, overlaps, page:document.querySelector('#app').dataset.pausePage, panel:{x:bounds.x,y:bounds.y,width:bounds.width,height:bounds.height,maxHeight:getComputedStyle(panel).maxHeight}, headingText, headingFits:headingText.every(r=>r.left>=bounds.left&&r.right<=bounds.right&&r.top>=bounds.top&&r.bottom<=bounds.bottom) };
+    return { controls, overlaps, page:document.querySelector('#app').dataset.pausePage, panel:{x:bounds.x,y:bounds.y,width:bounds.width,height:bounds.height,maxHeight:getComputedStyle(panel).maxHeight}, headingText, rivets, headingFits:headingText.every(r=>r.left>=bounds.left&&r.right<=bounds.right&&r.top>=bounds.top&&r.bottom<=bounds.bottom) };
   });
   assert.deepEqual(metrics.controls.filter(c => c.width < 43.9 || c.height < 43.9 || !c.hit || !c.fits || !c.textFits), [], `${label}: pause controls retain full labels,44px targets,hit ownership and hand clearance`);
   assert.deepEqual(metrics.overlaps, [], `${label}: pause controls never overlap`);
   assert.ok(metrics.headingFits, `${label}: visible heading text fits panel`);
+  assert.ok(metrics.rivets.every(r=>metrics.headingText.every(t=>r.right<=t.left||r.left>=t.right||r.bottom<=t.top||r.top>=t.bottom)), `${label}: heading avoids painted rivet borders and shadows`);
   if (metrics.page === 'home') for (const id of ['play','choose','local-play']) assert.ok(metrics.controls.some(c=>c.id===id), `${label}: ${id} remains visible`);
   (evidence.pauseChecks ??= []).push({label,...metrics});
 }

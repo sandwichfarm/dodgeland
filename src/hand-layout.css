@@ -125,6 +125,8 @@
   #app[data-hand-visible="true"][data-pause-open="true"] #run-panel button,
   #app[data-hand-visible="true"][data-pause-open="true"] #run-panel #play { min-height: 44px; font-size: 18px; padding: 4px; margin: 0; }
   #app[data-hand-visible="true"][data-pause-open="true"][data-pause-page="home"] #run-panel { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #app[data-hand-visible="true"][data-pause-open="true"][data-pause-page="home"] #run-panel.game-board::before,
+  #app[data-hand-visible="true"][data-pause-open="true"][data-pause-page="home"] #run-panel.game-board::after { top: -4px; }
   /* Share three full-width rows with the fixed hand reservation; never nest
      Travelers and Local Play inside a single half-width action cell. */
   #app[data-hand-visible="true"][data-pause-open="true"][data-pause-page="home"] #run-panel #pause-content,
