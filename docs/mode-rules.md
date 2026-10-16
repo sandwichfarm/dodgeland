@@ -108,13 +108,78 @@ when a local definition is composed.
 
 ## Multiplayer extension seams
 
-This solo contract is the first stage of the multiplayer work. Shared
-world/player state, input ownership, and join/leave/disconnect/reconnect handlers
-belong to Phase 2. Survive Together adds recovery, consumables, and cooperative
-settlement in Phase 3. Relay adds baton handoff and a closed roster in Phase 4;
-Race adds the clock, competitive fog, item eligibility, and ranked results in
-Phase 5. Those session handlers must be composed with the mode; the solo
-observers above do not implement them.
+`composeSessionModeDefinition` captures validated local callbacks over the same
+definition used by the world's `Game`. Unknown handler names and non-functions
+are rejected before session allocation. `LocalSession.update` advances the world
+once, resolves player hazards and earned settled progress, then calls `tick`.
+The authored mode decides admission, lifecycle policy and terminal outcome;
+input and rendering continue using the common session interfaces.
+
+This small practice mode demonstrates every lifecycle handler. Its own setting
+is validated before constructing the game. Each callback records the actual
+session/seat/tick context; `result` observes the frozen terminal snapshot.
+The example intentionally permits live admission, unlike Race's closed roster.
+
+<!-- executable-session-example:start -->
+```ts
+import { Game } from './game.js';
+import { composeModeDefinition } from './mode-rules.js';
+import { composeSessionModeDefinition, LocalSession } from './session.js';
+import type { SessionLifecycleRecord, SeatId } from './session.js';
+
+export function createPracticeSession(seed: number, input: { finishTiles?: number } = {}) {
+  if (!input || typeof input !== 'object' || Array.isArray(input) || Object.keys(input).some(key => key !== 'finishTiles')) throw new TypeError('Unknown practice setting.');
+  const finishTiles = input.finishTiles === undefined ? 1 : input.finishTiles;
+  if (!Number.isInteger(finishTiles) || finishTiles < 1 || finishTiles > 9999) throw new RangeError('Choose 1–9999 whole finish tiles.');
+  const settings = Object.freeze({ finishTiles });
+  const events: { type: string; sessionId: string; simulationTick: number; seat?: SeatId }[] = [];
+  const definition = composeModeDefinition({ id: 'practice' });
+  const game = new Game(seed, 'pond', 'arcade', false, [], 'butter', { definition });
+  let current: LocalSession;
+  const record = (event: SessionLifecycleRecord) => { events.push(event); };
+  const observe = (type: string, session: LocalSession, seat?: SeatId) => {
+    events.push(Object.freeze({ type, sessionId: session.id, simulationTick: session.world.simulationTick, seat }));
+  };
+  const mode = composeSessionModeDefinition(definition, {
+    attach: session => { current = session; observe('attach', session); },
+    canAct: () => !current.result,
+    canAdmit: () => !current.result,
+    canAdvance: () => !current.result,
+    canLifecycle: () => !current.result,
+    join: record, deviceLost: record, reclaim: record,
+    depart: event => { record(event); return { archiveContribution: true }; },
+    death: record,
+    progress: (player, session) => observe('progress', session, player.seat),
+    tick: session => {
+      if (session.result || !session.players.some(player => player.participation === 'active' && player.state === 'playing' && player.completedForwardTiles >= settings.finishTiles)) return;
+      const distances = Object.freeze(session.players.map(player => Object.freeze({ seat: player.seat, distance: player.completedForwardTiles })));
+      session.completeResult(Object.freeze({ mode: 'practice', outcome: 'finish', settings, distances }));
+    },
+    result: session => observe('result', session),
+  });
+  const session = LocalSession.stage(game, {
+    primaryDevice: 'keyboard-a',
+    roster: [{ seat: 'p2', device: 'keyboard-b', characterId: 'pip' }], mode,
+  }).commit();
+  return { game, session, definition, settings, events };
+}
+```
+<!-- executable-session-example:end -->
+
+The existing router calls admission, device-loss, reclaim and departure APIs;
+the session dispatches the corresponding callbacks. Initial staged participants
+are delivered through `attach`; `join` observes subsequent admissions. Death
+is emitted after the production death transaction, and progress only after a
+genuine forward hop settles. `completeResult` accepts the first result only;
+the factory freezes its nested records before publishing. Keep callbacks short,
+trusted and non-throwing. Never advance the shared world from a callback.
+
+The exact block is extracted, type-checked and executed by
+`tests/mode-authoring.test.mjs`, including live admission, disconnect/reclaim,
+departure, actual death, earned movement and immutable terminal publication.
+Changing `finishTiles` changes only this handler policy. No input or renderer
+edit is required. Production Survive Together and Relay compose their own
+recovery/lifecycle policies; Race uses the same interfaces for its closed roster.
 
 `pnpm test:phase1` runs the immutable original-solo comparison before the
 focused regression suites. Its behavioral tests must have no failures,

@@ -32,7 +32,7 @@ test('exact multiplayer authoring example compiles and dispatches every real ses
   await writeFile(join(sources.directory,'session-authoring-example.js'),ts.transpileModule(example,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText);
   const { createPracticeSession } = await sources.import('session-authoring-example');
   assert.throws(() => createPracticeSession(113,{unknown:1}));
-  for (const value of [0,1.5,Infinity,NaN]) assert.throws(() => createPracticeSession(113,{finishTiles:value}));
+  for (const value of [0,1.5,Infinity,NaN,null]) assert.throws(() => createPracticeSession(113,{finishTiles:value}));
   const { composeSessionModeDefinition } = await sources.import('session');
   const { SOLO_ARCADE_MODE } = await sources.import('mode-rules');
   assert.throws(() => composeSessionModeDefinition(SOLO_ARCADE_MODE,{unknown:()=>{}}));
