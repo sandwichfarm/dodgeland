@@ -716,11 +716,18 @@ function relayAction(kind: string, actor: SeatId, captured?: RelayActionToken): 
   syncRelayHandoff(); updateHud();
 }
 function relayConfirmControl(seat: SeatId): void {
-  if (!relay || !relayHandoff) return;
-  if (relay.snapshot().phase === 'handoff') { confirmRelay(seat); return; }
+  if (!relay || !relayHandoff || !frameAvailable()) return;
   const focused = document.activeElement;
   const control = focused instanceof HTMLButtonElement && relayHandoff.contains(focused) ? focused : relayHandoff.querySelector<HTMLButtonElement>('button');
   if (!control) return;
+  if (relay.snapshot().phase === 'handoff') {
+    const state = relay.snapshot();
+    if (!state.connections[seat]) return;
+    // Start keeps the rendered confirmation ticket; read-only controls never
+    // become an implicit transfer merely because a participant confirms them.
+    if (control.dataset.relayAction !== 'start' || seat === state.incomingSeat) control.click();
+    return;
+  }
   if (relay.snapshot().phase === 'ended') { control.click(); return; }
   const kind = control.dataset.relayAction;
   if (kind === 'skip' || kind === 'leave') relayAction(kind, seat);
@@ -728,7 +735,12 @@ function relayConfirmControl(seat: SeatId): void {
 }
 function relayDirection(seat: SeatId, direction: Direction): void {
   if (!relay || !relayHandoff) return;
-  if (relay.snapshot().phase === 'handoff') { if (direction === 'forward') confirmRelay(seat); return; }
+  if (relay.snapshot().phase === 'handoff') {
+    if (!frameAvailable()) return;
+    if (direction === 'forward') confirmRelay(seat);
+    else if (relay.snapshot().connections[seat]) navigateModalControls(relayHandoff, direction);
+    return;
+  }
   if (direction === 'forward') relayConfirmControl(seat);
   else if (relay.snapshot().phase === 'ended' || relayHandoff.dataset.actor === seat || relay.snapshot().activeSeat === seat) navigateModalControls(relayHandoff, direction);
 }
@@ -1367,12 +1379,16 @@ function nativeKeyboardKeydown(event: KeyboardEvent): void {
   if (relayHandoff && !lifecycleBoard && nativeKeyboardActive) {
     const held = observedNativeKeys.has(event.key);
     observedNativeKeys.add(event.key);
-    if ((event.key === 'Enter' || event.key === ' ') && !held && !event.repeat) {
-      const actor = (relay?.snapshot().phase === 'ended' ? localSession?.players.find(p => p.device.startsWith('keyboard-'))?.seat : relayHandoff.dataset.actor) as SeatId | undefined;
-      if (actor && localSession?.players.find(p => p.seat === actor)?.device.startsWith('keyboard-')) relayConfirmControl(actor);
+    if (event.key === 'Enter' || event.key === ' ') {
+      if (!held && !event.repeat) {
+        const state = relay?.snapshot();
+        const preferred = localSession?.players.find(p => p.seat === relayHandoff?.dataset.actor && p.device.startsWith('keyboard-'));
+        const actor = preferred ?? ((state?.phase === 'ended' || state?.phase === 'handoff') ? localSession?.players.find(p => p.device.startsWith('keyboard-') && (state.phase === 'ended' || state.connections[p.seat])) : undefined);
+        if (actor) relayConfirmControl(actor.seat);
+      }
+      event.preventDefault(); event.stopPropagation(); return;
     }
     if (keyboardInput?.keydown(event.key)) { event.preventDefault(); event.stopPropagation(); }
-    else if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); event.stopPropagation(); }
     return;
   }
   const menuButton = event.target instanceof HTMLButtonElement && (hand.isOpen() || hand.containsFocus() || market.isOpen());

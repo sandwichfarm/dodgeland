@@ -103,8 +103,10 @@ export function createRelayHandoff(root: HTMLElement, relay: RelayCoordinator, c
   const title = document.createElement('h2'); title.id = 'relay-handoff-title'; title.textContent = snapshot.readyReason ? `${snapshot.incomingSeat.toUpperCase()}'s turn` : `Leg ${snapshot.leg} complete`;
   const status = document.createElement('p'); status.textContent = snapshot.readyReason ? 'The next runner starts when ready.' : `${snapshot.activeSeat.toUpperCase()} carried the baton ${snapshot.tilesPerLeg} tiles.`;
   const incoming = snapshot.roster.find(seat => seat.seat === snapshot.incomingSeat)!;
+  board.dataset.actor = incoming.seat;
   const identity = document.createElement('p'); identity.textContent = `Up next · ${relayIdentity(incoming.seat, incoming.characterId)}`;
   const start = document.createElement('button'); start.type = 'button'; start.textContent = `Start ${incoming.seat.toUpperCase()}'s leg`; start.onclick = confirm;
+  start.dataset.relayAction = 'start';
   const hint = document.createElement('p'); hint.textContent = `${incoming.seat.toUpperCase()}: press forward or confirm when ready.`;
   const view = document.createElement('button'); view.type = 'button'; view.textContent = 'View relay';
   const summary = document.createElement('div'); summary.className = 'relay-summary'; summary.hidden = true;

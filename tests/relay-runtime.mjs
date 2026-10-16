@@ -244,6 +244,13 @@ for (const activation of ['Enter','Space']) test(`handoff ${activation} activate
   assert.equal(await app.frame.evaluate(()=>document.activeElement.textContent),'Back to handoff');await app.page.keyboard.press(activation);assert.equal(await board.getAttribute('data-summary'),'false');assert.equal(await app.frame.evaluate(()=>document.activeElement.textContent),"Start P2's leg");
   assert.deepEqual(await positions(),frozen);await app.page.keyboard.down(activation);await app.advance(120);assert.equal(await board.count(),0);
   const placed=await positions();assert.equal(placed[1].earned,0);assert.equal(placed[1].y,1);await app.page.keyboard.down(activation);await app.advance(120);assert.deepEqual(await positions(),placed);await app.page.keyboard.up(activation);
+  for(const seat of ['p2','p1']){
+   await app.frame.locator(`[data-seat="${seat}"] [data-session-hud="item"]`).click();await app.frame.locator('#relay-handoff').getByRole('button',{name:'Leave Relay',exact:true}).click();
+   if(seat==='p2')await app.page.keyboard.press(activation);
+  }
+  await app.frame.getByRole('heading',{name:'Relay results',exact:true}).waitFor();await app.page.keyboard.press(activation);assert.equal(await board.getAttribute('data-result-view'),'players','departed keyboard owners retain terminal navigation');
+  for(let i=0;i<4&&await app.frame.evaluate(()=>document.activeElement.textContent)!=='Hop again';i++)await app.page.keyboard.press('Tab');
+  assert.equal(await app.frame.evaluate(()=>document.activeElement.textContent),'Hop again');await app.page.keyboard.press(activation);assert.equal(await board.count(),0);
   assert.deepEqual(evidence.errors,[]);assert.deepEqual(evidence.external,[]);
  }finally{await app.close();}
 });
