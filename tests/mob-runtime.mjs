@@ -128,7 +128,9 @@ try {
   const heard = async fingerprint => (await effects()).filter(voice => voice.fingerprint === fingerprint).length;
 
   // The built preview controls establish the three expected PCM identities.
-  await frame.locator('#collection').click(); await frame.locator('#sounds-tab').click();
+  await frame.locator(await frame.locator('#choose').isVisible() ? '#choose' : '#collection').click(); await frame.locator('#sounds-tab').click();
+  for (let page = 0; page < 6 && await frame.locator('#drawer').getAttribute('data-collection-sound') !== 'preview'; page++) await frame.locator('#collection-next').click();
+  assert.equal(await frame.locator('#sound-preview-cue').isVisible(), true);
   const fingerprints = {};
   for (const cue of ['mob.spawn', 'mob.attack', 'death.mob']) {
     await frame.locator('#sound-preview-cue').selectOption(cue);
@@ -152,6 +154,8 @@ try {
     // Let the normal camera catch up to the fixture's distant ready position
     // before starting simulation; spawn screenshots then show the encounter.
     await advance(1600);
+    await frame.locator('#play').click();
+    assert.equal((await snapshot()).state, 'playing', 'visible Play starts the staged ready run before movement');
   }
   async function remount() {
     await page.evaluate(() => window.mount()); await currentFrame();
@@ -169,7 +173,7 @@ try {
   evidence.scenarios.push({ gate: 'score and elapsed simulation time', scoreOnly: 160, timeOnly: 60, spawns: 0 });
   await remount(); await stage(320, 45, false); await move('forward');
   const lateDebut = await snapshot();
-  assert.equal(lateDebut.mobs.length, 1); assert.equal(lateDebut.mobs[0].kind, 'slime', 'a fast run still meets the gentle species first');
+  assert.equal(lateDebut.mobs.length, 1, JSON.stringify(lateDebut)); assert.equal(lateDebut.mobs[0].kind, 'slime', 'a fast run still meets the gentle species first');
   evidence.scenarios.push({ gate: 'debut order', score: 320, earlierEncounters: [], firstSpecies: lateDebut.mobs[0].kind });
   await remount(); await stage(200); await move('forward');
   const shoppingInvitation = await snapshot();
