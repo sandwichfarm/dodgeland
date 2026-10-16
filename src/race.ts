@@ -1,3 +1,4 @@
+import { RaceItems, RACE_ITEM_SCHEMA } from './race-items.js';
 import { CHARACTERS } from './content.js';
 import type { Game } from './game.js';
 import type { ModeDefinition } from './mode-rules.js';
@@ -17,7 +18,7 @@ export interface RaceSettings { readonly finishTiles: number; readonly activeSec
 export interface RaceSeat { readonly seat: SeatId; readonly characterId: string; readonly device: DeviceId; readonly disconnected?: boolean }
 export interface RaceProposal { readonly seats: readonly RaceSeat[]; readonly finishTiles?: number | string; readonly activeSeconds?: number | string }
 export interface RaceSetup { readonly seats: readonly RaceSeat[]; readonly settings: RaceSettings }
-export interface RaceDescriptor extends RaceSetup { readonly seed: number; readonly seedCode: string | null; readonly runSeed: RunSeed | null; readonly schema: 'race-1'; readonly itemVersion: 'race-items-1'; readonly pressure: typeof RACE_PRESSURE }
+export interface RaceDescriptor extends RaceSetup { readonly seed: number; readonly seedCode: string | null; readonly runSeed: RunSeed | null; readonly schema: 'race-1'; readonly itemVersion: typeof RACE_ITEM_SCHEMA; readonly pressure: typeof RACE_PRESSURE }
 export interface RaceResult extends SessionResult { readonly mode: 'race'; readonly outcome: 'finish' | 'time' | 'eliminated'; readonly descriptor: RaceDescriptor; readonly winners: readonly SeatId[]; readonly elapsed: number; readonly players: readonly Readonly<{ seat: SeatId; characterId: string; distance: number; status: RaceStatus }>[] }
 
 function integer(value: unknown, fallback: number, min: number, max: number, message: string): number {
@@ -133,15 +134,16 @@ export class RaceCoordinator {
   /** Defensive effect policy; item validation/debit remains with its transaction. */
   protectFog(seat: SeatId, seconds: number): boolean {
     const player = this.session.players.find(p => p.seat === seat);
-    if (!Number.isFinite(seconds) || seconds <= 0 || seconds > 10 || this.result || !player || player.participation !== 'active' || player.state !== 'playing' || this.isFinished(seat)) return false;
+    if (!Number.isFinite(seconds) || seconds <= 0 || seconds > 10 || this.result || !player || player.participation !== 'active' || (player.state !== 'playing' && player.state !== 'paused') || this.isFinished(seat)) return false;
     this.fog.set(seat, Object.freeze({ ...this.fogState(seat), exposure: 0, protectionUntil: this.elapsed + seconds })); return true;
   }
+  readonly items = new RaceItems(this);
   readonly recovery = new SessionRecoveryController();
   constructor(readonly descriptor: RaceDescriptor) {}
   get session(): LocalSession { if (!this.attached) throw new Error('Race has not started.'); return this.attached; }
   get result(): RaceResult | undefined { return this.session.result as RaceResult | undefined; }
   get elapsed(): number { return this.result?.elapsed ?? Math.max(0, (this.session.world.time - this.origin) / this.session.world.rules.simulation.worldTimeScale); }
-  attach(session: LocalSession): void { this.attached = session; this.origin = this.lastTime = session.world.time; this.recovery.attach(session); }
+  attach(session: LocalSession): void { this.attached = session; this.origin = this.lastTime = session.world.time; this.recovery.attach(session); for (const p of session.players) p.run.restrictItems('appearance-only'); session.installConsumableWorld(this.items.policy()); session.installCoOpMarket({consumables:true,name:'Race',capabilities:['race-tactics'],closeOnInvalidate:true}); }
   isFinished(seat: SeatId): boolean { return this.finishTicks.has(seat); }
   finishTick(seat: SeatId): number | undefined { return this.finishTicks.get(seat); }
   tick(session: LocalSession): void {
@@ -197,14 +199,14 @@ export function composeRaceDefinition(base: ModeDefinition, race: RaceCoordinato
     suppressPursuit: true,
     retainDeadDevice: true,
     attach: session => race.attach(session), canAdmit: () => false,
-    canAct: seat => !race.result && !race.isFinished(seat), canTransact: () => false, canAdvance: () => !race.result && !race.waiting && !race.confirmingLeave,
+    canAct: seat => !race.result && !race.isFinished(seat), canTransact: seat => {const p=race.session.players.find(p=>p.seat===seat);return !!p&&race.items.eligible(p);}, canAdvance: () => !race.result && !race.waiting && !race.confirmingLeave,
     simulates: player => !race.isFinished(player.seat),
     retainsPosition: player => race.status(player.seat)==='disconnected-grace' && player.state!=='dead',
     canLifecycle: (kind, seat, device) => race.allowsLifecycle(kind,seat,device),
     preserveReclaimPosition: true,
     deviceLost: record=>race.lifecycle(record),reclaim: record=>race.lifecycle(record),
     depart: record => {race.lifecycle(record);return { archiveContribution: true };},
-    death: record => {race.recovery.death(record.seat);race.lifecycle(record);},
+    death: record => {race.session.clearConsumables(record.seat);race.recovery.death(record.seat);race.lifecycle(record);},
     pending: session => race.recovery.pending(session), recover: (_session, request) => race.recover(request),
     tick: session => race.tick(session),
   });
@@ -212,7 +214,7 @@ export function composeRaceDefinition(base: ModeDefinition, race: RaceCoordinato
 export function createRaceSession(game: Game, proposal: RaceProposal): RaceCoordinator {
   const setup = validateRaceSetup(proposal);
   if (game.state !== 'ready') throw new TypeError('Race starts from a fresh ready course.');
-  const descriptor: RaceDescriptor = Object.freeze({ ...setup, seed: game.world.seed, seedCode: game.world.seedCode, runSeed: game.runSeed ? Object.freeze({ ...game.runSeed }) : null, schema: 'race-1', itemVersion: 'race-items-1', pressure: RACE_PRESSURE });
+  const descriptor: RaceDescriptor = Object.freeze({ ...setup, seed: game.world.seed, seedCode: game.world.seedCode, runSeed: game.runSeed ? Object.freeze({ ...game.runSeed }) : null, schema: 'race-1', itemVersion: RACE_ITEM_SCHEMA, pressure: RACE_PRESSURE });
   const race = new RaceCoordinator(descriptor), primary = setup.seats.find(p => p.seat === 'p1')!;
   const original = game.characterId;
   try {

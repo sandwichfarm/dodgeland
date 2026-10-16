@@ -45,6 +45,15 @@ export function consumablePickupId(anchor: ConsumableDropAnchor, itemId: 'reviva
 }
 export interface ConsumableDropSchema { readonly version: string; readonly buckets: number; readonly salt: number; readonly items: Readonly<Partial<Record<number, ConsumableId>>> }
 export const DEFAULT_ITEM_SCHEMA: ConsumableDropSchema = Object.freeze({version: ITEM_DROP_SCHEMA, buckets: BUCKETS, salt: SCHEMA_SALT, items: Object.freeze({0:'revival',1:'flare',2:'flare'})});
+const schemas = new Map<string, ConsumableDropSchema>([[DEFAULT_ITEM_SCHEMA.version, DEFAULT_ITEM_SCHEMA]]);
+export function registerConsumableSchema(schema: ConsumableDropSchema): ConsumableDropSchema {
+  const captured = validateConsumableSchema(schema);
+  if (schemas.has(captured.version)) throw new TypeError('Consumable schema already registered.');
+  schemas.set(captured.version, captured); return captured;
+}
+export function consumableSchema(version: string): ConsumableDropSchema {
+  const schema = schemas.get(version); if (!schema) throw new TypeError('Unknown consumable schema.'); return schema;
+}
 export function validateConsumableSchema(schema: ConsumableDropSchema): ConsumableDropSchema {
   if (!schema || !/^[a-z][a-z0-9-]{1,63}$/.test(schema.version) || !Number.isInteger(schema.buckets) || schema.buckets < 2 || schema.buckets > 65536 || !unsigned(schema.salt) || !schema.items || Object.entries(schema.items).some(([k,v]) => !/^(0|[1-9][0-9]*)$/.test(k) || +k >= schema.buckets || !['revival','flare','mud-splash','fog-lantern'].includes(v ?? ''))) throw new TypeError('Invalid consumable schema.');
   return Object.freeze({...schema, items:Object.freeze({...schema.items})});
@@ -57,6 +66,8 @@ export function classifyItemBucket(bucket: number, schema: ConsumableDropSchema)
 export function sampleConsumableDrop(anchor: ConsumableDropAnchor): ConsumableDrop { return sampleItemDrop(DEFAULT_ITEM_SCHEMA, anchor); }
 export function sampleItemDrop(schema: ConsumableDropSchema, anchor: ConsumableDropAnchor): ConsumableDrop {
   validateConsumableSchema(schema);
+  const registered = consumableSchema(schema.version);
+  if (schema.salt !== registered.salt || schema.buckets !== registered.buckets || JSON.stringify(schema.items) !== JSON.stringify(registered.items)) throw new TypeError('Changed consumable schema.');
   validate(anchor);
   let retry = 0;
   for (;;) {

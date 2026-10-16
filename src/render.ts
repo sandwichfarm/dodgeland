@@ -307,10 +307,14 @@ export class Renderer {
     }
     const consumables = game.worldExtensionSnapshot<ConsumableWorldSnapshot>();
     for (const pickup of consumables?.pickups ?? []) {
-      const color = pickup.itemId === 'revival' ? '#76d6a1' : '#f28b55';
+      const color = pickup.appearance?.color ?? (pickup.itemId === 'revival' ? '#76d6a1' : '#f28b55');
+      const label = pickup.name ?? (pickup.itemId === 'revival' ? 'Revival' : 'Flare');
       objects.push({ x: pickup.x, y: pickup.y, draw: () => {
         this.shadow(pickup.x, pickup.y, .42, pickup.z);
-        if (pickup.itemId === 'revival') {
+        if (pickup.appearance?.shape === 'low') {
+          this.cube(box(0, 0, .02, .5, .4, .12, color), pickup.x, pickup.y, pickup.z);
+          this.cube(box(.12, .06, .14, .18, .18, .1, color), pickup.x, pickup.y, pickup.z);
+        } else if (pickup.itemId === 'revival') {
           // A cross-shaped marker remains recognizable after color is removed
           // (and at reduced-motion frame rates), rather than relying on a tint.
           this.cube(box(0, 0, .02, .16, .22, .58, color), pickup.x, pickup.y, pickup.z);
@@ -321,8 +325,8 @@ export class Renderer {
           this.cube(box(0, 0, .02, .38, .30, .24, color), pickup.x, pickup.y, pickup.z);
           this.cube(box(0, 0, .24, .18, .18, .30, '#ffe0a3'), pickup.x, pickup.y, pickup.z);
         }
-        const [tx, ty] = this.project(pickup.x, pickup.y, pickup.z + .64);
-        ctx.save(); ctx.font = `bold ${Math.max(9, this.scale * .18)}px sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'bottom'; ctx.lineWidth = Math.max(2, this.scale * .035); ctx.strokeStyle = '#263c38'; ctx.strokeText(pickup.itemId === 'revival' ? 'Revival' : 'Flare', tx, ty); ctx.fillStyle = '#fff8d8'; ctx.fillText(pickup.itemId === 'revival' ? 'Revival' : 'Flare', tx, ty); ctx.restore();
+        const [tx, ty] = this.project(pickup.x, pickup.y, pickup.z + (pickup.name ? 2.1 : .64));
+        ctx.save(); ctx.font = `bold ${Math.max(9, this.scale * .18)}px sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'bottom'; ctx.lineWidth = Math.max(2, this.scale * .035); ctx.strokeStyle = '#263c38'; ctx.strokeText(label, tx, ty); ctx.fillStyle = '#fff8d8'; ctx.fillText(label, tx, ty); ctx.restore();
       } });
     }
     for (const mob of game.mobs) {

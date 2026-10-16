@@ -9,6 +9,8 @@ export interface ConsumableDefinition {
   readonly id: ConsumableId;
   readonly kind: 'consumable';
   readonly name: string;
+  readonly appearance?: Readonly<{color:string;shape:'low'|'lantern'}>;
+  readonly cue?: 'splash' | 'coin';
   readonly price: number;
   readonly maxCharges: 1;
   readonly requiredCapability: string;
@@ -64,8 +66,8 @@ export type ConsumableCreditDecision = ConsumableCreditPlan | ConsumableRejectio
 export type ConsumableDebitDecision = ConsumableDebitPlan | ConsumableRejection;
 
 export function validateConsumableCatalogue(items: readonly ConsumableDefinition[]): readonly ConsumableDefinition[] {
-  if (!Array.isArray(items) || items.length === 0 || new Set(items.map(i => i?.id)).size !== items.length || items.some(i => !i || !['revival','flare','mud-splash','fog-lantern'].includes(i.id) || i.kind !== 'consumable' || typeof i.name !== 'string' || !i.name || !Number.isSafeInteger(i.price) || i.price < 1 || i.maxCharges !== 1 || typeof i.requiredCapability !== 'string' || !i.requiredCapability || !['dead-teammate','dead-teammates-and-active-regroup','living-opponent','living-self'].includes(i.targetPolicy))) throw new TypeError('Invalid consumable catalogue.');
-  return Object.freeze(items.map(i => Object.freeze({...i})));
+  if (!Array.isArray(items) || items.length === 0 || new Set(items.map(i => i?.id)).size !== items.length || items.some(i => !i || !['revival','flare','mud-splash','fog-lantern'].includes(i.id) || i.kind !== 'consumable' || typeof i.name !== 'string' || !i.name || !Number.isSafeInteger(i.price) || i.price < 1 || i.maxCharges !== 1 || (i.cue !== undefined && !['splash','coin'].includes(i.cue)) || (i.appearance !== undefined && (!/^#[0-9a-f]{6}$/i.test(i.appearance.color) || !['low','lantern'].includes(i.appearance.shape))) || typeof i.requiredCapability !== 'string' || !i.requiredCapability || !['dead-teammate','dead-teammates-and-active-regroup','living-opponent','living-self'].includes(i.targetPolicy))) throw new TypeError('Invalid consumable catalogue.');
+  return Object.freeze(items.map(i => Object.freeze({...i,...(i.appearance?{appearance:Object.freeze({...i.appearance})}:{})})));
 }
 const reject = (reason: string): ConsumableRejection => freeze({ ok: false as const, reason });
 const validGeneration = (value: unknown): value is number => typeof value === 'number' && Number.isSafeInteger(value) && value >= 0;
@@ -115,10 +117,10 @@ function targetsFor(item: ConsumableDefinition, owner: ConsumableOwnerSnapshot, 
   }
   if (item.targetPolicy === 'living-self' && (bound.length !== 1 || bound[0]?.id !== owner.id || bound[0]?.lifecycle !== 'living')) return reject('ineligible-target');
   if (item.targetPolicy === 'living-opponent' && (bound.length !== 1 || bound[0]?.lifecycle !== 'living')) return reject('ineligible-target');
-  if (item.id === 'revival' && targets.length !== 1) return reject('invalid-target-count');
-  if (item.id === 'flare' && targets.length < 1) return reject('no-dead-target');
-  if (item.id === 'revival' && (dead !== 1 || bound[0]!.lifecycle !== 'dead')) return reject('ineligible-target');
-  if (item.id === 'flare' && dead < 1) return reject('no-dead-target');
+  if (item.targetPolicy === 'dead-teammate' && targets.length !== 1) return reject('invalid-target-count');
+  if (item.targetPolicy === 'dead-teammates-and-active-regroup' && targets.length < 1) return reject('no-dead-target');
+  if (item.targetPolicy === 'dead-teammate' && (dead !== 1 || bound[0]!.lifecycle !== 'dead')) return reject('ineligible-target');
+  if (item.targetPolicy === 'dead-teammates-and-active-regroup' && dead < 1) return reject('no-dead-target');
   return freeze(bound);
 }
 

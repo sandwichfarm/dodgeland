@@ -1,3 +1,5 @@
+import { itemAllowed } from './types.js';
+import type { ItemAccess } from './types.js';
 import type {
   ActivePower, CardComponent, CardDefinition, CosmeticDefinition, CosmeticSlot, HeldCard,
   ItemDefinition, MarketOffer, MarketResult, MarketWindow, PackDraft, PackPreview, Rarity, RunModifiers,
@@ -81,6 +83,13 @@ export class RunInventory {
   pendingPack: PackDraft | null = null;
   isOpen = false;
   alive = true;
+  private access: ItemAccess = 'standard';
+  /** Captured before play; a restricted catalogue cannot be widened during a run. */
+  restrictItems(access: ItemAccess): void {
+    if (!['standard','appearance-only'].includes(access) || this.access !== 'standard' && access !== this.access) throw new TypeError('Invalid item access.');
+    this.access = access;
+  }
+  itemEligible(id: string): boolean { const item = this.catalog.get(id); return !!item && itemAllowed(item, this.access); }
   private fraction = 0;
   private maxScore = 0;
   private sequence = 0;
@@ -156,13 +165,13 @@ export class RunInventory {
     let income = 0;
     for (const component of this.cards.flatMap(card => card.components)) {
       const definition = this.catalog.get(component.itemId);
-      if (definition?.kind !== 'card') continue;
+      if (definition?.kind !== 'card' || !this.itemEligible(definition.id)) continue;
       const amount = definition.scoreCoins?.({ previous, score: this.maxScore }, component.potency) ?? 0;
       if (Number.isFinite(amount) && amount > 0) income += amount;
     }
     for (const power of this.powers) {
       const definition = this.catalog.get(power.itemId);
-      if (definition?.kind !== 'power' || power.remaining <= 0) continue;
+      if (definition?.kind !== 'power' || !this.itemEligible(definition.id) || power.remaining <= 0) continue;
       const amount = definition.scoreCoins?.({ previous, score: this.maxScore }, 1) ?? 0;
       if (Number.isFinite(amount) && amount > 0) income += amount;
     }
@@ -199,7 +208,7 @@ export class RunInventory {
     if (!this.canTrade()) return this.fail('Open an active market to shop.');
     const offer = this.market!.offers.find(candidate => candidate.id === offerId);
     const item = offer && this.catalog.get(offer.itemId);
-    if (!offer || !item) return this.fail('That offer is unavailable.');
+    if (!offer || !item || !this.itemEligible(item.id)) return this.fail('That offer is unavailable.');
     if (offer.sold) return this.fail('That offer is sold out.');
     if (this.wallet < offer.price) return this.fail(`Need ${offer.price - this.wallet} more coins.`);
     if (item.kind === 'card') {
@@ -242,7 +251,7 @@ export class RunInventory {
   previewPack(ids: readonly string[], discardIds: readonly string[] = []): PackPreview {
     const invalid = (message: string): PackPreview => ({ count: this.cards.length, capacity: this.cardCapacity, valid: false, message });
     const draft = this.pendingPack;
-    if (!this.alive || !this.isOpen || !this.market || this.market.remaining <= 0 || !draft) return invalid('Open your pack to choose its cards.');
+    if (!this.alive || !this.isOpen || !this.market || this.market.remaining <= 0 || !draft || !this.itemEligible(draft.packId)) return invalid('Open your pack to choose its cards.');
     if (ids.length !== draft.picks || new Set(ids).size !== ids.length) return invalid(`Choose exactly ${draft.picks} different ${draft.picks === 1 ? 'card' : 'cards'}.`);
     const selected = ids.map(id => draft.choices.find(card => card.id === id));
     if (selected.some(card => !card)) return invalid('Choose cards from this pack.');
@@ -277,7 +286,7 @@ export class RunInventory {
     // draft or fund an inspected offer without leaving the current screen.
     if (!this.alive) return this.fail('This run has ended.');
     const index = this.cards.findIndex(card => card.id === cardId);
-    if (index < 0) return this.fail('That card is no longer owned.');
+    if (index < 0 || this.cards[index]!.components.some(component => !this.itemEligible(component.itemId))) return this.fail('That card is no longer owned.');
     const remaining = this.cards.filter((_, candidate) => candidate !== index);
     const capacity = this.capacityFor(remaining);
     if (remaining.length > capacity) return this.fail(`Selling this leaves ${capacity} hand slots. Sell another card first.`);
@@ -299,11 +308,11 @@ export class RunInventory {
     this.alive = true; this.isOpen = false; this.market = null; this.pendingPack = null; this.revision++;
   }
 
-  private changed(): void { this.effects = reduceItems(this.catalog, this.cards.flatMap(card => card.components), this.powers, this.policy.baseCoinGravity); this.revision++; }
+  private changed(): void { this.effects = reduceItems(new Map([...this.catalog].filter(([id])=>this.itemEligible(id))), this.cards.flatMap(card => card.components), this.powers, this.policy.baseCoinGravity); this.revision++; }
   private capacityFor(cards: readonly Pick<HeldCard, 'components'>[]): number {
     // Slots come only from held cards. A temporary power cannot expire into an
     // overflowing hand while the player is away from the market.
-    const slots = reduceItems(this.catalog, cards.flatMap(card => card.components)).cardSlots;
+    const slots = reduceItems(new Map([...this.catalog].filter(([id])=>this.itemEligible(id))), cards.flatMap(card => card.components)).cardSlots;
     return Math.max(1, Math.min(this.policy.inventoryLimit, Math.floor(this.policy.inventoryCapacity + slots)));
   }
   private canTrade(): boolean { return this.alive && this.isOpen && !this.pendingPack && Boolean(this.market && this.market.remaining > 0); }
@@ -323,13 +332,13 @@ export class RunInventory {
     return items[items.length - 1];
   }
   private cardPool(minimum: Rarity = 'common'): CardDefinition[] {
-    return [...this.catalog.values()].filter((item): item is CardDefinition => item.kind === 'card' && RARITIES.indexOf(item.rarity) >= RARITIES.indexOf(minimum));
+    return [...this.catalog.values()].filter((item): item is CardDefinition => this.itemEligible(item.id) && item.kind === 'card' && RARITIES.indexOf(item.rarity) >= RARITIES.indexOf(minimum));
   }
   private hold(item: CardDefinition): HeldCard {
     return { id: this.id('card'), name: item.name, description: item.description, rarity: item.rarity, icon: item.icon, color: item.color, components: [{ itemId: item.id, potency: 1 }], saleValue: Math.max(1, Math.floor(item.price / 2)) };
   }
   private makeOffers(milestone: number): MarketOffer[] {
-    const items = [...this.catalog.values()].filter(item => item.kind !== 'cosmetic' || !this.cosmetics.includes(item.id));
+    const items = [...this.catalog.values()].filter(item => this.itemEligible(item.id) && (item.kind !== 'cosmetic' || !this.cosmetics.includes(item.id)));
     const chosen: ItemDefinition[] = [], offers: MarketOffer[] = [];
     const add = (pool: readonly ItemDefinition[], section: NonNullable<MarketOffer['section']>): void => {
       const candidates = pool.filter(item => !chosen.includes(item));

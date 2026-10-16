@@ -14,6 +14,10 @@ export interface ItemBehavior {
   /** Return run coin income only for newly crossed score thresholds. */
   scoreCoins?: (event: ScoreEvent, potency: number) => number;
 }
+export type ItemAccess = 'standard' | 'appearance-only';
+export interface ItemEligibility { readonly gameplay: boolean; readonly appearance: boolean }
+export function itemEligibility(item: Pick<ItemDefinition, 'kind'>): ItemEligibility { return Object.freeze({gameplay:item.kind !== 'cosmetic',appearance:item.kind === 'cosmetic'}); }
+export function itemAllowed(item: ItemDefinition, access: ItemAccess): boolean { return access === 'standard' || itemEligibility(item).appearance; }
 interface ItemBase { id: string; name: string; description: string; rarity: Rarity; price: number; icon: string; color: string; modes?: readonly ('arcade' | 'stroll')[] }
 export interface CardDefinition extends ItemBase, ItemBehavior { kind: 'card' }
 export interface PowerDefinition extends ItemBase, ItemBehavior { kind: 'power'; duration: number }

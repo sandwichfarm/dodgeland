@@ -132,10 +132,11 @@ export interface SessionRecoveryRequest {
   /** Later consumable plans supply an owned debit capability. */
   readonly debit?: () => boolean;
 }
-export interface ConsumablePickupSnapshot { readonly id: string; readonly itemId: ConsumableId; readonly row: number; readonly slot: number; readonly x: number; readonly y: number; readonly z: number }
-export interface ConsumableChargeSnapshot { readonly seat: SeatId; readonly ownerGeneration: number; readonly inventoryGeneration: number; readonly revival: number; readonly flare: number; readonly [key: string]: number | SeatId }
-export interface ConsumableWorldSnapshot { readonly generation: number; readonly pickups: readonly ConsumablePickupSnapshot[]; readonly charges: readonly ConsumableChargeSnapshot[]; readonly claims: readonly Readonly<{ pickupId: string; seat: SeatId }>[]; readonly protected: readonly Readonly<{ seat: SeatId; until: number }>[] }
-export interface ConsumableAction { readonly actionId: string; readonly ownerSeat: SeatId; readonly itemId: ConsumableId; readonly targetSeat?: SeatId; readonly expectedInventoryGeneration: number; readonly expectedOwnerGeneration: number; readonly expectedTargetDeathGeneration?: number; readonly expectedTargetParticipantId?: string; readonly expectedLifecycleGeneration?: number; readonly expectedParticipantId?: string; readonly expectedDevice?: DeviceId }
+export interface ConsumablePickupSnapshot { readonly name?: string; readonly appearance?: ConsumableDefinition['appearance']; readonly id: string; readonly itemId: ConsumableId; readonly row: number; readonly slot: number; readonly x: number; readonly y: number; readonly z: number }
+export interface ConsumableChargeSnapshot { readonly seat: SeatId; readonly ownerGeneration: number; readonly inventoryGeneration: number; readonly revival: number; readonly flare: number; readonly 'mud-splash'?: number; readonly 'fog-lantern'?: number }
+export interface ConsumableUseEvent { readonly cue: 'splash' | 'coin'; readonly actionId: string; readonly itemId: ConsumableId; readonly ownerSeat: SeatId; readonly targets: readonly SeatId[]; readonly tick: number; readonly time: number }
+export interface ConsumableWorldSnapshot { readonly uses?: readonly ConsumableUseEvent[]; readonly generation: number; readonly pickups: readonly ConsumablePickupSnapshot[]; readonly charges: readonly ConsumableChargeSnapshot[]; readonly claims: readonly Readonly<{ pickupId: string; seat: SeatId }>[]; readonly protected: readonly Readonly<{ seat: SeatId; until: number }>[] }
+export interface ConsumableAction { readonly actionId: string; readonly ownerSeat: SeatId; readonly itemId: ConsumableId; readonly targetSeat?: SeatId; readonly expectedInventoryGeneration: number; readonly expectedOwnerGeneration: number; readonly expectedTargetDeathGeneration?: number; readonly expectedTargetParticipantId?: string; readonly expectedLifecycleGeneration?: number; readonly expectedParticipantId?: string; readonly expectedDevice?: DeviceId; readonly expectedContext?: string }
 export interface SessionContribution {
   readonly seat: SeatId;
   readonly characterId: string;
@@ -342,13 +343,13 @@ export class SessionPlayer {
   private hopDelay: Readonly<{ multiplier: number; until: number }> | undefined;
   /** Generic temporary cooldown; interpolated hop duration is deliberately unchanged. */
   setHopCooldown(multiplier: number, activeSeconds: number): boolean {
-    if (!Number.isFinite(multiplier) || multiplier < 1 || multiplier > 4 || !Number.isFinite(activeSeconds) || activeSeconds <= 0 || activeSeconds > 60 || this.participation !== 'active' || this.state !== 'playing') return false;
+    if (!Number.isFinite(multiplier) || multiplier < 1 || multiplier > 4 || !Number.isFinite(activeSeconds) || activeSeconds <= 0 || activeSeconds > 60 || this.participation !== 'active' || (this.state !== 'playing' && this.state !== 'paused')) return false;
     this.hopDelay = Object.freeze({multiplier,until:this.world.time + activeSeconds*this.world.rules.simulation.worldTimeScale}); return true;
   }
   get hopCooldown(): Readonly<{multiplier:number;until:number;readyAt:number}> {
     return Object.freeze({multiplier:this.hopDelay && this.hopDelay.until > this.world.time ? this.hopDelay.multiplier : 1,until:this.hopDelay?.until ?? 0,readyAt:this.hopReadyAt});
   }
-  get canHop(): boolean { return this.world.time + 1e-9 >= this.hopReadyAt; }
+  get canHop(): boolean { return this.hopCooldown.multiplier === 1 || this.world.time + 1e-9 >= this.hopReadyAt; }
   noteHop(): void { if (this.hopCooldown.multiplier > 1) this.hopReadyAt = this.world.time + this.world.rules.movement.hopDuration * this.hopCooldown.multiplier * this.world.rules.simulation.worldTimeScale; }
   earnedDistance = 0;
   /** Solo progress retained at adoption; forced placement never changes it. */
@@ -409,7 +410,7 @@ export class SessionPlayer {
   }
 
   move(direction: Direction): boolean {
-    if (this.session && !this.session.canAct(this.seat) || this.world.time + 1e-9 < this.hopReadyAt) return false;
+    if (this.session && !this.session.canAct(this.seat) || !this.canHop) return false;
     const beforeY = this.y;
     const moved = this.world.host.movePlayer(this, direction);
     if (moved && direction === 'forward' && this.y > beforeY) this.session?.noteForwardHop(this, this.y);
@@ -432,6 +433,7 @@ export interface ConsumableWorldPolicy {
 function captureConsumablePolicy(policy: ConsumableWorldPolicy): ConsumableWorldPolicy {
   if (!policy || Object.keys(policy).some(k => !['catalogue','schema','capabilities','eligible','activate'].includes(k)) || !Array.isArray(policy.capabilities) || policy.capabilities.some(c => typeof c !== 'string' || !c) || typeof policy.eligible !== 'function' || typeof policy.activate !== 'function') throw new TypeError('Invalid consumable policy.');
   const catalogue = validateConsumableCatalogue(policy.catalogue), schema = validateConsumableSchema(policy.schema);
+  sampleItemDrop(schema, {courseSeed:0,row:0,slot:0}); // Reject unregistered or changed versions before installation.
   if (Object.values(schema.items).some(id => !catalogue.some(i => i.id === id))) throw new TypeError('Schema items must belong to the installed catalogue.');
   return Object.freeze({...policy, catalogue, schema, capabilities:Object.freeze([...policy.capabilities])});
 }
@@ -443,6 +445,7 @@ class ConsumableWorld implements GameWorldExtension {
   private readonly charges = new Map<string, ConsumableCharge>();
   private readonly claims = new Map<string, SeatId>();
   private readonly actions = new Map<string, number>();
+  private readonly uses: ConsumableUseEvent[] = [];
   private generation = 0;
   private nextInventoryGeneration = 1;
   private game: Game | undefined;
@@ -458,7 +461,8 @@ class ConsumableWorld implements GameWorldExtension {
     const actor = lane.kind === 'river' ? laneActors(lane, game.time).sort((a, b) => Math.abs(a.x) - Math.abs(b.x) || a.id - b.id)[0] : undefined;
     const landAnchor = [0, ...Array.from({ length: HALF_WIDTH }, (_, offset) => [-(offset + 1), offset + 1]).flat()].find(x => !lane.blocked.includes(x));
     if (!actor && landAnchor === undefined) return;
-    this.pickups.set(drop.pickupId, { id: drop.pickupId, itemId: drop.itemId, row: lane.index, slot: 0, x: actor?.x ?? landAnchor!, y: lane.index, z: platformSurface(lane), speed: 0, actorId: actor?.id });
+    const definition = this.policy?.catalogue.find(item=>item.id===drop.itemId);
+    this.pickups.set(drop.pickupId, { ...(definition?{name:definition.name,appearance:definition.appearance}:{}), id: drop.pickupId, itemId: drop.itemId, row: lane.index, slot: 0, x: actor?.x ?? landAnchor!, y: lane.index, z: platformSurface(lane), speed: 0, actorId: actor?.id });
   }
   private ownerId(player: SessionPlayer): string { return player.participantId || player.seat; }
   private charge(player: SessionPlayer): ConsumableCharge {
@@ -538,11 +542,15 @@ class ConsumableWorld implements GameWorldExtension {
     if (charge.inventoryGeneration !== action.expectedInventoryGeneration || charge.ownerGeneration !== action.expectedOwnerGeneration) return false;
     if (this.policy) {
       if (!this.policy.eligible(owner, action.itemId)) return false;
-      return this.policy.activate(action, owner, targets => {
+      let bound: readonly SeatId[] = [];
+      const ok = this.policy.activate(action, owner, targets => {
         if (!this.policy!.eligible(owner, action.itemId)) return false;
         const plan = planConsumableDebit({ catalogue:this.policy!.catalogue, mode:{capabilities:this.policy!.capabilities}, owner:{id:owner.seat,generation:charge.ownerGeneration}, inventory:{owner:{id:owner.seat,generation:charge.ownerGeneration}, generation:charge.inventoryGeneration, charges:charge}, expectedInventoryGeneration:action.expectedInventoryGeneration, itemId:action.itemId, targets:targets.map(p=>({id:p.seat,lifecycle:p.state==='dead'?'dead':'living'})) });
-        return plan.ok && this.debit(action, plan.resultingCharges);
+        if (!plan.ok || !this.debit(action, plan.resultingCharges)) return false;
+        bound = Object.freeze(targets.map(p=>p.seat)); return true;
       });
+      if (ok) { owner.statistics.itemsUsed++; this.uses.push(Object.freeze({cue:this.policy.catalogue.find(item=>item.id===action.itemId)?.cue ?? 'coin',actionId:action.actionId,itemId:action.itemId,ownerSeat:owner.seat,targets:bound,tick:game.world.simulationTick,time:game.time})); }
+      return ok;
     }
     const targets = action.itemId === 'revival' ? action.targetSeat ? this.session.players.filter(player => player.seat === action.targetSeat) : []
       : this.session.players.filter(player => player !== owner && ((player.participation === 'dead' && player.state === 'dead') || isLivingRecoverySubject(player)));
@@ -565,7 +573,7 @@ class ConsumableWorld implements GameWorldExtension {
     const charges = this.session.players.map(player => Object.freeze({ seat: player.seat, ...this.charges.get(this.ownerId(player))! })).sort((a, b) => a.seat.localeCompare(b.seat));
     const claims = [...this.claims.entries()].map(([pickupId, seat]) => Object.freeze({ pickupId, seat })).sort((a, b) => a.pickupId.localeCompare(b.pickupId));
     const protectedSeats = this.session.players.filter(player => (player.recovery?.protectionUntil ?? 0) > this.session.world.time).map(player => Object.freeze({ seat: player.seat, until: player.recovery?.protectionUntil ?? 0 }));
-    return Object.freeze({ generation: this.generation, pickups: Object.freeze(pickups), charges: Object.freeze(charges), claims: Object.freeze(claims), protected: Object.freeze(protectedSeats) });
+    return Object.freeze({ ...(this.policy ? {uses:Object.freeze([...this.uses])}:{}), generation: this.generation, pickups: Object.freeze(pickups), charges: Object.freeze(charges), claims: Object.freeze(claims), protected: Object.freeze(protectedSeats) });
   }
   dispose(): void { this.pickups.clear(); this.charges.clear(); this.claims.clear(); this.actions.clear(); this.game = undefined; }
 }

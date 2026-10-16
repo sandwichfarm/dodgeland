@@ -357,6 +357,7 @@ let hydration: Promise<void> = Promise.resolve();
 const changedPreferences = new Set<keyof Progress>();
 const audio = new GameAudio();
 const soundscape = new Soundscape(audio);
+const heardConsumableUses = new WeakSet<object>();
 const spillAudio = new DeathSpillAudio(audio);
 const sounds = createSoundSettings(audio, () => progress, (fields, save = true) => { fields.forEach(key => changedPreferences.add(key)); updateCallControl(); if (save) persist(); });
 let lastCall = -Infinity, callShortcut = '', marketShortcut = '', controllerConnected = false, localFocus = true, restoreModalFocus = true;
@@ -1612,6 +1613,10 @@ function frame(now: number): void {
     while (accumulator >= fixedStep) { game.update(fixedStep); accumulator -= fixedStep; }
   } else accumulator = 0;
   syncRelayHandoff();
+  for (const event of localSession?.consumableSnapshot()?.uses ?? []) {
+    if (heardConsumableUses.has(event)) continue;
+    heardConsumableUses.add(event); audio.play(event.cue);
+  }
   if (!document.hidden && localFocus && innerWidth >= 240 && innerHeight >= 240) {
     if (localSession?.running) { if (sessionUnblocked) localSession.advanceDeathVisuals(dt); }
     else game.advanceDeathVisuals(dt);

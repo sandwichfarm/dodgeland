@@ -91,7 +91,7 @@ export class CoOpMarketAdapter {
     const consumables = this.host.coOpMarketConsumableState(owner);
     if (!consumables) return undefined;
     const offers = [
-      ...(owner.run.market?.offers ?? []).map(offer => Object.freeze({ id: offer.id, itemId: offer.itemId, price: offer.price, sold: offer.sold, source: 'run' as const })),
+      ...(owner.run.market?.offers ?? []).filter(offer => owner.run.itemEligible(offer.itemId)).map(offer => Object.freeze({ id: offer.id, itemId: offer.itemId, price: offer.price, sold: offer.sold, source: 'run' as const })),
       ...this.catalogue.filter(item => this.itemEligible(owner, item.id)).map(item => Object.freeze({ id: `consumable:${item.id}`, itemId: item.id, price: item.price, sold: !canBuyOrEquip(owner.run) || !this.host.coOpMarketCanCredit(owner, item.id, consumables.ownerGeneration, consumables.inventoryGeneration), source: 'consumable' as const })),
     ];
     return Object.freeze({ seat: owner.seat, participantId: owner.participantId, ownerGeneration: consumables.ownerGeneration, inventoryGeneration: consumables.inventoryGeneration, runRevision: owner.run.revision, contextGeneration: this.contextGeneration, offers: Object.freeze(offers) });
