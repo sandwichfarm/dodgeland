@@ -99,27 +99,28 @@ test('P6 tracer shared personal status replaces solo widgets and regular details
  await identity.focus();await app.page.keyboard.press('Enter');assert.equal(await app.frame.locator('#session-seats').getAttribute('data-session-hud-inspect'),'true');await app.page.keyboard.press('Tab');assert.equal(await app.frame.locator('#session-seats').evaluate(n=>n.contains(document.activeElement)),true);await app.frame.getByRole('button',{name:'Close details',exact:true}).focus();await app.page.keyboard.press('Space');await app.advance(80);assert.deepEqual(await state(),before,'inspection has no clock/position/economy side effect');
  }finally{await app.close();}
 });
-for(const priorPaused of [true,false])test(`P6 departing compact owner restores hand home and prior pause ${priorPaused}`,{timeout:60000},async()=>{
+for(const variant of ['flow','race'])for(const priorPaused of [true,false])test(`P6 departing compact ${variant} owner restores hand home and prior pause ${priorPaused}`,{timeout:60000},async()=>{
  const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{gamepads:true,auditBoundary:true,initialIntent:intent});
- try{await setup(app,'flow');
+ try{await setup(app,variant);
   const home=await app.frame.locator('#run-inventory').evaluate(n=>n.parentElement.id);
   if(!priorPaused)await app.frame.locator('#pause').click();
-  await app.resize(240,240);await sessionControlsPage(app,'p2','Items');
-  assert.equal(await app.frame.locator('#run-inventory').getAttribute('data-embedded-controls'),'items');
+  await app.resize(240,240);await sessionControlsPage(app,'p2',variant==='race'?'Gear':'Items');
+  assert.equal(await app.frame.locator('#run-inventory').getAttribute('data-embedded-controls'),variant==='race'?'hand':'items');
   const before=await app.onSession(function(){return this.players.filter(p=>p.seat!=='p2').map(p=>({id:p.participantId,x:p.x,y:p.y,wallet:p.run.wallet}));});
   await app.frame.getByRole('button',{name:'Close controls',exact:true}).click();
   await sessionHudAction(app,'p2','item');
-  await app.frame.getByRole('button',{name:'Leave P2 run',exact:true}).click();
-  await app.frame.getByRole('button',{name:'Leave run',exact:true}).click();
+  if(variant!=='race')await app.frame.getByRole('button',{name:'Leave P2 run',exact:true}).click();
+  await app.frame.locator('#survive-lifecycle-board').getByRole('button',{name:variant==='race'?'Leave Race':'Leave run',exact:true}).click();
   assert.equal(await app.frame.locator('#session-seats').getAttribute('data-session-hud-inspect'),'false');
   assert.equal(await app.frame.locator('#session-control-pages').isVisible(),false);
   assert.equal(await app.frame.locator('#run-inventory').count(),1);
   assert.equal(await app.frame.locator('#run-inventory').getAttribute('data-embedded-controls'),null);
   assert.equal(await app.frame.locator('#run-inventory').evaluate(n=>n.parentElement.id),home);
   assert.equal(await app.frame.locator('#app').getAttribute('data-run-state'),priorPaused?'paused':'playing');
-  assert.equal(await app.frame.locator('.session-hud-selected').getAttribute('data-seat'),'p1');
-  assert.deepEqual(await app.onSession(function(){return this.players.map(p=>({id:p.participantId,x:p.x,y:p.y,wallet:p.run.wallet}));}),before);
-  await app.iframe.screenshot({path:new URL(`compact-departure-${priorPaused}.png`,output).pathname});
+  assert.equal(await app.frame.locator('.session-hud-selected').getAttribute('data-seat'),variant==='race'?'p2':'p1');
+  assert.deepEqual(await app.onSession(function(){return this.players.filter(p=>p.seat!=='p2').map(p=>({id:p.participantId,x:p.x,y:p.y,wallet:p.run.wallet}));}),before);
+  await app.advance(32);
+  await app.iframe.screenshot({path:new URL(`compact-departure-${variant}-${priorPaused}.png`,output).pathname});
   assert.deepEqual(evidence.errors,[]);
  }finally{await app.close();}
 });

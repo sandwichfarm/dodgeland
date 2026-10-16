@@ -249,6 +249,7 @@ function openDepartureBoard(seat: SeatId): void {
     const token=race.actionToken(seat);
     openLifecycleBoard(seat,`Leave Race as ${seat.toUpperCase()}?`,'Your race record stays in the results. This is not a death.','Keep racing','Leave Race',true,false,()=>{
       if(!race?.command(token,'confirm'))return false;
+      if(hudDetailsOpen)closeHudInspection();
       router.release(seat);clearRelayInput();return true;
     });return;
   }
