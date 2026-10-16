@@ -1,3 +1,15 @@
+import { artifactDirectoryForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
+const coverageArtifacts = artifactDirectoryForCoverage(new URL('../artifacts/', import.meta.url), 'actor-render');
+const coveragePages = new Map();
+let coverageGeneration = 0;
+function registerPage(page) {
+  const identity = { suite: process.argv[1], scenario: 'actor-render', frame: 'component-page', generation: coverageGeneration++, scope: 'current' };
+  registerRealm(page, identity); coveragePages.set(page, identity);
+}
+async function closePage(page) {
+  try { await collectRealm(page, coveragePages.get(page)); }
+  finally { coveragePages.delete(page); await page.close(); }
+}
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
@@ -13,11 +25,12 @@ const server = createServer((request, response) => {
 });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const browser = await chromium.launch({ args: ['--mute-audio'] });
-after(async () => { await browser.close(); await new Promise(resolve => server.close(resolve)); });
+after(async () => { try { for (const page of coveragePages.keys()) await closePage(page); } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); } });
 
 test('traffic models preserve old cars and share visible chassis bounds in either direction', async () => {
   const page = await browser.newPage();
   const errors = []; page.on('pageerror', error => errors.push(error.message));
+  registerPage(page);
   await page.goto(`http://127.0.0.1:${server.address().port}`);
   const result = await page.evaluate(async () => {
     const [{ Renderer }, { WORLDS }, { vehicleBounds }, { vehicleModel, vehicleModelWidth }] = await Promise.all([
@@ -49,7 +62,7 @@ test('traffic models preserve old cars and share visible chassis bounds in eithe
     }
     return { frames, png: sheet.toDataURL().split(',')[1] };
   });
-  const artifacts = new URL('../artifacts/', import.meta.url); await mkdir(artifacts, { recursive: true });
+  const artifacts = coverageArtifacts; await mkdir(artifacts, { recursive: true });
   await writeFile(new URL('actor-models-sheet.png', artifacts), Buffer.from(result.png, 'base64'));
   assert.deepEqual(errors, []); assert.equal(result.frames.length, 36);
   for (const frame of result.frames) {
@@ -58,12 +71,13 @@ test('traffic models preserve old cars and share visible chassis bounds in eithe
     if (frame.kind === 'truck') assert.ok(frame.height > 1 && frame.parts >= 17, 'truck has tall cargo body, cab and six wheels');
     if (frame.kind === 'sports') assert.ok(frame.height < .65 && frame.parts >= 17, 'sports car stays visibly low with stripes and spoiler');
   }
-  await page.close();
+  await closePage(page);
 });
 
 test('the gameplay renderer uses individual seeded traffic and platform lengths', async () => {
   const page = await browser.newPage();
   const errors = []; page.on('pageerror', error => errors.push(error.message));
+  registerPage(page);
   await page.goto(`http://127.0.0.1:${server.address().port}`);
   const result = await page.evaluate(async () => {
     const [{ Renderer }, { Game, laneActors }, { generateSeedLane }, { vehicleModel, vehicleModelWidth }] = await Promise.all([
@@ -112,7 +126,7 @@ test('the gameplay renderer uses individual seeded traffic and platform lengths'
     }
     return { checks, kinds: scenes.map(scene => scene.kind), png: sheet.toDataURL().split(',')[1] };
   });
-  await writeFile(new URL('../artifacts/actor-gameplay-sheet.png', import.meta.url), Buffer.from(result.png, 'base64'));
+  await writeFile(new URL('actor-gameplay-sheet.png', coverageArtifacts), Buffer.from(result.png, 'base64'));
   assert.deepEqual(errors, []);
   assert.deepEqual(result.kinds.sort(), ['river', 'sports', 'truck']);
   for (const check of result.checks) {
@@ -125,5 +139,5 @@ test('the gameplay renderer uses individual seeded traffic and platform lengths'
       assert.equal(check.reducedStreaks, 0, 'Less motion removes road streaks');
     }
   }
-  await page.close();
+  await closePage(page);
 });
