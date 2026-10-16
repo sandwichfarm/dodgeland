@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-12 Race results focused and paging-cancellation proof passed; runtime review pending
-last_updated: "2026-10-16T20:45:34.387766+00:00"
+stopped_at: 07-12 Race repair reviewed; unchanged Relay results diagnostic15/15 passed; awaiting full-run authorization
+last_updated: "2026-10-16T20:47:38.704072+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -16,6 +16,8 @@ last_activity_desc: Race matrix passed10/10; Race results14pass5cancel requires 
 ---
 
 # Project State
+
+Latest terminal diagnostic: unchanged Relay-results66213 exited0,15/15, run83539c63-3217-4644-a63d-3346fb8b26a8, no overlap or assertions. Three browser cases32.262/12.392/12.303s;34 tmp captures restored with exact hashes/set, normal dist unchanged. See07-12-RELAY-RESULTS-DIAGNOSTIC.md for exact logs/timings/arranged provenance. Race focused/negative accepted with runtime review4df7c31. No active process; full collection awaits root authorization,07-12/full report/floors remain incomplete.
 
 Latest repair: Race-resultsdb0a596/6528a82 statically cleanb776c41; focused76544 exited0 with44/44, six complete scenarios/exact46cells, seven canonical payloads and required checks. Runtime negative83022 exited0 validating injected child1 after actual finish/dark paging, incomplete4cells/10captures, no checked ordered dispatch after abort, browser close before next acquisition, all later five cases complete. Artifact absence restored,89 historical temporary PNGs/dist unchanged. See07-12-RACE-RESULTS-REPAIR.md for exact logs/hashes/synthetic-delay limits. No active process; awaiting runtime review/root acceptance before separately scoped Relay-results diagnostic. Full report/floors and07-12 remain incomplete.
 
