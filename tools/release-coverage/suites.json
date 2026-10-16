@@ -217,6 +217,30 @@
       ],
       "role": "browser",
       "provenance": "Original arranged rescue/coin/magnet Canvas component assertions"
+    },
+    "adapters-10-tail": {
+      "files": [
+        "tests/market-preview.test.mjs",
+        "tests/market-scenery-render.test.mjs",
+        "tests/mob-render.test.mjs",
+        "tests/wearables-render.test.mjs"
+      ],
+      "role": "browser",
+      "provenance": "Original arranged preview/scenery/mob/wearable Canvas components; all pages and assertions retained"
+    },
+    "adapters-10": {
+      "files": [
+        "tests/actor-render.test.mjs",
+        "tests/character-power-render.test.mjs",
+        "tests/coin-denominations-render.test.mjs",
+        "tests/magnet-render.test.mjs",
+        "tests/market-preview.test.mjs",
+        "tests/market-scenery-render.test.mjs",
+        "tests/mob-render.test.mjs",
+        "tests/wearables-render.test.mjs"
+      ],
+      "role": "browser",
+      "provenance": "Eight original arranged production component owners; no public-app journey claim"
     }
   },
   "pendingAdapters": [
