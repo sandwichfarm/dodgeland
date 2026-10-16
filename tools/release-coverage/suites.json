@@ -268,6 +268,30 @@
           ]
         }
       ]
+    },
+    "adapters-11-middle": {
+      "files": [
+        "tests/character-power-runtime.mjs",
+        "tests/game-intents-runtime.mjs",
+        "tests/market-runtime.mjs"
+      ],
+      "role": "browser",
+      "browser": true,
+      "artifactDirectories": [
+        "artifacts/character-power-runtime.json",
+        "artifacts/game-intents-runtime.json",
+        "artifacts/market-runtime.json",
+        "artifacts/character-power-900-dark-ready.png",
+        "artifacts/character-power-900-dark-paused.png",
+        "artifacts/character-power-900-dark-playing.png",
+        "artifacts/character-power-240-dark-ready.png",
+        "artifacts/character-power-240-dark-paused.png",
+        "artifacts/character-power-240-dark-playing.png",
+        "artifacts/character-power-320-light-ready.png",
+        "artifacts/character-power-320-light-paused.png",
+        "artifacts/character-power-320-light-playing.png"
+      ],
+      "provenance": "Original power, queued intent and market opaque journeys; original CDP arrangements retained"
     }
   },
   "pendingAdapters": [
