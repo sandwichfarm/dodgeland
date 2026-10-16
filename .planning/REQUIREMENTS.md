@@ -46,7 +46,7 @@
 - [ ] **RELAY-02**: Control transfers exactly at each segment boundary, safely and visibly, preserving shared course/run continuity without counting backward travel twice.
 - [ ] **RELAY-03**: The started Relay roster is closed to new entrants until the race ends; reconnecting an existing seat does not count as a new entrant.
 - [ ] **RELAY-04**: Players may drop out; inactive/active seat disconnection, skip/rejoin, final-player departure and no-controller cases have explicit mode-owned behavior.
-- [ ] **RELAY-05**: Each participant's segments, distance, time, coins and outcomes contribute to dedicated Relay results and podium/breakdown.
+- [x] **RELAY-05**: Each participant's segments, distance, time, coins and outcomes contribute to dedicated Relay results and podium/breakdown.
 
 ## Race
 
@@ -111,7 +111,7 @@ behavior is implemented, verified and committed.
 | RELAY-02 | Phase 4 | Pending |
 | RELAY-03 | Phase 4 | Pending |
 | RELAY-04 | Phase 4 | Pending |
-| RELAY-05 | Phase 4 | Pending |
+| RELAY-05 | Phase 4 | Complete |
 | RACE-01 | Phase 5 | Pending |
 | RACE-02 | Phase 5 | Pending |
 | RACE-03 | Phase 5 | Pending |

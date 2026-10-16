@@ -3,23 +3,23 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 04-03-PLAN.md; ready for 04-04
-last_updated: "2026-10-16T00:50:25.639Z"
+stopped_at: Completed 04-04-PLAN.md; ready for 04-05
+last_updated: "2026-10-16T01:23:51.477Z"
 progress:
   total_phases: 7
   completed_phases: 3
   total_plans: 31
-  completed_plans: 21
+  completed_plans: 22
 current_phase: 04
 current_phase_name: relay
-last_activity_desc: Relay04-03 lifecycle complete; exact task gates, full phase3 and strict Relay/recovery56/56 passed.
+last_activity_desc: Relay04-04 immutable results complete; exact task gates, full phase3 and strict Relay/recovery71/71 passed.
 ---
 
 # Project State
 
 ## Current Position
 
-Phase04 Relay, Plan04 of6 next; Plans01–03 complete. Phases01–03 independently verified. Survive Together is complete; Relay, Race, cross-mode presentation and release/PR remain mandatory. Original scope: USER-REQUEST.md and REQUIREMENTS.md. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
+Phase04 Relay, Plan05 of6 next; Plans01–04 complete. Phases01–03 independently verified. Survive Together is complete; Relay, Race, cross-mode presentation and release/PR remain mandatory. Original scope: USER-REQUEST.md and REQUIREMENTS.md. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
 
 ## Accepted Relay Entry Evidence
 
@@ -33,7 +33,9 @@ Relay04-02 is complete on source `31d992c`. Canonical session37530 exit0, `/tmp/
 
 Relay04-03 is complete on source `f673e4f`. Canonical session37049 exit0, `/tmp/down-to-duck-04-03-final-complete-gate.log`, runs both exact task gates (50/50; lifecycle22/22 and Survive7/7), full phase3 and strict Relay/recovery56/56. Original-seat lease/token reclaim, active/inactive loss, two-step skip/leave, personal recovery priority, explicit waiting and terminal idempotence are implemented. Built UI proves fresh keyboard/controller actions, actual death accept/decline/expiry/leave, 74 responsive/theme captures, clipping/contrast/overlay checks. Nested skip/reclaim and leave/disconnect races have retained RED/GREEN regressions. Source review superseded canceled29568 (exit143); only37049 is final evidence. See04-03SUMMARY for generic API seams and the shared paused-death resume fix.
 
-Only RELAY-01 is completed. RELAY-02/03/04 retain partial status pending remaining integration and independent full-phase verification. Continue04-04 through04-06, then every reviewed Race/presentation/audit/release requirement. No phase or milestone completion claim. All executor build/browser commands are terminal; source ownership returns to root.
+Relay04-04 is complete on source `2ce6edf`. Canonical session93254 exit0, `/tmp/down-to-duck-04-04-final-gate.log`, runs exact Task1 53/53 and Task2 15/15 with type-check, full phase3, and strict Relay/recovery71/71. Append-only pre-clear credit, same-leg personal revival, fresh incoming confirmation after resolved dropout, participant-only unconfirmed skip credit, immutable common results and competition ties are implemented. Built result navigation uses frozen records, retains the scene, preserves prior results through Hop again, and passes34 result captures plus existing lifecycle coverage. See04-04SUMMARY for actual APIs, authorized reconciliations and RED/GREEN evidence. Historical WINDOWS1 remains open for later evidence audit; verified observation-seam WINDOWS3 is fixed.
+
+RELAY-01 and RELAY-05 are completed. RELAY-02/03/04 retain partial status pending remaining integration and independent full-phase verification. Continue04-05 through04-06, then every reviewed Race/presentation/audit/release requirement. No phase or milestone completion claim. All executor build/browser commands are terminal; source ownership returns to root.
 
 ## Execution Runtime
 
@@ -50,7 +52,7 @@ Typed gsd-verifier stayed pending_init across multiple turns and was explicitly 
 
 ## Remaining Evidence and Presentation
 
-- Execute remaining3 Relay plans,7 Race plans, Phase06 UI, Phase07 full audit and PR. Do not shrink stop condition.
+- Execute remaining2 Relay plans,7 Race plans, Phase06 UI, Phase07 full audit and PR. Do not shrink stop condition.
 - Phase06 must address regular900×600 HUD overlap with nearby actors using actual completed lifecycle/results flows.
 - Conformance5pass/0fail/5unmeasured (manifest3,wire1,lifecycle1), not10passes. Physical controllers unmeasured. See research/CONFORMANCE-EVIDENCE.md.
 - Coverage calibration remains exploratory until normal-install/browser instrumentation proven; see research/COVERAGE-CALIBRATION.md.
@@ -62,13 +64,15 @@ Typed gsd-verifier stayed pending_init across multiple turns and was explicitly 
 |------|----------|-------|-------|
 | Phase 04 P02 | 28 min | 2 tasks | 6 files |
 | Phase 04 P03 | 31 min | 2 tasks | 8 files |
+| Phase 04 P04 | 31 min | 2 tasks | 9 files |
 
 ## Session
 
-**Last session:** 2026-10-16T00:50:25.622Z
-**Stopped at:** Completed 04-03-PLAN.md; ready for 04-04
+**Last session:** 2026-10-16T01:23:51.249Z
+**Stopped at:** Completed 04-04-PLAN.md; ready for 04-05
 **Resume file:** None
 
 ## Decisions
 
 - [Phase 04]: Relay recovery offers precede skip; explicit owner departure is separately confirmed, and reclaim invalidates stale skip prompts.
+- [Phase 04]: Relay captures pre-clear death credit while personal recovery retains the same leg; dropout selects immediately but fresh confirmation opens the next leg, and unconfirmed skips remain participant events.

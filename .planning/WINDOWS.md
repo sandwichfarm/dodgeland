@@ -2,9 +2,9 @@
 schema_version: 1
 open_count: 1
 waived_count: 0
-fixed_count: 1
-total_count: 2
-last_updated: 2026-10-16T00:51:16.235Z
+fixed_count: 2
+total_count: 3
+last_updated: 2026-10-16T01:24:03.504Z
 ---
 
 # Broken Windows Ledger
@@ -17,6 +17,7 @@ last_updated: 2026-10-16T00:51:16.235Z
 |----|-------|------|------|------|-------------|--------|--------|-------------|-------------|
 | 1 | 02 | deviation | src/game.ts |  | Scoped withSessionPlayer callback reentrancy can route nested P1 dispatch through temporary P2 binding; Plan 02-02 must replace it with permanent player/world context. | open |  | 2026-10-14T23:23:28.349Z |  |
 | 2 | 04 | deviation | src/session.ts |  | 04-03 added opt-in lifecycle guards, preserved-position reclaim and archive/placement seams; full inherited gate passed. | fixed |  | 2026-10-16T00:50:26.162Z | 2026-10-16T00:51:16.235Z |
+| 3 | 04 | deviation | src/session.ts |  | 04-04 added optional immutable pre-clear and pre-depart contribution observations; canonical inherited parity and reentrancy checks passed. | fixed |  | 2026-10-16T01:23:52.104Z | 2026-10-16T01:24:03.504Z |
 
 ````json
 [
@@ -43,6 +44,18 @@ last_updated: 2026-10-16T00:51:16.235Z
     "reason": "",
     "recorded_at": "2026-10-16T00:50:26.162Z",
     "resolved_at": "2026-10-16T00:51:16.235Z"
+  },
+  {
+    "id": 3,
+    "kind": "deviation",
+    "phase": "04",
+    "file": "src/session.ts",
+    "line": null,
+    "description": "04-04 added optional immutable pre-clear and pre-depart contribution observations; canonical inherited parity and reentrancy checks passed.",
+    "status": "fixed",
+    "reason": "",
+    "recorded_at": "2026-10-16T01:23:52.104Z",
+    "resolved_at": "2026-10-16T01:24:03.504Z"
   }
 ]
 ````
