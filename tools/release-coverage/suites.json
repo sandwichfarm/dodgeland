@@ -201,37 +201,44 @@
     {
       "path": "tests/local-session-tracer.mjs",
       "plan": "07-08",
-      "status": "pending-real-payload-proof"
+      "status": "complete",
+      "evidenceRun": "b464c494-7abf-4d07-a38e-cf514453e9ab"
     },
     {
       "path": "tests/local-session-keyboard-runtime.mjs",
       "plan": "07-08",
-      "status": "pending-real-payload-proof"
+      "status": "complete",
+      "evidenceRun": "b464c494-7abf-4d07-a38e-cf514453e9ab"
     },
     {
       "path": "tests/local-session-gamepad-runtime.mjs",
       "plan": "07-08",
-      "status": "pending-real-payload-proof"
+      "status": "complete",
+      "evidenceRun": "b464c494-7abf-4d07-a38e-cf514453e9ab"
     },
     {
       "path": "tests/local-session-audio-runtime.mjs",
       "plan": "07-08",
-      "status": "pending-real-payload-proof"
+      "status": "complete",
+      "evidenceRun": "b464c494-7abf-4d07-a38e-cf514453e9ab"
     },
     {
       "path": "tests/local-session-adoption-runtime.mjs",
       "plan": "07-08",
-      "status": "pending-real-payload-proof"
+      "status": "complete",
+      "evidenceRun": "b464c494-7abf-4d07-a38e-cf514453e9ab"
     },
     {
       "path": "tests/local-session-runtime.mjs",
       "plan": "07-08",
-      "status": "pending-real-payload-proof"
+      "status": "complete",
+      "evidenceRun": "b464c494-7abf-4d07-a38e-cf514453e9ab"
     },
     {
       "path": "tests/local-session-layout.mjs",
       "plan": "07-08",
-      "status": "pending-real-payload-proof"
+      "status": "complete",
+      "evidenceRun": "b464c494-7abf-4d07-a38e-cf514453e9ab"
     },
     {
       "path": "tests/survive-together-tracer.mjs",
@@ -518,7 +525,7 @@
       "loadSources": false,
       "directDist": true,
       "directTranspile": false,
-      "status": "pending-adapter"
+      "status": "local-input-adapter-complete"
     },
     {
       "path": "tests/local-session-audio-runtime.mjs",
@@ -528,7 +535,7 @@
       "loadSources": false,
       "directDist": true,
       "directTranspile": false,
-      "status": "pending-adapter"
+      "status": "local-input-adapter-complete"
     },
     {
       "path": "tests/local-session-gamepad-runtime.mjs",
@@ -538,7 +545,7 @@
       "loadSources": false,
       "directDist": true,
       "directTranspile": false,
-      "status": "pending-adapter"
+      "status": "local-input-adapter-complete"
     },
     {
       "path": "tests/local-session-keyboard-runtime.mjs",
@@ -548,7 +555,7 @@
       "loadSources": false,
       "directDist": true,
       "directTranspile": false,
-      "status": "pending-adapter"
+      "status": "local-input-adapter-complete"
     },
     {
       "path": "tests/local-session-layout.mjs",
@@ -558,7 +565,7 @@
       "loadSources": false,
       "directDist": true,
       "directTranspile": false,
-      "status": "pending-adapter"
+      "status": "local-input-adapter-complete"
     },
     {
       "path": "tests/local-session-owner-layout.mjs",
@@ -578,7 +585,7 @@
       "loadSources": false,
       "directDist": true,
       "directTranspile": false,
-      "status": "pending-adapter"
+      "status": "local-input-adapter-complete"
     },
     {
       "path": "tests/local-session-tracer.mjs",
@@ -588,7 +595,7 @@
       "loadSources": true,
       "directDist": true,
       "directTranspile": false,
-      "status": "pending-adapter"
+      "status": "local-input-adapter-complete"
     },
     {
       "path": "tests/local-session.test.mjs",
@@ -1427,10 +1434,17 @@
     }
   },
   "adapterObligationSemantics": "pendingAdapters retains the original 21-owner obligation ledger; status records completion and only non-complete rows remain pending.",
-  "remainingAdapterCount": 14,
+  "remainingAdapterCount": 7,
   "completedAdapters": [
     "tests/consumable-world-render.test.mjs",
     "tests/death-spill-render.test.mjs",
+    "tests/local-session-adoption-runtime.mjs",
+    "tests/local-session-audio-runtime.mjs",
+    "tests/local-session-gamepad-runtime.mjs",
+    "tests/local-session-keyboard-runtime.mjs",
+    "tests/local-session-layout.mjs",
+    "tests/local-session-runtime.mjs",
+    "tests/local-session-tracer.mjs",
     "tests/render.test.mjs",
     "tests/session-board-controls.test.mjs",
     "tests/session-labels-render.test.mjs",

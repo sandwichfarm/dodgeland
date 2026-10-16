@@ -5,13 +5,14 @@ import { mkdir, readFile, stat, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { after, test } from 'node:test';
 import { chromium } from 'playwright';
-import { artifactDirectoryForCoverage } from '../tools/release-coverage/browser.mjs';
+import { artifactDirectoryForCoverage, artifactForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 
 const root = new URL('../', import.meta.url);
 const output = artifactDirectoryForCoverage(new URL('../artifacts/', import.meta.url),'local-session-layout');
-const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
+const artifactPath=artifactForCoverage(new URL('../dist/index.html', import.meta.url));
+const built = await readFile(artifactPath, 'utf8');
 assert.ok(built.includes('local-session-start') && built.includes('local-session-setup'), 'Build the Local Play production artifact before running this layout evidence.');
-const artifact = await stat(new URL('../dist/index.html', import.meta.url));
+const artifact = await stat(artifactPath);
 const currentSources = await Promise.all([
   'src/main.ts', 'src/session-input.ts', 'src/session-ui.ts', 'src/session-ui.css', 'src/styles.css',
 ].map(async file => ({ file, modified: (await stat(new URL(`../${file}`, import.meta.url))).mtimeMs })));
@@ -70,14 +71,16 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
   await mkdir(output, { recursive: true });
   const evidence = { artifact: 'unchanged built module in muted opaque allow-scripts iframe', frames: [], errors: [], deficiencies: [] };
   const browser = await chromium.launch({ args: ['--mute-audio'] });
-  let page;
+  let page,frame;
+  const identity={suite:process.argv[1],scenario:'local-layout-matrix',frame:'opaque-app',generation:0,scope:'current'};
   try {
     page = await browser.newPage({ viewport: { width: 1200, height: 900 } });
+    registerRealm(page,identity);
     page.setDefaultTimeout(8_000);
     page.on('pageerror', error => evidence.errors.push(error.message));
     await page.goto(`http://127.0.0.1:${server.address().port}`, { waitUntil: 'domcontentloaded' });
     const iframe = page.locator('#napplet');
-    const frame = await (await iframe.elementHandle()).contentFrame();
+    frame = await (await iframe.elementHandle()).contentFrame();
     const settle = async () => { await frame.evaluate(() => Promise.resolve()); await page.waitForTimeout(50); };
     const send = async (pads, focused = true) => { await page.evaluate(([next, focus]) => window.snapshot(next, focus), [pads, focused]); await settle(); };
     const resize = async (width, height) => {
@@ -438,6 +441,6 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
     await writeFile(new URL('local-session-layout.json', output), JSON.stringify(evidence, null, 2));
     throw error;
   } finally {
-    await browser.close();
+    try{await collectRealm(frame,identity);}finally{await browser.close();}
   }
 });

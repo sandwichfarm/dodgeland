@@ -6,9 +6,9 @@ import { createServer } from 'node:http';
 import test from 'node:test';
 import { chromium } from 'playwright';
 const output=artifactDirectoryForCoverage(new URL('../artifacts/',import.meta.url),'local-session-adoption-runtime');
-import { artifactDirectoryForCoverage } from '../tools/release-coverage/browser.mjs';
+import { artifactDirectoryForCoverage, artifactForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 
-const artifact = new URL('../dist/index.html', import.meta.url);
+const artifact = artifactForCoverage(new URL('../dist/index.html', import.meta.url));
 const built = await readFile(artifact, 'utf8');
 const inputs = ['main.ts', 'session.ts', 'session-ui.ts', 'session-ui.css', 'game.ts', 'market/run.ts'];
 assert.ok((await stat(artifact)).mtimeMs >= Math.max(...await Promise.all(inputs.map(async file => (await stat(new URL(`../src/${file}`, import.meta.url))).mtimeMs))), 'Build current sources before adoption integration.');
@@ -42,10 +42,13 @@ test('progressed solo setup cancels unchanged and commits the same owners and RN
   const server = createServer((_request, response) => { response.writeHead(200, { 'Content-Type': 'text/html' }); response.end(harness); });
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   let browser;
+  let frame;
+  const identity={suite:process.argv[1],scenario:'progressed-adoption',frame:'opaque-app',generation:0,scope:'current'};
   const errors = [];
   try {
     browser = await chromium.launch({ args: ['--mute-audio'] });
     const page = await browser.newPage({ viewport: { width: 1000, height: 700 } });
+    registerRealm(page,identity);
     page.setDefaultTimeout(5000); await page.clock.install();
     page.on('pageerror', error => errors.push(error.message));
     const cdp = await page.context().newCDPSession(page), contexts = new Map();
@@ -54,7 +57,7 @@ test('progressed solo setup cancels unchanged and commits the same owners and RN
     cdp.on('Runtime.executionContextsCleared', () => contexts.clear());
     await cdp.send('Runtime.enable');
     await page.goto(`http://127.0.0.1:${server.address().port}`, { waitUntil: 'domcontentloaded' });
-    const frame = await (await page.locator('#napplet').elementHandle()).contentFrame();
+    frame = await (await page.locator('#napplet').elementHandle()).contentFrame();
     await frame.waitForFunction(() => window.adoptionFixture?.hydrated);
     await frame.locator('#play').waitFor();
     assert.equal(await frame.evaluate(() => location.origin), 'null');
@@ -198,5 +201,5 @@ test('progressed solo setup cancels unchanged and commits the same owners and RN
       progress: { hops: before.maxY, x: before.x, time: before.time, wallet: before.run.wallet },
       cancelledOwners, committedOwners, next, errors,
     }, null, 2));
-  } finally { await browser?.close(); await new Promise(resolve => server.close(resolve)); }
+  } finally { try{await collectRealm(frame,identity);}finally{await browser?.close(); await new Promise(resolve => server.close(resolve));} }
 });

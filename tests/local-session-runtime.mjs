@@ -5,9 +5,9 @@ import { createServer } from 'node:http';
 import { after, test } from 'node:test';
 import { chromium } from 'playwright';
 const output=artifactDirectoryForCoverage(new URL('../artifacts/',import.meta.url),'local-session-runtime');
-import { artifactDirectoryForCoverage } from '../tools/release-coverage/browser.mjs';
+import { artifactDirectoryForCoverage, artifactForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 
-const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
+const built = await readFile(artifactForCoverage(new URL('../dist/index.html', import.meta.url)), 'utf8');
 assert.ok(built.includes('gamepad.subscribe') && built.includes('local-session-start'), 'Build Local Play before this fixture.');
 function installRuntime() {
   window.localRuntime = { hydrated: false };
@@ -26,8 +26,11 @@ const pad = (index, id, buttons = []) => ({ index, id, mapping: 'standard', conn
 test('two shell controllers and two remapped keyboards enter four-seat Local Play, move independently, reclaim, and teardown once', { timeout: 30_000 }, async () => {
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   const browser = await chromium.launch({ args: ['--mute-audio'] });
+  let frame;
+  const identity={suite:process.argv[1],scenario:'four-seat-runtime',frame:'opaque-app',generation:0,scope:'current'};
   try {
     const page = await browser.newPage({ viewport: { width: 1000, height: 700 } });
+    registerRealm(page,identity);
     page.setDefaultTimeout(5_000);
     const errors = []; page.on('pageerror', error => errors.push(error.message));
     const cdp = await page.context().newCDPSession(page), contexts = new Map();
@@ -36,7 +39,7 @@ test('two shell controllers and two remapped keyboards enter four-seat Local Pla
     cdp.on('Runtime.executionContextsCleared', () => contexts.clear());
     await cdp.send('Runtime.enable');
     await page.goto(`http://127.0.0.1:${server.address().port}`, { waitUntil: 'domcontentloaded', timeout: 5_000 });
-    const frame = await (await page.locator('#napplet').elementHandle()).contentFrame();
+    frame = await (await page.locator('#napplet').elementHandle()).contentFrame();
     async function sessionObject() {
       const { frameTree } = await cdp.send('Page.getFrameTree');
       const context = [...contexts.values()].find(value => value.auxData?.frameId === frameTree.childFrames[0].frame.id && value.auxData?.isDefault);
@@ -211,5 +214,5 @@ test('two shell controllers and two remapped keyboards enter four-seat Local Pla
     await page.waitForFunction(count => window.messages.filter(message => message.type === 'gamepad.unsubscribe').length === count + 1, before);
     await writeFile(new URL('local-session-runtime.json', output), JSON.stringify({ scenarios: ['first active controller claims solo with two neutral pads', 'second controller setup', 'two keyboard profiles fill P3/P4', 'four-seat run', 'disconnect/reclaim', 'single teardown'], errors }, null, 2));
     assert.deepEqual(errors, []);
-  } finally { await browser.close(); }
+  } finally { try{await collectRealm(frame,identity);}finally{await browser.close();} }
 });
