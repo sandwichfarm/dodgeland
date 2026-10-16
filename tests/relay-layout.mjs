@@ -48,7 +48,7 @@ test('Relay visible controls preserve every layout state across frames, themes a
  }
  try{
   await app.frame.locator('#local-play').click();await app.frame.locator('#session-roster [data-seat="p2"]').click();await app.frame.getByRole('button',{name:'Leave this seat',exact:true}).click();await app.sendPads([pad(0)]);await app.sendPads([pad(0,[0])]);await app.sendPads([pad(0)]);
-  await app.frame.locator('#relay-play').click();await capture('setup','#session-board');
+  await app.frame.locator('#relay-play').click();await capture('setup','#session-board');await app.frame.locator('.relay-setup-nav').getByRole('button',{name:'Roster',exact:true}).click();await capture('setup-roster','#session-board');await app.frame.locator('.relay-setup-nav').getByRole('button',{name:'Length',exact:true}).click();
   await app.frame.locator('#relay-tiles').fill('0');await capture('invalid','#session-board');assert.equal(await app.frame.locator('#local-session-start').isDisabled(),true);
   await app.frame.locator('#relay-tiles').fill('1');await app.frame.locator('.relay-setup-nav').getByRole('button',{name:'Order',exact:true}).click();await app.frame.getByRole('button',{name:/Move later: P1/}).click();await capture('order','#session-board');await app.frame.getByRole('button',{name:/Move earlier: P1/}).click();
   await app.frame.locator('#local-session-start').click();await app.advance(80);

@@ -4,6 +4,7 @@
 .relay-handoff, #session-board[data-relay-page]:not([data-relay-page=""]) { --game-font: var(--relay-font); }
 #session-board[data-relay-page]:not([data-relay-page=""]) { font-weight: 400; }
 #session-board[data-relay-page]:not([data-relay-page=""]) button { font: 400 20px/1.5 var(--relay-font); }
+#session-board[data-relay-page]:not([data-relay-page=""]) .session-character-picker button { padding: 4px; }
 #session-board[data-relay-page]:not([data-relay-page=""]) :is(h2,h3,strong) { font-weight: 600; }
 #session-board[data-relay-page]:not([data-relay-page=""]) :is(p,.session-device) { font-weight: 400; }
 #app:has(#session-seats[data-relay-hud="true"]) #survive-lifecycle-board { font: 400 20px/1.5 var(--relay-font); }
@@ -154,4 +155,9 @@
  #session-seats[data-relay-hud="true"]:not([data-session-hud-inspect="true"]) .session-hud-selected .session-hud-details [data-session-hud="power"],
  #session-seats[data-relay-hud="true"]:not([data-session-hud-inspect="true"]) .session-hud-selected .session-hud-details [data-session-hud="revive"] { display: block; min-height: 20px; height: auto; padding: 0; border: 0; font: 400 16px/1.2 var(--relay-font); opacity: 1; }
  #session-seats[data-relay-hud="true"]:not([data-session-hud-inspect="true"]) .session-hud-selected .session-hud-details [data-session-hud="revive"] { min-height: 44px; }
+}
+
+@media (min-width: 900px) and (min-height: 600px) {
+ #session-board[data-relay-page="players"] { grid-template-areas: 'heading heading' 'roster detail' 'relay relay' 'actions actions'; }
+ #session-board[data-relay-page="players"] > :is(.session-subtitle,.session-roster-strip,#session-status) { display: none; }
 }

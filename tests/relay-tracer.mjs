@@ -271,7 +271,7 @@ for (const count of [3, 4]) test(`visible ${count}-seat setup preserves stable i
   await frame.locator('#relay-tiles').fill('1');
   await frame.getByRole('button', { name: 'Order', exact: true }).click();
   await frame.getByRole('button', { name: 'Move later: P1, position 1', exact: true }).click();
-  assert.match(await frame.locator('.relay-order').textContent(), /2\. P1/);
+  assert.match(await frame.locator('.relay-order').textContent(), /2\. ▲ P1/);
   await frame.locator('#local-session-start').click();
   assert.equal(await frame.locator('#session-seats [data-seat]').count(), count);
   const initial = await frame.locator('#score').textContent();
