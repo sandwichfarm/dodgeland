@@ -18,6 +18,7 @@ test('browser realm registration fails closed before missing duplicate or mismat
   const collector=createBrowserCollector({runId:'browser-proof',payloadDirectory:output},inventory);
   const identity={suite:'test-owner',scenario:'actual-start',frame:'opaque-app',generation:0,scope:'current'};
   const frame={evaluate:async()=>raw};
+  assert.throws(()=>collector.registerRealm(frame,{...identity,scope:'oracle'}),/Invalid browser scope/,'an oracle is never relabelled as current');
   collector.registerRealm(frame,identity);
   assert.throws(()=>collector.finishRealms(),/Missing/);
   assert.throws(()=>collector.registerRealm(frame,identity),/Duplicate/);
@@ -25,10 +26,23 @@ test('browser realm registration fails closed before missing duplicate or mismat
   assert.equal(collector.finishRealms().length,1);
   await assert.rejects(collector.collectRealm(frame,identity),/Duplicate/);
   const next={...identity,generation:1};collector.registerRealm(frame,next);
+  await assert.rejects(collector.collectRealm({evaluate:async()=>undefined},next),/Empty payload/,'a new generation needs actual execution');
   const malformed=structuredClone(raw);Object.values(malformed)[0].statementMap={};
   await assert.rejects(collector.collectRealm({evaluate:async()=>malformed},next),/Schema/);
   assert.throws(()=>collector.finishRealms(),/Missing/);
  } finally {await rm(output,{recursive:true,force:true});}
+});
+
+test('coverage artifact directory preserves default and isolates instrumented evidence',async()=>{
+ const {artifactDirectoryForCoverage}=await import('./browser.mjs');
+ const directory=await mkdtemp(join(tmpdir(),'coverage-artifact-')),old=process.env.DOWN_TO_DUCK_COVERAGE_CONFIG;
+ try{
+  delete process.env.DOWN_TO_DUCK_COVERAGE_CONFIG;const normal=new URL('file:///normal/');
+  assert.equal(artifactDirectoryForCoverage(normal,'canvas'),normal);
+  const config=join(directory,'config.json');await writeFile(config,JSON.stringify({payloadDirectory:directory}));process.env.DOWN_TO_DUCK_COVERAGE_CONFIG=config;
+  assert.equal(artifactDirectoryForCoverage(normal,'canvas').pathname,directory+'/suite-artifacts/canvas/');
+  assert.throws(()=>artifactDirectoryForCoverage(normal,'../escape'),/Invalid artifact owner/);
+ }finally{if(old===undefined)delete process.env.DOWN_TO_DUCK_COVERAGE_CONFIG;else process.env.DOWN_TO_DUCK_COVERAGE_CONFIG=old;await rm(directory,{recursive:true,force:true});}
 });
 
 test('independent tracked-source inventory retains all source classes and canonical zeros',async()=>{

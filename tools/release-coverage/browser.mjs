@@ -2,6 +2,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { createHash } from 'node:crypto';
+import { pathToFileURL } from 'node:url';
 const digest=value=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
 
 export function createBrowserCollector(config, inventory) {
@@ -25,6 +26,12 @@ function collector(){
  return active;
 }
 export function artifactForCoverage(defaultArtifact){if(!process.env.DOWN_TO_DUCK_COVERAGE_CONFIG)return defaultArtifact;const config=JSON.parse(readFileSync(process.env.DOWN_TO_DUCK_COVERAGE_CONFIG,'utf8'));if(!config.browserArtifact)throw Error('Missing isolated browser artifact');return config.browserArtifact;}
+export function artifactDirectoryForCoverage(defaultDirectory,owner){
+ if(!process.env.DOWN_TO_DUCK_COVERAGE_CONFIG)return defaultDirectory;
+ if(!/^[a-z0-9-]+$/.test(owner))throw Error('Invalid artifact owner');
+ const config=JSON.parse(readFileSync(process.env.DOWN_TO_DUCK_COVERAGE_CONFIG,'utf8'));
+ return pathToFileURL(join(config.payloadDirectory,'suite-artifacts',owner)+'/');
+}
 export const registerRealm=(target,identity)=>collector()?.registerRealm(target,identity);
 export const collectRealm=(target,identity)=>collector()?.collectRealm(target,identity);
 export const finishRealms=()=>collector()?.finishRealms()??[];

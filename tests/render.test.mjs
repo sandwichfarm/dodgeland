@@ -5,6 +5,7 @@ import test, { after } from 'node:test';
 import { chromium } from 'playwright';
 import { compileSources } from './source-loader.mjs';
 import { extractPinnedBaseline } from './solo-baseline.mjs';
+import { registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 
 // A small independent Canvas fixture; no game server, shell, network assets, or timing luck.
 const modules = await compileSources('render', { sourceDirectory: process.env.DOWN_TO_DUCK_RENDER_SOURCE_DIR });
@@ -23,8 +24,10 @@ const server = createServer((request, response) => {
 });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const browser = await chromium.launch({ args: ['--mute-audio'] });
-after(async () => { await browser.close(); await new Promise(resolve => server.close(resolve)); });
+after(async () => { try { await collectRealm(page, coverageIdentity); } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); } });
 const page = await browser.newPage({ viewport: { width: 720, height: 500 }, deviceScaleFactor: 1 });
+const coverageIdentity={suite:process.argv[1],scenario:'renderer-pixel-parity',frame:'component-current-and-uninstrumented-oracle',generation:0,scope:'current'};
+registerRealm(page,coverageIdentity);
 await page.goto(`http://127.0.0.1:${server.address().port}`);
 await page.evaluate(async () => {
   const [{ Renderer }, { Game, HOP_TIME }, { worldById, characterById, box }] = await Promise.all([
