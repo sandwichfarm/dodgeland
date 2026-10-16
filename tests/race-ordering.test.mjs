@@ -16,7 +16,7 @@ const step=1/120;
 function arena(options={}) {
   const game=new Game(113,'pond','arcade',false,[],'butter');
   const race=createRaceSession(game,{seats,...options});
-  for(let y=-8;y<600;y++) game.rows.set(y,{...game.rows.get(0),index:y,kind:'meadow',blocked:[],decorations:[],coin:null});
+  for(let y=-8;y<32;y++) game.rows.set(y,{...game.rows.get(0),index:y,kind:'meadow',blocked:[],decorations:[],coin:null});
   return race;
 }
 function ticks(race,n) {for(let i=0;i<n;i++) race.session.update(step);}
@@ -52,10 +52,16 @@ test('actual ground strict line cadence uses health pipeline and resets exposure
 });
 test('forced placement and rejected movement cannot credit frontier or finish',()=>{
   const race=arena();const p=race.session.players[1];
-  const before=[p.personalScore,p.completedForwardTiles,p.powerRemaining,p.recovery.personalHighWater];
+  race.session.damage('p2',{cause:'mob',amount:3,reason:'Innate rescue.'});
+  assert.ok(p.powerRescue);ticks(race,61);assert.equal(p.powerRemaining,100);
+  race.session.damage('p2',{cause:'fog',amount:3,reason:'Personal recovery.'});
+  assert.equal(race.session.recover({kind:'personal',ownerSeat:'p2'}),true);
+  assert.equal(p.recovery.charge,'spent');
+  const before=[p.personalScore,p.completedForwardTiles,p.powerRemaining,p.recovery.personalHighWater,p.recovery.charge,p.recovery.nextRecharge];
+  for(const y of [200,201])race.session.world.rows.set(y,{...race.session.world.rows.get(0),index:y});
   assert.equal(race.session.placeTurnPosition('p2',{x:0,y:200}),true);ticks(race,1);
   assert.equal(race.leaderFrontier,0);assert.equal(race.isFinished('p2'),false);
-  assert.deepEqual([p.personalScore,p.completedForwardTiles,p.powerRemaining,p.recovery.personalHighWater],before);
+  assert.deepEqual([p.personalScore,p.completedForwardTiles,p.powerRemaining,p.recovery.personalHighWater,p.recovery.charge,p.recovery.nextRecharge],before);
   race.session.dispatch({seat:'p2',direction:'forward'});
   assert.equal(race.session.dispatch({seat:'p2',direction:'forward'}),false);ticks(race,40);
   assert.equal(race.leaderFrontier,1);
@@ -202,6 +208,7 @@ test('fatal before finish delivered train wave and mob transactions win on the l
 test('finish before timeout preserves an earlier finisher while the other racer continues',()=>{
   const race=arena({finishTiles:1,activeSeconds:30});ticks(race,3582);
   hop(race,'p1');assert.equal(race.result,undefined);
+  assert.equal(race.session.damage('p1',{cause:'fog',amount:3,reason:'Late fog.'}).landed,0);
   ticks(race,1);assert.equal(race.result.outcome,'time');assert.deepEqual(race.result.winners,['p1']);
   assert.equal(race.session.dispatch({seat:'p2',direction:'forward'}),false);
   assert.equal(race.finishTick('p2'),undefined);
