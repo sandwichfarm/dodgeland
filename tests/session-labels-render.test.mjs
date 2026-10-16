@@ -4,6 +4,7 @@ import { createServer } from 'node:http';
 import test, { after } from 'node:test';
 import { chromium } from 'playwright';
 import { compileSources } from './source-loader.mjs';
+import { registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 
 // Browser render-unit evidence: real production Renderer, SessionPlayer views,
 // and native text metrics. Built-main integration is covered by the layout suite.
@@ -18,8 +19,11 @@ after(() => new Promise(resolve => server.close(resolve)));
 test('session labels remain complete, separate and seat-stable when travelers meet', async () => {
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   const browser = await chromium.launch({ args: ['--mute-audio'] });
+  let page;
+  const identity={suite:process.argv[1],scenario:'labels',frame:'component-canvas',generation:0,scope:'current'};
   try {
-    const page = await browser.newPage();
+    page = await browser.newPage();
+    registerRealm(page,identity);
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(`http://127.0.0.1:${server.address().port}`);
@@ -80,5 +84,5 @@ test('session labels remain complete, separate and seat-stable when travelers me
         }
       }
     }
-  } finally { await browser.close(); }
+  } finally { try{if(page)await collectRealm(page,identity);}finally{await browser.close();} }
 });

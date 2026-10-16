@@ -6,10 +6,12 @@ import { createServer } from 'node:http';
 import { after, before, test } from 'node:test';
 import { chromium } from 'playwright';
 import { compileSources } from './source-loader.mjs';
+import { registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 
 const modules = await compileSources('session-ui');
 const css = await readFile(new URL('../src/session-ui.css', import.meta.url), 'utf8');
 let server, browser, origin;
+let scenario=0;
 
 before(async () => {
   server = createServer((request, response) => {
@@ -28,7 +30,10 @@ after(async () => {
 
 async function setup(t, { width = 900, height = 600 } = {}) {
   const page = await browser.newPage({ viewport: { width, height } });
-  t.after(() => page.close());
+  const identity={suite:process.argv[1],scenario:`setup-${scenario++}`,frame:'opaque-component',generation:0,scope:'current'};
+  registerRealm(page,identity);
+  let frame;
+  t.after(async()=>{try{await collectRealm(frame,identity);}finally{await page.close();}});
   page.setDefaultTimeout(3000);
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
@@ -71,7 +76,7 @@ async function setup(t, { width = 900, height = 600 } = {}) {
     </script>`;
   await page.setContent('<iframe sandbox="allow-scripts" style="width:100vw;height:100vh;border:0"></iframe><style>body{margin:0}</style>');
   await page.locator('iframe').evaluate((element, source) => { element.srcdoc = source; }, html);
-  const frame = await (await page.locator('iframe').elementHandle()).contentFrame();
+  frame = await (await page.locator('iframe').elementHandle()).contentFrame();
   try { await frame.waitForFunction(() => window.componentReady, undefined, { timeout: 5000 }); }
   catch (error) { assert.fail(`Production setup component did not load: ${error.message}; ${errors.join('; ')}`); }
   assert.equal(await frame.evaluate(() => location.origin), 'null');

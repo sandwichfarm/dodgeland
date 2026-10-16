@@ -4,6 +4,7 @@ import { createServer } from 'node:http';
 import test, { after } from 'node:test';
 import { chromium } from 'playwright';
 import { compileSources } from './source-loader.mjs';
+import { registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 
 // Native-canvas render-unit evidence using production simulation and Renderer.
 // This fixture does not claim to verify built-main menus or shell integration.
@@ -17,9 +18,12 @@ await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const browser = await chromium.launch({ args: ['--mute-audio'] });
 after(async () => { await browser.close(); await new Promise(resolve => server.close(resolve)); });
 
-test('world items have distinct models, authoritative positions, and no pixels after teardown', async () => {
+test('world items have distinct models, authoritative positions, and no pixels after teardown', async t => {
   const page = await browser.newPage({ deviceScaleFactor: 1 });
   const errors = []; page.on('pageerror', error => errors.push(error.message));
+  const identity={suite:process.argv[1],scenario:t.name,frame:'component-canvas',generation:0,scope:'current'};
+  registerRealm(page,identity);
+  t.after(async()=>{try{await collectRealm(page,identity);}finally{await page.close();}});
   await page.goto(`http://127.0.0.1:${server.address().port}`);
   const artifacts = new URL('../artifacts/', import.meta.url);
   await mkdir(artifacts, { recursive: true });
@@ -93,7 +97,6 @@ test('world items have distinct models, authoritative positions, and no pixels a
     delete report.png; reports.push(report);
   }
   await writeFile(new URL('consumable-world-render.json', artifacts), JSON.stringify({ errors, reports }, null, 2));
-  await page.close();
   assert.deepEqual(errors, []);
   for (const report of reports) {
     assert.deepEqual(report.labels.map(label => label.text).sort(), ['Flare', 'Revival']);
@@ -113,8 +116,11 @@ test('world items have distinct models, authoritative positions, and no pixels a
   }
 });
 
-test('an actual personal return draws protection only until its active-time deadline', async () => {
+test('an actual personal return draws protection only until its active-time deadline', async t => {
   const page = await browser.newPage({ viewport: { width: 900, height: 600 }, deviceScaleFactor: 1 });
+  const identity={suite:process.argv[1],scenario:t.name,frame:'component-canvas',generation:0,scope:'current'};
+  registerRealm(page,identity);
+  t.after(async()=>{try{await collectRealm(page,identity);}finally{await page.close();}});
   await page.goto(`http://127.0.0.1:${server.address().port}`);
   const result = await page.evaluate(async () => {
     const [{ Renderer }, { Game }, { LocalSession }, { createSurviveTogetherDefinition }] = await Promise.all([
@@ -170,7 +176,6 @@ test('an actual personal return draws protection only until its active-time dead
   await writeFile(new URL('consumable-protected-return.png', artifacts), Buffer.from(result.png, 'base64'));
   delete result.png;
   await writeFile(new URL('consumable-protected-return.json', artifacts), JSON.stringify(result, null, 2));
-  await page.close();
   assert.equal(result.died, true); assert.equal(result.recovered, true);
   assert.deepEqual(result.activeLabels, ['Protected']);
   const protectedText = result.activeTextBounds.find(label => label.text === 'Protected');
@@ -184,8 +189,11 @@ test('an actual personal return draws protection only until its active-time dead
   assert.deepEqual(result.expiredLabels, []);
 });
 
-test('river-bound items render above each platform surface after real actor movement', async () => {
+test('river-bound items render above each platform surface after real actor movement', async t => {
   const page = await browser.newPage({ viewport: { width: 900, height: 600 }, deviceScaleFactor: 1 });
+  const identity={suite:process.argv[1],scenario:t.name,frame:'component-canvas',generation:0,scope:'current'};
+  registerRealm(page,identity);
+  t.after(async()=>{try{await collectRealm(page,identity);}finally{await page.close();}});
   await page.goto(`http://127.0.0.1:${server.address().port}`);
   const observations = await page.evaluate(async () => {
     const [{ Renderer }, { Game, platformSurface }, { LocalSession }, { createSurviveTogetherDefinition }] = await Promise.all([
@@ -233,7 +241,6 @@ test('river-bound items render above each platform surface after real actor move
     }
     return results;
   });
-  await page.close();
   await writeFile(new URL('../artifacts/consumable-river-render.json', import.meta.url), JSON.stringify(observations, null, 2));
   for (const observation of observations) {
     assert.ok(observation.surface > 0);
