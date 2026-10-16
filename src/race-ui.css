@@ -226,3 +226,6 @@
 @media(max-height:319px){
  #app #session-seats[data-session-hud-inspect="true"] [data-race-hud] .session-hud-details { top:50px; }
 }
+@media(min-height:420px) and (max-width:1199px){
+ .race-podium { gap:8px; }
+}
