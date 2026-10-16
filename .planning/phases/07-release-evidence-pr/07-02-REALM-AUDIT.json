@@ -1,0 +1,983 @@
+{
+  "scripts": [
+    "test:phase3",
+    "test:health-runtime",
+    "test:phase2",
+    "test:survive-economy",
+    "test:survive-recovery",
+    "test:consumables",
+    "test:consumable-world",
+    "test:consumable-world-render",
+    "test:market",
+    "test:magnet",
+    "test:mobs",
+    "test:death-spill",
+    "type-check",
+    "build",
+    "test:guidance",
+    "test:conformance",
+    "test:phase1",
+    "test:local-session-model",
+    "test:local-session-ui",
+    "test:runtime",
+    "test:solo-parity",
+    "test:solo-regression"
+  ],
+  "files": [
+    {
+      "path": "tests/actor-integration.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/actors.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/card-expansion.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/character-powers.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/consumable-boundaries.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/consumable-drops.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/consumable-world-boundaries.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/consumable-world-render.test.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": true,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/consumable-world.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/consumables.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/cosmetic-expansion.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/cross-mode-presentation.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": true,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/death-spill-audio.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/death-spill-integration.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/death-spill-render.test.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": true,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/death-spill.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/devtools.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/game.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/gamepad-runtime.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": true,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/gamepad.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": true
+    },
+    {
+      "path": "tests/guidance.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": true
+    },
+    {
+      "path": "tests/health-runtime.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": true,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/health.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/keyboard-input.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/local-session-adoption-runtime.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": true,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/local-session-audio-runtime.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": true,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/local-session-gamepad-runtime.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": true,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/local-session-keyboard-runtime.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": true,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/local-session-layout.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": true,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/local-session-owner-layout.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": true,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/local-session-runtime.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": true,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/local-session-tracer.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": true,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/local-session.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/log-coin-gravity.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/magnet.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/market-capacity.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/market-engine.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/market-tiny-focus-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/market.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/mobs.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/mode-authoring.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": true
+    },
+    {
+      "path": "tests/mode-rules.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/race-balance.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/race-items.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/race-layout.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/race-lifecycle.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/race-ordering.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/race-results.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/race-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/race-tracer.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": true,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/recovery-plan-boundaries.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/recovery-target-identity.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/relay-boundary.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/relay-layout.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/relay-lifecycle.test.mjs",
+      "rawBrowser": true,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": true,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/relay-results.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/relay-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/relay-tracer.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": true,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/render.test.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": true,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/run-hand-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/runtime-smoke.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": true,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/seed.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/session-board-controls.test.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": true,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/session-input.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/session-labels-render.test.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": true,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/session-lifecycle.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/session-player.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/session-world.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/solo-parity-actors.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/solo-parity-economy.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/solo-parity.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/solo-ui-browser.test.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/solo-ui.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/sound.test.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": true
+    },
+    {
+      "path": "tests/soundscape.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/strict-node-tests.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/strict-node-tests.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/survive-admission.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/survive-board-boundaries.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/survive-complete-run-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/survive-economy-boundaries.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/survive-economy.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/survive-hand-items-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/survive-hud-controller-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/survive-lifecycle-layout.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/survive-market-controller-owner-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/survive-market-fresh-context-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/survive-market-ghost-inspection-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/survive-market-ghost-sale-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/survive-market-keyboard-owner-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/survive-market-pack-owner-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/survive-offer-clock-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/survive-paused-recovery.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/survive-primary-departure.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/survive-recovery-board-layout.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/survive-recovery-boundaries.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/survive-recovery-outcomes-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/survive-recovery-owner-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/survive-recovery-terminal.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/survive-results-seed-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/survive-results-ui.test.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": true,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/survive-together-layout.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/survive-together-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/survive-together-tracer.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": true,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/survive-together.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    },
+    {
+      "path": "tests/wearables.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false
+    }
+  ],
+  "scope": "Static canonical-runner/package-script discovery; candidate realm owners, not executed full collection or a final suite allowlist"
+}
