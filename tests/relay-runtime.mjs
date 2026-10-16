@@ -1,6 +1,44 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createMarketGameFixture } from './market-game-fixture.mjs';
+import { loadSources } from './source-loader.mjs';
+
+test('visible seeded 49/50/51 hops carry a fractional platform baton through the unchanged built world', {timeout:120000}, async()=>{
+ const evidence={errors:[],external:[],checkpoints:[]};
+ const sources=await loadSources(['game']);const {platformSupports}=await sources.import('game');
+ const app=await createMarketGameFixture(evidence,{auditBoundary:true,initialIntent:{sender:'relay-continuity-proof',archetype:'game',action:'open',convention:'napplet:game/open',payload:{seed:'ph3-00000064-pond-s-n'}}});
+ const read=()=>app.onSession(function(){const p=this.players[0],host=this.world.host;return {x:p.x,y:p.y,health:p.health,hop:p.hop,time:this.world.time,scale:this.world.rules.simulation.worldTimeScale,rows:[...this.world.rows],state:p.state,
+   safeForward:!host.mobHazard(p.x,p.y,p.x,p.y+1,this.world.time,this.world.time+.15,.4)};});
+ try {
+  await app.frame.locator('#local-play').click();await app.frame.locator('#relay-play').click();assert.equal(await app.frame.locator('#relay-tiles').inputValue(),'50');await app.frame.locator('#local-session-start').click();await app.advance(80);await app.frame.locator('#scene').focus();
+  for(let row=1;row<=50;row++){
+   let ready=false;
+   for(let wait=0;wait<600&&!ready;wait++){
+    const state=await read();assert.equal(state.state,'playing',`living approach to row ${row}`);
+    const rows=new Map(state.rows),next=rows.get(row);ready=state.safeForward;
+    if(row===49)ready=platformSupports(next,state.x,state.time+.145*state.scale)&&platformSupports(rows.get(50),state.x,state.time+.40*state.scale);
+    if(row===50)ready=platformSupports(next,state.x,state.time+.145*state.scale);
+    if(!ready)await app.advance(25);
+   }
+   assert.equal(ready,true,`safe visible approach to row ${row}`);await app.page.keyboard.press('w');await app.advance(170);
+   const state=await read();assert.equal(state.y,row,`real forward key reaches row ${row}`);assert.equal(state.state,'playing');
+   if(row===49){assert.equal(await app.frame.locator('#relay-handoff').count(),0);evidence.checkpoints.push({row,state});}
+  }
+  await app.frame.getByRole('heading',{name:'Leg 1 complete',exact:true}).waitFor();
+  const snapshot=()=>app.onSession(function(){return {time:this.world.time,tick:this.world.simulationTick,rows:[...this.world.rows],seed:this.world.seed,mobs:this.world.host.mobs,claims:[...this.world.pickupOwners]};});
+  // RNG is an opaque closure: prove identity here; semantic next-draw proof is in relay-boundary.test.mjs.
+  const before=await snapshot(),outgoing=await read();assert.notEqual(outgoing.x,Math.round(outgoing.x),'actual platform carry produces fractional x');
+  await app.onSession(function(){window.marketGameFixture.observedRelayOwners={world:this.world,rows:this.world.rows,rng:this.world.host.mobDirector.rng};});
+  const assets=()=>app.onSession(function(){return this.players.map(p=>({seat:p.seat,wallet:p.run.wallet,cards:p.run.cards,health:p.health,earned:p.completedForwardTiles,power:p.powerRemaining,recovery:{charge:p.recovery?.charge,personalHighWater:p.recovery?.personalHighWater,nextRecharge:p.recovery?.nextRecharge,deathGeneration:p.recovery?.deathGeneration,offer:p.recovery?.offer}}));});
+  const personal=await assets();await app.advance(500);assert.deepEqual(await snapshot(),before);
+  await app.page.keyboard.press('ArrowUp');assert.equal(await app.frame.locator('#relay-handoff').count(),0);assert.deepEqual(await snapshot(),before);assert.deepEqual(await assets(),personal);
+  assert.equal(await app.onSession(function(){const o=window.marketGameFixture.observedRelayOwners;return this.world===o.world&&this.world.rows===o.rows&&this.world.host.mobDirector.rng===o.rng;}),true);
+  assert.deepEqual(await app.onSession(function(){return {x:this.players[1].x,y:this.players[1].y};}),{x:outgoing.x,y:50});
+  await app.page.keyboard.press('ArrowUp');await app.advance(170);assert.equal(await app.onSession(function(){return this.world.frontier;}),51);assert.equal(await app.onSession(function(){return this.players[1].completedForwardTiles;}),1);
+  evidence.checkpoints.push({row:50,outgoing,world:before},{row:51,personal:await assets()});
+  await app.iframe.screenshot({path:'/tmp/relay-runtime-earned-51.png'});assert.deepEqual(evidence.errors,[]);assert.deepEqual(evidence.external,[]);assert.deepEqual(await app.frame.evaluate(()=>window.marketGameFixture.forbidden),[]);
+ }finally {const {writeFile}=await import('node:fs/promises');await writeFile('/tmp/relay-runtime-earned-continuity.json',JSON.stringify(evidence,null,2));await app.close();await sources.dispose();}
+});
 
 async function start(app, length = 50) {
   await app.frame.locator('#local-play').click();
