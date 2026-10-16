@@ -894,7 +894,7 @@ function reset(launch?: GameLaunch): void {
   };
   game.onEnd = () => {
     resultTraveler = game.characterId;
-    audio.stop(); audio.play(`death.${game.deathCause ?? 'traffic'}`);
+    audio.stop(); audio.play(game.deathCause === 'fog' ? 'death.trail' : `death.${game.deathCause ?? 'traffic'}`);
     if (import.meta.env.DEV && sandboxRun) {
       el('result-kicker').textContent = 'DEVELOPMENT RUN';
       el('result-score').textContent = String(game.maxY); el('reason').textContent = game.reason;

@@ -243,7 +243,7 @@ export class Renderer {
       }
       ctx.restore();
     }
-    const showWave = game.rules.presentation.pursuitVisible && (players ? players.some(player => player.state !== 'ready') : game.state !== 'ready');
+    const showWave = game.pursuitEnabled && game.rules.presentation.pursuitVisible && (players ? players.some(player => player.state !== 'ready') : game.state !== 'ready');
     if (showWave) this.wave(game.waveRow, game.time);
     const objects: SceneObject[] = [];
     const platforms: typeof objects = [];

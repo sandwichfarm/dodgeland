@@ -1,6 +1,6 @@
 import { CHARACTERS, DEFAULT_CHARACTER, characterById } from './content.js';
 import { HALF_WIDTH, laneActors, platformSupports, platformSurface } from './game.js';
-import type { DeathCause, Direction, Game, GameWorldExtension, HurtEvent, Lane, RunState } from './game.js';
+import type { DamageRequest, DamageResult, DeathCause, Direction, Game, GameWorldExtension, HurtEvent, Lane, RunState } from './game.js';
 import type { ModeDefinition, ModeRules } from './mode-rules.js';
 import { isModeDefinition } from './mode-rules.js';
 import { DEFAULT_COIN_GRAVITY, RunInventory } from './market/run.js';
@@ -56,6 +56,7 @@ export interface SessionModeHandlers {
   beforeDepart?(observation: SessionContributionObservation): void;
   canLifecycle?(kind: 'device-lost' | 'reclaim-offered' | 'reclaimed' | 'departed', seat: SeatId, device?: DeviceId): boolean;
   preserveReclaimPosition?: boolean;
+  suppressPursuit?: boolean;
   canAct?(seat: SeatId): boolean;
   canTransact?(seat: SeatId): boolean;
   canAdmit?(): boolean;
@@ -85,7 +86,7 @@ export function composeSessionModeDefinition(definition: ModeDefinition, handler
   const callbacks = ['beforeDeath', 'beforeDepart', 'canLifecycle', 'canAct', 'canTransact', 'canAdmit', 'simulates', 'canAdvance', 'attach', 'join', 'deviceLost', 'reclaim', 'depart', 'death', 'progress', 'result', 'tick', 'pending', 'recover'];
   if (!handlers || typeof handlers !== 'object' || Array.isArray(handlers)) throw new TypeError('Expected session handlers.');
   for (const [key, value] of Object.entries(handlers)) {
-    if (key === 'preserveReclaimPosition' ? typeof value !== 'boolean' : !callbacks.includes(key) || typeof value !== 'function') throw new TypeError(`Invalid session handler: ${key}`);
+    if (key === 'preserveReclaimPosition' || key === 'suppressPursuit' ? typeof value !== 'boolean' : !callbacks.includes(key) || typeof value !== 'function') throw new TypeError(`Invalid session handler: ${key}`);
   }
   return Object.freeze({ definition, handlers: Object.freeze({ ...handlers }) });
 }
@@ -643,6 +644,17 @@ export class LocalSession {
   }
   canTransact(seat: SeatId): boolean { return this.mode?.handlers.canTransact?.(seat) ?? this.canAct(seat); }
   canAct(seat: SeatId): boolean { return this.mode?.handlers.canAct?.(seat) ?? true; }
+  /** Mode damage still passes identity, lifecycle, immunity and health authority. */
+  damage(seat: SeatId, request: DamageRequest): DamageResult {
+    const player = this.players.find(p => p.seat === seat);
+    if (!this.active || this.result || !player || player.participation !== 'active' || !this.canAct(seat) || this.world.host.state === 'paused') return Object.freeze({ landed: 0, fatal: false });
+    const result = this.world.host.damagePlayer(player, request);
+    if (result.fatal && player.participation === 'active') {
+      player.participation = 'dead'; player.statistics.deaths++; player.statistics.deathCause = player.deathCause;
+      this.cancelForwardHop(player); this.emit('player-death', player, 'active', 'dead', player.deathCause ?? 'unknown');
+    }
+    return result;
+  }
   /** Transfer a settled living position without world, wallet, health or progress credit. */
   transferPosition(outgoingSeat: SeatId, incomingSeat: SeatId): boolean {
     const outgoing = this.players.find(player => player.seat === outgoingSeat);
@@ -684,7 +696,7 @@ export class LocalSession {
     const candidates = this.players.filter(player => player !== exclude && player.participation === 'active');
     const anchor = candidates.reduce((best, player) => player.maxY > best.maxY ? player : best, candidates[0] ?? this.players[0]);
     if (!anchor) return undefined;
-    if (this.world.rules.pursuit.strategy === 'wave' && anchor.y <= this.world.waveRow) return undefined;
+    if (this.world.host.pursuitEnabled && this.world.rules.pursuit.strategy === 'wave' && anchor.y <= this.world.waveRow) return undefined;
     const lane = this.world.rows.get(anchor.y);
     const occupied = new Set(candidates.map(player => Math.round(player.groundX)));
     const x = [-1, 1, -2, 2, -3, 3, -4, 4, -5, 5].map(offset => anchor.groundX + offset).find(candidate => {
@@ -713,7 +725,7 @@ export class LocalSession {
     for (const row of [Math.round(anchor.y), Math.round(anchor.y) - 1, Math.round(anchor.y) - 2]) {
       if (!allDeadPersonal && row > frontier + 1e-9) continue;
       const lane = this.world.rows.get(row);
-      if (!lane || (this.world.rules.pursuit.strategy === 'wave' && row <= this.world.waveRow + .2)) continue;
+      if (!lane || (this.world.host.pursuitEnabled && this.world.rules.pursuit.strategy === 'wave' && row <= this.world.waveRow + .2)) continue;
       for (const offset of offsets) {
         const x = Math.round(anchor.x + offset);
         const key = `${x}:${row}`;
@@ -749,7 +761,7 @@ export class LocalSession {
     if (!Number.isFinite(player.x) || !Number.isInteger(player.y) || Math.abs(player.x) > 5.5) return false;
     const lane = this.world.rows.get(player.y);
     if (!lane || lane.blocked.includes(Math.round(player.x))) return false;
-    if (this.world.rules.pursuit.strategy === 'wave' && player.y <= this.world.waveRow + .2) return false;
+    if (this.world.host.pursuitEnabled && this.world.rules.pursuit.strategy === 'wave' && player.y <= this.world.waveRow + .2) return false;
     if (lane.kind === 'river' && !platformSupports(lane, player.x, this.world.time)) return false;
     if ((lane.kind === 'road' || lane.kind === 'rail') && !laneActors(lane, this.world.time).every(actor => Math.abs(actor.x - player.x) > actor.length / 2 + .2)) return false;
     return !this.world.mobs.some(mob => mob.phase !== 'spawning' && Math.hypot(mob.x - player.x, mob.y - player.y) < .7);

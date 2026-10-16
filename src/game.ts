@@ -53,7 +53,9 @@ export function laneDirection(lane: Lane): number { return lane.speed < 0 ? -1 :
 export type Mode = SoloMode;
 export interface GameOptions { readonly definition?: ModeDefinition }
 export type RunState = 'ready' | 'playing' | 'paused' | 'dead';
-export type DeathCause = 'traffic' | 'train' | 'water' | 'wave' | 'swept' | 'trail' | 'mob';
+export type DeathCause = 'traffic' | 'train' | 'water' | 'wave' | 'swept' | 'trail' | 'mob' | 'fog';
+export interface DamageRequest { readonly cause: DeathCause; readonly amount: number; readonly reason: string; readonly face?: ImpactFace }
+export interface DamageResult { readonly landed: number; readonly fatal: boolean }
 export type Direction = 'forward' | 'back' | 'left' | 'right';
 /** Live content extension helpers; shareable games use the pinned schema instead. */
 export function worldForRow(seed: number, row: number, home: string): World {
@@ -260,6 +262,8 @@ export class Game {
   startPlayer(player: SessionPlayer): boolean { return this.inPlayerOperation(player, context => context.start()); }
   /** Session-only adapter over the released movement/progress transition. */
   movePlayer(player: SessionPlayer, direction: Direction): boolean { return this.inPlayerOperation(player, context => context.move(direction)); }
+  damagePlayer(player: SessionPlayer, request: DamageRequest): DamageResult { return this.inPlayerOperation(player, context => context.applyDamage(request)); }
+  get pursuitEnabled(): boolean { return !(this.world?.sessionActive && this.player.session?.mode?.handlers.suppressPursuit); }
   /** Apply the elected seat's run effects once before a world-only tick. */
   syncSharedEffects(player: SessionPlayer): void { this.inPlayerOperation(player, context => context.syncEffects()); }
   /** Rendering uses this explicit path to age each player's terminal visual once. */
@@ -272,7 +276,7 @@ export class Game {
   }
   /** Session terrain uses the resolved base definition; player cards stay personal. */
   advanceSharedPursuit(previousTime: number): void {
-    if (!this.world?.sessionActive || this.rules.pursuit.strategy !== 'wave') return;
+    if (!this.world?.sessionActive || !this.pursuitEnabled || this.rules.pursuit.strategy !== 'wave') return;
     const effects = this.sharedWorldEffects ?? defaultModifiers();
     const chaseTime = Math.max(0, this.time - this.rules.pursuit.grace) - Math.max(0, previousTime - this.rules.pursuit.grace);
     this.waveRow = Math.max(this.waveRow + chaseTime * this.rules.pursuit.speed * effects.waveSpeed, this.world.frontier - this.rules.pursuit.waveTrail - effects.waveTrail);
@@ -350,7 +354,7 @@ export class Game {
   setCharacter(id: string): void { this.characterId = characterById(id).id; }
   get waveGap(): number { return this.groundY - this.waveRow; }
   get waveSeconds(): number { return Math.max(0, this.rules.pursuit.grace - this.time) + Math.max(0, this.waveGap) / (this.rules.pursuit.speed * this.run.effects.waveSpeed); }
-  get warning(): boolean { return this.rules.pursuit.strategy === 'wave' && this.waveSeconds <= this.rules.pursuit.warningSeconds; }
+  get warning(): boolean { return this.pursuitEnabled && this.rules.pursuit.strategy === 'wave' && this.waveSeconds <= this.rules.pursuit.warningSeconds; }
   /** Installs definition-owned course behavior only after a session transaction commits. */
   installWorldExtension(extension: GameWorldExtension): () => void {
     if (this.worldExtension) throw new Error('A Game already has a world extension.');
@@ -473,6 +477,20 @@ export class Game {
     try { if (participant) participant.session?.observeDeath(participant, cause); }
     finally { this.run.clear(); this.onEnd(); this.lifecycle('terminal'); }
   }
+  /** Shared health transaction; traffic supplies only its contact-specific recoil. */
+  private applyDamage(request: DamageRequest, survivingImpact?: () => void): DamageResult {
+    const none = Object.freeze({ landed: 0, fatal: false });
+    if (!request || !Number.isFinite(request.amount) || request.amount <= 0 || !['traffic','train','water','wave','swept','trail','mob','fog'].includes(request.cause) || this.state !== 'playing' || this.hurtRemaining > 0 || this.sessionProtected() || this.run.effects.shield > 0 || this.powerRescue) return none;
+    const before = this.health;
+    if (before <= request.amount) this.end(request.reason, request.cause, request.face);
+    else {
+      this.health -= request.amount;
+      this.hurtRemaining = this.rules.health.hurtRecovery * this.run.effects.hurtRecovery;
+      survivingImpact?.();
+      if (request.face) this.onHurt({ face: request.face, amount: request.amount });
+    }
+    return Object.freeze({ landed: Math.max(0, before - this.health), fatal: (this.state as RunState) === 'dead' });
+  }
   advanceDeathVisuals(dt: number): void {
     if (this.state === 'dead' && this.deathSpill && Number.isFinite(dt) && dt > 0) this.deathSpill.age = Math.min(3, this.deathSpill.age + dt);
   }
@@ -487,7 +505,7 @@ export class Game {
     // chasing a moving platform or creating invisible support under the player.
     for (const lane of this.rows.values()) {
       if (lane.kind !== 'meadow' || Math.abs(lane.index - y) > 6 || lane.index < this.maxY - 6) continue;
-      if (this.rules.pursuit.strategy === 'wave' && lane.index <= wave + .85) continue;
+      if (this.pursuitEnabled && this.rules.pursuit.strategy === 'wave' && lane.index <= wave + .85) continue;
       for (let column = -HALF_WIDTH; column <= HALF_WIDTH; column++) {
         const distance = Math.hypot(column - x, lane.index - y);
         if (distance > 6 || this.mobBlocked(column, lane.index, PLAYER_VEHICLE_RADIUS)) continue;
@@ -526,7 +544,7 @@ export class Game {
     const candidates = hit.normalY ? [[x, lane.index + hit.normalY], [this.fromX, Math.round(this.fromY)]] : [[awayX, lane.index], [this.fromX, Math.round(this.fromY)]];
     candidates.push([x, lane.index - 1], [x, lane.index + 1]);
     const landingTime = this.time + this.rules.movement.hopDuration * this.rules.simulation.worldTimeScale;
-    const target = candidates.find(([tx, ty]) => Math.hypot(tx! - x, ty! - y) < 1.6 && !this.mobBlocked(tx!, ty!, PLAYER_VEHICLE_RADIUS) && (this.rules.pursuit.strategy !== 'wave' || ty! > this.waveRow + .2) && !this.mobHazard(tx!, ty!, tx!, ty!, landingTime, landingTime, PLAYER_VEHICLE_RADIUS));
+    const target = candidates.find(([tx, ty]) => Math.hypot(tx! - x, ty! - y) < 1.6 && !this.mobBlocked(tx!, ty!, PLAYER_VEHICLE_RADIUS) && (!this.pursuitEnabled || this.rules.pursuit.strategy !== 'wave' || ty! > this.waveRow + .2) && !this.mobHazard(tx!, ty!, tx!, ty!, landingTime, landingTime, PLAYER_VEHICLE_RADIUS));
     // A boxed-in duck retains controls and immunity; moving traffic clears the
     // contact instead of forcing a displacement into another lethal surface.
     this.fromX = x; this.fromY = y;
@@ -558,11 +576,7 @@ export class Game {
       if (lane.kind === 'rail') { this.end('Train! Wait for the crossing lights to clear.', 'train'); return; }
       if (this.hurtRemaining > 0) continue;
       const amount = hit.face === 'rear' ? Math.max(.25, this.rules.health.rearDamage * this.run.effects.rearDamage) : hit.face === 'side' ? Math.max(.25, this.rules.health.sideDamage * this.run.effects.sideDamage) : this.rules.health.frontDamage;
-      if (this.health <= amount) { this.end(hit.face === 'front' ? 'Head-on traffic! Stay clear of the front bumper.' : 'Out of pluck! Look for a gap before crossing.', 'traffic', hit.face); return; }
-      this.health -= amount;
-      this.hurtRemaining = this.rules.health.hurtRecovery * this.run.effects.hurtRecovery;
-      this.recoil(lane, center, bounds, hit, previousX + (x - previousX) * hit.fraction, previousY + (y - previousY) * hit.fraction);
-      this.onHurt({ face: hit.face, amount });
+      this.applyDamage({ amount, cause: 'traffic', face: hit.face, reason: hit.face === 'front' ? 'Head-on traffic! Stay clear of the front bumper.' : 'Out of pluck! Look for a gap before crossing.' }, () => this.recoil(lane, center, bounds, hit, previousX + (x - previousX) * hit.fraction, previousY + (y - previousY) * hit.fraction));
       return;
     }
   }
@@ -618,7 +632,7 @@ export class Game {
     if (this.powerRescue) {
       // World motion continues during the escape, but no old swept contact or
       // collectible can intersect this protected airborne path.
-      if (drivesWorld && this.rules.pursuit.strategy === 'wave') {
+      if (drivesWorld && this.pursuitEnabled && this.rules.pursuit.strategy === 'wave') {
         const chaseTime = Math.max(0, this.time - this.rules.pursuit.grace) - Math.max(0, previousTime - this.rules.pursuit.grace);
         this.waveRow = Math.max(this.waveRow + chaseTime * this.rules.pursuit.speed * this.run.effects.waveSpeed, this.maxY - this.rules.pursuit.waveTrail - this.run.effects.waveTrail);
       }
@@ -627,14 +641,14 @@ export class Game {
       if (this.powerRescue.remaining === 0) { this.powerRescue = null; this.powerLandingGrace = .45; }
       return;
     }
-    if (this.rules.pursuit.strategy === 'wave') {
+    if (this.pursuitEnabled && this.rules.pursuit.strategy === 'wave') {
       if (drivesWorld) {
         const chaseTime = Math.max(0, this.time - this.rules.pursuit.grace) - Math.max(0, previousTime - this.rules.pursuit.grace);
         this.waveRow = Math.max(this.waveRow + chaseTime * this.rules.pursuit.speed * this.run.effects.waveSpeed, this.maxY - this.rules.pursuit.waveTrail - this.run.effects.waveTrail);
       }
       // Use the same ground position as the drawing, including while airborne.
       if (!this.sessionProtected() && this.waveGap <= 0 && this.run.effects.shield <= 0) { this.caughtByWave = true; this.end('The wave caught you. Hop forward to stay ahead.', 'wave'); return; }
-    } else if (this.y < this.maxY - this.rules.pursuit.trailingLimit) { this.end('The trail moved on. Keep hopping forward!', 'trail'); return; }
+    } else if (this.pursuitEnabled && this.y < this.maxY - this.rules.pursuit.trailingLimit) { this.end('The trail moved on. Keep hopping forward!', 'trail'); return; }
     this.collideVehicles(previousX, previousY, previousTime);
     if (this.state !== 'playing' || this.powerRescue) return;
     if (this.hop > 0) { this.collectCoins(this.time - previousTime, false); if (drivesWorld) this.updateMobs(this.time - previousTime, previousX, previousY); return; }

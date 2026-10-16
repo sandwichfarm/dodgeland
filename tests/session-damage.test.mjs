@@ -23,8 +23,8 @@ test('named damage isolates seats, immunity, protection, inactive and invalid re
 test('named fatal damage owns exactly one death and remains reentrant seat safe', () => {
   const {game,session} = fixture(); const [p1,p2] = session.players;
   p2.onHurt = () => { session.damage('p1',hit); };
-  session.damage('p2',hit); assert.equal(p1.health,2); assert.equal(p2.health,2);
-  for(let i=0;i<120;i++) session.update(1/120);
+  session.damage('p2',{...hit,face:'rear'}); assert.equal(p1.health,2); assert.equal(p2.health,2);
+  for(let i=0;i<121;i++) session.update(1/120);
   let deaths=0; p2.onEnd=()=>deaths++;
   assert.equal(session.damage('p2',{...hit,amount:3}).landed,2);
   assert.equal(p2.deathCause,'fog'); assert.equal(p2.state,'dead'); assert.equal(deaths,1);
@@ -39,4 +39,14 @@ test('validated pursuit opt-out covers advancement, collision, safety and presen
   const legacy=fixture(false); for(let i=0;i<1440;i++) legacy.session.update(1/120);
   assert.equal(legacy.game.deathCause,'wave');
   assert.throws(()=>composeSessionModeDefinition(game.definition,{suppressPursuit:1}));
+});
+test('named damage preserves fatal innate rescue and paused authority', () => {
+  const {game,session} = fixture(); const player=session.players[0];
+  player.characterId='sunny';
+  const result=session.damage('p1',{cause:'traffic',amount:3,reason:'Road impact.',face:'front'});
+  assert.equal(result.fatal,false); assert.equal(player.state,'playing'); assert.ok(player.powerRescue);
+  assert.equal(player.powerRemaining,100); assert.equal(player.completedForwardTiles,0);
+  assert.equal(session.damage('p1',hit).landed,0);
+  game.pause(); assert.equal(session.damage('p2',hit).landed,0);
+  assert.equal(session.players[1].health,3);
 });

@@ -1,0 +1,11 @@
+# 05-02 shared dependency repair
+
+Authorized generic executor fallback, applying safe-refactor. The checkpoint RED `e34188e` established inherited wave death; shared contract RED `4ffccb7` established absent opt-out/damage APIs. No baseline definitions, seed schemas, oracle or dependencies changed.
+
+`composeSessionModeDefinition` accepts a strictly boolean optional `suppressPursuit`. `Game.pursuitEnabled` reads the active session policy; existing modes default true. World wave advancement, player wave/trail contact, innate escape candidates, recovery/safe-cell selection, warnings and renderer wave presentation all honor that policy on the same original world.
+
+`LocalSession.damage(seat, {cause, amount, reason, face?})` validates roster ownership, active lifecycle, mode action authority, pause and result state, then uses the stable per-seat Game receiver. `Game.applyDamage` owns finite positive amount validation, cause validation, shield/recovery/hurt immunity, fatal innate/death handling and actual landed-loss result. Traffic reuses it with its existing contact-specific recoil before the existing hurt callback. Fog has an explicit death cause; the existing main death-audio dispatch maps it to the existing trail cue pending later Race presentation. No audio schema or traffic cause impersonation is introduced. Fatal mode damage publishes death/recovery lifecycle once before returning.
+
+Verification: shared health/innate/recovery/reentrancy matrix 80/80 and exact immutable solo parity 21/21, command `6901`, terminal exit 0, followed by type-check. The first command accidentally redirected only the final type-check to `/tmp/down-to-duck-05-02-shared-type.log`; its preceding results are tool-session evidence rather than a whole-command durable log. After adding explicit innate rescue/pause coverage, command `81903` terminal exit 0 retained the full 81/81 focused matrix and type-check in `/tmp/down-to-duck-05-02-dependency-green.log`. This logging limitation is recorded rather than claiming a nonexistent parity logfile; the final inherited gate will provide durable parity evidence.
+
+The original Race RED remains intentionally failing until Race opts into the repaired policy in Task 1. Dependency repair alone does not complete 05-02. Remaining ordering, balance, final regression and UI work retain their plan scope.
