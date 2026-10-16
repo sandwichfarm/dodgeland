@@ -6,6 +6,17 @@ import './race-ui.css';
 import type { RaceProposal, RaceResult, RaceCoordinator } from './race.js';
 import type { SessionSetupSeat } from './session-ui.js';
 
+/** Pages the existing target choices without changing the captured action authority. */
+export function pageRaceTargets(board:HTMLElement):void {
+ const choices=board.querySelector<HTMLElement>('.race-target-choices');if(!choices)return;
+ const targets=[...choices.querySelectorAll<HTMLButtonElement>('button')];if(!targets.length)return;
+ choices.setAttribute('role','radiogroup');for(const target of targets){target.setAttribute('role','radio');target.setAttribute('aria-checked',target.getAttribute('aria-pressed')??'false');}
+ const nav=document.createElement('nav');nav.className='race-target-nav';nav.setAttribute('aria-label','Target pages');const label=document.createElement('span');
+ const sync=()=>{const selected=targets.findIndex(b=>b.getAttribute('aria-pressed')==='true');label.textContent=`Target ${selected+1} / ${targets.length}`;for(const target of targets)target.setAttribute('aria-checked',target.getAttribute('aria-pressed')??'false');};
+ for(const [copy,delta]of [['Previous target',-1],['Next target',1]] as const){const b=document.createElement('button');b.type='button';b.textContent=delta<0?'‹':'›';b.setAttribute('aria-label',copy);b.disabled=targets.length<2;b.onclick=()=>{const index=targets.findIndex(t=>t.getAttribute('aria-pressed')==='true');targets[(index+delta+targets.length)%targets.length]!.click();sync();};nav.append(b);if(delta<0)nav.append(label);}
+ choices.addEventListener('click',sync);sync();choices.after(nav);
+}
+
 export function racePresentation(race:RaceCoordinator):SessionPresentation {
   return {cameraAnchor:race.leaderFrontier,boundary:race.fogBoundary,markers:race.session.players.map(p=>({seat:p.seat,leader:p.earnedDistance===race.leaderFrontier,status:race.status(p.seat),effect:race.fogState(p.seat).protectionUntil>race.elapsed?'lantern':p.hopCooldown.multiplier>1?'mud':undefined}))};
 }
@@ -31,11 +42,13 @@ export function renderRaceHud(root: HTMLElement, race: RaceCoordinator): void {
   const statuses=race.session.players.map(p=>race.status(p.seat));
   let notice=root.querySelector<HTMLElement>('.race-lifecycle');
   if(!notice){notice=document.createElement('p');notice.className='race-lifecycle';notice.setAttribute('role','status');root.append(notice);}
-  notice.textContent=race.result?'Race complete.':race.waiting?'Waiting for a player to reclaim. A reserved seat can resume this race.':statuses.includes('recovery-offered')&&!statuses.includes('active')?'Everyone is down. Personal offers and the race clock continue.':statuses.filter(s=>s==='active').length===1?'Last racer: keep racing toward the finish.':'Race clock is live.';
+  const lifecycleCopy=race.result?'Race complete.':race.waiting?'Waiting for a player to reclaim. A reserved seat can resume this race.':statuses.includes('recovery-offered')&&!statuses.includes('active')?'Everyone is down. Personal offers and the race clock continue.':statuses.filter(s=>s==='active').length===1?'Last racer: keep racing toward the finish.':'Race clock is live.';
+  if(notice.textContent!==lifecycleCopy)notice.textContent=lifecycleCopy;
   for (const player of race.session.players){
     const tile=root.querySelector<HTMLElement>(`[data-seat="${player.seat}"]`)!;
     const state=race.status(player.seat),name=player.seat.toUpperCase();
     tile.dataset.raceHud='true';
+    tile.querySelectorAll<HTMLButtonElement>('.session-hud-pager button').forEach((b,i)=>b.textContent=i?'›':'‹');
     tile.querySelector<HTMLElement>('[data-session-hud="power"]')!.textContent=`Power · ${player.powerReady?100:100-player.powerRemaining}/100 tiles${player.powerReady?' · Ready':''}`;
     if(!player.recovery?.offer)tile.querySelector<HTMLElement>('[data-session-hud="revive"]')!.textContent=`Personal revive · ${player.recovery?.charge==='available'?250:Math.max(0,250-((player.recovery?.nextRecharge??250)-(player.recovery?.personalHighWater??0)))}/250 tiles`;
     tile.querySelector<HTMLElement>('[data-session-hud="wallet"]')!.textContent=`${player.run.wallet} coins · ${player.earnedDistance===race.leaderFrontier?'Leader · ':''}${player.earnedDistance} tiles`;
@@ -55,7 +68,7 @@ export function renderRaceHud(root: HTMLElement, race: RaceCoordinator): void {
 
 /** Uses the existing roster editor and its binding leases. */
 export function createRaceSetup(options: { root: HTMLElement; seats(): readonly SessionSetupSeat[]; active(): boolean; choose(): void }) {
-  let page: 'settings' | 'roster' = 'settings';
+  let page: 'settings' | 'roster' | 'rules' = 'settings';
   const panel = document.createElement('section'); panel.id = 'race-configuration';
   const choice = document.createElement('button'); choice.id = 'race-play'; choice.type = 'button'; choice.textContent = 'Race setup'; choice.onclick = options.choose;
   const fields = document.createElement('div'); fields.className = 'race-settings';
@@ -68,12 +81,13 @@ export function createRaceSetup(options: { root: HTMLElement; seats(): readonly 
   }
   const error = document.createElement('p'); error.id = 'race-setup-error'; error.setAttribute('role', 'alert');
   const nav = document.createElement('nav'); nav.setAttribute('aria-label', 'Race setup pages');
-  for (const key of ['settings', 'roster'] as const) {
-    const button = document.createElement('button'); button.type = 'button'; button.textContent = key === 'settings' ? 'Settings' : 'Roster';
+  for (const key of ['settings', 'roster', 'rules'] as const) {
+    const button = document.createElement('button'); button.type = 'button'; button.textContent = key === 'settings' ? 'Settings' : key === 'roster' ? 'Roster' : 'Rules';
     button.onclick = () => { page = key; render(true); button.focus({ preventScroll: true }); }; nav.append(button);
   }
   const hint = document.createElement('p'); hint.id = 'race-setup-lock'; hint.textContent = 'Roster locks when the race starts.';
-  panel.append(choice, nav, fields, hint, error);
+  const rules = document.createElement('p'); rules.id = 'race-setup-rules'; rules.textContent = 'Fog begins 12 tiles behind the lead and plucks 1 feather each second.';
+  panel.append(choice, nav, fields, rules, hint, error);
   const proposal = (): RaceProposal => ({ seats: options.seats().map(p => ({ seat: p.seat, device: p.device!, characterId: p.characterId!, disconnected: p.disconnected })), finishTiles: finish.value, activeSeconds: seconds.value });
   function validate() {
     if (!options.active()) return;
@@ -87,8 +101,9 @@ export function createRaceSetup(options: { root: HTMLElement; seats(): readonly 
     const board = options.root.querySelector('#session-board')!;
     (options.active() ? board : board.querySelector('#relay-configuration') ?? board).append(panel);
     const active = options.active(); choice.hidden = active; nav.hidden = hint.hidden = !active; fields.hidden = error.hidden = !active || page !== 'settings';
-    if (currentBoard) currentBoard.dataset.racePage = active ? page : '';
-    [...nav.children].forEach((button, index) => button.setAttribute('aria-pressed', String(index === (page === 'settings' ? 0 : 1))));
+    rules.hidden = !active || page !== 'rules';
+    if (currentBoard) currentBoard.dataset.racePage = active ? (page === 'rules' ? 'settings' : page) : '';
+    [...nav.children].forEach((button, index) => button.setAttribute('aria-pressed', String(index === (page === 'settings' ? 0 : page === 'roster' ? 1 : 2))));
     if (active) { options.root.querySelector('#local-session-heading')!.textContent = 'Race setup'; const start = options.root.querySelector('#local-session-start')!; start.textContent = 'Start Race'; start.setAttribute('aria-describedby', hint.id); validate(); }
     else options.root.querySelector('#local-session-start')!.removeAttribute('aria-describedby');
   }

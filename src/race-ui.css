@@ -163,3 +163,66 @@
  #app #session-seats:has([data-race-hud]) [data-race-fog] { grid-area:fog; }
  #app #session-seats:has([data-race-hud]) [data-race-effect] { grid-area:effect; }
 }
+#app #survive-lifecycle-board[data-race-target] :is(h2,h3) { font-size:28px; font-weight:600; line-height:1.2; }
+.race-target-nav { display:none; }
+#app #market[data-gear-only="true"] :is(button,p,h3,span) { font-size:20px; font-weight:400; line-height:1.2; }
+#app #market[data-gear-only="true"] .market-gear-voxel { font-size:44px; font-weight:600; }
+#app #survive-results-root[data-initial-race] :is(p,span,h3,button) { font-weight:400; }
+#app #survive-results-root[data-initial-race] .race-podium p { font-size:20px; }
+@media(max-width:479px),(max-height:419px){
+ #app #market[data-gear-only="true"] :is(button,p,h3,span) { font-size:16px; font-weight:400; line-height:1.2; }
+ #app #market[data-gear-only="true"] .market-gear-voxel { font-size:44px; }
+ #app #survive-results-root[data-initial-race] .race-podium p { font-size:16px; }
+}
+@media(max-height:319px){
+ #app #survive-lifecycle-board[data-race-target] { display:grid; grid-template-columns:minmax(0,1fr); grid-template-rows:20px 20px 44px 44px 44px; gap:4px; padding:4px; align-content:start; }
+ #app #survive-lifecycle-board[data-race-target] h2 { grid-row:1; font-size:16px; }
+ #app #survive-lifecycle-board[data-race-target] .survive-recovery-status { grid-row:2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin:0; }
+ .race-target-choices { grid-row:3; }
+ .race-target-choices button { width:100%; padding:4px; }
+ .race-target-choices button[aria-pressed="false"] { display:none; }
+ .race-target-nav { display:grid; grid-row:4; grid-template-columns:44px 1fr 44px; align-items:center; text-align:center; }
+ .race-target-nav button { min-width:44px; min-height:44px; font:400 20px/1.2 var(--game-font); background:var(--game-paper); color:var(--game-ink); border:2px solid var(--game-edge); }
+ #app #survive-lifecycle-board[data-race-target] .survive-recovery-actions { grid-row:5; }
+}
+#app #survive-results-root[data-initial-race] h3 { font-size:28px; font-weight:600; line-height:1.2; }
+#app #market[data-gear-only="true"] #market-heading { font-size:28px; font-weight:600; }
+#app #market[data-gear-only="true"] #market-tab-wallet { font-size:16px; font-weight:400; }
+@media(min-height:320px){
+ #app #market[data-gear-only="true"][data-market-view="wardrobe"] .market-toolbar { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)) 44px; grid-template-rows:44px 44px; gap:4px; width:100%; }
+ #app #market[data-gear-only="true"][data-market-view="wardrobe"] #market-owner { grid-row:1; grid-column:1/5; min-width:0; overflow:hidden; text-overflow:ellipsis; }
+ #app #market[data-gear-only="true"][data-market-view="wardrobe"] #market-owner-strip { display:contents; }
+ #app #market[data-gear-only="true"][data-market-view="wardrobe"] .market-owner-seat { grid-row:2; min-width:44px; }
+ #app #market[data-gear-only="true"][data-market-view="wardrobe"] #market-close { grid-row:1; grid-column:5; width:44px; min-width:44px; font-size:20px; }
+ #app #market[data-gear-only="true"][data-market-view="wardrobe"] :is(#market-wallet,#market-heading,#market-traveler) { display:none; }
+ #app #market[data-gear-only="true"][data-market-view="wardrobe"] { grid-template-rows:96px 44px minmax(0,1fr); }
+}
+@media(max-height:319px){
+ #app #market[data-gear-only="true"] #market-owner { max-width:100%; min-width:0; overflow:hidden; text-overflow:ellipsis; }
+ #app #survive-results-root[data-initial-race] h3 { font-size:16px; }
+}
+@media(max-width:239px),(max-height:239px){
+ #app #survive-lifecycle-board[data-race-target] { display:none !important; }
+}
+#app #market[data-gear-only="true"] #market-close .market-close-label { display:none; }
+#app #market[data-gear-only="true"] #market-close { height:44px; padding:4px; }
+@media(max-height:319px){#app #market[data-gear-only="true"] #market-owner { min-height:20px; height:20px; align-self:start; }}
+#app:has([data-race-hud]) #survive-lifecycle-board h2 { font-size:28px; font-weight:600; line-height:1.2; }
+#app #session-seats:has([data-race-hud]) .session-hud-pager button::before { content:none; }
+@media(max-height:319px){#app:has([data-race-hud]) #survive-lifecycle-board h2 { font-size:16px; }}
+
+@media(max-height:319px){
+ #app #session-seats[data-session-hud-inspect="true"]:has([data-race-hud]) { gap:0; }
+ #app #session-seats[data-session-hud-inspect="true"]:has([data-race-hud]) .race-distance { display:none; }
+ #app #session-seats[data-session-hud-inspect="true"] [data-race-hud] .session-hud-details { gap:0; }
+ #app #session-seats[data-session-hud-inspect="true"] [data-race-hud] :is([data-race-fog],[data-race-effect]) { display:none; }
+ #app #session-seats[data-session-hud-inspect="true"] [data-race-hud][data-session-hud-page="2"] [data-session-hud="lifecycle"] { display:none; }
+ #app #session-seats[data-session-hud-inspect="true"] [data-race-hud] [data-race-decline] { grid-column:1/-1; }
+}
+
+@media(max-height:319px){
+ #app #session-seats[data-session-hud-inspect="true"]:has([data-race-hud]) .race-lifecycle { display:none; }
+}
+@media(max-height:319px){
+ #app #session-seats[data-session-hud-inspect="true"] [data-race-hud] .session-hud-details { top:50px; }
+}

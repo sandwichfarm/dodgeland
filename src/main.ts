@@ -28,7 +28,7 @@ import type { LocalSessionBoard, SessionSetupSeat } from './session-ui.js';
 import { createRelaySession, RELAY_LOCKED } from './relay.js';
 import { createRaceSession, validateRaceSetup } from './race.js';
 import type { RaceCoordinator } from './race.js';
-import { createRaceSetup, createRaceResultsBoard, renderRaceHud, racePresentation, renderRaceEdges, raceFogLabel } from './race-ui.js';
+import { createRaceSetup, createRaceResultsBoard, renderRaceHud, racePresentation, renderRaceEdges, raceFogLabel, pageRaceTargets } from './race-ui.js';
 import type { RelayCoordinator, RelayConfirmation, RelayActionToken } from './relay.js';
 import { createRelaySetup, createRelayHandoff, createRelayLifecycle, createRelayResults, renderRelayHud } from './relay-ui.js';
 import { GameAudio } from './audio.js';
@@ -236,7 +236,7 @@ function openRaceItem(id:string):void {
     for(const p of candidates){const b=document.createElement('button');b.type='button';b.textContent=`${p.marker} ${p.seat.toUpperCase()} · ${characterById(p.characterId).name} · ${p.groundY-owner.groundY>=0?'+':''}${(p.groundY-owner.groundY).toFixed(1)} tiles · ${p.health}/${p.maxHealth} feathers · ${raceFogLabel(current,p.seat)}`;b.setAttribute('aria-pressed',String(p===target));b.onclick=()=>{target=p;plan=current.items.plan(owner.seat,id,p.seat);for(const c of choices.children)c.setAttribute('aria-pressed',String(c===b));apply.textContent=`Use on ${p.seat.toUpperCase()}`;apply.disabled=!plan.ok;clearRelayInput();};choices.append(b);}
     board.insertBefore(choices,board.querySelector('.survive-recovery-actions'));queueMicrotask(()=>choices.querySelector('button')?.focus());
   }
-  raceItemContext=context;clearRelayInput();
+  pageRaceTargets(board);raceItemContext=context;clearRelayInput();
 }
 function openDepartureBoard(seat: SeatId): void {
   if (relay) { relayAction('leave', seat); return; }

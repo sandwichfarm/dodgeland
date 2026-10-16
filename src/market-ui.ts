@@ -292,7 +292,7 @@ export function createMarketUI(options: MarketUIOptions) {
     const control = button('', `inspect:${entry.key}`, 'inspect', entry.key);
     const gear=!!options.getGear?.()&&entry.source==='consumable';
     const kind = entry.definition?.kind ?? 'card';
-    const gearUnavailable=gear&&entry.sold?(currentRun?.market?'Item capacity reached':'Available at an earned market'):'';
+    const gearUnavailable=gear&&entry.sold?(currentRun?.market?(short?'Full':'Item capacity reached'):(short?'At market':'Available at an earned market')):'';
     control.className = `market-item market-tile market-${kind}${kind === 'cosmetic' ? '' : ' playing-card'}${entry.source === 'offer' ? '' : ' market-held'}`;
     if (entry.source === 'offer' || entry.source === 'consumable') {
       control.dataset.offer = entry.id; control.dataset.sold = String(!!entry.sold); control.disabled = !!entry.sold;

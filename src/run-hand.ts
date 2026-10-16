@@ -100,7 +100,7 @@ export function createRunHand(options: RunHandOptions) {
     pageSize = allFit ? slots : Math.max(1, Math.floor((width - 104 + gap) / (minimum + gap)));
     const totalPages = Math.max(1, Math.ceil(slots / Math.max(1,pageSize)));
     handPage = Math.max(0, Math.min(handPage, totalPages - 1));
-    const stamp = `${run.cards.map(card => `${card.id}:${card.name}:${card.saleValue}`).join('|')}/${slots}/${handPage}/${pageSize}/${selected ?? ''}/${charges?.revival ?? ''}:${charges?.flare ?? ''}/${canUseItems}/${JSON.stringify(gear)}`;
+    const stamp = `${run.cards.map(card => `${card.id}:${card.name}:${card.saleValue}`).join('|')}/${slots}/${handPage}/${pageSize}/${selected ?? ''}/${charges?.revival ?? ''}:${charges?.flare ?? ''}/${canUseItems}/${JSON.stringify(gear)}/${gear?innerWidth<320:false}`;
     count.textContent = `${run.cards.length} / ${run.cardCapacity} cards${totalPages > 1 ? ` · ${handPage + 1}/${totalPages}` : ''}`;
     if(gear)count.textContent='Race gear';
     cards.setAttribute('aria-label', `Your hand, ${run.cards.length} of ${run.cardCapacity} cards`);
@@ -134,7 +134,7 @@ export function createRunHand(options: RunHandOptions) {
     cards.replaceChildren(fragment);
     items.hidden = !charges && !gear;
     if(gear){
-      const controls:HTMLElement[]=gear.map(item=>{const b=document.createElement('button');b.type='button';b.dataset.handGear=item.id;b.dataset.handKey=`gear:${item.id}`;b.textContent=`${item.name} ×${item.quantity}`;b.setAttribute('aria-label',`Use ${item.name}`);b.disabled=!canUseItems||!item.quantity;return b;});
+      const controls:HTMLElement[]=gear.map(item=>{const b=document.createElement('button');b.type='button';b.dataset.handGear=item.id;b.dataset.handKey=`gear:${item.id}`;b.textContent=`${innerWidth<320?item.name.split(' ').at(-1)==='Lantern'?'Lantern':item.name.split(' ')[0]:item.name} ×${item.quantity}`;b.setAttribute('aria-label',`Use ${item.name}`);b.disabled=!canUseItems||!item.quantity;return b;});
       const open=document.createElement('button');open.type='button';open.dataset.handGear='open';open.dataset.handKey='gear:open';open.textContent='Race gear';controls.push(open);items.replaceChildren(...controls);restoreKey(focused);return;
     }
     if (!charges) { items.replaceChildren(); restoreKey(focused); return; }
