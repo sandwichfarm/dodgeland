@@ -12,6 +12,39 @@ const hashes={};for(const path of [...sourcePaths,'dist/index.html'])hashes[path
 await writeFile(new URL('source-provenance.json',output),JSON.stringify({created:new Date().toISOString(),hashes},null,2));
 const pad = (index, pressed=[]) => ({index,id:`presentation-${index}`,connected:true,mapping:'standard',timestamp:1,axes:[0,0],buttons:Array.from({length:17},(_,i)=>({pressed:pressed.includes(i),value:+pressed.includes(i),touched:false}))});
 const themes={dark:{background:'#242b32',text:'#f0eee5',primary:'#9fc28a'},light:{background:'#f6f1e5',text:'#24362d',primary:'#4b7b61'}};
+for(const activation of ['Enter','Space'])test(`P6 review settled child owns native Tab and ${activation} leave actions`,{timeout:60000},async()=>{
+ const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{gamepads:true,auditBoundary:true,initialIntent:intent});
+ try{await setup(app,'race');await app.resize(240,240);
+  const state=()=>app.onSession(function(){return {time:this.world.time,players:this.players.map(p=>({id:p.participantId,seat:p.seat,x:p.x,y:p.y,wallet:p.run.wallet,participation:p.participation}))};});
+  const before=await state();await sessionHudAction(app,'p1','item');await app.advance(100);
+  const board=app.frame.locator('#survive-lifecycle-board'),focused=()=>app.frame.evaluate(()=>document.activeElement?.textContent);
+  assert.equal(await focused(),'Keep racing');await app.page.keyboard.press('Tab');assert.equal(await focused(),'Leave Race');
+  await app.page.keyboard.press('Tab');assert.equal(await focused(),'Keep racing');await app.page.keyboard.press('Shift+Tab');assert.equal(await focused(),'Leave Race');await app.page.keyboard.press('Shift+Tab');assert.equal(await focused(),'Keep racing');
+  await app.page.keyboard.press(activation);await app.advance(100);assert.equal(await board.count(),0);
+  assert.equal(await app.frame.locator('[data-seat="p1"] [data-session-hud="item"]').evaluate(n=>n===document.activeElement),true,'cancel restores original parent action');assert.deepEqual(await state(),before);
+  await app.page.keyboard.press(activation);await app.advance(100);await app.page.keyboard.press('Tab');assert.equal(await focused(),'Leave Race');
+  await app.page.keyboard.down('w');await app.page.keyboard.press(activation);await app.advance(100);await app.page.keyboard.up('w');
+  assert.equal(await board.count(),0);assert.equal(await app.frame.locator('#session-seats').getAttribute('data-session-hud-inspect'),'false');assert.equal(await app.frame.locator('#app').getAttribute('data-run-state'),'paused');
+  const after=await state();assert.equal(after.players[0].participation,'departed');assert.deepEqual(after.players.slice(1),before.players.slice(1));assert.equal(after.time,before.time);assert.deepEqual(evidence.errors,[]);
+ }finally{await app.close();}
+});
+test('P6 review recovery child native focus wraps and returns to the original owner',{timeout:60000},async()=>{
+ const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{gamepads:true,auditBoundary:true,initialIntent:intent});
+ try{await setup(app,'flow');await app.resize(240,240);await sessionHudAction(app,'p2','item');await app.advance(100);
+  const focused=()=>app.frame.evaluate(()=>document.activeElement?.textContent),before=await app.onSession(function(){return {time:this.world.time,charges:this.consumableSnapshot(),players:this.players.map(p=>({id:p.participantId,x:p.x,y:p.y,wallet:p.run.wallet}))};});
+  assert.equal(await focused(),'Back to paused run');await app.page.keyboard.press('Tab');assert.equal(await focused(),'Resume run');await app.page.keyboard.press('Tab');assert.equal(await focused(),'Leave P2 run');await app.page.keyboard.press('Tab');assert.equal(await focused(),'Back to paused run');await app.page.keyboard.press('Shift+Tab');assert.equal(await focused(),'Leave P2 run');await app.page.keyboard.press('Tab');
+  await app.page.keyboard.press('Space');await app.advance(100);assert.equal(await app.frame.locator('#survive-recovery-board').count(),0);assert.equal(await app.frame.locator('[data-seat="p2"] [data-session-hud="item"]').evaluate(n=>n===document.activeElement),true);
+  assert.deepEqual(await app.onSession(function(){return {time:this.world.time,charges:this.consumableSnapshot(),players:this.players.map(p=>({id:p.participantId,x:p.x,y:p.y,wallet:p.run.wallet}))};}),before);assert.equal(await app.frame.locator('.session-hud-selected').getAttribute('data-seat'),'p2');assert.equal(await app.frame.locator('#app').getAttribute('data-run-state'),'paused');assert.deepEqual(evidence.errors,[]);
+ }finally{await app.close();}
+});
+test('P6 review Controls live label announces only a changed page',{timeout:60000},async()=>{
+ const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{gamepads:true,auditBoundary:true,initialIntent:intent});
+ try{await setup(app,'race');await app.resize(240,240);await app.frame.locator('#session-controls-open').click();await app.advance(100);
+  await app.frame.evaluate(()=>{const label=document.querySelector('#session-control-pages nav span');window.pageLabelChanges=[];window.pageLabelObserver=new MutationObserver(records=>window.pageLabelChanges.push(...records.map(()=>label.textContent)));window.pageLabelObserver.observe(label,{childList:true,characterData:true,subtree:true});});
+  await app.advance(1000);assert.deepEqual(await app.frame.evaluate(()=>window.pageLabelChanges),[],'unchanged paused frames must not rewrite the live label');
+  await app.frame.getByRole('button',{name:'Next controls',exact:true}).click();await app.advance(1000);assert.deepEqual(await app.frame.evaluate(()=>window.pageLabelChanges),['Tools']);assert.equal(await app.frame.locator('#session-control-pages nav span').getAttribute('aria-live'),'polite');await app.frame.evaluate(()=>window.pageLabelObserver.disconnect());assert.deepEqual(evidence.errors,[]);
+ }finally{await app.close();}
+});
 function separated(a,b,gap=8){return a.right+gap<=b.left||b.right+gap<=a.left||a.bottom+gap<=b.top||b.bottom+gap<=a.top;}
 async function setup(app,variant='arcade'){
   if(variant==='arcade'||variant==='flow'){await app.frame.evaluate(delivery=>window.marketGameFixture.deliverIntent(delivery),{...intent,payload:{seed:variant==='arcade'?'ph3-00000071-pond-a-n':'ph3-00000071-pond-s-n'}});await app.frame.locator('#play').click();await app.frame.locator('#pause').click();}
