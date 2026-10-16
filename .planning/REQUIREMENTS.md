@@ -115,7 +115,7 @@ behavior is implemented, verified and committed.
 | RACE-01 | Phase 5 | Partial: setup05-01 and fixed-clock/terminal evidence05-02; full Race integration pending |
 | RACE-02 | Phase 5 | Partial: monotonic fog, health cadence and balance05-02; presentation/integration05-06/07 pending |
 | RACE-03 | Phase 5 | Pending |
-| RACE-04 | Phase 5 | Partial: fatal/finish/tie/timeout/recovery ordering05-02; full lifecycle/results integration pending |
+| RACE-04 | Phase 5 | Partial: ordering05-02 and lifecycle/replacement/recovery05-03 verified; final results/integration pending |
 | RACE-05 | Phase 5 | Pending |
 | RACE-06 | Phase 5 | Pending |
 | UI-01 | Phase 2 | Complete |

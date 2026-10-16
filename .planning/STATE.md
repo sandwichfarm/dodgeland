@@ -3,27 +3,27 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 05-03 dependency checkpoint; dead-seat device rebind seam required
-last_updated: "2026-10-16T05:47:34.968Z"
+stopped_at: Completed 05-03-PLAN.md; next 05-04
+last_updated: "2026-10-16T06:21:19.055Z"
 progress:
   total_phases: 7
   completed_phases: 4
   total_plans: 31
-  completed_plans: 26
+  completed_plans: 27
 current_phase: 05
 current_phase_name: race
-last_activity_desc: Race05-03 retained RED dca48e0; dead-seat device loss/rebind dependency, no production changes.
+last_activity_desc: Race05-03 complete on cfe358f; final affected51701 exit0 plus accepted93033 passing inherited prefix; next05-04.
 ---
 
 # Project State
 
 ## Current Position
 
-05-03 is paused at a concrete shared dependency checkpoint, with neither task accepted. Retained RED `dca48e0` uses actual delivered death and shows `LocalSession.deviceLost` cannot reserve a dead racer's device while preserving its pending personal offer; shared reclaim also requires `device-lost` and forces active participation. See `05-03-DEPENDENCY-CHECKPOINT.md` for the smallest opt-in generic repair and complete API reconciliation. Durable `/tmp/down-to-duck-05-03-dependency-red.log`, immediate terminal exit1:1 control pass/1 expected failure. Production source is unchanged; no active process. Counts remain4 completed phases,26/31 plans.
+05-03 is complete on source `cfe358f`; execute05-04 next. Exact task gates67761 and5878 passed. Final evidence combines93033's passing full Phase3/2/1, Relay22, shared/Race ordering/balance21 and lifecycle15 prefix with51701 terminal exit0 after the narrow Race HUD/fresh-input repair: tracer6, lifecycle15, type/build/guidance/conformance/lockfile.93033 itself exited1 at the legacy tracer and is not a full-pass claim. See05-03-SUMMARY.md and the durable `/tmp/down-to-duck-05-03-final-gate.log` / `...final-ui-complete-gate.log`. The authorized dead-device and bounded position-retention repair resolved the historical checkpoint. No active process. Actual tracking:4 completed phases,27/31 plans; CLI-generated1/35 counts corrected.
 
 05-02 is complete; execute05-03 next. Final96373 exited0 on frozenHEAD6d36f39/production8f59d42, `/tmp/down-to-duck-05-02-final-gate.log`: exact task gates11+21,8,17; full inheritedPhase3/2/1; Relay/shared damage69; builtRace6; finaltype/build/guidance/conformance/lockfile. The authorized generic pursuit/damage repair resolved retainedREDe34188e; cadence rounding and ghost-exposure regressions are fixed. Generated-course balance at500/180,buffer12,1feather/sec completes allsix scenarios in97.47–102s with exact repeat/permutation agreement; `artifacts/race/balance.json`. See05-02-SUMMARY.md and05-02-DEPENDENCY-REPAIR.md. No active process. Actual tracking:4 completed phases,26/31 plans; CLI-generated1/35 counts were corrected.
 
-Race05-01 supplied accepted unchanged-source entry evidence70346 and23683 on67eb0d3; see05-01-SUMMARY.md. Phases01–04 remain independently verified. Race05-03..07, cross-mode presentation, audit and PR remain mandatory. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
+Race05-01 supplied accepted unchanged-source entry evidence70346 and23683 on67eb0d3; see05-01-SUMMARY.md. Phases01–04 remain independently verified. Race05-04..07, cross-mode presentation, audit and PR remain mandatory. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
 
 ## Accepted Relay Entry Evidence
 
@@ -79,11 +79,12 @@ Typed gsd-verifier stayed pending_init across multiple turns and was explicitly 
 | Phase 04 P06 | 100 min | 2 tasks | 7 files |
 | Phase 05 P01 | 35 min | 3 tasks | 8 files |
 | Phase 05 P02 | 52 min | 3 tasks | 8 files |
+| Phase 05 P03 | 33 min | 2 tasks | 9 files |
 
 ## Session
 
-**Last session:** 2026-10-16T05:47:34.950Z
-**Stopped at:** Completed 05-02-PLAN.md; next 05-03
+**Last session:** 2026-10-16T06:21:19.047Z
+**Stopped at:** Completed 05-03-PLAN.md; next 05-04
 **Resume file:** None
 
 ## Decisions
