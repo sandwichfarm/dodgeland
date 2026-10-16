@@ -547,6 +547,29 @@
         }
       ],
       "provenance": "Unchanged complete Relay layout diagnostic for measured aggregate deadline concern; original canonical realm and artifact preservation"
+    },
+    "race-results-12": {
+      "files": [
+        "tests/race-results.test.mjs"
+      ],
+      "roles": {
+        "tests/race-results.test.mjs": "mixed"
+      },
+      "browser": true,
+      "jobs": [
+        {
+          "id": "race-results-test",
+          "file": "tests/race-results.test.mjs",
+          "role": "mixed",
+          "requiredRealms": [
+            "node",
+            "browser"
+          ],
+          "defaultBuildScope": "production",
+          "artifactPatterns": []
+        }
+      ],
+      "provenance": "Whole unchanged Race results job; timing diagnostic, temporary screenshots separately preserved by outer diagnostic wrapper"
     }
   },
   "pendingAdapters": [
