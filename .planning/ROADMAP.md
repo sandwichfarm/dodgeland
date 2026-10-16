@@ -134,7 +134,7 @@ Plans:
   4. Players can use Race-eligible offensive and defensive consumables with visible, muted/reduced-motion-aware feedback; invalid targets, departed players, and ineligible modes cannot spend a charge or corrupt state.
   5. Race results show podium rank including true ties, distance, elapsed/finish time, finish or death status, fog damage, and relevant item/interaction statistics for every character.
 
-**Plans**: 7/7 plans executed; technical verification40/40, human accepted; formal closure/security audit pending
+**Plans**: 7/7 plans executed; technical verification40/40, human accepted, formal closure and security audit complete
 **UI hint**: yes
 
 Plans:
@@ -189,7 +189,7 @@ Plans:
 - [x] 07-02-PLAN.md — Shared collection foundation and policy complete; full collection follows07-07/08/09/10/11/12.
 - [x] 07-07-PLAN.md — Collect seven canvas/component browser owners.
 - [x] 07-08-PLAN.md — Collect seven local-input/lifecycle browser owners.
-- [x] 07-09-PLAN.md — Seven canonical owners proven; amended scope awaits independent approval.
+- [x] 07-09-PLAN.md — Seven canonical owners proven; amended scope independently approved in d35ca47.
 - [x] 07-10-PLAN.md — Eight package component owners20/20,12 canonical browser payloads.
 - [x] 07-11-PLAN.md — Seven built owners, eight jobs and56 canonical browser payloads.
 - [ ] 07-12-PLAN.md — Collect audio jobs, reconcile full inventory and produce valid attributed initial report.
