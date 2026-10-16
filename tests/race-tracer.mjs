@@ -42,6 +42,8 @@ test('Race completes earned settled movement in one shared world and freezes its
 });
 
 function runtime() {
+  window.raceNativeCalls = 0;
+  Object.defineProperty(navigator, 'getGamepads', { value() { window.raceNativeCalls++; throw new Error('Native controller access is forbidden'); } });
   let pads = []; const listeners = new Set(); let themeChanged = () => {};
   window.raceTheme = light => themeChanged({ colors: light ? { background: '#f6f1e5', text: '#24362d', primary: '#4b7b61' } : { background: '#242b32', text: '#f0eee5', primary: '#9fc28a' } });
   window.raceTransport = next => { pads = next; listeners.forEach(fn => fn({ available: true, focused: true, pads })); };
@@ -62,6 +64,7 @@ for (const count of [2,3,4]) test(`built opaque iframe ${count}-seat Race start 
   try {
     const page = await browser.newPage({ viewport: { width: 940, height: 640 } });
     const errors = []; page.on('pageerror', e => errors.push(e.message));
+    const external = []; page.on('request', request => { if (!request.url().startsWith(`http://127.0.0.1:${server.address().port}`) && !request.url().startsWith('data:')) external.push(request.url()); });
     await page.goto(`http://127.0.0.1:${server.address().port}`);
     const frame = await (await page.locator('iframe').elementHandle()).contentFrame();
     const send = pads => frame.evaluate(next => window.raceTransport(next), [...pads, ...Array.from({ length: count-1 }, (_,index) => pad([],index)).filter(p => !pads.some(next => next.index === p.index))]);
@@ -108,6 +111,7 @@ for (const count of [2,3,4]) test(`built opaque iframe ${count}-seat Race start 
     await frame.locator('#race-finish').fill('1');
     await frame.locator('#local-session-start').focus(); await page.keyboard.press('Enter');
     await page.waitForTimeout(150);
+    assert.match(await frame.locator('.race-distance').textContent(), /^Finish 1 · 30s$/);
     assert.equal(await frame.locator('#race-results-heading').count(), 0, 'start did not hop');
     await send([pad(), pad([],9)]); await send([pad(),pad([0],9)]); await send([pad(),pad([],9)]);
     assert.equal(await frame.locator('#local-session-setup').isVisible(), false);
@@ -121,11 +125,12 @@ for (const count of [2,3,4]) test(`built opaque iframe ${count}-seat Race start 
     await frame.getByRole('heading', { name: 'Race complete.', exact: true }).waitFor();
     assert.match(await frame.locator('#survive-results-root').textContent(), /Winner P1/);
     await page.screenshot({ path: '/tmp/down-to-duck-05-01-race-result.png' });
-    await frame.getByRole('button', { name: 'Hop again', exact: true }).click();
+    await frame.getByRole('button', { name: 'Race again', exact: true }).click();
     await frame.locator('#local-play').click(); await frame.locator('#local-session-back').click();
     await frame.locator('#play').click();
     assert.equal(await frame.locator('#session-seats').isVisible(), false);
     assert.deepEqual(errors, []);
+    assert.deepEqual(external, []); assert.equal(await frame.evaluate(() => window.raceNativeCalls), 0);
   } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); }
 });
 

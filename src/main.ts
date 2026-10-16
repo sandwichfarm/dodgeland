@@ -28,7 +28,7 @@ import type { LocalSessionBoard, SessionSetupSeat } from './session-ui.js';
 import { createRelaySession, RELAY_LOCKED } from './relay.js';
 import { createRaceSession, validateRaceSetup } from './race.js';
 import type { RaceCoordinator } from './race.js';
-import { createRaceSetup, createRaceResultsBoard } from './race-ui.js';
+import { createRaceSetup, createRaceResultsBoard, renderRaceHud } from './race-ui.js';
 import type { RelayCoordinator, RelayConfirmation, RelayActionToken } from './relay.js';
 import { createRelaySetup, createRelayHandoff, createRelayLifecycle, createRelayResults, renderRelayHud } from './relay-ui.js';
 import { GameAudio } from './audio.js';
@@ -1023,6 +1023,8 @@ function updateHud(): void {
     seats.dataset.sessionHudInspect = String(hudDetailsOpen);
     if (relay) renderRelayHud(seats, relay);
     else { delete seats.dataset.relayHud; seats.removeAttribute('aria-live'); seats.querySelector('.relay-distance')?.remove(); }
+    if (race) renderRaceHud(seats, race);
+    else seats.querySelector('.race-distance')?.remove();
   } else if (sessionHudRoster) { sessionHudRoster = ''; seats.replaceChildren(); }
   el('score').textContent = String(game.maxY); el('coins').textContent = String(game.run.wallet);
   el('best').textContent = `${game.mode === 'stroll' ? 'STROLL BEST' : 'BEST'} ${game.mode === 'stroll' ? progress.strollBest : progress.best}`;

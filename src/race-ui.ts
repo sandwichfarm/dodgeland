@@ -1,7 +1,14 @@
 import { validateRaceSetup } from './race.js';
 import './race-ui.css';
-import type { RaceProposal, RaceResult } from './race.js';
+import type { RaceProposal, RaceResult, RaceCoordinator } from './race.js';
 import type { SessionSetupSeat } from './session-ui.js';
+
+export function renderRaceHud(root: HTMLElement, race: RaceCoordinator): void {
+  let cue = root.querySelector<HTMLElement>('.race-distance');
+  if (!cue) { cue = document.createElement('p'); cue.className = 'race-distance'; root.prepend(cue); }
+  cue.textContent = `Finish ${race.descriptor.settings.finishTiles} · ${Math.max(0, Math.ceil(race.descriptor.settings.activeSeconds-race.elapsed))}s`;
+  for (const player of race.session.players) if (race.isFinished(player.seat)) root.querySelector<HTMLElement>(`[data-seat="${player.seat}"] [data-session-hud="device"]`)!.textContent = 'FINISHED';
+}
 
 /** Uses the existing roster editor and its binding leases. */
 export function createRaceSetup(options: { root: HTMLElement; seats(): readonly SessionSetupSeat[]; active(): boolean; choose(): void }) {
@@ -56,7 +63,7 @@ export function createRaceResultsBoard(root: HTMLElement, again: () => void) {
       const title = document.createElement('h2'); title.id = 'race-results-heading'; title.textContent = result.outcome === 'finish' ? 'Race complete.' : 'Race time ended.';
       const summary = document.createElement('p'); summary.textContent = `Finish ${result.descriptor.settings.finishTiles} · ${result.elapsed.toFixed(2)}s`;
       const winner = document.createElement('p'); winner.textContent = `Winner ${result.winners.map(s => s.toUpperCase()).join(' / ')}`;
-      const button = document.createElement('button'); button.type = 'button'; button.textContent = 'Hop again'; button.onclick = again;
+      const button = document.createElement('button'); button.type = 'button'; button.textContent = 'Race again'; button.onclick = again;
       sheet.append(title, summary, winner, button); root.append(sheet);
       document.querySelector<HTMLElement>('.game-surface')!.inert = true;
       button.focus({ preventScroll: true });
