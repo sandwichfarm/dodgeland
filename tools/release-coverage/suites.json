@@ -153,6 +153,14 @@
         "artifacts/local-session-active.png"
       ],
       "provenance": "Original local session input/lifecycle/layout flows; adoption and inventory arrangements retain explicit component provenance"
+    },
+    "adapters-09-tracer": {
+      "files": [
+        "tests/survive-together-tracer.mjs"
+      ],
+      "role": "mixed",
+      "browser": true,
+      "provenance": "Original production Survive Arcade/Flow model and actual opaque controller adoption journeys; both executing realm classes required"
     }
   },
   "pendingAdapters": [
