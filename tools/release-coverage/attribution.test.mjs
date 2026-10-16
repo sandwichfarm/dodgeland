@@ -22,7 +22,7 @@ test('exclusive interval exact function/branch counts retain zeros and never dup
 });
 test('identity schema counter mode and interval replay failures reject before attribution',()=>{
  const {inventory,before,after}=fixture();
- for(const mutate of [s=>s.payload.runId='other',s=>s.payload.realmId='other',s=>s.jobId='other',s=>s.artifactHash='other',s=>s.buildScope='development',s=>s.sequence=0,s=>s.observation={...s.observation,mode:'race'},s=>s.provenance='mixed-total',s=>s.payload.identities[0].sourceHash='wrong',s=>s.payload.coverage['/attribution/counter.ts'].statementMap={},s=>s.payload.coverage['/attribution/counter.ts'].f['0']=-1]){
+ for(const mutate of [s=>s.payload.runId='other',s=>s.payload.realmId='other',s=>s.jobId='other',s=>s.artifactHash='other',s=>s.buildScope='development',s=>s.sequence=0,s=>s.observation={...s.observation,mode:'race'},s=>s.observation={...s.observation,state:'paused'},s=>s.provenance='mixed-total',s=>s.payload.identities[0].sourceHash='wrong',s=>s.payload.coverage['/attribution/counter.ts'].statementMap={},s=>s.payload.coverage['/attribution/counter.ts'].f['0']=-1]){
   const changed=structuredClone(after);mutate(changed);assert.throws(()=>deriveInterval(inventory,before,changed,'bad'));
  }
  const decreased=structuredClone(after);decreased.payload.coverage['/attribution/counter.ts'].s['0']=0;

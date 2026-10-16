@@ -437,6 +437,14 @@
       ],
       "role": "browser",
       "provenance": "Original production OfflineAudioContext PCM generation, arranged timeline and terrain/vehicle trajectories; no natural-run claim"
+    },
+    "modes-12": {
+      "files": [
+        "tests/release-mode-coverage.mjs"
+      ],
+      "role": "browser",
+      "browser": true,
+      "provenance": "Six fresh opaque app realms acquired by visible controls and public seed intent; readonly production mode/base observation; exclusive live counter intervals"
     }
   },
   "pendingAdapters": [
