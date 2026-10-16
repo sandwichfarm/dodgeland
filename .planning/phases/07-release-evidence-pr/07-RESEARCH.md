@@ -403,3 +403,9 @@ During full collection11460, root confirmed the intended remote is `sandwichfarm
 
 This establishes current read access, the intended destination and absence of a matching PR. It does not prove a future push will succeed and does not satisfy delivery. No branch push, PR creation/edit, merge or publication occurred.07-06 must recheck live base/head/PR state after the final technical gate, then perform the already authorized non-force push and PR creation. Source/tests/tooling and the running collection were unchanged by this preflight.
 
+## Read-only mode reachability follow-up — current collection11460
+
+Before07-03 interprets the complete report, retain a concrete scope check: `policy.json`'s solo Arcade/Flow strata include the complete executable `src/session.ts`, `co-op-market.ts`, `consumables.ts` and `consumable-drops.ts` modules. Graph discovery and source reads confirm `Game` imports runtime `SharedWorld` and `SessionPlayer` from `session.ts`; that same module also defines `LocalSession`/`LocalSessionStage` and imports the multiplayer market/item implementations. Thus module inclusion alone does not prove every contained branch is reachable while the asserted mode remains solo.
+
+This observation is not a measured shortfall, unreachable-branch verdict or policy correction. After07-12 produces the complete source-bound report,07-03 must distinguish missing real solo paths from mixed-module paths requiring a different mode, with exact branch/schema identity and concrete call/state evidence. Do not manufacture solo hits by executing unrelated multiplayer objects in a solo-labelled interval, copy mixed-mode totals, silently remove paths, lower floors or change the frozen live run. Any necessary reconciliation must preserve the full original requirement, all-source accounting and honest attributed counters. Existing global/per-file/mode thresholds remain unchanged; the full initial report remains the mandatory entry gate.
+
