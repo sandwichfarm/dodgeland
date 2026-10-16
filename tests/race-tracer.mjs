@@ -113,6 +113,8 @@ for (const count of [2,3,4]) test(`built opaque iframe ${count}-seat Race start 
     if (count === 3) { await send([pad([0])]); await send([pad([0])]); }
     else await page.keyboard.press('Enter');
     await page.waitForTimeout(150);
+    assert.equal(await frame.locator('.race-distance').count(),1,'one authoritative distance readout');
+    assert.equal(await frame.locator('.race-lifecycle').count(),1,'one separately identified lifecycle notice');
     assert.match(await frame.locator('.race-distance').textContent(), /^Finish 1 · 30s$/);
     assert.equal(await frame.locator('#race-results-heading').count(), 0, 'start did not hop');
     for (const tile of await frame.locator('#session-seats [data-session-hud="health"]').all()) assert.match(await tile.textContent(), /· 0 tiles$/, 'Start and held confirm never earn a first hop');
@@ -124,11 +126,14 @@ for (const count of [2,3,4]) test(`built opaque iframe ${count}-seat Race start 
     await page.waitForTimeout(400);
     assert.equal(await frame.locator('#race-results-heading').count(), 0, 'remaining racer continues');
     await send([pad([12])]); await send([pad()]);
+    await page.waitForTimeout(250);
+    assert.match(await frame.locator('[data-seat="p2"] [data-session-hud="health"]').textContent(), /· 1 tiles$/, 'a fresh remaining-racer edge after another finish must not be seeded away');
     for (let index = 1; index < count-1; index++) { await send([pad([12],index)]); await send([]); }
     await frame.getByRole('heading', { name: 'Race complete.', exact: true }).waitFor();
     assert.match(await frame.locator('#survive-results-root').textContent(), /Winner P1/);
     await page.screenshot({ path: '/tmp/down-to-duck-05-01-race-result.png' });
     await frame.getByRole('button', { name: 'Race again', exact: true }).click();
+    assert.equal(await frame.locator('.race-distance, .race-lifecycle').count(),0,'retry removes all prior Race HUD projections');
     await frame.locator('#local-play').click(); await frame.locator('#local-session-back').click();
     await frame.locator('#play').click();
     assert.equal(await frame.locator('#session-seats').isVisible(), false);
