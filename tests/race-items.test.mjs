@@ -82,7 +82,7 @@ const { RACE_DROP_SCHEMA, RACE_ITEM_SCHEMA } = await sources.import('race-items'
 const { sampleItemDrop, classifyItemBucket, consumableSchema } = await sources.import('consumable-drops');
 function raceRun(seed=113, count=2) {
   const game=new Game(seed,'pond','arcade',false,[],'butter');
-  const seats=[['p1','butter','keyboard-a'],['p2','pip','keyboard-b'],['p3','sunny','gamepad-0'],['p4','moss','gamepad-1']].slice(0,count).map(([seat,characterId,device])=>({seat,characterId,device}));
+  const seats=[['p1','butter','keyboard-a'],['p2','pip','keyboard-b'],['p3','sunny','gamepad-0'],['p4','petal','gamepad-1']].slice(0,count).map(([seat,characterId,device])=>({seat,characterId,device}));
   const race=createRaceSession(game,{seats});
   return {game,race,session:race.session};
 }
@@ -166,18 +166,19 @@ test('fractional log landing collects both items with default gravity on actual 
   for(const item of ['mud-splash','fog-lantern']){
     let run,pickup;
     for(let seed=0;seed<100000&&!pickup;seed++){
-      if(sampleItemDrop(RACE_DROP_SCHEMA,{courseSeed:seed,row:1,slot:0}).itemId!==item)continue;
-      const candidate=raceRun(seed),p=candidate.session.consumableSnapshot().pickups.find(p=>p.row===1&&p.itemId===item);
-      if(p&&candidate.game.rows.get(1).kind==='river'&&Math.abs(p.x)<3){run=candidate;pickup=p;}
+      if(!Array.from({length:16},(_,i)=>i+4).some(row=>sampleItemDrop(RACE_DROP_SCHEMA,{courseSeed:seed,row,slot:0}).itemId===item))continue;
+      const candidate=raceRun(seed),p=candidate.session.consumableSnapshot().pickups.find(p=>p.itemId===item&&candidate.game.rows.get(p.row)?.kind==='river'&&Math.abs(p.x)<3);
+      if(p){run=candidate;pickup=p;}
     }
     assert.ok(pickup,'bounded real seeded river item');
     const p=run.session.players[0];locate(run.session.players[1],4,0);
     // Land on the real log with a fractional horizontal hop grid. The default
     // attraction covers its residual half-tile offset; no synthetic item is injected.
-    locate(p,pickup.x+.45,0);assert.equal(run.session.dispatch({seat:'p1',direction:'forward'}),true);
+    Object.assign(run.game.rows.get(pickup.row-1),{kind:'meadow',blocked:[]});
+    locate(p,pickup.x+Math.sign(run.game.rows.get(pickup.row).speed)*.45,pickup.row-1);assert.equal(run.session.dispatch({seat:'p1',direction:'forward'}),true);
     assert.notEqual(p.x,Math.round(p.x));
     for(let i=0;i<120&&!run.session.consumableSnapshot().claims.some(c=>c.pickupId===pickup.id);i++)step(run);
-    assert.equal(p.state,'playing');assert.equal(run.session.consumableSnapshot().charges.find(c=>c.seat==='p1')[item],1);
+    assert.equal(p.state,'playing');assert.equal(run.session.consumableSnapshot().charges.find(c=>c.seat==='p1')[item],1,JSON.stringify({item,seed:run.game.seed,pickup,now:run.session.consumableSnapshot(),p:{x:p.x,y:p.y,ground:p.groundX,power:p.powerRescue}}));
     assert.equal(run.session.consumableSnapshot().claims.filter(c=>c.pickupId===pickup.id).length,1);
   }
 });
@@ -225,4 +226,78 @@ test('protected claims and purchases reject while ghost departure preserve and a
     assert.equal(run.session.consumableSnapshot().charges.find(c=>c.seat==='p1')['mud-splash'],lifecycle==='death'?0:1);
     assert.equal(run.session.players[1].statistics.deaths,0);
   }
+});
+
+test('RNG isolation preserves released terrain denomination market mob spill audio and next outputs across order/player counts',async()=>{
+  const {createRunSeed}=await sources.import('run-seed'),{generateSeedLane}=await sources.import('levels/index'),{coinDenominationForRow}=await sources.import('coin-denominations');
+  const {createDeathSpill}=await sources.import('death-spill'),{builtinBuffer}=await sources.import('audio');
+  const {ITEM_CATALOG}=await sources.import('market/catalog');
+  function audio(cue){const ctx={sampleRate:8000,createBuffer(channels,length,rate){const data=Array.from({length:channels},()=>new Float32Array(length));return {sampleRate:rate,length,duration:length/rate,numberOfChannels:channels,getChannelData:i=>data[i]};}};return Array.from(builtinBuffer(ctx,cue,'pond').getChannelData(0));}
+  function observe(interleave){
+    const game=new Game(0x12345678,'pond','arcade',false,ITEM_CATALOG,'butter');
+    const observations=[];
+    for(const schema of [1,2,3])for(const row of [1,17,90,503]){interleave();observations.push(generateSeedLane(createRunSeed(0x12345678,'pond','arcade',false,schema),row),coinDenominationForRow(0x12345678,row));}
+    for(const score of [100,200]){interleave();game.run.advanceScore(score);observations.push(structuredClone(game.run.market));}
+    for(let i=0;i<4;i++){interleave();observations.push(game.run.random(),game.mobDirector.rng());}
+    for(const seed of [1,2]){interleave();observations.push(createDeathSpill(90,[],1,1,0,seed));}
+    for(const cue of ['coin','splash']){interleave();observations.push(audio(cue));}
+    return observations;
+  }
+  const baseline=observe(()=>{});
+  for(const count of [2,3,4])for(const reverse of [false,true]){
+    const rows=reverse?[503,90,17,1]:[1,17,90,503];
+    assert.deepEqual(observe(()=>{for(let player=0;player<count;player++)for(const row of rows)sampleItemDrop(RACE_DROP_SCHEMA,{courseSeed:0x12345678,row,slot:0});}),baseline);
+    const run=raceRun(113,count);assert.equal(run.session.players.length,count);assert.equal(run.race.descriptor.itemVersion,RACE_ITEM_SCHEMA);
+  }
+});
+
+test('Mud actual-ground boundary 16 inclusive and reversed owner/target roster independence',()=>{
+  for(const seat of ['p1','p2'])for(const delta of [16,16.001,-16,-16.001]){
+    const run=collected('mud-splash',seat),owner=run.session.players.find(p=>p.seat===seat),target=run.session.players.find(p=>p!==owner);
+    locate(owner,0,20);locate(target,0,20+delta);owner.earnedDistance=900;target.earnedDistance=1;
+    run.session.roster.reverse();const before=observation(run),plan=run.race.items.plan(owner.seat,'mud-splash',target.seat);assert.equal(observation(run),before);
+    assert.equal(plan.ok,Math.abs(delta)<=16);assert.equal(run.race.items.commit(plan),Math.abs(delta)<=16);
+  }
+});
+
+test('Lantern pauses and resets actual fog exposure then ordinary cadence resumes',()=>{
+  const run=collected('fog-lantern'),[owner,leader]=run.session.players;
+  for(let hop=0;hop<14;hop++){assert.equal(run.session.dispatch({seat:leader.seat,direction:'forward'}),true);while(leader.hop>0)step(run);}
+  step(run,40);assert.ok(run.race.fogState(owner.seat).exposure>0);
+  const health=owner.health,plan=run.race.items.plan(owner.seat,'fog-lantern');assert.equal(run.race.items.commit(plan),true);assert.equal(run.race.fogState(owner.seat).exposure,0);
+  step(run,359);assert.equal(owner.health,health);assert.equal(run.race.fogState(owner.seat).exposure,0);
+  step(run,122);assert.ok(owner.health<health);
+});
+
+test('Race item plans deny other modes, malformed policies and catalogues without mutation',async()=>{
+  const {planConsumableCredit,validateConsumableCatalogue}=await sources.import('consumables');
+  const {RACE_ITEMS}=await sources.import('race-items');
+  for(const capabilities of [[],['survive-together'],['relay']])for(const itemId of ['mud-splash','fog-lantern']){
+    const owner={id:'p1',generation:0};assert.equal(planConsumableCredit({catalogue:RACE_ITEMS,mode:{capabilities},owner,inventory:{owner,generation:0,charges:{}},expectedInventoryGeneration:0,itemId}).ok,false);
+  }
+  for(const catalogue of [[],[RACE_ITEMS[0],RACE_ITEMS[0]],[{...RACE_ITEMS[0],price:NaN}],[{...RACE_ITEMS[0],maxCharges:2}]])assert.throws(()=>validateConsumableCatalogue(catalogue));
+  const {LocalSession}=await sources.import('session'),game=new Game(113,'pond'),session=LocalSession.stage(game).commit();
+  const {DEFAULT_ITEM_SCHEMA}=await sources.import('consumable-drops'),{CONSUMABLES}=await sources.import('consumables');
+  for(const patch of [{eligible:undefined},{capabilities:42},{schema:{...DEFAULT_ITEM_SCHEMA,version:'unknown'}},{schema:{...DEFAULT_ITEM_SCHEMA,items:{0:'mud-splash'}}}]){
+    assert.throws(()=>session.installConsumableWorld({catalogue:CONSUMABLES,schema:DEFAULT_ITEM_SCHEMA,capabilities:[],eligible:()=>true,activate:()=>false,...patch}));assert.equal(session.consumableSnapshot(),undefined);
+  }
+});
+
+ test('repeat active effects and protected shop commits keep the newly purchased charge and wallet',()=>{
+  for(const item of ['mud-splash','fog-lantern']){
+    const run=collected(item),owner=run.session.players[0];assert.equal(run.race.items.commit(run.race.items.plan('p1',item,'p2')),true);
+    owner.run.advanceScore(100);owner.run.creditCoins(60);assert.equal(run.session.actCoOpMarket(marketRequest(run,'p1','open')).ok,true);
+    assert.equal(run.session.actCoOpMarket(marketRequest(run,'p1','buy-consumable',item)).ok,true);
+    const before=observation(run),plan=run.race.items.plan('p1',item,'p2');assert.equal(plan.ok,false);assert.equal(run.race.items.commit(plan),false);assert.equal(observation(run),before);
+    const other=item==='mud-splash'?'fog-lantern':'mud-splash',request=marketRequest(run,'p1','buy-consumable',other);
+    run.session.updateRecovery(owner,v=>({...v,protectionUntil:run.session.world.time+10}));
+    const protectedState=observation(run);assert.equal(run.session.actCoOpMarket(request).ok,false);assert.equal(observation(run),protectedState);
+  }
+});
+
+test('expired temporary cooldown cannot extend a hop delay beyond its active deadline',()=>{
+  const run=flat(raceRun()),p=run.session.players[0];
+  assert.equal(p.setHopCooldown(1.35,.01),true);assert.equal(run.session.dispatch({seat:'p1',direction:'forward'}),true);
+  while(p.hop>0)step(run);
+  assert.equal(p.hopCooldown.multiplier,1);assert.equal(run.session.dispatch({seat:'p1',direction:'forward'}),true);
 });
