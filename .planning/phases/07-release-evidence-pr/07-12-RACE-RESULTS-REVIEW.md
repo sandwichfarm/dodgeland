@@ -1,7 +1,8 @@
 ---
 phase: 07-release-evidence-pr
 reviewed: 2026-10-16
-reviewed_commit: db0a596
+reviewed_commit: 6528a82
+original_reviewed_commit: db0a596
 diff_base: b82c0a5
 depth: standard
 reviewer_execution: generic-agent-fallback
@@ -10,11 +11,11 @@ files_reviewed_list:
   - tests/race-results.test.mjs
   - tools/release-coverage/suites.json
 findings:
-  critical: 1
+  critical: 0
   warning: 0
   info: 0
-  total: 1
-status: issues_found
+  total: 0
+status: clean
 ---
 
 # Plan12 Race results repair review
@@ -25,7 +26,13 @@ Generic-agent fallback applying the full local GSD code-reviewer role, not typed
 
 The initial static verdict in4dad194 missed the asynchronous coverage-before-close window. A focused follow-up trace establishes the blocker below. Focused execution and forced-cancellation evidence remain pending.
 
-### RR-01 — BLOCKER: paging can continue after abort while coverage collection keeps the browser open
+### RR-01 — RESOLVED (original BLOCKER): paging can continue after abort while coverage collection keeps the browser open
+
+**Re-review at6528a82:** the file-local `operation(action)` checks parent/active-stage signals immediately before invoking the callback and after its awaited result. All original awaited browser/UI/query/assertion-helper calls in the six scenario bodies are wrapped, including Previous-loop conditions and clicks, forward-page enablement/focus/key boundaries, participant selection/retry navigation, podium paging and original setup/finish inputs. If an awaited query returns while canonical collection is still in progress after abort, the post-check throws before its value can enable the next action; the next operation also independently checks before dispatch. Screenshot/open/stage paths retain their existing guards.
+
+The reviewed diff preserves callback arguments, short-circuit conditions, action order, awaited return values, original assertions, clock advances and screenshot selection. No omitted direct awaited browser action was found in the scenario bodies; the only remaining direct screenshot call is in the already-guarded screenshot helper. Model tests, manifest, original deadlines and cleanup/first-error paths are unchanged. The wrapper does not cancel a previously dispatched Playwright operation or preempt the internals of an already-started fixture helper; it prevents subsequent scenario operation dispatch after cancellation. RR-01's identified paging continuation is closed statically. No unresolved scoped findings remain. The root-authorized negative must still exercise ordered dark-matrix paging, not merely acquisition; runtime evidence is pending.
+
+**Original finding follows:**
 
 **File:** `/Users/sandwich/Develop/crossy-road-clone/tests/race-results.test.mjs:247–256`; related repeated navigation at266–267 and360.
 
