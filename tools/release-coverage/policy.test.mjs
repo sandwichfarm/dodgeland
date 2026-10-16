@@ -66,6 +66,15 @@ test('both default Chromium and explicit Firefox commands require their own jobs
  for(const missing of ['chromium','firefox']){const copy=structuredClone(manifest);copy.execution.jobs=copy.execution.jobs.filter(j=>j.id!==missing);assert.throws(()=>validateFullManifest(copy,inventory),/variant/);}
 });
 
+test('actual complete inventory requires both sound variants and both ordinary render captures',async()=>{
+ const manifest=JSON.parse(await readFile(new URL('./suites.json',import.meta.url)));
+ const inventory=await runner.auditExecutionInventory(manifest);
+ assert.equal(validateFullManifest(manifest,inventory),true);
+ for(const id of ['sound-chromium','sound-firefox']){const copy=structuredClone(manifest);copy.execution.jobs=copy.execution.jobs.filter(j=>j.id!==id);assert.throws(()=>validateFullManifest(copy,inventory),/variant/);}
+ const patterns=manifest.execution.jobs.find(j=>j.id==='render-test').artifactPatterns;
+ for(const path of ['artifacts/local-session-render-foreground.png','artifacts/local-session-render-river.png'])assert.ok(patterns.includes(path),path);
+});
+
 test('real artifact preservation restores present and removes initially absent outputs on success and failure',async()=>{
  assert.equal(typeof runner.preserveJobArtifacts,'function');
  const ordinary=await mkdtemp(new URL('../../artifacts/preservation-regression-',import.meta.url)),evidence=await mkdtemp(join(tmpdir(),'coverage-preservation-'));
