@@ -429,6 +429,14 @@
         "artifacts/soundscape-montage.wav",
         "artifacts/soundscape-audition.json"
       ]
+    },
+    "adapters-12-audio": {
+      "files": [
+        "tests/audio-demo.mjs",
+        "tests/audio-zones.mjs"
+      ],
+      "role": "browser",
+      "provenance": "Original production OfflineAudioContext PCM generation, arranged timeline and terrain/vehicle trajectories; no natural-run claim"
     }
   },
   "pendingAdapters": [
