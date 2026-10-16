@@ -22,7 +22,7 @@ export function total(): number {
   return Object.values(items).reduce((sum, item) => sum + item.n, 0);
 }
 `,
-  'items/a.ts': `export default { n: 2 };\n`,
-  'items/b.ts': `export default { n: 3 };\n`,
+  'items/a.ts': `const item = { n: 2 }; export default item;\n`,
+  'items/b.ts': `const item = { n: 3 }; export default item;\n`,
   'declarations.ts': `export interface OnlyTypes { n: number }\nexport type Label = 'a' | 'b';\n`,
 };
