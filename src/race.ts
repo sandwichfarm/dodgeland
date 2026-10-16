@@ -2,7 +2,7 @@ import { CHARACTERS } from './content.js';
 import type { Game } from './game.js';
 import type { ModeDefinition } from './mode-rules.js';
 import { composeSessionModeDefinition, LocalSession } from './session.js';
-import type { DeviceId, SeatId, SessionModeDefinition, SessionResult } from './session.js';
+import type { DeviceId, DeviceReclaimToken, SeatId, SessionModeDefinition, SessionResult, SessionLifecycleRecord, SessionRecoveryRequest } from './session.js';
 import { SessionRecoveryController } from './session-recovery.js';
 import type { RunSeed } from './run-seed.js';
 
@@ -10,12 +10,15 @@ export const RACE_DEFAULTS = Object.freeze({ finishTiles: 500, activeSeconds: 18
 export const RACE_PRESSURE = Object.freeze({ version: 'race-pressure-1', buffer: 12, interval: 1, damage: 1 });
 export interface RaceFogState { readonly exposure: number; readonly seconds: number; readonly attempts: number; readonly landed: number; readonly protectionUntil: number }
 export interface RaceMovement { readonly tick: number; readonly seat: SeatId; readonly earned: number }
+export type RaceStatus = 'active' | 'finished' | 'eliminated' | 'recovery-offered' | 'disconnected-grace' | 'forfeited' | 'departed';
+export interface RaceActionToken { readonly seat: SeatId; readonly participantId: string; readonly generation: number; readonly lifecycle: number }
+export interface RaceLifecycleEvent { readonly seat: SeatId; readonly state: RaceStatus; readonly reason: string; readonly tick: number; readonly time: number }
 export interface RaceSettings { readonly finishTiles: number; readonly activeSeconds: number }
 export interface RaceSeat { readonly seat: SeatId; readonly characterId: string; readonly device: DeviceId; readonly disconnected?: boolean }
 export interface RaceProposal { readonly seats: readonly RaceSeat[]; readonly finishTiles?: number | string; readonly activeSeconds?: number | string }
 export interface RaceSetup { readonly seats: readonly RaceSeat[]; readonly settings: RaceSettings }
 export interface RaceDescriptor extends RaceSetup { readonly seed: number; readonly seedCode: string | null; readonly runSeed: RunSeed | null; readonly schema: 'race-1'; readonly itemVersion: 'race-items-1'; readonly pressure: typeof RACE_PRESSURE }
-export interface RaceResult extends SessionResult { readonly mode: 'race'; readonly outcome: 'finish' | 'time' | 'eliminated'; readonly descriptor: RaceDescriptor; readonly winners: readonly SeatId[]; readonly elapsed: number; readonly players: readonly Readonly<{ seat: SeatId; characterId: string; distance: number }>[] }
+export interface RaceResult extends SessionResult { readonly mode: 'race'; readonly outcome: 'finish' | 'time' | 'eliminated'; readonly descriptor: RaceDescriptor; readonly winners: readonly SeatId[]; readonly elapsed: number; readonly players: readonly Readonly<{ seat: SeatId; characterId: string; distance: number; status: RaceStatus }>[] }
 
 function integer(value: unknown, fallback: number, min: number, max: number, message: string): number {
   const candidate = value === undefined ? fallback : value;
@@ -43,6 +46,84 @@ export class RaceCoordinator {
   private readonly earned = new Map<SeatId, number>();
   private readonly fog = new Map<SeatId, RaceFogState>();
   private lastTime = 0;
+  private revision = 0;
+  private readonly forfeited = new Set<SeatId>();
+  private readonly transitions: RaceLifecycleEvent[] = [];
+  private readonly observed = new Map<SeatId, RaceStatus>();
+  private authorizedRebind?: { seat: SeatId; device: DeviceId };
+  private readonly placements = new Map<SeatId, Readonly<{x:number;y:number}>>();
+  private leaving?: SeatId;
+  get events(): readonly RaceLifecycleEvent[] { return Object.freeze([...this.transitions]); }
+  get confirmingLeave(): SeatId | undefined { return this.leaving; }
+  get generation(): string { return `${this.revision}:${this.session.lifecycle.length}`; }
+  status(seat: SeatId): RaceStatus {
+    const p=this.session.players.find(p=>p.seat===seat);
+    if(this.forfeited.has(seat))return 'forfeited';
+    if(!p || p.participation==='departed')return 'departed';
+    if(this.isFinished(seat))return 'finished';
+    if(p.deviceLostAt!==null)return 'disconnected-grace';
+    if(p.participation==='dead')return p.recovery?.offer && p.recovery.offer.deadline>this.session.world.time?'recovery-offered':'eliminated';
+    return 'active';
+  }
+  graceRemaining(seat:SeatId):number {
+    const p=this.session.players.find(p=>p.seat===seat);
+    return p?.deviceLostAt==null?0:Math.max(0,12-(this.session.world.time-p.deviceLostAt)/this.session.world.rules.simulation.worldTimeScale);
+  }
+  get waiting():boolean {
+    return !this.result && this.session.players.some(p=>this.status(p.seat)==='disconnected-grace') && !this.session.players.some(p=>['active','recovery-offered'].includes(this.status(p.seat)));
+  }
+  actionToken(seat:SeatId):RaceActionToken {return Object.freeze({seat,participantId:this.session.players.find(p=>p.seat===seat)?.participantId??'',generation:this.revision,lifecycle:this.session.lifecycle.length});}
+  command(token:RaceActionToken,kind:'leave'|'cancel'|'confirm'):boolean {
+    const current=this.actionToken(token.seat),p=this.session.players.find(p=>p.seat===token.seat);
+    if(this.result||!p||p.deviceLostAt!==null||['departed','forfeited','finished'].includes(this.status(token.seat))||token.participantId!==current.participantId||token.generation!==current.generation||token.lifecycle!==current.lifecycle)return false;
+    if(kind==='leave'){this.leaving=token.seat;this.revision++;return true;}
+    if(this.leaving!==token.seat)return false;
+    this.leaving=undefined;this.revision++;
+    if(kind==='confirm'){this.session.depart(token.seat,'confirmed-leave');this.tick(this.session);}
+    return true;
+  }
+  reclaimToken(seat:SeatId):DeviceReclaimToken|undefined { return this.graceRemaining(seat)>1e-9?this.session.deviceReclaimToken(seat):undefined; }
+  reclaim(token:DeviceReclaimToken|undefined,device:DeviceId):boolean {
+    if(!token||this.result||this.graceRemaining(token.seat)<=1e-9)return false;
+    this.authorizedRebind={seat:token.seat,device};
+    try{return this.session.reclaim(token.seat,device,token);}finally{this.authorizedRebind=undefined;}
+  }
+  private safeReturn(seat:SeatId):Readonly<{x:number;y:number}>|undefined {
+    const p=this.session.players.find(p=>p.seat===seat);if(!p)return;
+    const top=Math.min(Math.floor(p.groundY),Math.floor(p.earnedDistance));
+    const occupied=this.session.players.filter(q=>q!==p&&q.participation==='active');
+    for(let y=top;y>=top-2;y--)for(const offset of [0,-1,1,-2,2,-3,3,-4,4]){
+      const cell={x:Math.round(p.groundX)+offset,y};
+      if(!occupied.some(q=>Math.hypot(q.groundX-cell.x,q.groundY-y)<.7)&&this.session.isSafeCell(cell))return Object.freeze(cell);
+    }
+  }
+  allowsLifecycle(kind:string,seat:SeatId,device?:DeviceId):boolean {
+    const p=this.session.players.find(p=>p.seat===seat);
+    if(this.result||!p||['departed','forfeited','finished'].includes(this.status(seat)))return false;
+    if(kind==='reclaimed'||kind==='reclaim-offered'){
+      if(this.graceRemaining(seat)<=1e-9||!device|| (device!==p.device && !(this.authorizedRebind?.seat===seat&&this.authorizedRebind.device===device)))return false;
+      if(kind==='reclaimed'&&p.state!=='dead'){const cell=this.safeReturn(seat);if(!cell)return false;this.placements.set(seat,cell);}
+    }
+    return true;
+  }
+  lifecycle(record:SessionLifecycleRecord):void {
+    if(record.type==='departed'){
+      if(record.cause==='grace-expired')this.forfeited.add(record.seat);
+      const p=this.session.players.find(p=>p.seat===record.seat)!;this.session.updateRecovery(p,r=>({...r,offer:undefined}));
+    }
+    if(record.type==='reclaimed'){
+      const cell=this.placements.get(record.seat),p=this.session.players.find(p=>p.seat===record.seat)!;
+      if(cell){const idle=p.idle;this.session.placeTurnPosition(record.seat,cell);p.idle=idle;this.placements.delete(record.seat);}
+    }
+    if(this.leaving===record.seat){this.leaving=undefined;this.revision++;}
+    this.record(record.seat,record.cause);
+  }
+  private record(seat:SeatId,reason:string):void {const state=this.status(seat);this.observed.set(seat,state);this.transitions.push(Object.freeze({seat,state,reason,tick:this.session.world.simulationTick,time:this.elapsed}));this.revision++;}
+  recover(request:SessionRecoveryRequest):boolean {
+    const p=this.session.players.find(p=>p.seat===request.ownerSeat);
+    if(!p||p.deviceLostAt!==null||this.status(p.seat)!=='recovery-offered')return false;
+    const ok=this.recovery.recover(this.session,request);if(ok)this.record(p.seat,'personal-recovery');return ok;
+  }
   private readonly closures: Readonly<{ seat: SeatId; tick: number; reason: 'race-timeout' }>[] = [];
   get recoveryClosures(): readonly Readonly<{ seat: SeatId; tick: number; reason: 'race-timeout' }>[] { return Object.freeze([...this.closures]); }
   leaderFrontier = 0;
@@ -76,8 +157,10 @@ export class RaceCoordinator {
       this.leaderFrontier = Math.max(this.leaderFrontier, player.earnedDistance);
     }
     this.recovery.tick(session);
+    for(const p of [...session.players].sort((a,b)=>a.seat.localeCompare(b.seat)))if(p.deviceLostAt!==null&&this.graceRemaining(p.seat)<=1e-9)session.depart(p.seat,'grace-expired');
     const finishers = session.players.filter(p => p.participation === 'active' && p.state === 'playing' && p.completedForwardTiles >= this.descriptor.settings.finishTiles);
     for (const player of finishers) if (!this.finishTicks.has(player.seat)) this.finishTicks.set(player.seat, session.world.simulationTick);
+    for(const p of [...session.players].sort((a,b)=>a.seat.localeCompare(b.seat)))if(this.observed.get(p.seat)!==this.status(p.seat))this.record(p.seat,this.status(p.seat));
     this.fogBoundary = Math.max(this.fogBoundary, this.leaderFrontier - RACE_PRESSURE.buffer);
     for (const player of [...session.players].sort((a,b) => a.seat.localeCompare(b.seat))) {
       const previous = this.fogState(player.seat);
@@ -99,9 +182,9 @@ export class RaceCoordinator {
       session.updateRecovery(player, recovery => ({ ...recovery, offer: undefined }));
       this.closures.push(Object.freeze({ seat: player.seat, tick: session.world.simulationTick, reason: 'race-timeout' }));
     }
-    const remaining = session.players.some(p => !this.isFinished(p.seat) && (p.participation === 'device-lost' || p.participation === 'active' && p.state === 'playing'));
+    const remaining = session.players.some(p => !this.isFinished(p.seat) && (p.deviceLostAt!==null || p.participation === 'active' && (p.state === 'playing'||p.state==='paused')));
     if (!allFinished && !timeout && (remaining || this.recovery.pending(session))) return;
-    const players = Object.freeze([...session.players].sort((a,b) => a.seat.localeCompare(b.seat)).map(p => Object.freeze({ seat: p.seat, characterId: p.characterId, distance: p.completedForwardTiles })));
+    const players = Object.freeze([...session.players].sort((a,b) => a.seat.localeCompare(b.seat)).map(p => Object.freeze({ seat: p.seat, characterId: p.characterId, distance: p.completedForwardTiles, status: this.status(p.seat) })));
     const maximum = Math.max(...players.map(p => p.distance));
     const earliest = Math.min(...this.finishTicks.values());
     const winners = Object.freeze(this.finishTicks.size ? players.filter(p => this.finishTicks.get(p.seat) === earliest).map(p => p.seat) : players.filter(p => p.distance === maximum).map(p => p.seat));
@@ -114,13 +197,15 @@ export function composeRaceDefinition(base: ModeDefinition, race: RaceCoordinato
     suppressPursuit: true,
     retainDeadDevice: true,
     attach: session => race.attach(session), canAdmit: () => false,
-    canAct: seat => !race.result && !race.isFinished(seat), canTransact: () => false, canAdvance: () => !race.result,
+    canAct: seat => !race.result && !race.isFinished(seat), canTransact: () => false, canAdvance: () => !race.result && !race.waiting && !race.confirmingLeave,
     simulates: player => !race.isFinished(player.seat),
-    canLifecycle: (_kind, seat, device) => !race.result && race.descriptor.seats.some(p => p.seat === seat && (!device || p.device === device)),
+    retainsPosition: player => race.status(player.seat)==='disconnected-grace' && player.state!=='dead',
+    canLifecycle: (kind, seat, device) => race.allowsLifecycle(kind,seat,device),
     preserveReclaimPosition: true,
-    depart: () => ({ archiveContribution: true }),
-    death: record => race.recovery.death(record.seat),
-    pending: session => race.recovery.pending(session), recover: (session, request) => race.recovery.recover(session, request),
+    deviceLost: record=>race.lifecycle(record),reclaim: record=>race.lifecycle(record),
+    depart: record => {race.lifecycle(record);return { archiveContribution: true };},
+    death: record => {race.recovery.death(record.seat);race.lifecycle(record);},
+    pending: session => race.recovery.pending(session), recover: (_session, request) => race.recover(request),
     tick: session => race.tick(session),
   });
 }

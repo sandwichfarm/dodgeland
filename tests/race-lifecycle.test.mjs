@@ -1,13 +1,37 @@
 import assert from 'node:assert/strict';
 import test, { after } from 'node:test';
 import { loadSources } from './source-loader.mjs';
+import { createMarketGameFixture } from './market-game-fixture.mjs';
 
 const sources = await loadSources(['game', 'race', 'session-input']);
 after(sources.dispose);
 const { Game } = await sources.import('game');
 const { createRaceSession } = await sources.import('race');
 const { GamepadRouter } = await sources.import('session-input');
+for(const choice of ['accept','decline','expiry'])test(`built actual traffic death personal offer ${choice} through visible Race controls`,{timeout:40000},async()=>{
+  const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{auditBoundary:true,initialIntent:{sender:'race-lifecycle-proof',archetype:'game',action:'open',convention:'napplet:game/open',payload:{seed:'ph3-00000071-pond-s-n'}}});
+  try{
+    await app.frame.locator('#local-play').click();await app.frame.locator('#race-play').click();await app.frame.locator('#local-session-start').click();await app.advance(80);
+    const read=()=>app.onSession(function(){const p=this.players[0];return {state:p.state,participation:p.participation,kind:this.world.rows.get(Math.round(p.groundY))?.kind,hop:p.hop,offer:p.recovery.offer,charge:p.recovery.charge,deaths:p.statistics.deaths,otherDeaths:this.players[1].statistics.deaths,time:this.world.time};});
+    for(let i=0;i<40;i++){
+      const p=await read();if(p.state==='dead'||p.kind==='road')break;
+      await app.frame.locator('#scene').focus();await app.page.keyboard.press('w');await app.advance(250);
+    }
+    for(let i=0;i<120&&(await read()).state!=='dead';i++)await app.advance(250);
+    const dead=await read();assert.equal(dead.state,'dead');assert.ok(dead.offer);assert.equal(dead.deaths,1);
+    const button=app.frame.locator('[data-seat="p1"] [data-session-hud="revive"]');assert.equal(await button.isEnabled(),true);
+    await app.iframe.screenshot({path:`/tmp/race-05-03-recovery-${choice}.png`});
+    if(choice==='accept')await button.click();
+    else if(choice==='decline')await app.frame.locator('[data-seat="p1"] [data-race-decline]').click();
+    else await app.advance(8500);
+    await app.advance(80);const after=await read();assert.equal(after.deaths,1);assert.equal(after.otherDeaths,dead.otherDeaths);assert.equal(after.offer,undefined);
+    assert.equal(after.state,choice==='accept'?'playing':'dead');if(choice==='accept')assert.equal(after.charge,'spent');
+    assert.deepEqual(evidence.errors,[]);assert.deepEqual(evidence.external,[]);assert.deepEqual(await app.frame.evaluate(()=>window.marketGameFixture.forbidden),[]);
+  }finally{await app.close();}
+});
 function ticks(session,n) { for(let i=0;i<n;i++) session.update(1/120); }
+function meadow(run){for(let y=-8;y<600;y++)run.game.rows.set(y,{...run.game.rows.get(0),index:y,kind:'meadow',blocked:[],decorations:[],coin:null});return run;}
+function hop(session,seat,direction='forward'){assert.equal(session.dispatch({seat,direction}),true);const p=session.players.find(p=>p.seat===seat);for(let i=0;i<120&&p.hop>0;i++)session.update(1/120);}
 function start() {
   const game = new Game(113, 'pond', 'arcade', false, [], 'butter');
   const race = createRaceSession(game, { seats: [
@@ -25,6 +49,79 @@ test('disconnect dependency control: living ghost preserves its economy and anot
   session.update(1 / 120);
   assert.equal(owner.participation, 'device-lost'); assert.ok(race.elapsed > 0);
   assert.deepEqual({ wallet: owner.run.wallet, health: owner.health, deaths: owner.statistics.deaths, recovery: owner.recovery }, before);
+});
+
+test('built Race ghost replacement waiting and leave use visible controls and fresh actual input',{timeout:60000},async()=>{
+  const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{auditBoundary:true,gamepads:true});
+  try{
+    const f=app.frame;
+    await f.locator('#local-play').click();await f.locator('#session-roster [data-seat="p2"]').click();await f.getByRole('button',{name:'Leave this seat',exact:true}).click();
+    await app.sendPads([pad(0)]);await app.sendPads([pad(0,[0])]);await app.sendPads([pad(0)]);
+    await f.locator('#race-play').click();await f.locator('#local-session-start').click();await app.advance(100);
+    const read=()=>app.onSession(function(){return {time:this.world.time,players:this.players.map(p=>({seat:p.seat,device:p.device,state:p.state,participation:p.participation,earned:p.earnedDistance,health:p.health,wallet:p.run.wallet,charge:p.recovery.charge,protection:p.recovery.protectionUntil}))};});
+    await app.sendPads([]);const lost=await read();await app.advance(1000);assert.ok((await read()).time>lost.time);
+    assert.match(await f.locator('[data-seat="p2"] [data-session-hud="lifecycle"]').textContent(),/disconnected/);
+    await app.sendPads([pad(9,[12])]);await app.sendPads([pad(9,[12,0])]);assert.equal(await f.locator('#survive-lifecycle-board').count(),0);
+    await app.sendPads([pad(9)]);await app.sendPads([pad(9,[0])]);assert.equal(await f.getByRole('heading',{name:/Continue as/}).isVisible(),true);
+    for(const light of [false,true])for(const [w,h]of [[240,240],[320,560],[900,600],[1000,280]]){
+      await app.resize(w,h);await f.evaluate(light=>window.marketGameFixture.setTheme({colors:light?{background:'#f6f1e5',text:'#24362d',primary:'#4b7b61'}:{background:'#242b32',text:'#f0eee5',primary:'#9fc28a'}}),light);
+      await app.iframe.screenshot({path:`/tmp/race-05-03-reclaim-${w}x${h}-${light?'light':'dark'}.png`});
+      const bad=await f.locator('#survive-lifecycle-board button').evaluateAll(nodes=>nodes.filter(n=>{const r=n.getBoundingClientRect();return r.width<44||r.height<44||r.left<0||r.top<0||r.right>innerWidth+1||r.bottom>innerHeight+1||!n.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2));}).map(n=>n.textContent));assert.deepEqual(bad,[]);
+    }
+    await app.resize(900,600);await app.sendPads([pad(9)]);await app.sendPads([pad(9,[0])]);assert.equal(await f.locator('#survive-lifecycle-board').count(),0);
+    const rebound=(await read()).players[1];assert.equal(rebound.device,'gamepad-9');assert.equal(rebound.earned,0);assert.equal(rebound.protection,lost.players[1].protection);
+    await app.sendPads([pad(9,[0])]);assert.equal((await read()).players[1].earned,0);
+    await app.sendPads([]);
+    await f.locator('[data-seat="p1"] [data-session-hud="item"]').click();assert.equal(await f.getByRole('heading',{name:'Leave Race as P1?'}).isVisible(),true);
+    await f.getByRole('button',{name:'Keep racing',exact:true}).click();assert.equal((await read()).players[0].participation,'active');
+    await f.locator('[data-seat="p1"] [data-session-hud="item"]').click();await f.locator('#survive-lifecycle-board').getByRole('button',{name:'Leave Race',exact:true}).focus();await app.page.keyboard.press('Enter');await app.advance(80);
+    assert.match(await f.locator('.race-lifecycle').textContent(),/Waiting for a player to reclaim/);
+    const waiting=await read();await app.advance(13000);assert.equal((await read()).time,waiting.time);
+    await app.iframe.screenshot({path:'/tmp/race-05-03-waiting.png'});
+    await app.sendPads([pad(8)]);await app.sendPads([pad(8,[0])]);await app.sendPads([pad(8)]);await app.sendPads([pad(8,[0])]);await app.advance(100);
+    assert.equal((await read()).players[1].device,'gamepad-8');assert.ok((await read()).time>waiting.time);
+    await app.sendPads([pad(8)]);await app.sendPads([pad(8,[3])]);assert.equal(await f.getByRole('heading',{name:'Leave Race as P2?'}).isVisible(),true);
+    await f.locator('#survive-lifecycle-board').getByRole('button',{name:'Leave Race',exact:true}).click();await app.advance(100);assert.equal(await f.locator('#survive-results-root').isVisible(),true);
+    await app.iframe.screenshot({path:'/tmp/race-05-03-departed-result.png'});
+    assert.deepEqual(evidence.errors,[]);assert.deepEqual(evidence.external,[]);assert.deepEqual(await f.evaluate(()=>window.marketGameFixture.forbidden),[]);
+  }finally{await app.close();}
+});
+
+test('grace retention keeps original terrain objects and releases rows after expiry or leave',()=>{
+  for(const leave of [false,true]){
+    const {game,race,session}=meadow(start()),row=game.rows.get(0),world=session.world;
+    session.deviceLost('p2');for(let i=0;i<13;i++)hop(session,'p1');
+    assert.equal(game.rows.get(0),row);assert.equal(session.world,world);assert.equal(race.status('p2'),'disconnected-grace');
+    if(leave)session.depart('p2','confirmed-leave');else ticks(session,1440);
+    ticks(session,1);assert.equal(game.rows.has(0),false,'expired/departed reservation cannot leak terrain retention');
+  }
+});
+test('reclaim preserves exposure resources deadlines and no-ahead position across shared pause',()=>{
+  const {game,race,session}=meadow(start());for(let i=0;i<13;i++)hop(session,'p1');ticks(session,30);
+  const p=session.players[1];p.run.creditCoins(19);session.deviceLost('p2');
+  const fields=()=>({health:p.health,wallet:p.run.wallet,score:p.personalScore,earned:p.earnedDistance,completed:p.completedForwardTiles,power:p.powerRemaining,charge:p.recovery.charge,next:p.recovery.nextRecharge,protection:p.recovery.protectionUntil,exposure:race.fogState('p2')});
+  const before=fields(),time=game.time;game.pause();ticks(session,500);assert.equal(game.time,time);
+  assert.equal(race.reclaim(race.reclaimToken('p2'),'gamepad-7'),true);assert.deepEqual(fields(),before);assert.ok(p.groundY<=p.earnedDistance);assert.equal(p.hop,0);game.resume();
+  ticks(session,1);assert.ok(race.fogState('p2').exposure>before.exposure.exposure);
+});
+test('dead replacement waiting preserves its offer and cannot invoke recovery before reclaim',()=>{
+  const {game,race,session}=start();game.end('Actual train fatality','train');ticks(session,1);
+  const p=session.players[0],offer=p.recovery.offer;session.deviceLost('p1');session.deviceLost('p2');const time=game.time;ticks(session,2000);
+  assert.equal(game.time,time);assert.deepEqual(p.recovery.offer,offer);assert.equal(session.recover({kind:'personal',ownerSeat:'p1'}),false);
+  assert.equal(race.reclaim(race.reclaimToken('p1'),'gamepad-8'),true);assert.equal(p.participation,'dead');assert.deepEqual(p.recovery.offer,offer);
+  assert.equal(session.recover({kind:'personal',ownerSeat:'p1'}),true);assert.equal(p.recovery.charge,'spent');assert.equal(p.statistics.selfRevives,1);
+});
+test('personal recovery 249 250 251 uses real own earned hops without backtrack or placement credit',()=>{
+  const {game,session}=meadow(start()),p=session.players[0],other=session.players[1];other.run.creditCoins(31);
+  game.run.creditCoins(17);game.end('Actual fatal train','train');ticks(session,1);
+  assert.equal(p.run.wallet,0);assert.equal(other.run.wallet,31);assert.equal(p.statistics.deaths,1);
+  assert.equal(session.recover({kind:'personal',ownerSeat:'p1'}),true);assert.equal(p.recovery.charge,'spent');
+  for(let n=1;n<=251;n++){
+    hop(session,'p1');hop(session,'p2');
+    if(n===249){assert.equal(p.recovery.personalHighWater,249);assert.equal(p.recovery.charge,'spent');hop(session,'p1','back');hop(session,'p1');assert.equal(p.recovery.personalHighWater,249);}
+    if(n>=250){assert.equal(p.recovery.personalHighWater,n);assert.equal(p.recovery.charge,'available');}
+  }
+  assert.equal(p.completedForwardTiles,251);assert.equal(p.statistics.selfRevives,1);assert.equal(p.recovery.nextRecharge,500);
 });
 
 const pad=(index,pressed=[],id=`pad-${index}`)=>({index,id,mapping:'standard',connected:true,timestamp:1,axes:[0,0],buttons:Array.from({length:17},(_,i)=>({pressed:pressed.includes(i),value:pressed.includes(i)?1:0,touched:pressed.includes(i)}))});
@@ -66,6 +163,18 @@ test('leave requires fresh confirmation, cancel is inert, terminal ignores late 
   assert.ok(race.result);const before=JSON.stringify({events:race.events,result:race.result});
   assert.equal(session.deviceLost('p1'),false);assert.equal(session.depart('p1'),false);ticks(session,100);
   assert.equal(JSON.stringify({events:race.events,result:race.result}),before);assert.equal(session.players[0].run.wallet,11);
+});
+test('lifecycle permutations produce the same frozen DNF records and append-only events',()=>{
+  const outputs=[];
+  for(const reverse of [false,true]){
+    const {race,session}=start();if(reverse)session.players.reverse();
+    session.deviceLost('p2');ticks(session,1440);
+    race.command(race.actionToken('p1'),'leave');race.command(race.actionToken('p1'),'confirm');
+    assert.ok(Object.isFrozen(race.result));assert.ok(race.events.every(Object.isFrozen));
+    assert.deepEqual(race.result.players.map(p=>p.status),['departed','forfeited']);
+    outputs.push({players:race.result.players,events:race.events,time:race.elapsed});
+  }
+  assert.deepEqual(outputs[0],outputs[1]);
 });
 
 test('disconnect dependency: dead original seat reserves replacement authority without reviving or clearing its offer', () => {

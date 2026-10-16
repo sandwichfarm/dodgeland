@@ -43,6 +43,8 @@ export interface GamepadRouterOptions {
   requestFirstPlayer?(device: GamepadDevice): boolean;
   /** The owning roster can reject a full or mode-locked device before setup opens. */
   acceptsDevice?(device: GamepadDevice): boolean;
+  /** Optional closed-roster policy chooses a reserved seat, never a new participant. */
+  replacementSeat?(device: GamepadDevice): SeatId | undefined;
   /** A remembered same-id return needs explicit mode/UI confirmation before reassignment. */
   requestReclaim?(device: GamepadDevice, seat: SeatId, input: GamepadReclaimInput): void;
   /** Mode-facing device state; this router never chooses a global pause outcome. */
@@ -61,6 +63,7 @@ interface Lease {
   directionArmed: boolean;
   repeatAt: number;
   context: string;
+  neutralSeen: boolean;
 }
 
 const actionButtons: readonly [number, GamepadControlAction][] = [
@@ -133,6 +136,7 @@ export class GamepadRouter {
     if ([...this.leases.values()].some(candidate => candidate !== lease && candidate.seat === seat)) return false;
     lease.seat = seat;
     lease.reclaimSeat = null;
+    for (const [key, reserved] of this.reclaimable) if (reserved === seat) this.reclaimable.delete(key);
     this.reclaimable.delete(deviceKey(lease.device.index, lease.device.id));
     if (!preserveCurrentInput) this.seed(lease);
     this.options.lifecycle?.({ type: 'assigned', device: lease.device, seat });
@@ -142,7 +146,7 @@ export class GamepadRouter {
   /** Explicit reclaim is intentionally separate from seeing a same-id snapshot. */
   canReclaim(identity: GamepadDevice, seat: SeatId): boolean {
     const lease = this.leases.get(identity.index);
-    return !!lease && lease.reclaimSeat === seat && lease.device.id === sanitizeId(identity.id) && lease.device.epoch === identity.epoch;
+    return !!lease && lease.reclaimSeat === seat && lease.device.id === sanitizeId(identity.id) && lease.device.epoch === identity.epoch && ![...this.leases.values()].some(other=>other!==lease&&other.seat===seat);
   }
   reclaim(identity: GamepadDevice): boolean {
     const lease = this.leases.get(identity.index);
@@ -220,7 +224,7 @@ export class GamepadRouter {
     const id = sanitizeId(pad.id);
     const device: GamepadDevice = { index: pad.index, id, epoch: ++this.epoch, deviceId: `gamepad-${pad.index}` };
     const reclaimSeat = this.reclaimable.get(deviceKey(device.index, device.id)) ?? null;
-    const lease: Lease = { device, seat: null, reclaimSeat, pad, held: new Set(), direction: null, directionArmed: false, repeatAt: Infinity, context };
+    const lease: Lease = { device, seat: null, reclaimSeat, pad, held: new Set(), direction: null, directionArmed: false, repeatAt: Infinity, context, neutralSeen:false };
     this.leases.set(pad.index, lease);
     this.seed(lease, context);
     this.options.lifecycle?.({ type: 'seen', device });
@@ -239,6 +243,7 @@ export class GamepadRouter {
     lease.context = context;
     lease.held = new Set(observedButtons.filter(index => pressed(lease.pad, index)));
     lease.direction = directionOf(lease.pad, null);
+    lease.neutralSeen = !lease.direction && lease.held.size===0;
     lease.directionArmed = false; lease.repeatAt = Infinity;
   }
 
@@ -250,6 +255,7 @@ export class GamepadRouter {
     lease.held = nextHeld;
 
     if (!lease.seat) {
+      if (!nextDirection && nextHeld.size===0) lease.neutralSeen=true;
       // Keep a released stick/D-pad neutral even before it owns a seat; otherwise
       // the next deliberate direction would compare against the stale baseline.
       if (!nextDirection) {
@@ -258,6 +264,12 @@ export class GamepadRouter {
         lease.repeatAt = Infinity;
       }
       if (!freshButtons.length && !freshDirection) return;
+      const replacement=this.options.replacementSeat?.(lease.device);
+      if(replacement && !lease.neutralSeen)return;
+      if(!lease.reclaimSeat && replacement){
+        const reserved=replacement;
+        if(reserved && [...this.reclaimable.values()].includes(reserved) && ![...this.leases.values()].some(other=>other.seat===reserved))lease.reclaimSeat=reserved;
+      }
       if (lease.reclaimSeat) {
         const input: GamepadReclaimInput = Object.freeze({
           actions: Object.freeze(actionButtons.filter(([index]) => freshButtons.includes(index)).map(([, action]) => action)),
