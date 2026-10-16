@@ -208,6 +208,15 @@
       ],
       "role": "browser",
       "provenance": "Original arranged production traffic/platform Canvas assertions; independent component pages"
+    },
+    "adapters-10-middle": {
+      "files": [
+        "tests/character-power-render.test.mjs",
+        "tests/coin-denominations-render.test.mjs",
+        "tests/magnet-render.test.mjs"
+      ],
+      "role": "browser",
+      "provenance": "Original arranged rescue/coin/magnet Canvas component assertions"
     }
   },
   "pendingAdapters": [
