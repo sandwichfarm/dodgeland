@@ -448,11 +448,12 @@ export class Game {
   move(direction: Direction): boolean {
     if (this.run.isOpen || this.run.pendingPack) return false;
     if (this.state === 'ready') this.start();
-    if (this.state !== 'playing' || this.hop > 0 || this.powerRescue) return false;
+    if (this.state !== 'playing' || this.hop > 0 || this.powerRescue || this.scoringPlayer && !this.scoringPlayer.canHop) return false;
     const nx = this.x + (direction === 'left' ? -1 : direction === 'right' ? 1 : 0);
     const ny = this.y + (direction === 'forward' ? 1 : direction === 'back' ? -1 : 0);
     if (nx < -HALF_WIDTH || nx > HALF_WIDTH || !this.rows.has(ny) || this.rows.get(ny)!.blocked.includes(Math.round(nx))) return false;
     this.fromX = this.x; this.fromY = this.y; this.x = nx; this.y = ny; this.hop = this.rules.movement.hopDuration;
+    this.scoringPlayer?.noteHop();
     if (ny > this.maxY) {
       this.maxY = ny; this.idle = 0;
       if (this.scoringPlayer) this.scoringPlayer.earnedDistance++;

@@ -3,15 +3,15 @@
  * cosmetics, powers, and their RunModifiers.  This module only validates and
  * describes transactions; the session owns same-tick revalidation and commit.
  */
-export type ConsumableId = 'revival' | 'flare';
-export type ConsumableTargetPolicy = 'dead-teammate' | 'dead-teammates-and-active-regroup';
+export type ConsumableId = 'revival' | 'flare' | 'mud-splash' | 'fog-lantern';
+export type ConsumableTargetPolicy = 'dead-teammate' | 'dead-teammates-and-active-regroup' | 'living-opponent' | 'living-self';
 export interface ConsumableDefinition {
   readonly id: ConsumableId;
   readonly kind: 'consumable';
   readonly name: string;
   readonly price: number;
   readonly maxCharges: 1;
-  readonly requiredCapability: 'survive-together';
+  readonly requiredCapability: string;
   readonly targetPolicy: ConsumableTargetPolicy;
 }
 
@@ -30,6 +30,7 @@ export interface ConsumableInventorySnapshot {
 }
 export interface ConsumableTargetSnapshot { readonly id: string; readonly lifecycle: 'dead' | 'living' }
 export interface ConsumableCreditRequest {
+  readonly catalogue?: readonly ConsumableDefinition[];
   readonly mode: ConsumableModeSnapshot;
   readonly owner: ConsumableOwnerSnapshot;
   readonly inventory: ConsumableInventorySnapshot;
@@ -62,13 +63,16 @@ export interface ConsumableRejection { readonly ok: false; readonly reason: stri
 export type ConsumableCreditDecision = ConsumableCreditPlan | ConsumableRejection;
 export type ConsumableDebitDecision = ConsumableDebitPlan | ConsumableRejection;
 
-const catalog = new Map(CONSUMABLES.map(item => [item.id, item]));
+export function validateConsumableCatalogue(items: readonly ConsumableDefinition[]): readonly ConsumableDefinition[] {
+  if (!Array.isArray(items) || items.length === 0 || new Set(items.map(i => i?.id)).size !== items.length || items.some(i => !i || !['revival','flare','mud-splash','fog-lantern'].includes(i.id) || i.kind !== 'consumable' || typeof i.name !== 'string' || !i.name || !Number.isSafeInteger(i.price) || i.price < 1 || i.maxCharges !== 1 || typeof i.requiredCapability !== 'string' || !i.requiredCapability || !['dead-teammate','dead-teammates-and-active-regroup','living-opponent','living-self'].includes(i.targetPolicy))) throw new TypeError('Invalid consumable catalogue.');
+  return Object.freeze(items.map(i => Object.freeze({...i})));
+}
 const reject = (reason: string): ConsumableRejection => freeze({ ok: false as const, reason });
 const validGeneration = (value: unknown): value is number => typeof value === 'number' && Number.isSafeInteger(value) && value >= 0;
 const validId = (value: unknown): value is string => typeof value === 'string' && value.length > 0 && value.length <= 128;
 
-function definition(itemId: unknown): ConsumableDefinition | undefined {
-  return typeof itemId === 'string' ? catalog.get(itemId as ConsumableId) : undefined;
+function definition(itemId: unknown, catalogue: readonly ConsumableDefinition[] = CONSUMABLES): ConsumableDefinition | undefined {
+  return catalogue.find(item => item.id === itemId);
 }
 function holdsCapability(mode: ConsumableModeSnapshot, capability: string): boolean {
   return Array.isArray(mode?.capabilities) && mode.capabilities.includes(capability);
@@ -77,17 +81,16 @@ function sameOwner(left: ConsumableOwnerSnapshot, right: ConsumableOwnerSnapshot
   return validId(left?.id) && validId(right?.id) && validGeneration(left?.generation) && validGeneration(right?.generation)
     && left.id === right.id && left.generation === right.generation;
 }
-function chargesFor(inventory: ConsumableInventorySnapshot): Readonly<Record<ConsumableId, number>> | undefined {
+function chargesFor(inventory: ConsumableInventorySnapshot, catalogue: readonly ConsumableDefinition[] = CONSUMABLES): Readonly<Record<ConsumableId, number>> | undefined {
   if (!inventory || !sameOwner(inventory.owner, inventory.owner) || !validGeneration(inventory.generation) || !inventory.charges) return undefined;
-  const revival = inventory.charges.revival ?? 0;
-  const flare = inventory.charges.flare ?? 0;
-  if (![revival, flare].every(value => Number.isSafeInteger(value) && value >= 0 && value <= 1)) return undefined;
-  return freeze({ revival, flare });
+  const charges = Object.fromEntries(catalogue.map(item => [item.id, inventory.charges[item.id] ?? 0])) as Record<ConsumableId, number>;
+  if (!Object.values(charges).every(value => Number.isSafeInteger(value) && value >= 0 && value <= 1)) return undefined;
+  return freeze(charges);
 }
 function validateBase(request: ConsumableCreditRequest): ConsumableDefinition | ConsumableRejection {
-  const item = definition(request?.itemId);
+  const item = definition(request?.itemId, request?.catalogue);
   if (!item) return reject('unknown-item');
-  const charges = chargesFor(request.inventory);
+  const charges = chargesFor(request.inventory, request.catalogue);
   if (!charges) return reject('invalid-inventory');
   if (!sameOwner(request.owner, request.inventory.owner)) return reject('stale-owner');
   if (!validGeneration(request.expectedInventoryGeneration) || request.expectedInventoryGeneration !== request.inventory.generation) return reject('stale-inventory');
@@ -104,12 +107,14 @@ function targetsFor(item: ConsumableDefinition, owner: ConsumableOwnerSnapshot, 
   const bound: Readonly<ConsumableTargetSnapshot>[] = [];
   for (const target of targets) {
     if (!validId(target?.id) || (target.lifecycle !== 'dead' && target.lifecycle !== 'living')) return reject('ineligible-target');
-    if (target.id === owner.id) return reject('self-target');
+    if (target.id === owner.id && item.targetPolicy !== 'living-self') return reject('self-target');
     if (seen.has(target.id)) return reject('duplicate-target');
     seen.add(target.id);
     if (target.lifecycle === 'dead') dead++;
     bound.push(freeze({ id: target.id, lifecycle: target.lifecycle }));
   }
+  if (item.targetPolicy === 'living-self' && (bound.length !== 1 || bound[0]?.id !== owner.id || bound[0]?.lifecycle !== 'living')) return reject('ineligible-target');
+  if (item.targetPolicy === 'living-opponent' && (bound.length !== 1 || bound[0]?.lifecycle !== 'living')) return reject('ineligible-target');
   if (item.id === 'revival' && targets.length !== 1) return reject('invalid-target-count');
   if (item.id === 'flare' && targets.length < 1) return reject('no-dead-target');
   if (item.id === 'revival' && (dead !== 1 || bound[0]!.lifecycle !== 'dead')) return reject('ineligible-target');
@@ -120,7 +125,7 @@ function targetsFor(item: ConsumableDefinition, owner: ConsumableOwnerSnapshot, 
 export function planConsumableCredit(request: ConsumableCreditRequest): ConsumableCreditDecision {
   const item = validateBase(request);
   if ('ok' in item) return item;
-  const charges = chargesFor(request.inventory)!;
+  const charges = chargesFor(request.inventory, request.catalogue)!;
   if (charges[item.id] >= item.maxCharges) return reject('capacity-full');
   return freeze({ ok: true as const, kind: 'credit' as const, itemId: item.id, ownerId: request.owner.id,
     ownerGeneration: request.owner.generation, inventoryGeneration: request.inventory.generation, chargeDelta: 1 as const,
@@ -130,7 +135,7 @@ export function planConsumableCredit(request: ConsumableCreditRequest): Consumab
 export function planConsumableDebit(request: ConsumableDebitRequest): ConsumableDebitDecision {
   const item = validateBase(request);
   if ('ok' in item) return item;
-  const charges = chargesFor(request.inventory)!;
+  const charges = chargesFor(request.inventory, request.catalogue)!;
   if (charges[item.id] < 1) return reject('empty-charge');
   const targets = targetsFor(item, request.owner, request.targets);
   if ('ok' in targets) return targets;

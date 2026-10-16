@@ -9,9 +9,10 @@ import type { CharacterPower } from './character-powers.js';
 import { isLivingRecoverySubject } from './recovery.js';
 import type { RecoveryKind } from './recovery.js';
 import { advanceCoinPull } from './coin-pull.js';
-import { planConsumableCredit, planConsumableDebit } from './consumables.js';
-import type { ConsumableId } from './consumables.js';
-import { sampleConsumableDrop } from './consumable-drops.js';
+import { CONSUMABLES, validateConsumableCatalogue, planConsumableCredit, planConsumableDebit } from './consumables.js';
+import type { ConsumableId, ConsumableDefinition } from './consumables.js';
+import { sampleItemDrop, DEFAULT_ITEM_SCHEMA, validateConsumableSchema } from './consumable-drops.js';
+import type { ConsumableDropSchema } from './consumable-drops.js';
 import { CoOpMarketAdapter } from './co-op-market.js';
 import type { CoOpMarketContext, CoOpMarketRequest, CoOpMarketResult } from './co-op-market.js';
 import { resolveSharedWorldEffects } from './shared-world-effects.js';
@@ -132,9 +133,9 @@ export interface SessionRecoveryRequest {
   readonly debit?: () => boolean;
 }
 export interface ConsumablePickupSnapshot { readonly id: string; readonly itemId: ConsumableId; readonly row: number; readonly slot: number; readonly x: number; readonly y: number; readonly z: number }
-export interface ConsumableChargeSnapshot { readonly seat: SeatId; readonly ownerGeneration: number; readonly inventoryGeneration: number; readonly revival: number; readonly flare: number }
+export interface ConsumableChargeSnapshot { readonly seat: SeatId; readonly ownerGeneration: number; readonly inventoryGeneration: number; readonly revival: number; readonly flare: number; readonly [key: string]: number | SeatId }
 export interface ConsumableWorldSnapshot { readonly generation: number; readonly pickups: readonly ConsumablePickupSnapshot[]; readonly charges: readonly ConsumableChargeSnapshot[]; readonly claims: readonly Readonly<{ pickupId: string; seat: SeatId }>[]; readonly protected: readonly Readonly<{ seat: SeatId; until: number }>[] }
-export interface ConsumableAction { readonly actionId: string; readonly ownerSeat: SeatId; readonly itemId: ConsumableId; readonly targetSeat?: SeatId; readonly expectedInventoryGeneration: number; readonly expectedOwnerGeneration: number; readonly expectedTargetDeathGeneration?: number; readonly expectedTargetParticipantId?: string }
+export interface ConsumableAction { readonly actionId: string; readonly ownerSeat: SeatId; readonly itemId: ConsumableId; readonly targetSeat?: SeatId; readonly expectedInventoryGeneration: number; readonly expectedOwnerGeneration: number; readonly expectedTargetDeathGeneration?: number; readonly expectedTargetParticipantId?: string; readonly expectedLifecycleGeneration?: number; readonly expectedParticipantId?: string; readonly expectedDevice?: DeviceId }
 export interface SessionContribution {
   readonly seat: SeatId;
   readonly characterId: string;
@@ -337,6 +338,18 @@ export class SessionPlayer {
   declare powerLandingGrace: number;
   declare healedMilestone: number;
   declare touchingCars: Set<string>;
+  private hopReadyAt = 0;
+  private hopDelay: Readonly<{ multiplier: number; until: number }> | undefined;
+  /** Generic temporary cooldown; interpolated hop duration is deliberately unchanged. */
+  setHopCooldown(multiplier: number, activeSeconds: number): boolean {
+    if (!Number.isFinite(multiplier) || multiplier < 1 || multiplier > 4 || !Number.isFinite(activeSeconds) || activeSeconds <= 0 || activeSeconds > 60 || this.participation !== 'active' || this.state !== 'playing') return false;
+    this.hopDelay = Object.freeze({multiplier,until:this.world.time + activeSeconds*this.world.rules.simulation.worldTimeScale}); return true;
+  }
+  get hopCooldown(): Readonly<{multiplier:number;until:number;readyAt:number}> {
+    return Object.freeze({multiplier:this.hopDelay && this.hopDelay.until > this.world.time ? this.hopDelay.multiplier : 1,until:this.hopDelay?.until ?? 0,readyAt:this.hopReadyAt});
+  }
+  get canHop(): boolean { return this.world.time + 1e-9 >= this.hopReadyAt; }
+  noteHop(): void { if (this.hopCooldown.multiplier > 1) this.hopReadyAt = this.world.time + this.world.rules.movement.hopDuration * this.hopCooldown.multiplier * this.world.rules.simulation.worldTimeScale; }
   earnedDistance = 0;
   /** Solo progress retained at adoption; forced placement never changes it. */
   scoreBaseline = 0;
@@ -396,7 +409,7 @@ export class SessionPlayer {
   }
 
   move(direction: Direction): boolean {
-    if (this.session && !this.session.canAct(this.seat)) return false;
+    if (this.session && !this.session.canAct(this.seat) || this.world.time + 1e-9 < this.hopReadyAt) return false;
     const beforeY = this.y;
     const moved = this.world.host.movePlayer(this, direction);
     if (moved && direction === 'forward' && this.y > beforeY) this.session?.noteForwardHop(this, this.y);
@@ -408,6 +421,20 @@ export class SessionPlayer {
   }
 }
 
+/** Authored policy extends the one common inventory/world; default recovery remains unchanged. */
+export interface ConsumableWorldPolicy {
+  readonly catalogue: readonly ConsumableDefinition[];
+  readonly schema: ConsumableDropSchema;
+  readonly capabilities: readonly string[];
+  readonly eligible: (player: SessionPlayer, item: ConsumableId) => boolean;
+  readonly activate: (action: ConsumableAction, owner: SessionPlayer, debit: (targets: readonly SessionPlayer[]) => boolean) => boolean;
+}
+function captureConsumablePolicy(policy: ConsumableWorldPolicy): ConsumableWorldPolicy {
+  if (!policy || Object.keys(policy).some(k => !['catalogue','schema','capabilities','eligible','activate'].includes(k)) || !Array.isArray(policy.capabilities) || policy.capabilities.some(c => typeof c !== 'string' || !c) || typeof policy.eligible !== 'function' || typeof policy.activate !== 'function') throw new TypeError('Invalid consumable policy.');
+  const catalogue = validateConsumableCatalogue(policy.catalogue), schema = validateConsumableSchema(policy.schema);
+  if (Object.values(schema.items).some(id => !catalogue.some(i => i.id === id))) throw new TypeError('Schema items must belong to the installed catalogue.');
+  return Object.freeze({...policy, catalogue, schema, capabilities:Object.freeze([...policy.capabilities])});
+}
 type MutableConsumablePickup = Omit<ConsumablePickupSnapshot, 'x' | 'y'> & { x: number; y: number; z: number; speed: number; actorId?: number };
 type ConsumableCharge = { ownerGeneration: number; inventoryGeneration: number; revival: number; flare: number };
 /** Handler-owned item state.  It is absent until its definition explicitly installs it. */
@@ -419,14 +446,14 @@ class ConsumableWorld implements GameWorldExtension {
   private generation = 0;
   private nextInventoryGeneration = 1;
   private game: Game | undefined;
-  constructor(private readonly session: LocalSession) {}
+  constructor(private readonly session: LocalSession, readonly policy?: ConsumableWorldPolicy) {}
   attach(game: Game): void {
     this.game = game;
     for (const player of this.session.players) this.charge(player);
   }
   initialize(player: SessionPlayer): void { this.charge(player); }
   row(game: Game, lane: Lane): void {
-    const drop = sampleConsumableDrop({ courseSeed: game.runSeed?.seed ?? game.seed, row: lane.index, slot: 0 });
+    const drop = sampleItemDrop(this.policy?.schema ?? DEFAULT_ITEM_SCHEMA, { courseSeed: game.runSeed?.seed ?? game.seed, row: lane.index, slot: 0 });
     if (!drop.itemId || this.pickups.has(drop.pickupId) || this.claims.has(drop.pickupId)) return;
     const actor = lane.kind === 'river' ? laneActors(lane, game.time).sort((a, b) => Math.abs(a.x) - Math.abs(b.x) || a.id - b.id)[0] : undefined;
     const landAnchor = [0, ...Array.from({ length: HALF_WIDTH }, (_, offset) => [-(offset + 1), offset + 1]).flat()].find(x => !lane.blocked.includes(x));
@@ -438,15 +465,15 @@ class ConsumableWorld implements GameWorldExtension {
     const ownerId = this.ownerId(player);
     let charge = this.charges.get(ownerId);
     if (!charge) {
-      charge = { ownerGeneration: player.recovery?.deathGeneration ?? 0, inventoryGeneration: this.nextInventoryGeneration++, revival: 0, flare: 0 };
+      charge = { ownerGeneration: player.recovery?.deathGeneration ?? 0, inventoryGeneration: this.nextInventoryGeneration++, revival: 0, flare: 0, ...Object.fromEntries((this.policy?.catalogue ?? []).map(item => [item.id, 0])) };
       this.charges.set(ownerId, charge);
     }
     return charge;
   }
   private eligible(player: SessionPlayer, itemId: ConsumableId): boolean {
-    if (!isLivingRecoverySubject(player)) return false;
+    if (!isLivingRecoverySubject(player) || this.policy && !this.policy.eligible(player, itemId)) return false;
     const charge = this.charge(player);
-    return planConsumableCredit({ mode: { capabilities: ['survive-together'] }, owner: { id: player.seat, generation: charge.ownerGeneration }, inventory: { owner: { id: player.seat, generation: charge.ownerGeneration }, generation: charge.inventoryGeneration, charges: { revival: charge.revival, flare: charge.flare } }, expectedInventoryGeneration: charge.inventoryGeneration, itemId }).ok;
+    return planConsumableCredit({ catalogue: this.policy?.catalogue, mode: { capabilities: this.policy?.capabilities ?? ['survive-together'] }, owner: { id: player.seat, generation: charge.ownerGeneration }, inventory: { owner: { id: player.seat, generation: charge.ownerGeneration }, generation: charge.inventoryGeneration, charges: charge }, expectedInventoryGeneration: charge.inventoryGeneration, itemId }).ok;
   }
   tick(game: Game, _session: LocalSession, players: readonly SessionPlayer[], frame: WorldFrame, dt: number): void {
     for (const pickup of [...this.pickups.values()]) {
@@ -480,9 +507,9 @@ class ConsumableWorld implements GameWorldExtension {
   }
   private credit(player: SessionPlayer, pickup: MutableConsumablePickup): boolean {
     const charge = this.charge(player);
-    const plan = planConsumableCredit({ mode: { capabilities: ['survive-together'] }, owner: { id: player.seat, generation: charge.ownerGeneration }, inventory: { owner: { id: player.seat, generation: charge.ownerGeneration }, generation: charge.inventoryGeneration, charges: { revival: charge.revival, flare: charge.flare } }, expectedInventoryGeneration: charge.inventoryGeneration, itemId: pickup.itemId });
+    const plan = planConsumableCredit({ catalogue: this.policy?.catalogue, mode: { capabilities: this.policy?.capabilities ?? ['survive-together'] }, owner: { id: player.seat, generation: charge.ownerGeneration }, inventory: { owner: { id: player.seat, generation: charge.ownerGeneration }, generation: charge.inventoryGeneration, charges: charge }, expectedInventoryGeneration: charge.inventoryGeneration, itemId: pickup.itemId });
     if (!plan.ok) return false;
-    charge.revival = plan.resultingCharges.revival; charge.flare = plan.resultingCharges.flare; charge.inventoryGeneration = this.nextInventoryGeneration++;
+    Object.assign(charge, plan.resultingCharges); charge.inventoryGeneration = this.nextInventoryGeneration++;
     player.statistics.itemsFound++; this.generation++; return true;
   }
   marketState(player: SessionPlayer): Readonly<{ ownerGeneration: number; inventoryGeneration: number }> | undefined {
@@ -491,15 +518,15 @@ class ConsumableWorld implements GameWorldExtension {
   }
   canMarketCredit(player: SessionPlayer, itemId: ConsumableId, expectedOwnerGeneration: number, expectedInventoryGeneration: number): boolean {
     const charge = this.charges.get(this.ownerId(player));
-    if (!charge || player.participation !== 'active' || player.state === 'dead' || charge.ownerGeneration !== expectedOwnerGeneration || charge.inventoryGeneration !== expectedInventoryGeneration) return false;
-    return planConsumableCredit({ mode: { capabilities: ['survive-together'] }, owner: { id: player.seat, generation: charge.ownerGeneration }, inventory: { owner: { id: player.seat, generation: charge.ownerGeneration }, generation: charge.inventoryGeneration, charges: { revival: charge.revival, flare: charge.flare } }, expectedInventoryGeneration, itemId }).ok;
+    if (!charge || this.policy && !this.policy.eligible(player, itemId) || player.participation !== 'active' || player.state === 'dead' || charge.ownerGeneration !== expectedOwnerGeneration || charge.inventoryGeneration !== expectedInventoryGeneration) return false;
+    return planConsumableCredit({ catalogue: this.policy?.catalogue, mode: { capabilities: this.policy?.capabilities ?? ['survive-together'] }, owner: { id: player.seat, generation: charge.ownerGeneration }, inventory: { owner: { id: player.seat, generation: charge.ownerGeneration }, generation: charge.inventoryGeneration, charges: charge }, expectedInventoryGeneration, itemId }).ok;
   }
   marketCredit(player: SessionPlayer, itemId: ConsumableId, expectedOwnerGeneration: number, expectedInventoryGeneration: number): boolean {
     if (!this.canMarketCredit(player, itemId, expectedOwnerGeneration, expectedInventoryGeneration)) return false;
     const charge = this.charges.get(this.ownerId(player))!;
-    const plan = planConsumableCredit({ mode: { capabilities: ['survive-together'] }, owner: { id: player.seat, generation: charge.ownerGeneration }, inventory: { owner: { id: player.seat, generation: charge.ownerGeneration }, generation: charge.inventoryGeneration, charges: { revival: charge.revival, flare: charge.flare } }, expectedInventoryGeneration, itemId });
+    const plan = planConsumableCredit({ catalogue: this.policy?.catalogue, mode: { capabilities: this.policy?.capabilities ?? ['survive-together'] }, owner: { id: player.seat, generation: charge.ownerGeneration }, inventory: { owner: { id: player.seat, generation: charge.ownerGeneration }, generation: charge.inventoryGeneration, charges: charge }, expectedInventoryGeneration, itemId });
     if (!plan.ok) return false;
-    charge.revival = plan.resultingCharges.revival; charge.flare = plan.resultingCharges.flare; charge.inventoryGeneration = this.nextInventoryGeneration++;
+    Object.assign(charge, plan.resultingCharges); charge.inventoryGeneration = this.nextInventoryGeneration++;
     this.generation++;
     return true;
   }
@@ -509,10 +536,18 @@ class ConsumableWorld implements GameWorldExtension {
     if (!isLivingRecoverySubject(owner)) return false;
     const charge = this.charge(owner);
     if (charge.inventoryGeneration !== action.expectedInventoryGeneration || charge.ownerGeneration !== action.expectedOwnerGeneration) return false;
+    if (this.policy) {
+      if (!this.policy.eligible(owner, action.itemId)) return false;
+      return this.policy.activate(action, owner, targets => {
+        if (!this.policy!.eligible(owner, action.itemId)) return false;
+        const plan = planConsumableDebit({ catalogue:this.policy!.catalogue, mode:{capabilities:this.policy!.capabilities}, owner:{id:owner.seat,generation:charge.ownerGeneration}, inventory:{owner:{id:owner.seat,generation:charge.ownerGeneration}, generation:charge.inventoryGeneration, charges:charge}, expectedInventoryGeneration:action.expectedInventoryGeneration, itemId:action.itemId, targets:targets.map(p=>({id:p.seat,lifecycle:p.state==='dead'?'dead':'living'})) });
+        return plan.ok && this.debit(action, plan.resultingCharges);
+      });
+    }
     const targets = action.itemId === 'revival' ? action.targetSeat ? this.session.players.filter(player => player.seat === action.targetSeat) : []
       : this.session.players.filter(player => player !== owner && ((player.participation === 'dead' && player.state === 'dead') || isLivingRecoverySubject(player)));
     if (action.itemId === 'revival' && (!targets[0]?.recovery || !action.expectedTargetParticipantId || targets[0].participantId !== action.expectedTargetParticipantId || action.expectedTargetDeathGeneration === undefined || targets[0].recovery.deathGeneration !== action.expectedTargetDeathGeneration)) return false;
-    const plan = planConsumableDebit({ mode: { capabilities: ['survive-together'] }, owner: { id: owner.seat, generation: charge.ownerGeneration }, inventory: { owner: { id: owner.seat, generation: charge.ownerGeneration }, generation: charge.inventoryGeneration, charges: { revival: charge.revival, flare: charge.flare } }, expectedInventoryGeneration: action.expectedInventoryGeneration, itemId: action.itemId, targets: targets.map(player => ({ id: player.seat, lifecycle: player.participation === 'dead' && player.state === 'dead' ? 'dead' : 'living' })) });
+    const plan = planConsumableDebit({ mode: { capabilities: ['survive-together'] }, owner: { id: owner.seat, generation: charge.ownerGeneration }, inventory: { owner: { id: owner.seat, generation: charge.ownerGeneration }, generation: charge.inventoryGeneration, charges: charge }, expectedInventoryGeneration: action.expectedInventoryGeneration, itemId: action.itemId, targets: targets.map(player => ({ id: player.seat, lifecycle: player.participation === 'dead' && player.state === 'dead' ? 'dead' : 'living' })) });
     if (!plan.ok) return false;
     const request: SessionRecoveryRequest = action.itemId === 'revival' ? { kind: 'revival', ownerSeat: owner.seat, targetSeat: action.targetSeat, debit: () => this.debit(action, plan.resultingCharges) }
       : { kind: 'flare', ownerSeat: owner.seat, debit: () => this.debit(action, plan.resultingCharges) };
@@ -521,10 +556,10 @@ class ConsumableWorld implements GameWorldExtension {
   private debit(action: ConsumableAction, charges: Readonly<Record<ConsumableId, number>>): boolean {
     const owner = this.session.players.find(player => player.seat === action.ownerSeat), current = owner ? this.charges.get(this.ownerId(owner)) : undefined;
     if (!current || current.inventoryGeneration !== action.expectedInventoryGeneration || this.actions.has(action.actionId) || this.actions.has(`${this.session.world.simulationTick}:${owner ? this.ownerId(owner) : ''}`)) return false;
-    current.revival = charges.revival; current.flare = charges.flare; current.inventoryGeneration = this.nextInventoryGeneration++;
+    Object.assign(current, charges); current.inventoryGeneration = this.nextInventoryGeneration++;
     this.actions.set(action.actionId, this.session.world.simulationTick); this.actions.set(`${this.session.world.simulationTick}:${this.ownerId(owner!)}`, this.session.world.simulationTick); this.generation++; return true;
   }
-  clear(player: SessionPlayer): void { const charge = this.charges.get(this.ownerId(player)); if (charge) { charge.revival = 0; charge.flare = 0; charge.inventoryGeneration = this.nextInventoryGeneration++; charge.ownerGeneration++; this.generation++; } }
+  clear(player: SessionPlayer): void { const charge = this.charges.get(this.ownerId(player)); if (charge) { for (const item of this.policy?.catalogue ?? CONSUMABLES) Object.assign(charge, {[item.id]:0}); charge.inventoryGeneration = this.nextInventoryGeneration++; charge.ownerGeneration++; this.generation++; } }
   snapshot(): ConsumableWorldSnapshot {
     const pickups = [...this.pickups.values()].map(({ speed: _speed, actorId: _actorId, ...pickup }) => Object.freeze({ ...pickup })).sort((a, b) => a.id.localeCompare(b.id));
     const charges = this.session.players.map(player => Object.freeze({ seat: player.seat, ...this.charges.get(this.ownerId(player))! })).sort((a, b) => a.seat.localeCompare(b.seat));
@@ -570,9 +605,9 @@ export class LocalSession {
   get contributions(): readonly SessionContribution[] { return this.contributionRecords; }
   get result(): SessionResult | undefined { return this.resultRecord; }
   /** A mode handler opts in after its staged adoption is committed. */
-  installConsumableWorld(): void {
+  installConsumableWorld(policy?: ConsumableWorldPolicy): void {
     if (this.consumableWorld) return;
-    const capability = new ConsumableWorld(this);
+    const capability = new ConsumableWorld(this, policy ? captureConsumablePolicy(policy) : undefined);
     this.releaseWorldExtension = this.world.host.installWorldExtension(capability);
     this.consumableWorld = capability;
   }
@@ -584,6 +619,7 @@ export class LocalSession {
     if (this.coOpMarket) return;
     if (policy?.consumables !== false) this.installConsumableWorld();
     this.coOpMarket = new CoOpMarketAdapter({
+      coOpMarketCatalogue: () => this.consumableWorld?.policy?.catalogue ?? CONSUMABLES,
       coOpMarketEnabled: () => this.active && this.coOpMarket !== undefined && !this.resultRecord,
       coOpMarketOwners: () => this.players,
       coOpMarketCloseOnInvalidate: () => policy?.closeOnInvalidate ?? false,
