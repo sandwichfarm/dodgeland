@@ -9,7 +9,9 @@ import { createMarketPreview } from './market-preview.js';
 import { createMarketScene } from './market-scene.js';
 import { runHandControls } from './run-hand.js';
 
+export interface MarketGear {readonly id:string;readonly name:string;readonly icon:string;readonly color:string;readonly description:string}
 interface MarketUIOptions {
+  getGear?():readonly MarketGear[]|undefined;
   getRun(): RunInventory;
   getCharacter(): Character;
   getOwner?(): { key: string; seat: string; marker: string; character: Character } | undefined;
@@ -37,7 +39,7 @@ type StockSection = 'cards' | 'rare' | 'extras';
 type Face = Pick<HeldCard, 'icon' | 'name' | 'rarity' | 'description' | 'color'>;
 interface DisplayItem {
   key: string; id: string; source: Source; item: Face; definition?: ItemDefinition;
-  price?: number; note?: string; section?: StockSection; sold?: boolean;
+  itemId?:string; price?: number; note?: string; section?: StockSection; sold?: boolean;
 }
 const element = <T extends HTMLElement = HTMLElement>(id: string): T => document.getElementById(id) as T;
 const rarityLabel = (rarity: Rarity): string => rarity[0].toUpperCase() + rarity.slice(1);
@@ -262,9 +264,10 @@ export function createMarketUI(options: MarketUIOptions) {
         section: offer.section ?? (item.kind === 'card' ? 'cards' : item.kind === 'cosmetic' ? 'extras' : 'rare') });
     }
     for (const offer of options.getCoOpContext?.()?.offers.filter(candidate => candidate.source === 'consumable') ?? []) {
-      const item = CONSUMABLES.find(candidate => candidate.id === offer.itemId);
+      const gear=options.getGear?.();
+      const item = gear?gear.find(candidate=>candidate.id===offer.itemId):CONSUMABLES.find(candidate => candidate.id === offer.itemId);
       if (!item) continue;
-      result.push({ key: `consumable:${offer.id}`, id: offer.id, source: 'consumable', item: { name: item.name, icon: item.id === 'revival' ? '✚' : '✦', rarity: 'rare', color: item.id === 'revival' ? '#5aa795' : '#d59d4b', description: `${item.name} item. ${item.id === 'revival' ? 'Return one dead teammate safely.' : 'Regroup dead teammates safely.'}` }, price: offer.price, sold: offer.sold, section: 'rare' });
+      result.push({ key: `consumable:${offer.id}`, id: offer.id, itemId:offer.itemId, source: 'consumable', item: { name: item.name, icon: 'icon' in item?item.icon:item.id === 'revival' ? '✚' : '✦', rarity: 'rare', color:'color' in item?item.color:item.id === 'revival' ? '#5aa795' : '#d59d4b', description: 'description' in item?item.description:`${item.name} item. ${item.id === 'revival' ? 'Return one dead teammate safely.' : 'Regroup dead teammates safely.'}` }, price: offer.price, sold: offer.sold, section: 'rare' });
     }
     for (const card of run.cards) {
       const source = run.pendingPack && replacing ? 'discard' : 'card';
@@ -287,26 +290,30 @@ export function createMarketUI(options: MarketUIOptions) {
   }
   function tile(entry: DisplayItem, index: number): HTMLButtonElement {
     const control = button('', `inspect:${entry.key}`, 'inspect', entry.key);
+    const gear=!!options.getGear?.()&&entry.source==='consumable';
     const kind = entry.definition?.kind ?? 'card';
+    const gearUnavailable=gear&&entry.sold?(currentRun?.market?'Item capacity reached':'Available at an earned market'):'';
     control.className = `market-item market-tile market-${kind}${kind === 'cosmetic' ? '' : ' playing-card'}${entry.source === 'offer' ? '' : ' market-held'}`;
     if (entry.source === 'offer' || entry.source === 'consumable') {
       control.dataset.offer = entry.id; control.dataset.sold = String(!!entry.sold); control.disabled = !!entry.sold;
-      if (entry.source === 'consumable' && entry.sold) control.title = `Already carrying ${entry.item.name}.`;
+      if (entry.source === 'consumable' && entry.sold) control.title = gearUnavailable || `Already carrying ${entry.item.name}.`;
     }
     if (entry.source === 'card' || entry.source === 'choice' || entry.source === 'discard') control.dataset.card = entry.id;
     if (entry.source === 'look') control.dataset.cosmetic = entry.id;
     if (entry.source === 'power') control.dataset.power = entry.id;
-    decorate(control, entry.item, index);
-    if (entry.definition?.kind === 'cosmetic') cosmeticFace(control, entry.definition);
+    if(gear){control.className='market-item market-tile market-gear';control.style.setProperty('--item-color',entry.item.color);}
+    else decorate(control, entry.item, index);
+    if(gear){const art=textNode('span',entry.item.icon,'market-gear-voxel');art.setAttribute('aria-hidden','true');control.append(art,textNode('strong',entry.item.name));}
+    else if (entry.definition?.kind === 'cosmetic') cosmeticFace(control, entry.definition);
     else control.append(face(entry.item, kind));
     const selected = entry.source === 'choice' ? picked.has(entry.id) : entry.source === 'discard' && discarded.has(entry.id);
     const state = entry.source === 'offer' ? entry.sold ? '✓ Yours' : `${entry.price} ◆`
-      : entry.source === 'consumable' ? entry.sold ? `Already carrying ${entry.item.name}` : `${entry.price} ◆`
+      : entry.source === 'consumable' ? entry.sold ? gearUnavailable || `Already carrying ${entry.item.name}` : `${entry.price} ◆`
       : entry.source === 'choice' ? selected ? '✓ Selected' : 'View card'
       : entry.source === 'discard' ? selected ? '✕ Discard' : 'Keep'
       : entry.source === 'card' ? 'In your hand' : entry.note ?? 'Owned';
     control.append(textNode('span', state, 'market-tile-price'));
-    control.setAttribute('aria-label', `${entry.item.name}, ${rarityLabel(entry.item.rarity)}. ${state}. ${entry.sold ? entry.source === 'consumable' ? 'Maximum one held.' : 'Purchased.' : 'View details.'}`);
+    control.setAttribute('aria-label', `${entry.item.name}, ${rarityLabel(entry.item.rarity)}. ${state}. ${entry.sold ? entry.source === 'consumable' ? gearUnavailable || 'Maximum one held.' : 'Purchased.' : 'View details.'}`);
     if (entry.source === 'choice' || entry.source === 'discard') {
       control.classList.add('market-choice'); control.classList.toggle('is-selected', selected);
       control.classList.toggle('is-discarded', entry.source === 'discard' && selected);
@@ -322,7 +329,8 @@ export function createMarketUI(options: MarketUIOptions) {
   function renderInspection(run: RunInventory, entry: DisplayItem): void {
     const art = element('market-inspect-art'); art.replaceChildren(); art.className = `market-inspect-art rarity-${entry.item.rarity}`;
     art.style.setProperty('--item-color', entry.item.color);
-    if (entry.definition?.kind === 'cosmetic') cosmeticFace(art, entry.definition, true);
+    if(options.getGear?.()&&entry.source==='consumable')art.append(textNode('span',entry.item.icon,'market-gear-voxel'));
+    else if (entry.definition?.kind === 'cosmetic') cosmeticFace(art, entry.definition, true);
     else art.append(face(entry.item, entry.definition?.kind, true));
     element('market-inspect-name').textContent = entry.item.name;
     element('market-inspect-kind').textContent = `${rarityLabel(entry.item.rarity)} · ${entry.definition?.kind === 'cosmetic' ? lookLabel(entry.definition) : entry.definition?.kind === 'pack' ? 'Pack' : entry.definition?.kind === 'power' ? 'Power' : entry.source === 'consumable' ? 'Item' : 'Card'}`;
@@ -334,7 +342,7 @@ export function createMarketUI(options: MarketUIOptions) {
     if (entry.source === 'offer' || entry.source === 'consumable') {
       actionName = entry.source === 'consumable' ? 'buy-consumable' : 'buy'; label = entry.source === 'consumable' ? `Buy ${entry.item.name} · ${entry.price} ◆` : `${entry.definition?.kind === 'pack' ? 'Open' : 'Buy'} · ${entry.price} ◆`;
       action.disabled = run.wallet < entry.price!;
-      if (action.disabled) note = `Need ${entry.price! - run.wallet} more coins.`;
+      if (action.disabled) note = options.getGear?.()?'Not enough coins.':`Need ${entry.price! - run.wallet} more coins.`;
       else if (entry.definition?.kind === 'pack') note = 'Choose after opening. Skipping keeps no cards and gives no refund.';
     } else if (entry.source === 'card') { actionName = 'sell'; label = `Sell · ${entry.price} ◆`; }
     else if (entry.source === 'look') {
@@ -380,14 +388,15 @@ export function createMarketUI(options: MarketUIOptions) {
     element('market-close').hidden = draftLocked;
     element('market-skip').hidden = !run.pendingPack;
     element('market-picks-back').hidden = !run.pendingPack || !replacing || !!inspection;
-    element('market-view-heading').textContent = screen === 'wardrobe' ? 'Dress your traveler' : screen === 'draft' ? 'Choose your cards' : screen === 'inspect' ? 'Take a closer look' : 'Choose a find';
+    element('market-view-heading').textContent = screen === 'wardrobe' ? 'Dress your traveler' : screen === 'draft' ? 'Choose your cards' : screen === 'inspect' ? 'Take a closer look' : options.getGear?.()?'Race gear':'Choose a find';
     // A short owner toolbar leaves room for one readable offer row. Keep the
     // remaining stock on the existing visible pager instead of clipping it
     // beneath the persistent hand. Shop pages advance each fixed shelf
     // section independently, so both rare consumables keep the one rare slot
     // instead of a flat slice silently dropping the second one.
-    const items = currentEntries(run, all), limit = screen === 'shop' ? 6 : capacity;
-    const shopSections = [['cards', 3], ['rare', 1], ['extras', 2]] as const;
+    const gear=options.getGear?.();
+    const items = currentEntries(run, all).filter(entry=>!gear||view==='wardrobe'||entry.source==='consumable'), limit = screen === 'shop' ? 6 : capacity;
+    const shopSections:readonly (readonly [StockSection,number])[]=gear?[['rare',2]]:[['cards',3],['rare',1],['extras',2]];
     // Solo retains its established six-slot shelf. Only an owner-labelled
     // Local Play table uses the bounded one-per-section page in a short frame.
     const visibleShopSlots = (slots: number): number => short && !owner.hidden ? 1 : slots;
@@ -421,6 +430,7 @@ export function createMarketUI(options: MarketUIOptions) {
     if (inspected) renderInspection(run, inspected);
     else if (screen === 'shop' && narrowCoOpShop) {
       shown.forEach((entry, index) => offers.append(tile(entry, index)));
+    } else if(screen==='shop'&&gear){shown.forEach((entry,index)=>offers.append(tile(entry,index)));
     } else if (screen === 'shop') {
       // Keep the same six places after a purchase. An empty rare shelf is a
       // deliberate slot; it never makes cosmetics slide into the card row.
@@ -500,7 +510,9 @@ export function createMarketUI(options: MarketUIOptions) {
     opener.setAttribute('aria-label', run.pendingPack ? `Finish choosing your pack cards (${options.shortcut()})` : window ? `Open market at ${window.milestone} points, ${Math.ceil(window.remaining)} seconds remaining (${options.shortcut()})` : 'Market unavailable');
     element('market-wallet').textContent = `${run.wallet} ◆`;
     element('market-tab-wallet').textContent = `${run.wallet} ◆`;
-    element('market-heading').textContent = window ? `Market · ${window.milestone}` : 'Market';
+    element('market-shop-tab').querySelector('span')!.textContent=options.getGear?.()?'Race gear':'Market';
+    overlay.dataset.gearOnly=String(!!options.getGear?.());
+    element('market-heading').textContent = options.getGear?.()?'Race gear':window ? `Market · ${window.milestone}` : 'Market';
     element('market-window').textContent = window && mutationsAvailable() ? 'Take your time. The trail is paused.' : window ? unavailableReason() : `${unavailableReason()} No active market is open for this player.`;
     if (window && window.milestone !== lastMilestone) {
       lastMilestone = window.milestone; resetView();
@@ -648,7 +660,7 @@ export function createMarketUI(options: MarketUIOptions) {
     else if (action === 'buy') {
       const entry = entries(run).find(item => item.key === `offer:${id}`); finish(options.transaction?.({ kind: 'buy', offerId: id }) ?? run.buy(id), entry);
     } else if (action === 'buy-consumable') {
-      const entry = entries(run).find(item => item.key === `consumable:${id}`); finish(options.transaction?.({ kind: 'buy-consumable', offerId: id, itemId: entry?.item.name.toLowerCase() }) ?? { ok: false, message: 'That item is unavailable.' }, entry);
+      const entry = entries(run).find(item => item.key === `consumable:${id}`); finish(options.transaction?.({ kind: 'buy-consumable', offerId: id, itemId: entry?.itemId }) ?? { ok: false, message: 'That item is unavailable.' }, entry);
     } else if (action === 'sell') finish(options.transaction?.({ kind: 'sell', cardId: id }) ?? run.sell(id));
     else if (action === 'equip') {
       const entry = entries(run).find(item => item.key === `look:${id}`); finish(options.transaction?.({ kind: 'equip', itemId: id }) ?? run.equipCosmetic(id), entry);

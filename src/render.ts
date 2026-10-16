@@ -47,6 +47,12 @@ export function characterYaw(game: Pick<Game, 'time'>, character: string, reduce
   if (phase <= 3.35) return Math.PI / 3;
   return Math.PI / 3 * (1 - ease((phase - 3.35) / .8));
 }
+/** Mode-owned observations; rendering never decides simulation policy. */
+export interface SessionPresentation {
+  readonly cameraAnchor: number;
+  readonly boundary: number;
+  readonly markers: readonly {readonly seat: string; readonly leader: boolean; readonly status: string; readonly effect: 'mud'|'lantern'|undefined}[];
+}
 export class Renderer {
   ctx: CanvasRenderingContext2D; width = 0; height = 0; scale = 40; camera = 0; reduced = false;
   backdrop = '#f4f2df'; ink = '#263c38';
@@ -221,17 +227,18 @@ export class Renderer {
     this.drawScene(game, character, dt);
   }
 
-  private drawScene(game: Game, character: string, dt: number, players?: readonly PlayerRender[]): void {
+  private drawScene(game: Game, character: string, dt: number, players?: readonly PlayerRender[], presentation?: SessionPresentation): void {
     if (!this.width) return;
     const leader = players?.filter(player => player.state === 'playing')
       .sort((a, b) => b.groundY - a.groundY || a.seat.localeCompare(b.seat))[0];
     // Solo retains its historical frontier target and exact smoothing arithmetic.
     // A session follows actual interpolated travel and keeps its last camera if no seat is active.
-    const cameraTarget = players ? leader?.groundY ?? this.camera : game.maxY;
+    const cameraTarget = presentation?.cameraAnchor ?? (players ? leader?.groundY ?? this.camera : game.maxY);
     this.camera = this.reduced ? cameraTarget : this.camera + (cameraTarget - this.camera) * Math.min(1, dt * 8);
     const ctx = this.ctx; ctx.clearRect(0, 0, this.width, this.height); ctx.fillStyle = this.backdrop; ctx.fillRect(0, 0, this.width, this.height);
     const rows = [...game.rows.values()].sort((a, b) => b.index - a.index);
     for (const lane of rows) this.lane(lane, game.time);
+    if(presentation){ctx.save();ctx.globalAlpha=.35;this.tile(0,presentation.boundary-3,16,6,this.ink);ctx.globalAlpha=.8;this.tile(0,presentation.boundary,16,.12,this.ink);ctx.restore();}
     if (game.run.market && game.run.market.remaining > 0 && game.state !== 'dead') {
       // The market invitation paints the ground, below all solid hazards.
       // It follows the traveler while the finite invitation is available.
@@ -361,6 +368,13 @@ export class Renderer {
       for (const object of layer) { const [x, y] = this.project(object.x, object.y); if (x > -this.scale * 8 && x < this.width + this.scale * 8 && y > -this.scale * 3 && y < this.height + this.scale * 3) object.draw(); }
     }
     for (const overlay of travelerOverlays) overlay();
+    if(presentation&&players)for(const mark of presentation.markers){
+      const p=players.find(p=>p.seat===mark.seat);if(!p)continue;
+      const [x,y]=this.project(p.groundX,p.groundY);ctx.save();ctx.strokeStyle=mark.effect==='lantern'?'#e8b75b':this.ink;ctx.lineWidth=3;
+      if(mark.effect){ctx.beginPath();ctx.ellipse(x,y,this.scale*.5,this.scale*.22,0,0,Math.PI*2);ctx.stroke();}
+      if(mark.leader){ctx.fillStyle=this.ink;ctx.font='600 16px sans-serif';ctx.textAlign='center';ctx.fillText('★',x,y-this.scale*1.5);}
+      ctx.restore();
+    }
     // These are intentional overlays: neither traveler nor scenery may hide
     // preparation for a strike. Their ground paths remain below the bodies.
     for (const mob of game.mobs) this.mobWindupWarning(mob);
@@ -511,8 +525,8 @@ export class Renderer {
   }
 
   /** One course, one camera, and one shared depth ordering for every traveler. */
-  drawSession(world: SharedWorld, players: readonly PlayerRender[], dt: number): void {
-    this.drawScene(world.host, world.host.characterId, dt, players);
+  drawSession(world: SharedWorld, players: readonly PlayerRender[], dt: number, presentation?: SessionPresentation): void {
+    this.drawScene(world.host, world.host.characterId, dt, players, presentation);
   }
 }
 export function modelThumbnail(model: Model, size = 160): string {

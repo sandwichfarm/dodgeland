@@ -46,8 +46,8 @@ export async function createMarketGameFixture(evidence, options = {}) {
     };
     if (options.initialIntent) window.napplet.intent = {
       onDelivery(listener) {
-        listener(options.initialIntent);
-        return { close() {} };
+        fixture.deliverIntent=listener;listener(options.initialIntent);
+        return { close() { delete fixture.deliverIntent; } };
       },
     };
     if (options.gamepads) window.napplet.gamepad = {};
@@ -94,7 +94,7 @@ frame.srcdoc=${artifact};</script>`;
         const bindings = await cdp.send('Runtime.getProperties', { objectId: scope.value.objectId, ownProperties: true });
         for (const binding of bindings.result) {
           if (binding.value?.type !== 'object' || !binding.value.objectId) continue;
-          const predicate = kind === 'game'
+          const predicate = kind === 'renderer' ? 'function(){return this?.canvas instanceof HTMLCanvasElement && typeof this.drawSession === "function" && typeof this.project === "function";}' : kind === 'game'
             ? 'function(){return this?.rows instanceof Map && typeof this.move === "function" && this.run?.catalog instanceof Map;}'
             : 'function(){return Array.isArray(this?.players) && this.world?.rows instanceof Map && typeof this.dispatch === "function" && typeof this.views === "function";}';
           const match = await cdp.send('Runtime.callFunctionOn', { objectId: binding.value.objectId, returnByValue: true, functionDeclaration: predicate });
@@ -162,7 +162,7 @@ frame.srcdoc=${artifact};</script>`;
     }, ids, replace);
     await advance(40); return offers;
   }
-  return { browser, page, frame, iframe, advance, onGame, onSession, sendPads, resize, key, open, stageMarket, stageOffers,
+  return { browser, page, frame, iframe, advance, onGame, onSession, onRenderer:(fn,...args)=>onObject('renderer',fn,args), sendPads, resize, key, open, stageMarket, stageOffers,
     refreshOwners() { objectIds.clear(); },
     async close() { await browser.close(); await new Promise(resolve => server.close(resolve)); } };
 }

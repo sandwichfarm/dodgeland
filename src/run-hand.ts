@@ -13,7 +13,11 @@ export function runHandControls(): HTMLElement[] {
   return [...root.querySelectorAll<HTMLButtonElement>('button')].filter(node => !node.disabled && visible(node));
 }
 
+export interface HandGear { readonly id:string; readonly name:string; readonly quantity:number }
 interface RunHandOptions {
+  getGear?(): readonly HandGear[] | undefined;
+  onUseGear?(id:string):void;
+  openGear?():void;
   getRun(): RunInventory;
   getOwnerKey?(): string;
   getOwnerLabel?(): string | undefined;
@@ -86,7 +90,7 @@ export function createRunHand(options: RunHandOptions) {
   }
 
   function paintHand(force = false) {
-    const run = options.getRun(), slots = Math.max(run.cards.length, run.cardCapacity);
+    const run = options.getRun(), gear=options.getGear?.(), slots = gear?0:Math.max(run.cards.length, run.cardCapacity);
     const charges = options.getItems?.();
     const canUseItems = options.canUseItems?.() ?? true;
     const width = Math.max(0, root.clientWidth), short = app.clientHeight < 420;
@@ -94,10 +98,11 @@ export function createRunHand(options: RunHandOptions) {
     const gap = short ? 5 : 8;
     const allFit = slots * minimum + Math.max(0, slots - 1) * gap <= width;
     pageSize = allFit ? slots : Math.max(1, Math.floor((width - 104 + gap) / (minimum + gap)));
-    const totalPages = Math.max(1, Math.ceil(slots / pageSize));
+    const totalPages = Math.max(1, Math.ceil(slots / Math.max(1,pageSize)));
     handPage = Math.max(0, Math.min(handPage, totalPages - 1));
-    const stamp = `${run.cards.map(card => `${card.id}:${card.name}:${card.saleValue}`).join('|')}/${slots}/${handPage}/${pageSize}/${selected ?? ''}/${charges?.revival ?? ''}:${charges?.flare ?? ''}/${canUseItems}`;
+    const stamp = `${run.cards.map(card => `${card.id}:${card.name}:${card.saleValue}`).join('|')}/${slots}/${handPage}/${pageSize}/${selected ?? ''}/${charges?.revival ?? ''}:${charges?.flare ?? ''}/${canUseItems}/${JSON.stringify(gear)}`;
     count.textContent = `${run.cards.length} / ${run.cardCapacity} cards${totalPages > 1 ? ` · ${handPage + 1}/${totalPages}` : ''}`;
+    if(gear)count.textContent='Race gear';
     cards.setAttribute('aria-label', `Your hand, ${run.cards.length} of ${run.cardCapacity} cards`);
     previous.hidden = next.hidden = totalPages <= 1;
     previous.disabled = handPage === 0; next.disabled = handPage >= totalPages - 1;
@@ -127,7 +132,11 @@ export function createRunHand(options: RunHandOptions) {
       button.title = card.name; button.append(illustration, title); fragment.append(button);
     }
     cards.replaceChildren(fragment);
-    items.hidden = !charges;
+    items.hidden = !charges && !gear;
+    if(gear){
+      const controls:HTMLElement[]=gear.map(item=>{const b=document.createElement('button');b.type='button';b.dataset.handGear=item.id;b.dataset.handKey=`gear:${item.id}`;b.textContent=`${item.name} ×${item.quantity}`;b.setAttribute('aria-label',`Use ${item.name}`);b.disabled=!canUseItems||!item.quantity;return b;});
+      const open=document.createElement('button');open.type='button';open.dataset.handGear='open';open.dataset.handKey='gear:open';open.textContent='Race gear';controls.push(open);items.replaceChildren(...controls);restoreKey(focused);return;
+    }
     if (!charges) { items.replaceChildren(); restoreKey(focused); return; }
     const itemControls: HTMLElement[] = [];
     for (const [id, quantity] of [['revival', charges?.revival ?? 0], ['flare', charges?.flare ?? 0]] as const) {
@@ -264,6 +273,7 @@ export function createRunHand(options: RunHandOptions) {
   const resize = () => { if (active && !disposed) { paintHand(); paginate(); } };
   const observer = new ResizeObserver(resize);
   observer.observe(app); observer.observe(root);
+  root.addEventListener('click',event=>{const b=(event.target as HTMLElement).closest<HTMLButtonElement>('[data-hand-gear]');if(!b||b.disabled)return;if(b.dataset.handGear==='open')options.openGear?.();else options.onUseGear?.(b.dataset.handGear!);});
   root.addEventListener('click', onClick); root.addEventListener('pointerdown', onPointerDown);
   document.addEventListener('keydown', onKey, true);
   document.fonts.addEventListener('loadingdone', resize);

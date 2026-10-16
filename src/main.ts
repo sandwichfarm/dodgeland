@@ -28,7 +28,7 @@ import type { LocalSessionBoard, SessionSetupSeat } from './session-ui.js';
 import { createRelaySession, RELAY_LOCKED } from './relay.js';
 import { createRaceSession, validateRaceSetup } from './race.js';
 import type { RaceCoordinator } from './race.js';
-import { createRaceSetup, createRaceResultsBoard, renderRaceHud } from './race-ui.js';
+import { createRaceSetup, createRaceResultsBoard, renderRaceHud, racePresentation, renderRaceEdges, raceFogLabel } from './race-ui.js';
 import type { RelayCoordinator, RelayConfirmation, RelayActionToken } from './relay.js';
 import { createRelaySetup, createRelayHandoff, createRelayLifecycle, createRelayResults, renderRelayHud } from './relay-ui.js';
 import { GameAudio } from './audio.js';
@@ -83,7 +83,7 @@ function selectedOwnerRun() { return selectedSessionOwner()?.run ?? game.run; }
 function selectedOwnerCharacter() { return characterById(selectedSessionOwner()?.characterId ?? progress.selected); }
 function selectedOwnerKey(): string { const owner = selectedSessionOwner(); return owner && localSession ? `${localSession.id}:${owner.seat}` : 'solo'; }
 function selectedOwnerLabel(): string | undefined {
-  const owner = sharedOwner(); return owner ? relay ? `Viewing ${owner.seat.toUpperCase()} · ${owner.character.name}` : `Viewing ${owner.seat.toUpperCase()} ${owner.marker} · ${owner.character.name}` : undefined;
+  const owner = sharedOwner(); return owner ? relay || race ? `Viewing ${owner.seat.toUpperCase()} · ${owner.character.name}` : `Viewing ${owner.seat.toUpperCase()} ${owner.marker} · ${owner.character.name}` : undefined;
 }
 function sharedOwner() {
   const owner = selectedSessionOwner();
@@ -127,6 +127,7 @@ function coOpMarketTransaction(request: { kind: 'open' | 'close' | 'buy' | 'buy-
 }
 function selectHudOwner(seat: SeatId): void {
   if (hudSelected === seat) return;
+  if(raceItemContext)closeLifecycleBoard();
   // Both shared surfaces retain ephemeral UI state. Invalidate that state while
   // the old inventory is still resolvable, before a new seat becomes current.
   const marketWasOpen = market.invalidateOwner(); hand.invalidateOwner(); coOpMarketContext = undefined; router.seedAll(); hudSelected = seat;
@@ -186,6 +187,7 @@ function closeRecoveryBoard(resume = false): void {
   updateHud();
 }
 function closeLifecycleBoard(): void {
+  raceItemContext=undefined;
   if(race?.confirmingLeave)race.command(race.actionToken(race.confirmingLeave),'cancel');
   const priorFocus = recoveryReturnFocus, resume = lifecycleWasPlaying; recoveryReturnFocus = undefined; lifecycleWasPlaying = false;
   lifecycleBoard?.remove(); lifecycleBoard = undefined; pendingReclaim = undefined; clearRecoveryModalInert();
@@ -214,6 +216,27 @@ function openLifecycleBoard(ownerSeat: SeatId, titleCopy: string, detailCopy: st
     else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
   });
   queueMicrotask(() => (focusConfirm ? apply : notNow).focus({ preventScroll: true }));
+}
+let raceItemContext: {race:RaceCoordinator;owner:SeatId;generation:string;inventory:number}|undefined;
+function openRaceItem(id:string):void {
+  const current=race,owner=selectedSessionOwner();if(!current||!owner||!ownerMutationsAvailable()||(id!=='mud-splash'&&id!=='fog-lantern'))return;
+  if(market.isOpen())market.close(false);
+  const candidates=current.session.players.filter(p=>p!==owner&&current.items.plan(owner.seat,id,p.seat).ok);
+  const context={race:current,owner:owner.seat,generation:current.generation,inventory:itemCharge(owner.seat)?.inventoryGeneration??-1};
+  let target=id==='fog-lantern'?owner:candidates[0];
+  let plan=current.items.plan(owner.seat,id,target?.seat);
+  openLifecycleBoard(owner.seat,`Viewing ${owner.seat.toUpperCase()} · ${characterById(owner.characterId).name}`,id==='mud-splash'?(target?'Target a racer within 16 tiles':'No racer is in range.'):current.fogState(owner.seat).protectionUntil>current.elapsed?'Fog Lantern is already lit.':'Fog safe for 3 seconds','Back',id==='fog-lantern'?'Light lantern':`Use on ${target?.seat.toUpperCase()??'—'}`,false,true,()=>{
+    if(raceItemContext!==context||race!==current||hudSelected!==owner.seat||!current.items.commit(plan)){const detail=lifecycleBoard?.querySelector<HTMLElement>('.survive-recovery-status');if(detail)detail.textContent=id==='mud-splash'?'Mud Splash needs an active racer within 16 tiles.':current.fogState(owner.seat).protectionUntil>current.elapsed?'Fog Lantern is already lit.':`${owner.seat.toUpperCase()} is protected.`;return false;}
+    notify(id==='mud-splash'?`Mud Splash hit ${target!.seat.toUpperCase()}.`:'Fog Lantern · 3s');return true;
+  });
+  const board=lifecycleBoard!;board.dataset.raceTarget=id;board.setAttribute('aria-label',`Viewing ${owner.seat.toUpperCase()} · ${characterById(owner.characterId).name}`);
+  const apply=board.querySelector<HTMLButtonElement>('.primary')!;apply.disabled=!plan.ok;
+  if(id==='mud-splash'){
+    const choices=document.createElement('div');choices.className='race-target-choices';choices.setAttribute('role','group');choices.setAttribute('aria-label','Target');
+    for(const p of candidates){const b=document.createElement('button');b.type='button';b.textContent=`${p.marker} ${p.seat.toUpperCase()} · ${characterById(p.characterId).name} · ${p.groundY-owner.groundY>=0?'+':''}${(p.groundY-owner.groundY).toFixed(1)} tiles · ${p.health}/${p.maxHealth} feathers · ${raceFogLabel(current,p.seat)}`;b.setAttribute('aria-pressed',String(p===target));b.onclick=()=>{target=p;plan=current.items.plan(owner.seat,id,p.seat);for(const c of choices.children)c.setAttribute('aria-pressed',String(c===b));apply.textContent=`Use on ${p.seat.toUpperCase()}`;apply.disabled=!plan.ok;clearRelayInput();};choices.append(b);}
+    board.insertBefore(choices,board.querySelector('.survive-recovery-actions'));queueMicrotask(()=>choices.querySelector('button')?.focus());
+  }
+  raceItemContext=context;clearRelayInput();
 }
 function openDepartureBoard(seat: SeatId): void {
   if (relay) { relayAction('leave', seat); return; }
@@ -391,6 +414,9 @@ let displayedHealth = -1;
 const mediaQuery = matchMedia('(prefers-reduced-motion: reduce)');
 const seedUI = createSeedUI();
 const hand = createRunHand({
+  getGear:()=>race?race.items.catalogue.map(item=>({id:item.id,name:item.name,quantity:itemCharge(hudSelected)?.[item.id]??0})):undefined,
+  openGear:()=>market.openForSelected(),
+  onUseGear:id=>openRaceItem(id),
   getRun: selectedOwnerRun,
   getOwnerKey: selectedOwnerKey,
   getOwnerLabel: selectedOwnerLabel,
@@ -431,6 +457,7 @@ const pauseUI = createPauseUI();
 const runMenuUI = createRunMenuUI();
 const surviveResultsRoot = document.createElement('section'); surviveResultsRoot.id = 'survive-results-root'; el('app').append(surviveResultsRoot);
 const surviveResults = createSurviveResultsBoard(surviveResultsRoot, { onAgain: () => reset() });
+const raceEdges=document.createElement('aside');raceEdges.id='race-edge-markers';raceEdges.setAttribute('aria-label','Offscreen racers');el('app').append(raceEdges);
 const raceResults = createRaceResultsBoard(surviveResultsRoot, () => reset());
 const collectionUI = createCollectionUI({
   read: () => progress,
@@ -447,6 +474,7 @@ const collectionUI = createCollectionUI({
 });
 const powerUI = createCharacterPowerUI();
 const market = createMarketUI({
+  getGear:()=>race?race.items.catalogue.map(item=>({id:item.id,name:item.name,icon:item.id==='mud-splash'?'●':'◈',color:item.appearance?.color??'#e8b75b',description:item.id==='mud-splash'?'Target a racer within 16 tiles':'Fog safe for 3 seconds'})):undefined,
   getRun: selectedOwnerRun,
   getCharacter: selectedOwnerCharacter,
   getOwner: sharedOwner,
@@ -960,6 +988,7 @@ function hasPendingRecoveryOffer(): boolean {
   return !!localSession?.players.some(player => player.participation === 'dead' && player.state === 'dead' && !!player.recovery?.offer);
 }
 function updateHud(): void {
+  if(raceItemContext&&(race!==raceItemContext.race||hudSelected!==raceItemContext.owner||race.generation!==raceItemContext.generation||itemCharge(raceItemContext.owner)?.inventoryGeneration!==raceItemContext.inventory)){closeLifecycleBoard();}
   const raceGeneration=race?.generation??'';
   if(raceGeneration!==raceInputGeneration){raceInputGeneration=raceGeneration;clearRelayInput();}
   const terminalResult = localSession?.result;
@@ -1054,7 +1083,7 @@ function updateHud(): void {
   const state = displayedRunState();
   const ownerRun = selectedOwnerRun();
   const ownerCharge = itemCharge(hudSelected);
-  hand.update({ visible: !terminalResult && !localStage && ownerRun.alive && (state === 'playing' || state === 'paused') && (!!relay || ownerRun.cards.length > 0 || ownerRun.isOpen || Boolean(ownerCharge?.revival || ownerCharge?.flare)) && !(import.meta.env.DEV && devTools?.isOpen), reduced: progress.reduced || mediaQuery.matches });
+  hand.update({ visible: !terminalResult && !localStage && ownerRun.alive && (state === 'playing' || state === 'paused') && (!!relay || !!race || ownerRun.cards.length > 0 || ownerRun.isOpen || Boolean(ownerCharge?.revival || ownerCharge?.flare)) && !(import.meta.env.DEV && devTools?.isOpen), reduced: progress.reduced || mediaQuery.matches });
   seedUI.update(state === 'dead' && !presentingDeathSpill() ? game.seedCode : null);
   el<HTMLButtonElement>('character-call').disabled = progress.muted || (state !== 'ready' && state !== 'playing');
   const viewState = `${state}:${Boolean(selectedOwnerRun().pendingPack)}:${Boolean(localStage)}:${Boolean(localSession)}`;
@@ -1593,6 +1622,27 @@ const observer = new ResizeObserver(() => {
 document.addEventListener('visibilitychange', () => { if (document.hidden) suspendPlay(); });
 window.addEventListener('blur', () => { localFocus = false; suspendPlay(); });
 window.addEventListener('focus', () => { localFocus = true; });
+let feedbackRace:RaceCoordinator|undefined;
+let feedbackResult:RaceCoordinator['result'];
+const feedbackStates=new Map<SeatId,{landed:number;fog:boolean;status:string}>();
+function syncRaceFeedback():void {
+  if(feedbackRace!==race){feedbackRace=race;feedbackStates.clear();feedbackResult=undefined;}
+  if(!race)return;
+  if(race.result&&feedbackResult!==race.result){feedbackResult=race.result;audio.sessionEvent('rank');notify('Race results ready.');}
+  for(const p of race.session.players){
+    const state={landed:race.fogState(p.seat).landed,fog:p.groundY<race.fogBoundary,status:race.status(p.seat)},before=feedbackStates.get(p.seat);feedbackStates.set(p.seat,state);if(!before)continue;
+    let message='',cue:Parameters<GameAudio['sessionEvent']>[0]|undefined;
+    if(state.landed>before.landed){message=`Fog plucked ${state.landed-before.landed} feather from ${p.seat.toUpperCase()}.`;cue='pressure-damage';}
+    else if(state.fog&&!before.fog){message=`${p.seat.toUpperCase()} entered fog.`;cue='pressure-warning';}
+    if(state.status!==before.status){
+      if(state.status==='active'){message=`${p.seat.toUpperCase()} returned${(p.recovery?.protectionUntil??0)>race.session.world.time?' · protected 2s':''}.`;cue='returned';}
+      else if(state.status==='finished'){message=`${p.seat.toUpperCase()} finished.`;cue='finished';}
+      else if(state.status==='disconnected-grace'){message=`${p.seat.toUpperCase()} disconnected · reclaim 12s`;cue='disconnected';}
+      else message=`${p.seat.toUpperCase()} · ${state.status}`;
+    }
+    if(message)notify(message);if(cue)audio.sessionEvent(cue);
+  }
+}
 let last = performance.now(), accumulator = 0;
 function frame(now: number): void {
   const dt = Math.min((now - last) / 1000, .05); last = now;
@@ -1613,9 +1663,10 @@ function frame(now: number): void {
     while (accumulator >= fixedStep) { game.update(fixedStep); accumulator -= fixedStep; }
   } else accumulator = 0;
   syncRelayHandoff();
+  syncRaceFeedback();
   for (const event of localSession?.consumableSnapshot()?.uses ?? []) {
     if (heardConsumableUses.has(event)) continue;
-    heardConsumableUses.add(event); audio.play(event.cue);
+    heardConsumableUses.add(event); if(race)audio.sessionEvent(event.itemId==='mud-splash'?'offensive-item':'defensive-item');else audio.play(event.cue);
   }
   if (!document.hidden && localFocus && innerWidth >= 240 && innerHeight >= 240) {
     if (localSession?.running) { if (sessionUnblocked) localSession.advanceDeathVisuals(dt); }
@@ -1626,7 +1677,8 @@ function frame(now: number): void {
     progress.reduced || mediaQuery.matches);
   soundscape.update(game, !progress.muted && !document.hidden && !market.isOpen() && el('drawer').hidden && innerWidth >= 240 && innerHeight >= 240);
   renderer.reduced = progress.reduced || mediaQuery.matches;
-  if (localSession?.running) renderer.drawSession(localSession.world, localSession.views(), sessionAdvancing ? dt : 0); else renderer.draw(game, progress.selected, localStage ? 0 : dt);
+  if (localSession?.running) renderer.drawSession(localSession.world, localSession.views(), sessionAdvancing ? dt : 0, race ? racePresentation(race) : undefined); else renderer.draw(game, progress.selected, localStage ? 0 : dt);
+  if(race)renderRaceEdges(raceEdges,race,renderer);else raceEdges.replaceChildren();
   updateHud(); el('toast').textContent = now < toastUntil && !(game.state === 'playing' && game.warning) ? toastMessage : '';
   if (import.meta.env.DEV) devTools?.update();
   raf = requestAnimationFrame(frame);

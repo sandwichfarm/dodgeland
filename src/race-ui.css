@@ -92,3 +92,39 @@
 }
 @media (max-height:419px) { .race-podium h3 { font-size: 16px; } }
 @media (max-height:419px) { .race-tier-members { row-gap: 0; } }
+.race-boundary { grid-column: 1/-1; margin: 0; font-size:16px; color:var(--game-ink); background:var(--game-paper); }
+#race-edge-markers { position:absolute; inset: auto 8px 120px; pointer-events:none; display:flex; flex-wrap:wrap; gap:8px; z-index:3; }
+#race-edge-markers p { margin:0; padding:4px; font:400 16px/1.2 var(--game-font); background:var(--game-paper); color:var(--game-ink); }
+@media(max-width:479px),(max-height:419px){ .race-boundary { display:none; } #race-edge-markers { bottom:100px; } #race-edge-markers p { max-width:100%; } }
+#market[data-gear-only="true"] #market-offers { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.market-gear { display:grid; justify-items:center; align-content:center; gap:8px; background:var(--game-paper); color:var(--game-ink); min-height:120px; }
+.market-gear-voxel { display:block; color:var(--item-color); font-size:44px; line-height:1.1; text-shadow:4px 4px 0 var(--game-edge); }
+@media(min-width:900px) and (min-height:420px){
+ #session-seats:has([data-race-hud]) { top:8px; left:8px; right:8px; width:auto; grid-template-columns:280px 1fr 280px; pointer-events:none; }
+ #session-seats:has([data-race-hud]) .session-hud-tile { pointer-events:auto; }
+ #session-seats:has([data-race-hud]) .session-hud-tile:nth-of-type(odd) { grid-column:1; }
+ #session-seats:has([data-race-hud]) .session-hud-tile:nth-of-type(even) { grid-column:3; }
+ #session-seats:has([data-race-hud]) .race-distance { grid-column:1/-1; text-align:center; }
+ #session-seats:has([data-race-hud]) .race-boundary { display:none; }
+ #app:has([data-race-hud]) .hud>.score-block,#app:has([data-race-hud]) .world-label,#app:has([data-race-hud]) #chapter-label,#app:has([data-race-hud]) #pluck,#app:has([data-race-hud]) #character-power { display:none; }
+ #app:has([data-race-hud]) .hud-tools { position:fixed; bottom:90px; top:auto; left:50%; transform:translateX(-50%); }
+}
+
+.race-target-choices { display:flex; flex-wrap:wrap; gap:8px; }
+.race-target-choices button { min-height:44px; padding:8px; color:var(--game-ink); background:var(--game-paper); border:2px solid var(--game-edge); font:400 16px/1.2 var(--game-font); }
+.race-target-choices button[aria-pressed="true"] { background:var(--game-gold,#edcd77); outline:2px solid var(--game-ink); outline-offset:-4px; }
+#market[data-gear-only="true"] .market-gear { width:100%; height:auto; min-height:144px; opacity:1; }
+#market[data-gear-only="true"] .market-gear:disabled { opacity:1; color:var(--game-ink); }
+#market[data-gear-only="true"] .market-gear .market-tile-price { position:static; white-space:normal; }
+#app #market[data-gear-only="true"] .market-item.market-gear { display:grid; width:100%; max-width:none; height:auto; min-height:144px; opacity:1; filter:none; background:var(--game-paper); color:var(--game-ink); }
+#app #market[data-gear-only="true"] .market-gear .market-tile-price { background:transparent; color:var(--game-ink); }
+@media(max-width:479px),(max-height:419px){
+ #session-seats:has([data-race-hud]) .session-hud-selected .session-hud-details { top:90px; }
+ #session-seats:has([data-race-hud]):not([data-session-hud-inspect="true"]) .session-hud-details { display:none; }
+ #session-seats:has([data-race-hud]) .race-lifecycle { font-size:16px; }
+}
+#app #market[data-gear-only="true"][data-market-view="shop"] #market-offers { grid-template-columns:repeat(2,minmax(0,1fr)); grid-template-rows:minmax(0,1fr); }
+#app #market[data-gear-only="true"] .market-gear .market-gear-voxel { font-size:44px; }
+#app #market[data-gear-only="true"][data-market-short="true"] #market-offers { grid-template-columns:minmax(0,1fr); }
+#app #market[data-gear-only="true"][data-market-short="true"] .market-gear { min-height:44px; grid-template-columns:44px minmax(0,1fr) minmax(0,1fr); padding:4px 8px; align-content:center; align-items:center; }
+#app #market[data-gear-only="true"][data-market-short="true"] .market-gear .market-tile-price { font-size:16px; padding:0; }

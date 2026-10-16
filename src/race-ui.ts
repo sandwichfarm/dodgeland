@@ -1,14 +1,33 @@
 import { characterById } from './content.js';
+import type { SessionPresentation, Renderer } from './render.js';
 import { modelThumbnail } from './render.js';
 import { validateRaceSetup } from './race.js';
 import './race-ui.css';
 import type { RaceProposal, RaceResult, RaceCoordinator } from './race.js';
 import type { SessionSetupSeat } from './session-ui.js';
 
+export function racePresentation(race:RaceCoordinator):SessionPresentation {
+  return {cameraAnchor:race.leaderFrontier,boundary:race.fogBoundary,markers:race.session.players.map(p=>({seat:p.seat,leader:p.earnedDistance===race.leaderFrontier,status:race.status(p.seat),effect:race.fogState(p.seat).protectionUntil>race.elapsed?'lantern':p.hopCooldown.multiplier>1?'mud':undefined}))};
+}
+export function raceFogLabel(race:RaceCoordinator,seat:RaceCoordinator['session']['players'][number]['seat']):string {
+  const p=race.session.players.find(p=>p.seat===seat)!,fog=race.fogState(seat);
+  if((p.recovery?.protectionUntil??0)>race.session.world.time)return 'Protected — items return when the shield clears.';
+  if(fog.protectionUntil>race.elapsed)return 'Lantern · fog safe';
+  if(p.groundY===race.fogBoundary)return 'Fog line · safe';
+  return p.groundY<race.fogBoundary?`Fog — feather in ${Math.max(0,1-fog.exposure).toFixed(1)}s`:'Safe';
+}
+export function renderRaceEdges(root:HTMLElement,race:RaceCoordinator,renderer:Renderer):void {
+  root.hidden=!!race.result;
+  const rows=race.session.players.map(p=>{const [x,y]=renderer.project(p.groundX,p.groundY),outside=x<0||x>renderer.width||y<0||y>renderer.height;return {p,outside,arrow:y<0?'↑':y>renderer.height?'↓':x<0?'←':'→'};}).filter(r=>r.outside);
+  root.replaceChildren(...rows.map(({p,arrow})=>{const n=document.createElement('p');n.dataset.raceEdge=p.seat;n.textContent=`${arrow} ${p.marker} ${p.seat.toUpperCase()} · ${characterById(p.characterId).name} · ${p.groundY-race.leaderFrontier>=0?'+':''}${(p.groundY-race.leaderFrontier).toFixed(1)} lead / ${(p.groundY-race.fogBoundary)>=0?'+':''}${(p.groundY-race.fogBoundary).toFixed(1)} fog · ${p.health}/${p.maxHealth} · ${race.status(p.seat)}`;return n;}));
+}
+
 export function renderRaceHud(root: HTMLElement, race: RaceCoordinator): void {
   let cue = root.querySelector<HTMLElement>('.race-distance');
   if (!cue) { cue = document.createElement('p'); cue.className = 'race-distance'; root.prepend(cue); }
   cue.textContent = `Finish ${race.descriptor.settings.finishTiles} · ${Math.max(0, Math.ceil(race.descriptor.settings.activeSeconds-race.elapsed))}s`;
+  cue.dataset.raceLead='true';cue.textContent+=` · Lead ${race.leaderFrontier} · fog ${race.fogBoundary}`;
+  let boundary=root.querySelector<HTMLElement>('[data-race-boundary]');if(!boundary){boundary=document.createElement('p');boundary.dataset.raceBoundary='true';boundary.className='race-boundary';root.append(boundary);}boundary.textContent=`Fog begins ${race.fogBoundary} · 1 feather each second behind the line`;
   const statuses=race.session.players.map(p=>race.status(p.seat));
   let notice=root.querySelector<HTMLElement>('.race-lifecycle');
   if(!notice){notice=document.createElement('p');notice.className='race-lifecycle';notice.setAttribute('role','status');root.append(notice);}
@@ -16,6 +35,15 @@ export function renderRaceHud(root: HTMLElement, race: RaceCoordinator): void {
   for (const player of race.session.players){
     const tile=root.querySelector<HTMLElement>(`[data-seat="${player.seat}"]`)!;
     const state=race.status(player.seat),name=player.seat.toUpperCase();
+    tile.dataset.raceHud='true';
+    tile.querySelector<HTMLElement>('[data-session-hud="power"]')!.textContent=`Power · ${player.powerReady?100:100-player.powerRemaining}/100 tiles${player.powerReady?' · Ready':''}`;
+    if(!player.recovery?.offer)tile.querySelector<HTMLElement>('[data-session-hud="revive"]')!.textContent=`Personal revive · ${player.recovery?.charge==='available'?250:Math.max(0,250-((player.recovery?.nextRecharge??250)-(player.recovery?.personalHighWater??0)))}/250 tiles${player.recovery?.charge==='available'?' · Ready':''}`;
+    tile.querySelector<HTMLElement>('[data-session-hud="wallet"]')!.textContent=`${player.run.wallet} coins · ${player.earnedDistance===race.leaderFrontier?'Leader · ':''}${player.earnedDistance} tiles`;
+    let fog=tile.querySelector<HTMLElement>('[data-race-fog]');if(!fog){fog=document.createElement('span');fog.dataset.raceFog='true';tile.querySelector('.session-hud-details')!.append(fog);}fog.textContent=raceFogLabel(race,player.seat);
+    let effect=tile.querySelector<HTMLElement>('[data-race-effect]');if(!effect){effect=document.createElement('span');effect.dataset.raceEffect='true';tile.querySelector('.session-hud-details')!.append(effect);}
+    const charge=race.session.consumableSnapshot()?.charges.find(c=>c.seat===player.seat);effect.textContent=race.fogState(player.seat).protectionUntil>race.elapsed?`Fog Lantern · ${(race.fogState(player.seat).protectionUntil-race.elapsed).toFixed(1)}s`:player.hopCooldown.multiplier>1?`Mudded · ${Math.max(0,(player.hopCooldown.until-race.session.world.time)/race.session.world.rules.simulation.worldTimeScale).toFixed(1)}s`:`Mud Splash ×${charge?.['mud-splash']??0} · Fog Lantern ×${charge?.['fog-lantern']??0}`;
+    tile.querySelector('[data-session-hud="identity"]')!.setAttribute('aria-label',`${name} ${player.marker} ${characterById(player.characterId).name}, ${player.health}/${player.maxHealth} feathers, ${state}, ${player.earnedDistance===race.leaderFrontier?'Leader, ':''}${fog.textContent}`);
+
     tile.querySelector<HTMLElement>('[data-session-hud="lifecycle"]')!.textContent=state==='disconnected-grace'?`${name} disconnected · reclaim ${Math.ceil(race.graceRemaining(player.seat))}s`:state==='forfeited'?`${name} forfeited.`:state==='departed'?`${name} departed · DNF`:state==='finished'?'FINISHED':state==='recovery-offered'?'Personal revival offered':state==='eliminated'?'Eliminated · DNF':'Racing';
     const leave=tile.querySelector<HTMLButtonElement>('[data-session-hud="item"]')!;leave.textContent='Leave Race';leave.disabled=player.deviceLostAt!==null||['finished','forfeited','departed'].includes(state);
     const revive=tile.querySelector<HTMLButtonElement>('[data-session-hud="revive"]')!;revive.disabled=state!=='recovery-offered';
