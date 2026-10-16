@@ -105,3 +105,32 @@ test('Mud Splash out-of-range and departed targets preserve charges; owner switc
  await f.locator('[data-seat="p2"] [data-session-hud="item"]').click();await f.locator('#survive-lifecycle-board').getByRole('button',{name:'Leave Race',exact:true}).click();await f.locator('[data-seat="p1"] [data-session-hud="identity"]').click();await f.getByRole('button',{name:'Use Mud Splash',exact:true}).click();assert.match(await f.locator('#survive-lifecycle-board').innerText(),/No racer is in range/);assert.equal((await read()).charges,1);assert.deepEqual(evidence.errors,[]);
  }finally{await app.close();}
 });
+
+for(const outcome of ['finish','timeout-dnf'])test(`assigned controller operates frozen Race results after ${outcome}`,{timeout:30000},async()=>{
+ const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{gamepads:true,auditBoundary:true,initialIntent:intent});
+ try{
+  const f=app.frame;await mixedSetup(app,{finish:outcome==='finish'?'1':'500',seconds:'30'});
+  if(outcome==='finish'){
+   await app.page.keyboard.press('w');await app.sendPads([pad(0,[0])]);await app.advance(300);
+  }else{
+   await f.locator('[data-seat="p1"] [data-session-hud="item"]').click();await f.locator('#survive-lifecycle-board').getByRole('button',{name:'Leave Race',exact:true}).click();
+   await app.advance(29800);await app.sendPads([pad(0,[0])]);await app.advance(400);
+  }
+  const root=f.locator('#survive-results-root');await root.getByRole('heading',{name:'Race results',exact:true}).waitFor();
+  const frozen=await app.onSession(function(){return JSON.stringify(this.result);});
+  assert.equal(JSON.parse(frozen).outcome,outcome==='finish'?'finish':'time');
+  if(outcome==='timeout-dnf')assert.equal(JSON.parse(frozen).players[0].dnf,'Left');
+  const snapshot=()=>app.onSession(function(){return JSON.stringify({result:this.result,time:this.world.time,players:this.players.map(p=>({x:p.x,y:p.y,earned:p.earnedDistance,wallet:p.run.wallet,cards:p.run.cards,health:p.health}))});});
+  const settled=await snapshot();await app.advance(1000);await app.sendPads([pad(0,[0])]);assert.equal(await root.isVisible(),true,'held settlement confirm cannot retry');assert.equal(await snapshot(),settled);
+  await app.sendPads([pad(0)]);
+  // Unknown controller cannot operate the assigned seat's terminal surface.
+  const initialFocus=await f.evaluate(()=>document.activeElement?.textContent);await app.sendPads([pad(0),pad(7,[0])]);assert.equal(await root.isVisible(),true);assert.equal(await f.evaluate(()=>document.activeElement?.textContent),initialFocus);await app.sendPads([pad(0)]);
+  await app.sendPads([pad(0,[14])]);assert.equal(await root.getByRole('button',{name:'Next results',exact:true}).evaluate(n=>n===document.activeElement),true,'fresh assigned direction reaches paging');await app.sendPads([pad(0)]);
+  await app.sendPads([pad(0,[0])]);await app.sendPads([pad(0)]);assert.equal(await root.locator('[data-participant]').count(),1,'fresh confirm opens participant breakdown');assert.equal(await snapshot(),settled);
+  await app.sendPads([pad(0,[15])]);await app.sendPads([pad(0)]);assert.equal(await root.getByRole('button',{name:'Race again',exact:true}).evaluate(n=>n===document.activeElement),true);
+  // Non-result actions remain consumed without movement, items or clock changes.
+  for(const button of [2,3,4,9]){await app.sendPads([pad(0,[button])]);await app.sendPads([pad(0)]);}assert.equal(await snapshot(),settled);
+  await app.sendPads([pad(0,[0])]);await app.sendPads([pad(0)]);assert.equal(await root.isVisible(),false);assert.equal(await f.locator('#local-play').isVisible(),true);
+  assert.equal(await app.onSession(function(){return JSON.stringify(this.result);}),frozen,'previous session result survives retry');assert.deepEqual(evidence.errors,[]);assert.deepEqual(evidence.external,[]);
+ }finally{await app.close();}
+});
