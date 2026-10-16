@@ -291,37 +291,44 @@
     {
       "path": "tests/survive-together-tracer.mjs",
       "plan": "07-09",
-      "status": "pending-real-payload-proof"
+      "status": "complete",
+      "evidenceRun": "0651e500-fc28-4d1b-832d-f9686a657f2d"
     },
     {
       "path": "tests/relay-tracer.mjs",
       "plan": "07-09",
-      "status": "pending-real-payload-proof"
+      "status": "complete",
+      "evidenceRun": "0651e500-fc28-4d1b-832d-f9686a657f2d"
     },
     {
       "path": "tests/relay-lifecycle.test.mjs",
       "plan": "07-09",
-      "status": "pending-real-payload-proof"
+      "status": "complete",
+      "evidenceRun": "0651e500-fc28-4d1b-832d-f9686a657f2d"
     },
     {
       "path": "tests/race-tracer.mjs",
       "plan": "07-09",
-      "status": "pending-real-payload-proof"
+      "status": "complete",
+      "evidenceRun": "0651e500-fc28-4d1b-832d-f9686a657f2d"
     },
     {
       "path": "tests/runtime-smoke.mjs",
       "plan": "07-09",
-      "status": "pending-real-payload-proof"
+      "status": "complete",
+      "evidenceRun": "0651e500-fc28-4d1b-832d-f9686a657f2d"
     },
     {
       "path": "tests/gamepad-runtime.mjs",
       "plan": "07-09",
-      "status": "pending-real-payload-proof"
+      "status": "complete",
+      "evidenceRun": "0651e500-fc28-4d1b-832d-f9686a657f2d"
     },
     {
       "path": "tests/health-runtime.mjs",
       "plan": "07-09",
-      "status": "pending-real-payload-proof"
+      "status": "complete",
+      "evidenceRun": "0651e500-fc28-4d1b-832d-f9686a657f2d"
     }
   ],
   "candidates": [
@@ -513,7 +520,7 @@
       "loadSources": false,
       "directDist": true,
       "directTranspile": false,
-      "status": "pending-adapter"
+      "status": "remaining-canonical-adapter-complete"
     },
     {
       "path": "tests/gamepad.test.mjs",
@@ -543,7 +550,7 @@
       "loadSources": false,
       "directDist": true,
       "directTranspile": false,
-      "status": "pending-adapter"
+      "status": "remaining-canonical-adapter-complete"
     },
     {
       "path": "tests/health.test.mjs",
@@ -823,7 +830,7 @@
       "loadSources": true,
       "directDist": true,
       "directTranspile": false,
-      "status": "pending-adapter"
+      "status": "remaining-canonical-adapter-complete"
     },
     {
       "path": "tests/recovery-plan-boundaries.test.mjs",
@@ -873,7 +880,7 @@
       "loadSources": true,
       "directDist": true,
       "directTranspile": false,
-      "status": "pending-adapter"
+      "status": "remaining-canonical-adapter-complete"
     },
     {
       "path": "tests/relay-results.test.mjs",
@@ -903,7 +910,7 @@
       "loadSources": true,
       "directDist": true,
       "directTranspile": false,
-      "status": "pending-adapter"
+      "status": "remaining-canonical-adapter-complete"
     },
     {
       "path": "tests/render.test.mjs",
@@ -933,7 +940,7 @@
       "loadSources": false,
       "directDist": true,
       "directTranspile": false,
-      "status": "pending-adapter"
+      "status": "remaining-canonical-adapter-complete"
     },
     {
       "path": "tests/seed.test.mjs",
@@ -1363,7 +1370,7 @@
       "loadSources": true,
       "directDist": true,
       "directTranspile": false,
-      "status": "pending-adapter"
+      "status": "remaining-canonical-adapter-complete"
     },
     {
       "path": "tests/survive-together.test.mjs",
@@ -1481,22 +1488,194 @@
       "foundationGroups": []
     }
   },
-  "adapterObligationSemantics": "pendingAdapters retains the original 21-owner obligation ledger; status records completion and only non-complete rows remain pending.",
-  "remainingAdapterCount": 7,
+  "adapterObligationSemantics": "Original21 canonical-runner obligations are retained as historical rows; all now have payload proof. remainingAdapterCount refers only to that original list, not full completeness. Additional package-script owners below remain blocking; complete stays false.",
+  "remainingAdapterCount": 0,
   "completedAdapters": [
-    "tests/consumable-world-render.test.mjs",
-    "tests/death-spill-render.test.mjs",
-    "tests/local-session-adoption-runtime.mjs",
-    "tests/local-session-audio-runtime.mjs",
-    "tests/local-session-gamepad-runtime.mjs",
-    "tests/local-session-keyboard-runtime.mjs",
-    "tests/local-session-layout.mjs",
-    "tests/local-session-runtime.mjs",
-    "tests/local-session-tracer.mjs",
     "tests/render.test.mjs",
     "tests/session-board-controls.test.mjs",
     "tests/session-labels-render.test.mjs",
+    "tests/consumable-world-render.test.mjs",
+    "tests/death-spill-render.test.mjs",
+    "tests/survive-results-ui.test.mjs",
     "tests/solo-ui-browser.test.mjs",
-    "tests/survive-results-ui.test.mjs"
-  ]
+    "tests/local-session-tracer.mjs",
+    "tests/local-session-keyboard-runtime.mjs",
+    "tests/local-session-gamepad-runtime.mjs",
+    "tests/local-session-audio-runtime.mjs",
+    "tests/local-session-adoption-runtime.mjs",
+    "tests/local-session-runtime.mjs",
+    "tests/local-session-layout.mjs",
+    "tests/survive-together-tracer.mjs",
+    "tests/relay-tracer.mjs",
+    "tests/relay-lifecycle.test.mjs",
+    "tests/race-tracer.mjs",
+    "tests/runtime-smoke.mjs",
+    "tests/gamepad-runtime.mjs",
+    "tests/health-runtime.mjs"
+  ],
+  "additionalPackageObligations": [
+    {
+      "path": "tests/actor-render.test.mjs",
+      "role": "independent-component-browser",
+      "status": "pending-checked-continuation",
+      "adapterNeeded": true
+    },
+    {
+      "path": "tests/audio-demo.mjs",
+      "role": "independent-audio-generation-browser",
+      "status": "pending-checked-continuation",
+      "adapterNeeded": true
+    },
+    {
+      "path": "tests/audio-zones.mjs",
+      "role": "independent-audio-generation-browser",
+      "status": "pending-checked-continuation",
+      "adapterNeeded": true
+    },
+    {
+      "path": "tests/character-power-render.test.mjs",
+      "role": "independent-component-browser",
+      "status": "pending-checked-continuation",
+      "adapterNeeded": true
+    },
+    {
+      "path": "tests/character-power-runtime.mjs",
+      "role": "independent-built-browser",
+      "status": "pending-checked-continuation",
+      "adapterNeeded": true
+    },
+    {
+      "path": "tests/coin-denominations-render.test.mjs",
+      "role": "independent-component-browser",
+      "status": "pending-checked-continuation",
+      "adapterNeeded": true
+    },
+    {
+      "path": "tests/coin-denominations.test.mjs",
+      "role": "existing-node-loader",
+      "status": "pending-checked-continuation",
+      "adapterNeeded": false
+    },
+    {
+      "path": "tests/collection-game-layout.mjs",
+      "role": "existing-market-fixture-browser",
+      "status": "pending-checked-continuation",
+      "adapterNeeded": false
+    },
+    {
+      "path": "tests/death-spill-audio-runtime.mjs",
+      "role": "existing-market-fixture-browser",
+      "status": "pending-checked-continuation",
+      "adapterNeeded": false
+    },
+    {
+      "path": "tests/death-spill-runtime.mjs",
+      "role": "existing-market-fixture-browser",
+      "status": "pending-checked-continuation",
+      "adapterNeeded": false
+    },
+    {
+      "path": "tests/devtools-runtime.mjs",
+      "role": "independent-built-browser",
+      "status": "pending-checked-continuation",
+      "adapterNeeded": true
+    },
+    {
+      "path": "tests/game-intents-runtime.mjs",
+      "role": "independent-built-browser",
+      "status": "pending-checked-continuation",
+      "adapterNeeded": true
+    },
+    {
+      "path": "tests/hud-game-layout.mjs",
+      "role": "existing-market-fixture-browser",
+      "status": "pending-checked-continuation",
+      "adapterNeeded": false
+    },
+    {
+      "path": "tests/magnet-render.test.mjs",
+      "role": "independent-component-browser",
+      "status": "pending-checked-continuation",
+      "adapterNeeded": true
+    },
+    {
+      "path": "tests/market-layout.mjs",
+      "role": "existing-market-fixture-browser",
+      "status": "pending-checked-continuation",
+      "adapterNeeded": false
+    },
+    {
+      "path": "tests/market-pack-replacement.mjs",
+      "role": "existing-market-fixture-browser",
+      "status": "pending-checked-continuation",
+      "adapterNeeded": false
+    },
+    {
+      "path": "tests/market-preview.test.mjs",
+      "role": "independent-component-browser",
+      "status": "pending-checked-continuation",
+      "adapterNeeded": true
+    },
+    {
+      "path": "tests/market-runtime.mjs",
+      "role": "independent-built-browser",
+      "status": "pending-checked-continuation",
+      "adapterNeeded": true
+    },
+    {
+      "path": "tests/market-scenery-render.test.mjs",
+      "role": "independent-component-browser",
+      "status": "pending-checked-continuation",
+      "adapterNeeded": true
+    },
+    {
+      "path": "tests/market-scenery.test.mjs",
+      "role": "existing-node-loader",
+      "status": "pending-checked-continuation",
+      "adapterNeeded": false
+    },
+    {
+      "path": "tests/mob-render.test.mjs",
+      "role": "independent-component-browser",
+      "status": "pending-checked-continuation",
+      "adapterNeeded": true
+    },
+    {
+      "path": "tests/mob-runtime.mjs",
+      "role": "independent-built-browser",
+      "status": "pending-checked-continuation",
+      "adapterNeeded": true
+    },
+    {
+      "path": "tests/pause-game-layout.mjs",
+      "role": "existing-market-fixture-browser",
+      "status": "pending-checked-continuation",
+      "adapterNeeded": false
+    },
+    {
+      "path": "tests/run-menu-layout.mjs",
+      "role": "existing-market-fixture-browser",
+      "status": "pending-checked-continuation",
+      "adapterNeeded": false
+    },
+    {
+      "path": "tests/seed-copy-runtime.mjs",
+      "role": "independent-built-browser",
+      "status": "pending-checked-continuation",
+      "adapterNeeded": true
+    },
+    {
+      "path": "tests/sound-runtime.mjs",
+      "role": "independent-built-browser",
+      "status": "pending-checked-continuation",
+      "adapterNeeded": true
+    },
+    {
+      "path": "tests/wearables-render.test.mjs",
+      "role": "independent-component-browser",
+      "status": "pending-checked-continuation",
+      "adapterNeeded": true
+    }
+  ],
+  "fullCollectionBlocker": "Package-wide graph adds27 paths beyond106 static canonical candidates:17 independent browser owners,8 existing-fixture consumers,2 Node suites. Full report and mode attribution await bounded checked continuation; no extra paths edited."
 }

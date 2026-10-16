@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed07-08 local-input adapters; next07-09 remaining owners and full report
+stopped_at: 07-09 checkpoint; seven owned adapters verified, package-wide continuations require checked plans
 last_updated: "2026-10-16T14:19:13.059Z"
 progress:
   total_phases: 7
@@ -12,12 +12,12 @@ progress:
   completed_plans: 37
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Seven local-input owners and19 browser generations verified07-08;6 phases and37/42 plans complete.
+last_activity_desc: 07-09 owned adapters47/47 and34 payloads verified;27 additional package paths require bounded continuation, full report pending.
 ---
 
 # Project State
 
-Current position: Phase07 plans01/02/07/08 complete.07-08 exact86113 passed collection5/5, instrumented9/9 with20 payloads and ordinary9/9; final suffix2280 passed.7 independent owners remain. Next07-09 remaining owners/full initial report →07-03 gaps →07-04 conformance →07-05 evidence →07-06 release runner/PR. Full collection/floor compliance remain unclaimed.
+Current position: Phase07 plans01/02/07/08 complete.07-09 Tasks1/2 and owned Task3 adapters are verified:65803 exit0, collection/policy9/9 + original47/47,34 payloads (30 browser+4 Node), immutable lock/diff pass.80756 policy metadata suffix passed. Full report remains blocked: package-wide discovery adds27 paths beyond106 canonical candidates (17 independent owners,8 existing-fixture consumers,2 Node suites). See07-09-ADAPTER-CHECKPOINT.md; checked bounded continuations must precede extra edits and07-03.07-09 is not complete. Full coverage/floor compliance remain unclaimed.
 
 Actual tracking: **6 completed phases,37/42 plans complete**. User explicitly tested and accepted Survive/Relay/Race presentation on2026-10-16; UAT5eb3c46 and verification addenda ba9540c. Security40f42bd has zero open threats (Race30/30,presentation7/7); validation3496365 maps every task/requirement to existing evidence. Both canonical UAT/verification predicates and phase.complete passed with no warnings. Technical05 verification40/40 and06 verification47/47 retain their original source/provenance limits. Root corrected CLI counting of checkpoint summaries and historical plan artifacts; roadmap totals are authoritative.
 
