@@ -162,7 +162,68 @@ frame.srcdoc=${artifact};</script>`;
     }, ids, replace);
     await advance(40); return offers;
   }
+  // Observe actual production draw arguments through debugger breakpoints. No
+  // monkey-patching, substitute renderer, state staging or app test hook.
+  async function observeTravelers() {
+    await onObject('renderer', function () { return this.width; }, []);
+    const records = [], failures = [], breakpoints = new Map();
+    await cdp.send('Debugger.enable');
+    const paused = async event => {
+      try {
+        const method = breakpoints.get(event.hitBreakpoints?.[0]);
+        if (method) {
+          const result = await cdp.send('Debugger.evaluateOnCallFrame', {
+            callFrameId: event.callFrames[0].callFrameId, returnByValue: true,
+            expression: `(${function (method, args, renderer) {
+              if (method === 'appendTraveler') {
+                const [player, character, , , , , text, position] = args;
+                if (!text || !position) return null;
+                const ctx = renderer.ctx, font = Math.max(10, renderer.scale * .22);
+                ctx.save(); ctx.font = `bold ${font}px sans-serif`;
+                const width = ctx.measureText(text).width + Math.max(4, renderer.scale * .09);
+                ctx.restore();
+                const status = (player.protectionUntil ?? 0) > player.time ? Math.max(9, renderer.scale * .17) + Math.max(4, renderer.scale * .06) : 0;
+                return { kind: 'label', character, text, x: player.groundX, y: player.groundY,
+                  hop: player.hop, rect: { left: position[0] - width / 2, right: position[0] + width / 2,
+                    top: position[1] - font - Math.max(4, renderer.scale * .06) - status, bottom: position[1] + 2 } };
+              }
+              const [model, x, row, lift = 0, turn = 1, tilt = 0, floorAligned = false] = args;
+              const yaw = method === 'turnedModel' ? (args[4] ?? 0) : 0;
+              const cos = Math.cos(yaw), sin = Math.sin(yaw), pc = Math.cos(tilt), ps = Math.sin(tilt);
+              const floor = floorAligned ? -Math.min(...model.flatMap(v => [v.y-v.d/2,v.y+v.d/2].flatMap(y => [v.z,v.z+v.h].map(z => y*ps+z*pc)))) : 0;
+              const points = model.flatMap(v => [v.x-v.w/2,v.x+v.w/2].flatMap(vx => [v.y-v.d/2,v.y+v.d/2].flatMap(vy => [v.z,v.z+v.h].map(vz => {
+                if (method === 'model') return renderer.project(x + vx * turn, row - vy, lift + vz);
+                const py = vy*pc-vz*ps, pz = vy*ps+vz*pc;
+                return renderer.project(x+vx*cos-py*sin,row-vx*sin-py*cos,lift+floor+pz);
+              }))));
+              return { kind: 'body', method, x, y: row, lift, yaw, vertices: points.length,
+                rect: { left: Math.min(...points.map(p=>p[0])), right: Math.max(...points.map(p=>p[0])), top: Math.min(...points.map(p=>p[1])), bottom: Math.max(...points.map(p=>p[1])) } };
+            }.toString()})(${JSON.stringify(method)}, arguments, this)`,
+          });
+          if (result.exceptionDetails) failures.push(result.exceptionDetails);
+          else if (result.result.value) records.push(result.result.value);
+        }
+      } catch (error) { failures.push(String(error)); }
+      finally { await cdp.send('Debugger.resume').catch(() => {}); }
+    };
+    cdp.on('Debugger.paused', paused);
+    try {
+      for (const method of ['appendTraveler', 'turnedModel', 'model']) {
+        const { result } = await cdp.send('Runtime.callFunctionOn', { objectId: objectIds.get('renderer'), functionDeclaration: 'function(name){return this[name];}', arguments: [{value:method}] });
+        const { breakpointId } = await cdp.send('Debugger.setBreakpointOnFunctionCall', { objectId: result.objectId });
+        breakpoints.set(breakpointId, method);
+      }
+      await advance(17);
+    } finally {
+      for (const breakpointId of breakpoints.keys()) await cdp.send('Debugger.removeBreakpoint', { breakpointId });
+      cdp.off('Debugger.paused', paused); await cdp.send('Debugger.disable');
+    }
+    assert.deepEqual(failures, [], 'read-only production geometry observation');
+    const labels = [...new Map(records.filter(r=>r.kind==='label').map(r=>[r.text,r])).values()];
+    return labels.map(label => ({ ...label, bodies: records.filter(r=>r.kind==='body' && Math.abs(r.x-label.x)<1e-8 && Math.abs(r.y-label.y)<1e-8) }));
+  }
   return { browser, page, frame, iframe, advance, onGame, onSession, onRenderer:(fn,...args)=>onObject('renderer',fn,args), sendPads, resize, key, open, stageMarket, stageOffers,
+    observeTravelers,
     refreshOwners() { objectIds.clear(); },
     async close() { await browser.close(); await new Promise(resolve => server.close(resolve)); } };
 }
