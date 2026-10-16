@@ -5,12 +5,12 @@ import { resolve } from 'node:path';
 import test, { after } from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
-import { artifactDirectoryForCoverage } from '../tools/release-coverage/browser.mjs';
+import { artifactDirectoryForCoverage, artifactForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 const output=artifactDirectoryForCoverage(new URL('../artifacts/',import.meta.url),'local-session-keyboard-runtime');
 
 await mkdir(output,{recursive:true});
 const root = fileURLToPath(new URL('../', import.meta.url));
-const artifact = new URL('../dist/index.html', import.meta.url);
+const artifact = artifactForCoverage(new URL('../dist/index.html', import.meta.url));
 const inputs = ['index.html', 'src/main.ts', 'src/session.ts', 'src/keyboard-input.ts', 'src/session-ui.ts', 'src/session-ui.css'];
 const [built, artifactStatus, ...inputStatuses] = await Promise.all([readFile(artifact, 'utf8'), stat(artifact), ...inputs.map(path => stat(resolve(root, path)))]);
 assert.ok(artifactStatus.mtimeMs >= Math.max(...inputStatuses.map(input => input.mtimeMs)), 'dist is stale; run pnpm build before the keyboard iframe proof.');
@@ -64,14 +64,20 @@ function assertEditorFits(layout) {
 test('opaque iframe receives native keyboard profiles only after overlapping owned shortcuts close', { timeout: 60_000 }, async () => {
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   const browser = await chromium.launch({ args: ['--mute-audio'] });
+  let frame,identity,generation=0;
   try {
     const page = await browser.newPage({ viewport: { width: 900, height: 600 } });
+    async function navigate(url){
+      if(frame)await collectRealm(frame,identity);frame=undefined;
+      identity={suite:process.argv[1],scenario:'keyboard',frame:'opaque-app',generation:generation++,scope:'current'};
+      registerRealm(page,identity);await page.goto(url);
+    }
     await page.emulateMedia({ reducedMotion: 'reduce' });
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
-    await page.goto(`http://127.0.0.1:${server.address().port}`);
+    await navigate(`http://127.0.0.1:${server.address().port}`);
     const iframe = page.locator('iframe');
-    let frame = await (await iframe.elementHandle()).contentFrame();
+    frame = await (await iframe.elementHandle()).contentFrame();
     assert.ok(frame);
     assert.equal(await iframe.getAttribute('sandbox'), 'allow-scripts');
     assert.equal(await frame.evaluate(() => location.origin), 'null');
@@ -111,7 +117,7 @@ test('opaque iframe receives native keyboard profiles only after overlapping own
     await frame.locator('#scene').press('w');
     await frame.waitForFunction(expected => Number([...document.querySelectorAll('#session-seats [data-seat="p1"]')][0]?.querySelector('[data-session-hud="health"]')?.textContent?.match(/(\d+)\s+tiles\b/)?.[1]) === expected, resumed.find(row => row.seat === 'p1').y + 1);
 
-    await page.goto(`http://127.0.0.1:${server.address().port}`);
+    await navigate(`http://127.0.0.1:${server.address().port}`);
     frame = await (await page.locator('iframe').elementHandle()).contentFrame();
     assert.ok(frame);
     await frame.waitForFunction(() => typeof window.keyboardRuntimeFixture?.handlers['puddlehop.forward-w'] === 'function');
@@ -169,7 +175,7 @@ test('opaque iframe receives native keyboard profiles only after overlapping own
     await frame.getByRole('button', { name: 'Keep current controls' }).click();
 
     await iframe.evaluate(node => { node.style.width = '900px'; node.style.height = '600px'; });
-    await page.goto(`http://127.0.0.1:${server.address().port}?theme=light`);
+    await navigate(`http://127.0.0.1:${server.address().port}?theme=light`);
     frame = await (await page.locator('iframe').elementHandle()).contentFrame();
     assert.ok(frame);
     await frame.waitForFunction(() => typeof window.keyboardRuntimeFixture?.handlers['puddlehop.forward-w'] === 'function');
@@ -191,5 +197,5 @@ test('opaque iframe receives native keyboard profiles only after overlapping own
     await iframe.screenshot({ path: new URL('local-session-keyboard-capture-900-reduced-light.png', output).pathname });
     await frame.locator('.session-binding[aria-pressed="true"]').press('Escape');
     assert.deepEqual(errors, [], 'the muted native-key iframe reports no page errors');
-  } finally { await browser.close(); }
+  } finally { try{if(identity)await collectRealm(frame,identity);}finally{await browser.close();} }
 });

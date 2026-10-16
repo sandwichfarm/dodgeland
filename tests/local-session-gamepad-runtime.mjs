@@ -5,12 +5,13 @@ import { readFile, mkdir, stat, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { after, test } from 'node:test';
 import { chromium } from 'playwright';
-import { artifactDirectoryForCoverage } from '../tools/release-coverage/browser.mjs';
+import { artifactDirectoryForCoverage, artifactForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 const output=artifactDirectoryForCoverage(new URL('../artifacts/',import.meta.url),'local-session-gamepad-runtime');
 
-const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
+const artifact=artifactForCoverage(new URL('../dist/index.html', import.meta.url));
+const built = await readFile(artifact, 'utf8');
 assert.ok(built.includes('gamepad.subscribe') && built.includes('local-session-start') && built.includes('requestFirstPlayer'), 'Build current Local Play gamepad integration first.');
-const buildStamp = await stat(new URL('../dist/index.html', import.meta.url));
+const buildStamp = await stat(artifact);
 const sourceStamps = await Promise.all(['../src/main.ts', '../src/gamepad.ts', '../src/session-input.ts', '../src/session-ui.ts', '../src/session-ui.css', '../src/session.ts'].map(path => stat(new URL(path, import.meta.url))));
 assert.ok(buildStamp.mtimeMs >= Math.max(...sourceStamps.map(source => source.mtimeMs)), 'Build Local Play after every source edit before this fixture.');
 
@@ -51,12 +52,17 @@ test('wire and injected binding route actual Local Play seats, seed context chan
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   const browser = await chromium.launch({ args: ['--mute-audio'] });
   const evidence = { scenarios: [], errors: [] };
+  let frame,identity,generation=0;
   try {
     const page = await browser.newPage({ viewport: { width: 1000, height: 700 } });
+    const register=()=>{identity={suite:process.argv[1],scenario:'controller-transports',frame:'opaque-app',generation:generation++,scope:'current'};registerRealm(page,identity);};
+    register();
     page.setDefaultTimeout(6_000); page.on('pageerror', error => evidence.errors.push(error.message));
     await page.goto(`http://127.0.0.1:${server.address().port}`);
-    let frame;
+    frame=await (await page.locator('#napplet').elementHandle()).contentFrame();
+    await frame.waitForFunction(()=>window.localTransport?.hydrated);
     const mount = async mode => {
+      await collectRealm(frame,identity);frame=undefined;register();
       await page.evaluate(next => window.mount(next), mode);
       frame = await (await page.locator('#napplet').elementHandle()).contentFrame();
       await frame.waitForFunction(() => window.localTransport?.hydrated);
@@ -142,5 +148,5 @@ test('wire and injected binding route actual Local Play seats, seed context chan
     assert.deepEqual(evidence.errors, []);
     await mkdir(output, { recursive: true });
     await writeFile(new URL('local-session-gamepad-runtime.json', output), JSON.stringify(evidence, null, 2));
-  } finally { await browser.close(); }
+  } finally { try{if(identity)await collectRealm(frame,identity);}finally{await browser.close();} }
 });

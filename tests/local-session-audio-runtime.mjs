@@ -5,10 +5,10 @@ import { readFile, stat, mkdir, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import test from 'node:test';
 import { chromium } from 'playwright';
-import { artifactDirectoryForCoverage } from '../tools/release-coverage/browser.mjs';
+import { artifactDirectoryForCoverage, artifactForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 const output=artifactDirectoryForCoverage(new URL('../artifacts/',import.meta.url),'local-session-audio-runtime');
 
-const artifact = new URL('../dist/index.html', import.meta.url);
+const artifact = artifactForCoverage(new URL('../dist/index.html', import.meta.url));
 const built = await readFile(artifact, 'utf8');
 const inputs = ['main.ts', 'session-ui.ts', 'session-ui.css', 'session-input.ts', 'keyboard-input.ts', 'audio.ts'];
 const dates = await Promise.all(inputs.map(path => stat(new URL(`../src/${path}`, import.meta.url))));
@@ -58,16 +58,21 @@ test('four assigned travelers call independently of the saved solo traveler and 
   const server = createServer((_request, response) => { response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); response.end(harness); });
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   let browser;
+  const realms=new Map();let scenario=0;
+  async function closePage(page){const row=realms.get(page);try{await collectRealm(row.frame,row.identity);}finally{realms.delete(page);await page.close();}}
   const errors = [];
   try {
     browser = await chromium.launch({ args: ['--mute-audio'] });
     async function mount(selected, clock = false) {
       const page = await browser.newPage({ viewport: { width: 1000, height: 700 } });
+      const row={identity:{suite:process.argv[1],scenario:`audio-${scenario++}-${selected}`,frame:'opaque-app',generation:0,scope:'current'}};
+      realms.set(page,row);registerRealm(page,row.identity);
       page.setDefaultTimeout(4000);
       page.on('pageerror', error => errors.push(error.message));
       if (clock) await page.clock.install();
       await page.goto(`http://127.0.0.1:${server.address().port}/?selected=${selected}`, { waitUntil: 'domcontentloaded' });
       const frame = await (await page.locator('#napplet').elementHandle()).contentFrame();
+      row.frame=frame;
       await frame.waitForFunction(() => window.sessionAudio?.hydrated);
       assert.equal(await frame.evaluate(() => location.origin), 'null');
       await frame.waitForFunction(() => document.querySelector('#character-call')?.getAttribute('aria-label')?.startsWith('Make '));
@@ -100,7 +105,7 @@ test('four assigned travelers call independently of the saved solo traveler and 
           readyDisplay: getComputedStyle(document.querySelector('#ready-content')).display,
         })), null, 2));
         throw error;
-      } finally { await page.close(); }
+      } finally { await closePage(page); }
     }
     assert.equal(new Set(Object.values(fingerprints)).size, 5, 'the four assigned calls and saved host call have distinct PCM');
 
@@ -177,9 +182,8 @@ test('four assigned travelers call independently of the saved solo traveler and 
       assigned: { p1: 'sunny', p2: 'butter', p3: 'pip', p4: 'petal' }, saved: 'rust', fingerprints,
       scenarios: ['setup call guard', 'four assigned calls', 'independent cooldown', 'held-edge suppression', 'cooldown expiry', 'pause call guard', 'mute and unmute'], errors,
     }, null, 2));
-    await page.close();
+    await closePage(page);
   } finally {
-    await browser?.close();
-    await new Promise(resolve => server.close(resolve));
+    try{for(const page of realms.keys())await closePage(page);}finally{await browser?.close();await new Promise(resolve => server.close(resolve));}
   }
 });
