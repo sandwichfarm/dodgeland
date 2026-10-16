@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-12 repaired full collection23954 running; independent re-review clean
-last_updated: "2026-10-16T17:31:00Z"
+stopped_at: 07-12 collection23954 exited1 at layout lifecycle timeout; scoped repair authorized
+last_updated: "2026-10-16T17:50:25Z"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,14 +12,14 @@ progress:
   completed_plans: 40
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: 07-12 collector guard repairs and independent compact mode cases committed; full collection active, complete report still pending.
+last_activity_desc: 07-12 full collection passed40 jobs and cross-mode33/33, then layout ended during static measurements; same-board bounded-stage repair authorized.
 ---
 
 # Project State
 
 Current position: Phase07 plans01/02/07/08/09/10/11 complete.07-12 audio adapters and six-mode attribution are committed; a56b882 reconciles134 discovered entries/140 closure paths into132 execution jobs. First full run10259 exited1 at guidance from generated-artifact memory exhaustion, repaired99fc863. Second run51722 exited1 with cross-mode30 passes/1 cancelled compound compact case: its three real journeys completed in approximately67seconds against one60-second deadline, with no geometry errors. Both failed logs are preserved. Root's scoped addenda authorize the exact repairs; see07-12-GUIDANCE-REPAIR,07-12-REVIEW-REPAIR and07-12-COMPACT-REPAIR.
 
-Current full collection23954 is active at this checkpoint, PID11777, frozen source/test/tooling06ce671, log `/tmp/down-to-duck-07-12-full-collection-verified.log`. Both collector review findings are repaired in a200da9/9c390db with15/15 and actual-manifest8/8 focused checks; b561bf2/06ce671 split the compact case into three independent60-second cases retaining all actions/geometry assertions and cancellation-safe combined evidence. Independent generic review is clean in07-12-REVIEW.md. Original render captures were hash-verified unchanged because failed51722 never reached their job; future full jobs now preserve them. Poll the existing process rather than restarting on stale bookkeeping. Full report, exact shortfalls and07-12 closure remain pending; no full coverage/floor compliance claim.
+Full collection23954 exited1 after40 production jobs passed, including cross-mode33/33. Frozen source/test/tooling06ce671; log `/tmp/down-to-duck-07-12-full-collection-verified.log`; run7ab0e995-dc59-4217-a5a5-e0231178247c. The local-session layout case hit its120-second aggregate timeout after19/24 rows. Its archived failure capture shows terminal results, and the report records an8-second resume wait: the game had ended during the long live matrix. Root inspected the capture and authorized07-12-LAYOUT-REPAIR.md: same live board, bounded stages, real public pauses for static measurements, original active input/resize/theme checks intact. No full collection remains running at this checkpoint. Both prior collector review findings are repaired in a200da9/9c390db with15/15 and actual-manifest8/8 focused checks; b561bf2/06ce671 compact cases passed in this run. Independent prior re-review is clean in07-12-REVIEW.md. Original render captures remain preserved; failed runs did not reach their job. Full report, exact shortfalls and07-12 closure remain pending; no full coverage/floor compliance claim.
 
 Actual tracking: **6 completed phases,40/45 plans complete**. User explicitly tested and accepted Survive/Relay/Race presentation on2026-10-16; UAT5eb3c46 and verification addenda ba9540c. Security40f42bd has zero open threats (Race30/30,presentation7/7); validation3496365 maps every task/requirement to existing evidence. Both canonical UAT/verification predicates and phase.complete passed with no warnings. Technical05 verification40/40 and06 verification47/47 retain their original source/provenance limits. Root corrected CLI counting of checkpoint summaries and historical plan artifacts; roadmap totals are authoritative.
 
@@ -86,8 +86,8 @@ Typed gsd-verifier stayed pending_init across multiple turns and was explicitly 
 
 ## Session
 
-**Last session:** 2026-10-16T17:31:00Z
-**Stopped at:** 07-12 full collection23954 running on independently reviewed repairs; terminal complete report pending.
+**Last session:** 2026-10-16T17:50:25Z
+**Stopped at:** 07-12 collection23954 exited1; same-board layout lifecycle/stage repair authorized, full report pending.
 **Resume file:** None
 
 ## Decisions
