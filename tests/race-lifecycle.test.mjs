@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test, { after } from 'node:test';
 import { loadSources } from './source-loader.mjs';
-import { createMarketGameFixture } from './market-game-fixture.mjs';
+import { createMarketGameFixture, sessionHudAction } from './market-game-fixture.mjs';
 
 const sources = await loadSources(['game', 'race', 'session-input']);
 after(sources.dispose);
@@ -21,8 +21,8 @@ for(const choice of ['accept','decline','expiry'])test(`built actual traffic dea
     const dead=await read();assert.equal(dead.state,'dead');assert.ok(dead.offer);assert.equal(dead.deaths,1);
     const button=app.frame.locator('[data-seat="p1"] [data-session-hud="revive"]');assert.equal(await button.isEnabled(),true);
     await app.iframe.screenshot({path:`/tmp/race-05-03-recovery-${choice}.png`});
-    if(choice==='accept')await button.click();
-    else if(choice==='decline')await app.frame.locator('[data-seat="p1"] [data-race-decline]').click();
+    if(choice==='accept')await sessionHudAction(app,'p1','revive');
+    else if(choice==='decline')await sessionHudAction(app,'p1','decline');
     else await app.advance(8500);
     await app.advance(80);const after=await read();assert.equal(after.deaths,1);assert.equal(after.otherDeaths,dead.otherDeaths);assert.equal(after.offer,undefined);
     assert.equal(after.state,choice==='accept'?'playing':'dead');if(choice==='accept')assert.equal(after.charge,'spent');
@@ -72,9 +72,9 @@ test('built Race ghost replacement waiting and leave use visible controls and fr
     const rebound=(await read()).players[1];assert.equal(rebound.device,'gamepad-9');assert.equal(rebound.earned,0);assert.equal(rebound.protection,lost.players[1].protection);
     await app.sendPads([pad(9,[0])]);assert.equal((await read()).players[1].earned,0);
     await app.sendPads([]);
-    await f.locator('[data-seat="p1"] [data-session-hud="item"]').click();assert.equal(await f.getByRole('heading',{name:'Leave Race as P1?'}).isVisible(),true);
+    await sessionHudAction(app, 'p1', 'item');assert.equal(await f.getByRole('heading',{name:'Leave Race as P1?'}).isVisible(),true);
     await f.getByRole('button',{name:'Keep racing',exact:true}).click();assert.equal((await read()).players[0].participation,'active');
-    await f.locator('[data-seat="p1"] [data-session-hud="item"]').click();await f.locator('#survive-lifecycle-board').getByRole('button',{name:'Leave Race',exact:true}).focus();await app.page.keyboard.press('Enter');await app.advance(80);
+    await sessionHudAction(app, 'p1', 'item');await f.locator('#survive-lifecycle-board').getByRole('button',{name:'Leave Race',exact:true}).focus();await app.page.keyboard.press('Enter');await app.advance(80);
     assert.match(await f.locator('.race-lifecycle').textContent(),/Waiting for a player to reclaim/);
     const waiting=await read();await app.advance(13000);assert.equal((await read()).time,waiting.time);
     await app.iframe.screenshot({path:'/tmp/race-05-03-waiting.png'});

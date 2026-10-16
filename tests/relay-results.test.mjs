@@ -104,15 +104,15 @@ test('generic pre-death observer is immutable, reentrant death is inert, and cle
 });
 
 test('built frozen results expose podium, participant and leg pages across frames and new-run navigation', {timeout:90000}, async()=>{
-  const {createMarketGameFixture}=await import('./market-game-fixture.mjs'); const evidence={errors:[],external:[]}; const app=await createMarketGameFixture(evidence);
+  const {createMarketGameFixture,sessionHudAction}=await import('./market-game-fixture.mjs'); const evidence={errors:[],external:[]}; const app=await createMarketGameFixture(evidence);
   try {
     await app.frame.locator('#local-play').click(); await app.frame.locator('#relay-play').click(); await app.frame.locator('#relay-tiles').fill('1'); await app.frame.locator('#local-session-start').click();
     await app.onSession(function(){ for(const lane of this.world.rows.values()) Object.assign(lane,{kind:'meadow',blocked:[],decorations:[],actors:undefined,coin:null}); });
     await app.frame.locator('#scene').focus(); await app.page.keyboard.press('w'); await app.advance(400);
     await app.frame.getByRole('button',{name:"Start P2's leg",exact:true}).click();
-    await app.frame.locator('[data-seat="p2"] [data-session-hud="item"]').click(); await app.frame.locator('#relay-handoff').getByRole('button',{name:'Leave Relay',exact:true}).click();
+    await sessionHudAction(app, 'p2', 'item'); await app.frame.locator('#relay-handoff').getByRole('button',{name:'Leave Relay',exact:true}).click();
     await app.frame.getByRole('button',{name:"Start P1's leg",exact:true}).click();
-    await app.frame.locator('[data-seat="p1"] [data-session-hud="item"]').click(); await app.frame.locator('#relay-handoff').getByRole('button',{name:'Leave Relay',exact:true}).click(); await app.advance(80);
+    await sessionHudAction(app, 'p1', 'item'); await app.frame.locator('#relay-handoff').getByRole('button',{name:'Leave Relay',exact:true}).click(); await app.advance(80);
     assert.equal(await app.frame.getByRole('heading',{name:'Relay results',exact:true}).isVisible(),true);
     const frozen=await app.onSession(function(){return JSON.stringify(this.result);}); const result=JSON.parse(frozen);
     assert.equal(result.distance,1); assert.equal(result.legs.length,3); assert.equal(result.legs[0].outcome,'complete'); assert.equal(result.legs[1].outcome,'left'); assert.deepEqual(result.contributions.map(p=>p.rankLabel),['1','2']);
@@ -161,7 +161,7 @@ test('production skip/reclaim and expired offer preserve partial credits and exc
 });
 
 for(const distances of [[0,0,0,0],[3,2,1,0]]) test(`built ${distances} tiers and fresh original controller input navigate results only`, {timeout:45000}, async()=>{
-  const {createMarketGameFixture}=await import('./market-game-fixture.mjs'); const evidence={errors:[],external:[]}; const app=await createMarketGameFixture(evidence,{gamepads:true});
+  const {createMarketGameFixture,sessionHudAction}=await import('./market-game-fixture.mjs'); const evidence={errors:[],external:[]}; const app=await createMarketGameFixture(evidence,{gamepads:true});
   const pad=(index,pressed=[])=>({index,id:`result-pad-${index}`,mapping:'standard',connected:true,timestamp:1,axes:[0,0],buttons:Array.from({length:17},(_,i)=>({pressed:pressed.includes(i),value:pressed.includes(i)?1:0,touched:false}))});
   try {
     await app.frame.locator('#local-play').click(); await app.sendPads([pad(0),pad(1)]); await app.sendPads([pad(0,[0]),pad(1)]); await app.sendPads([pad(0),pad(1)]); await app.sendPads([pad(0),pad(1,[0])]); await app.sendPads([pad(0),pad(1)]);
@@ -169,7 +169,7 @@ for(const distances of [[0,0,0,0],[3,2,1,0]]) test(`built ${distances} tiers and
     assert.equal(await app.onSession(function(){return this.players.length;}),4);
     for(const seat of ['p1','p2','p3','p4']) {
       await app.onSession(function(seat,count){ for(const lane of this.world.rows.values()) Object.assign(lane,{kind:'meadow',blocked:[],decorations:[],actors:undefined,coin:null}); const player=this.players.find(p=>p.seat===seat); for(let n=0;n<count;n++){ if(!this.dispatch({seat,direction:'forward'})) throw new Error('Production hop rejected'); for(let t=0;t<120&&player.hop>0;t++) this.update(1/120); } },seat,distances[Number(seat.slice(1))-1]);
-      await app.frame.locator(`[data-seat="${seat}"] [data-session-hud="item"]`).click(); await app.frame.locator('#relay-handoff').getByRole('button',{name:'Leave Relay',exact:true}).click(); if(seat!=='p4') await app.frame.getByRole('button',{name:`Start P${Number(seat.slice(1))+1}'s leg`,exact:true}).click(); }
+      await sessionHudAction(app, seat, 'item'); await app.frame.locator('#relay-handoff').getByRole('button',{name:'Leave Relay',exact:true}).click(); if(seat!=='p4') await app.frame.getByRole('button',{name:`Start P${Number(seat.slice(1))+1}'s leg`,exact:true}).click(); }
     await app.advance(80); const frozen=await app.onSession(function(){return JSON.stringify(this.result);}); assert.deepEqual(JSON.parse(frozen).contributions.map(p=>p.rankLabel),distances[0]===0?['=1','=1','=1','=1']:['1','2','3','4']);
     await app.frame.locator('.relay-results-nav button').nth(1).focus();
     await app.sendPads([pad(0,[0]),pad(1)]); assert.equal(await app.frame.locator('#relay-handoff').getAttribute('data-result-view'),'players');

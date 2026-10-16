@@ -5,7 +5,7 @@ import { semanticValue } from './solo-parity-snapshot.mjs';
 import { readFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { chromium } from 'playwright';
-import { createMarketGameFixture } from './market-game-fixture.mjs';
+import { createMarketGameFixture, sessionHudAction } from './market-game-fixture.mjs';
 const sources = await loadSources(['game', 'relay', 'session-input']);
 after(() => sources.dispose());
 const { Game, generateLane } = await sources.import('game');
@@ -264,7 +264,7 @@ test('built Relay routes original reclaim, fresh skip/cancel, deliberate leave a
   await send([pad(0)]); await send([pad(0, [3])]); await frame.getByRole('button', { name: 'Leave Relay', exact: true }).last().click();
   await frame.getByRole('button', { name: "Start P1's leg", exact: true }).click();
   await frame.waitForFunction(() => !document.querySelector('#relay-handoff'));
-  await frame.locator('[data-seat="p1"] [data-session-hud="item"]').click(); await frame.getByRole('heading', { name: 'Leave Relay as P1?' }).waitFor();
+  await sessionHudAction(app, 'p1', 'item'); await frame.getByRole('heading', { name: 'Leave Relay as P1?' }).waitFor();
   await frame.locator('#relay-handoff').getByRole('button', { name: 'Leave Relay', exact: true }).click(); await frame.getByRole('heading', { name: 'Relay results' }).waitFor(); await capture('ended');
 }));
 
@@ -279,7 +279,7 @@ test('built fresh keyboard skip leaves the original reserved seat waiting after 
   await page.keyboard.up('w'); await page.keyboard.press('d'); await page.keyboard.press('w');
   await frame.getByRole('button', { name: "Start P1's leg", exact: true }).click();
   await frame.waitForFunction(() => !document.querySelector('#relay-handoff'));
-  await frame.locator('[data-seat="p1"] [data-session-hud="item"]').click(); await frame.locator('#relay-handoff').getByRole('button', { name: 'Leave Relay', exact: true }).click();
+  await sessionHudAction(app, 'p1', 'item'); await frame.locator('#relay-handoff').getByRole('button', { name: 'Leave Relay', exact: true }).click();
   await frame.getByRole('heading', { name: 'Waiting for a player to reclaim.' }).waitFor();
   for (const light of [false, true]) for (const [width,height] of [[200,160],[240,240],[320,560],[900,600],[1000,280],[2400,1200]]) {
     await page.setViewportSize({ width: width + 30, height: height + 30 }); await page.locator('iframe').evaluate((node, [w,h]) => { node.style.width = `${w}px`; node.style.height = `${h}px`; }, [width,height]);

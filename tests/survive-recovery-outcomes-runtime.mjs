@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { createMarketGameFixture } from './market-game-fixture.mjs';
+import { createMarketGameFixture, sessionHudAction } from './market-game-fixture.mjs';
 
 const pad = (index, pressed = []) => ({ index, id: `Recovery outcomes ${index}`, mapping: 'standard', connected: true, timestamp: 1,
   axes: [0, 0, 0, 0], buttons: Array.from({ length: 17 }, (_, button) => ({ value: +pressed.includes(button), pressed: pressed.includes(button), touched: pressed.includes(button) })) });
@@ -50,7 +50,7 @@ function observe(app) {
 }
 
 async function openItem(app, seat, item) {
-  await app.frame.locator(`#session-seats [data-seat="${seat}"] [data-session-hud="item"]`).click();
+  await sessionHudAction(app, seat, 'item');
   await app.frame.getByRole('button', { name: `Use ${item} ×1`, exact: true }).click();
   return app.frame.locator('#survive-recovery-board');
 }

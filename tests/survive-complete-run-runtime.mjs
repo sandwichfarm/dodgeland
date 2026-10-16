@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import test from 'node:test';
-import { createMarketGameFixture } from './market-game-fixture.mjs';
+import { createMarketGameFixture, sessionHudAction } from './market-game-fixture.mjs';
 
 const output = new URL('../artifacts/', import.meta.url);
 const seed = 'ph3-c7045dbd-pond-a-n';
@@ -123,13 +123,14 @@ test('one Arcade course survives adoption, four-player recovery, settlement and 
     assert.equal(reclaimed.participantId, retainedP3.participantId); assert.equal(reclaimed.wallet, 7);
 
     await die(['p4']);
-    await frame.getByRole('button', { name: /^Use personal revive/ }).click(); await settle();
+    await sessionHudAction(app, 'p4', 'revive'); await settle();
     const spent = owner(await read(), 'p4');
     assert.equal(spent.recovery.charge, 'spent');
-    await frame.locator('#session-seats [data-seat="p4"] [data-session-hud="item"]').click();
+    await sessionHudAction(app, 'p4', 'item');
     await frame.getByRole('button', { name: 'Leave P4 run', exact: true }).click();
     await frame.getByRole('button', { name: 'Leave run', exact: true }).click(); await settle();
     assert.equal((await read()).players.length, 3);
+    assert.equal(await frame.locator('#session-seats').getAttribute('data-session-hud-inspect'),'false','departed owner cannot leave an empty blocking inspection');
     connected.delete(3); await sendPads([...connected].map(index => pad(index)));
     connected.add(3); await press(3);
     await frame.getByRole('button', { name: /join as p4/i }).click(); await settle();
@@ -154,7 +155,7 @@ test('one Arcade course survives adoption, four-player recovery, settlement and 
     assert.equal(owner(purchased, 'p2').wallet, owner(beforeBuy, 'p2').wallet - 24);
     assert.equal(owner(purchased, 'p3').wallet, owner(beforeBuy, 'p3').wallet - 36);
     for (const [seat, item] of [['p2', 'Revival'], ['p3', 'Flare']]) {
-      await frame.locator(`#session-seats [data-seat="${seat}"] [data-session-hud="item"]`).click();
+      await sessionHudAction(app, seat, 'item');
       await frame.getByRole('button', { name: `Use ${item} ×1`, exact: true }).click();
       const before = await read(), board = frame.locator('#survive-recovery-board');
       assert.equal(await board.getByText(item === 'Revival' ? 'No teammate can be revived right now.' : 'No teammate needs a flare right now.', { exact: true }).isVisible(), true);
@@ -203,10 +204,10 @@ test('one Arcade course survives adoption, four-player recovery, settlement and 
     await resume(); await die(['p1']);
     assert.equal(owner(await read(), 'p1').wallet, 0, 'death drops only the dead owner wallet');
     assert.equal(owner(await read(), 'p2').wallet, owner(traded, 'p2').wallet);
-    await frame.getByRole('button', { name: /^Use personal revive/ }).click(); await settle();
+    await sessionHudAction(app, 'p1', 'revive'); await settle();
     assert.equal(owner(await read(), 'p1').participation, 'active');
     await advance(2400); await die(['p1']);
-    await frame.locator('#session-seats [data-seat="p2"] [data-session-hud="item"]').click();
+    await sessionHudAction(app, 'p2', 'item');
     await frame.getByRole('button', { name: 'Use Revival ×1', exact: true }).click();
     const recovery = frame.locator('#survive-recovery-board');
     const target = recovery.getByRole('button', { name: 'Revive P1', exact: true });
@@ -215,7 +216,7 @@ test('one Arcade course survives adoption, four-player recovery, settlement and 
     assert.equal(owner(await read(), 'p1').participation, 'active');
     assert.equal((await read()).items.charges.find(charge => charge.seat === 'p2').revival, 0);
     await resume(); await advance(2400); await die(['p1', 'p2']);
-    await frame.locator('#session-seats [data-seat="p3"] [data-session-hud="item"]').click();
+    await sessionHudAction(app, 'p3', 'item');
     await frame.getByRole('button', { name: 'Use Flare ×1', exact: true }).click();
     await frame.locator('#survive-recovery-board').getByRole('button', { name: 'Use Flare', exact: true }).click(); await settle();
     const regrouped = await record('Flare regroups the flock');

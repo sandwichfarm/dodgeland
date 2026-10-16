@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {createMarketGameFixture} from './market-game-fixture.mjs';
+import {createMarketGameFixture,sessionHudAction} from './market-game-fixture.mjs';
 import {intent,start,earnTogether,pad,mixedSetup,freshReclaim} from './race-browser-fixture.mjs';
 
 test('camera fog ribbon edge marker HUD and reduced motion retain authoritative observations',{timeout:30000},async()=>{
@@ -43,12 +43,12 @@ test('mixed uninterrupted Race again journey ties ghost reclaim waiting timeout 
  try{
   await mixedSetup(app,{finish:'1'});await app.page.evaluate(pads=>window.marketPads(pads,true),[pad(0,[12])]);await app.page.keyboard.press('w');await app.advance(250);assert.deepEqual((await read()).result.players.map(p=>p.rankLabel),['=1','=1']);await retry();
   await mixedSetup(app,{seconds:'30',index:1});await app.sendPads([]);const lost=await read();await app.advance(500);assert.ok((await read()).time>lost.time);await app.sendPads([pad(9,[12,0])]);assert.equal(await f.locator('#survive-lifecycle-board').count(),0);await freshReclaim(app,9);const reclaimed=await read();assert.equal(reclaimed.players[1].device,'gamepad-9');assert.deepEqual(reclaimed.players[1].earned,lost.players[1].earned);assert.equal(reclaimed.players[1].protection,lost.players[1].protection);
-  await app.sendPads([]);await f.locator('[data-seat="p1"] [data-session-hud="item"]').click();await f.locator('#survive-lifecycle-board').getByRole('button',{name:'Leave Race',exact:true}).click();await app.advance(40);const waiting=await read();await app.advance(13000);assert.equal((await read()).time,waiting.time);assert.match(await f.locator('#session-seats').innerText(),/Waiting for a player to reclaim/);await freshReclaim(app,8);await app.advance(31000);assert.equal((await read()).result.outcome,'time');assert.equal((await read()).result.players[0].dnf,'Left');await retry();
+  await app.sendPads([]);await sessionHudAction(app, 'p1', 'item');await f.locator('#survive-lifecycle-board').getByRole('button',{name:'Leave Race',exact:true}).click();await app.advance(40);const waiting=await read();await app.advance(13000);assert.equal((await read()).time,waiting.time);assert.match(await f.locator('#session-seats').innerText(),/Waiting for a player to reclaim/);await freshReclaim(app,8);await app.advance(31000);assert.equal((await read()).result.outcome,'time');assert.equal((await read()).result.players[0].dnf,'Left');await retry();
   await mixedSetup(app,{index:2});for(let i=0;i<40;i++){const row=await app.onSession(function(){return this.world.rows.get(this.players[0].y)?.kind;});if(row==='road'||(await read()).players[0].state==='dead')break;await app.page.keyboard.press('w');await app.advance(250);}
-  for(let i=0;i<120&&(await read()).players[0].state!=='dead';i++)await app.advance(250);assert.ok((await read()).players[0].offer);await f.locator('[data-seat="p1"] [data-session-hud="revive"]').click();await app.advance(32);assert.equal((await read()).players[0].charge,'spent');assert.ok((await read()).players[0].protection>(await read()).time);
+  for(let i=0;i<120&&(await read()).players[0].state!=='dead';i++)await app.advance(250);assert.ok((await read()).players[0].offer);await sessionHudAction(app, 'p1', 'revive');await app.advance(32);assert.equal((await read()).players[0].charge,'spent');assert.ok((await read()).players[0].protection>(await read()).time);
   for(let i=0;i<10&&(await read()).players[0].y>0;i++){await f.locator('#scene').focus();await app.page.keyboard.press('s');await app.advance(180);}
   await app.sendPads([]);await app.advance(12500);assert.match(await f.locator('[data-seat="p2"] [data-session-hud="lifecycle"]').innerText(),/forfeited/);
-  await f.locator('[data-seat="p1"] [data-session-hud="item"]').click();await f.locator('#survive-lifecycle-board').getByRole('button',{name:'Leave Race',exact:true}).click();await app.advance(32);assert.deepEqual((await read()).result.players.map(p=>p.dnf),['Left','Forfeited']);
+  await sessionHudAction(app, 'p1', 'item');await f.locator('#survive-lifecycle-board').getByRole('button',{name:'Leave Race',exact:true}).click();await app.advance(32);assert.deepEqual((await read()).result.players.map(p=>p.dnf),['Left','Forfeited']);
   assert.deepEqual(evidence.errors,[]);assert.deepEqual(evidence.external,[]);assert.deepEqual(await f.evaluate(()=>window.marketGameFixture.forbidden),[]);await f.evaluate(()=>window.dispatchEvent(new PageTransitionEvent('pagehide')));assert.deepEqual(await f.evaluate(()=>Object.keys(window.marketGameFixture.handlers)),[]);
  }finally{await app.close();}
 });
@@ -94,7 +94,7 @@ test('already-lit Fog Lantern revalidation preserves a second actually collected
 test('Mud Splash excludes a protected racer after actual personal revival',{timeout:30000},async()=>{
  const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{auditBoundary:true,initialIntent:{...intent,payload:{seed:'ph3-000002dc-pond-s-n'}}});
  try{const f=await start(app);await f.locator('#scene').focus();await app.page.keyboard.press('w');await app.advance(250);const read=()=>app.onSession(function(){const p=this.players[1];return {row:this.world.rows.get(p.y)?.kind,state:p.state,offer:p.recovery.offer,protected:p.recovery.protectionUntil>this.world.time,charge:this.consumableSnapshot().charges[0]['mud-splash']};});
- for(let i=0;i<160&&!(await read()).offer;i++){if((await read()).row!=='road'){await f.locator('#scene').focus();await app.page.keyboard.press('ArrowUp');}await app.advance(200);}assert.ok((await read()).offer,JSON.stringify(await read()));await f.locator('[data-seat="p2"] [data-session-hud="revive"]').click();await app.advance(32);assert.equal((await read()).protected,true);await f.locator('[data-seat="p1"] [data-session-hud="identity"]').click();await f.getByRole('button',{name:'Use Mud Splash',exact:true}).click();assert.match(await f.locator('#survive-lifecycle-board').innerText(),/No racer is in range/);assert.equal(await f.locator('#survive-lifecycle-board .primary').isDisabled(),true);assert.equal((await read()).charge,1);assert.deepEqual(evidence.errors,[]);
+ for(let i=0;i<160&&!(await read()).offer;i++){if((await read()).row!=='road'){await f.locator('#scene').focus();await app.page.keyboard.press('ArrowUp');}await app.advance(200);}assert.ok((await read()).offer,JSON.stringify(await read()));await sessionHudAction(app, 'p2', 'revive');await app.advance(32);assert.equal((await read()).protected,true);await f.locator('[data-seat="p1"] [data-session-hud="identity"]').click();await f.getByRole('button',{name:'Use Mud Splash',exact:true}).click();assert.match(await f.locator('#survive-lifecycle-board').innerText(),/No racer is in range/);assert.equal(await f.locator('#survive-lifecycle-board .primary').isDisabled(),true);assert.equal((await read()).charge,1);assert.deepEqual(evidence.errors,[]);
  }finally{await app.close();}
 });
 
@@ -102,7 +102,7 @@ test('Mud Splash out-of-range and departed targets preserve charges; owner switc
  const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{auditBoundary:true,initialIntent:{...intent,payload:{seed:'ph3-000002dc-pond-s-n'}}});
  try{const f=await start(app);await f.locator('#scene').focus();await app.page.keyboard.press('w');await app.advance(250);await f.getByRole('button',{name:'Use Mud Splash',exact:true}).click();assert.equal(await f.locator('#session-seats').evaluate(el=>!!el.closest('[inert]')),true);await f.getByRole('button',{name:'Back',exact:true}).click();await f.locator('[data-seat="p2"] [data-session-hud="identity"]').click();assert.equal(await f.locator('#survive-lifecycle-board').count(),0);await f.locator('[data-seat="p1"] [data-session-hud="identity"]').click();
  await earnTogether(app,17);const read=()=>app.onSession(function(){return {charges:this.consumableSnapshot().charges[0]['mud-splash'],players:this.players.map(p=>({ground:p.groundY,state:p.state}))};});const before=await read();assert.ok(before.players[0].ground-before.players[1].ground>16);assert.equal(before.players[1].state,'playing');await f.getByRole('button',{name:'Use Mud Splash',exact:true}).click();assert.match(await f.locator('#survive-lifecycle-board').innerText(),/No racer is in range/);assert.equal(await f.locator('#survive-lifecycle-board .primary').isDisabled(),true);await f.getByRole('button',{name:'Back',exact:true}).click();assert.equal((await read()).charges,1);
- await f.locator('[data-seat="p2"] [data-session-hud="item"]').click();await f.locator('#survive-lifecycle-board').getByRole('button',{name:'Leave Race',exact:true}).click();await f.locator('[data-seat="p1"] [data-session-hud="identity"]').click();await f.getByRole('button',{name:'Use Mud Splash',exact:true}).click();assert.match(await f.locator('#survive-lifecycle-board').innerText(),/No racer is in range/);assert.equal((await read()).charges,1);assert.deepEqual(evidence.errors,[]);
+ await sessionHudAction(app, 'p2', 'item');await f.locator('#survive-lifecycle-board').getByRole('button',{name:'Leave Race',exact:true}).click();await f.locator('[data-seat="p1"] [data-session-hud="identity"]').click();await f.getByRole('button',{name:'Use Mud Splash',exact:true}).click();assert.match(await f.locator('#survive-lifecycle-board').innerText(),/No racer is in range/);assert.equal((await read()).charges,1);assert.deepEqual(evidence.errors,[]);
  }finally{await app.close();}
 });
 
@@ -113,7 +113,7 @@ for(const outcome of ['finish','timeout-dnf'])test(`assigned controller operates
   if(outcome==='finish'){
    await app.page.keyboard.press('w');await app.sendPads([pad(0,[0])]);await app.advance(300);
   }else{
-   await f.locator('[data-seat="p1"] [data-session-hud="item"]').click();await f.locator('#survive-lifecycle-board').getByRole('button',{name:'Leave Race',exact:true}).click();
+   await sessionHudAction(app, 'p1', 'item');await f.locator('#survive-lifecycle-board').getByRole('button',{name:'Leave Race',exact:true}).click();
    await app.advance(29800);await app.sendPads([pad(0,[0])]);await app.advance(400);
   }
   const root=f.locator('#survive-results-root');await root.getByRole('heading',{name:'Race results',exact:true}).waitFor();
@@ -139,8 +139,8 @@ for(const mode of ['survive','relay'])test(`assigned controller terminal routing
  const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{gamepads:true,auditBoundary:true,initialIntent:intent});
  try{
   const f=app.frame;if(mode==='survive'){await f.locator('#play').click();await f.locator('#pause').click();}await f.locator('#local-play').click();await f.locator('#session-roster [data-seat="p2"]').click();await f.getByRole('button',{name:'Leave this seat',exact:true}).click();await app.sendPads([pad(0)]);await app.sendPads([pad(0,[0])]);await app.sendPads([pad(0)]);if(mode==='relay')await f.locator('#relay-play').click();await f.locator('#local-session-start').click();await app.advance(32);
-  if(mode==='relay'){await f.locator('[data-seat="p1"] [data-session-hud="item"]').click();await f.locator('#relay-handoff').getByRole('button',{name:'Leave Relay',exact:true}).click();await f.getByRole('button',{name:"Start P2's leg",exact:true}).click();}
-  else {await f.locator('[data-seat="p1"] [data-session-hud="item"]').click();await f.getByRole('button',{name:'Leave P1 run',exact:true}).click();await f.getByRole('button',{name:'Leave run',exact:true}).click();}
+  if(mode==='relay'){await sessionHudAction(app, 'p1', 'item');await f.locator('#relay-handoff').getByRole('button',{name:'Leave Relay',exact:true}).click();await f.getByRole('button',{name:"Start P2's leg",exact:true}).click();}
+  else {await sessionHudAction(app, 'p1', 'item');await f.getByRole('button',{name:'Leave P1 run',exact:true}).click();await f.getByRole('button',{name:'Leave run',exact:true}).click();}
   if(await app.onGame(function(){return this.state==='paused';}))await f.locator('#pause').click();
   await app.sendPads([pad(0)]);
   for(let i=0;i<180;i++){const state=await app.onSession(function(){const p=this.players.find(p=>p.seat==='p2');return {offer:!!p.recovery.offer,row:this.world.rows.get(p.y)?.kind};});if(state.offer)break;if(state.row!=='road'){await app.sendPads([pad(0,[12])]);await app.sendPads([pad(0)]);}await app.advance(200);}

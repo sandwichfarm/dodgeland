@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import test from 'node:test';
-import { createMarketGameFixture } from './market-game-fixture.mjs';
+import { createMarketGameFixture, sessionHudAction } from './market-game-fixture.mjs';
 
 const pad = (index, pressed = []) => ({ index, id: `Recovery owner ${index}`, mapping: 'standard', connected: true, timestamp: 1,
   axes: [0, 0, 0, 0], buttons: Array.from({ length: 17 }, (_, button) => ({ value: +pressed.includes(button), pressed: pressed.includes(button), touched: pressed.includes(button) })) });
@@ -33,7 +33,7 @@ test('only the invoking controller navigates and commits an owned Flare confirma
       return purchase.ok && target.participation === 'dead';
     }), true);
     await advance(100);
-    await frame.locator('#session-seats [data-seat="p1"] [data-session-hud="item"]').click();
+    await sessionHudAction(app, 'p1', 'item');
     await frame.getByRole('button', { name: 'Use Flare ×1', exact: true }).click(); await advance(50);
     const board = frame.locator('#survive-recovery-board');
     assert.equal(await board.getByRole('heading', { name: 'Bring the flock together?', exact: true }).isVisible(), true);

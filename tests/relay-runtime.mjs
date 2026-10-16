@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createMarketGameFixture } from './market-game-fixture.mjs';
+import { createMarketGameFixture, sessionHudAction } from './market-game-fixture.mjs';
 import { loadSources } from './source-loader.mjs';
 
 test('visible seeded 49/50/51 hops carry a fractional platform baton through the unchanged built world', {timeout:120000}, async()=>{
@@ -191,7 +191,7 @@ test('mixed keyboard/controller Relay preserves per-seat calls, fresh boards, re
   await app.frame.getByRole('button',{name:'Skip P2',exact:true}).click();await app.frame.getByRole('button',{name:'Skip P2',exact:true}).click();await app.frame.getByRole('button',{name:"Start P1's leg",exact:true}).click();
   await app.onGame(function(){this.end('Runtime real train death','train');});await app.advance(80);assert.equal(await heading('P1 can return').isVisible(),true);await app.frame.getByRole('button',{name:'Revive P1',exact:true}).click();await app.advance(80);
   assert.equal(await app.onSession(function(){return this.players[0].recovery.charge;}),'spent');
-  await app.frame.locator('[data-seat="p1"] [data-session-hud="item"]').click();await app.frame.getByRole('button',{name:'Keep playing',exact:true}).click();await app.frame.locator('[data-seat="p1"] [data-session-hud="item"]').click();await app.frame.locator('#relay-handoff').getByRole('button',{name:'Leave Relay',exact:true}).click();
+  await sessionHudAction(app, 'p1', 'item');await app.frame.getByRole('button',{name:'Keep playing',exact:true}).click();await sessionHudAction(app, 'p1', 'item');await app.frame.locator('#relay-handoff').getByRole('button',{name:'Leave Relay',exact:true}).click();
   assert.equal(await heading('Waiting for a player to reclaim.').isVisible(),true);
   await app.sendPads([pad(0,[0])]);await app.sendPads([pad(0)]);await app.sendPads([pad(0,[0])]);await heading(/Continue as/).waitFor();await app.sendPads([pad(0)]);await app.sendPads([pad(0,[0])]);await app.sendPads([pad(0)]);await app.sendPads([pad(0,[0])]);await app.sendPads([pad(0)]);
   await app.sendPads([pad(0,[3])]);await app.frame.locator('#relay-handoff').getByRole('button',{name:'Leave Relay',exact:true}).click();assert.equal(await heading('Relay results').isVisible(),true);
@@ -245,7 +245,7 @@ for (const activation of ['Enter','Space']) test(`handoff ${activation} activate
   assert.deepEqual(await positions(),frozen);await app.page.keyboard.down(activation);await app.advance(120);assert.equal(await board.count(),0);
   const placed=await positions();assert.equal(placed[1].earned,0);assert.equal(placed[1].y,1);await app.page.keyboard.down(activation);await app.advance(120);assert.deepEqual(await positions(),placed);await app.page.keyboard.up(activation);
   for(const seat of ['p2','p1']){
-   await app.frame.locator(`[data-seat="${seat}"] [data-session-hud="item"]`).click();await app.frame.locator('#relay-handoff').getByRole('button',{name:'Leave Relay',exact:true}).click();
+   await sessionHudAction(app, seat, 'item');await app.frame.locator('#relay-handoff').getByRole('button',{name:'Leave Relay',exact:true}).click();
    if(seat==='p2')await app.page.keyboard.press(activation);
   }
   await app.frame.getByRole('heading',{name:'Relay results',exact:true}).waitFor();await app.page.keyboard.press(activation);assert.equal(await board.getAttribute('data-result-view'),'players','departed keyboard owners retain terminal navigation');

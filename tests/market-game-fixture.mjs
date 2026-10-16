@@ -227,3 +227,24 @@ frame.srcdoc=${artifact};</script>`;
     refreshOwners() { objectIds.clear(); },
     async close() { await browser.close(); await new Promise(resolve => server.close(resolve)); } };
 }
+
+/** Explicit public disclosure navigation for inherited shared HUD actions.
+ * Does not intercept locators or mutate the model. Acquisition provenance stays
+ * with each caller; read-only identity checks prevent acting on another seat. */
+export async function sessionHudAction(app, seat, field, { click = true } = {}) {
+  assert.ok(['item','revive','decline'].includes(field));
+  const identity = await app.onSession(function(seat){const p=this.players.find(p=>p.seat===seat);return {base:this.definition.id,composed:!!this.mode,participant:p?.participantId};},seat);
+  assert.ok(identity.composed && identity.participant, `actual composed participant ${seat}`);
+  const frame=app.frame, root=frame.locator('#session-seats'), owner=frame.locator(`[data-seat="${seat}"] .session-hud-identity`);
+  if(await root.getAttribute('data-session-hud-inspect')==='true' && await frame.locator('.session-hud-selected').getAttribute('data-seat')!==seat)await frame.getByRole('button',{name:'Close details',exact:true}).click();
+  if(await frame.locator('.session-hud-selected').getAttribute('data-seat')!==seat)await owner.click();
+  if(await root.getAttribute('data-session-hud-inspect')!=='true')await owner.click();
+  const page=field==='item'?'3':'2';
+  for(let n=0;n<4&&await frame.locator('.session-hud-selected').getAttribute('data-session-hud-page')!==page;n++)await frame.getByRole('button',{name:'Next details',exact:true}).click();
+  assert.equal(await frame.locator('.session-hud-selected').getAttribute('data-seat'),seat);
+  assert.equal(await app.onSession(function(seat){return this.players.find(p=>p.seat===seat)?.participantId;},seat),identity.participant);
+  const action=frame.locator(`[data-seat="${seat}"] ${field==='decline'?'[data-race-decline]':`[data-session-hud="${field}"]`}`);
+  assert.equal(await action.isVisible(),true,`${seat} ${field} is reachable through visible details`);
+  if(click){await action.click();if(field!=='item'&&await frame.getByRole('button',{name:'Close details',exact:true}).isVisible())await frame.getByRole('button',{name:'Close details',exact:true}).click();}
+  return action;
+}

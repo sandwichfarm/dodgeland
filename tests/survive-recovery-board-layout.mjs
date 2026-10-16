@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { mkdir, writeFile } from 'node:fs/promises';
-import { createMarketGameFixture } from './market-game-fixture.mjs';
+import { createMarketGameFixture, sessionHudAction } from './market-game-fixture.mjs';
 
 const sizes = [[240, 240], [320, 560], [900, 600], [1000, 280], [2400, 1200]];
 const themes = {
@@ -94,13 +94,13 @@ test('four-player recovery boards fit every supported frame without scrolling or
     for (const [theme, value] of Object.entries(themes)) {
       await frame.evaluate(value => window.marketGameFixture.setTheme(value), value);
       await resize(900, 600);
-      await frame.locator('#session-seats [data-seat="p1"] [data-session-hud="item"]').click();
+      await sessionHudAction(app, 'p1', 'item');
       for (const [width, height] of sizes) await checkPages('items', theme, width, height);
       await resize(900, 600);
       await frame.getByRole('button', { name: 'Back to paused run', exact: true }).click();
       for (const item of ['Flare', 'Revival']) {
         await resize(900, 600);
-        await frame.locator('#session-seats [data-seat="p1"] [data-session-hud="item"]').click();
+        await sessionHudAction(app, 'p1', 'item');
         await frame.getByRole('button', { name: `Use ${item} ×1`, exact: true }).click();
         for (const [width, height] of sizes) await checkPages(item.toLowerCase(), theme, width, height);
         const retainedTarget = await frame.locator('#survive-recovery-board').getAttribute('data-recovery-target');
@@ -136,7 +136,7 @@ test('four-player recovery boards fit every supported frame without scrolling or
     await advance(50);
     for (const item of ['Flare', 'Revival']) {
       await resize(900, 600);
-      await frame.locator('#session-seats [data-seat="p1"] [data-session-hud="item"]').click();
+      await sessionHudAction(app, 'p1', 'item');
       await frame.getByRole('button', { name: `Use ${item} ×1`, exact: true }).click();
       for (const [width, height] of sizes) await capture(`no-target-${item.toLowerCase()}`, 'light', width, height);
       await resize(900, 600);
@@ -144,7 +144,7 @@ test('four-player recovery boards fit every supported frame without scrolling or
     }
     // An empty owner's item shelf must focus its first usable action, rather
     // than the disabled Revival button, and remain usable at the minimum size.
-    await frame.locator('#session-seats [data-seat="p2"] [data-session-hud="item"]').click();
+    await sessionHudAction(app, 'p2', 'item');
     for (const [width, height] of sizes) await capture('empty-items', 'light', width, height);
     assert.deepEqual(evidence.errors, []); assert.deepEqual(evidence.external, []);
   } finally {

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import test from 'node:test';
-import { createMarketGameFixture } from './market-game-fixture.mjs';
+import { createMarketGameFixture, sessionHudAction } from './market-game-fixture.mjs';
 
 const frames = [[200, 160], [240, 240], [320, 560], [1000, 280]];
 const themes = {
@@ -138,7 +138,7 @@ test('ghost and deliberate-leave cues remain bounded without creating a replacem
     evidence.focus = [{ state: 'reclaim-before-tiny', ...(await snapshotFocus(frame)) }];
     await capture(frame, iframe, resize, evidence, 'reclaim', 'Continue as Sunny. Your items are still here.', { modal: true });
     await resize(900, 600); await frame.getByRole('button', { name: 'Not now', exact: true }).click();
-    await frame.locator('#session-seats [data-seat="p1"] [data-session-hud="item"]').click();
+    await sessionHudAction(app, 'p1', 'item');
     await frame.getByRole('button', { name: 'Leave P1 run', exact: true }).click();
     await frame.getByRole('heading', { name: 'Leave as P1?', exact: true }).waitFor();
     assert.equal(await frame.getByRole('dialog', { name: 'Leave as P1?', exact: true }).isVisible(), true);

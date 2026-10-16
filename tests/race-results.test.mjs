@@ -172,7 +172,7 @@ test('pure ranks ignore all participant ordering and presentation identities',as
 });
 
 test('built frozen Race results expose podium and complete paged participants through actual inputs', {timeout:90000}, async()=>{
-  const {createMarketGameFixture}=await import('./market-game-fixture.mjs');
+  const {createMarketGameFixture,sessionHudAction}=await import('./market-game-fixture.mjs');
   const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{auditBoundary:true,initialIntent:{sender:'race-results',archetype:'game',action:'open',convention:'napplet:game/open',payload:{seed:'ph3-00000071-pond-s-n'}}});
   try{
     const f=app.frame;await f.locator('#local-play').click();await f.locator('#race-play').click();await f.locator('#race-finish').fill('1');await f.locator('#local-session-start').click();
@@ -213,11 +213,11 @@ test('built frozen Race results expose podium and complete paged participants th
 });
 
 for(const outcome of ['time','left'])test(`built ${outcome} results retain explicit status and frozen history`,{timeout:30000},async()=>{
-  const {createMarketGameFixture}=await import('./market-game-fixture.mjs');const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{auditBoundary:true});
+  const {createMarketGameFixture,sessionHudAction}=await import('./market-game-fixture.mjs');const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{auditBoundary:true});
   try{
     const f=app.frame;await f.locator('#local-play').click();await f.locator('#race-play').click();await f.locator('#race-time').fill('30');await f.locator('#local-session-start').click();
     if(outcome==='time')await app.advance(31000);
-    else for(const seat of ['p1','p2']){await f.locator(`[data-seat="${seat}"] [data-session-hud="item"]`).click();await f.locator('#survive-lifecycle-board').getByRole('button',{name:'Leave Race',exact:true}).click();await app.advance(30);}
+    else for(const seat of ['p1','p2']){await sessionHudAction(app, seat, 'item');await f.locator('#survive-lifecycle-board').getByRole('button',{name:'Leave Race',exact:true}).click();await app.advance(30);}
     await f.getByRole('heading',{name:'Race results',exact:true}).waitFor();
     const frozen=await app.onSession(function(){return JSON.stringify(this.result);}),result=JSON.parse(frozen);
     assert.deepEqual(result.players.map(p=>p.rankLabel),outcome==='time'?['=1','=1']:['DNF','DNF']);
@@ -272,7 +272,7 @@ test('statistics authoritative market metadata ignores forged extra item IDs for
 });
 
 for(const [count,tied] of [[3,true],[4,true],[4,false]])test(`built podium tiers ${count} racers ${tied?'tied':'distinct'} stay bounded`,{timeout:60000},async()=>{
-  const {createMarketGameFixture}=await import('./market-game-fixture.mjs');
+  const {createMarketGameFixture,sessionHudAction}=await import('./market-game-fixture.mjs');
   const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{auditBoundary:true,gamepads:true,initialIntent:{sender:'race-results',archetype:'game',action:'open',convention:'napplet:game/open',payload:{seed:'ph3-00000071-pond-s-n'}}});
   const pad=(index,pressed=[])=>({index,id:`pad-${index}`,connected:true,mapping:'standard',timestamp:1,axes:[0,0,0,0],buttons:Array.from({length:17},(_,i)=>({pressed:pressed.includes(i),touched:pressed.includes(i),value:pressed.includes(i)?1:0}))});
   try{

@@ -137,12 +137,14 @@ for(const variant of ['arcade','flow','race','relay'])test(`P6 detail pages ${va
  }finally{await writeFile(new URL(`${variant}-details.json`,output),JSON.stringify(evidence,null,2));await app.close();}
 });
 
-for(const [item,seed]of [['mud-splash','ph3-000002dc-pond-s-n'],['fog-lantern','ph3-00000658-pond-s-n']])test(`P6 embedded actual ${item} retains single owner and child actions`,{timeout:60000},async()=>{
+for(const [item,seed]of [['mud-splash','ph3-000002dc-pond-s-n'],['fog-lantern','ph3-00000658-pond-s-n']])test(`P6 lifecycle actual ${item} retains owner target and child actions through resize`,{timeout:60000},async()=>{
  const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{auditBoundary:true,initialIntent:{...intent,payload:{seed}}});
  try{await startRace(app);await app.frame.locator('#scene').focus();await app.page.keyboard.press('w');await app.advance(250);await app.resize(240,240);await app.frame.locator('#session-controls-open').click();
  await app.frame.getByRole('button',{name:'Next controls',exact:true}).click();await app.frame.getByRole('button',{name:'Next controls',exact:true}).click();
  const before=await app.onSession(function(){return {time:this.world.time,uses:this.consumableSnapshot().uses.length};});
  await app.frame.getByRole('button',{name:item==='mud-splash'?'Use Mud Splash':'Use Fog Lantern',exact:true}).click();await app.iframe.screenshot({path:new URL(`embedded-${item}-target.png`,output).pathname});
+ const targetState=await app.onSession(function(){return JSON.stringify({time:this.world.time,players:this.players.map(p=>({id:p.participantId,x:p.x,y:p.y,health:p.health})),items:this.consumableSnapshot()});});
+ for(const [w,h]of [[200,160],[1000,280],[320,560],[240,240]]){await app.resize(w,h);await app.advance(100);assert.equal(await app.onSession(function(){return JSON.stringify({time:this.world.time,players:this.players.map(p=>({id:p.participantId,x:p.x,y:p.y,health:p.health})),items:this.consumableSnapshot()});}),targetState);if(w>=240){assert.match(await app.frame.locator('#survive-lifecycle-board h2').textContent(),/Viewing P1/);assert.equal(await app.frame.getByRole('button',{name:item==='mud-splash'?'Use on P2':'Light lantern',exact:true}).isVisible(),true);}}
  await app.frame.getByRole('button',{name:item==='mud-splash'?'Use on P2':'Light lantern',exact:true}).click();await app.advance(32);
  assert.equal(await app.onSession(function(){return this.consumableSnapshot().uses.length;}),before.uses+1);assert.equal(await app.onSession(function(){return this.world.time;}),before.time);
  assert.equal(await app.frame.locator('#run-inventory').count(),1);await app.frame.getByRole('button',{name:'Close controls',exact:true}).click();assert.equal(await app.frame.locator('#app').getAttribute('data-run-state'),'playing');assert.deepEqual(evidence.errors,[]);

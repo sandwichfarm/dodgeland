@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { mkdir } from 'node:fs/promises';
 import test from 'node:test';
-import { createMarketGameFixture } from './market-game-fixture.mjs';
+import { createMarketGameFixture, sessionHudAction } from './market-game-fixture.mjs';
 
 const output = new URL('../artifacts/', import.meta.url);
 const pad = (index, pressed = []) => ({ index, id: `Recovery lifecycle ${index}`, mapping: 'standard', connected: true, timestamp: 1,
@@ -31,7 +31,7 @@ test('a built live run joins, exposes owner recovery controls, and commits a per
     }), true, 'a production P1 death opens the authoritative personal offer');
     await advance(120);
     const revive = frame.getByRole('button', { name: 'Use personal revive' });
-    await revive.click();
+    await sessionHudAction(app, 'p1', 'revive');
     assert.equal(await frame.getByText(/Protected/).count() > 0, true, 'only committed recovery exposes protected return feedback');
     await advance(2_400);
     assert.equal(await onSession(function () {
@@ -54,7 +54,7 @@ test('a live seat can leave deliberately and a fresh controller joins the releas
   try {
     await frame.locator('#play').click(); await frame.locator('#pause').click(); await frame.locator('#local-play').click();
     await frame.getByRole('button', { name: /start together/i }).click(); await advance(80);
-    await frame.locator('#session-seats [data-seat="p2"] [data-session-hud="item"]').click();
+    await sessionHudAction(app, 'p2', 'item');
     await frame.getByRole('button', { name: 'Leave P2 run', exact: true }).click();
     await frame.getByRole('button', { name: 'Leave run', exact: true }).click();
     const departed = await onSession(function () { return { active: this.players.map(player => player.seat), archived: this.contributions.map(record => ({ seat: record.seat, participantId: record.participantId, cards: record.statistics.itemsFound })) }; });
@@ -76,7 +76,7 @@ test('the departed primary seat is a real live-join vacancy', { timeout: 60_000 
   try {
     await frame.locator('#play').click(); await frame.locator('#pause').click(); await frame.locator('#local-play').click();
     await frame.getByRole('button', { name: /start together/i }).click(); await advance(80);
-    await frame.locator('#session-seats [data-seat="p1"] [data-session-hud="item"]').click();
+    await sessionHudAction(app, 'p1', 'item');
     await frame.getByRole('button', { name: 'Leave P1 run', exact: true }).click();
     await frame.getByRole('button', { name: 'Leave run', exact: true }).click();
     const departed = await onSession(function () { return { active: this.players.map(player => player.seat), archived: this.contributions.find(record => record.seat === 'p1')?.participantId, time: this.world.time }; });
@@ -143,7 +143,7 @@ test('the one P2-labelled market buys and uses Revival through visible productio
     await frame.getByRole('button', { name: /Revival.*View details/i }).click();
     await frame.getByRole('button', { name: /Buy Revival/i }).click();
     await frame.locator('#market-close').click(); await advance(300);
-    await frame.locator('#session-seats [data-seat="p2"] [data-session-hud="item"]').click();
+    await sessionHudAction(app, 'p2', 'item');
     await frame.getByRole('button', { name: /Use Revival/i }).click();
     await frame.getByRole('button', { name: /Revive P1/i }).click();
     await frame.getByRole('button', { name: 'Use Revival', exact: true }).click(); await advance(100);

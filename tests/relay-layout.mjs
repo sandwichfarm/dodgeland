@@ -2,7 +2,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {mkdir,writeFile,readFile} from 'node:fs/promises';
-import {createMarketGameFixture} from './market-game-fixture.mjs';
+import {createMarketGameFixture,sessionHudAction} from './market-game-fixture.mjs';
 const output=new URL('../artifacts/relay-layout/',import.meta.url);
 const frames=[[200,160],[240,240],[320,560],[900,600],[1000,280],[2400,1200]];
 const pad=(index,pressed=[])=>({index,id:`Layout controller ${index}`,mapping:'standard',connected:true,timestamp:1,axes:[0,0],buttons:Array.from({length:17},(_,i)=>({pressed:pressed.includes(i),value:pressed.includes(i)?1:0,touched:false}))});
@@ -62,7 +62,7 @@ test('Relay visible controls preserve every layout state across frames, themes a
   await app.frame.getByRole('button',{name:'Skip P2',exact:true}).click();await capture('skip','#relay-handoff');await app.frame.getByRole('button',{name:'Back',exact:true}).click();
   await app.sendPads([pad(0,[0])]);await app.sendPads([pad(0)]);await app.sendPads([pad(0,[0])]);await capture('reclaim','#survive-lifecycle-board');await app.sendPads([pad(0)]);await app.sendPads([pad(0,[0])]);await app.sendPads([pad(0)]);
   await app.sendPads([pad(0,[3])]);await capture('leave','#relay-handoff');await app.frame.getByRole('button',{name:'Keep playing',exact:true}).click();assert.equal(await app.frame.evaluate(()=>document.activeElement.id),'scene','cancel restores scene focus');await app.sendPads([]);await app.frame.getByRole('button',{name:'Skip P2',exact:true}).click();await app.frame.getByRole('button',{name:'Skip P2',exact:true}).click();await app.frame.getByRole('button',{name:"Start P1's leg",exact:true}).click();
-  await app.frame.locator('[data-seat="p1"] [data-session-hud="item"]').click();await app.frame.locator('#relay-handoff').getByRole('button',{name:'Leave Relay',exact:true}).click();await capture('waiting','#relay-handoff');
+  await sessionHudAction(app, 'p1', 'item');await app.frame.locator('#relay-handoff').getByRole('button',{name:'Leave Relay',exact:true}).click();await capture('waiting','#relay-handoff');
   await app.sendPads([pad(0,[0])]);await app.sendPads([pad(0)]);await app.sendPads([pad(0,[0])]);await app.sendPads([pad(0)]);await app.sendPads([pad(0,[0])]);await app.sendPads([pad(0)]);await app.sendPads([pad(0,[0])]);await app.sendPads([pad(0)]);await app.sendPads([pad(0,[3])]);await app.frame.locator('#relay-handoff').getByRole('button',{name:'Leave Relay',exact:true}).click();
   await capture('results','#relay-handoff');await app.frame.locator('.relay-results-nav button').nth(1).click();await capture('players','#relay-handoff');await app.frame.locator('.relay-results-nav button').nth(1).click();await capture('legs','#relay-handoff');
   // A second real run earns equal contributions; no result or world state is injected.
@@ -70,7 +70,7 @@ test('Relay visible controls preserve every layout state across frames, themes a
   await app.frame.getByRole('button',{name:'Hop again',exact:true}).click();await app.advance(80);await app.close();app=await createMarketGameFixture(evidence,{gamepads:true,auditBoundary:true});
   await app.frame.locator('#local-play').click();await app.frame.locator('#relay-play').click();await app.frame.locator('#relay-tiles').fill('1');await app.frame.locator('#local-session-start').click();await app.advance(80);
   await app.frame.locator('#scene').focus();await app.page.keyboard.press('w');await app.advance(250);await app.frame.getByRole('button',{name:"Start P2's leg",exact:true}).click();await app.frame.locator('#scene').focus();await app.page.keyboard.press('ArrowUp');await app.advance(250);await app.frame.getByRole('button',{name:"Start P1's leg",exact:true}).click();
-  for(const seat of ['p1','p2']){await app.frame.locator(`[data-seat="${seat}"] [data-session-hud="item"]`).click();await app.frame.locator('#relay-handoff').getByRole('button',{name:'Leave Relay',exact:true}).click();if(seat==='p1')await app.frame.getByRole('button',{name:"Start P2's leg",exact:true}).click();}
+  for(const seat of ['p1','p2']){await sessionHudAction(app, seat, 'item');await app.frame.locator('#relay-handoff').getByRole('button',{name:'Leave Relay',exact:true}).click();if(seat==='p1')await app.frame.getByRole('button',{name:"Start P2's leg",exact:true}).click();}
   assert.deepEqual((await app.onSession(function(){return this.result;})).podium.map(p=>p.label),['=1']);assert.equal(prior.distance,1);
   await app.frame.getByRole('button',{name:'Next result page',exact:true}).click();await capture('tied-podium','#relay-handoff');await app.page.emulateMedia({reducedMotion:'reduce'});await capture('result-system-motion','#relay-handoff');await app.page.emulateMedia({reducedMotion:'no-preference'});
   await app.frame.getByRole('button',{name:'Hop again',exact:true}).click();await app.advance(80);await app.close();app=await createMarketGameFixture(evidence,{gamepads:true,auditBoundary:true});
