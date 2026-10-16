@@ -1,12 +1,17 @@
+import { artifactForCoverage, artifactDirectoryForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
 import { spawn } from 'node:child_process';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:net';
 const root = new URL('../', import.meta.url);
-const output = new URL('../artifacts/', import.meta.url);
+const output = artifactDirectoryForCoverage(new URL('../artifacts/', import.meta.url), 'runtime-smoke');
 await mkdir(output, { recursive: true });
-const html = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
+const selectedArtifact = artifactForCoverage(new URL('../dist/index.html', import.meta.url));
+const html = await readFile(selectedArtifact, 'utf8');
+const previewDirectory = dirname(selectedArtifact instanceof URL ? fileURLToPath(selectedArtifact) : selectedArtifact);
 assert.doesNotMatch(html, /<script[^>]+src=|<link[^>]+href=/i, 'artifact is self-contained');
 assert.doesNotMatch(html, /\b(?:fetch\s*\(|XMLHttpRequest|WebSocket|localStorage|sessionStorage|indexedDB)|document\.cookie|window\.nostr/);
 async function freePort() {
@@ -23,14 +28,20 @@ async function freePort() {
 const [previewPort, runtimePort, darkRuntimePort] = await Promise.all([freePort(), freePort(), freePort()]);
 const pajaCommand = process.env.DOWN_TO_DUCK_PAJA_CLI ? process.execPath : 'kehto';
 const pajaPrefix = process.env.DOWN_TO_DUCK_PAJA_CLI ? [process.env.DOWN_TO_DUCK_PAJA_CLI] : ['paja'];
-const runtime = spawn(pajaCommand, [...pajaPrefix, '--target-url', `http://127.0.0.1:${previewPort}`, '--port', String(runtimePort), '--theme', 'light', '--relay-mode', 'disabled', '--storage-mode', 'local', '--firewall-mode', 'observe', '--', 'pnpm', 'vite', 'preview', '--host', '127.0.0.1', '--port', String(previewPort), '--strictPort'], { cwd: root, stdio: ['ignore', 'pipe', 'pipe'] });
+const runtime = spawn(pajaCommand, [...pajaPrefix, '--target-url', `http://127.0.0.1:${previewPort}`, '--port', String(runtimePort), '--theme', 'light', '--relay-mode', 'disabled', '--storage-mode', 'local', '--firewall-mode', 'observe', '--', 'pnpm', 'vite', 'preview', '--outDir', previewDirectory, '--host', '127.0.0.1', '--port', String(previewPort), '--strictPort'], { cwd: root, stdio: ['ignore', 'pipe', 'pipe'] });
 let log = ''; runtime.stdout.on('data', b => log += b); runtime.stderr.on('data', b => log += b);
 const ready = new Promise((resolve, reject) => {
   runtime.once('error', reject); runtime.once('exit', code => reject(new Error(`Runtime exited ${code}: ${log}`)));
   const timer = setTimeout(() => { clearInterval(poll); reject(new Error(`Runtime readiness timeout: ${log}`)); }, 15_000);
   const poll = setInterval(() => { if (log.includes('Local:')) { clearInterval(poll); clearTimeout(timer); resolve(); } }, 100);
 });
-let browser, darkRuntime;
+let browser, darkRuntime, coverageFrame, identity, generation = 0;
+async function beginRealm(page, scenario) {
+  if (coverageFrame) await collectRealm(coverageFrame, identity);
+  coverageFrame = undefined;
+  identity = { suite: process.argv[1], scenario, frame: 'opaque-paja-app', generation: generation++, scope: 'current' };
+  registerRealm(page, identity);
+}
 const evidence = { artifact: 'single self-contained HTML; forbidden surfaces absent', frames: [], waveFrames: [], scenarios: [], runtime: 'Paja; opaque sandbox allow-scripts', errors: [] };
 try {
   await ready; browser = await chromium.launch({ headless: true, args: ['--mute-audio'] }); const page = await browser.newPage({ viewport: { width: 1400, height: 900 } });
@@ -51,12 +62,14 @@ try {
     };
   });
   page.on('pageerror', e => evidence.errors.push(e.message));
+  await beginRealm(page, 'light');
   await page.goto(`http://127.0.0.1:${runtimePort}/`);
   await page.locator('iframe').evaluate(iframe => { iframe.style.width = '900px'; iframe.style.height = '600px'; iframe.style.flex = 'none'; });
   async function currentFrame() {
     const host = await page.locator('iframe').elementHandle();
     const live = await host?.contentFrame();
     assert.ok(live, 'Paja did not mount its opaque napplet frame.');
+    coverageFrame = live;
     return live;
   }
   await page.frameLocator('iframe').locator('#character-call').waitFor({ state: 'attached' });
@@ -107,6 +120,7 @@ try {
         let output = ''; const timer = setTimeout(() => reject(new Error('Dark runtime readiness timeout')), 10000);
         darkRuntime.once('error', reject); darkRuntime.stdout.on('data', b => { output += b; if (output.includes('Runtime URL:')) { clearTimeout(timer); resolve(); } });
       });
+      await beginRealm(page, 'dark');
       await page.goto(`http://127.0.0.1:${darkRuntimePort}/`);
       await page.locator('iframe').evaluate(iframe => { iframe.style.width = '900px'; iframe.style.height = '600px'; iframe.style.flex = 'none'; });
       await page.frameLocator('iframe').locator('#character-call').waitFor({ state: 'attached' }); await page.waitForTimeout(300);
@@ -158,6 +172,7 @@ try {
     return saved.world === 'snowdrop' && saved.reduced === true;
   });
   await page.waitForTimeout(3100);
+  await beginRealm(page, 'saved-preferences');
   await Promise.all([
     page.waitForEvent('framenavigated', { predicate: frame => frame.parentFrame() === page.mainFrame() }),
     page.getByRole('button', { name: 'Reload', exact: true }).click(),
@@ -262,6 +277,7 @@ try {
   const beforeFixture = await f.evaluate(() => window.napplet.storage.getItem('puddlehop.progress.v1'));
   assert.equal(JSON.parse(beforeFixture).best, 75);
   await page.waitForTimeout(3100);
+  await beginRealm(page, 'shell-reload');
   await page.getByRole('button', { name: 'Reload', exact: true }).click(); await page.waitForTimeout(3100); f = await currentFrame();
   await f.locator('#choose').click();
   assert.ok((await f.locator('#collection-traveler-name').innerText()).length > 0, 'the saved collection remains usable after the shell reload');
@@ -276,6 +292,7 @@ try {
   // Reload without optional storage, keyboard and theme. Buttons keep the whole game usable.
   for (const domain of ['storage', 'keys', 'theme']) await page.getByRole('button', { name: domain, exact: true }).click();
   await page.waitForTimeout(3100);
+  await beginRealm(page, 'shell-reload');
   await page.getByRole('button', { name: 'Reload', exact: true }).click(); await page.waitForTimeout(400); f = await currentFrame();
   assert.equal(await f.evaluate(() => Boolean(window.napplet.storage)), false);
   assert.equal(await f.locator('#character-call').textContent(), 'Quack');
@@ -298,5 +315,6 @@ try {
   throw error;
 } finally {
   await writeFile(new URL('runtime-evidence.json', output), JSON.stringify(evidence, null, 2));
-  await browser?.close(); darkRuntime?.kill('SIGINT'); runtime.kill('SIGINT');
+  try { if (coverageFrame) await collectRealm(coverageFrame, identity); }
+  finally { await browser?.close(); darkRuntime?.kill('SIGINT'); runtime.kill('SIGINT'); }
 }

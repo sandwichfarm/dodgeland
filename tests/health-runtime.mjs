@@ -1,3 +1,4 @@
+import { artifactForCoverage, artifactDirectoryForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 // Built-artifact Pluck integration in an opaque allow-scripts iframe. CDP stages
 // explicit road contacts / score 99; real controls, simulation, health, HUD and
 // Web Audio carry each encounter. This does not claim a natural 100-hop run.
@@ -7,9 +8,9 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { chromium } from 'playwright';
 
-const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
+const built = await readFile(artifactForCoverage(new URL('../dist/index.html', import.meta.url)), 'utf8');
 assert.ok(built.includes('hurt.rear') && built.includes('health.restore'), 'Build the current Pluck implementation first.');
-const output = new URL('../artifacts/', import.meta.url);
+const output = artifactDirectoryForCoverage(new URL('../artifacts/', import.meta.url), 'health-runtime');
 await mkdir(output, { recursive: true });
 
 function installFixture() {
@@ -60,7 +61,13 @@ await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const evidence = { artifact: 'unmodified production module; opaque allow-scripts iframe',
   fixture: 'CDP closure inspection supplies road contacts and score 99; subsequent controls and simulation are real',
   scenarios: [], frames: [], errors: [], external: [] };
-let browser;
+let browser, frame, identity, generation = 0;
+async function beginRealm(page, scenario) {
+  if (frame) await collectRealm(frame, identity);
+  frame = undefined;
+  identity = { suite: process.argv[1], scenario, frame: 'opaque-app', generation: generation++, scope: 'current' };
+  registerRealm(page, identity);
+}
 try {
   browser = await chromium.launch({ args: ['--mute-audio'] });
   const page = await browser.newPage({ viewport: { width: 1000, height: 700 } });
@@ -76,8 +83,8 @@ try {
     if (new URL(route.request().url()).hostname === '127.0.0.1') return route.continue();
     evidence.external.push(route.request().url()); return route.abort();
   });
+  await beginRealm(page, 'initial');
   await page.goto(`http://127.0.0.1:${server.address().port}`);
-  let frame;
   async function currentFrame() {
     frame = await (await page.locator('#napplet').elementHandle()).contentFrame();
     await frame.locator('#sound-preview-cue option[value="hurt.rear"]').waitFor({ state: 'attached' });
@@ -166,6 +173,7 @@ try {
   assert.deepEqual(played, { state: 'playing', x: 0, y: 0, score: 0, hop: 0, starts: 1 }, 'the visible Play control performs one stationary Game.start transition');
   evidence.scenarios.push({ play: played });
   async function remount() {
+    await beginRealm(page, 'health-remount');
     await page.evaluate(() => window.mount()); await currentFrame();
     await frame.locator('#character-call').dispatchEvent('click'); await advance(32);
   }
@@ -319,7 +327,7 @@ try {
   await writeFile(new URL('health-runtime.json', output), JSON.stringify(evidence, null, 2) + '\n');
   console.log('PASS: built Pluck integration — rear/side damage, half-feather milestone, pause protection, fatal audio, retry, SDK result save and 12 frame/theme layouts.');
 } finally {
-  await browser?.close();
-  await new Promise(resolve => server.close(resolve));
+  try { if (frame) await collectRealm(frame, identity); }
+  finally { await browser?.close(); await new Promise(resolve => server.close(resolve)); }
 }
 

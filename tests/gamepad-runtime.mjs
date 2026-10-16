@@ -1,3 +1,4 @@
+import { artifactForCoverage, artifactDirectoryForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 // Production artifact in an opaque iframe; the fixture is a shell implementing
 // NAP-GAMEPAD draft PR #108. Physical hardware and Kehto support are not claimed.
 // CDP stages clear terrain/death only; all tested input uses the shipped module.
@@ -6,7 +7,7 @@ import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { chromium } from 'playwright';
 
-const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
+const built = await readFile(artifactForCoverage(new URL('../dist/index.html', import.meta.url)), 'utf8');
 assert.ok(built.includes('gamepad.subscribe') && built.includes('gamepad-help'), 'Build current gamepad integration first.');
 function installFixture(mode) {
   Math.random = () => 0;
@@ -57,7 +58,13 @@ window.mount('wire');</script>`;
 const server = createServer((_request, response) => { response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); response.end(harness); });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const evidence = { artifact: 'unchanged production module in opaque allow-scripts iframe', shell: 'canonical NAP-GAMEPAD PR #108 snapshot fixture; no physical-controller or Kehto claim', scenarios: [], errors: [], external: [] };
-let browser;
+let browser, frame, identity, generation = 0;
+async function beginRealm(page, scenario) {
+  if (frame) await collectRealm(frame, identity);
+  frame = undefined;
+  identity = { suite: process.argv[1], scenario, frame: 'opaque-app', generation: generation++, scope: 'current' };
+  registerRealm(page, identity);
+}
 try {
   browser = await chromium.launch({ args: ['--mute-audio'] });
   const page = await browser.newPage({ viewport: { width: 1000, height: 700 } });
@@ -68,8 +75,8 @@ try {
   cdp.on('Runtime.executionContextsCleared', () => contexts.clear()); await cdp.send('Runtime.enable');
   page.on('pageerror', error => evidence.errors.push(error.message));
   await page.route('**/*', route => { if (new URL(route.request().url()).hostname === '127.0.0.1') return route.continue(); evidence.external.push(route.request().url()); return route.abort(); });
+  await beginRealm(page, 'initial');
   await page.goto(`http://127.0.0.1:${server.address().port}`);
-  let frame;
   async function currentFrame(expectedMode) {
     frame = await (await page.locator('#napplet').elementHandle()).contentFrame();
     await frame.waitForFunction(mode => window.gamepadFixture?.hydrated && window.gamepadFixture.mode === mode, expectedMode);
@@ -127,7 +134,7 @@ try {
   const effects = () => frame.evaluate(() => window.gamepadFixture.voices.filter(voice => !voice.loop));
 
   for (const mode of ['wire', 'binding']) {
-    if (mode !== 'wire') { await page.evaluate(mode => window.mount(mode), mode); await currentFrame(mode); }
+    if (mode !== 'wire') { await beginRealm(page, mode); await page.evaluate(mode => window.mount(mode), mode); await currentFrame(mode); }
     // The opaque-frame subscription is delivered as a task. The deterministic
     // page clock is paused, so advance one frame to flush its initial neutral
     // snapshot instead of depending on wall-clock scheduling.
@@ -222,6 +229,7 @@ try {
     assert.ok(messages.every(message => Object.keys(message).length === 1 && ['gamepad.subscribe', 'gamepad.unsubscribe'].includes(message.type)), 'canonical no-ID messages');
     evidence.scenarios.push({ mode, controls: ['ready instructions and view-change input seeding', 'start', 'D-pad', 'stick repeat', 'deadzone', 'character call PCM', 'pause information/resume and input seeding', 'collection traveler/section/sound navigation and input seeding', 'shell focus', 'disconnect/reconnect', 'result stats/seed copy/back/retry and input seeding', 'small frame', 'teardown'], messages });
   }
+  await beginRealm(page, 'absent');
   await page.evaluate(() => window.mount('absent')); await currentFrame('absent');
   assert.equal(await frame.locator('#gamepad-help').isHidden(), true); await send(); await send([0, 12]); await advance(500);
   assert.equal((await snapshot()).state, 'ready'); assert.deepEqual(await page.evaluate(() => window.messages), []);
@@ -229,7 +237,8 @@ try {
   await frame.locator('[data-direction="forward"]').click(); await advance(170); assert.equal((await snapshot()).score, 1, 'pointer controls work without gamepad domain');
   evidence.scenarios.push({ mode: 'absent', controls: ['no probe or subscription', 'unsolicited snapshots ignored', 'pointer fallback'] });
   assert.deepEqual(evidence.errors, []); assert.deepEqual(evidence.external, []);
-  await mkdir(new URL('../artifacts/', import.meta.url), { recursive: true });
-  await writeFile(new URL('../artifacts/gamepad-runtime.json', import.meta.url), JSON.stringify(evidence, null, 2));
+  const output = artifactDirectoryForCoverage(new URL('../artifacts/', import.meta.url), 'gamepad-runtime');
+  await mkdir(output, { recursive: true });
+  await writeFile(new URL('gamepad-runtime.json', output), JSON.stringify(evidence, null, 2));
   console.log(JSON.stringify(evidence, null, 2));
-} finally { await browser?.close(); await new Promise(resolve => server.close(resolve)); }
+} finally { try { if (frame) await collectRealm(frame, identity); } finally { await browser?.close(); await new Promise(resolve => server.close(resolve)); } }
