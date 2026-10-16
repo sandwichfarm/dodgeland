@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import test from 'node:test';
-import { createMarketGameFixture } from './market-game-fixture.mjs';
+import { createMarketGameFixture, sessionHudAction } from './market-game-fixture.mjs';
 
 test('the built all-down offer clock pauses, resumes the same run, and settles without a manual decline', { timeout: 90000 }, async () => {
   const evidence = { errors: [], external: [], checkpoints: [] };
@@ -32,21 +32,30 @@ test('the built all-down offer clock pauses, resumes the same run, and settles w
     assert.ok(initial.players.every(player => player.lifecycle === 'dead' && player.deadline > initial.time));
     assert.equal(initial.result, null);
     const actions = frame.getByRole('button', { name: /^Use personal revive/ });
-    assert.equal(await actions.count(), 2, 'both authoritative offers remain reachable');
+    for(const seat of ['p1','p2']){
+      await sessionHudAction(app,seat,'revive',{click:false});
+      assert.equal(await actions.count(),1,'the intended personal offer is reachable through its visible details');
+      assert.equal(await frame.locator('.session-hud-selected').getAttribute('data-seat'),seat);
+      await frame.getByRole('button',{name:'Close details',exact:true}).click();
+    }
     await advance(1500);
     const ticking = await read(); evidence.checkpoints.push({ state: 'counting', ...ticking });
     assert.ok(ticking.time > initial.time + 1.4 * initial.scale, 'all-down offers continue on the actual main animation loop');
     const remaining = Math.ceil((ticking.players[0].deadline - ticking.time) / ticking.scale);
     assert.ok(remaining > 0 && remaining < 8);
+    await sessionHudAction(app,'p1','revive',{click:false});
     assert.match(await actions.first().innerText(), new RegExp(`\\b${remaining}s\\b`), 'visible countdown uses remaining active time');
+    await frame.getByRole('button',{name:'Close details',exact:true}).click();
 
     const pause = frame.getByRole('button', { name: 'Pause game', exact: true });
     assert.equal(await pause.isEnabled(), true, 'a pending personal decision may still pause the run');
     await pause.click(); await advance(50);
+    await sessionHudAction(app,'p1','revive',{click:false});
     const paused = await read(); const frozenCopy = await actions.allInnerTexts();
     await advance(10000);
     assert.deepEqual(await read(), paused, 'wall-clock time cannot expire offers while explicitly paused');
     assert.deepEqual(await actions.allInnerTexts(), frozenCopy);
+    await frame.getByRole('button',{name:'Close details',exact:true}).click();
     await frame.getByRole('button', { name: 'Resume game', exact: true }).click();
     await advance(100);
     const resumed = await read();

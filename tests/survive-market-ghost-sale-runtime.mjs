@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { mkdir, writeFile } from 'node:fs/promises';
-import { createMarketGameFixture } from './market-game-fixture.mjs';
+import { createMarketGameFixture, sessionControlsPage } from './market-game-fixture.mjs';
 
 const output = new URL('../artifacts/', import.meta.url);
 const pad = (index, pressed = []) => ({ index, id: `Ghost sale ${index}`, mapping: 'standard', connected: true, timestamp: 1,
@@ -39,7 +39,7 @@ test('a disconnected owner cannot sell a retained card until explicitly reclaimi
       }
     });
     await settle();
-    await frame.locator('#session-seats [data-seat="p2"] .session-hud-identity').click(); await settle();
+    await sessionControlsPage(app,'p2','Hand'); await settle();
     const before = await inventory(), owned = before.find(player => player.seat === 'p2'), card = owned.cards[0];
     assert.equal(card.id, before.find(player => player.seat === 'p1').cards[0].id, 'the same card ID exists in both personal inventories');
     await frame.locator(`[data-hand-card="${card.id}"]`).click(); await settle();
@@ -64,7 +64,7 @@ test('a disconnected owner cannot sell a retained card until explicitly reclaimi
     await press(1, 0); await settle();
     assert.equal(await onSession(function () { return this.players.find(player => player.seat === 'p2').participation; }), 'active');
     assert.deepEqual(await inventory(), before, 'explicit reclaim preserves the original participant and all inventory');
-    await frame.locator('#session-seats [data-seat="p2"] .session-hud-identity').click(); await settle();
+    await sessionControlsPage(app,'p2','Hand'); await settle();
     await frame.locator(`[data-hand-card="${card.id}"]`).click(); await settle();
     assert.match(await frame.locator('#run-hand-detail-owner').innerText(), /Viewing P2 /);
     assert.equal(await frame.locator('#run-hand-sell').isEnabled(), true, 'a fresh reclaimed interaction can sell outside the market');

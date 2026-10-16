@@ -99,7 +99,7 @@ test('a personal-revive offer remains readable across compact lifecycle frames',
     const p1Identity = frame.locator('#session-seats [data-seat="p1"] [data-session-hud="identity"]');
     await p1Identity.click();
     assert.equal(await frame.locator('#session-seats').getAttribute('data-session-hud-inspect'), 'true', 'the selected P1 compact tap opens its recovery offer details');
-    await assert.doesNotReject(() => frame.getByText(/0\/3 feathers/).waitFor());
+    await assert.doesNotReject(() => frame.locator('[data-seat="p1"] [data-session-hud="health"]').filter({hasText:/0\/3 feathers/}).waitFor());
     await selectHudDetailsPage(frame, 'p1', 1); await assert.doesNotReject(() => frame.locator('#session-seats [data-seat="p1"] [data-session-hud="power"]').waitFor());
     await selectHudDetailsPage(frame, 'p1', 2); await assert.doesNotReject(() => frame.getByText(/Use personal revive/).waitFor());
     await capture(frame, iframe, resize, evidence, 'personal-offer', 'Use personal revive', {

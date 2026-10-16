@@ -126,6 +126,7 @@ test('zero-target, stale-target, and unsafe Flare UI outcomes retain charges and
       await board.getByRole('button', { name: 'Back to paused run', exact: true }).click();
       assert.deepEqual(await observe(app), before);
     }
+    await app.frame.getByRole('button', { name: 'Close details', exact: true }).click();
     await app.frame.getByRole('button', { name: 'Resume game', exact: true }).click();
     await die(app, ['p3']);
     let board = await openItem(app, 'p1', 'Revival');
@@ -135,6 +136,7 @@ test('zero-target, stale-target, and unsafe Flare UI outcomes retain charges and
     assert.equal(await board.getByText('P3 can’t return safely yet. Revival kept.', { exact: true }).isVisible(), true);
     assert.deepEqual(await observe(app), changed, 'a target recovered elsewhere cannot consume the old selection');
     await board.getByRole('button', { name: 'Back to paused run', exact: true }).click();
+    await app.frame.getByRole('button', { name: 'Close details', exact: true }).click();
     await app.frame.getByRole('button', { name: 'Resume game', exact: true }).click();
     await die(app, ['p4']);
     board = await openItem(app, 'p1', 'Flare');
