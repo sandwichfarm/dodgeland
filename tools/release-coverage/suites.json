@@ -417,6 +417,18 @@
         }
       ],
       "provenance": "Actual mob/seed/sound owners, Paja and both required sound browsers; original assertions retained"
+    },
+    "adapters-12-tracer": {
+      "files": [
+        "tests/audio-demo.mjs"
+      ],
+      "role": "browser",
+      "provenance": "Original production GameAudio offline PCM generation; arranged audition timeline",
+      "artifactDirectories": [
+        "artifacts/soundscape-scene.wav",
+        "artifacts/soundscape-montage.wav",
+        "artifacts/soundscape-audition.json"
+      ]
     }
   },
   "pendingAdapters": [
