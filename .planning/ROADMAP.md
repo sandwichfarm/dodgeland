@@ -185,7 +185,7 @@ Plans:
 
 **Plans**: 6 plans in 6 sequential waves
 
-- [ ] 07-01-PLAN.md — Audit isolated tooling and calibrate exact Node/opaque-browser counters.
+- [x] 07-01-PLAN.md — Audit isolated tooling and calibrate exact Node/opaque-browser counters.
 - [ ] 07-02-PLAN.md — Collect all production strata with explicit coverage floors.
 - [ ] 07-03-PLAN.md — Close meaningful measured coverage and behavioral gaps.
 - [ ] 07-04-PLAN.md — Measure scoped wire, teardown and current-manifest conformance.
@@ -205,4 +205,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 4. Relay | 6/6 | Complete    | 2026-10-15 |
 | 5. Race | 7/7 | Technical verification passed; human acceptance pending |  |
 | 6. Cross-Mode Presentation | 2/2 | Implementation complete; independent verification pending | - |
-| 7. Release Evidence & PR | 0/TBD | Not started | - |
+| 7. Release Evidence & PR | 1/6 | In progress | - |
