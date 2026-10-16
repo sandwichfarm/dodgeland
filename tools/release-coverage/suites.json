@@ -566,7 +566,9 @@
             "browser"
           ],
           "defaultBuildScope": "production",
-          "artifactPatterns": []
+          "artifactPatterns": [
+            "artifacts/race-results"
+          ]
         }
       ],
       "provenance": "Whole unchanged Race results job; timing diagnostic, temporary screenshots separately preserved by outer diagnostic wrapper"
@@ -2840,7 +2842,9 @@
           "browser"
         ],
         "defaultBuildScope": "production",
-        "artifactPatterns": []
+        "artifactPatterns": [
+          "artifacts/race-results"
+        ]
       },
       {
         "id": "race-runtime",

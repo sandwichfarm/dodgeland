@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import test, { after } from 'node:test';
+import { mkdir, writeFile } from 'node:fs/promises';
 import { loadSources } from './source-loader.mjs';
 
 const sources = await loadSources(['game', 'race', 'session', 'market/catalog']);
@@ -171,18 +172,76 @@ test('pure ranks ignore all participant ordering and presentation identities',as
   const retry=arena();hop(retry,['p1']);assert.equal(JSON.stringify(run.race.result),before);
 });
 
-test('built frozen Race results expose podium and complete paged participants through actual inputs', {timeout:90000}, async()=>{
-  const {createMarketGameFixture,sessionHudAction}=await import('./market-game-fixture.mjs');
-  const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{auditBoundary:true,initialIntent:{sender:'race-results',archetype:'game',action:'open',convention:'napplet:game/open',payload:{seed:'ph3-00000071-pond-s-n'}}});
+const resultOutput=new URL('../artifacts/race-results/',import.meta.url);
+
+// File-local lifecycle for the six original built result journeys. Subtests
+// share the same app; only their original acquisition opens a browser.
+async function resultJourney(t,id,timeout,expectedCells,expectedStages,action){
+  const evidence={errors:[],external:[],stages:[],cells:[],captures:[],complete:false};
+  let app,activeSignal,originalFailure,passed=false;
+  const closes=new WeakMap();
+  const check=()=>{t.signal.throwIfAborted();activeSignal?.throwIfAborted();};
+  const closeOnce=()=>{
+    if(!app)return Promise.resolve();
+    if(!closes.has(app))closes.set(app,app.close());
+    return closes.get(app);
+  };
+  const open=async(options)=>{
+    check();assert.equal(app,undefined,'one original acquisition per result scenario');
+    const {createMarketGameFixture}=await import('./market-game-fixture.mjs');check();
+    const opened=await createMarketGameFixture(evidence,options);app=opened;
+    try{check();}catch(error){await closeOnce();throw error;}
+    return app;
+  };
+  const stage=async(name,body)=>{
+    check();let settled,completed=false,aborted=false,abortCleanup;
+    await t.test(name,{timeout},async(child)=>{
+      activeSignal=child.signal;
+      const abort=()=>{aborted=true;abortCleanup=closeOnce().catch(error=>{evidence.cleanupFailure=String(error);});};
+      child.signal.addEventListener('abort',abort,{once:true});
+      settled=(async()=>{try{check();await body();check();assert.deepEqual(evidence.errors,[]);assert.deepEqual(evidence.external,[]);evidence.stages.push(name);completed=true;}finally{child.signal.removeEventListener('abort',abort);}})();
+      await settled;
+    });
+    await settled?.catch(error=>{originalFailure??=error;});await abortCleanup;
+    activeSignal=undefined;check();assert.equal(aborted,false,`aborted result stage: ${name}`);assert.equal(completed,true,`incomplete result stage: ${name}`);
+  };
+  const screenshot=async(name)=>{
+    check();const image=await app.iframe.screenshot();check();await writeFile(new URL(name,resultOutput),image);check();evidence.captures.push(name);
+  };
+  const cell=(w,h,light)=>{check();evidence.cells.push(`${w}x${h}/${light?'light':'dark'}`);};
+  await mkdir(resultOutput,{recursive:true});
   try{
-    const f=app.frame;await f.locator('#local-play').click();await f.locator('#race-play').click();await f.locator('#race-finish').fill('1');await f.locator('#local-session-start').click();
+    await action({open,stage,check,screenshot,cell,evidence});check();
+    assert.deepEqual([...evidence.cells].sort(),[...expectedCells].sort(),'exact original frame/theme cells');
+    await stage('cleanup',closeOnce);
+    assert.deepEqual(evidence.stages,expectedStages);check();passed=true;
+  }catch(error){originalFailure??=error;}
+  finally{
+    try{await closeOnce();}catch(error){evidence.cleanupFailure=String(error);originalFailure??=error;passed=false;}
+    evidence.complete=passed&&!originalFailure&&!t.signal.aborted&&!evidence.cleanupFailure;
+    if(originalFailure)evidence.failure=String(originalFailure);
+    await writeFile(new URL(`${id}-report.json`,resultOutput),JSON.stringify(evidence,null,2));
+  }
+  if(originalFailure)throw originalFailure;
+  assert.equal(evidence.complete,true,'original result journey and cleanup completed');
+}
+const resultCells=(frames,lights=[false,true])=>lights.flatMap(light=>frames.map(([w,h])=>`${w}x${h}/${light?'light':'dark'}`));
+
+test('built frozen Race results expose podium and complete paged participants through actual inputs', async(t)=>{
+  const frames=[[200,160],[240,240],[320,560],[900,600],[1000,280],[2400,1200]];
+  await resultJourney(t,'ordered',90000,resultCells(frames),['ordered finish','dark matrix','light matrix','selected participant and retry','cleanup'],async(j)=>{
+  const evidence=j.evidence;let app,f,frozen;
+  await j.stage('ordered finish',async()=>{
+    app=await j.open({auditBoundary:true,initialIntent:{sender:'race-results',archetype:'game',action:'open',convention:'napplet:game/open',payload:{seed:'ph3-00000071-pond-s-n'}}});f=app.frame;await f.locator('#local-play').click();await f.locator('#race-play').click();await f.locator('#race-finish').fill('1');await f.locator('#local-session-start').click();
     await f.locator('#scene').focus();await app.page.keyboard.press('w');await app.advance(300);await app.page.keyboard.press('ArrowUp');await app.advance(300);
     await f.getByRole('heading',{name:'Race results',exact:true}).waitFor();
-    const frozen=await app.onSession(function(){return JSON.stringify(this.result);});
+    frozen=await app.onSession(function(){return JSON.stringify(this.result);});
     assert.deepEqual(JSON.parse(frozen).players.map(p=>p.rankLabel),['1','2']);
-    for(const light of [false,true])for(const [w,h]of [[200,160],[240,240],[320,560],[900,600],[1000,280],[2400,1200]]){
+  });
+  for(const light of [false,true])await j.stage(light?'light matrix':'dark matrix',async()=>{
+    for(const [w,h]of frames){j.check();
       await app.resize(w,h);await f.evaluate(light=>window.marketGameFixture.setTheme({colors:light?{background:'#f6f1e5',text:'#24362d',primary:'#4b7b61'}:{background:'#242b32',text:'#f0eee5',primary:'#9fc28a'}}),light);
-      if(w===200){assert.equal(await f.locator('.survive-results-tiny').isVisible(),true);await app.iframe.screenshot({path:`/tmp/race-05-05-tiny-${light?'light':'dark'}.png`});continue;}
+      if(w===200){assert.equal(await f.locator('.survive-results-tiny').isVisible(),true);await j.screenshot(`race-05-05-tiny-${light?'light':'dark'}.png`);j.cell(w,h,light);continue;}
       const root=f.locator('#survive-results-root');
       // Return to the first page through production controls, not model/UI injection.
       while(await root.getByRole('button',{name:'Previous results',exact:true}).isEnabled())await root.getByRole('button',{name:'Previous results',exact:true}).click();
@@ -191,15 +250,17 @@ test('built frozen Race results expose podium and complete paged participants th
         text.push(await root.innerText());await assertResultContrast(f);
         const problems=await root.evaluate(root=>[...root.querySelectorAll('button,h2,h3,dt,dd')].filter(n=>n.getClientRects().length).flatMap(n=>{const r=n.getBoundingClientRect();return r.left<0||r.top<0||r.right>innerWidth+1||r.bottom>innerHeight+1||n.scrollWidth>n.clientWidth+1||(n.tagName==='BUTTON'&&(r.width<44||r.height<44))?[n.textContent]:[];}));assert.deepEqual(problems,[],`${w}x${h} page ${pages}`);
         const overflow=await root.locator('.race-results-body').evaluate(n=>({bad:n.scrollHeight>n.clientHeight+1||n.scrollWidth>n.clientWidth+1,h:n.clientHeight,sh:n.scrollHeight,children:[...n.querySelectorAll('h3,p')].map(c=>[c.textContent,c.clientHeight,getComputedStyle(c).fontSize])}));assert.equal(overflow.bad,false,JSON.stringify(overflow)+`bounded results body ${w}x${h} page ${pages}`);
-        if(pages<2||!(await root.getByRole('button',{name:'Next results',exact:true}).isEnabled()))await app.iframe.screenshot({path:`/tmp/race-05-05-results-${w}x${h}-${light?'light':'dark'}-${pages}.png`});
+        if(pages<2||!(await root.getByRole('button',{name:'Next results',exact:true}).isEnabled()))await j.screenshot(`race-05-05-results-${w}x${h}-${light?'light':'dark'}-${pages}.png`);
         pages++;assert.ok(pages<50);
         if(!(await root.getByRole('button',{name:'Next results',exact:true}).isEnabled()))break;
         await root.getByRole('button',{name:'Next results',exact:true}).focus();await app.page.keyboard.press(pages%2?'Enter':'Space');
       }
       for(const label of ['P1','P2','Innate powers','Fog attempted','Mud received','Lantern collected','Market interactions','Coins spent'])assert.ok(text.join('\n').includes(label),`${label} remains reachable`);
       assert.equal(await app.onSession(function(){return JSON.stringify(this.result);}),frozen);
-      const again=root.getByRole('button',{name:'Race again',exact:true});await again.focus();await app.page.keyboard.press('Tab');assert.equal(await root.evaluate(n=>n.contains(document.activeElement)),true);
+      const again=root.getByRole('button',{name:'Race again',exact:true});await again.focus();await app.page.keyboard.press('Tab');assert.equal(await root.evaluate(n=>n.contains(document.activeElement)),true);j.cell(w,h,light);
     }
+  });
+  await j.stage('selected participant and retry',async()=>{
     await app.resize(240,240);
     const navigation=f.locator('#survive-results-root');
     while(await navigation.getByRole('button',{name:'Previous results',exact:true}).isEnabled())await navigation.getByRole('button',{name:'Previous results',exact:true}).click();
@@ -209,27 +270,35 @@ test('built frozen Race results expose podium and complete paged participants th
     await f.getByRole('button',{name:'Race again',exact:true}).click();assert.equal(await f.locator('#survive-results-root').isVisible(),false);
     await f.locator('#local-play').click();await f.locator('#race-play').click();await f.locator('#local-session-start').click();assert.equal(await f.locator('#race-results-heading').count(),0);
     assert.deepEqual(evidence.errors,[]);assert.deepEqual(evidence.external,[]);assert.deepEqual(await f.evaluate(()=>window.marketGameFixture.forbidden),[]);
-  }finally{await app.close();}
+  });
+  });
 });
 
-for(const outcome of ['time','left'])test(`built ${outcome} results retain explicit status and frozen history`,{timeout:30000},async()=>{
-  const {createMarketGameFixture,sessionHudAction}=await import('./market-game-fixture.mjs');const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{auditBoundary:true});
-  try{
-    const f=app.frame;await f.locator('#local-play').click();await f.locator('#race-play').click();await f.locator('#race-time').fill('30');await f.locator('#local-session-start').click();
+for(const outcome of ['time','left'])test(`built ${outcome} results retain explicit status and frozen history`,async(t)=>{
+  const {sessionHudAction}=await import('./market-game-fixture.mjs');
+  await resultJourney(t,outcome,30000,resultCells([[240,240],[900,600]],[false]),['setup','terminal outcome','compact and regular inspection','cleanup'],async(j)=>{
+  const evidence=j.evidence;let app,f,frozen,result;
+  await j.stage('setup',async()=>{
+    app=await j.open({auditBoundary:true});f=app.frame;await f.locator('#local-play').click();await f.locator('#race-play').click();await f.locator('#race-time').fill('30');await f.locator('#local-session-start').click();
+  });
+  await j.stage('terminal outcome',async()=>{
     if(outcome==='time')await app.advance(31000);
     else for(const seat of ['p1','p2']){await sessionHudAction(app, seat, 'item');await f.locator('#survive-lifecycle-board').getByRole('button',{name:'Leave Race',exact:true}).click();await app.advance(30);}
     await f.getByRole('heading',{name:'Race results',exact:true}).waitFor();
-    const frozen=await app.onSession(function(){return JSON.stringify(this.result);}),result=JSON.parse(frozen);
+    frozen=await app.onSession(function(){return JSON.stringify(this.result);});result=JSON.parse(frozen);
     assert.deepEqual(result.players.map(p=>p.rankLabel),outcome==='time'?['=1','=1']:['DNF','DNF']);
-    for(const [w,h]of [[240,240],[900,600]]){
+  });
+  await j.stage('compact and regular inspection',async()=>{
+    for(const [w,h]of [[240,240],[900,600]]){j.check();
       await app.resize(w,h);const root=f.locator('#survive-results-root');
       if(outcome==='left')assert.match(await root.textContent(),/DNF · Left/);
       const body=await root.locator('.race-results-body').evaluate(n=>({h:n.clientHeight,sh:n.scrollHeight,w:n.clientWidth,sw:n.scrollWidth}));assert.ok(body.sh<=body.h+1&&body.sw<=body.w+1,JSON.stringify(body));
-      await app.iframe.screenshot({path:`/tmp/race-05-05-${outcome}-${w}.png`});
+      await j.screenshot(`race-05-05-${outcome}-${w}.png`);j.cell(w,h,false);
       assert.equal(await app.onSession(function(){return JSON.stringify(this.result);}),frozen);
     }
     assert.deepEqual(evidence.errors,[]);assert.deepEqual(evidence.external,[]);
-  }finally{await app.close();}
+  });
+  });
 });
 
 async function assertResultContrast(frame) {
@@ -271,19 +340,22 @@ test('statistics authoritative market metadata ignores forged extra item IDs for
   assert.ok(owner.interactions.every(e=>Object.isFrozen(e)&&Object.isFrozen(e.items)&&e.items.every(Object.isFrozen)));
 });
 
-for(const [count,tied] of [[3,true],[4,true],[4,false]])test(`built podium tiers ${count} racers ${tied?'tied':'distinct'} stay bounded`,{timeout:60000},async()=>{
-  const {createMarketGameFixture,sessionHudAction}=await import('./market-game-fixture.mjs');
-  const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{auditBoundary:true,gamepads:true,initialIntent:{sender:'race-results',archetype:'game',action:'open',convention:'napplet:game/open',payload:{seed:'ph3-00000071-pond-s-n'}}});
+for(const [count,tied] of [[3,true],[4,true],[4,false]])test(`built podium tiers ${count} racers ${tied?'tied':'distinct'} stay bounded`,async(t)=>{
+  const frames=[[240,240],[320,560],[900,600],[1000,280],[2400,1200]];
+  await resultJourney(t,`tiers-${count}-${tied?'tie':'distinct'}`,60000,resultCells(frames),['actual finish order','dark matrix','light matrix','cleanup'],async(j)=>{
+  const evidence=j.evidence;let app,f,frozen;
   const pad=(index,pressed=[])=>({index,id:`pad-${index}`,connected:true,mapping:'standard',timestamp:1,axes:[0,0,0,0],buttons:Array.from({length:17},(_,i)=>({pressed:pressed.includes(i),touched:pressed.includes(i),value:pressed.includes(i)?1:0}))});
-  try{
-    const f=app.frame;await f.locator('#local-play').click();
+  await j.stage('actual finish order',async()=>{
+    app=await j.open({auditBoundary:true,gamepads:true,initialIntent:{sender:'race-results',archetype:'game',action:'open',convention:'napplet:game/open',payload:{seed:'ph3-00000071-pond-s-n'}}});f=app.frame;await f.locator('#local-play').click();
     for(let i=0;i<count-2;i++){await app.sendPads(Array.from({length:i+1},(_,j)=>pad(j)));await app.sendPads(Array.from({length:i+1},(_,j)=>pad(j,j===i?[0]:[])));await app.sendPads(Array.from({length:i+1},(_,j)=>pad(j)));}
     await f.locator('#race-play').click();await f.locator('#race-finish').fill('1');await f.locator('#local-session-start').click();await f.locator('#scene').focus();
     if(tied){await app.page.evaluate(pads=>window.marketPads(pads,true),Array.from({length:count-2},(_,j)=>pad(j,[12])));await app.page.keyboard.press('w');await app.page.keyboard.press('ArrowUp');await app.advance(300);}
     else{await app.page.keyboard.press('w');await app.advance(300);await app.page.keyboard.press('ArrowUp');await app.advance(300);for(let i=0;i<count-2;i++){await app.sendPads(Array.from({length:count-2},(_,j)=>pad(j,j===i?[12]:[])));await app.advance(300);}}
-    await f.getByRole('heading',{name:'Race results',exact:true}).waitFor();const frozen=await app.onSession(function(){return JSON.stringify(this.result);});
+    await f.getByRole('heading',{name:'Race results',exact:true}).waitFor();frozen=await app.onSession(function(){return JSON.stringify(this.result);});
     assert.deepEqual(JSON.parse(frozen).players.map(p=>p.rankLabel),tied?Array(count).fill('=1'):['1','2','3','4']);
-    for(const light of [false,true])for(const [w,h]of [[240,240],[320,560],[900,600],[1000,280],[2400,1200]]){
+  });
+  for(const light of [false,true])await j.stage(light?'light matrix':'dark matrix',async()=>{
+    for(const [w,h]of frames){j.check();
       await app.resize(w,h);await f.evaluate(light=>window.marketGameFixture.setTheme({colors:light?{background:'#f6f1e5',text:'#24362d',primary:'#4b7b61'}:{background:'#242b32',text:'#f0eee5',primary:'#9fc28a'}}),light);
       const root=f.locator('#survive-results-root');while(await root.getByRole('button',{name:'Previous results',exact:true}).isEnabled())await root.getByRole('button',{name:'Previous results',exact:true}).click();
       const pages=h<420&&!tied?count:1;
@@ -293,11 +365,12 @@ for(const [count,tied] of [[3,true],[4,true],[4,false]])test(`built podium tiers
         await assertResultContrast(f);
         assert.deepEqual(await root.evaluate(n=>[...n.querySelectorAll('button,[data-race-tier],[data-race-member]')].filter(e=>e.getClientRects().length).flatMap(e=>{const r=e.getBoundingClientRect();return r.left<0||r.top<0||r.right>innerWidth+1||r.bottom>innerHeight+1||e.scrollWidth>e.clientWidth+1||(e.tagName==='BUTTON'&&(r.width<44||r.height<44||!e.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2))))?[e.textContent]:[];})),[]);
         const geometry=await root.locator('.race-results-body').evaluate(n=>({h:n.clientHeight,sh:n.scrollHeight,w:n.clientWidth,sw:n.scrollWidth,children:[...n.querySelectorAll('*')].map(e=>[e.className,e.textContent,e.clientHeight,e.scrollHeight,getComputedStyle(e).fontSize])}));assert.ok(geometry.sh<=geometry.h+1&&geometry.sw<=geometry.w+1,JSON.stringify(geometry));
-        await app.iframe.screenshot({path:`/tmp/race-05-05-tiers-${count}-${tied?'tie':'distinct'}-${w}x${h}-${light?'light':'dark'}-${page}.png`});
+        await j.screenshot(`race-05-05-tiers-${count}-${tied?'tie':'distinct'}-${w}x${h}-${light?'light':'dark'}-${page}.png`);
         if(page+1<pages)await root.getByRole('button',{name:'Next results',exact:true}).click();
       }
-      assert.equal(await app.onSession(function(){return JSON.stringify(this.result);}),frozen);
+      assert.equal(await app.onSession(function(){return JSON.stringify(this.result);}),frozen);j.cell(w,h,light);
     }
     assert.deepEqual(evidence.errors,[]);assert.deepEqual(evidence.external,[]);
-  }finally{await app.close();}
+  });
+  });
 });
