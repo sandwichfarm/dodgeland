@@ -1064,7 +1064,7 @@ function updateHud(): void {
       if (relay) items.textContent = 'Leave Relay';
       items.disabled = player.participation !== 'active';
       tile.querySelector<HTMLElement>('[data-session-hud="lifecycle"]')!.textContent = lifecycleLabel(player);
-      tile.querySelector<HTMLElement>('.session-hud-summary')!.textContent = `${player.health}/${player.maxHealth} feathers · ${lifecycleLabel(player)}`;
+      tile.querySelector<HTMLElement>('.session-hud-summary')!.textContent = `${compactHud ? `${character.name} · ` : ''}${player.health}/${player.maxHealth} feathers · ${lifecycleLabel(player)}`;
       tile.querySelector<HTMLElement>('[data-session-hud-page-label]')!.textContent = `${hudDetailsPage === 0 ? 'Status' : hudDetailsPage === 1 ? 'Run' : hudDetailsPage === 2 ? 'Recovery' : 'Items'} ${hudDetailsPage + 1} of 4`;
     }
     seats.dataset.sessionHudInspect = String(hudDetailsOpen);

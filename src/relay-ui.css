@@ -161,3 +161,10 @@
  #session-board[data-relay-page="players"] { grid-template-areas: 'heading heading' 'roster detail' 'relay relay' 'actions actions'; }
  #session-board[data-relay-page="players"] > :is(.session-subtitle,.session-roster-strip,#session-status) { display: none; }
 }
+/* The current runner shares the bounded identity band; details remain the
+   existing owner inspection, including inactive roster facts. */
+#app #session-seats[data-relay-hud="true"] .relay-distance { height: 20px; padding: 0 4px; font: 400 16px/20px var(--game-font); }
+#app #session-seats[data-relay-hud="true"][data-session-hud-inspect="true"] .session-hud-details > [data-session-hud] { display: revert; }
+@media(max-width:479px),(max-height:419px){
+ #app #session-seats[data-relay-hud="true"] .relay-distance { height: auto; min-height: 20px; line-height: 20px; }
+}

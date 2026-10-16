@@ -229,3 +229,18 @@
 @media(min-height:420px) and (max-width:1199px){
  .race-podium { gap:8px; }
 }
+/* Phase06 shared top-band composition supersedes the former tall side rails. */
+#app #session-seats:has([data-race-hud]) { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 4px; }
+#app #session-seats [data-race-hud].session-hud-tile { grid-column: auto; padding: 0; }
+#app #session-seats:has([data-race-hud]) .race-distance { height: 20px; padding: 0 4px; font: 400 16px/20px var(--game-font); }
+#app #session-seats:has([data-race-hud]) .race-boundary { display: none; }
+#app #session-seats:has([data-race-hud]) .race-lifecycle { position: absolute; width: 1px; height: 1px; padding: 0; clip-path: inset(50%); overflow: hidden; }
+#app #session-seats [data-race-hud] .session-hud-details { grid-template-areas: none; }
+#app #session-seats [data-race-hud] .session-hud-details > * { grid-area: auto; }
+#app #session-seats[data-session-hud-inspect="true"] [data-race-hud] .session-hud-pager button { font-size: 28px; }
+#app #session-seats[data-session-hud-inspect="true"] [data-race-hud]:not([data-session-hud-page="0"]) [data-race-fog],
+#app #session-seats[data-session-hud-inspect="true"] [data-race-hud]:not([data-session-hud-page="3"]) [data-race-effect] { display: none; }
+@media(max-width:479px),(max-height:419px){
+ #app #session-seats:has([data-race-hud]):not([data-session-hud-inspect="true"]) { grid-template-columns: repeat(4,minmax(0,1fr)); }
+ #app #session-seats:has([data-race-hud]) .race-distance { height: auto; min-height: 20px; line-height: 20px; }
+}

@@ -35,6 +35,23 @@ body:has(#local-session-setup:not([hidden]) #session-board), body:has(#session-s
 #app #session-seats[data-session-hud-inspect="true"] [data-session-hud-page="2"] .session-hud-details > :is([data-session-hud="device"],[data-session-hud="health"],[data-session-hud="power"],[data-session-hud="wallet"],[data-session-hud="item"]),
 #app #session-seats[data-session-hud-inspect="true"] [data-session-hud-page="3"] .session-hud-details > :is([data-session-hud="device"],[data-session-hud="health"],[data-session-hud="power"],[data-session-hud="wallet"],[data-session-hud="revive"],[data-session-hud="lifecycle"]) { display: none; }
 #app:has(#session-seats[data-session-hud-inspect="true"]) :is(.bottom-bar,#run-inventory) { visibility: hidden; }
+@media (max-width: 479px), (max-height: 419px) {
+  #app #session-seats:not([data-session-hud-inspect="true"]) { grid-template-columns: repeat(4,minmax(0,1fr)); padding-bottom: 24px; }
+  #app #session-seats:not([data-session-hud-inspect="true"]) .session-hud-tile { min-height: 48px; }
+  #app #session-seats:not([data-session-hud-inspect="true"]) .session-hud-summary { display: none; }
+  #app #session-seats:not([data-session-hud-inspect="true"]) .session-hud-selected .session-hud-summary { position: absolute; bottom: 0; left: 0; right: 0; display: block; height: 20px; background: var(--session-paper); padding: 0 4px; line-height: 20px; }
+  #app #session-seats:not([data-session-hud-inspect="true"]) .session-course { display: none; }
+  #app #session-seats .session-hud-identity { font-size: 16px; padding: 0 4px; }
+  #app #session-seats[data-session-hud-inspect="true"] { inset: 4px; }
+  #app #session-seats[data-session-hud-inspect="true"] .session-hud-selected { padding: 4px; gap: 4px; }
+  #app #session-seats[data-session-hud-inspect="true"] .session-hud-details { gap: 4px; }
+  #app #session-seats[data-session-hud-inspect="true"] .session-hud-details > :is(span,button) { font-size: 16px; }
+}
+@media (min-width: 1600px) and (min-height: 900px) {
+  #app #session-seats:not([data-session-hud-inspect="true"]) .session-hud-details { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 4px; padding: 4px 8px; }
+  #app #session-seats:not([data-session-hud-inspect="true"]) .session-hud-details > :is(span,button) { min-height: 20px; font: 400 16px/1.2 var(--game-font); }
+  #app #session-seats:not([data-session-hud-inspect="true"]) .session-hud-details > button { min-height: 44px; }
+}
 
 .local-session-setup { --session-ink: var(--game-ink, #263c38); color: var(--session-ink); font-size: 16px; font-weight: 650; }
 .local-session-setup > button { min-height: 44px; }
