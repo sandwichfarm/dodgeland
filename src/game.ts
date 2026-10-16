@@ -480,7 +480,10 @@ export class Game {
   /** Shared health transaction; traffic supplies only its contact-specific recoil. */
   private applyDamage(request: DamageRequest, survivingImpact?: () => void): DamageResult {
     const none = Object.freeze({ landed: 0, fatal: false });
-    if (!request || !Number.isFinite(request.amount) || request.amount <= 0 || !['traffic','train','water','wave','swept','trail','mob','fog'].includes(request.cause) || this.state !== 'playing' || this.hurtRemaining > 0 || this.sessionProtected() || this.run.effects.shield > 0 || this.powerRescue) return none;
+    // Session timers settle at fixed-step boundaries; sub-nanosecond residue
+    // is not another interval of immunity. Legacy traffic retains its earlier
+    // exact contact gate and therefore its released collision ordering.
+    if (!request || !Number.isFinite(request.amount) || request.amount <= 0 || !['traffic','train','water','wave','swept','trail','mob','fog'].includes(request.cause) || this.state !== 'playing' || this.hurtRemaining > 1e-9 || this.sessionProtected() || this.run.effects.shield > 0 || this.powerRescue) return none;
     const before = this.health;
     if (before <= request.amount) this.end(request.reason, request.cause, request.face);
     else {
