@@ -1,7 +1,7 @@
 ---
 phase: 07-release-evidence-pr
 plan: "09"
-status: amended-awaiting-plan-approval
+status: complete
 subsystem: coverage-test-hosts
 tags: [coverage, browser-realms, checkpoint]
 requires: [07-08]
@@ -10,7 +10,7 @@ affects: [07-10, 07-11, 07-12, 07-03]
 ---
 # Phase07 Plan09: Seven canonical owner adapters
 
-The amended seven-owner scope is proven; independent approval of the continuation plans must precede recording09 complete. Generic executor/planner fallback. This summary does not assert the original full-report task passed.
+The amended seven-owner scope is complete following independent continuation-plan approval d35ca47. Generic executor/planner fallback. This summary does not assert the original full-report task passed.
 
 ## Scope history
 

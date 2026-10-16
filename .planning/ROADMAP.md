@@ -189,7 +189,7 @@ Plans:
 - [x] 07-02-PLAN.md — Shared collection foundation and policy complete; full collection follows07-07/08/09/10/11/12.
 - [x] 07-07-PLAN.md — Collect seven canvas/component browser owners.
 - [x] 07-08-PLAN.md — Collect seven local-input/lifecycle browser owners.
-- [ ] 07-09-PLAN.md — Seven canonical owners proven; amended scope awaits independent approval.
+- [x] 07-09-PLAN.md — Seven canonical owners proven; amended scope awaits independent approval.
 - [ ] 07-10-PLAN.md — Collect eight package component browser owners.
 - [ ] 07-11-PLAN.md — Collect seven package built owners with development/browser variants.
 - [ ] 07-12-PLAN.md — Collect audio jobs, reconcile full inventory and produce valid attributed initial report.
@@ -211,4 +211,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 4. Relay | 6/6 | Complete    | 2026-10-15 |
 | 5. Race | 7/7 | Complete    | 2026-10-16 |
 | 6. Cross-Mode Presentation | 2/2 | Complete    | 2026-10-16 |
-| 7. Release Evidence & PR | 4/12 | In progress | - |
+| 7. Release Evidence & PR | 5/12 | In progress | - |
