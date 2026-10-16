@@ -145,7 +145,7 @@ Plans:
 - [x] 05-04-PLAN.md — Add Race-only items, authoritative eligibility, and isolated probability rolls.
 - [x] 05-05-PLAN.md — Freeze complete results with true competition ranks and unranked DNF groups.
 - [x] 05-06-PLAN.md — Integrate input, camera, HUD, feedback, and the owner-labelled market.
-- [ ] 05-07-PLAN.md — Inspect the responsive visual matrix and run the complete canonical gates.
+- [x] 05-07-PLAN.md — Inspect the responsive visual matrix and run the complete canonical gates.
 
 ### Phase 6: Cross-Mode Presentation
 
@@ -187,6 +187,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 2. Shared Local Session | 6/6 | Complete    | 2026-10-14 |
 | 3. Survive Together & Consumables | 8/8 | Complete    | 2026-10-15 |
 | 4. Relay | 6/6 | Complete    | 2026-10-15 |
-| 5. Race | 6/7 | In Progress|  |
+| 5. Race | 7/7 | Awaiting independent verification |  |
 | 6. Cross-Mode Presentation | 0/TBD | Not started | - |
 | 7. Release Evidence & PR | 0/TBD | Not started | - |

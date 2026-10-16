@@ -84,7 +84,7 @@ behavior is implemented, verified and committed.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | ARCH-01 | Phase 1 | Complete |
-| ARCH-02 | Phase 5 | Partial: exact executable multiplayer example05-01; remaining Race handlers pending |
+| ARCH-02 | Phase 5 | Ready for independent verification: 05-07 exact gates and production evidence |
 | ARCH-03 | Phase 2 | Complete |
 | ARCH-04 | Phase 1 | Complete |
 | SOLO-01 | Phase 1 | Complete |
@@ -106,24 +106,24 @@ behavior is implemented, verified and committed.
 | ITEM-03 | Phase 3 | Complete |
 | ITEM-04 | Phase 3 | Complete |
 | ITEM-05 | Phase 3 | Complete |
-| ITEM-06 | Phase 5 | Partial: common Race item transactions05-04; owner UI/full feedback and integration pending |
+| ITEM-06 | Phase 5 | Ready for independent verification: 05-07 exact gates and production evidence |
 | RELAY-01 | Phase 4 | Complete (04-01) |
 | RELAY-02 | Phase 4 | Complete |
 | RELAY-03 | Phase 4 | Complete |
 | RELAY-04 | Phase 4 | Complete |
 | RELAY-05 | Phase 4 | Complete |
-| RACE-01 | Phase 5 | Partial: setup05-01 and fixed-clock/terminal evidence05-02; full Race integration pending |
-| RACE-02 | Phase 5 | Partial: monotonic fog, health cadence and balance05-02; presentation/integration05-06/07 pending |
-| RACE-03 | Phase 5 | Pending |
-| RACE-04 | Phase 5 | Partial: ordering05-02 and lifecycle/replacement/recovery05-03 verified; final results/integration pending |
-| RACE-05 | Phase 5 | Partial: isolated sampler/common-world tactics05-04; complete Race integration pending |
-| RACE-06 | Phase 5 | Pending |
+| RACE-01 | Phase 5 | Ready for independent verification: 05-07 exact gates and production evidence |
+| RACE-02 | Phase 5 | Ready for independent verification: 05-07 exact gates and production evidence |
+| RACE-03 | Phase 5 | Ready for independent verification: 05-07 exact gates and production evidence |
+| RACE-04 | Phase 5 | Ready for independent verification: 05-07 exact gates and production evidence |
+| RACE-05 | Phase 5 | Ready for independent verification: 05-07 exact gates and production evidence |
+| RACE-06 | Phase 5 | Ready for independent verification: 05-07 exact gates and production evidence |
 | UI-01 | Phase 2 | Complete |
 | UI-02 | Phase 2 | Complete |
 | UI-03 | Phase 3 | Complete |
 | UI-04 | Phase 6 | Pending |
 | UI-05 | Phase 6 | Pending |
-| UI-06 | Phase 5 | Pending |
+| UI-06 | Phase 5 | Ready for independent verification: 05-07 exact gates and production evidence |
 | TEST-01 | Phase 1 | Complete |
 | TEST-02 | Phase 7 | Pending |
 | TEST-03 | Phase 7 | Pending |
