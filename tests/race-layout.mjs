@@ -14,13 +14,13 @@ test('Race full frame theme motion matrix preserves authoritative state and acce
  const evidence={errors:[],external:[],captures:[],failures:[],deviceAudio:'--mute-audio',privateWrites:false};
  let app=await createMarketGameFixture(evidence,{gamepads:true,auditBoundary:true,initialIntent:intent('ph3-000002dc-pond-s-n')});await mkdir(output,{recursive:true});
  async function fresh(seed='ph3-00000071-pond-s-n'){await app.close();app=await createMarketGameFixture(evidence,{gamepads:true,auditBoundary:true,initialIntent:intent(seed)});return app.frame;}
- async function resume(){if(await app.onGame(function(){return this.state==='paused';}))await app.frame.locator('#pause').click();await app.frame.locator('#scene').focus();}
+ async function resume(){if(await app.frame.getByRole('button',{name:'Close details',exact:true}).isVisible())await app.frame.getByRole('button',{name:'Close details',exact:true}).click();if(await app.onGame(function(){return this.state==='paused';}))await app.frame.locator('#pause').click();await app.frame.locator('#scene').focus();}
  const snapshot=()=>app.onSession(function(){return JSON.stringify({players:this.players.map(p=>({seat:p.seat,id:p.participantId,character:p.characterId,device:p.device,x:p.x,y:p.y,health:p.health,earned:p.earnedDistance,offer:p.recovery.offer,charges:this.consumableSnapshot()?.charges.find(c=>c.seat===p.seat)})),result:this.result});}).catch(()=>null);
  async function capture(state,selector){
   console.log('Race capture',state);const before=await snapshot();
   for(const [theme,colors]of Object.entries(themes))for(const [width,height]of frames){
    await app.resize(width,height);await app.frame.evaluate(colors=>window.marketGameFixture.setTheme({colors}),colors);await app.advance(32);
-   if(state==='recovery-actions'&&width>=240&&(width<480||height<420)){if(await app.frame.locator('#session-seats').getAttribute('data-session-hud-inspect')!=='true')await app.frame.locator('[data-seat="p1"] [data-session-hud="identity"]').click();if(height<320)for(let n=0;n<4&&await app.frame.locator('article[data-seat="p1"]').getAttribute('data-session-hud-page')!=='2';n++)await app.frame.getByRole('button',{name:'Next details',exact:true}).click();}
+   if(state==='recovery-actions'&&width>=240)await sessionHudAction(app,'p1','revive',{click:false});
    const observation=await app.frame.evaluate(({selector,width})=>{
     const failures=[],visible=n=>n.getClientRects().length&&getComputedStyle(n).visibility!=='hidden'&&!n.closest('[hidden]');
     if(document.documentElement.scrollWidth>innerWidth||document.documentElement.scrollHeight>innerHeight)failures.push('document overflow');
@@ -31,7 +31,8 @@ test('Race full frame theme motion matrix preserves authoritative state and acce
      for(const node of [board,...board.querySelectorAll('section,nav,dl')])if(visible(node)&&/(auto|scroll)/.test(getComputedStyle(node).overflow)&&(node.scrollHeight>node.clientHeight+1||node.scrollWidth>node.clientWidth+1))failures.push(`scrollbar: ${node.id||node.className}`);
      for(const node of board.querySelectorAll('h2,h3,p,button,dt,dd,label,input,span'))if(visible(node)){const box=node.getBoundingClientRect();if(box.bottom>innerHeight+1||box.right>innerWidth+1||box.x<0||box.y<0)failures.push(`content bounds: ${node.id||node.textContent}`);const c=getComputedStyle(node);if(![16,20,28,44].includes(parseFloat(c.fontSize)))failures.push(`type role: ${node.id||node.tagName} ${c.fontSize}`);if(![400,600].includes(+c.fontWeight))failures.push(`type weight: ${node.id||node.tagName} ${c.fontWeight}`);}
      for(const price of board.querySelectorAll('.market-tile-price'))if(visible(price)){const bounds=price.closest('button').getBoundingClientRect(),range=document.createRange();range.selectNodeContents(price);for(const r of range.getClientRects())if(r.top<bounds.top||r.bottom>bounds.bottom||r.left<bounds.left||r.right>bounds.right)failures.push(`clipped availability text: ${price.textContent}`);}
-     if(board.matches('[role="dialog"]')&&(!board.getAttribute('aria-labelledby')||board.getAttribute('aria-modal')!=='true'))failures.push('dialog semantics');
+     const dialogName=(board.getAttribute('aria-labelledby')??'').split(/\s+/).filter(Boolean).map(id=>document.getElementById(id)?.textContent??'').join(' ').trim()||board.getAttribute('aria-label')?.trim();
+     if(board.matches('[role="dialog"]')&&(!dialogName||board.getAttribute('aria-modal')!=='true'))failures.push('dialog semantics');
     }
     return {failures,focus:document.activeElement?.id,motion:matchMedia('(prefers-reduced-motion: reduce)').matches||!!document.querySelector('#app.ui-less-motion')};
    },{selector,width});

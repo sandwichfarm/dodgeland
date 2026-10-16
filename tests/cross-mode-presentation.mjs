@@ -2,7 +2,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdir, writeFile, readFile } from 'node:fs/promises';
-import { createMarketGameFixture } from './market-game-fixture.mjs';
+import { createMarketGameFixture, sessionControlsPage, sessionHudAction } from './market-game-fixture.mjs';
 import {createHash} from 'node:crypto';
 import {start as startRace,intent,earnTogether} from './race-browser-fixture.mjs';
 const output = new URL('../artifacts/cross-mode-presentation/', import.meta.url);
@@ -97,6 +97,30 @@ test('P6 tracer shared personal status replaces solo widgets and regular details
  const state=()=>app.onSession(function(){return {time:this.world.time,players:this.players.map(p=>({seat:p.seat,x:p.x,y:p.y,health:p.health,wallet:p.run.wallet}))};});const before=await state();
  const identity=app.frame.locator('[data-seat="p1"] [data-session-hud="identity"]');await identity.click();assert.equal(await app.frame.locator('#session-seats').getAttribute('data-session-hud-inspect'),'true');await app.frame.getByRole('button',{name:'Next details',exact:true}).click();await app.iframe.screenshot({path:new URL('tracer-inspection.png',output).pathname});await app.frame.getByRole('button',{name:'Close details',exact:true}).click();assert.equal(await app.frame.locator('#app').getAttribute('data-run-state'),'paused','shared prior user pause retained');
  await identity.focus();await app.page.keyboard.press('Enter');assert.equal(await app.frame.locator('#session-seats').getAttribute('data-session-hud-inspect'),'true');await app.page.keyboard.press('Tab');assert.equal(await app.frame.locator('#session-seats').evaluate(n=>n.contains(document.activeElement)),true);await app.frame.getByRole('button',{name:'Close details',exact:true}).focus();await app.page.keyboard.press('Space');await app.advance(80);assert.deepEqual(await state(),before,'inspection has no clock/position/economy side effect');
+ }finally{await app.close();}
+});
+for(const priorPaused of [true,false])test(`P6 departing compact owner restores hand home and prior pause ${priorPaused}`,{timeout:60000},async()=>{
+ const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{gamepads:true,auditBoundary:true,initialIntent:intent});
+ try{await setup(app,'flow');
+  const home=await app.frame.locator('#run-inventory').evaluate(n=>n.parentElement.id);
+  if(!priorPaused)await app.frame.locator('#pause').click();
+  await app.resize(240,240);await sessionControlsPage(app,'p2','Items');
+  assert.equal(await app.frame.locator('#run-inventory').getAttribute('data-embedded-controls'),'items');
+  const before=await app.onSession(function(){return this.players.filter(p=>p.seat!=='p2').map(p=>({id:p.participantId,x:p.x,y:p.y,wallet:p.run.wallet}));});
+  await app.frame.getByRole('button',{name:'Close controls',exact:true}).click();
+  await sessionHudAction(app,'p2','item');
+  await app.frame.getByRole('button',{name:'Leave P2 run',exact:true}).click();
+  await app.frame.getByRole('button',{name:'Leave run',exact:true}).click();
+  assert.equal(await app.frame.locator('#session-seats').getAttribute('data-session-hud-inspect'),'false');
+  assert.equal(await app.frame.locator('#session-control-pages').isVisible(),false);
+  assert.equal(await app.frame.locator('#run-inventory').count(),1);
+  assert.equal(await app.frame.locator('#run-inventory').getAttribute('data-embedded-controls'),null);
+  assert.equal(await app.frame.locator('#run-inventory').evaluate(n=>n.parentElement.id),home);
+  assert.equal(await app.frame.locator('#app').getAttribute('data-run-state'),priorPaused?'paused':'playing');
+  assert.equal(await app.frame.locator('.session-hud-selected').getAttribute('data-seat'),'p1');
+  assert.deepEqual(await app.onSession(function(){return this.players.map(p=>({id:p.participantId,x:p.x,y:p.y,wallet:p.run.wallet}));}),before);
+  await app.iframe.screenshot({path:new URL(`compact-departure-${priorPaused}.png`,output).pathname});
+  assert.deepEqual(evidence.errors,[]);
  }finally{await app.close();}
 });
 test('P6 compact disclosure reuses controls and restores prior pause and focus',{timeout:60000},async()=>{

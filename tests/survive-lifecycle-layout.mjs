@@ -24,7 +24,9 @@ async function snapshotFocus(frame) {
 }
 
 async function selectHudDetailsPage(frame, seat, page) {
-  const tile = frame.locator(`#session-seats [data-seat="${seat}"]`);
+  const root=frame.locator('#session-seats'),tile = frame.locator(`#session-seats [data-seat="${seat}"]`);
+  if(await frame.locator('.session-hud-selected').getAttribute('data-seat')!==seat){if(await root.getAttribute('data-session-hud-inspect')==='true')await frame.getByRole('button',{name:'Close details',exact:true}).click();await tile.locator('.session-hud-identity').click();}
+  if(await root.getAttribute('data-session-hud-inspect')!=='true')await tile.locator('.session-hud-identity').click();
   const next = tile.locator('[data-session-hud-pager] button').last();
   assert.equal(await next.count(), 1, `${seat} has exactly one next compact-details control`);
   assert.equal(await next.isVisible(), true, `${seat} exposes the compact-details pager: ${await tile.innerHTML()}`);

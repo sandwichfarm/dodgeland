@@ -248,3 +248,16 @@ export async function sessionHudAction(app, seat, field, { click = true } = {}) 
   if(click){await action.click();if(field!=='item'&&await frame.getByRole('button',{name:'Close details',exact:true}).isVisible())await frame.getByRole('button',{name:'Close details',exact:true}).click();}
   return action;
 }
+
+/** Reach the one physical hand through the public compact Controls pages. */
+export async function sessionControlsPage(app, seat, page) {
+  const f=app.frame,root=f.locator('#session-seats');
+  assert.ok(await app.onSession(function(seat){return !!this.mode&&['arcade','stroll'].includes(this.definition.id)&&this.players.some(p=>p.seat===seat);},seat));
+  const compact=await f.evaluate(()=>innerWidth<480||innerHeight<420);
+  if(await root.getAttribute('data-session-hud-inspect')==='true' && (!compact||await f.locator('.session-hud-selected').getAttribute('data-seat')!==seat)){
+    const close=f.getByRole('button',{name:await f.locator('#session-control-pages').isVisible()?'Close controls':'Close details',exact:true});await close.click();
+  }
+  if(await f.locator('.session-hud-selected').getAttribute('data-seat')!==seat)await f.locator(`[data-seat="${seat}"] .session-hud-identity`).click();
+  if(compact){if(!await f.locator('#session-control-pages').isVisible())await f.locator('#session-controls-open').click();for(let i=0;i<4&&await f.locator('#session-control-pages nav span').textContent()!==page;i++)await f.getByRole('button',{name:'Next controls',exact:true}).click();assert.equal(await f.locator('#session-control-pages nav span').textContent(),page);}
+  assert.equal(await f.locator('.session-hud-selected').getAttribute('data-seat'),seat);
+}

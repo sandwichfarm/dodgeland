@@ -2,7 +2,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {mkdir,writeFile,readFile} from 'node:fs/promises';
-import {createMarketGameFixture,sessionHudAction} from './market-game-fixture.mjs';
+import {createMarketGameFixture,sessionHudAction,sessionControlsPage} from './market-game-fixture.mjs';
 const output=new URL('../artifacts/relay-layout/',import.meta.url);
 const frames=[[200,160],[240,240],[320,560],[900,600],[1000,280],[2400,1200]];
 const pad=(index,pressed=[])=>({index,id:`Layout controller ${index}`,mapping:'standard',connected:true,timestamp:1,axes:[0,0],buttons:Array.from({length:17},(_,i)=>({pressed:pressed.includes(i),value:pressed.includes(i)?1:0,touched:false}))});
@@ -16,7 +16,7 @@ test('Relay visible controls preserve every layout state across frames, themes a
   const originalHeading=await app.frame.locator(selector+' h2').first().textContent().catch(()=>null);
   const retained=await app.onSession(function(){return JSON.stringify({roster:this.players.map(p=>[p.seat,p.characterId,p.participantId,p.x,p.y]),result:this.result});}).catch(()=>null);
   for(const [theme,colors] of Object.entries(themes)) for(const [width,height] of frames){
-   await app.resize(width,height);await app.frame.evaluate(colors=>window.marketGameFixture.setTheme({colors}),colors);await app.advance(80);
+   await app.resize(width,height);if(state==='owner-restriction'&&width>=240)await sessionControlsPage(app,'p2','Hand');await app.frame.evaluate(colors=>window.marketGameFixture.setTheme({colors}),colors);await app.advance(80);
    if(width===200&&state==='handoff'){await app.page.keyboard.press('w');await app.sendPads([pad(0,[0])]);await app.sendPads([pad(0)]);}
    const result=await app.frame.evaluate(({selector,width})=>{
     const failures=[],visible=n=>n.getClientRects().length&&getComputedStyle(n).visibility!=='hidden'&&!n.closest('[hidden]');
@@ -39,7 +39,7 @@ test('Relay visible controls preserve every layout state across frames, themes a
    if(width>=240){assert.equal(result.heading,originalHeading,`${state} heading survives resize`);if(retained)assert.equal(await app.onSession(function(){return JSON.stringify({roster:this.players.map(p=>[p.seat,p.characterId,p.participantId,p.x,p.y]),result:this.result});}),retained,`${state} identities/positions/result survive resize`);}
    const name=`${state}-${width}x${height}-${theme}.png`;await app.iframe.screenshot({path:new URL(name,output).pathname,timeout:15000});evidence.captures.push({state,width,height,theme,name,...result});evidence.failures.push(...result.failures.map(message=>({state,width,height,theme,message})));
   }
-  await app.resize(900,600);
+  await app.resize(900,600);if(state==='owner-restriction')await sessionControlsPage(app,'p2','Hand');
   if(await app.frame.locator('#relay-announcement').count()){
    await app.frame.evaluate(()=>{const f=window.marketGameFixture;f.layoutAnnouncements=0;f.layoutObserver=new MutationObserver(records=>f.layoutAnnouncements+=records.length);f.layoutObserver.observe(document.getElementById('relay-announcement'),{childList:true,subtree:true,characterData:true});});
    await app.advance(80);assert.equal(await app.frame.evaluate(()=>{window.marketGameFixture.layoutObserver.disconnect();return window.marketGameFixture.layoutAnnouncements;}),0,`${state} does not repeat live announcements on unchanged frames`);

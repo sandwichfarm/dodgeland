@@ -53,6 +53,7 @@ test('one Arcade course survives adoption, four-player recovery, settlement and 
     for (const seat of seats) assert.equal(owner(await read(), seat).participation, 'dead');
   }
   async function resume() {
+    const details=frame.getByRole('button',{name:'Close details',exact:true});if(await details.isVisible())await details.click();
     const button = frame.getByRole('button', { name: 'Resume game', exact: true });
     if (await button.isVisible()) await button.click();
     await settle();

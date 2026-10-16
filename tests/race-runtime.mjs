@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {createMarketGameFixture,sessionHudAction} from './market-game-fixture.mjs';
+import {createMarketGameFixture,sessionHudAction,sessionControlsPage} from './market-game-fixture.mjs';
 import {intent,start,earnTogether,pad,mixedSetup,freshReclaim} from './race-browser-fixture.mjs';
 
 test('camera fog ribbon edge marker HUD and reduced motion retain authoritative observations',{timeout:30000},async()=>{
@@ -78,7 +78,7 @@ test('Race HUD gear target visual review across themes and compact regular short
  const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{auditBoundary:true,initialIntent:{...intent,payload:{seed:'ph3-000002dc-pond-s-n'}}});
  try{const f=await start(app);await f.locator('#scene').focus();await app.page.keyboard.press('w');await app.advance(250);
  for(const theme of ['dark','light']){await f.evaluate(theme=>window.marketGameFixture.setTheme({colors:theme==='dark'?{background:'#242b32',text:'#f0eee5',primary:'#9fc28a'}:{background:'#f2eee1',text:'#292d28',primary:'#426c38'}}),theme);
- for(const [w,h]of [[320,560],[900,600],[1000,280],[2400,1200]]){await app.resize(w,h);await app.advance(32);await app.iframe.screenshot({path:`/tmp/race-05-06-${theme}-${w}-hud.png`});
+ for(const [w,h]of [[320,560],[900,600],[1000,280],[2400,1200]]){await app.resize(w,h);await app.advance(32);await app.iframe.screenshot({path:`/tmp/race-05-06-${theme}-${w}-hud.png`});await sessionControlsPage(app,'p1','Gear');
  await f.getByRole('button',{name:'Use Mud Splash',exact:true}).click();await app.iframe.screenshot({path:`/tmp/race-05-06-${theme}-${w}-target.png`});await f.getByRole('button',{name:'Back',exact:true}).click();
  await f.locator('#run-hand-items').getByRole('button',{name:'Race gear',exact:true}).click();await app.iframe.screenshot({path:`/tmp/race-05-06-${theme}-${w}-gear.png`});await app.page.keyboard.press('Escape');
  }}assert.deepEqual(evidence.errors,[]);

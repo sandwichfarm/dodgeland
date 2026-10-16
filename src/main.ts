@@ -1011,6 +1011,11 @@ function hasPendingRecoveryOffer(): boolean {
   return !!localSession?.players.some(player => player.participation === 'dead' && player.state === 'dead' && !!player.recovery?.offer);
 }
 function updateHud(): void {
+  if (localSession?.running && !localSession.players.some(player => player.seat === hudSelected)) {
+    if (hudDetailsOpen) closeHudInspection();
+    const remaining = localSession.players[0];
+    if (remaining) { selectHudOwner(remaining.seat); return; }
+  }
   if(raceItemContext&&(race!==raceItemContext.race||hudSelected!==raceItemContext.owner||race.generation!==raceItemContext.generation||itemCharge(raceItemContext.owner)?.inventoryGeneration!==raceItemContext.inventory)){closeLifecycleBoard();}
   const raceGeneration=race?.generation??'';
   if(raceGeneration!==raceInputGeneration){raceInputGeneration=raceGeneration;clearRelayInput();}
