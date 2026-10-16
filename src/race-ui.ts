@@ -9,7 +9,7 @@ export function renderRaceHud(root: HTMLElement, race: RaceCoordinator): void {
   cue.textContent = `Finish ${race.descriptor.settings.finishTiles} · ${Math.max(0, Math.ceil(race.descriptor.settings.activeSeconds-race.elapsed))}s`;
   const statuses=race.session.players.map(p=>race.status(p.seat));
   let notice=root.querySelector<HTMLElement>('.race-lifecycle');
-  if(!notice){notice=document.createElement('p');notice.className='race-lifecycle race-distance';notice.setAttribute('role','status');root.append(notice);}
+  if(!notice){notice=document.createElement('p');notice.className='race-lifecycle';notice.setAttribute('role','status');root.append(notice);}
   notice.textContent=race.result?'Race complete.':race.waiting?'Waiting for a player to reclaim. A reserved seat can resume this race.':statuses.includes('recovery-offered')&&!statuses.includes('active')?'Everyone is down. Personal offers and the race clock continue.':statuses.filter(s=>s==='active').length===1?'Last racer: keep racing toward the finish.':'Race clock is live.';
   for (const player of race.session.players){
     const tile=root.querySelector<HTMLElement>(`[data-seat="${player.seat}"]`)!;

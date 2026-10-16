@@ -1,5 +1,5 @@
 #race-configuration { grid-area: relay; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-.race-distance { grid-column: 1 / -1; margin: 0; padding: 4px 8px; background: var(--game-paper); color: var(--game-ink); font: 400 16px/1.2 var(--game-font,system-ui); }
+.race-distance, .race-lifecycle { grid-column: 1 / -1; margin: 0; padding: 4px 8px; background: var(--game-paper); color: var(--game-ink); font: 400 16px/1.2 var(--game-font,system-ui); }
 [data-race-decline] { min-height: 44px; }
 @media (max-height: 319px) {
   #session-seats .session-hud-tile:not([data-session-hud-page="2"]) [data-race-decline] { display: none; }

@@ -62,6 +62,7 @@ let stagingSurviveTogether = false;
 let stagingRelay = false;
 let stagingRace = false;
 let race: RaceCoordinator | undefined;
+let raceInputGeneration = '';
 let closedRosterMessage = 'The roster is locked for this run.';
 let relay: RelayCoordinator | undefined;
 let relayHandoff: HTMLElement | undefined;
@@ -958,6 +959,8 @@ function hasPendingRecoveryOffer(): boolean {
   return !!localSession?.players.some(player => player.participation === 'dead' && player.state === 'dead' && !!player.recovery?.offer);
 }
 function updateHud(): void {
+  const raceGeneration=race?.generation??'';
+  if(raceGeneration!==raceInputGeneration){raceInputGeneration=raceGeneration;clearRelayInput();}
   const terminalResult = localSession?.result;
   if (race?.result) raceResults.show(race.result);
   else if (terminalResult?.mode === 'survive-together') surviveResults.show(terminalResult as SurviveTogetherResult, game.seedCode);
@@ -1035,7 +1038,7 @@ function updateHud(): void {
     if (relay) renderRelayHud(seats, relay);
     else { delete seats.dataset.relayHud; seats.removeAttribute('aria-live'); seats.querySelector('.relay-distance')?.remove(); }
     if (race) renderRaceHud(seats, race);
-    else seats.querySelector('.race-distance')?.remove();
+    else seats.querySelectorAll('.race-distance, .race-lifecycle').forEach(node=>node.remove());
   } else if (sessionHudRoster) { sessionHudRoster = ''; seats.replaceChildren(); }
   el('score').textContent = String(game.maxY); el('coins').textContent = String(game.run.wallet);
   el('best').textContent = `${game.mode === 'stroll' ? 'STROLL BEST' : 'BEST'} ${game.mode === 'stroll' ? progress.strollBest : progress.best}`;
