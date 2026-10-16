@@ -6,20 +6,20 @@ import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import test, { after } from 'node:test';
 import { chromium } from 'playwright';
-import ts from 'typescript';
+import { compileSources } from './source-loader.mjs';
+import { registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 
+// Coverage auditions are separate evidence; ordinary artifact paths stay exact.
+const coverageConfig=process.env.DOWN_TO_DUCK_COVERAGE_CONFIG
+  ? JSON.parse(await readFile(process.env.DOWN_TO_DUCK_COVERAGE_CONFIG,'utf8')) : null;
+const artifactRoot=coverageConfig
+  ? pathToFileURL(join(coverageConfig.payloadDirectory,'suite-artifacts/sound/'))
+  : new URL('../artifacts/',import.meta.url);
+await mkdir(artifactRoot,{recursive:true});
 const directory = await mkdtemp(join(tmpdir(), 'down-to-duck-sound-test-'));
 await writeFile(join(directory, 'package.json'), '{"type":"module"}');
-const modules = new Map();
-async function compile(name) {
-  if (modules.has(name)) return;
-  const source = await readFile(new URL(`../src/${name}.ts`, import.meta.url), 'utf8');
-  const output = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText;
-  modules.set(name, output);
-  await writeFile(join(directory, `${name}.js`), output);
-  for (const [, dependency] of output.matchAll(/from ['"]\.\/([^'"]+)\.js['"]/g)) await compile(dependency);
-}
-await compile('audio'); await compile('sound-packs');
+const modules = new Map([...await compileSources(['audio','sound-packs'])].map(([name,code])=>[name.slice(1,-3),code]));
+for(const [name,code] of modules) await writeFile(join(directory,`${name}.js`),code);
 after(() => rm(directory, { recursive: true, force: true }));
 const { parseSoundPack, parseSoundFile, parsePackAddress, MAX_SOUND_BYTES } = await import(pathToFileURL(join(directory, 'sound-packs.js')));
 const { SOUND_CUES, GAME_SOUND_CUES, CHARACTER_CALL_CUES, SCENE_SOUND_CUES, MOB_SOUND_CUES, DEATH_SOUND_CUES, HEALTH_SOUND_CUES, SPILL_SOUND_CUES, BUILTIN_PACKS } = await import(pathToFileURL(join(directory, 'audio.js')));
@@ -96,6 +96,8 @@ test('pack addresses preserve colon-containing identifiers and reject the wrong 
 });
 
 let browser;
+let scenario=0;
+const audioRealms=new WeakMap();
 const moduleServer = createServer((request, response) => {
   const name = request.url?.slice(1).replace(/\.js$/, '');
   const source = modules.get(name);
@@ -108,11 +110,14 @@ async function audioPage() {
   await moduleReady;
   browser ??= await chromium.launch({ args: ['--mute-audio'] });
   const page = await browser.newPage();
+  const identity={suite:process.argv[1],scenario:`audio-${scenario++}`,frame:'component-page',generation:0,scope:'current'};
+  audioRealms.set(page,identity);registerRealm(page,identity);
   await page.goto(`http://127.0.0.1:${moduleServer.address().port}`);
   await page.setContent('<button id="unlock">Enable sound</button>');
   await page.evaluate(async () => { window.audioModule = await import('/audio.js'); });
   return page;
 }
+async function closeAudioPage(page){try{await collectRealm(page,audioRealms.get(page));}finally{await page.close();}}
 
 test('both packs render every cue with distinct finite PCM, complete musical phrases and seamless beds', async () => {
   const page = await audioPage();
@@ -177,8 +182,8 @@ test('both packs render every cue with distinct finite PCM, complete musical phr
       assert.ok(cue('hurt.side').peak < cue('death.traffic').peak, 'survivable collisions remain less forceful than fatal traffic');
       assert.ok(cue('hurt.rear').duration < cue('hurt.side').duration && cue('hurt.side').duration < cue('death.traffic').duration, 'short recoverable impacts have no fatal debris tail');
     }
-    await mkdir(new URL('../artifacts/', import.meta.url), { recursive: true });
-    await writeFile(new URL('../artifacts/sound-quality.json', import.meta.url), JSON.stringify(rendered, null, 2) + '\n');
+    await mkdir(artifactRoot, { recursive: true });
+    await writeFile(new URL('sound-quality.json', artifactRoot), JSON.stringify(rendered, null, 2) + '\n');
     assert.equal(await page.evaluate(async () => {
       const context = new OfflineAudioContext(1, 22_050, 44_100);
       const voice = window.audioModule.renderBuiltinCue(context, 'train', 'pond');
@@ -186,7 +191,7 @@ test('both packs render every cue with distinct finite PCM, complete musical phr
       const rendered = await context.startRendering();
       return rendered.getChannelData(0).every(sample => sample === 0);
     }), true, 'stopping a scheduled voice is safe and leaves no audio');
-  } finally { await page.close(); }
+  } finally { await closeAudioPage(page); }
 });
 
 test('Sunny has two short clucks, and old or partial sound packs retain the built-in chicken call', async () => {
@@ -233,7 +238,7 @@ test('Sunny has two short clucks, and old or partial sound packs retain the buil
       assert.equal(call.gap, 0, `${call.pack}: distinct clucks have a quiet gap`);
       assert.deepEqual(call.endpoints, [0, 0], `${call.pack}: click-free endpoints`);
     }
-  } finally { await page.close(); }
+  } finally { await closeAudioPage(page); }
 });
 
 test('spill impacts render brief material-specific PCM, bounded variations and a playable audition', async () => {
@@ -298,8 +303,8 @@ test('spill impacts render brief material-specific PCM, bounded variations and a
       assert.ok(cue('spill.coin').centroid > cue('spill.fabric').centroid * 1.5, 'soft cloth stays below the metallic register');
       assert.ok(cue('spill.fabric').peak < cue('spill.trinket').peak, 'soft fabric is quieter than solid accessories');
     }
-    await mkdir(new URL('../artifacts/', import.meta.url), { recursive: true });
-    await writeFile(new URL('../artifacts/sound-spill-quality.json', import.meta.url), JSON.stringify(result.rows, null, 2) + '\n');
+    await mkdir(artifactRoot, { recursive: true });
+    await writeFile(new URL('sound-spill-quality.json', artifactRoot), JSON.stringify(result.rows, null, 2) + '\n');
     // Audition order: Pond then Arcade; coin, fabric, accessory; light/mid/heavy.
     const wav = Buffer.alloc(44 + result.audition.length * 2);
     wav.write('RIFF', 0); wav.writeUInt32LE(wav.length - 8, 4); wav.write('WAVEfmt ', 8);
@@ -307,8 +312,8 @@ test('spill impacts render brief material-specific PCM, bounded variations and a
     wav.writeUInt32LE(22_050, 24); wav.writeUInt32LE(44_100, 28); wav.writeUInt16LE(2, 32); wav.writeUInt16LE(16, 34);
     wav.write('data', 36); wav.writeUInt32LE(result.audition.length * 2, 40);
     result.audition.forEach((sample, i) => wav.writeInt16LE(sample, 44 + i * 2));
-    await writeFile(new URL('../artifacts/sound-spill-audition.wav', import.meta.url), wav);
-  } finally { await page.close(); }
+    await writeFile(new URL('sound-spill-audition.wav', artifactRoot), wav);
+  } finally { await closeAudioPage(page); }
 });
 
 test('spill cues use partial-pack fallbacks, explicit material overrides, and the existing effects/mute controls', async () => {
@@ -351,7 +356,7 @@ test('spill cues use partial-pack fallbacks, explicit material overrides, and th
       return { fallbacks, overrides, effectsMuted, globallyMuted, restored };
     });
     assert.deepEqual(result, { fallbacks: [true, true, true], overrides: [true, true, true], effectsMuted: true, globallyMuted: true, restored: true });
-  } finally { await page.close(); }
+  } finally { await closeAudioPage(page); }
 });
 
 test('long imported spill clips have their own voice budget and never steal the contextual death', async () => {
@@ -395,7 +400,7 @@ test('long imported spill clips have their own voice budget and never steal the 
       return { deathKept, spillActive, total, allStopped, restarted, allDisposed };
     });
     assert.deepEqual(result, { deathKept: true, spillActive: 3, total: 4, allStopped: true, restarted: 4, allDisposed: true });
-  } finally { await page.close(); }
+  } finally { await closeAudioPage(page); }
 });
 
 test('production rendering honors stereo position, distance gain and playback rate without clipping the scene', async () => {
@@ -431,7 +436,7 @@ test('production rendering honors stereo position, distance gain and playback ra
     assert.ok(Math.abs(result.quiet[0].energy / result.center[0].energy - .25 ** 2) < .003, 'distance gain attenuates actual PCM');
     assert.ok(result.fast[0].last < result.center[0].last * .86, 'passing pitch shift changes actual playback speed');
     assert.ok(result.peak < .9, `busy scene retains headroom (${result.peak})`);
-  } finally { await page.close(); }
+  } finally { await closeAudioPage(page); }
 });
 
 test('vehicle horns keep exact musical pitch across packs and registers while varying timbre and rhythm', async () => {
@@ -554,8 +559,8 @@ test('vehicle horns keep exact musical pitch across packs and registers while va
       assert.ok(new Set(horns.map(horn => horn.duration)).size >= 5, `${pack}: phrasing varies beyond transposing one recording`);
       assert.equal(new Set(bodies.map(horn => horn.brightness.toFixed(3))).size, 4, `${pack}: vehicle types have distinct harmonic balances`);
     }
-    await mkdir(new URL('../artifacts/', import.meta.url), { recursive: true });
-    await writeFile(new URL('../artifacts/sound-horn-quality.json', import.meta.url), JSON.stringify(results, null, 2) + '\n');
+    await mkdir(artifactRoot, { recursive: true });
+    await writeFile(new URL('sound-horn-quality.json', artifactRoot), JSON.stringify(results, null, 2) + '\n');
     // A short listening artifact uses the same offline playback inspected above.
     // Lower truck notes and the other vehicles' E/F# notes keep their registers clear.
     const sampleRate = 24_000, spacing = Math.round(sampleRate * 1.2);
@@ -567,9 +572,9 @@ test('vehicle horns keep exact musical pitch across packs and registers while va
     header.writeUInt32LE(16, 16); header.writeUInt16LE(1, 20); header.writeUInt16LE(1, 22);
     header.writeUInt32LE(sampleRate, 24); header.writeUInt32LE(sampleRate * 2, 28);
     header.writeUInt16LE(2, 32); header.writeUInt16LE(16, 34); header.write('data', 36); header.writeUInt32LE(data.length, 40);
-    await writeFile(new URL('../artifacts/sound-horns.wav', import.meta.url), Buffer.concat([header, data]));
-    await writeFile(new URL('../artifacts/sound-horns-audition.json', import.meta.url), JSON.stringify(audition.map(({ pcm, ...voice }, index) => ({ at: index * 1.2, ...voice })), null, 2) + '\n');
-  } finally { await page.close(); }
+    await writeFile(new URL('sound-horns.wav', artifactRoot), Buffer.concat([header, data]));
+    await writeFile(new URL('sound-horns-audition.json', artifactRoot), JSON.stringify(audition.map(({ pcm, ...voice }, index) => ({ at: index * 1.2, ...voice })), null, 2) + '\n');
+  } finally { await closeAudioPage(page); }
 });
 
 test('horn variants keep a finite buffer cache and imported cue authority', async () => {
@@ -608,7 +613,7 @@ test('horn variants keep a finite buffer cache and imported cue authority', asyn
       return { bounded, custom, tuned, fallback };
     });
     assert.deepEqual(result, { bounded: [true, true], custom: true, tuned: true, fallback: true });
-  } finally { await page.close(); }
+  } finally { await closeAudioPage(page); }
 });
 
 test('music resumes at the requested harmonic phase without restarting active loops', async () => {
@@ -657,7 +662,7 @@ test('music resumes at the requested harmonic phase without restarting active lo
     assert.equal(result.windOffset, 0, 'environmental beds ignore musical phase requests');
     assert.equal(result.customOffset, 5.25, 'custom music wraps against its own duration');
     assert.equal(result.customDuration, 6);
-  } finally { await page.close(); }
+  } finally { await closeAudioPage(page); }
 });
 
 test('missing cancelAndHoldAtTime preserves live automation values across every mixer path', async () => {
@@ -722,7 +727,7 @@ test('missing cancelAndHoldAtTime preserves live automation values across every 
       assert.ok(Number.isFinite(hold.anchored));
     }
     assert.ok(result.holds.some(hold => hold.kind === 'gain' && hold.at < .1 && hold.heard > 0 && hold.heard < .7), 'interrupted fade-in holds the intermediate gain, not its final target');
-  } finally { await page.close(); }
+  } finally { await closeAudioPage(page); }
 });
 
 test('mob cues use pack overrides and mob deaths retain only the imported legacy crash fallback', async () => {
@@ -764,7 +769,7 @@ test('mob cues use pack overrides and mob deaths retain only the imported legacy
       return { legacy, spawnFallback, attackFallback, explicit, customSpawn, customAttack, ownDefault };
     });
     assert.deepEqual(result, { legacy: true, spawnFallback: true, attackFallback: true, explicit: true, customSpawn: true, customAttack: true, ownDefault: true });
-  } finally { await page.close(); }
+  } finally { await closeAudioPage(page); }
 });
 
 test('health cues use explicit overrides and retain nonfatal defaults in legacy crash packs', async () => {
@@ -809,7 +814,7 @@ test('health cues use explicit overrides and retain nonfatal defaults in legacy 
       return { fallback, explicit, fatalUnchanged, effectsMute };
     });
     assert.deepEqual(result, { fallback: Array(6).fill(true), explicit: Array(3).fill(true), fatalUnchanged: true, effectsMute: true });
-  } finally { await page.close(); }
+  } finally { await closeAudioPage(page); }
 });
 
 test('independent music, ambience and effects faders control the actual production mix', async () => {
@@ -842,7 +847,7 @@ test('independent music, ambience and effects faders control the actual producti
       assert.equal(result.silent, 0, `${result.cue}: its fader can fully mute the layer`);
       assert.ok(Math.abs(result.isolated / result.loud - 1) < .01, `${result.cue}: other faders do not affect this layer`);
     }
-  } finally { await page.close(); }
+  } finally { await closeAudioPage(page); }
 });
 
 test('cold soundscape preparation yields to input and never starts stale audio after stop', async () => {
@@ -871,7 +876,7 @@ test('cold soundscape preparation yields to input and never starts stale audio a
     assert.ok(result.ticks >= 5, 'long music generation yields repeatedly for input and animation');
     assert.equal(result.staleSources, 0, 'finishing preparation does not revive a stopped scene');
     assert.equal(result.preparedSources, 2, 'a fresh scene update starts prepared music and ambience');
-  } finally { await page.close(); }
+  } finally { await closeAudioPage(page); }
 });
 
 test('an explicit cold music preview plays once when ready and lifecycle changes cancel it', async () => {
@@ -904,7 +909,7 @@ test('an explicit cold music preview plays once when ready and lifecycle changes
     });
     assert.equal(results[0].started, 1, 'the user-requested preview is heard after preparing');
     for (const result of results.slice(1)) assert.equal(result.started, 0, `${result.cancel} cancels pending preview playback`);
-  } finally { await page.close(); }
+  } finally { await closeAudioPage(page); }
 });
 
 test('playback requires unlock, mute drops cues, pack changes stop voices and disposal closes audio', async () => {
@@ -982,7 +987,7 @@ test('playback requires unlock, mute drops cues, pack changes stop voices and di
     assert.equal(lifecycle.beforeDispose, lifecycle.afterDispose);
     assert.equal(lifecycle.contexts, 1);
     assert.equal(lifecycle.state, 'closed');
-  } finally { await page.close(); }
+  } finally { await closeAudioPage(page); }
 });
 
 test('scene loops update in place, bound polyphony, release resources and preserve custom-loop fallbacks', async () => {
@@ -1053,7 +1058,7 @@ test('scene loops update in place, bound polyphony, release resources and preser
       return { usesClip, safeCopy, usesFallback, allStopped, mutedCreated, disposedStopped: final.stops, disposedDisconnected: final.disconnects };
     });
     assert.deepEqual(custom, { usesClip: true, safeCopy: true, usesFallback: true, allStopped: true, mutedCreated: 3, disposedStopped: 1, disposedDisconnected: 1 });
-  } finally { await page.close(); }
+  } finally { await closeAudioPage(page); }
 });
 
 test('external clip decoding stays offline and rejects corrupt, oversized or overly long audio', async () => {
@@ -1107,7 +1112,7 @@ test('external clip decoding stays offline and rejects corrupt, oversized or ove
     assert.deepEqual(result.failures, [true, true, true, true, true]);
     assert.equal(result.rejectsNonFinite, true);
     assert.equal(result.rejectsDisposed, true);
-  } finally { await page.close(); }
+  } finally { await closeAudioPage(page); }
 });
 
 test('engines have tonal bodies, streams have separated droplets, and all world voices stay bounded', async () => {
@@ -1174,7 +1179,7 @@ test('engines have tonal bodies, streams have separated droplets, and all world 
       }
       return results;
     });
-    await writeFile(new URL('../artifacts/sound-zone-quality.json', import.meta.url), JSON.stringify(result, null, 2) + '\n');
+    await writeFile(new URL('sound-zone-quality.json', artifactRoot), JSON.stringify(result, null, 2) + '\n');
     for (const voice of result) {
       assert.ok(voice.peak > .001 && voice.peak < .5, `${voice.pack}/${voice.cue}/${voice.variant}: audible headroom`);
       assert.ok(voice.rms > .0001, `${voice.cue}/${voice.variant}: non-silent`);
@@ -1197,7 +1202,7 @@ test('engines have tonal bodies, streams have separated droplets, and all world 
       assert.ok(metric('ambience.water', 'frost').centroid > metric('ambience.water', 'dunes').centroid * 2, 'ice melt and hollow oasis water are distinguishable');
       assert.ok(metric('ambience.wind', 'frost').centroid > metric('ambience.wind', 'neon').centroid * 4, 'ice chimes contrast with electrical hum');
     }
-  } finally { await page.close(); }
+  } finally { await closeAudioPage(page); }
 });
 
 test('builtin variants are bounded, crossfade when ready, and preserve imported voices', async () => {
@@ -1264,5 +1269,5 @@ test('builtin variants are bounded, crossfade when ready, and preserve imported 
         stopDuringPreparation, importedRetained, importedOneShot, staggered, oneShotVariant };
     });
     assert.deepEqual(result, Object.fromEntries(Object.keys(result).map(key => [key, true])));
-  } finally { await page.close(); }
+  } finally { await closeAudioPage(page); }
 });

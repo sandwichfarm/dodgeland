@@ -1,10 +1,8 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
 import test from 'node:test';
-import ts from 'typescript';
+import { compileSources } from './source-loader.mjs';
 
-const source = await readFile(new URL('../src/gamepad.ts', import.meta.url), 'utf8');
-const compiled = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText;
+const compiled = (await compileSources('gamepad')).get('/gamepad.js');
 const { parseGamepadState, GamepadInput, createGamepadControls } = await import(`data:text/javascript;base64,${Buffer.from(compiled).toString('base64')}`);
 const pad = (pressed = [], axes = [0, 0], index = 0, mapping = 'standard') => ({ index, id: `Controller ${index}`, mapping, connected: true, timestamp: 1, axes, buttons: Array.from({ length: 17 }, (_, i) => ({ value: pressed.includes(i) ? 1 : 0, pressed: pressed.includes(i), touched: pressed.includes(i) })) });
 const state = (pads = [pad()], focused = true, available = true) => ({ available, focused, pads });

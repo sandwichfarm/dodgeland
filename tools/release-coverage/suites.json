@@ -1,0 +1,1300 @@
+{
+  "schema": "release-suite-inventory-1",
+  "complete": false,
+  "groups": {
+    "shared-tracer": {
+      "files": [
+        "tests/local-session.test.mjs",
+        "tests/session-world.test.mjs"
+      ],
+      "role": "node",
+      "provenance": "Arranged real production session/world objects; shared authority tracer only"
+    },
+    "browser-tracer": {
+      "files": [
+        "tests/cross-mode-presentation.mjs"
+      ],
+      "role": "mixed",
+      "browser": true,
+      "artifactDirectories": [
+        "artifacts/cross-mode-presentation"
+      ],
+      "provenance": "Original actual-input four-mode journeys and explicitly arranged cases retain their original labels; read-only actual geometry"
+    },
+    "legacy-foundation": {
+      "files": [
+        "tests/gamepad.test.mjs",
+        "tests/sound.test.mjs"
+      ],
+      "roles": {
+        "tests/gamepad.test.mjs": "node",
+        "tests/sound.test.mjs": "mixed"
+      },
+      "provenance": "Production gamepad snapshot component and sound parser/PCM/audio lifecycle component tests; not an opaque-app journey"
+    }
+  },
+  "pendingAdapters": [
+    {
+      "path": "tests/render.test.mjs",
+      "plan": "07-07",
+      "status": "pending-real-payload-proof"
+    },
+    {
+      "path": "tests/session-board-controls.test.mjs",
+      "plan": "07-07",
+      "status": "pending-real-payload-proof"
+    },
+    {
+      "path": "tests/session-labels-render.test.mjs",
+      "plan": "07-07",
+      "status": "pending-real-payload-proof"
+    },
+    {
+      "path": "tests/consumable-world-render.test.mjs",
+      "plan": "07-07",
+      "status": "pending-real-payload-proof"
+    },
+    {
+      "path": "tests/death-spill-render.test.mjs",
+      "plan": "07-07",
+      "status": "pending-real-payload-proof"
+    },
+    {
+      "path": "tests/survive-results-ui.test.mjs",
+      "plan": "07-07",
+      "status": "pending-real-payload-proof"
+    },
+    {
+      "path": "tests/solo-ui-browser.test.mjs",
+      "plan": "07-07",
+      "status": "pending-real-payload-proof"
+    },
+    {
+      "path": "tests/local-session-tracer.mjs",
+      "plan": "07-08",
+      "status": "pending-real-payload-proof"
+    },
+    {
+      "path": "tests/local-session-keyboard-runtime.mjs",
+      "plan": "07-08",
+      "status": "pending-real-payload-proof"
+    },
+    {
+      "path": "tests/local-session-gamepad-runtime.mjs",
+      "plan": "07-08",
+      "status": "pending-real-payload-proof"
+    },
+    {
+      "path": "tests/local-session-audio-runtime.mjs",
+      "plan": "07-08",
+      "status": "pending-real-payload-proof"
+    },
+    {
+      "path": "tests/local-session-adoption-runtime.mjs",
+      "plan": "07-08",
+      "status": "pending-real-payload-proof"
+    },
+    {
+      "path": "tests/local-session-runtime.mjs",
+      "plan": "07-08",
+      "status": "pending-real-payload-proof"
+    },
+    {
+      "path": "tests/local-session-layout.mjs",
+      "plan": "07-08",
+      "status": "pending-real-payload-proof"
+    },
+    {
+      "path": "tests/survive-together-tracer.mjs",
+      "plan": "07-09",
+      "status": "pending-real-payload-proof"
+    },
+    {
+      "path": "tests/relay-tracer.mjs",
+      "plan": "07-09",
+      "status": "pending-real-payload-proof"
+    },
+    {
+      "path": "tests/relay-lifecycle.test.mjs",
+      "plan": "07-09",
+      "status": "pending-real-payload-proof"
+    },
+    {
+      "path": "tests/race-tracer.mjs",
+      "plan": "07-09",
+      "status": "pending-real-payload-proof"
+    },
+    {
+      "path": "tests/runtime-smoke.mjs",
+      "plan": "07-09",
+      "status": "pending-real-payload-proof"
+    },
+    {
+      "path": "tests/gamepad-runtime.mjs",
+      "plan": "07-09",
+      "status": "pending-real-payload-proof"
+    },
+    {
+      "path": "tests/health-runtime.mjs",
+      "plan": "07-09",
+      "status": "pending-real-payload-proof"
+    }
+  ],
+  "candidates": [
+    {
+      "path": "tests/actor-integration.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/actors.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/card-expansion.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/character-powers.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/consumable-boundaries.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/consumable-drops.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/consumable-world-boundaries.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/consumable-world-render.test.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": true,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-adapter"
+    },
+    {
+      "path": "tests/consumable-world.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/consumables.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/cosmetic-expansion.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/cross-mode-presentation.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": true,
+      "directTranspile": false,
+      "status": "foundation"
+    },
+    {
+      "path": "tests/death-spill-audio.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/death-spill-integration.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/death-spill-render.test.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": true,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-adapter"
+    },
+    {
+      "path": "tests/death-spill.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/devtools.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/game.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/gamepad-runtime.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": true,
+      "directTranspile": false,
+      "status": "pending-adapter"
+    },
+    {
+      "path": "tests/gamepad.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": true,
+      "status": "foundation"
+    },
+    {
+      "path": "tests/guidance.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": true,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/health-runtime.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": true,
+      "directTranspile": false,
+      "status": "pending-adapter"
+    },
+    {
+      "path": "tests/health.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/keyboard-input.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/local-session-adoption-runtime.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": true,
+      "directTranspile": false,
+      "status": "pending-adapter"
+    },
+    {
+      "path": "tests/local-session-audio-runtime.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": true,
+      "directTranspile": false,
+      "status": "pending-adapter"
+    },
+    {
+      "path": "tests/local-session-gamepad-runtime.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": true,
+      "directTranspile": false,
+      "status": "pending-adapter"
+    },
+    {
+      "path": "tests/local-session-keyboard-runtime.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": true,
+      "directTranspile": false,
+      "status": "pending-adapter"
+    },
+    {
+      "path": "tests/local-session-layout.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": true,
+      "directTranspile": false,
+      "status": "pending-adapter"
+    },
+    {
+      "path": "tests/local-session-owner-layout.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": true,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/local-session-runtime.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": true,
+      "directTranspile": false,
+      "status": "pending-adapter"
+    },
+    {
+      "path": "tests/local-session-tracer.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": true,
+      "directTranspile": false,
+      "status": "pending-adapter"
+    },
+    {
+      "path": "tests/local-session.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "foundation"
+    },
+    {
+      "path": "tests/log-coin-gravity.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/magnet.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/market-capacity.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/market-engine.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/market-tiny-focus-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/market.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/mobs.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/mode-authoring.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": true,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/mode-rules.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/race-balance.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/race-items.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/race-layout.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/race-lifecycle.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/race-ordering.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/race-results.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/race-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/race-tracer.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": true,
+      "directTranspile": false,
+      "status": "pending-adapter"
+    },
+    {
+      "path": "tests/recovery-plan-boundaries.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/recovery-target-identity.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/relay-boundary.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/relay-layout.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/relay-lifecycle.test.mjs",
+      "rawBrowser": true,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": true,
+      "directTranspile": false,
+      "status": "pending-adapter"
+    },
+    {
+      "path": "tests/relay-results.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/relay-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/relay-tracer.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": true,
+      "directTranspile": false,
+      "status": "pending-adapter"
+    },
+    {
+      "path": "tests/render.test.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": true,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-adapter"
+    },
+    {
+      "path": "tests/run-hand-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/runtime-smoke.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": true,
+      "directTranspile": false,
+      "status": "pending-adapter"
+    },
+    {
+      "path": "tests/seed.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/session-board-controls.test.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": true,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-adapter"
+    },
+    {
+      "path": "tests/session-input.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/session-labels-render.test.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": true,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-adapter"
+    },
+    {
+      "path": "tests/session-lifecycle.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/session-player.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/session-world.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "foundation"
+    },
+    {
+      "path": "tests/solo-parity-actors.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/solo-parity-economy.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/solo-parity.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/solo-ui-browser.test.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-adapter"
+    },
+    {
+      "path": "tests/solo-ui.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/sound.test.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": true,
+      "status": "foundation"
+    },
+    {
+      "path": "tests/soundscape.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/strict-node-tests.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/strict-node-tests.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/survive-admission.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/survive-board-boundaries.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/survive-complete-run-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/survive-economy-boundaries.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/survive-economy.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/survive-hand-items-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/survive-hud-controller-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/survive-lifecycle-layout.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/survive-market-controller-owner-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/survive-market-fresh-context-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/survive-market-ghost-inspection-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/survive-market-ghost-sale-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/survive-market-keyboard-owner-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/survive-market-pack-owner-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/survive-offer-clock-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/survive-paused-recovery.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/survive-primary-departure.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/survive-recovery-board-layout.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/survive-recovery-boundaries.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/survive-recovery-outcomes-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/survive-recovery-owner-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/survive-recovery-terminal.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/survive-results-seed-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/survive-results-ui.test.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": true,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-adapter"
+    },
+    {
+      "path": "tests/survive-together-layout.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/survive-together-runtime.mjs",
+      "rawBrowser": false,
+      "marketFixture": true,
+      "compileSources": false,
+      "loadSources": false,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/survive-together-tracer.mjs",
+      "rawBrowser": true,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": true,
+      "directTranspile": false,
+      "status": "pending-adapter"
+    },
+    {
+      "path": "tests/survive-together.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    },
+    {
+      "path": "tests/wearables.test.mjs",
+      "rawBrowser": false,
+      "marketFixture": false,
+      "compileSources": false,
+      "loadSources": true,
+      "directDist": false,
+      "directTranspile": false,
+      "status": "pending-complete-runtime-reconciliation"
+    }
+  ],
+  "discovery": {
+    "scripts": [
+      "test:phase3",
+      "test:health-runtime",
+      "test:phase2",
+      "test:survive-economy",
+      "test:survive-recovery",
+      "test:consumables",
+      "test:consumable-world",
+      "test:consumable-world-render",
+      "test:market",
+      "test:magnet",
+      "test:mobs",
+      "test:death-spill",
+      "type-check",
+      "build",
+      "test:guidance",
+      "test:conformance",
+      "test:phase1",
+      "test:local-session-model",
+      "test:local-session-ui",
+      "test:runtime",
+      "test:solo-parity",
+      "test:solo-regression"
+    ],
+    "scope": "Static canonical-runner/package-script discovery; candidate realm owners, not executed full collection or a final suite allowlist",
+    "candidateCount": 106,
+    "notAnAllowlist": true,
+    "completion": "07-09 must reconcile transitive fixture imports, every source-executing realm and all nine mode strata before enabling full collection"
+  },
+  "separateScopes": [
+    {
+      "path": "tests/solo-baseline.mjs",
+      "scope": "immutable-oracle",
+      "currentContribution": false
+    },
+    {
+      "path": "tests/consumable-drops.test.mjs",
+      "scope": "altered sampler copies",
+      "currentContribution": false
+    },
+    {
+      "path": "tests/mode-authoring.test.mjs",
+      "scope": "authored examples",
+      "currentContribution": false
+    }
+  ],
+  "controlPlane": [
+    "tests/strict-node-tests.mjs",
+    "tests/strict-node-tests.test.mjs",
+    "tests/guidance.test.mjs"
+  ],
+  "strata": {
+    "shared-authority-input": {
+      "status": "pending-complete-attribution",
+      "foundationGroups": [
+        "shared-tracer",
+        "legacy-foundation"
+      ]
+    },
+    "solo-arcade": {
+      "status": "pending-complete-attribution",
+      "foundationGroups": []
+    },
+    "solo-flow": {
+      "status": "pending-complete-attribution",
+      "foundationGroups": []
+    },
+    "survive-arcade": {
+      "status": "pending-complete-attribution",
+      "foundationGroups": []
+    },
+    "survive-flow": {
+      "status": "pending-complete-attribution",
+      "foundationGroups": []
+    },
+    "relay": {
+      "status": "pending-complete-attribution",
+      "foundationGroups": []
+    },
+    "race": {
+      "status": "pending-complete-attribution",
+      "foundationGroups": []
+    },
+    "browser-presentation-owner-lifecycle": {
+      "status": "pending-complete-attribution",
+      "foundationGroups": [
+        "browser-tracer"
+      ]
+    },
+    "development": {
+      "status": "pending-complete-attribution",
+      "foundationGroups": []
+    }
+  }
+}
