@@ -26,8 +26,8 @@ import type { BindingValidation, KeyboardBindings, KeyboardBindingStore, Keyboar
 import { createLocalSessionBoard, createSessionKeyboardEditor } from './session-ui.js';
 import type { LocalSessionBoard, SessionSetupSeat } from './session-ui.js';
 import { createRelaySession, RELAY_LOCKED } from './relay.js';
-import type { RelayCoordinator, RelayConfirmation } from './relay.js';
-import { createRelaySetup, createRelayHandoff } from './relay-ui.js';
+import type { RelayCoordinator, RelayConfirmation, RelayActionToken } from './relay.js';
+import { createRelaySetup, createRelayHandoff, createRelayLifecycle } from './relay-ui.js';
 import { GameAudio } from './audio.js';
 import { Soundscape } from './soundscape.js';
 import { createSoundSettings } from './sound-settings.js';
@@ -59,6 +59,8 @@ let stagingSurviveTogether = false;
 let stagingRelay = false;
 let relay: RelayCoordinator | undefined;
 let relayHandoff: HTMLElement | undefined;
+let relayBoardKey = '';
+let relayRenderedOwner: SeatId | undefined;
 let stagedLiveJoin: GamepadDevice | undefined;
 let sessionBoard: LocalSessionBoard | undefined;
 let soloGamepad: GamepadDevice | undefined;
@@ -204,6 +206,7 @@ function openLifecycleBoard(ownerSeat: SeatId, titleCopy: string, detailCopy: st
   queueMicrotask(() => (focusConfirm ? apply : notNow).focus({ preventScroll: true }));
 }
 function openDepartureBoard(seat: SeatId): void {
+  if (relay) { relayAction('leave', seat); return; }
   const player = localSession?.players.find(candidate => candidate.seat === seat);
   if (!player || player.participation !== 'active') return;
   openLifecycleBoard(seat, `Leave as ${seat.toUpperCase()}?`, 'Your run ends, but this is not a death.', 'Keep playing', 'Leave run', true, false, () => {
@@ -470,9 +473,9 @@ const market = createMarketUI({
   changed: updateHud,
 });
 const router: GamepadRouter = new GamepadRouter({
-  context: () => `${recoveryBoard ? `recovery:${recoveryBoardOwner?.seat ?? ''}:${recoveryBoard.dataset.recoveryPage ?? ''}` : lifecycleBoard ? `lifecycle:${lifecycleBoard.dataset.lifecycleOwner ?? ''}` : hudDetailsOpen ? `hud:${hudSelected}:${el('session-seats').querySelector<HTMLElement>(`[data-seat="${hudSelected}"]`)?.dataset.sessionHudPage ?? ''}` : !surviveResultsRoot.hidden ? 'survive-results' : localStage ? 'setup' : localSession ? sessionPaused ? 'session-paused' : 'session' : 'solo'}:${game.state}:${hand.isOpen() ? 'hand' : market.isOpen() ? 'market' : el('drawer').hidden ? `run:${el('app').dataset.runMenuPage ?? el('app').dataset.pausePage ?? ''}` : `collection:${el('drawer').dataset.collectionTab}:${el('drawer').dataset.collectionView}`}`,
+  context: () => `${relay ? `relay:${relay.snapshot().phase}:${relay.snapshot().revision}:` : ''}${recoveryBoard ? `recovery:${recoveryBoardOwner?.seat ?? ''}:${recoveryBoard.dataset.recoveryPage ?? ''}` : lifecycleBoard ? `lifecycle:${lifecycleBoard.dataset.lifecycleOwner ?? ''}` : hudDetailsOpen ? `hud:${hudSelected}:${el('session-seats').querySelector<HTMLElement>(`[data-seat="${hudSelected}"]`)?.dataset.sessionHudPage ?? ''}` : !surviveResultsRoot.hidden ? 'survive-results' : localStage ? 'setup' : localSession ? sessionPaused ? 'session-paused' : 'session' : 'solo'}:${game.state}:${hand.isOpen() ? 'hand' : market.isOpen() ? 'market' : el('drawer').hidden ? `run:${el('app').dataset.runMenuPage ?? el('app').dataset.pausePage ?? ''}` : `collection:${el('drawer').dataset.collectionTab}:${el('drawer').dataset.collectionView}`}`,
   dispatch: ({ seat, direction }) => {
-    if (relayHandoff) return true;
+    if (relayHandoff) { relayDirection(seat, direction); return true; }
     if (localSession && !localSession.canAct(seat)) return false;
     if (recoveryBoard) {
       if (seat !== recoveryBoardOwner?.seat) return false;
@@ -502,7 +505,8 @@ const router: GamepadRouter = new GamepadRouter({
     return false;
   },
   action: (seat, action) => {
-    if (relayHandoff) { if (action === 'confirm') confirmRelay(seat); return; }
+    if (relayHandoff) { if (action === 'confirm') relayConfirmControl(seat); else if (action === 'back') relayAction('cancel', seat); return; }
+    if (relay && action === 'menu') { relayAction('leave', seat); return; }
     if (localSession && !localSession.canAct(seat)) return;
     if (recoveryBoard) {
       if (seat !== recoveryBoardOwner?.seat) return;
@@ -615,7 +619,7 @@ function callSessionCharacter(seat: SeatId): void {
   audio.unlock(); audio.play(characterById(player.characterId).call); sessionCalls.set(seat, now);
 }
 function moveSessionCharacter(seat: SeatId, direction: Direction): void {
-  if (relayHandoff) { if (direction === 'forward') confirmRelay(seat); return; }
+  if (relayHandoff) { relayDirection(seat, direction); return; }
   if (localSession && !localSession.canAct(seat)) return;
   if (recoveryBoard) { if (seat === recoveryBoardOwner?.seat) navigateModalControls(recoveryBoard, direction); return; }
   if (lifecycleBoard) { if (seat === lifecycleBoard.dataset.lifecycleOwner) navigateModalControls(lifecycleBoard, direction); return; }
@@ -696,11 +700,45 @@ function confirmRelay(seat: SeatId, captured?: RelayConfirmation): void {
   if (!player || !relay.confirm({ ...(captured ?? relay.confirmation()), seat, device: player.device })) return;
   relayHandoff.remove(); relayHandoff = undefined; selectHudOwner(seat); clearRelayInput(); updateHud(); el('scene').focus({ preventScroll: true });
 }
+function relayAction(kind: string, actor: SeatId, captured?: RelayActionToken): void {
+  if (!relay || !frameAvailable()) return;
+  const token = relay.actionToken(actor);
+  if (captured && (captured.participantId !== token.participantId || captured.generation !== token.generation || captured.lifecycleGeneration !== token.lifecycleGeneration)) return;
+  if (kind === 'restart') { reset(); return; }
+  if (kind === 'leave' && hudDetailsOpen) closeHudInspection();
+  if (kind === 'revive') relay.session.recover({ kind: 'personal', ownerSeat: actor });
+  else if (kind === 'decline') relay.session.declineRecovery(actor);
+  else if (kind === 'skip' || kind === 'leave' || kind === 'cancel' || kind === 'confirm') relay.command({ ...(captured ?? relay.actionToken(actor)), kind });
+  syncRelayHandoff(); updateHud();
+}
+function relayConfirmControl(seat: SeatId): void {
+  if (!relay || !relayHandoff) return;
+  if (relay.snapshot().phase === 'handoff') { confirmRelay(seat); return; }
+  const focused = document.activeElement;
+  const control = focused instanceof HTMLButtonElement && relayHandoff.contains(focused) ? focused : relayHandoff.querySelector<HTMLButtonElement>('button');
+  if (!control) return;
+  const kind = control.dataset.relayAction;
+  if (kind === 'skip' || kind === 'leave') relayAction(kind, seat);
+  else if (control.dataset.actor === seat && kind) relayAction(kind, seat);
+}
+function relayDirection(seat: SeatId, direction: Direction): void {
+  if (!relay || !relayHandoff) return;
+  if (relay.snapshot().phase === 'handoff') { if (direction === 'forward') confirmRelay(seat); return; }
+  if (direction === 'forward') relayConfirmControl(seat);
+  else if (relayHandoff.dataset.actor === seat || relay.snapshot().activeSeat === seat) navigateModalControls(relayHandoff, direction);
+}
 function syncRelayHandoff(): void {
-  if (!relay || relay.snapshot().phase !== 'handoff' || relayHandoff) return;
+  if (!relay || lifecycleBoard) return;
+  const state = relay.snapshot(), key = `${state.phase}:${state.revision}:${state.incomingSeat}:${relay.session.lifecycle.length}`;
+  if (relayRenderedOwner !== state.activeSeat) { relayRenderedOwner = state.activeSeat; selectHudOwner(state.activeSeat); }
+  if (key === relayBoardKey) return;
+  relayBoardKey = key; relayHandoff?.remove(); relayHandoff = undefined;
   clearRelayInput();
-  const confirmation = relay.confirmation();
-  relayHandoff = createRelayHandoff(el('app'), relay, () => confirmRelay(confirmation.seat, confirmation));
+  if (state.phase === 'running') { el('scene').focus({ preventScroll: true }); return; }
+  if (state.phase === 'handoff') {
+    const confirmation = relay.confirmation();
+    relayHandoff = createRelayHandoff(el('app'), relay, () => confirmRelay(confirmation.seat, confirmation));
+  } else relayHandoff = createRelayLifecycle(el('app'), relay, relayAction);
 }
 const sessionKeyboardEditor = createSessionKeyboardEditor({
   root: el('local-session-setup'),
@@ -766,7 +804,7 @@ function reset(launch?: GameLaunch): void {
   for (const player of localSession?.players ?? []) router.release(player.seat);
   for (const seat of setupDraft) if (seat.device?.startsWith('gamepad-')) router.release(seat.seat);
   localSession?.stop(); localSession = undefined; localStage?.cancel(); localStage = undefined; setupDraft = []; sessionPaused = false;
-  relay = undefined; stagingRelay = false; relayHandoff?.remove(); relayHandoff = undefined;
+  relay = undefined; relayBoardKey = ''; relayRenderedOwner = undefined; stagingRelay = false; relayHandoff?.remove(); relayHandoff = undefined;
   if (restoreController) router.assign(restoreController, 'p1');
   sessionKeyboardEditor.close();
   el<HTMLDivElement>('local-session-setup').hidden = true;
@@ -897,7 +935,7 @@ function updateHud(): void {
           const value = field === 'revive' || field === 'item' ? document.createElement('button') : document.createElement('span');
           value.dataset.sessionHud = field; if (value instanceof HTMLButtonElement) { value.type = 'button'; value.className = 'session-future'; }
           if (field === 'revive') value.addEventListener('click', () => usePersonalRevive(player.seat));
-          if (field === 'item') value.addEventListener('click', () => openRecoveryBoard(player.seat));
+          if (field === 'item') value.addEventListener('click', () => relay ? openDepartureBoard(player.seat) : openRecoveryBoard(player.seat));
           details.append(value);
         }
         const pager = document.createElement('div'); pager.className = 'session-hud-pager'; pager.dataset.sessionHudPager = 'true';
@@ -932,6 +970,7 @@ function updateHud(): void {
       revival.disabled = !(player.participation === 'dead' && player.recovery?.offer);
       const charge = itemCharge(player.seat), items = tile.querySelector<HTMLButtonElement>('[data-session-hud="item"]')!;
       items.textContent = `Items: ${charge && (charge.revival || charge.flare) ? `${charge.revival ? `Revival ×${charge.revival}` : ''}${charge.revival && charge.flare ? ' · ' : ''}${charge.flare ? `Flare ×${charge.flare}` : ''}` : '—'}`;
+      if (relay) items.textContent = 'Leave Relay';
       items.disabled = player.participation !== 'active';
       tile.querySelector<HTMLElement>('[data-session-hud="lifecycle"]')!.textContent = lifecycleLabel(player);
       tile.querySelector<HTMLElement>('[data-session-hud-page-label]')!.textContent = `${hudDetailsPage === 0 ? 'Status' : hudDetailsPage === 1 ? 'Run' : hudDetailsPage === 2 ? 'Recovery' : 'Items'} ${hudDetailsPage + 1} of 4`;
@@ -1242,14 +1281,18 @@ function reclaimControllerSeat(device: GamepadDevice, seat: SeatId, input: Gamep
     return;
   }
   const player = localSession?.players.find(candidate => candidate.seat === seat);
-  if (!player || player.participation !== 'device-lost') return;
+  if (!player || (player.participation !== 'device-lost' && !(relay && player.participation === 'dead'))) return;
   if (lifecycleBoard && pendingReclaim && pendingReclaim.seat === seat && sameReclaimDevice(pendingReclaim.device, device)) {
     if (input.actions.includes('back')) { closeLifecycleBoard(); return; }
     if (input.actions.includes('confirm')) { confirmModal(lifecycleBoard); return; }
     if (input.direction) navigateModalControls(lifecycleBoard, input.direction);
     return;
   }
-  openLifecycleBoard(seat, `Reclaim ${seat.toUpperCase()}`, `Continue as ${characterById(player.characterId).name}. Your items are still here.`, 'Not now', `Reclaim ${seat.toUpperCase()}`, false, true, () => {
+  openLifecycleBoard(seat, relay ? `Continue as ${characterById(player.characterId).name}` : `Reclaim ${seat.toUpperCase()}`, relay ? 'Your relay seat and items are still here.' : `Continue as ${characterById(player.characterId).name}. Your items are still here.`, 'Not now', `Reclaim ${seat.toUpperCase()}`, false, true, () => {
+    if (relay) {
+      if (!pendingReclaim || pendingReclaim.seat !== seat || !sameReclaimDevice(pendingReclaim.device, device) || !router.canReclaim(device, seat) || !relay.reclaim(seat, markerDevice(device))) return false;
+      router.reclaim(device); clearRelayInput(); return true;
+    }
     if (!pendingReclaim || pendingReclaim.seat !== seat || !sameReclaimDevice(pendingReclaim.device, device) || !router.reclaim(device)) return false;
     if (!localSession?.offerReclaim(seat, markerDevice(device)) || !localSession.reclaim(seat, markerDevice(device))) { router.release(seat); return false; }
     notify(`Controller reclaimed ${seat.toUpperCase()}.`); return true;
@@ -1267,7 +1310,7 @@ function handleControllerLifecycle(event: GamepadLifecycle): void {
       setupDraft = setupDraft.map(seat => seat.seat === event.seat ? { ...seat, disconnected: true } : seat);
       renderSetup(`Reconnect or press a controller button to reclaim ${event.seat.toUpperCase()}.`);
     } else if (localSession?.running) {
-      localSession.deviceLost(event.seat); notify(`${event.seat.toUpperCase()} controller disconnected.`); updateHud();
+      if (!localSession.deviceLost(event.seat)) relay?.disconnect(event.seat); syncRelayHandoff(); notify(`${event.seat.toUpperCase()} controller disconnected.`); updateHud();
     } else if (event.seat === 'p1') { soloGamepad = undefined; suspendPlay(); }
   }
   if (event.type === 'reclaim-offered' && event.seat) {
@@ -1303,8 +1346,13 @@ function isNativeKeyboardTarget(target: EventTarget | null): boolean {
   return !(target instanceof HTMLInputElement || target instanceof HTMLSelectElement || target instanceof HTMLTextAreaElement || target instanceof HTMLButtonElement);
 }
 function nativeKeyboardKeydown(event: KeyboardEvent): void {
-  if (relayHandoff && nativeKeyboardActive) {
+  if (relayHandoff && !lifecycleBoard && nativeKeyboardActive) {
+    const held = observedNativeKeys.has(event.key);
     observedNativeKeys.add(event.key);
+    if ((event.key === 'Enter' || event.key === ' ') && !held && !event.repeat) {
+      const actor = relayHandoff.dataset.actor as SeatId | undefined;
+      if (actor && localSession?.players.find(p => p.seat === actor)?.device.startsWith('keyboard-')) relayConfirmControl(actor);
+    }
     if (keyboardInput?.keydown(event.key)) { event.preventDefault(); event.stopPropagation(); }
     else if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); event.stopPropagation(); }
     return;
@@ -1454,7 +1502,7 @@ let last = performance.now(), accumulator = 0;
 function frame(now: number): void {
   const dt = Math.min((now - last) / 1000, .05); last = now;
   gamepad.update(now); router.update(now);
-  const sessionUnblocked = frameAvailable() && !localStage && !relayHandoff && displayedRunState() !== 'paused' && !hand.isOpen() && el('drawer').hidden && !market.isOpen() && !selectedOwnerRun().pendingPack;
+  const sessionUnblocked = frameAvailable() && !localStage && (!relayHandoff || relay?.snapshot().phase === 'recovery') && displayedRunState() !== 'paused' && !hand.isOpen() && el('drawer').hidden && !market.isOpen() && !selectedOwnerRun().pendingPack;
   // A valid personal offer must keep its authoritative world-time deadline
   // moving even when every seat is dead; pausing still freezes it above.
   const sessionAdvancing = sessionUnblocked && (displayedRunState() === 'playing' || localSession?.players.some(player => player.recovery?.offer));

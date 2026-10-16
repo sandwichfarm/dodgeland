@@ -56,7 +56,7 @@ test('a fatal boundary landing resolves the existing personal recovery before an
   assert.equal(player.participation, 'dead');
   assert.equal(player.statistics.deaths, 1);
   assert.equal(player.run.alive, false, 'production death clears only the dead run');
-  assert.equal(relay.snapshot().phase, 'running', 'fatal hazard wins over handoff');
+  assert.equal(relay.snapshot().phase, 'recovery', 'fatal hazard wins over handoff');
   assert.equal(player.completedForwardTiles, 0, 'fatal unfinished movement cannot earn revival tiles');
   assert.equal(session.players[1].run.alive, true);
   assert.strictEqual(session.world, world);
@@ -147,7 +147,7 @@ for (const hazard of ['traffic', 'wave', 'mob']) test(`fatal ${hazard} resolves 
   assert.equal(run.session.dispatch({ seat: 'p1', direction: 'forward' }), true);
   for (let tick = 0; tick < 120 && player.state !== 'dead'; tick++) run.session.update(STEP);
   assert.equal(player.state, 'dead'); assert.equal(player.deathCause, hazard);
-  assert.equal(run.relay.snapshot().phase, 'running'); assert.equal(run.relay.snapshot().pendingBoundary, undefined);
+  assert.equal(run.relay.snapshot().phase, 'recovery'); assert.equal(run.relay.snapshot().pendingBoundary, undefined);
   assert.equal(run.relay.snapshot().transferGeneration, 0); assert.equal(run.relay.snapshot().nextBoundary, 2);
   assert.equal(player.statistics.deaths, 1); assert.equal(player.completedForwardTiles, 0); assert.ok(player.recovery.offer);
   const generation = player.recovery.deathGeneration; ticks(run.session, 10);

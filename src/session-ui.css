@@ -9,6 +9,7 @@ body:has(#local-session-setup:not([hidden]) #session-board), body:has(#session-s
 .relay-handoff { position: absolute; z-index: 30; inset: 12px; padding: 16px; display: grid; align-content: center; justify-items: center; gap: 12px; background: var(--game-paper, var(--bg)); color: var(--game-ink, var(--fg)); border: 4px solid var(--game-wood, var(--border)); border-radius: 8px; }
 .relay-handoff h2, .relay-handoff p { margin: 0; }
 .relay-handoff button { min-height: 44px; min-width: 44px; }
+#app:has(.relay-handoff) #survive-lifecycle-board { z-index: 31; }
 @media (max-width: 239px), (max-height: 239px) { .relay-handoff { display: none; } }
 .local-session-setup { --session-ink: var(--game-ink, #263c38); color: var(--session-ink); font-size: 16px; font-weight: 650; }
 .local-session-setup > button { min-height: 44px; }

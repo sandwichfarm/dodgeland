@@ -140,6 +140,10 @@ export class GamepadRouter {
   }
 
   /** Explicit reclaim is intentionally separate from seeing a same-id snapshot. */
+  canReclaim(identity: GamepadDevice, seat: SeatId): boolean {
+    const lease = this.leases.get(identity.index);
+    return !!lease && lease.reclaimSeat === seat && lease.device.id === sanitizeId(identity.id) && lease.device.epoch === identity.epoch;
+  }
   reclaim(identity: GamepadDevice): boolean {
     const lease = this.leases.get(identity.index);
     return !!lease && !!lease.reclaimSeat && this.assign(identity, lease.reclaimSeat);

@@ -1,6 +1,6 @@
 import { characterById } from './content.js';
 import { validateRelaySetup } from './relay.js';
-import type { RelayCoordinator, RelaySeat } from './relay.js';
+import type { RelayCoordinator, RelaySeat, RelayActionToken } from './relay.js';
 import type { SessionSetupSeat } from './session-ui.js';
 import type { SeatId } from './session.js';
 
@@ -92,5 +92,39 @@ export function createRelayHandoff(root: HTMLElement, relay: RelayCoordinator, c
     const index = buttons.indexOf(document.activeElement as HTMLButtonElement);
     event.preventDefault(); buttons[(index + (event.shiftKey ? -1 : 1) + buttons.length) % buttons.length]?.focus({ preventScroll: true });
   });
+  return board;
+}
+
+export function createRelayLifecycle(root: HTMLElement, relay: RelayCoordinator, action: (kind: string, actor: SeatId, token: RelayActionToken) => void): HTMLElement {
+  const state = relay.snapshot(), runner = relay.session.players.find(p => p.seat === state.activeSeat)!;
+  const actor = state.actionActor ?? relay.session.players.find(p => state.connections[p.seat] && p.participation === 'active' && p.state === 'playing')?.seat ?? state.activeSeat;
+  const board = document.createElement('section'); board.id = 'relay-handoff'; board.className = 'relay-handoff relay-lifecycle';
+  board.dataset.phase = state.phase; board.dataset.actor = actor;
+  board.setAttribute('role', 'dialog'); board.setAttribute('aria-modal', 'true'); board.setAttribute('aria-labelledby', 'relay-handoff-title');
+  const title = document.createElement('h2'); title.id = 'relay-handoff-title';
+  const body = document.createElement('p');
+  const identity = document.createElement('p'); identity.className = 'relay-lifecycle-identity'; identity.textContent = `${state.activeSeat.toUpperCase()} · ${characterById(runner.characterId).name}`;
+  board.append(title, body, identity);
+  const button = (text: string, kind: string, seat = actor) => { const control = document.createElement('button'); control.type = 'button'; control.textContent = text; control.dataset.relayAction = kind; control.dataset.actor = seat; const token = relay.actionToken(seat); control.onclick = () => action(kind, seat, token); board.append(control); };
+  if (state.phase === 'confirm-skip') {
+    title.textContent = `Skip ${state.activeSeat.toUpperCase()} this turn?`; body.textContent = 'Their seat stays reserved for reclaim.';
+    button('Back', 'cancel'); button(`Skip ${state.activeSeat.toUpperCase()}`, 'confirm');
+  } else if (state.phase === 'confirm-leave') {
+    title.textContent = `Leave Relay as ${actor.toUpperCase()}?`; body.textContent = 'Your leg record stays in the results. This is not a death.';
+    button('Keep playing', 'cancel'); button('Leave Relay', 'confirm');
+  } else if (state.phase === 'disconnected') {
+    title.textContent = `${state.activeSeat.toUpperCase()} controller disconnected.`; body.textContent = `Reclaim ${state.activeSeat.toUpperCase()} or choose the next runner.`;
+    button(`Skip ${state.activeSeat.toUpperCase()}`, 'skip'); button(`Leave as ${actor.toUpperCase()}`, 'leave');
+  } else if (state.phase === 'waiting-for-reclaim') {
+    title.textContent = 'Waiting for a player to reclaim.'; body.textContent = 'No runner is ready. Reserved seats can return.';
+    identity.textContent = relay.session.players.filter(player => player.participation !== 'departed' && !state.connections[player.seat]).map(player => `${player.seat.toUpperCase()} · ${characterById(player.characterId).name}`).join(' / ');
+  } else if (state.phase === 'recovery') {
+    title.textContent = `${state.activeSeat.toUpperCase()} can return`; body.textContent = 'Use your personal revive or continue without it.';
+    button(`Revive ${state.activeSeat.toUpperCase()}`, 'revive', state.activeSeat); button('Continue without revive', 'decline', state.activeSeat);
+  } else {
+    title.textContent = 'No runner remains.'; body.textContent = 'Your relay has ended.'; button('Hop again', 'restart');
+  }
+  root.append(board); (board.querySelector('button') ?? title).setAttribute('tabindex', '0'); (board.querySelector<HTMLButtonElement>('button') ?? title).focus({ preventScroll: true });
+  board.addEventListener('keydown', event => { if (event.key !== 'Tab') return; const controls = [...board.querySelectorAll<HTMLButtonElement>('button')]; event.preventDefault(); if (!controls.length) return; const index = controls.indexOf(document.activeElement as HTMLButtonElement); controls[(index + (event.shiftKey ? -1 : 1) + controls.length) % controls.length]!.focus({ preventScroll: true }); });
   return board;
 }

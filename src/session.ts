@@ -46,6 +46,8 @@ export type SessionLifecycleHandler = (record: SessionLifecycleRecord) => void;
 
 /** Mode policies receive lifecycle facts through this generic session boundary. */
 export interface SessionModeHandlers {
+  canLifecycle?(kind: 'device-lost' | 'reclaim-offered' | 'reclaimed' | 'departed', seat: SeatId, device?: DeviceId): boolean;
+  preserveReclaimPosition?: boolean;
   canAct?(seat: SeatId): boolean;
   canAdmit?(): boolean;
   simulates?(player: SessionPlayer): boolean;
@@ -54,7 +56,7 @@ export interface SessionModeHandlers {
   join?(record: SessionLifecycleRecord): void;
   deviceLost?(record: SessionLifecycleRecord): void;
   reclaim?(record: SessionLifecycleRecord): void;
-  depart?(record: SessionLifecycleRecord): { readonly releaseSeat?: boolean } | void;
+  depart?(record: SessionLifecycleRecord): { readonly releaseSeat?: boolean; readonly archiveContribution?: boolean } | void;
   death?(record: SessionLifecycleRecord): void;
   progress?(player: SessionPlayer, session: LocalSession): void;
   result?(session: LocalSession): void;
@@ -620,7 +622,13 @@ export class LocalSession {
     const outgoing = this.players.find(player => player.seat === outgoingSeat);
     const incoming = this.players.find(player => player.seat === incomingSeat);
     if (!outgoing || !incoming || outgoing.participation !== 'active' || incoming.participation !== 'active' || outgoing.state !== 'playing' || incoming.state !== 'playing' || !this.isRecoverySafePosition(outgoing)) return false;
-    incoming.x = incoming.fromX = outgoing.groundX; incoming.y = incoming.fromY = outgoing.groundY;
+    return this.placeTurnPosition(incomingSeat, { x: outgoing.groundX, y: outgoing.groundY });
+  }
+  /** Non-crediting turn placement, also usable after a departed/dead owner. */
+  placeTurnPosition(incomingSeat: SeatId, position: Readonly<{ x: number; y: number }>): boolean {
+    const incoming = this.players.find(player => player.seat === incomingSeat);
+    if (!incoming || incoming.participation !== 'active' || incoming.state !== 'playing' || !this.isSafeCell(position)) return false;
+    incoming.x = incoming.fromX = position.x; incoming.y = incoming.fromY = position.y;
     incoming.maxY = Math.max(incoming.maxY, incoming.y);
     incoming.personalFrontierY = Math.max(incoming.personalFrontierY, incoming.y);
     incoming.hop = 0; incoming.idle = 0; this.cancelForwardHop(incoming);
@@ -630,7 +638,7 @@ export class LocalSession {
   private lifecycleRecord(type: SessionLifecycleType, player: SessionPlayer, previous: SessionParticipation, next: SessionParticipation, cause: string, offeredDevice?: DeviceId): SessionLifecycleRecord {
     return Object.freeze({ sessionId: this.id, playerId: `${this.id}:${player.seat}`, type, seat: player.seat, device: player.device, offeredDevice, previous, next, simulationTick: this.world.simulationTick, cause });
   }
-  private dispatchMode(record: SessionLifecycleRecord): { readonly releaseSeat?: boolean } | void {
+  private dispatchMode(record: SessionLifecycleRecord): { readonly releaseSeat?: boolean; readonly archiveContribution?: boolean } | void {
     const { type } = record;
     if (type === 'player-joined') return this.mode?.handlers.join?.(record);
     if (type === 'device-lost') return this.mode?.handlers.deviceLost?.(record);
@@ -709,6 +717,10 @@ export class LocalSession {
   /** A retained personal anchor must be a settled, currently hazard-free cell. */
   isRecoverySafePosition(player: SessionPlayer): boolean {
     if (player.hop > 0 || player.powerRescue || Math.round(player.y) !== player.y) return false;
+    return this.isSafeCell(player);
+  }
+  isSafeCell(player: Readonly<{ x: number; y: number }>): boolean {
+    if (!Number.isFinite(player.x) || !Number.isInteger(player.y) || Math.abs(player.x) > 5.5) return false;
     const lane = this.world.rows.get(player.y);
     if (!lane || lane.blocked.includes(Math.round(player.x))) return false;
     if (this.world.rules.pursuit.strategy === 'wave' && player.y <= this.world.waveRow + .2) return false;
@@ -812,28 +824,33 @@ export class LocalSession {
     return !!plan && this.admitPlan(plan);
   }
   deviceLost(seat: SeatId, cause = 'device-lost'): boolean {
+    if (this.mode?.handlers.canLifecycle?.('device-lost', seat) === false) return false;
     const player = this.players.find(candidate => candidate.seat === seat);
     if (!player || player.participation !== 'active') return false;
     player.participation = 'device-lost'; player.deviceLostAt = this.world.time;
     this.emit('device-lost', player, 'active', 'device-lost', cause); return true;
   }
   offerReclaim(seat: SeatId, device: DeviceId): boolean {
+    if (this.mode?.handlers.canLifecycle?.('reclaim-offered', seat, device) === false) return false;
     const player = this.players.find(candidate => candidate.seat === seat);
     if (!player || player.participation !== 'device-lost') return false;
     this.emit('reclaim-offered', player, 'device-lost', 'device-lost', 'device-reclaim-offered', device);
     return true;
   }
   reclaim(seat: SeatId, device: DeviceId): boolean {
+    if (this.mode?.handlers.canLifecycle?.('reclaimed', seat, device) === false) return false;
     const player = this.players.find(candidate => candidate.seat === seat);
     if (!player || player.participation !== 'device-lost' || this.players.some(candidate => candidate !== player && candidate.participation === 'active' && candidate.device === device)) return false;
-    const placement = this.mode?.handlers.reclaim ? this.safePlacement(player) : undefined;
-    if (this.mode?.handlers.reclaim && !placement) return false;
+    const relocate = !!this.mode?.handlers.reclaim && !this.mode.handlers.preserveReclaimPosition;
+    const placement = relocate ? this.safePlacement(player) : undefined;
+    if (relocate && !placement) return false;
     player.device = device; this.addRecoveryDeviceAlias(player, device); player.participation = 'active';
     if (placement) { player.x = player.fromX = placement.x; player.y = player.fromY = placement.y; }
     player.statistics.deviceLostDuration += Math.max(0, this.world.time - (player.deviceLostAt ?? this.world.time)); player.deviceLostAt = null;
     this.emit('reclaimed', player, 'device-lost', 'active', 'device-reclaimed'); return true;
   }
   depart(seat: SeatId, cause = 'departed'): boolean {
+    if (this.mode?.handlers.canLifecycle?.('departed', seat) === false) return false;
     const player = this.players.find(candidate => candidate.seat === seat);
     if (!player || player.participation === 'departed') return false;
     // Close an unreclaimed interval before archiving; later team time must not
@@ -843,9 +860,9 @@ export class LocalSession {
     const previous = player.participation; player.participation = 'departed'; this.coOpMarket?.invalidate(); this.refreshSharedWorldEffects();
     const record = this.lifecycleRecord('departed', player, previous, 'departed', cause);
     const disposition = this.dispatchMode(record);
-    if (disposition?.releaseSeat) {
+    if (disposition?.releaseSeat || disposition?.archiveContribution) {
       this.contributionRecords.push(Object.freeze({ seat: player.seat, characterId: player.characterId, participantId: player.participantId, statistics: Object.freeze({ ...player.statistics }), recovery: player.recovery!, reason: cause }));
-      this.roster.splice(this.roster.indexOf(player), 1);
+      if (disposition.releaseSeat) this.roster.splice(this.roster.indexOf(player), 1);
     }
     this.publish(record);
     return true;
