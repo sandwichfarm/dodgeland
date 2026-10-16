@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-12 full collection54934 active on pause repair f84a7f9
+stopped_at: 07-12 collection54934 exited1 at Race aggregate layout timeout; bounded repair checkpoint
 last_updated: "2026-10-16T19:12:24.841988+00:00"
 progress:
   total_phases: 7
@@ -12,12 +12,14 @@ progress:
   completed_plans: 40
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Full collection54934 cleared repaired pause frontier; Race jobs active, complete report and floors pending.
+last_activity_desc: Collection54934 cleared pause then failed Race aggregate180s deadline;420 captures have zero geometry errors, but no full report exists.
 ---
 
 # Project State
 
-Current active execution: full collection **54934**, PID33009, run `485614b7-02bb-4d5c-bed3-06c728767c94`, log `/tmp/down-to-duck-07-12-full-collection-pause-fixed.log`, frozen source/test/tooling `f84a7f9`. Final focused18395 exited0: unchanged ordinary and instrumented pause suites each cover24 frame/theme combinations, all rules/powers/input/frozen-clock assertions; guidance7/7 and conformance5pass/0fail/5unmeasured. Type-check passed27409 before CSS-only refinements. Final instrumented focused run66ef71ae-9381-4a5e-9b89-868c42e57c6d contains one canonical realm. Root inspected final240px dark/light and320×560/900×600/2400×1200 captures; independent review9ce407b closes PR-01. All27 prior ordinary artifacts restored byte-for-byte. Superseded27409 exposed320×360 wrapping;10510 passed before home-only selector correction and is not final proof. No full report, coverage-floor or plan-completion claim yet. Historical inactive-process statements below refer to their respective checkpoints.
+Latest terminal execution: full collection **54934**, exit1, former PID33009, run `485614b7-02bb-4d5c-bed3-06c728767c94`, log `/tmp/down-to-duck-07-12-full-collection-pause-fixed.log`, frozen source/test/tooling `f84a7f9`. Final focused18395 exited0: unchanged ordinary and instrumented pause suites each cover24 frame/theme combinations, all rules/powers/input/frozen-clock assertions; guidance7/7 and conformance5pass/0fail/5unmeasured. Type-check passed27409 before CSS-only refinements. Final instrumented focused run66ef71ae-9381-4a5e-9b89-868c42e57c6d contains one canonical realm. Root inspected final240px dark/light and320×560/900×600/2400×1200 captures; independent review9ce407b closes PR-01. All27 prior ordinary artifacts restored byte-for-byte. Superseded27409 exposed320×360 wrapping;10510 passed before home-only selector correction and is not final proof. No full report, coverage-floor or plan-completion claim yet. Historical inactive-process statements below refer to their respective checkpoints.
+
+Terminal checkpoint: Race layout canceled its single aggregate test at180000ms; its asynchronous body continued through all35 states/420 captures and cleanup, suite terminal320225ms. Archived report has zero failures/errors/external requests, but cancellation is a failed gate, not acceptance. The unchanged announcement test passed. No process remains active. Proposed repair requires tests/race-layout.mjs ownership: bounded sequential stages at existing fresh-acquisition boundaries, preserving same-board transitions and all assertions; no source/test edits or rerun yet. Full report and07-12 completion remain blocked.
 
 Current full-run milestone: pause-game-layout passed at19:11:32Z (~55.3seconds) in run485614b7, clearing the previous production failure frontier. Its current archived report contains24 frame/theme rows, minimum-size notice, unchanged44px/no-scroll/rules/power/input/frozen-clock assertions, zero errors and zero external requests. Race balance and item checks subsequently passed; Race layout is active. This remains a partial collection, with full report and floor evaluation pending.
 
