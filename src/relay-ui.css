@@ -164,7 +164,10 @@
 /* The current runner shares the bounded identity band; details remain the
    existing owner inspection, including inactive roster facts. */
 #app #session-seats[data-relay-hud="true"] .relay-distance { height: 20px; padding: 0 4px; font: 400 16px/20px var(--game-font); }
-#app #session-seats[data-relay-hud="true"][data-session-hud-inspect="true"] .session-hud-details > [data-session-hud] { display: revert; }
+
 @media(max-width:479px),(max-height:419px){
  #app #session-seats[data-relay-hud="true"] .relay-distance { height: auto; min-height: 20px; line-height: 20px; }
+}
+@media(min-width:480px) and (max-height:419px) {
+ #app #session-seats[data-relay-hud="true"]:not([data-session-hud-inspect="true"]) .relay-distance { position: absolute; right: 0; bottom: 0; width: 50%; margin: 0; }
 }

@@ -53,12 +53,14 @@ export interface SessionPresentation {
   readonly boundary: number;
   readonly markers: readonly {readonly seat: string; readonly leader: boolean; readonly status: string; readonly effect: 'mud'|'lantern'|undefined}[];
 }
+export interface PresentationViewport { readonly top: number; readonly bottom: number }
 export class Renderer {
+  private viewport: PresentationViewport | undefined;
   ctx: CanvasRenderingContext2D; width = 0; height = 0; scale = 40; camera = 0; reduced = false;
   backdrop = '#f4f2df'; ink = '#263c38';
   constructor(public canvas: HTMLCanvasElement) { this.ctx = canvas.getContext('2d')!; }
   resize(): void { const r = this.canvas.getBoundingClientRect(); this.width = r.width; this.height = r.height; const dpr = Math.min(devicePixelRatio || 1, 2); this.canvas.width = Math.round(r.width * dpr); this.canvas.height = Math.round(r.height * dpr); this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0); this.scale = Math.min(this.width / 15.5, this.height / 10.2, 100); }
-  project(x: number, row: number, z = 0): Point { return [this.width * .5 + (x + (row - this.camera) * .3) * this.scale, this.height * .71 + (x * .18 - (row - this.camera) * .62 - z) * this.scale]; }
+  project(x: number, row: number, z = 0): Point { return [this.width * .5 + (x + (row - this.camera) * .3) * this.scale, (this.viewport ? this.viewport.bottom - this.scale * .6 : this.height * .71) + (x * .18 - (row - this.camera) * .62 - z) * this.scale]; }
   tile(x: number, row: number, w: number, d: number, color: string): void { polygon(this.ctx, [this.project(x - w / 2, row - d / 2), this.project(x + w / 2, row - d / 2), this.project(x + w / 2, row + d / 2), this.project(x - w / 2, row + d / 2)], color); }
   cube(v: Voxel, x: number, row: number, lift = 0): void {
     const l = x + v.x - v.w / 2, r = l + v.w, front = row - v.y - v.d / 2, back = front + v.d, z = lift + v.z, top = z + v.h;
@@ -224,6 +226,7 @@ export class Renderer {
     }
   }
   draw(game: Game, character: string, dt: number): void {
+    if (this.viewport) { this.viewport = undefined; this.scale = Math.min(this.width / 15.5, this.height / 10.2, 100); }
     this.drawScene(game, character, dt);
   }
 
@@ -396,6 +399,17 @@ export class Renderer {
       const statusHeight = (player.protectionUntil ?? 0) > time ? statusLineHeight : 0;
       let [x, y] = this.project(player.groundX, player.groundY, 1.1);
       let rect = { left: x - width / 2, right: x + width / 2, top: y - lineHeight - statusHeight, bottom: y };
+      if (this.viewport) {
+        // A bounded course can have several close riders. Try the adjacent
+        // horizontal label slots before stacking upward; every label uses the
+        // same projected anchor and identity, independent of roster input order.
+        const anchorX = x;
+        for (const offset of [0, -(width + 4), width + 4, -2 * (width + 4), 2 * (width + 4)]) {
+          const candidateX = Math.max(8 + width / 2, Math.min(this.width - 8 - width / 2, anchorX + offset));
+          const candidate = { ...rect, left: candidateX - width / 2, right: candidateX + width / 2 };
+          if (!placed.some(other => candidate.left < other.right && candidate.right > other.left && candidate.top < other.bottom && candidate.bottom > other.top)) { x = candidateX; rect = candidate; break; }
+        }
+      }
       for (let attempt = 0; attempt < 8 && placed.some(other => rect.left < other.right && rect.right > other.left && rect.top < other.bottom && rect.bottom > other.top); attempt++) {
         y -= lineHeight;
         rect = { left: x - width / 2, right: x + width / 2, top: y - lineHeight - statusHeight, bottom: y };
@@ -525,7 +539,10 @@ export class Renderer {
   }
 
   /** One course, one camera, and one shared depth ordering for every traveler. */
-  drawSession(world: SharedWorld, players: readonly PlayerRender[], dt: number, presentation?: SessionPresentation): void {
+  drawSession(world: SharedWorld, players: readonly PlayerRender[], dt: number, presentation?: SessionPresentation, viewport?: PresentationViewport): void {
+    if (viewport) this.scale = Math.min(this.width / 15.5, this.height / 10.2, (viewport.bottom - viewport.top) / 4, 100);
+    else if (this.viewport) this.scale = Math.min(this.width / 15.5, this.height / 10.2, 100);
+    this.viewport = viewport;
     this.drawScene(world.host, world.host.characterId, dt, players, presentation);
   }
 }

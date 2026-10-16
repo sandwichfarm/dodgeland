@@ -231,6 +231,20 @@ E1 roster; E2 inspection; E3 scene; E4 hand/market; E5 lifecycle decisions; E6 r
 
 ## Implementation and Validation Boundaries
 
+### Authorized compact-control reconciliation after06-01 checkpoint
+
+Measured240×240 control/shelf stacking cannot leave the required80px live course.
+Use an explicit44px Controls disclosure with selected owner in its accessible name.
+Keep one shallow live movement/call row where it fits; otherwise retain touch
+movement and reachable Play controls in the disclosure. Disclosure uses the
+existing deliberate paused inspection with labelled Play / Tools / Hand pages,
+actual mute/pause/menu controls and the single physical hand/gear/item tree moved
+or reused, never cloned. All actions remain reachable at44px through bounded pages.
+Keep visible owner inside the drawer, original pause history, logical page/focus
+through resize, correct-seat authority and fresh close without a hop. This is an
+authorized presentation repair, not a new gameplay/menu authority. Original bands,
+full facts, exact solo and body/nameplate clearance remain binding.
+
 Keep the proposed two-plan scope: (1) retained G1/G2 RED/GREEN plus narrow composition repair, (2) changed-surface lifecycle/owner/result acceptance and inherited gates. Reuse delivered fixtures/state acquisition. Do not create a second420-capture Race suite or rewrite mode mechanics to satisfy presentation. Existing Survive five-participant departure/replacement proof already establishes retained history.
 
 New evidence must link mode/state/frame/theme to source/artifact revision, actual input path, geometry result and inspected image. Measure actual900×600 initial/lateral travel first, then changed surfaces across all six frames. Inspect contact sheets AND full-size four-seat/lateral, compact owner, short recovery, handoff and result representatives. Global modal occlusion is intentional only while its existing authoritative pause/decision policy applies; distinguish that from live HUD obstruction.

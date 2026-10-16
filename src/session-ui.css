@@ -229,3 +229,17 @@ body:has(#local-session-setup:not([hidden]) #session-board), body:has(#session-s
   #app:has(#local-session-setup:not([hidden]) #session-keyboard-editor:not([hidden])) #run-panel::after { display: none; }
   #app:has(#local-session-setup:not([hidden]) #session-keyboard-editor:not([hidden])) #ready-content { display: none; }
 }
+@media (max-width: 479px), (max-height: 419px) {
+ #app #session-seats:not([data-session-hud-inspect="true"]) { top: 0; padding-bottom: 20px; gap: 0; }
+ #app #session-seats:not([data-session-hud-inspect="true"]) .session-hud-tile { min-height: 44px; border: 0; }
+}
+#app #session-seats[data-session-hud-inspect="true"] .session-hud-selected .session-hud-details > span { min-height: 20px; }
+#app #session-seats[data-session-hud-inspect="true"] .session-hud-selected .session-hud-pager,
+#app #session-seats[data-session-hud-inspect="true"] .session-hud-selected .session-hud-close { grid-area: auto; grid-column: 1/-1; }
+@media(min-width:480px) and (max-height:419px) {
+ #app #session-seats:not([data-session-hud-inspect="true"]) .session-hud-selected .session-hud-summary { right: 50%; }
+ #app #session-seats:not([data-session-hud-inspect="true"]) :is(.race-distance,.relay-distance) { z-index: 1; }
+}
+@media(min-width:480px) and (min-height:420px) {
+ #app:has(#session-seats:not([hidden])) .bottom-bar { bottom: 8px; }
+}

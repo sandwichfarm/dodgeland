@@ -48,7 +48,7 @@ import { DeathSpillAudio } from './death-spill-audio.js';
 import { createPauseUI } from './pause-ui.js';
 import { createRunMenuUI } from './run-menu.js';
 import { createCollectionUI } from './collection-ui.js';
-import { createRunHand } from './run-hand.js';
+import { createSharedControlPages, createRunHand } from './run-hand.js';
 import './hand-layout.css';
 import type { DevTools } from './devtools.js';
 const el = <T extends HTMLElement = HTMLElement>(id: string): T => document.getElementById(id) as T;
@@ -133,7 +133,7 @@ function selectHudOwner(seat: SeatId): void {
   const marketWasOpen = market.invalidateOwner(); hand.invalidateOwner(); coOpMarketContext = undefined; router.seedAll(); hudSelected = seat;
   // The incoming owner keeps its own inventory and may expose an empty
   // inspection surface, but never inherits a previous interaction context.
-  hudDetailsPage = 0;
+  if (hudDetailsPage < 4) hudDetailsPage = 0;
   if (marketWasOpen && localSession?.running) market.openForSelected();
   market.update(); market.focusSelectedOwner(); updateHud();
 }
@@ -143,9 +143,13 @@ function selectNextHudOwner(): void {
   const next = seats[(seats.indexOf(hudSelected) + 1) % seats.length];
   if (next) selectHudOwner(next);
 }
+function inspectionRoot(): HTMLElement | null { if (!el('drawer').hidden) return el('drawer'); if (market.isOpen()) return el('market'); if (hand.isOpen()) return el('run-hand-detail'); return hudDetailsPage >= 4 ? sharedControls.root : el('session-seats').querySelector<HTMLElement>(`[data-seat="${hudSelected}"]`); }
 function closeHudInspection(resume = true): void {
+  const controlsWereOpen = hudDetailsPage >= 4;
   const shouldResume = resume && hudInspectWasPlaying && frameAvailable();
   hudDetailsOpen = false; hudInspectWasPlaying = false; hudDetailsPage = 0;
+  sharedControls.update(undefined, ''); router.seedAll();
+  if (controlsWereOpen) queueMicrotask(() => controlsDisclosure.focus({ preventScroll: true }));
   if (shouldResume) { sessionPaused = false; game.resume(); activateNativeKeyboard(); }
 }
 function itemCharge(seat: SeatId) { return localSession?.consumableSnapshot()?.charges.find(charge => charge.seat === seat); }
@@ -453,6 +457,21 @@ const hand = createRunHand({
   },
   onSell: result => { if (result.ok) game.syncEffects(); updateHud(); },
 });
+let presentationTop = 0;
+const controlsDisclosure = document.createElement('button'); controlsDisclosure.id = 'session-controls-open'; controlsDisclosure.type = 'button'; controlsDisclosure.textContent = 'Controls'; controlsDisclosure.hidden = true;
+el('app').append(controlsDisclosure);
+const sharedControls = createSharedControlPages({ root: el('session-seats'),
+  play: [el('character-call')],
+  tools: [el('sound-toggle'), el('pause'), el('collection')], hand: el('run-inventory'),
+  change: delta => { hudDetailsPage = 4 + (hudDetailsPage - 4 + delta + sharedControls.pageCount()) % sharedControls.pageCount(); router.seedAll(); updateHud(); },
+  close: () => { closeHudInspection(); updateHud(); },
+});
+controlsDisclosure.onclick = () => {
+  if (!localSession?.running || !frameAvailable()) return;
+  hudInspectWasPlaying = displayedRunState() === 'playing'; hudDetailsOpen = true; hudDetailsPage = 4;
+  if (hudInspectWasPlaying) { sessionPaused = true; game.pause(); }
+  router.seedAll(); updateHud(); queueMicrotask(() => visibleModalControls(sharedControls.root)[0]?.focus({ preventScroll: true }));
+};
 const pauseUI = createPauseUI();
 const runMenuUI = createRunMenuUI();
 const surviveResultsRoot = document.createElement('section'); surviveResultsRoot.id = 'survive-results-root'; el('app').append(surviveResultsRoot);
@@ -538,7 +557,7 @@ const router: GamepadRouter = new GamepadRouter({
     }
     if (hudDetailsOpen) {
       if (seat !== hudSelected) return false;
-      const tile = el('session-seats').querySelector<HTMLElement>(`[data-seat="${hudSelected}"]`);
+      const tile = inspectionRoot();
       if (tile) navigateModalControls(tile, direction);
       return true;
     }
@@ -579,9 +598,9 @@ const router: GamepadRouter = new GamepadRouter({
     }
     if (hudDetailsOpen) {
       if (seat !== hudSelected) return;
-      const tile = el('session-seats').querySelector<HTMLElement>(`[data-seat="${hudSelected}"]`);
+      const tile = inspectionRoot();
       if (action === 'confirm' && tile) confirmModal(tile);
-      else if (action === 'back' || action === 'pause') { closeHudInspection(); updateHud(); }
+      else if (action === 'back' || action === 'pause') { if (hand.isOpen()) hand.close(); else if (market.isOpen()) market.close(); else if (!el('drawer').hidden) closeDrawer(); else closeHudInspection(); updateHud(); }
       return;
     }
     // A shoulder market action intentionally changes the displayed owner; the
@@ -880,6 +899,7 @@ function runGoal(): string {
   switch (progress.runs % 3) { case 0: return 'Little goal: reach 25 hops this run.'; case 1: return 'Little goal: find 3 coins this run.'; default: return 'Little goal: reach the next world at 32 hops.'; }
 }
 function reset(launch?: GameLaunch): void {
+  closeHudInspection(false);
   raceResults.hide(); race = undefined; stagingRace = false;
   surviveResults.hide();
   deactivateNativeKeyboard(); sessionCalls.clear();
@@ -1004,6 +1024,11 @@ function updateHud(): void {
     }
   }
   const seats = el('session-seats');
+  const controlsPage = hudDetailsOpen && hudDetailsPage >= 4 ? hudDetailsPage - 4 : undefined;
+  controlsDisclosure.hidden = !localSession?.running || !!terminalResult || hudDetailsOpen || !frameAvailable();
+  controlsDisclosure.setAttribute('aria-label', `Controls for ${selectedOwnerLabel() ?? hudSelected.toUpperCase()}`);
+  seats.dataset.controlsInspect = String(controlsPage !== undefined);
+  seats.dataset.controlsChild = String(controlsPage !== undefined && (market.isOpen() || !el('drawer').hidden || !!recoveryBoard || !!lifecycleBoard));
   seats.hidden = !localSession?.running || terminalResult?.mode === 'survive-together';
   if (localSession?.running) {
     const roster = localSession.players.map(player => `${player.seat}:${player.characterId}:${player.device}`).join('|');
@@ -1078,6 +1103,8 @@ function updateHud(): void {
     if (race) renderRaceHud(seats, race);
     else seats.querySelectorAll('.race-distance, .race-lifecycle').forEach(node=>node.remove());
   } else if (sessionHudRoster) { sessionHudRoster = ''; seats.replaceChildren(); }
+  if (!seats.contains(sharedControls.root)) seats.append(sharedControls.root);
+  sharedControls.update(seats.dataset.controlsChild === 'true' ? undefined : controlsPage, selectedOwnerLabel() ?? hudSelected.toUpperCase());
   el('score').textContent = String(game.maxY); el('coins').textContent = String(game.run.wallet);
   el('best').textContent = `${game.mode === 'stroll' ? 'STROLL BEST' : 'BEST'} ${game.mode === 'stroll' ? progress.strollBest : progress.best}`;
   const currentChapter = Math.floor(game.maxY / 32);
@@ -1091,9 +1118,10 @@ function updateHud(): void {
   const state = displayedRunState();
   const ownerRun = selectedOwnerRun();
   const ownerCharge = itemCharge(hudSelected);
-  hand.update({ visible: !terminalResult && !localStage && ownerRun.alive && (state === 'playing' || state === 'paused') && (!!relay || !!race || ownerRun.cards.length > 0 || ownerRun.isOpen || Boolean(ownerCharge?.revival || ownerCharge?.flare)) && !(import.meta.env.DEV && devTools?.isOpen), reduced: progress.reduced || mediaQuery.matches });
+  hand.update({ visible: !terminalResult && !localStage && ownerRun.alive && (state === 'playing' || state === 'paused') && (controlsPage !== undefined && controlsPage >= 2 || !!relay || !!race || ownerRun.cards.length > 0 || ownerRun.isOpen || Boolean(ownerCharge?.revival || ownerCharge?.flare)) && !(import.meta.env.DEV && devTools?.isOpen), reduced: progress.reduced || mediaQuery.matches });
   seedUI.update(state === 'dead' && !presentingDeathSpill() ? game.seedCode : null);
-  el<HTMLButtonElement>('character-call').disabled = progress.muted || (state !== 'ready' && state !== 'playing');
+  el<HTMLButtonElement>('character-call').disabled = progress.muted || (controlsPage === 0 ? !hudInspectWasPlaying || !localSession?.canAct(hudSelected) : state !== 'ready' && state !== 'playing');
+  if (controlsPage === 0) { const owner = selectedSessionOwner(); if (owner) { const character = characterById(owner.characterId); el('character-call').textContent = character.callLabel; el('character-call').setAttribute('aria-label', `Make ${owner.seat.toUpperCase()} ${character.name} ${character.callLabel}`); } } else updateCallControl();
   const viewState = `${state}:${Boolean(selectedOwnerRun().pendingPack)}:${Boolean(localStage)}:${Boolean(localSession)}`;
   if (viewState !== previousState) {
     if (state === 'paused') audio.stop();
@@ -1446,8 +1474,8 @@ function moveLocal(seat: SeatId, direction: Direction): void {
   audio.unlock(); if (localSession.dispatch({ seat, direction })) audio.play('hop'); updateHud();
 }
 function localSetupKeydown(event: KeyboardEvent): void {
-  if (hudDetailsOpen && event.key === 'Tab') {
-    const tile = el('session-seats').querySelector<HTMLElement>(`[data-seat="${hudSelected}"]`);
+  if (hudDetailsOpen && event.key === 'Tab' && !hand.isOpen()) {
+    const tile = inspectionRoot();
     const controls = tile ? visibleModalControls(tile) : [];
     if (controls.length) { const current = controls.indexOf(document.activeElement as HTMLButtonElement); event.preventDefault(); controls[(current + (event.shiftKey ? -1 : 1) + controls.length) % controls.length]!.focus({ preventScroll: true }); }
     return;
@@ -1545,7 +1573,7 @@ function confirmMenu(): void {
 function togglePause(): void {
   if (!frameAvailable() || localStage) return;
   if (recoveryBoard || lifecycleBoard || !surviveResultsRoot.hidden) return;
-  if (hudDetailsOpen) { closeHudInspection(); updateHud(); return; }
+  if (hudDetailsOpen) { const controls = hudDetailsPage >= 4; closeHudInspection(!controls); if (controls) play(); updateHud(); return; }
   if (hand.close()) return;
   if (market.isOpen()) { market.close(); return; }
   if (!el('drawer').hidden) return;
@@ -1574,13 +1602,13 @@ function closeDrawer(): void {
   audio.stop(); el('drawer').hidden = true; collectionUI.update();
   if (restoreAfterDrawer && !document.hidden && localFocus && innerWidth >= 240 && innerHeight >= 240) { audio.unlock(); game.resume(); }
   restoreAfterDrawer = false; updateHud();
-  el(game.state === 'playing' ? 'collection' : 'play').focus({ preventScroll: true });
+  el(hudDetailsOpen || game.state === 'playing' ? 'collection' : 'play').focus({ preventScroll: true });
 }
 function backMenu(): void {
   if (recoveryBoard) { closeRecoveryBoard(false); return; }
   if (lifecycleBoard) { closeLifecycleBoard(); return; }
   if (!surviveResultsRoot.hidden) { navigateModalControls(surviveResultsRoot, 'back'); return; }
-  if (hudDetailsOpen) { closeHudInspection(); updateHud(); return; }
+  if (hudDetailsOpen) { if (hand.isOpen()) hand.close(); else if (market.isOpen()) market.close(); else if (!el('drawer').hidden) closeDrawer(); else closeHudInspection(); updateHud(); return; }
   if (localStage) { backToSolo(); return; }
   if (hand.close()) return;
   if (market.isOpen()) market.close();
@@ -1591,7 +1619,7 @@ function backMenu(): void {
 }
 el('play').addEventListener('click', play); el('pause').addEventListener('click', togglePause); el('collection').addEventListener('click', openDrawer); el('choose').addEventListener('click', openDrawer); el('close-drawer').addEventListener('click', closeDrawer);
 el('local-play').addEventListener('click', () => openLocalPlay());
-el('character-call').addEventListener('click', callCharacter);
+el('character-call').addEventListener('click', () => { if (hudDetailsOpen && hudDetailsPage === 4) { const seat = hudSelected; closeHudInspection(); updateHud(); callSessionCharacter(seat); } else callCharacter(); });
 el('character-call').addEventListener('pointerdown', () => audio.unlock());
 el('mode').addEventListener('click', () => { changedPreferences.add('mode'); progress.mode = game.mode === 'arcade' ? 'stroll' : 'arcade'; reset(); persist(); });
 el<HTMLInputElement>('reduced-motion').addEventListener('change', event => { changedPreferences.add('reduced'); progress.reduced = (event.target as HTMLInputElement).checked; persist(); });
@@ -1692,7 +1720,12 @@ function frame(now: number): void {
     progress.reduced || mediaQuery.matches);
   soundscape.update(game, !progress.muted && !document.hidden && !market.isOpen() && el('drawer').hidden && innerWidth >= 240 && innerHeight >= 240);
   renderer.reduced = progress.reduced || mediaQuery.matches;
-  if (localSession?.running) renderer.drawSession(localSession.world, localSession.views(), sessionAdvancing ? dt : 0, race ? racePresentation(race) : undefined); else renderer.draw(game, progress.selected, localStage ? 0 : dt);
+  if (localSession?.running) {
+    const bounded = frameAvailable() && innerWidth < 480 && innerHeight <= 319;
+    if (!hudDetailsOpen) presentationTop = el('session-seats').getBoundingClientRect().bottom;
+    const top = presentationTop;
+    renderer.drawSession(localSession.world, localSession.views(), sessionAdvancing ? dt : 0, race ? racePresentation(race) : undefined, bounded ? { top: top + 11, bottom: innerHeight - 60 } : undefined);
+  } else renderer.draw(game, progress.selected, localStage ? 0 : dt);
   if(race)renderRaceEdges(raceEdges,race,renderer);else raceEdges.replaceChildren();
   updateHud(); el('toast').textContent = now < toastUntil && !(game.state === 'playing' && game.warning) ? toastMessage : '';
   if (import.meta.env.DEV) devTools?.update();
@@ -1758,5 +1791,5 @@ async function boot(): Promise<void> {
   }
   if (runtimeHasDomain('keys')) await Promise.all(shellShortcutDefinitions.map(registerShellShortcut));
 }
-window.addEventListener('pagehide', () => { if (disposed) return; disposed = true; disposeRelayResults?.(); disposeRelayResults = undefined; surviveResults.dispose(); deactivateNativeKeyboard(); localSession?.stop(); localStage?.cancel(); localStage = undefined; document.removeEventListener('keydown', localSetupKeydown, true); document.removeEventListener('keydown', nativeKeyboardKeydown); document.removeEventListener('keyup', nativeKeyboardKeyup); sessionKeyboardEditor.dispose(); if (import.meta.env.DEV) devTools?.dispose(); game.closeMarket(false); gamepad.close(); router.close(); market.dispose(); pauseUI.dispose(); runMenuUI.dispose(); collectionUI.dispose(); hand.dispose(); seedUI.dispose(); sounds.dispose(); cancelAnimationFrame(raf); observer.disconnect(); bindings.forEach(b => b.close()); for (const lease of shellShortcutLeases.values()) lease.close(); shellShortcutLeases.clear(); });
+window.addEventListener('pagehide', () => { if (disposed) return; disposed = true; disposeRelayResults?.(); disposeRelayResults = undefined; surviveResults.dispose(); deactivateNativeKeyboard(); localSession?.stop(); localStage?.cancel(); localStage = undefined; document.removeEventListener('keydown', localSetupKeydown, true); document.removeEventListener('keydown', nativeKeyboardKeydown); document.removeEventListener('keyup', nativeKeyboardKeyup); sessionKeyboardEditor.dispose(); if (import.meta.env.DEV) devTools?.dispose(); game.closeMarket(false); gamepad.close(); router.close(); market.dispose(); pauseUI.dispose(); runMenuUI.dispose(); collectionUI.dispose(); sharedControls.dispose(); controlsDisclosure.remove(); hand.dispose(); seedUI.dispose(); sounds.dispose(); cancelAnimationFrame(raf); observer.disconnect(); bindings.forEach(b => b.close()); for (const lease of shellShortcutLeases.values()) lease.close(); shellShortcutLeases.clear(); });
 void boot();

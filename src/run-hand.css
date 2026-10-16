@@ -93,3 +93,64 @@
   #app .run-hand-card, #app .run-hand-empty { width: 68px; }
   #app #run-hand-detail { width: calc(100vw - 16px); padding-inline: 6px; }
 }
+
+/* The shared compact controls use the existing inspection authority and move
+   the original nodes here. The solo hand and its DOM order stay unchanged. */
+#session-controls-open { display: none; }
+#app #session-seats[data-controls-inspect="true"] > * { display: none; }
+#app #session-seats[data-controls-inspect="true"] > #session-control-pages:not([hidden]) {
+  display: grid; grid-column: 1/-1; grid-template-rows: 24px minmax(88px,1fr) 44px 44px;
+  gap: 4px; padding: 4px; background: var(--session-paper); color: var(--session-ink); border: 2px solid var(--session-edge); min-height: 0;
+}
+#session-controls-owner { margin: 0; font: 400 20px/24px var(--game-font); text-align: center; }
+#session-control-pages .session-controls-content { display: flex; flex-wrap: wrap; align-content: center; justify-content: center; gap: 4px; min-height: 0; }
+#app #session-control-pages button { pointer-events: auto; min-width: 44px; min-height: 44px; height: 44px; padding: 0 4px; background: var(--session-paper); color: var(--session-ink); border: 2px solid var(--session-edge); font: 400 16px/1 var(--game-font); }
+#session-control-pages nav { display: grid; grid-template-columns: 44px minmax(0,1fr) 44px; gap: 4px; align-items: center; text-align: center; font: 400 16px/1 var(--game-font); }
+#app #session-control-pages #run-inventory { visibility: visible; position: static; inset: auto; transform: none; height: 88px; width: 100%; gap: 4px; flex-wrap: wrap; align-content: center; }
+#app #session-control-pages #run-card-count { display: none; }
+#app #session-control-pages #run-hand-owner { position: static; transform: none; width: 100%; height: 44px; }
+#app #session-control-pages #run-hand-items { position: static; transform: none; height: 44px; width: auto; gap: 4px; }
+#app #session-control-pages #run-cards { height: 44px; padding: 0; border: 0; filter: none; gap: 4px; }
+#app #session-control-pages .run-hand-art, #app #session-control-pages .run-hand-empty { display: none; }
+#app #session-control-pages .run-hand-card { height: 44px; width: 44px; transform: none; }
+@media (max-width: 479px), (max-height: 419px) {
+  #app:has(#session-seats:not([hidden])) { --hand-space: 0px; }
+  #app:has(#session-seats:not([hidden])) .hud-tools,
+  #app:has(#session-seats:not([hidden])) #run-inventory:not([data-embedded-controls]),
+  #app:has(#session-seats:not([hidden])) .play-controls > #character-call { display: none; }
+  #app:has(#session-seats:not([hidden])) .bottom-bar { inset: auto 56px 8px 8px; height: 44px; justify-content: flex-start; }
+  #app:has(#session-seats:not([hidden])) .dpad { gap: 0; }
+  #app:has(#session-seats:not([hidden])) .dpad button { width: 44px; min-width: 44px; height: 44px; padding: 0; }
+  #app:has(#session-seats:not([hidden])) #hint { display: none; }
+  #app #session-controls-open:not([hidden]) { display: block; position: absolute; right: 8px; bottom: 8px; width: 44px; min-height: 44px; padding: 0; font: 400 16px/1 var(--game-font); overflow-wrap: anywhere; z-index: 6; background: var(--game-paper); color: var(--game-ink); }
+}
+#app #session-seats[data-session-hud-inspect="true"][data-controls-inspect="true"] > :not(#session-control-pages) { display: none; }
+#app #session-seats[data-session-hud-inspect="true"][data-controls-inspect="true"] { grid-template-columns: minmax(0,1fr); grid-template-rows: minmax(0,1fr); padding: 0; gap: 0; }
+#app #session-seats #session-control-pages #run-inventory { visibility: visible; }
+@media (max-width: 479px), (max-height: 419px) {
+ #app:has(#session-seats:not([hidden])) .bottom-bar { left: 4px; right: 60px; }
+ #app #session-controls-open:not([hidden]) { right: 4px; width: 56px; overflow-wrap: normal; }
+}
+#app #session-seats #session-control-pages #run-inventory { display: grid; grid-template-columns: 44px minmax(0,1fr) 44px; grid-template-rows: 44px 44px; gap: 0; align-content: start; align-items: stretch; }
+#app #session-seats #session-control-pages #run-hand-owner { grid-column: 1/-1; grid-row: 1; margin: 0; }
+#app #session-seats #session-control-pages #run-cards { grid-column: 2; grid-row: 2; }
+#app #session-seats #session-control-pages #run-hand-prev { grid-column: 1; grid-row: 2; }
+#app #session-seats #session-control-pages #run-hand-next { grid-column: 3; grid-row: 2; }
+#app #session-seats #session-control-pages #run-hand-items { grid-column: 1/-1; grid-row: 2; margin: 0; }
+#app #session-seats #session-control-pages #run-inventory[data-embedded-controls="hand"]:not([data-gear-only="true"]) #run-hand-items,
+#app #session-seats #session-control-pages #run-inventory[data-embedded-controls="items"] :is(#run-cards,#run-hand-prev,#run-hand-next),
+#app #session-seats #session-control-pages #run-hand-owner-note { display: none; }
+#app #session-seats[data-controls-child="true"] { visibility: hidden; }
+#app #session-control-pages:has(#run-hand-detail:not([hidden])) > :is(h2,nav,button) { visibility: hidden; }
+#app #session-control-pages #run-hand-detail:not([hidden]) { position: fixed; inset: 4px; width: auto; height: auto; transform: none; visibility: visible; }
+@media(min-width:480px) and (min-height:420px) {
+ #app:has(#session-seats:not([hidden])) #run-inventory:not([data-embedded-controls]):has(#run-hand-owner):has(#run-hand-items) { height: 88px; padding: 0; bottom: 8px; display: flex; flex-wrap: wrap; justify-content: center; align-content: start; gap: 0 8px; }
+ #app:has(#session-seats:not([hidden])) #run-inventory:not([data-embedded-controls]):has(#run-hand-owner):has(#run-hand-items) #run-hand-owner { position: static; transform: none; height: 44px; flex: 0 0 100%; width: auto; }
+ #app:has(#session-seats:not([hidden])) #run-inventory:not([data-embedded-controls]):has(#run-hand-owner):has(#run-hand-items) :is(#run-cards,#run-hand-items) { position: static; height: 44px; padding: 0; border: 0; filter: none; flex: 0 1 auto; }
+ #app:has(#session-seats:not([hidden])) #run-inventory:not([data-embedded-controls]) :is(.run-hand-card,.run-hand-empty) { height: 44px; min-height: 44px; }
+ #app:has(#session-seats:not([hidden])) #run-inventory:not([data-embedded-controls]) .run-hand-art { display: none; }
+}
+@media(min-width:480px) and (min-height:420px) {
+ #app:has(#session-seats:not([hidden])) #run-inventory:not([data-embedded-controls]):has(#run-hand-owner):has(#run-hand-items) { padding-top: 44px; flex-wrap: nowrap; }
+ #app:has(#session-seats:not([hidden])) #run-inventory:not([data-embedded-controls]):has(#run-hand-owner):has(#run-hand-items) #run-hand-owner { position: absolute; top: 0; bottom: auto; left: 50%; transform: translateX(-50%); width: auto; max-width: 50%; }
+}

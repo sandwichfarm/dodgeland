@@ -30,7 +30,8 @@ export function renderRelayHud(root: HTMLElement, relay: RelayCoordinator): void
     const active = player.seat === state.activeSeat;
     tile.dataset.relayActive = String(active);
     const status = player.participation === 'departed' ? 'departed' : !state.connections[player.seat] ? 'disconnected' : player.participation === 'dead' ? 'down' : active ? 'RUNNING' : player.seat === state.incomingSeat ? 'NEXT' : 'waiting';
-    setCopy(tile.querySelector('[data-session-hud="identity"]')!, relayIdentity(player.seat, player.characterId));
+    setCopy(tile.querySelector('[data-session-hud="identity"]')!, innerWidth <= 479 || innerHeight <= 419 ? `${player.seat.toUpperCase()} ${marker(player.seat)}` : relayIdentity(player.seat, player.characterId));
+    setCopy(tile.querySelector('.session-hud-summary')!, `${characterById(player.characterId).name} · ${player.health}/${player.maxHealth} · ${status}`);
     setCopy(tile.querySelector('[data-session-hud="device"]')!, status);
     setCopy(tile.querySelector('[data-session-hud="power"]')!, `Power · ${100 - player.powerRemaining}/100 tiles`);
     const recovery = player.recovery;

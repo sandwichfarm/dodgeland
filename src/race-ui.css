@@ -244,3 +244,15 @@
  #app #session-seats:has([data-race-hud]):not([data-session-hud-inspect="true"]) { grid-template-columns: repeat(4,minmax(0,1fr)); }
  #app #session-seats:has([data-race-hud]) .race-distance { height: auto; min-height: 20px; line-height: 20px; }
 }
+@media (max-width:479px),(max-height:419px) {
+ #app #session-seats:has([data-race-hud]):not([data-session-hud-inspect="true"]) { gap: 0; }
+}
+@media(min-width:480px) and (max-height:419px) {
+ #app #session-seats:has([data-race-hud]):not([data-session-hud-inspect="true"]) .race-distance { position: absolute; right: 0; bottom: 0; width: 50%; margin: 0; }
+}
+@media(min-width:1600px) and (min-height:900px) {
+ #app #session-seats [data-race-hud] .session-hud-details { padding-block: 2px; }
+}
+#app #session-seats[data-session-hud-inspect="true"] [data-race-hud].session-hud-selected { grid-column: 1/-1; }
+#app #session-seats[data-session-hud-inspect="true"] [data-race-hud] .session-hud-pager,
+#app #session-seats[data-session-hud-inspect="true"] [data-race-hud] .session-hud-close { grid-area: auto; grid-column: 1/-1; }

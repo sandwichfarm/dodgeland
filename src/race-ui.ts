@@ -58,6 +58,8 @@ export function renderRaceHud(root: HTMLElement, race: RaceCoordinator): void {
     tile.querySelector('[data-session-hud="identity"]')!.setAttribute('aria-label',`${name} ${player.marker} ${characterById(player.characterId).name}, ${player.health}/${player.maxHealth} feathers, ${state}, ${player.earnedDistance===race.leaderFrontier?'Leader, ':''}${fog.textContent}`);
 
     tile.querySelector<HTMLElement>('[data-session-hud="lifecycle"]')!.textContent=state==='disconnected-grace'?`${name} disconnected · reclaim ${Math.ceil(race.graceRemaining(player.seat))}s`:state==='forfeited'?`${name} forfeited.`:state==='departed'?`${name} departed · DNF`:state==='finished'?'FINISHED':state==='recovery-offered'?'Personal revival offered':state==='eliminated'?'Eliminated · DNF':'Racing';
+    const compact = innerWidth <= 479 || innerHeight <= 419;
+    tile.querySelector<HTMLElement>('.session-hud-summary')!.textContent = `${compact ? `${characterById(player.characterId).name} · ` : ''}${player.health}/${player.maxHealth} · ${tile.querySelector('[data-session-hud="lifecycle"]')!.textContent}`;
     const leave=tile.querySelector<HTMLButtonElement>('[data-session-hud="item"]')!;leave.textContent='Leave Race';leave.disabled=player.deviceLostAt!==null||['finished','forfeited','departed'].includes(state);
     const revive=tile.querySelector<HTMLButtonElement>('[data-session-hud="revive"]')!;revive.disabled=state!=='recovery-offered';
     let decline=tile.querySelector<HTMLButtonElement>('[data-race-decline]');

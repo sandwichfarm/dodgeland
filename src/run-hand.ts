@@ -6,6 +6,37 @@ import type { HeldCard, MarketResult } from './market/types.js';
 const visible = (node: HTMLElement): boolean => !node.closest('[hidden]') && node.getClientRects().length > 0;
 const focus = (node?: HTMLElement | null): void => { if (node && visible(node)) node.focus({ preventScroll: true }); };
 
+/** Reparent existing controls for a bounded shared inspection; never clone a
+ * transaction button or hand. Placeholders preserve the exact solo DOM order. */
+export function createSharedControlPages(options: { root: HTMLElement; play: HTMLElement[]; tools: HTMLElement[]; hand: HTMLElement; change(delta: number): void; close(): void }) {
+  const root = document.createElement('section'); root.id = 'session-control-pages'; root.hidden = true;
+  const heading = document.createElement('h2'); heading.id = 'session-controls-owner';
+  const content = document.createElement('div'); content.className = 'session-controls-content';
+  const nav = document.createElement('nav'); nav.setAttribute('aria-label', 'Control pages');
+  const label = document.createElement('span'); label.setAttribute('aria-live', 'polite');
+  const previous = document.createElement('button'); previous.type = 'button'; previous.textContent = '‹'; previous.setAttribute('aria-label', 'Previous controls'); previous.onclick = () => options.change(-1);
+  const next = document.createElement('button'); next.type = 'button'; next.textContent = '›'; next.setAttribute('aria-label', 'Next controls'); next.onclick = () => options.change(1);
+  const close = document.createElement('button'); close.type = 'button'; close.textContent = 'Close controls'; close.onclick = options.close;
+  nav.append(previous, label, next); root.append(heading, content, nav, close); options.root.append(root);
+  const homes = new Map<HTMLElement, Comment>();
+  for (const node of [...options.play, ...options.tools, options.hand]) { const home = document.createComment('shared control home'); node.before(home); homes.set(node, home); }
+  let mounted = -1;
+  function restore() { for (const [node, home] of homes) home.after(node); delete options.hand.dataset.embeddedControls; }
+  return { root,
+    pageCount: () => options.hand.dataset.gearOnly === 'true' ? 3 : 4,
+    update(page: number | undefined, owner: string) {
+      heading.textContent = owner;
+      if (page === undefined) { if (mounted !== -1) restore(); mounted = -1; root.hidden = true; return; }
+      root.hidden = false; root.dataset.page = String(page); label.textContent = ['Play', 'Tools', options.hand.dataset.gearOnly === 'true' ? 'Gear' : 'Hand', 'Items'][page]!;
+      if (mounted === page) return;
+      restore(); mounted = page;
+      if (page >= 2) { options.hand.dataset.embeddedControls = page === 3 ? 'items' : 'hand'; content.append(options.hand); }
+      else content.append(...(page === 0 ? options.play : options.tools));
+    },
+    dispose() { restore(); root.remove(); for (const home of homes.values()) home.remove(); },
+  };
+}
+
 /** Shared with the surrounding boards, so the hand is part of their focus order. */
 export function runHandControls(): HTMLElement[] {
   const root = document.getElementById('run-inventory');
@@ -91,6 +122,7 @@ export function createRunHand(options: RunHandOptions) {
 
   function paintHand(force = false) {
     const run = options.getRun(), gear=options.getGear?.(), slots = gear?0:Math.max(run.cards.length, run.cardCapacity);
+    root.dataset.gearOnly = String(Boolean(gear));
     const charges = options.getItems?.();
     const canUseItems = options.canUseItems?.() ?? true;
     const width = Math.max(0, root.clientWidth), short = app.clientHeight < 420;
