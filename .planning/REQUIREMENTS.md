@@ -84,7 +84,7 @@ behavior is implemented, verified and committed.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | ARCH-01 | Phase 1 | Complete |
-| ARCH-02 | Phase 5 | Pending |
+| ARCH-02 | Phase 5 | Partial: exact executable multiplayer example05-01; remaining Race handlers pending |
 | ARCH-03 | Phase 2 | Complete |
 | ARCH-04 | Phase 1 | Complete |
 | SOLO-01 | Phase 1 | Complete |
@@ -112,7 +112,7 @@ behavior is implemented, verified and committed.
 | RELAY-03 | Phase 4 | Complete |
 | RELAY-04 | Phase 4 | Complete |
 | RELAY-05 | Phase 4 | Complete |
-| RACE-01 | Phase 5 | Pending |
+| RACE-01 | Phase 5 | Partial: validated setup/shared-course tracer05-01; full clock/terminal evidence pending |
 | RACE-02 | Phase 5 | Pending |
 | RACE-03 | Phase 5 | Pending |
 | RACE-04 | Phase 5 | Pending |

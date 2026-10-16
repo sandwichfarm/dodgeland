@@ -14,6 +14,7 @@ key-files:
   created: [src/race.ts, src/race-ui.ts, src/race-ui.css, tests/race-tracer.mjs]
   modified: [src/session.ts, src/main.ts, docs/mode-rules.md, tests/mode-authoring.test.mjs]
 completed: 2026-10-16
+duration: 35 min
 ---
 
 # Phase 05 Plan 01: Validated Race tracer and executable authoring
@@ -45,7 +46,7 @@ Entry HEAD is `7f78ac7`; source baseline is `52f8e0d`. `git diff 52f8e0d HEAD --
 
 Preflight was recorded before the first Race test or production edit. All three tasks are complete. Final command `70346` exited 0 on production source `67eb0d3`, with whole-command log `/tmp/down-to-duck-05-01-final-gate.log`. It ran full `pnpm test:phase3`, the remaining exact Relay Gate 6 commands, then `node --test tests/mode-authoring.test.mjs tests/race-tracer.mjs && pnpm type-check && pnpm build`. Counts include solo 21, solo regressions 272, shared models 73, recovery 44, Survive browser 34, Relay 65, Relay runtime 12, Relay layout 1 with 252 captures, and authoring/Race 12; all passed. Guidance 6/6, conformance 5 pass/0 fail/5 unmeasured and immutable-oracle lockfile check passed. Phase completion remains reserved for independent verification.
 
-After that gate, a test-only strengthening explicitly checked every racer's zero earned tiles after keyboard Start and held controller-confirm Start. Production source stayed unchanged. Full Race tracer command `23683` exited 0, 6/6, log `/tmp/down-to-duck-05-01-start-edge-final.log`. No build/browser/test process remains active.
+After that gate, test-only commit `3fc13d1` explicitly checked every racer's zero earned tiles after keyboard Start and held controller-confirm Start. Production source stayed unchanged. Full Race tracer command `23683` exited 0, 6/6, log `/tmp/down-to-duck-05-01-start-edge-final.log`. No build/browser/test process remains active.
 
 ## Implemented tasks and retained RED/GREEN evidence
 

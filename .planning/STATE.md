@@ -3,23 +3,23 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Phase04 independently verified; beginning Race05-01
-last_updated: "2026-10-16T04:15:51.044Z"
+stopped_at: Completed 05-01-PLAN.md; next 05-02
+last_updated: "2026-10-16T04:50:39.382Z"
 progress:
   total_phases: 7
   completed_phases: 4
   total_plans: 31
-  completed_plans: 24
+  completed_plans: 25
 current_phase: 05
 current_phase_name: race
-last_activity_desc: Relay verified34/34 on52f8e0d; review clean; Race05-01 next.
+last_activity_desc: Race05-01 complete; source67eb0d3, full gate70346 exit0; execute05-02 next.
 ---
 
 # Project State
 
 ## Current Position
 
-Phase05 Race begins with seven reviewed plans. Phases01–04 independently verified; Relay34/34 and code review clean after CR-01 keyboard/controller handoff repair52f8e0d. Exact Gate6 session89260 exit0 covers inherited Phase2/3, Relay65/65, runtime12/12 and252 layout captures. Independent controls3/3, invariants3/3 and actual-input49/50/51 continuity1/1 passed. See04-VERIFICATION.md and04-REVIEW-REPAIR.md. Race, cross-mode presentation and release/PR remain mandatory. Original scope: USER-REQUEST.md and REQUIREMENTS.md. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
+Race05-01 is complete; execute05-02 next. All three task gates passed. Final combined70346 exit0 on source67eb0d3 includes full Phase2/3, exact Relay Gate6 and authoring/Race12/12; `/tmp/down-to-duck-05-01-final-gate.log`. Test-only held-controller Start strengthening3fc13d1 passed Race6/6 in23683 without changing production source. See05-01-SUMMARY.md for pre-edit API reconciliation, commits, actual setup/result captures and limits. Phases01–04 remain independently verified. Race05-02..07, cross-mode presentation, audit and PR remain mandatory. Actual tracking is4 completed phases and25/31 plans; generated CLI counts were corrected. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
 
 ## Accepted Relay Entry Evidence
 
@@ -73,14 +73,17 @@ Typed gsd-verifier stayed pending_init across multiple turns and was explicitly 
 | Phase 04 P04 | 31 min | 2 tasks | 9 files |
 | Phase 04 P05 | 32 min | 2 tasks | 9 files |
 | Phase 04 P06 | 100 min | 2 tasks | 7 files |
+| Phase 05 P01 | 35 min | 3 tasks | 8 files |
 
 ## Session
 
-**Last session:** 2026-10-16T03:50:09.857Z
-**Stopped at:** Completed 04-06-PLAN.md; awaiting independent Relay verification
+**Last session:** 2026-10-16T04:50:39.375Z
+**Stopped at:** Completed 05-01-PLAN.md; next 05-02
 **Resume file:** None
 
 ## Decisions
+
+- [Phase 05]: Race reuses one LocalSession world and generic settled-tick handlers; first finishers stop acting while remaining racers continue. The exact documented practice factory executes all lifecycle callbacks without core input/renderer changes. Full Race lifecycle, fog, items and ranking remain subsequent plans.
 
 - [Phase 04]: Relay recovery offers precede skip; explicit owner departure is separately confirmed, and reclaim invalidates stale skip prompts.
 - [Phase 04]: Relay captures pre-clear death credit while personal recovery retains the same leg; dropout selects immediately but fresh confirmation opens the next leg, and unconfirmed skips remain participant events.
