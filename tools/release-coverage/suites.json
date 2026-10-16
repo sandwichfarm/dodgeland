@@ -520,6 +520,33 @@
         }
       ],
       "provenance": "Complete original eight Race acquisitions, all35states/420cells, bounded sequential stages and canonical source-bound realms"
+    },
+    "relay-layout-12": {
+      "files": [
+        "tests/relay-layout.mjs"
+      ],
+      "roles": {
+        "tests/relay-layout.mjs": "browser"
+      },
+      "browser": true,
+      "jobs": [
+        {
+          "id": "relay-layout",
+          "file": "tests/relay-layout.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "defaultBuildScope": "production",
+          "artifactPatterns": [
+            "artifacts/relay-layout",
+            "artifacts/relay-layout/contact-*.png",
+            "artifacts/relay-layout/index.html",
+            "artifacts/relay-layout/report.json"
+          ]
+        }
+      ],
+      "provenance": "Unchanged complete Relay layout diagnostic for measured aggregate deadline concern; original canonical realm and artifact preservation"
     }
   },
   "pendingAdapters": [
