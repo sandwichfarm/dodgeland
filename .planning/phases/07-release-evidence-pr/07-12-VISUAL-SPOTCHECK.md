@@ -105,3 +105,17 @@ Root inspected the following full-size bytes under `suite-artifacts/race-results
 | race-05-05-time-240.png |d667cf4e8f32e587ac6aca97cc4065423fe3beaec8eccd8686c65addd03ca8ae|The timeout page explicitly says Race time ended, displays the30.00s clock and both tied participants, with bounded navigation and retry.|
 
 Root read the acquisition code in `tests/race-results.test.mjs`. The viewed four-seat podiums use visible Local Play/Race setup, a one-tile finish entered through the production field, a public seeded intent, actual keyboard presses and authorized shell-controller snapshots. Ties use one controlled simulation tick; no private result/progress write creates the ranking. Timeout uses the visible30-second setting and the fixture's controlled clock. These are actual production input journeys in a controlled browser fixture, not physical-controller or long-course endurance evidence. The separate model cases in the same file explicitly arrange terrain/inventory and retain that distinction. The full collection, coverage floors and durable07-05 evidence remain pending.
+
+### Current Relay layout: handoff, disconnect and recovery
+
+Collection11460 passed `relay-layout` at23:31:27.488Z:5 tests, no failures/cancellations/skips,182315ms. Root independently checked all21 expected state names against the unchanged test contract and the exact six-frame/two-theme Cartesian product:252 unique cells, all named image files present, four stages, complete=true and empty errors/external/failures. Archived report SHA256: `5c20692d932de8d97e342c1850feb77df95c581f1fb87b777a38914540ec2002`.
+
+Root opened these full-size images under `suite-artifacts/relay-layout/artifacts/relay-layout/`:
+
+| Image | SHA256 | Visual observation |
+| --- | --- | --- |
+| handoff-240x240-dark.png |109d36914d15e143227df18a767b8b092b52af910ef8bdfa05fa378da436e1b0|Leg1 completion names P2 Sunny as next runner and presents Start P2's leg and View relay without clipped labels.|
+| disconnected-1000x280-light.png |fe7687017ec76feb6faed326fc995ba315b6158c102218f01a3fe9b0911647b3|The short board identifies P2's disconnected controller and keeps Skip P2 and Leave as P1 distinct and visible.|
+| recovery-app-motion-320x560-light.png |1cda11044a936e4b605df53ac261cd3bc5dc661180d9b4e543df8d93efb4b1c7|The recovery board identifies P1 Butter, explains the personal revive, and exposes revive, continue without revive and leave actions with full text.|
+
+Acquisition was checked in `tests/relay-layout.mjs`: visible setup selects the one-tile handoff interval; real keyboard movement completes the leg; authorized shell pad snapshots confirm the next runner and trigger disconnect/reclaim. The recovery case enables the actual reduced-motion setting, selects a999-tile leg and reaches a generated hazard using keyboard movement and the controlled clock; read-only observation detects the offer before the real Revive P1 control spends the charge. No private death/recovery write acquires this screen. These observations retain controlled-fixture provenance and do not establish native hardware behavior or complete release acceptance.
