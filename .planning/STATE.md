@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-12 Race results timing74790 terminal; bounded repair proposal awaiting authorization
-last_updated: "2026-10-16T20:29:07.663851+00:00"
+stopped_at: 07-12 Race results focused and paging-cancellation proof passed; runtime review pending
+last_updated: "2026-10-16T20:45:34.387766+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -16,6 +16,8 @@ last_activity_desc: Race matrix passed10/10; Race results14pass5cancel requires 
 ---
 
 # Project State
+
+Latest repair: Race-resultsdb0a596/6528a82 statically cleanb776c41; focused76544 exited0 with44/44, six complete scenarios/exact46cells, seven canonical payloads and required checks. Runtime negative83022 exited0 validating injected child1 after actual finish/dark paging, incomplete4cells/10captures, no checked ordered dispatch after abort, browser close before next acquisition, all later five cases complete. Artifact absence restored,89 historical temporary PNGs/dist unchanged. See07-12-RACE-RESULTS-REPAIR.md for exact logs/hashes/synthetic-delay limits. No active process; awaiting runtime review/root acceptance before separately scoped Relay-results diagnostic. Full report/floors and07-12 remain incomplete.
 
 Latest diagnostic: unchanged Race-results74790 exited1 (17pass/2cancel), run423a3c5f-b707-47df-bc76-f7287d552e7a. Main90s expires during real paging and continues until cleanup; time30s crosses deadline in coverage/close. Exact timing and overlap documented in07-12-RACE-RESULTS-DIAGNOSTIC.md.89 temporary PNGs restored with hashes, normal dist unchanged. No active process or test/production repair; bounded same-app stage/cancellation and explicit artifact preservation proposal awaits root authorization.
 
