@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { readFile, mkdtemp, rm } from 'node:fs/promises';
+import { readFile, writeFile, mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { buildInventory } from './inventory.mjs';
@@ -26,4 +26,16 @@ test('real shared session suites emit complete source-bound worker reports throu
   assert.deepEqual(manifest.expectedRealms,['tests/local-session.test.mjs','tests/session-world.test.mjs']);assert.equal(manifest.payloadCount,2);assert.equal(manifest.thresholdsEvaluated,false);assert.equal(manifest.status,'report-only');
   assert.ok(manifest.files.some(row=>row.path==='src/main.ts'));
  }finally{await rm(output,{recursive:true,force:true});}
+});
+
+test('coverage opt-in leaves default and immutable-oracle loader output untouched',async()=>{
+ const {compileSources}=await import('../../tests/source-loader.mjs');
+ const {extractPinnedBaseline}=await import('../../tests/solo-baseline.mjs');
+ const pinned=await extractPinnedBaseline();const output=await mkdtemp(join(tmpdir(),'coverage-oracle-'));
+ try{
+  const config=join(output,'config.json');await writeFile(config,JSON.stringify({inventoryPath:join(output,'must-not-be-read.json')}));
+  const baseline=await compileSources('game',{sourceDirectory:pinned.sourceDirectory,coverage:config});
+  assert.ok(baseline.size>0);for(const code of baseline.values())assert.doesNotMatch(code,/__coverage__/);
+  const ordinary=await compileSources('gamepad');assert.doesNotMatch(ordinary.get('/gamepad.js'),/__coverage__/);
+ }finally{await pinned.dispose();await rm(output,{recursive:true,force:true});}
 });

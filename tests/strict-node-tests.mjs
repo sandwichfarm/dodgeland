@@ -7,7 +7,8 @@ if (!files.length || files.some(file => file.startsWith('-'))) {
   console.error('Strict test gate requires explicit test file paths.');
   process.exit(2);
 }
-const result = spawnSync(process.execPath, ['--test', '--test-reporter=tap', ...files], {
+const preload = process.env.DOWN_TO_DUCK_COVERAGE_CONFIG ? ['--import', new URL('../tools/release-coverage/inventory.mjs', import.meta.url).href] : [];
+const result = spawnSync(process.execPath, [...preload, '--test', '--test-reporter=tap', ...files], {
   encoding: 'utf8', maxBuffer: 32 * 1024 * 1024,
 });
 if (result.stdout) process.stdout.write(result.stdout);
