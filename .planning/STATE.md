@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-12 collection51274 exited1 after63 jobs; compact pause CSS repair authorized
-last_updated: "2026-10-16T18:30:51Z"
+stopped_at: 07-12 full collection54934 active on pause repair f84a7f9
+last_updated: "2026-10-16T18:53:13.638814+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,10 +12,12 @@ progress:
   completed_plans: 40
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: 07-12 full run cleared prior layout failure, then found compact pause overflow; ordinary build confirms identical RED, narrow CSS repair authorized.
+last_activity_desc: Final ordinary and instrumented pause proof passed; independent review and root visual inspection accepted; complete collection54934 active, report pending.
 ---
 
 # Project State
+
+Current active execution: full collection **54934**, PID33009, run `485614b7-02bb-4d5c-bed3-06c728767c94`, log `/tmp/down-to-duck-07-12-full-collection-pause-fixed.log`, frozen source/test/tooling `f84a7f9`. Final focused18395 exited0: unchanged ordinary and instrumented pause suites each cover24 frame/theme combinations, all rules/powers/input/frozen-clock assertions; guidance7/7 and conformance5pass/0fail/5unmeasured. Type-check passed27409 before CSS-only refinements. Final instrumented focused run66ef71ae-9381-4a5e-9b89-868c42e57c6d contains one canonical realm. Root inspected final240px dark/light and320×560/900×600/2400×1200 captures; independent review9ce407b closes PR-01. All27 prior ordinary artifacts restored byte-for-byte. Superseded27409 exposed320×360 wrapping;10510 passed before home-only selector correction and is not final proof. No full report, coverage-floor or plan-completion claim yet. Historical inactive-process statements below refer to their respective checkpoints.
 
 Current continuation: layout repair ef3d1c6 retains one live board, five bounded120-second stages, all original24 frame/theme rows and active-input/resize assertions. Public pauses protect static measurements; each200→240 safety transition explicitly begins playing. Diagnostic51670 passed before LR-01 repair and is not final proof. Corrected focused16152 exited0 with6 strict tests,24 rows, one canonical realm, no errors/deficiencies (~84.7seconds); root and independent reviewer read its terminal log `/tmp/down-to-duck-07-12-layout-repair-verified.log`. Final metadata-only correction identifies viewport-suspended200px rows. Independent07-12-LAYOUT-REVIEW.md closes LR-01/LW-01 with no remaining findings.
 
