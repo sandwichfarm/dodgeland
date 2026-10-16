@@ -4,6 +4,7 @@ import { createServer } from 'node:http';
 import test, { after } from 'node:test';
 import { chromium } from 'playwright';
 import { compileSources } from './source-loader.mjs';
+import { artifactDirectoryForCoverage } from '../tools/release-coverage/browser.mjs';
 
 const modules = await compileSources(['render', 'market/catalog', 'cosmetic-model', 'death-spill']);
 const server = createServer((request, response) => {
@@ -20,7 +21,7 @@ test('real spilled models match market geometry, tumble above the floor, and rem
   const errors = []; page.on('pageerror', error => errors.push(error.message));
   await page.goto(`http://127.0.0.1:${server.address().port}`);
   const reports = [];
-  const artifacts = new URL('../artifacts/', import.meta.url);
+  const artifacts = artifactDirectoryForCoverage(new URL('../artifacts/', import.meta.url),'death-spill-render');
   await mkdir(artifacts, { recursive: true });
   for (const size of [[720, 500], [320, 560]]) {
     await page.setViewportSize({ width: size[0], height: size[1] });

@@ -73,6 +73,43 @@
         "artifacts/consumable-world-900x600.png",
         "artifacts/consumable-world-1440x900.png"
       ]
+    },
+    "adapters-07": {
+      "files": [
+        "tests/render.test.mjs",
+        "tests/session-board-controls.test.mjs",
+        "tests/session-labels-render.test.mjs",
+        "tests/consumable-world-render.test.mjs",
+        "tests/death-spill-render.test.mjs",
+        "tests/survive-results-ui.test.mjs",
+        "tests/solo-ui-browser.test.mjs"
+      ],
+      "role": "browser",
+      "provenance": "Seven arranged production component owners; oracle remains independent/uninstrumented; not full-app public flows",
+      "artifactDirectories": [
+        "artifacts/render-after.png",
+        "artifacts/render-after.json",
+        "artifacts/wave-approaching.png",
+        "artifacts/wave-caught.png",
+        "artifacts/duck-turns.png",
+        "artifacts/duck-turns.json",
+        "artifacts/collision-train-after.json",
+        "artifacts/collision-hop-after.json",
+        "artifacts/collision-scenes-after.png",
+        "artifacts/solo-render-parity.json",
+        "artifacts/solo-render-parity.png",
+        "artifacts/local-session-render-foreground.png",
+        "artifacts/local-session-render-river.png",
+        "artifacts/session-labels-render.json",
+        "artifacts/consumable-world-render.json",
+        "artifacts/consumable-protected-return.png",
+        "artifacts/consumable-protected-return.json",
+        "artifacts/consumable-river-render.json",
+        "artifacts/consumable-world-200x160.png",
+        "artifacts/consumable-world-320x560.png",
+        "artifacts/consumable-world-900x600.png",
+        "artifacts/consumable-world-1440x900.png"
+      ]
     }
   },
   "pendingAdapters": [

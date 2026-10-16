@@ -4,6 +4,7 @@ import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { chromium } from 'playwright';
 import { compileSources } from './source-loader.mjs';
+import { artifactDirectoryForCoverage } from '../tools/release-coverage/browser.mjs';
 
 const result = Object.freeze({ mode: 'survive-together', outcome: 'all-dead', podium: 'team', distance: 314, elapsedSeconds: 120,
   contributions: [
@@ -19,7 +20,7 @@ test('immutable co-op results page every participant without ranking, overflow, 
   const material = (await readFile(new URL('../src/game-ui.css', import.meta.url), 'utf8')).split('#app .game-board')[0];
   const font = await readFile(new URL('../src/fonts/LilitaOne-Regular.ttf', import.meta.url));
   const errors = [], frames = [];
-  const artifact = new URL('../artifacts/', import.meta.url); await mkdir(artifact, { recursive: true });
+  const artifact = artifactDirectoryForCoverage(new URL('../artifacts/', import.meta.url),'survive-results-ui'); await mkdir(artifact, { recursive: true });
   let origin;
   const server = createServer((request, response) => {
     const path = new URL(request.url, origin).pathname;
