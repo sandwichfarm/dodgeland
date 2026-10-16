@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-12 full collection93747 exited1 after69 production jobs at Race results timeouts
-last_updated: "2026-10-16T20:20:36.799591+00:00"
+stopped_at: 07-12 Race results timing74790 terminal; bounded repair proposal awaiting authorization
+last_updated: "2026-10-16T20:29:07.663851+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -16,6 +16,8 @@ last_activity_desc: Race matrix passed10/10; Race results14pass5cancel requires 
 ---
 
 # Project State
+
+Latest diagnostic: unchanged Race-results74790 exited1 (17pass/2cancel), run423a3c5f-b707-47df-bc76-f7287d552e7a. Main90s expires during real paging and continues until cleanup; time30s crosses deadline in coverage/close. Exact timing and overlap documented in07-12-RACE-RESULTS-DIAGNOSTIC.md.89 temporary PNGs restored with hashes, normal dist unchanged. No active process or test/production repair; bounded same-app stage/cancellation and explicit artifact preservation proposal awaits root authorization.
 
 LATEST TERMINAL execution: session93747 exit1, former collector PID46458/shell46266, run`59b261c8-5604-4c26-8b26-5d97f40d8e4a`, log`/tmp/down-to-duck-07-12-full-collection-layouts-verified.log`. Root accepted Relay focused/negative220cf6a and independent runtime reviewcb0e569; frozen source/tests/toolingcb0e569 (last implementation3920d11). All132 jobs remain required; no full report/floor/plan completion claim. This run terminated after69 timestamped production PASS records. Race matrix passed10/10 with420 exact cells. Race results had14pass/5cancel/0assertion failures:90s main results case,30s time/left cases,60s four-tied/four-distinct cases. All six browser realms captured, but timeout is authoritative failure.78 fresh result PNGs preserved with hashes in`/tmp/down-to-duck-07-12-race-results-failure-evidence/manifest.json`. Cleanup/collection timings need diagnosis before repair; no source edits or rerun. No process remains active; prior active statements below are historical.
 
