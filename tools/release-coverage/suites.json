@@ -171,6 +171,36 @@
       "role": "mixed",
       "browser": true,
       "provenance": "Original Relay and Race production model plus built opaque journeys; Relay raw and shared-fixture realms remain distinct"
+    },
+    "adapters-09-tail": {
+      "files": [
+        "tests/runtime-smoke.mjs",
+        "tests/gamepad-runtime.mjs",
+        "tests/health-runtime.mjs"
+      ],
+      "role": "browser",
+      "browser": true,
+      "provenance": "Original actual Paja smoke and arranged controller/health opaque journeys; every mount retained"
+    },
+    "adapters-09": {
+      "files": [
+        "tests/survive-together-tracer.mjs",
+        "tests/relay-tracer.mjs",
+        "tests/relay-lifecycle.test.mjs",
+        "tests/race-tracer.mjs",
+        "tests/runtime-smoke.mjs",
+        "tests/gamepad-runtime.mjs",
+        "tests/health-runtime.mjs"
+      ],
+      "role": "browser",
+      "roles": {
+        "tests/survive-together-tracer.mjs": "mixed",
+        "tests/relay-tracer.mjs": "mixed",
+        "tests/relay-lifecycle.test.mjs": "mixed",
+        "tests/race-tracer.mjs": "mixed"
+      },
+      "browser": true,
+      "provenance": "Seven remaining canonical owners; original model, actual-input and arranged provenance retained separately"
     }
   },
   "pendingAdapters": [
