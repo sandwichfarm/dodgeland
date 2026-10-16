@@ -128,6 +128,43 @@ async function handLayout(label) {
   if (shot) await iframe.screenshot({ path: new URL(shot, output).pathname });
   return metrics.hand;
 }
+async function pauseLayout(label) {
+  const metrics = await frame.evaluate(() => {
+    const panel = document.querySelector('#run-panel'), hand = document.querySelector('#run-inventory').getBoundingClientRect();
+    const visible = e => e.getClientRects().length && getComputedStyle(e).visibility !== 'hidden' && !e.closest('[hidden]');
+    const controls = [...panel.querySelectorAll('button')].filter(visible).map(e => {
+      const r = e.getBoundingClientRect(), hit = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
+      const text = [...e.childNodes].filter(n => n.nodeType === Node.TEXT_NODE && n.textContent.trim()).flatMap(n => { const range = document.createRange(); range.selectNodeContents(n); return [...range.getClientRects()]; });
+      return { id: e.id || e.dataset.pauseTopic, x:r.x, y:r.y, right:r.right, bottom:r.bottom, width:r.width, height:r.height,
+        hit: e === hit || e.contains(hit), fits:r.x >= 0 && r.y >= 0 && r.right <= innerWidth && r.bottom <= hand.top - 4,
+        textFits:getComputedStyle(e).fontSize === '0px' || text.every(t => t.left >= r.left && t.right <= r.right && t.top >= r.top && t.bottom <= r.bottom) };
+    });
+    const overlaps = controls.flatMap((a,i) => controls.slice(i+1).filter(b => a.x < b.right && a.right > b.x && a.y < b.bottom && a.bottom > b.y).map(b => [a.id,b.id]));
+    return { controls, overlaps, page:document.querySelector('#app').dataset.pausePage };
+  });
+  assert.deepEqual(metrics.controls.filter(c => c.width < 43.9 || c.height < 43.9 || !c.hit || !c.fits || !c.textFits), [], `${label}: pause controls retain full labels,44px targets,hit ownership and hand clearance`);
+  assert.deepEqual(metrics.overlaps, [], `${label}: pause controls never overlap`);
+  if (metrics.page === 'home') for (const id of ['play','choose','local-play']) assert.ok(metrics.controls.some(c=>c.id===id), `${label}: ${id} remains visible`);
+  (evidence.pauseChecks ??= []).push({label,...metrics});
+}
+async function ownedPauseReaders(label) {
+  const before = await state();
+  for (const topic of ['rules','power']) {
+    await frame.locator(`[data-pause-topic="${topic}"]`).click(); await settle();
+    for (let page = 0; page < 30; page++) {
+      await pauseLayout(`${label} ${topic} ${page}`);
+      assert.ok((await frame.locator('#pause-reader-copy').innerText()).trim());
+      if (await frame.locator('#pause-next').isDisabled()) break;
+      assert.ok(page < 29, 'Reader has a finite last page');
+      await frame.locator('#pause-next').click(); await settle();
+    }
+    assert.equal(await frame.locator('#choose').isVisible(), false, 'Reader hides home actions');
+    await frame.locator('#pause-back').click(); await settle();
+    assert.equal((await state()).state, 'paused');
+    assert.equal((await state()).time, before.time, 'Reader navigation preserves paused time');
+    await pauseLayout(`${label} after ${topic}`);
+  }
+}
 function samePlace(expected, actual, label) {
   for (const edge of ['left', 'right', 'top', 'bottom']) assert.ok(Math.abs(expected[edge] - actual[edge]) <= 1, `${label}: stable hand ${edge} (${expected[edge]} vs ${actual[edge]})`);
 }
@@ -147,6 +184,8 @@ try {
       const anchor = await handLayout(`${theme} ${width}x${height} gameplay`);
       await frame.locator('#pause').click(); await settle();
       samePlace(anchor, await handLayout(`${theme} ${width}x${height} pause`), 'Pause');
+      await pauseLayout(`${theme} ${width}x${height} home`);
+      if (width === 240) await ownedPauseReaders(theme);
       await frame.locator('#choose').click(); await settle();
       samePlace(anchor, await handLayout(`${theme} ${width}x${height} collection`), 'Collection');
       await market();
