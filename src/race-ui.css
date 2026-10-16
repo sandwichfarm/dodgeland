@@ -78,3 +78,17 @@
   .race-result-participant h3 { line-height: 1.2; }
   .race-result-statistics dt { line-height: 1.1; }
 }
+
+.race-result-tiers { grid-template-columns: repeat(2,minmax(0,1fr)); }
+.race-result-tiers:has(> :only-child) { grid-template-columns: minmax(0,1fr); }
+[data-race-tier] { min-width: 0; background: color-mix(in srgb,var(--game-gold) 25%,var(--game-paper)); padding: 4px; }
+.race-tier-members { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 4px; }
+.race-tier-members:has(> :only-child) { grid-template-columns: minmax(0,1fr); }
+.race-result-tiers p { background: transparent; padding: 0; }
+.race-result-tiers strong { font-size: 20px; }
+@media (max-height:419px) {
+  .race-result-tiers { grid-template-columns: minmax(0,1fr); }
+  [data-race-tier] { padding: 0; }
+}
+@media (max-height:419px) { .race-podium h3 { font-size: 16px; } }
+@media (max-height:419px) { .race-tier-members { row-gap: 0; } }

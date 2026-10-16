@@ -292,7 +292,7 @@ for(const [count,tied] of [[3,true],[4,true],[4,false]])test(`built podium tiers
         assert.equal(await root.locator('[data-race-member]').count(),tied?count:h<420?1:count);
         await assertResultContrast(f);
         assert.deepEqual(await root.evaluate(n=>[...n.querySelectorAll('button,[data-race-tier],[data-race-member]')].filter(e=>e.getClientRects().length).flatMap(e=>{const r=e.getBoundingClientRect();return r.left<0||r.top<0||r.right>innerWidth+1||r.bottom>innerHeight+1||e.scrollWidth>e.clientWidth+1||(e.tagName==='BUTTON'&&(r.width<44||r.height<44||!e.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2))))?[e.textContent]:[];})),[]);
-        assert.equal(await root.locator('.race-results-body').evaluate(n=>n.scrollHeight>n.clientHeight+1||n.scrollWidth>n.clientWidth+1),false,`${w}x${h} ${page}`);
+        const geometry=await root.locator('.race-results-body').evaluate(n=>({h:n.clientHeight,sh:n.scrollHeight,w:n.clientWidth,sw:n.scrollWidth,children:[...n.querySelectorAll('*')].map(e=>[e.className,e.textContent,e.clientHeight,e.scrollHeight,getComputedStyle(e).fontSize])}));assert.ok(geometry.sh<=geometry.h+1&&geometry.sw<=geometry.w+1,JSON.stringify(geometry));
         await app.iframe.screenshot({path:`/tmp/race-05-05-tiers-${count}-${tied?'tie':'distinct'}-${w}x${h}-${light?'light':'dark'}-${page}.png`});
         if(page+1<pages)await root.getByRole('button',{name:'Next results',exact:true}).click();
       }

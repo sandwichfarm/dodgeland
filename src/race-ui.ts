@@ -82,7 +82,11 @@ export function createRaceResultsBoard(root: HTMLElement, again: () => void) {
   function render(focus?:string, resizing=false) {
     if(!shown)return;
     const result=shown,short=innerHeight<420,small=short||innerWidth<480,wide=!short&&innerWidth>=900;
-    const perPage=short?2:innerWidth<480?8:innerWidth<1200?10:20,groups=Math.ceil(20/perPage),podiumPages=short?result.players.length:1,total=podiumPages+result.players.length*groups;
+    const ranked=[...result.players].sort((a,b)=>(a.rank??Infinity)-(b.rank??Infinity)||a.seat.localeCompare(b.seat));
+    const tiersByRank=new Map<string,typeof ranked>();
+    for(const p of ranked){const key=p.dnf?`DNF · ${p.dnf}`:p.rankLabel;const tier=tiersByRank.get(key)??[];tier.push(p);tiersByRank.set(key,tier);}
+    const rankedTiers=[...tiersByRank];
+    const perPage=short?2:innerWidth<480?8:innerWidth<1200?10:20,groups=Math.ceil(20/perPage),podiumPages=short?rankedTiers.length:1,total=podiumPages+result.players.length*groups;
     if(resizing&&page>=previousPodium){const oldGroups=Math.ceil(20/previousPageSize),selected=Math.floor((page-previousPodium)/oldGroups),metric=((page-previousPodium)%oldGroups)*previousPageSize;page=podiumPages+selected*groups+Math.floor(metric/perPage);}
     else if(resizing)page=Math.min(page,podiumPages-1);
     previousPageSize=perPage;previousPodium=podiumPages;
@@ -99,9 +103,19 @@ export function createRaceResultsBoard(root: HTMLElement, again: () => void) {
       const winner=document.createElement('p');winner.className='race-winner';winner.textContent=result.winners.length?`Winner ${result.winners.map(s=>s.toUpperCase()).join(' / ')}`:'No eligible racers remain.';
       node.append(outcome,summary,winner);
       const tiers=document.createElement('div');tiers.className='race-result-tiers';
-      const ordered=[...result.players].sort((a,b)=>(a.rank??Infinity)-(b.rank??Infinity)||a.seat.localeCompare(b.seat));
-      for(const p of short?ordered.slice(Math.min(page,podiumPages-1),Math.min(page,podiumPages-1)+1):ordered){
-        const row=document.createElement('p');row.dataset.rank=p.rankLabel;row.textContent=`${p.rankLabel}${p.dnf?` · ${p.dnf}`:''}  ${p.marker} · ${characterById(p.characterId).name}`; if(!short){const image=document.createElement('img');image.alt='';image.className='race-podium-character';if(!previews.has(p.characterId))previews.set(p.characterId,modelThumbnail(characterById(p.characterId).model,240));image.src=previews.get(p.characterId)!;row.prepend(image);} tiers.append(row);
+      const visible=short?rankedTiers.slice(Math.min(page,podiumPages-1),Math.min(page,podiumPages-1)+1):rankedTiers;
+      for(const [rank,members] of visible){
+        const tier=document.createElement('section');tier.dataset.raceTier=rank;tier.dataset.rank=members[0]!.rankLabel;
+        const label=document.createElement('strong');label.textContent=rank;
+        const group=document.createElement('div');group.className='race-tier-members';
+        for(const p of members){
+          const row=document.createElement('p');row.dataset.raceMember=p.participantId;row.textContent=`${p.marker} · ${characterById(p.characterId).name}`;
+          if(!short){const image=document.createElement('img');image.alt='';image.className='race-podium-character';if(!previews.has(p.characterId))previews.set(p.characterId,modelThumbnail(characterById(p.characterId).model,240));image.src=previews.get(p.characterId)!;row.prepend(image);}
+          group.append(row);
+        }
+        if(short)outcome.textContent=`${rank} · ${result.outcome==='time'?'Race time ended.':'Race complete.'}`;
+        else tier.append(label);
+        tier.append(group);tiers.append(tier);
       }
       node.append(tiers);return node;
     }
