@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-12 complete collection30406 active on verified result repairs
-last_updated: "2026-10-16T20:48:16.207768+00:00"
+stopped_at: 07-12 collection30406 terminal failure at owned-hand compact pause
+last_updated: "2026-10-16T21:34:02.977762+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,12 @@ progress:
   completed_plans: 40
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Race44/44 and Relay15/15 focused evidence accepted; complete frozen collection30406 active, report pending.
+last_activity_desc: Collection30406 exited1 after82 production jobs; compact owned-hand Travelers action obscured by Local Play. Diagnosis pending; no active process.
 ---
 
 # Project State
 
-CURRENT ACTIVE execution: full collection30406, collector PID75739/shell75472, run`f8000273-69e8-4ab1-a47e-d4d9b4c29907`, frozen source/tests/toolingf492377 (last implementation6528a82, manifest7b731ed). Log`/tmp/down-to-duck-07-12-full-collection-results-verified.log`. Exact fast collection/attribution/policy prefix passed; all132 production jobs and final oracle-lock/diff checks required. Root accepted Race runtime review4df7c31 and unchanged Relay diagnosticf492377. All historical no-active/checkpoint statements below are superseded by this live run. No complete initial report, floor or plan-completion claim.
+CURRENT TERMINAL execution: collection30406 exited1 after82 timestamped production PASS records, run`f8000273-69e8-4ab1-a47e-d4d9b4c29907`, frozen source/tests/toolingf492377. Log`/tmp/down-to-duck-07-12-full-collection-results-verified.log`. Race layout10/10 (420 cells), Race results44/44 (six complete reports/46 cells), Relay layout5/5 (252 cells) and Relay results15/15 cleared prior frontiers. Failure: tests/run-hand-runtime.mjs:150, dark240×240 pause with six owned cards; Local Play intercepts Travelers click for6000ms. This is an assertion/action failure, not cancellation. Archived PNG/JSON under the run's suite-artifacts/run-hand-runtime/artifacts preserve the obscured control; existing three ordinary files restored byte-for-byte, normal dist SHA c67e3b6fee36829ebec67029d2a7053624a7c1ac9f895458d030fd5cc216e698 unchanged. No process remains active, no source/test/tool repair or rerun authorized yet. All historical active statements below are superseded. Complete initial report, floors and07-12 remain pending; counts remain6 phases40/45 plans.
 
 Latest terminal diagnostic: unchanged Relay-results66213 exited0,15/15, run83539c63-3217-4644-a63d-3346fb8b26a8, no overlap or assertions. Three browser cases32.262/12.392/12.303s;34 tmp captures restored with exact hashes/set, normal dist unchanged. See07-12-RELAY-RESULTS-DIAGNOSTIC.md for exact logs/timings/arranged provenance. Race focused/negative accepted with runtime review4df7c31. No active process; full collection awaits root authorization,07-12/full report/floors remain incomplete.
 
