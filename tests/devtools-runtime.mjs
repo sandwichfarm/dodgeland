@@ -1,3 +1,4 @@
+import { artifactForCoverage, artifactDirectoryForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 // Verify the real development and production artifacts, each in an opaque frame.
 import assert from 'node:assert/strict';
 import { readFile, writeFile, mkdir, readdir } from 'node:fs/promises';
@@ -5,7 +6,10 @@ import { createServer } from 'node:http';
 import { chromium } from 'playwright';
 
 const production = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
-const development = await readFile(new URL('../dist-dev/index.html', import.meta.url), 'utf8');
+const development = await readFile(artifactForCoverage(new URL('../dist-dev/index.html', import.meta.url), 'development'), 'utf8');
+const coverageProduction = await readFile(artifactForCoverage(new URL('../dist/index.html', import.meta.url)), 'utf8');
+const output = artifactDirectoryForCoverage(new URL('../artifacts/', import.meta.url), 'devtools-runtime');
+assert.throws(() => artifactForCoverage('', 'not-a-build'), /Invalid browser build scope/);
 const developmentMarkers = ['development-tools', 'development-jump-form', 'development-score', 'development-seed-form', 'Load copied seed', 'Jump or load starts a fresh sandbox run', 'SANDBOX · records disabled', '+25 run coins', 'DEVELOPMENT RUN', 'Sandbox finished. Lifetime records unchanged.'];
 for (const marker of developmentMarkers) {
   assert.ok(development.includes(marker), `Development artifact includes ${marker}`);
@@ -33,27 +37,38 @@ function installFixture(deferStorage = false) {
   let theme = { colors: { background: '#152821', text: '#f3ecd4', primary: '#e6c164' } };
   f.theme = value => { theme = value; f.themes.forEach(callback => callback(value)); };
   window.napplet = {
-    storage: { async getItem() { if (deferStorage) await new Promise(resolve => { f.resolveStorage = resolve; }); return JSON.stringify({ travelerVersion: 2, mode: 'arcade', coins: 9, best: 17, runs: 4, muted: true }); }, async setItem(key, value) { f.writes.push({ key, value }); } },
+    storage: { async getItem(key) { if (key !== 'puddlehop.progress.v1') return null; if (deferStorage) await new Promise(resolve => { f.resolveStorage = resolve; }); return JSON.stringify({ travelerVersion: 2, mode: 'arcade', coins: 9, best: 17, runs: 4, muted: true }); }, async setItem(key, value) { f.writes.push({ key, value }); } },
     theme: { async get() { return theme; }, onChanged(callback) { f.themes.push(callback); return { close() { f.themes.splice(f.themes.indexOf(callback), 1); } }; } },
     keys: { async registerAction(action) { return { actionId: action.id, binding: action.defaultKey }; }, onAction(id, callback) { f.handlers[id] = callback; return { close() { delete f.handlers[id]; } }; }, unregisterAction() {} },
   };
 }
 const injected = `<script>(${installFixture.toString()})(__DEFER_STORAGE__);</script>`;
 const json = value => JSON.stringify(value).replaceAll('<', '\\u003c');
-const harness = `<!doctype html><body style="margin:0"><iframe title="Development artifact fixture" sandbox="allow-scripts" style="width:900px;height:600px;border:0"></iframe><script>const variants=${json({ development, production })};window.mount=(variant,fixture=true,deferStorage=false)=>{document.querySelector('iframe').srcdoc=fixture?variants[variant].replace('<head>','<head>'+${json(injected)}.replace('__DEFER_STORAGE__',String(deferStorage))):variants[variant];};window.mount('development');</script>`;
+const harness = `<!doctype html><body style="margin:0"><iframe title="Development artifact fixture" sandbox="allow-scripts" style="width:900px;height:600px;border:0"></iframe><script>const variants=${json({ development, production: coverageProduction })};window.mount=(variant,fixture=true,deferStorage=false)=>{document.querySelector('iframe').srcdoc=fixture?variants[variant].replace('<head>','<head>'+${json(injected)}.replace('__DEFER_STORAGE__',String(deferStorage))):variants[variant];};window.mount('development');</script>`;
 const server = createServer((_request, response) => { response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); response.end(harness); });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const evidence = { artifacts: ['dist-dev/index.html', 'dist/index.html'], scenarios: [], frames: [], errors: [], external: [] };
-await mkdir(new URL('../artifacts/', import.meta.url), { recursive: true });
-let browser;
+await mkdir(output, { recursive: true });
+let browser, frame, identity, generation = 0;
+async function beginRealm(page, scenario, buildScope) {
+  if (frame) await collectRealm(frame, identity);
+  frame = undefined;
+  identity = { suite: process.argv[1], scenario, frame: 'opaque-app', generation: generation++, scope: 'current', buildScope };
+  if (process.env.DOWN_TO_DUCK_COVERAGE_CONFIG) {
+    assert.throws(() => registerRealm(page, { ...identity, buildScope: 'missing' }), /Missing browser build scope/);
+    assert.throws(() => registerRealm(page, { ...identity, jobId: 'wrong-job' }), /Wrong browser job/);
+  }
+  registerRealm(page, identity);
+}
 try {
   browser = await chromium.launch({ args: ['--mute-audio'] });
   const page = await browser.newPage({ viewport: { width: 1000, height: 700 } });
   page.setDefaultTimeout(8000); await page.clock.install();
   page.on('pageerror', error => evidence.errors.push(error.message));
   await page.route('**/*', route => { if (new URL(route.request().url()).hostname === '127.0.0.1') return route.continue(); evidence.external.push(route.request().url()); return route.abort(); });
+  await beginRealm(page, 'development-controls', 'development');
   await page.goto(`http://127.0.0.1:${server.address().port}/?dev=1&debug=1`);
-  let frame = await (await page.locator('iframe').elementHandle()).contentFrame();
+  frame = await (await page.locator('iframe').elementHandle()).contentFrame();
   await frame.waitForFunction(() => !!window.developmentFixture?.handlers['puddlehop.market'] && !!document.querySelector('#development-toggle'));
   await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 100);
   const advance = ms => page.clock.runFor(ms);
@@ -140,7 +155,7 @@ try {
         const bounds = await frame.locator('#development-panel').evaluate(el => { const box = el.getBoundingClientRect(); return { left: box.left, top: box.top, right: box.right, bottom: box.bottom, width: el.clientWidth, scrollWidth: el.scrollWidth }; });
         assert.ok(bounds.left >= 0 && bounds.top >= 0 && bounds.right <= width && bounds.bottom <= height, JSON.stringify(bounds));
         assert.ok(bounds.scrollWidth <= bounds.width + 1, 'inspector has no horizontal overflow');
-        if ((width === 900 && theme === 'dark') || (width === 320 && theme === 'light')) await page.locator('iframe').screenshot({ path: new URL(`../artifacts/development-${width}-${theme}.png`, import.meta.url).pathname });
+        if ((width === 900 && theme === 'dark') || (width === 320 && theme === 'light')) await page.locator('iframe').screenshot({ path: new URL(`development-${width}-${theme}.png`, output).pathname });
       }
       evidence.frames.push({ width, height, theme });
     }
@@ -150,6 +165,7 @@ try {
   assert.equal(await frame.evaluate(() => Object.keys(window.developmentFixture.handlers).length), 0);
 
   // Hydration must not replace a sandbox that was edited on the ready screen.
+  await beginRealm(page, 'development-hydration', 'development');
   await page.evaluate(() => window.mount('development', true, true));
   frame = await (await page.locator('iframe').elementHandle()).contentFrame();
   await frame.waitForFunction(() => !!window.developmentFixture?.resolveStorage && !!document.querySelector('#development-toggle'));
@@ -165,6 +181,7 @@ try {
   assert.equal(await frame.locator('#best').innerText(), 'BEST 17', 'lifetime records still hydrate');
   evidence.scenarios.push('delayed storage hydration preserves ready-screen sandbox wallet, seed and record-isolation flag');
 
+  await beginRealm(page, 'production-boundary', 'production');
   await page.evaluate(() => window.mount('production'));
   frame = await (await page.locator('iframe').elementHandle()).contentFrame();
   await frame.waitForFunction(() => !!window.developmentFixture?.handlers['puddlehop.market']);
@@ -173,12 +190,13 @@ try {
   await frame.locator('#play').click(); await advance(30);
   assert.equal(await frame.locator('#score').innerText(), '0');
   evidence.scenarios.push('production artifact and every emitted asset exclude dev modules/UI/debug labels; production iframe exposes no controls or debug mutation globals');
+  await beginRealm(page, 'development-no-sdk', 'development');
   await page.evaluate(() => window.mount('development', false));
   frame = await (await page.locator('iframe').elementHandle()).contentFrame();
   await frame.locator('#development-toggle').click(); await frame.locator('[data-development-score="99"]').click(); await advance(30);
   assert.match(await state(), /score 99/); assert.match(await state(), /market none/);
   evidence.scenarios.push('development inspector works without optional SDK domains');
   assert.deepEqual(evidence.errors, []); assert.deepEqual(evidence.external, []);
-  await writeFile(new URL('../artifacts/development-runtime.json', import.meta.url), JSON.stringify(evidence, null, 2));
+  await writeFile(new URL('development-runtime.json', output), JSON.stringify(evidence, null, 2));
   console.log(JSON.stringify(evidence, null, 2));
-} finally { await browser?.close(); await new Promise(resolve => server.close(resolve)); }
+} finally { try { if (frame) await collectRealm(frame, identity); } finally { await browser?.close(); await new Promise(resolve => server.close(resolve)); } }
