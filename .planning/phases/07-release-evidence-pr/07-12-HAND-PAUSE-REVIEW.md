@@ -1,8 +1,8 @@
 ---
 phase: 07-release-evidence-pr
 reviewed: 2026-10-16
-reviewed_commit: a7ef5f8
-regression_commit: 39e9ffe
+reviewed_commit: 65ca494
+regression_commit: 65ca494
 depth: standard
 reviewer_execution: generic-agent-fallback
 files_reviewed: 3
@@ -12,10 +12,10 @@ files_reviewed_list:
   - tools/release-coverage/suites.json
 findings:
   critical: 0
-  warning: 1
+  warning: 0
   info: 0
-  total: 1
-status: issues_found
+  total: 0
+status: clean
 ---
 
 # Plan12 owned-hand pause repair review
@@ -26,7 +26,7 @@ Generic-agent fallback applying the full local GSD code-reviewer role; not typed
 
 No concrete scoped implementation defect found. Static review is clean; ordinary/canonical execution and visual/geometry acceptance remain pending.
 
-### HP-01 — WARNING: decorative rivet overlaps the first heading letter at the floor
+### HP-01 — RESOLVED (original WARNING): decorative rivet overlaps the first heading letter at the floor
 
 **File:** `/Users/sandwich/Develop/crossy-road-clone/src/hand-layout.css:134`, interacting with `src/game-ui.css:23–24`.
 
@@ -81,3 +81,19 @@ Inspected65ca494 while gate87963 was running. The two new CSS lines move only th
 The read-only regression derives pseudo bounds from the panel's actual viewport rectangle, parent border and computed inset. It accounts for content-box versus border-box dimensions and the current single zero-blur1px spread shadow; the current rgba/rgb computed shadow format is handled. Settled board translation is included in the panel rectangle. This is scoped to the actual decoration, not a general transform/multiple-shadow geometry engine, and no actor-envelope8px clearance rule is imposed.
 
 The proposed15px painted bottom assumes an8px border box. Universal `*` border-box styling alone does not select pseudo-elements; if the computed pseudo is content-box, its8px content plus two2px borders produces12px and a painted bottom19px at panel y6. The test correctly branches on computed boxSizing, so this arithmetic difference is not an implementation defect; either calculation is above the previously observed heading top22.34375. Runtime must supply the actual computed bounds and theme captures. No new static finding; HP-01 remains open for visual/runtime closure, with gate87963 not yet credited.
+
+## HP-01 ordinary visual closure
+
+Independently parsed the replacement ordinary `run-hand-runtime.json` under `/tmp/down-to-duck-07-12-hand-pause-rivet-ordinary-evidence/generated/`:44 frames,38 pauseChecks, errors[] and external[]. Both floor home rows record panel(12,6,216,164), max-height `calc(100% - 24px)`, heading top22.34375/bottom52.34375 and headingFits true. The actual painted rivet extents are y5–19, x25–39 and x201–215, including their1px shadow. The resulting3.34375px vertical gap confirms nonintersection; the earlier15px estimate was not the actual content-box geometry.
+
+Directly inspected both replacement240×240 PNGs, dark and light. The initial P and all other Paused glyphs are clear of the rivets; both rivets remain visible at the board edge. Full control labels, including the visually checked Hop on pseudo-label, remain readable, separated and above the hand. HP-01 is resolved by65ca494 on source inspection, actual ordinary geometry and both rendered themes. No scoped finding remains.
+
+The ordinary terminal pass is executor/root-reported; the metrics and images above were independently read. Gate87963 canonical execution is still pending at this addendum, so the clean review verdict does not assert its terminal result, full collection success or coverage-floor completion. No tests, browser launches, builds or implementation edits were performed by the reviewer.
+
+## HP-01 final canonical acceptance
+
+Executor confirmed gate87963 terminal exit0. Independently read `/tmp/down-to-duck-07-12-hand-pause-rivet-gate.log`: ordinary and canonical hand runs pass, the unchanged canonical pause suite passes, and type-check/build/guidance7/7/conformance finish successfully. Conformance remains5 passed/0 failed/5 unmeasured; the log explicitly states thresholds were not evaluated.
+
+Independently parsed canonical run `c3e74067-922c-412a-a263-9894d7d3b511`: both job-ledger entries have exitCode0; archived hand report contains44 frames,6 scenarios,38 pauseChecks, errors[] and external[]; archived pause report contains24 frame/theme cases, errors[] and external[]. Two browser payload files are retained. Root/executor report normal dist SHA `f7b8f2987c7a39e13b00785c455c5ff92c3f36e01a1aa3f15c9069dd52ea5163`; this reviewer did not independently recompute that hash.
+
+Final scoped verdict: clean, HP-01 resolved on65ca494. Source scope, ordinary visual clearance and the focused canonical execution are accepted. This is not a full release collection or coverage-floor acceptance. Only this report was edited; no implementation mutation or runtime command was performed by the reviewer.
