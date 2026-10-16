@@ -3,25 +3,25 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 05-02 dependency checkpoint; inherited pursuit and generic damage seam
-last_updated: "2026-10-16T04:50:39.382Z"
+stopped_at: Completed 05-02-PLAN.md; next 05-03
+last_updated: "2026-10-16T05:47:34.968Z"
 progress:
   total_phases: 7
   completed_phases: 4
   total_plans: 31
-  completed_plans: 25
+  completed_plans: 26
 current_phase: 05
 current_phase_name: race
-last_activity_desc: Race05-02 retained RED e34188e; shared pursuit/damage repair needed before remaining tasks.
+last_activity_desc: Race05-02 complete; final96373 exit0 on production8f59d42; execute05-03 next.
 ---
 
 # Project State
 
 ## Current Position
 
-05-02 is at a concrete dependency checkpoint, with no task accepted and no production edits. Retained RED `e34188e` proves stationary default Race participants die from inherited solo wave despite remaining ahead of the initial fog line. Delivered nonfatal damage is private traffic-only code; `end` is terminal. See `05-02-DEPENDENCY-CHECKPOINT.md` and `/tmp/down-to-duck-05-02-dependency-red.log` (1 pass, 1 expected failure, exit 1). Root must coordinate the narrow generic pursuit/damage repair before execution resumes. No active process; counts remain 4 completed phases and 25/31 plans.
+05-02 is complete; execute05-03 next. Final96373 exited0 on frozenHEAD6d36f39/production8f59d42, `/tmp/down-to-duck-05-02-final-gate.log`: exact task gates11+21,8,17; full inheritedPhase3/2/1; Relay/shared damage69; builtRace6; finaltype/build/guidance/conformance/lockfile. The authorized generic pursuit/damage repair resolved retainedREDe34188e; cadence rounding and ghost-exposure regressions are fixed. Generated-course balance at500/180,buffer12,1feather/sec completes allsix scenarios in97.47–102s with exact repeat/permutation agreement; `artifacts/race/balance.json`. See05-02-SUMMARY.md and05-02-DEPENDENCY-REPAIR.md. No active process. Actual tracking:4 completed phases,26/31 plans; CLI-generated1/35 counts were corrected.
 
-Race05-01 is complete; execute05-02 next. All three task gates passed. Final combined70346 exit0 on source67eb0d3 includes full Phase2/3, exact Relay Gate6 and authoring/Race12/12; `/tmp/down-to-duck-05-01-final-gate.log`. Test-only held-controller Start strengthening3fc13d1 passed Race6/6 in23683 without changing production source. See05-01-SUMMARY.md for pre-edit API reconciliation, commits, actual setup/result captures and limits. Phases01–04 remain independently verified. Race05-02..07, cross-mode presentation, audit and PR remain mandatory. Actual tracking is4 completed phases and25/31 plans; generated CLI counts were corrected. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
+Race05-01 supplied accepted unchanged-source entry evidence70346 and23683 on67eb0d3; see05-01-SUMMARY.md. Phases01–04 remain independently verified. Race05-03..07, cross-mode presentation, audit and PR remain mandatory. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
 
 ## Accepted Relay Entry Evidence
 
@@ -76,14 +76,17 @@ Typed gsd-verifier stayed pending_init across multiple turns and was explicitly 
 | Phase 04 P05 | 32 min | 2 tasks | 9 files |
 | Phase 04 P06 | 100 min | 2 tasks | 7 files |
 | Phase 05 P01 | 35 min | 3 tasks | 8 files |
+| Phase 05 P02 | 52 min | 3 tasks | 8 files |
 
 ## Session
 
-**Last session:** 2026-10-16T04:50:39.375Z
-**Stopped at:** Completed 05-01-PLAN.md; next 05-02
+**Last session:** 2026-10-16T05:47:34.950Z
+**Stopped at:** Completed 05-02-PLAN.md; next 05-03
 **Resume file:** None
 
 ## Decisions
+
+- [Phase 05]: Fog uses personal accepted movement for monotonic boundary and settled movement for finish/revival credit; actual ground controls exposure. Generic optional pursuit suppression and seat-bound named health damage preserve legacy defaults. Timeout closes offers before immutable results; default500/180 pressure remains versioned and measured.
 
 - [Phase 05]: Race reuses one LocalSession world and generic settled-tick handlers; first finishers stop acting while remaining racers continue. The exact documented practice factory executes all lifecycle callbacks without core input/renderer changes. Full Race lifecycle, fog, items and ranking remain subsequent plans.
 

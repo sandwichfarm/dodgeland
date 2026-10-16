@@ -134,13 +134,13 @@ Plans:
   4. Players can use Race-eligible offensive and defensive consumables with visible, muted/reduced-motion-aware feedback; invalid targets, departed players, and ineligible modes cannot spend a charge or corrupt state.
   5. Race results show podium rank including true ties, distance, elapsed/finish time, finish or death status, fog damage, and relevant item/interaction statistics for every character.
 
-**Plans**: 1/7 plans executed
+**Plans**: 2/7 plans executed
 **UI hint**: yes
 
 Plans:
 
 - [x] 05-01-PLAN.md — Reconcile prior APIs and implement validated Race setup, tracer, and authoring.
-- [ ] 05-02-PLAN.md — Resolve deterministic fog, finish/timeout precedence, and balance evidence.
+- [x] 05-02-PLAN.md — Resolve deterministic fog, finish/timeout precedence, and balance evidence.
 - [ ] 05-03-PLAN.md — Implement recovery, disconnect grace, original-seat reclaim, and waiting.
 - [ ] 05-04-PLAN.md — Add Race-only items, authoritative eligibility, and isolated probability rolls.
 - [ ] 05-05-PLAN.md — Freeze complete results with true competition ranks and unranked DNF groups.
@@ -187,6 +187,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 2. Shared Local Session | 6/6 | Complete    | 2026-10-14 |
 | 3. Survive Together & Consumables | 8/8 | Complete    | 2026-10-15 |
 | 4. Relay | 6/6 | Complete    | 2026-10-15 |
-| 5. Race | 1/7 | In Progress|  |
+| 5. Race | 2/7 | In Progress|  |
 | 6. Cross-Mode Presentation | 0/TBD | Not started | - |
 | 7. Release Evidence & PR | 0/TBD | Not started | - |

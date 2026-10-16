@@ -1,5 +1,7 @@
 # 05-02 dependency checkpoint
 
+Historical checkpoint, resolved by the authorized repair and final96373 exit0. See `05-02-DEPENDENCY-REPAIR.md` and `05-02-SUMMARY.md`; the original retained RED below is not the current plan status.
+
 Status: incomplete; zero of three tasks accepted. Generic executor fallback used. Production source remains `67eb0d3`; accepted entry gates `70346` and `23683` remain applicable to unchanged source. No baseline rerun, installation, lockfile change, browser, or preview process occurred.
 
 ## Actual retained RED

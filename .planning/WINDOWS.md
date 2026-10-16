@@ -2,9 +2,9 @@
 schema_version: 1
 open_count: 0
 waived_count: 0
-fixed_count: 4
-total_count: 4
-last_updated: 2026-10-16T04:10:20.040838+00:00
+fixed_count: 5
+total_count: 5
+last_updated: 2026-10-16T05:47:11.094Z
 ---
 
 # Broken Windows Ledger
@@ -19,6 +19,7 @@ last_updated: 2026-10-16T04:10:20.040838+00:00
 | 2 | 04 | deviation | src/session.ts |  | 04-03 added opt-in lifecycle guards, preserved-position reclaim and archive/placement seams; full inherited gate passed. | fixed |  | 2026-10-16T00:50:26.162Z | 2026-10-16T00:51:16.235Z |
 | 3 | 04 | deviation | src/session.ts |  | 04-04 added optional immutable pre-clear and pre-depart contribution observations; canonical inherited parity and reentrancy checks passed. | fixed |  | 2026-10-16T01:23:52.104Z | 2026-10-16T01:24:03.504Z |
 | 4 | 04 | deviation | src/session.ts |  | 04-05 adds optional owner/capability and paused-transaction policy to the existing market adapter; legacy Survive defaults and full inherited parity are preserved. | fixed |  | 2026-10-16T01:59:01.928Z | 2026-10-16T01:59:22.467Z |
+| 5 | 05 | deviation | src/game.ts |  | 05-02 shared pursuit suppression and named damage extraction; legacy behavior and Race cadence verified by final96373. | fixed |  | 2026-10-16T05:46:04.261Z | 2026-10-16T05:47:11.094Z |
 
 ````json
 [
@@ -69,6 +70,18 @@ last_updated: 2026-10-16T04:10:20.040838+00:00
     "reason": "",
     "recorded_at": "2026-10-16T01:59:01.928Z",
     "resolved_at": "2026-10-16T01:59:22.467Z"
+  },
+  {
+    "id": 5,
+    "kind": "deviation",
+    "phase": "05",
+    "file": "src/game.ts",
+    "line": null,
+    "description": "05-02 shared pursuit suppression and named damage extraction; legacy behavior and Race cadence verified by final96373.",
+    "status": "fixed",
+    "reason": "",
+    "recorded_at": "2026-10-16T05:46:04.261Z",
+    "resolved_at": "2026-10-16T05:47:11.094Z"
   }
 ]
 ````
