@@ -66,12 +66,14 @@ const themes = {
   light: { colors: { background: '#f4f2df', text: '#263c38', primary: '#477953' } },
 };
 
-test('Local Play setup and four-seat HUD stay reachable across the required iframe matrix', { timeout: 120_000 }, async () => {
+test('Local Play setup and four-seat HUD stay reachable across the required iframe matrix', async (t) => {
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   await mkdir(output, { recursive: true });
-  const evidence = { artifact: 'unchanged built module in muted opaque allow-scripts iframe', frames: [], errors: [], deficiencies: [] };
+  const evidence = { artifact: 'unchanged built module in muted opaque allow-scripts iframe', frames: [], errors: [], deficiencies: [], stages: [], complete: false };
   const browser = await chromium.launch({ args: ['--mute-audio'] });
   let page,frame;
+  let journeyPassed=false;
+  const stage=async(name,action)=>{let passed=false;await t.test(name,{timeout:120_000},async(child)=>{await action();child.signal.throwIfAborted();assert.deepEqual(evidence.errors,[]);assert.deepEqual(evidence.deficiencies,[]);evidence.stages.push(name);passed=true;});assert.equal(passed,true,`stage did not complete: ${name}`);};
   const identity={suite:process.argv[1],scenario:'local-layout-matrix',frame:'opaque-app',generation:0,scope:'current'};
   try {
     page = await browser.newPage({ viewport: { width: 1200, height: 900 } });
@@ -83,12 +85,36 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
     frame = await (await iframe.elementHandle()).contentFrame();
     const settle = async () => { await frame.evaluate(() => Promise.resolve()); await page.waitForTimeout(50); };
     const send = async (pads, focused = true) => { await page.evaluate(([next, focus]) => window.snapshot(next, focus), [pads, focused]); await settle(); };
+    let currentSize=[900,600];
     const resize = async (width, height) => {
+      currentSize=[width,height];
       await page.setViewportSize({ width: Math.max(1200, width), height: Math.max(900, height) });
       await iframe.evaluate((node, size) => { node.style.width = `${size.width}px`; node.style.height = `${size.height}px`; }, { width, height });
       await settle();
     };
     const setTheme = async (name) => { await page.evaluate(value => window.setLayoutTheme(value), themes[name]); await settle(); };
+    const pauseForMeasurement = async () => {
+      const state=await frame.locator('#app').getAttribute('data-run-state');
+      assert.ok(['playing','paused'].includes(state),`layout requires a living run, got ${state}`);
+      if(state==='paused')return;
+      const size=[...currentSize],pause=frame.getByRole('button',{name:'Pause game',exact:true});
+      if(!await pause.isVisible())await resize(900,600);
+      await pause.click();
+      await frame.waitForFunction(()=>document.querySelector('#app')?.dataset.runState==='paused');
+      if(size[0]!==currentSize[0]||size[1]!==currentSize[1])await resize(...size);
+    };
+    const resumeForInput = async () => {
+      const state=await frame.locator('#app').getAttribute('data-run-state');
+      assert.ok(['playing','paused'].includes(state),`input requires a living run, got ${state}`);
+      if(state==='playing')return;
+      const resume=frame.getByRole('button',{name:'Resume game',exact:true});
+      if(!await resume.isVisible()){
+        await frame.locator('#session-controls-open').click();
+        await frame.getByRole('button',{name:'Next controls',exact:true}).click();
+      }
+      await resume.click();
+      await frame.waitForFunction(()=>document.querySelector('#app')?.dataset.runState==='playing');
+    };
     const closeEditor = async () => {
       for (let index = 0; index < 7; index++) {
         const pager = frame.locator('.session-controls-pages button').last();
@@ -202,7 +228,7 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
       // Save every exact state before inspecting it so a failing assertion has
       // a visual artifact rather than only a stack trace.
       await iframe.screenshot({ path: new URL(`local-session-layout-${state}-${width}x${height}-${theme}.png`, output).pathname });
-      evidence.frames.push({ state, width, height, theme, ...value });
+      evidence.frames.push({ state, width, height, theme, ...value, runState:await frame.locator('#app').getAttribute('data-run-state'), measurement:state==='hud'?(width===200?'viewport-suspended static layout':'deliberately paused static layout'):'setup' });
       if (width === 200) {
         if (!await frame.locator('.too-small').isVisible()) fail(`${state}/${theme}/${width}×${height} must show the exact below-minimum notice`, value);
         if (value.controls.length) fail(`${state}/${theme}/${width}×${height} must expose no controls below the minimum`, value.controls);
@@ -246,6 +272,7 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
       }
     };
 
+    await stage('same-board setup and keyboard editor continuity',async()=>{
     await frame.waitForFunction(() => window.localSessionLayout?.hydrated);
     const alpha = 'Layout Alpha', beta = 'Layout Beta';
     await send([pad(0, alpha), pad(1, beta)]);
@@ -327,10 +354,15 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
     await closeEditor();
     assert.equal(await frame.locator('.session-seat-chip[data-seat="p3"]').getAttribute('aria-pressed'), 'true', 'closing editor returns to the selected P3 setup seat');
 
+    });
+    await stage('same-board setup frame and theme matrix',async()=>{
     for (const theme of Object.keys(themes)) {
       await setTheme(theme);
       for (const [width, height] of frames) { await resize(width, height); await assertFrame('setup', width, height, theme); }
     }
+    });
+    for(const theme of Object.keys(themes))await stage(`same-board ${theme} HUD and active-input journey`,async()=>{
+    if(theme==='dark'){
 
     await resize(900, 600);
     await frame.locator('#local-session-start').click();
@@ -341,10 +373,14 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
       for (let frame = 0; frame < 5; frame++) await new Promise(resolve => requestAnimationFrame(resolve));
     });
     assert.equal(await frame.evaluate(() => document.activeElement?.closest('[data-seat]')?.getAttribute('data-seat')), 'p2', 'HUD update must preserve focus on the selected player identity control');
-    for (const theme of Object.keys(themes)) {
+    await pauseForMeasurement();
+    }
       await setTheme(theme);
+      await resumeForInput();
+      assert.equal(await frame.locator('#app').getAttribute('data-run-state'),'playing',`${theme} minimum-size suspension starts from active play`);
       for (const [width, height] of frames) {
         await resize(width, height);
+        if(width===200)assert.equal(await frame.locator('#app').getAttribute('data-run-state'),'paused',`${theme} below-minimum resize suspends the active run`);
         if (width === 240 && height === 240) {
           assert.equal(await frame.locator('#app').getAttribute('data-run-state'), 'paused', 'restoring from the below-minimum notice deliberately holds the local session paused');
           assert.equal(await frame.locator('#session-seats [data-seat]').count(), 4, 'safety pause retains all four session owners');
@@ -357,6 +393,7 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
           await resume.click();
           await frame.waitForFunction(() => document.querySelector('#app')?.dataset.runState === 'playing' && !document.querySelector('#session-seats')?.hasAttribute('hidden'));
         }
+        if(width>=240)await pauseForMeasurement();
         await assertFrame('hud', width, height, theme);
         if (width === 240 && height === 240 && theme === 'dark') {
           const identity = frame.locator('#session-seats .session-hud-selected .session-hud-identity');
@@ -365,6 +402,7 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
             return Number(text.match(/·\s*(\d+)\s*tiles/)?.[1]);
           };
           const p3BeforeInspect = await p3Distance();
+          await resumeForInput();
           await identity.focus();
           await identity.click();
           await frame.waitForFunction(() => document.querySelector('#session-seats')?.dataset.sessionHudInspect === 'true');
@@ -421,26 +459,37 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
           assert.equal(await closeInspection.isVisible(), true, 'restored inspection exposes its accessible shared-session exit');
           await closeInspection.click();
           await frame.waitForFunction(() => document.querySelector('#app')?.dataset.runState === 'playing' && !document.querySelector('#session-seats')?.hasAttribute('hidden'));
+          await pauseForMeasurement();
         }
       }
-    }
+    });
 
+    await stage('live reduced motion and complete matrix assertions',async()=>{
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await resize(900, 600);
+    await setTheme('dark');
+    await resumeForInput();
     const animationCount = await frame.evaluate(() => document.getAnimations().filter(animation => animation.playState === 'running').length);
     assert.equal(animationCount, 0, `reduced motion must make HUD changes immediate (running animations: ${animationCount})`);
     await iframe.screenshot({ path: new URL('local-session-layout-hud-900x600-dark-reduced.png', output).pathname });
     evidence.reducedMotion = { animationCount, width: 900, height: 600 };
+    assert.equal(evidence.frames.length,24);
+    assert.equal(new Set(evidence.frames.map(row=>`${row.state}/${row.theme}/${row.width}x${row.height}`)).size,24);
     assert.deepEqual(evidence.errors, []);
     await writeFile(new URL('local-session-layout.json', output), JSON.stringify(evidence, null, 2));
     console.log(JSON.stringify({ frames: evidence.frames.length, deficiencies: evidence.deficiencies, errors: evidence.errors }, null, 2));
     assert.equal(evidence.deficiencies.length, 0, `layout matrix deficiencies: ${JSON.stringify(evidence.deficiencies)}`);
+    });
+    journeyPassed=true;
   } catch (error) {
     evidence.failure = String(error);
     if (page) await page.locator('#napplet').screenshot({ path: new URL('local-session-layout-failure.png', output).pathname }).catch(() => {});
     await writeFile(new URL('local-session-layout.json', output), JSON.stringify(evidence, null, 2));
     throw error;
   } finally {
-    try{await collectRealm(frame,identity);}finally{await browser.close();}
+    let cleanupPassed=false;
+    try{await collectRealm(frame,identity);}finally{await browser.close();cleanupPassed=true;}
+    evidence.complete=journeyPassed&&cleanupPassed&&evidence.stages.length===5&&evidence.frames.length===24;
+    await writeFile(new URL('local-session-layout.json',output),JSON.stringify(evidence,null,2));
   }
 });

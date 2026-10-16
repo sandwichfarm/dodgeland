@@ -445,6 +445,28 @@
       "role": "browser",
       "browser": true,
       "provenance": "Six fresh opaque app realms acquired by visible controls and public seed intent; readonly production mode/base observation; exclusive live counter intervals"
+    },
+    "layout-12": {
+      "files": [
+        "tests/local-session-layout.mjs"
+      ],
+      "roles": {
+        "tests/local-session-layout.mjs": "browser"
+      },
+      "browser": true,
+      "jobs": [
+        {
+          "id": "local-session-layout",
+          "file": "tests/local-session-layout.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "defaultBuildScope": "production",
+          "artifactPatterns": []
+        }
+      ],
+      "provenance": "Complete original same-board Local Play setup/HUD/theme/input journey; public pause for static measurements; canonical source-bound realm"
     }
   },
   "pendingAdapters": [
