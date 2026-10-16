@@ -42,3 +42,10 @@ test('legacy dead-device defaults and active-device reclaim remain unchanged',()
   assert.equal(session.deviceLost('p2'),true);assert.equal(session.reclaim('p2','gamepad-1'),true);assert.equal(session.players[1].participation,'active');
   assert.throws(()=>composeSessionModeDefinition(game.definition,{retainDeadDevice:'yes'}));
 });
+test('secondary dead-device rebind does not redirect the primary facade',()=>{
+  const {game,session}=setup();const primary=session.players[0],secondary=session.players[1];
+  session.damage('p2',{cause:'train',amount:3,reason:'Actual secondary fatality'});
+  const before=resources(primary),offer=secondary.recovery.offer;
+  assert.equal(session.deviceLost('p2'),true);assert.equal(session.reclaim('p2','gamepad-9',session.deviceReclaimToken('p2')),true);
+  assert.deepEqual(resources(primary),before);assert.equal(game.health,primary.health);assert.equal(secondary.participation,'dead');assert.deepEqual(secondary.recovery.offer,offer);
+});

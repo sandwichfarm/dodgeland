@@ -63,6 +63,7 @@ export interface SessionModeHandlers {
   canTransact?(seat: SeatId): boolean;
   canAdmit?(): boolean;
   simulates?(player: SessionPlayer): boolean;
+  retainsPosition?(player: SessionPlayer): boolean;
   canAdvance?(): boolean;
   attach?(session: LocalSession): void;
   join?(record: SessionLifecycleRecord): void;
@@ -85,7 +86,7 @@ export interface SessionModeDefinition {
 /** Trusted authored callbacks, validated and captured before session allocation. */
 export function composeSessionModeDefinition(definition: ModeDefinition, handlers: SessionModeHandlers): SessionModeDefinition {
   if (!isModeDefinition(definition)) throw new TypeError('Compose a validated mode definition first.');
-  const callbacks = ['beforeDeath', 'beforeDepart', 'canLifecycle', 'canAct', 'canTransact', 'canAdmit', 'simulates', 'canAdvance', 'attach', 'join', 'deviceLost', 'reclaim', 'depart', 'death', 'progress', 'result', 'tick', 'pending', 'recover'];
+  const callbacks = ['beforeDeath', 'beforeDepart', 'canLifecycle', 'canAct', 'canTransact', 'canAdmit', 'simulates', 'retainsPosition', 'canAdvance', 'attach', 'join', 'deviceLost', 'reclaim', 'depart', 'death', 'progress', 'result', 'tick', 'pending', 'recover'];
   if (!handlers || typeof handlers !== 'object' || Array.isArray(handlers)) throw new TypeError('Expected session handlers.');
   for (const [key, value] of Object.entries(handlers)) {
     if (key === 'preserveReclaimPosition' || key === 'suppressPursuit' || key === 'retainDeadDevice' ? typeof value !== 'boolean' : !callbacks.includes(key) || typeof value !== 'function') throw new TypeError(`Invalid session handler: ${key}`);
@@ -671,7 +672,7 @@ export class LocalSession {
   /** Non-crediting turn placement, also usable after a departed/dead owner. */
   placeTurnPosition(incomingSeat: SeatId, position: Readonly<{ x: number; y: number }>): boolean {
     const incoming = this.players.find(player => player.seat === incomingSeat);
-    if (!incoming || incoming.participation !== 'active' || incoming.state !== 'playing' || !this.isSafeCell(position)) return false;
+    if (!incoming || incoming.participation !== 'active' || !['playing','paused'].includes(incoming.state) || !this.isSafeCell(position)) return false;
     incoming.x = incoming.fromX = position.x; incoming.y = incoming.fromY = position.y;
     incoming.maxY = Math.max(incoming.maxY, incoming.y);
     incoming.personalFrontierY = Math.max(incoming.personalFrontierY, incoming.y);
@@ -967,7 +968,8 @@ export class LocalSession {
     const frame = this.world.beginFrame(activePlayers);
     const priorStates = new Map(activePlayers.map(player => [player, player.state]));
     const previousTime = this.world.update(dt);
-    this.world.activeFloor = Math.min(...activePlayers.flatMap(player => [Math.floor(player.groundY), Math.floor(player.fromY), Math.floor(player.y)]));
+    const retainedPlayers = this.players.filter(player => activePlayers.includes(player) || this.mode?.handlers.retainsPosition?.(player));
+    this.world.activeFloor = Math.min(...retainedPlayers.flatMap(player => [Math.floor(player.groundY), Math.floor(player.fromY), Math.floor(player.y)]));
     this.world.host.ensureRows();
     const groundBefore = frame.playerGround;
     for (const player of this.players) {

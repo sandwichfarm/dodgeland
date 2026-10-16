@@ -1,5 +1,7 @@
 # 05-03 dependency checkpoint
 
+Historical checkpoint: authorized repair is now implemented; see05-03-DEPENDENCY-REPAIR.md. Original RED evidence below remains retained. Plan completion is tracked separately.
+
 Status: incomplete; neither task is accepted. Generic executor fallback applies the GSD executor workflow. No production files changed. Entry proof remains final session96373, exit0, `/tmp/down-to-duck-05-02-final-gate.log`, on unchanged production8f59d42; HEAD15e5c1e additionally contained the accepted test-only balance and documentation commits.
 
 ## Retained production RED

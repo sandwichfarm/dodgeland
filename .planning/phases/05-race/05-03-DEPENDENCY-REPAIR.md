@@ -1,0 +1,13 @@
+# 05-03 generic device/retention repair
+
+Generic executor fallback. Root explicitly authorized the shared repair after retained RED `dca48e0`; see05-03-DEPENDENCY-CHECKPOINT.md for the original actual API table.
+
+`da43154` adds validated opt-in `retainDeadDevice`. Default active-device behavior remains unchanged. Dead absence emits dead→dead without changing the offer. `deviceReclaimToken` captures session, participant, seat, prior device and lifecycle generation; dead rebind requires that token, rejects malformed/occupied/stale identities, adds the existing recovery-device alias and accounts absence once. It never invokes recovery, restores health, or changes dead participation. Dedicated shared tests cover primary and secondary isolation, missing/wrong/stale tickets, occupied identities, repeated transitions, offer/protection/economy invariants and legacy defaults.
+
+Initial focused command16009 exited0,44/44 plus type-check, `/tmp/down-to-duck-05-03-dependency-green.log`: shared device, original Race RED, delivered router, Relay lifecycle including built browser flows, and recovery. Additional secondary isolation is covered by exact task1 command67761 exit0, `/tmp/down-to-duck-05-03-task1-gate.log` (shared device4/4).
+
+The existing Race fog-reclaim regression then exposed a second actual dependency: ghost exclusion raised `SharedWorld.activeFloor` to leader13 and removed the reserved row0, so safe no-ahead reclaim correctly rejected. `/tmp/down-to-duck-05-03-policy-green.log` records20/21 and that failure; root authorized a generic opt-in `retainsPosition` predicate. The existing shared floor now includes opted-in retained positions. Race reserves only living disconnected-grace positions. No terrain reconstruction, new world or random stream is introduced. Original row-object identity is retained during grace, and explicit leave/expiry releases it for normal pruning. Non-crediting safe placement also accepts a paused living participant so a deliberate reclaim dialog preserves shared pause rather than failing placement after binding.
+
+Dependency plus Race policy command58498 exited0 (21/21 and type-check), `/tmp/down-to-duck-05-03-policy-green-2.log`. Expanded model/build15472 exited0 (26/26, type, build), `/tmp/down-to-duck-05-03-model-build.log`, including bounded retention release, actual249/250/251 earned hops, paused no-ahead reclaim and dead-offer waiting. Exact task1 gate67761 supplies the final focused dependency proof; overall05-03 verification is recorded in its completion SUMMARY only after completion.
+
+No default mode-ID branch, duplicated recovery, installation, lockfile/oracle update or preview process. This repair resolves the earlier checkpoint; it does not independently complete05-03 or Phase05.
