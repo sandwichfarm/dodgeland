@@ -524,6 +524,8 @@ const market = createMarketUI({
 const router: GamepadRouter = new GamepadRouter({
   context: () => `${race?.generation ?? 0}:${relay ? `relay:${relay.snapshot().phase}:${relay.snapshot().revision}:` : ''}${recoveryBoard ? `recovery:${recoveryBoardOwner?.seat ?? ''}:${recoveryBoard.dataset.recoveryPage ?? ''}` : lifecycleBoard ? `lifecycle:${lifecycleBoard.dataset.lifecycleOwner ?? ''}` : hudDetailsOpen ? `hud:${hudSelected}:${el('session-seats').querySelector<HTMLElement>(`[data-seat="${hudSelected}"]`)?.dataset.sessionHudPage ?? ''}` : !surviveResultsRoot.hidden ? 'survive-results' : localStage ? 'setup' : localSession ? sessionPaused ? 'session-paused' : 'session' : 'solo'}:${game.state}:${hand.isOpen() ? 'hand' : market.isOpen() ? 'market' : el('drawer').hidden ? `run:${el('app').dataset.runMenuPage ?? el('app').dataset.pausePage ?? ''}` : `collection:${el('drawer').dataset.collectionTab}:${el('drawer').dataset.collectionView}`}`,
   dispatch: ({ seat, direction }) => {
+    // Router leases and fresh edges authorize terminal UI independently of gameplay.
+    if (!surviveResultsRoot.hidden) { navigateModalControls(surviveResultsRoot, direction); return true; }
     if (relayHandoff) { relayDirection(seat, direction); return true; }
     if (localSession && !(market.isOpen() || hand.isOpen() || hand.containsFocus() ? localSession.canTransact(seat) : localSession.canAct(seat))) return false;
     if (recoveryBoard) {
@@ -540,7 +542,6 @@ const router: GamepadRouter = new GamepadRouter({
       if (tile) navigateModalControls(tile, direction);
       return true;
     }
-    if (!surviveResultsRoot.hidden) { navigateModalControls(surviveResultsRoot, direction); return true; }
     if (hand.isOpen() || hand.containsFocus()) {
       if (seat !== hudSelected) return false;
       hand.navigate(direction); return true;
@@ -554,6 +555,11 @@ const router: GamepadRouter = new GamepadRouter({
     return false;
   },
   action: (seat, action) => {
+    if (!surviveResultsRoot.hidden) {
+      if (action === 'confirm') confirmModal(surviveResultsRoot);
+      else if (action === 'back') navigateModalControls(surviveResultsRoot, 'back');
+      return;
+    }
     if (relayHandoff) { if (action === 'confirm') relayConfirmControl(seat); else if (action === 'back') relayAction('cancel', seat); return; }
     if (relay && action === 'menu') { relayAction('leave', seat); return; }
     if (race && action === 'menu' && !lifecycleBoard) { openDepartureBoard(seat); return; }
@@ -576,11 +582,6 @@ const router: GamepadRouter = new GamepadRouter({
       const tile = el('session-seats').querySelector<HTMLElement>(`[data-seat="${hudSelected}"]`);
       if (action === 'confirm' && tile) confirmModal(tile);
       else if (action === 'back' || action === 'pause') { closeHudInspection(); updateHud(); }
-      return;
-    }
-    if (!surviveResultsRoot.hidden) {
-      if (action === 'confirm') confirmModal(surviveResultsRoot);
-      else if (action === 'back') navigateModalControls(surviveResultsRoot, 'back');
       return;
     }
     // A shoulder market action intentionally changes the displayed owner; the

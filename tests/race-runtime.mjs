@@ -134,3 +134,19 @@ for(const outcome of ['finish','timeout-dnf'])test(`assigned controller operates
   assert.equal(await app.onSession(function(){return JSON.stringify(this.result);}),frozen,'previous session result survives retry');assert.deepEqual(evidence.errors,[]);assert.deepEqual(evidence.external,[]);
  }finally{await app.close();}
 });
+
+for(const mode of ['survive','relay'])test(`assigned controller terminal routing preserves ${mode} results`,{timeout:60000},async()=>{
+ const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{gamepads:true,auditBoundary:true,initialIntent:intent});
+ try{
+  const f=app.frame;if(mode==='survive'){await f.locator('#play').click();await f.locator('#pause').click();}await f.locator('#local-play').click();await f.locator('#session-roster [data-seat="p2"]').click();await f.getByRole('button',{name:'Leave this seat',exact:true}).click();await app.sendPads([pad(0)]);await app.sendPads([pad(0,[0])]);await app.sendPads([pad(0)]);if(mode==='relay')await f.locator('#relay-play').click();await f.locator('#local-session-start').click();await app.advance(32);
+  if(mode==='relay'){await f.locator('[data-seat="p1"] [data-session-hud="item"]').click();await f.locator('#relay-handoff').getByRole('button',{name:'Leave Relay',exact:true}).click();await f.getByRole('button',{name:"Start P2's leg",exact:true}).click();}
+  else {await f.locator('[data-seat="p1"] [data-session-hud="item"]').click();await f.getByRole('button',{name:'Leave P1 run',exact:true}).click();await f.getByRole('button',{name:'Leave run',exact:true}).click();}
+  if(await app.onGame(function(){return this.state==='paused';}))await f.locator('#pause').click();
+  await app.sendPads([pad(0)]);
+  for(let i=0;i<180;i++){const state=await app.onSession(function(){const p=this.players.find(p=>p.seat==='p2');return {offer:!!p.recovery.offer,row:this.world.rows.get(p.y)?.kind};});if(state.offer)break;if(state.row!=='road'){await app.sendPads([pad(0,[12])]);await app.sendPads([pad(0)]);}await app.advance(200);}
+  assert.equal(await app.onSession(function(){return !!this.players.find(p=>p.seat==='p2').recovery.offer;}),true,'real traffic creates a personal offer');
+  if(mode==='relay')await f.getByRole('button',{name:'Continue without revive',exact:true}).click();else await app.advance(8500);const root=f.locator(mode==='relay'?'#relay-handoff[data-phase=ended]':'#survive-results-root');await root.waitFor({state:'visible'});const frozen=await app.onSession(function(){return JSON.stringify(this.result);});
+  const next=root.getByRole('button',{name:mode==='relay'?'Next result page':'Next results',exact:true});const paged=await next.isEnabled();await (paged?next:root.getByRole('button',{name:'Seed',exact:true})).focus();await app.sendPads([pad(0)]);await app.sendPads([pad(0,[0])]);await app.sendPads([pad(0)]);assert.equal(await root.isVisible(),true);if(!paged){await root.getByRole('button',{name:'Back to results',exact:true}).focus();await app.sendPads([pad(0,[0])]);await app.sendPads([pad(0)]);}assert.equal(await app.onSession(function(){return JSON.stringify(this.result);}),frozen);
+  await root.getByRole('button',{name:'Hop again',exact:true}).focus();await app.sendPads([pad(0,[0])]);await app.sendPads([pad(0)]);assert.equal(await root.isVisible(),false);assert.equal(await app.onSession(function(){return JSON.stringify(this.result);}),frozen);assert.deepEqual(evidence.errors,[]);
+ }finally{await app.close();}
+});
