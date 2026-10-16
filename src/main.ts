@@ -27,7 +27,7 @@ import { createLocalSessionBoard, createSessionKeyboardEditor } from './session-
 import type { LocalSessionBoard, SessionSetupSeat } from './session-ui.js';
 import { createRelaySession, RELAY_LOCKED } from './relay.js';
 import type { RelayCoordinator, RelayConfirmation, RelayActionToken } from './relay.js';
-import { createRelaySetup, createRelayHandoff, createRelayLifecycle } from './relay-ui.js';
+import { createRelaySetup, createRelayHandoff, createRelayLifecycle, createRelayResults } from './relay-ui.js';
 import { GameAudio } from './audio.js';
 import { Soundscape } from './soundscape.js';
 import { createSoundSettings } from './sound-settings.js';
@@ -59,6 +59,7 @@ let stagingSurviveTogether = false;
 let stagingRelay = false;
 let relay: RelayCoordinator | undefined;
 let relayHandoff: HTMLElement | undefined;
+let disposeRelayResults: (() => void) | undefined;
 let relayBoardKey = '';
 let relayRenderedOwner: SeatId | undefined;
 let stagedLiveJoin: GamepadDevice | undefined;
@@ -717,6 +718,7 @@ function relayConfirmControl(seat: SeatId): void {
   const focused = document.activeElement;
   const control = focused instanceof HTMLButtonElement && relayHandoff.contains(focused) ? focused : relayHandoff.querySelector<HTMLButtonElement>('button');
   if (!control) return;
+  if (relay.snapshot().phase === 'ended') { control.click(); return; }
   const kind = control.dataset.relayAction;
   if (kind === 'skip' || kind === 'leave') relayAction(kind, seat);
   else if (control.dataset.actor === seat && kind) relayAction(kind, seat);
@@ -725,19 +727,21 @@ function relayDirection(seat: SeatId, direction: Direction): void {
   if (!relay || !relayHandoff) return;
   if (relay.snapshot().phase === 'handoff') { if (direction === 'forward') confirmRelay(seat); return; }
   if (direction === 'forward') relayConfirmControl(seat);
-  else if (relayHandoff.dataset.actor === seat || relay.snapshot().activeSeat === seat) navigateModalControls(relayHandoff, direction);
+  else if (relay.snapshot().phase === 'ended' || relayHandoff.dataset.actor === seat || relay.snapshot().activeSeat === seat) navigateModalControls(relayHandoff, direction);
 }
 function syncRelayHandoff(): void {
   if (!relay || lifecycleBoard) return;
   const state = relay.snapshot(), key = `${state.phase}:${state.revision}:${state.incomingSeat}:${relay.session.lifecycle.length}`;
   if (relayRenderedOwner !== state.activeSeat) { relayRenderedOwner = state.activeSeat; selectHudOwner(state.activeSeat); }
   if (key === relayBoardKey) return;
-  relayBoardKey = key; relayHandoff?.remove(); relayHandoff = undefined;
+  relayBoardKey = key; disposeRelayResults?.(); disposeRelayResults = undefined; relayHandoff?.remove(); relayHandoff = undefined;
   clearRelayInput();
   if (state.phase === 'running') { el('scene').focus({ preventScroll: true }); return; }
   if (state.phase === 'handoff') {
     const confirmation = relay.confirmation();
     relayHandoff = createRelayHandoff(el('app'), relay, () => confirmRelay(confirmation.seat, confirmation));
+  } else if (state.phase === 'ended' && relay.result) {
+    const view = createRelayResults(el('app'), relay.result, reset); relayHandoff = view.element; disposeRelayResults = view.dispose;
   } else relayHandoff = createRelayLifecycle(el('app'), relay, relayAction);
 }
 const sessionKeyboardEditor = createSessionKeyboardEditor({
@@ -804,6 +808,7 @@ function reset(launch?: GameLaunch): void {
   for (const player of localSession?.players ?? []) router.release(player.seat);
   for (const seat of setupDraft) if (seat.device?.startsWith('gamepad-')) router.release(seat.seat);
   localSession?.stop(); localSession = undefined; localStage?.cancel(); localStage = undefined; setupDraft = []; sessionPaused = false;
+  disposeRelayResults?.(); disposeRelayResults = undefined;
   relay = undefined; relayBoardKey = ''; relayRenderedOwner = undefined; stagingRelay = false; relayHandoff?.remove(); relayHandoff = undefined;
   if (restoreController) router.assign(restoreController, 'p1');
   sessionKeyboardEditor.close();
@@ -1351,7 +1356,7 @@ function nativeKeyboardKeydown(event: KeyboardEvent): void {
     const held = observedNativeKeys.has(event.key);
     observedNativeKeys.add(event.key);
     if ((event.key === 'Enter' || event.key === ' ') && !held && !event.repeat) {
-      const actor = relayHandoff.dataset.actor as SeatId | undefined;
+      const actor = (relay?.snapshot().phase === 'ended' ? localSession?.players.find(p => p.device.startsWith('keyboard-'))?.seat : relayHandoff.dataset.actor) as SeatId | undefined;
       if (actor && localSession?.players.find(p => p.seat === actor)?.device.startsWith('keyboard-')) relayConfirmControl(actor);
     }
     if (keyboardInput?.keydown(event.key)) { event.preventDefault(); event.stopPropagation(); }
@@ -1593,5 +1598,5 @@ async function boot(): Promise<void> {
   }
   if (runtimeHasDomain('keys')) await Promise.all(shellShortcutDefinitions.map(registerShellShortcut));
 }
-window.addEventListener('pagehide', () => { if (disposed) return; disposed = true; surviveResults.dispose(); deactivateNativeKeyboard(); localSession?.stop(); localStage?.cancel(); localStage = undefined; document.removeEventListener('keydown', localSetupKeydown, true); document.removeEventListener('keydown', nativeKeyboardKeydown); document.removeEventListener('keyup', nativeKeyboardKeyup); sessionKeyboardEditor.dispose(); if (import.meta.env.DEV) devTools?.dispose(); game.closeMarket(false); gamepad.close(); router.close(); market.dispose(); pauseUI.dispose(); runMenuUI.dispose(); collectionUI.dispose(); hand.dispose(); seedUI.dispose(); sounds.dispose(); cancelAnimationFrame(raf); observer.disconnect(); bindings.forEach(b => b.close()); for (const lease of shellShortcutLeases.values()) lease.close(); shellShortcutLeases.clear(); });
+window.addEventListener('pagehide', () => { if (disposed) return; disposed = true; disposeRelayResults?.(); disposeRelayResults = undefined; surviveResults.dispose(); deactivateNativeKeyboard(); localSession?.stop(); localStage?.cancel(); localStage = undefined; document.removeEventListener('keydown', localSetupKeydown, true); document.removeEventListener('keydown', nativeKeyboardKeydown); document.removeEventListener('keyup', nativeKeyboardKeyup); sessionKeyboardEditor.dispose(); if (import.meta.env.DEV) devTools?.dispose(); game.closeMarket(false); gamepad.close(); router.close(); market.dispose(); pauseUI.dispose(); runMenuUI.dispose(); collectionUI.dispose(); hand.dispose(); seedUI.dispose(); sounds.dispose(); cancelAnimationFrame(raf); observer.disconnect(); bindings.forEach(b => b.close()); for (const lease of shellShortcutLeases.values()) lease.close(); shellShortcutLeases.clear(); });
 void boot();

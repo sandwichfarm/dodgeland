@@ -262,9 +262,10 @@ test('built Relay routes original reclaim, fresh skip/cancel, deliberate leave a
   await send([pad(0)]); await send([pad(0, [3])]); await frame.getByRole('heading', { name: 'Leave Relay as P2?' }).waitFor(); await capture('leave');
   await frame.getByRole('button', { name: 'Keep playing', exact: true }).click();
   await send([pad(0)]); await send([pad(0, [3])]); await frame.getByRole('button', { name: 'Leave Relay', exact: true }).last().click();
+  await frame.getByRole('button', { name: "Start P1's leg", exact: true }).click();
   await frame.waitForFunction(() => !document.querySelector('#relay-handoff'));
   await frame.locator('[data-seat="p1"] [data-session-hud="item"]').click(); await frame.getByRole('heading', { name: 'Leave Relay as P1?' }).waitFor();
-  await frame.locator('#relay-handoff').getByRole('button', { name: 'Leave Relay', exact: true }).click(); await frame.getByRole('heading', { name: 'No runner remains.' }).waitFor(); await capture('ended');
+  await frame.locator('#relay-handoff').getByRole('button', { name: 'Leave Relay', exact: true }).click(); await frame.getByRole('heading', { name: 'Relay results' }).waitFor(); await capture('ended');
 }));
 
 test('built fresh keyboard skip leaves the original reserved seat waiting after the last connected departure', { timeout: 45_000 }, async () => browserRun(async ({ page, frame, send }) => {
@@ -276,6 +277,7 @@ test('built fresh keyboard skip leaves the original reserved seat waiting after 
   await page.keyboard.down('w'); await frame.getByRole('heading', { name: 'Skip P2 this turn?' }).waitFor();
   await page.keyboard.down('w'); assert.equal(await frame.locator('#relay-handoff[data-phase="confirm-skip"]').count(), 1);
   await page.keyboard.up('w'); await page.keyboard.press('d'); await page.keyboard.press('w');
+  await frame.getByRole('button', { name: "Start P1's leg", exact: true }).click();
   await frame.waitForFunction(() => !document.querySelector('#relay-handoff'));
   await frame.locator('[data-seat="p1"] [data-session-hud="item"]').click(); await frame.locator('#relay-handoff').getByRole('button', { name: 'Leave Relay', exact: true }).click();
   await frame.getByRole('heading', { name: 'Waiting for a player to reclaim.' }).waitFor();
@@ -290,7 +292,7 @@ test('built fresh keyboard skip leaves the original reserved seat waiting after 
   await page.setViewportSize({ width: 930, height: 630 }); await page.locator('iframe').evaluate(node => { node.style.width = '900px'; node.style.height = '600px'; }); await page.waitForTimeout(40);
   await send([pad(0, [0])]); assert.equal(await frame.locator('#survive-lifecycle-board').count(), 0);
   await send([pad(0)]); await send([pad(0, [0])]); await frame.getByRole('heading', { name: /Continue as/ }).waitFor();
-  await send([pad(0)]); await send([pad(0, [0])]); await frame.waitForFunction(() => !document.querySelector('#relay-handoff') && !document.querySelector('#survive-lifecycle-board'));
+  await send([pad(0)]); await send([pad(0, [0])]); await frame.getByRole('button', { name: "Start P2's leg", exact: true }).waitFor(); await send([pad(0)]); await send([pad(0, [0])]); await frame.waitForFunction(() => !document.querySelector('#relay-handoff') && !document.querySelector('#survive-lifecycle-board'));
 }));
 
 for (const choice of ['accept', 'decline', 'expire', 'leave']) test(`built personal recovery ${choice} uses the production death transaction and visible Relay board`, { timeout: 45_000 }, async () => {
@@ -336,6 +338,10 @@ for (const choice of ['accept', 'decline', 'expire', 'leave']) test(`built perso
     assert.equal(actual[0].deaths, 1); assert.equal(actual[0].wallet, 0); assert.equal(actual[1].wallet, 17);
     assert.equal(actual[0].state, choice === 'accept' ? 'playing' : 'dead'); assert.equal(actual[0].offer, false);
     if (choice === 'leave') assert.equal(actual[0].participation, 'departed');
+    if (choice !== 'accept') {
+      assert.equal(await app.frame.getByRole('button', { name: "Start P2's leg", exact: true }).isVisible(), true);
+      await app.frame.getByRole('button', { name: "Start P2's leg", exact: true }).click();
+    }
     assert.equal(await app.frame.locator('#relay-handoff').count(), 0);
     assert.deepEqual(evidence.errors, []); assert.deepEqual(evidence.external, []);
   } finally { await app.close(); }

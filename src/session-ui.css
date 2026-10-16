@@ -229,3 +229,45 @@ body:has(#local-session-setup:not([hidden]) #session-board), body:has(#session-s
 @media (max-width: 479px), (max-height: 419px) {
  #session-board[data-relay-page="players"] > :is(h2, #session-status) { display: none; }
 }
+
+.relay-results { align-content: stretch; grid-template-rows: auto minmax(0, 1fr) auto auto; justify-items: stretch; text-align: center; }
+.relay-results h2 { font-size: 28px; line-height: 1.15; }
+.relay-results-body { min-height: 0; display: grid; align-content: center; gap: 12px; }
+.relay-results-body h3 { margin: 0; font-size: 20px; line-height: 1.2; }
+.relay-results-body dl { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.relay-results-body dl > div { min-width: 0; border-top: 1px solid var(--game-wood); padding-top: 4px; }
+.relay-results-body dt { font-size: 13px; }
+.relay-results-body dd { margin: 0; font-size: 16px; font-weight: 700; }
+.relay-results-nav { display: grid; grid-template-columns: 44px minmax(0, 1fr) 44px; gap: 8px; }
+@media (max-height: 479px), (max-width: 299px) {
+ .relay-results { inset: 0; padding: 8px; gap: 8px; border: 0; }
+ .relay-results h2 { font-size: 20px; line-height: 24px; }
+ .relay-results-body { gap: 4px; }
+ .relay-results-body h3 { font-size: 16px; line-height: 20px; }
+ .relay-results-body dl { grid-template-columns: minmax(0, 1fr); gap: 0; }
+ .relay-results-body dl > div { padding: 0; border: 0; }
+ .relay-results-body dt, .relay-results-body dd { display: inline; font-size: 13px; line-height: 16px; }
+ .relay-results-body dt::after { content: ': '; }
+}
+.relay-results-content { min-height: 0; display: grid; }
+.relay-results-podium { display: none; }
+@media (min-width: 900px) and (min-height: 600px) {
+ .relay-results:not([data-result-view="podium"]) .relay-results-content { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: center; }
+ .relay-results:not([data-result-view="podium"]) .relay-results-podium { display: grid; gap: 12px; }
+ .relay-results-podium h3 { margin: 0; font-size: 28px; }
+ .relay-podium-tier { padding: 8px; border-bottom: 4px solid var(--game-wood); }
+ .relay-podium-tier strong { font-size: 44px; line-height: 1.1; font-weight: 600; }
+ .relay-podium-tier p { font-size: 16px; }
+ .relay-results-body h3 { font-size: 28px; }
+ .relay-results[data-result-view="podium"] .relay-results-body h3 { font-size: 44px; font-weight: 600; line-height: 1.1; }
+}
+
+@media (min-width: 900px) and (min-height: 600px) {
+ .relay-podium-tier { display: grid; grid-template-columns: 64px minmax(0, 1fr); align-items: center; }
+ .relay-podium-tier strong { grid-column: 1; grid-row: 1 / span 4; }
+ .relay-podium-tier p { grid-column: 2; }
+}
+@media (min-width: 900px) and (min-height: 600px) {
+ .relay-results:not([data-result-view="podium"]) .relay-results-podium { gap: 8px; }
+ .relay-podium-tier { padding: 4px; }
+}

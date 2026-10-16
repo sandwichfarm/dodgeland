@@ -66,8 +66,8 @@ export function createRelaySetup(options: { root: HTMLElement; seats(): readonly
 export function createRelayHandoff(root: HTMLElement, relay: RelayCoordinator, confirm: () => void): HTMLElement {
   const snapshot = relay.snapshot();
   const board = document.createElement('section'); board.id = 'relay-handoff'; board.className = 'relay-handoff'; board.setAttribute('role', 'dialog'); board.setAttribute('aria-modal', 'true'); board.setAttribute('aria-labelledby', 'relay-handoff-title');
-  const title = document.createElement('h2'); title.id = 'relay-handoff-title'; title.textContent = `Leg ${snapshot.leg} complete`;
-  const status = document.createElement('p'); status.textContent = `${snapshot.activeSeat.toUpperCase()} carried the baton ${snapshot.tilesPerLeg} tiles.`;
+  const title = document.createElement('h2'); title.id = 'relay-handoff-title'; title.textContent = snapshot.readyReason ? `${snapshot.incomingSeat.toUpperCase()}'s turn` : `Leg ${snapshot.leg} complete`;
+  const status = document.createElement('p'); status.textContent = snapshot.readyReason ? 'The next runner starts when ready.' : `${snapshot.activeSeat.toUpperCase()} carried the baton ${snapshot.tilesPerLeg} tiles.`;
   const incoming = snapshot.roster.find(seat => seat.seat === snapshot.incomingSeat)!;
   const identity = document.createElement('p'); identity.textContent = `Up next · ${incoming.seat.toUpperCase()} · ${characterById(incoming.characterId).name}`;
   const start = document.createElement('button'); start.type = 'button'; start.textContent = `Start ${incoming.seat.toUpperCase()}'s leg`; start.onclick = confirm;
@@ -130,4 +130,70 @@ export function createRelayLifecycle(root: HTMLElement, relay: RelayCoordinator,
   root.append(board); (board.querySelector('button') ?? title).setAttribute('tabindex', '0'); (board.querySelector<HTMLButtonElement>('button') ?? title).focus({ preventScroll: true });
   board.addEventListener('keydown', event => { if (event.key !== 'Tab') return; const controls = [...board.querySelectorAll<HTMLButtonElement>('button')]; event.preventDefault(); if (!controls.length) return; const index = controls.indexOf(document.activeElement as HTMLButtonElement); controls[(index + (event.shiftKey ? -1 : 1) + controls.length) % controls.length]!.focus({ preventScroll: true }); });
   return board;
+}
+
+/** A view over a completed record: navigation never reads a mutable session. */
+export function createRelayResults(root: HTMLElement, result: import('./relay-results.js').RelayResult, again: () => void) {
+  const board = document.createElement('section');
+  board.id = 'relay-handoff'; board.className = 'relay-handoff relay-results'; board.dataset.phase = 'ended';
+  board.setAttribute('role', 'dialog'); board.setAttribute('aria-modal', 'true'); board.setAttribute('aria-labelledby', 'relay-results-title');
+  const title = document.createElement('h2'); title.id = 'relay-results-title'; title.textContent = 'Relay results';
+  const body = document.createElement('div'); body.className = 'relay-results-body'; body.setAttribute('aria-live', 'polite');
+  const nav = document.createElement('nav'); nav.className = 'relay-results-nav'; nav.setAttribute('aria-label', 'Result pages');
+  const previous = document.createElement('button'), section = document.createElement('button'), next = document.createElement('button'), restart = document.createElement('button');
+  for (const button of [previous, section, next, restart]) button.type = 'button';
+  previous.textContent = '‹'; previous.setAttribute('aria-label', 'Previous result page'); next.textContent = '›'; next.setAttribute('aria-label', 'Next result page');
+  restart.textContent = 'Hop again'; restart.onclick = again;
+  const content = document.createElement('div'); content.className = 'relay-results-content';
+  const podium = document.createElement('aside'); podium.className = 'relay-results-podium'; podium.setAttribute('aria-label', 'Contribution podium');
+  content.append(podium, body);
+  nav.append(previous, section, next); board.append(title, content, nav, restart);
+  type Page = { title: string; fields: readonly (readonly [string, string])[] };
+  let view = 0, page = 0;
+  const marker = (seat: SeatId) => ['▲', '●', '◆', '■'][Number(seat.slice(1)) - 1];
+  const identity = (row: {seat: SeatId; characterId: string}) => `${marker(row.seat)} ${row.seat.toUpperCase()} · ${characterById(row.characterId).name}`;
+  const duration = (seconds: number) => `${seconds.toFixed(1)}s`;
+  const outcome = { complete: 'Handed off', dead: 'Dead', skipped: 'Skipped', left: 'Left', ended: 'Ended' };
+  const terminal = result.outcome === 'no-eligible-runner' ? 'No runner remains.' : result.outcome === 'complete' ? 'Relay complete.' : result.outcome;
+  const shared = document.createElement('h3'); shared.textContent = `Relay distance ${result.distance} hops.`;
+  const sharedOutcome = document.createElement('p'); sharedOutcome.textContent = `${terminal} ${duration(result.elapsedSeconds)}`;
+  podium.append(shared, sharedOutcome);
+  for (const tier of result.podium) {
+    const group = document.createElement('section'); group.className = 'relay-podium-tier';
+    const rank = document.createElement('strong'); rank.textContent = tier.label; rank.setAttribute('aria-label', `Rank ${tier.label}`); group.append(rank);
+    for (const id of tier.participants) { const row = result.contributions.find(row => row.participantId === id)!; const member = document.createElement('p'); member.textContent = `${identity(row)} · ${row.distance} hops`; group.append(member); }
+    podium.append(group);
+  }
+  function pages(): Page[] {
+    const short = root.clientHeight < 480 || root.clientWidth < 300;
+    const all: Page[] = view === 0 ? [
+      {title: `Relay distance ${result.distance} hops.`, fields: [['Outcome', terminal], ['Relay time', duration(result.elapsedSeconds)]]},
+      ...result.podium.map(tier => ({ title: `Rank ${tier.label}`, fields: tier.participants.map(id => { const row = result.contributions.find(row => row.participantId === id)!; return [identity(row), `${row.distance} hops`] as const; }) })),
+    ] : view === 1 ? result.contributions.map(row => ({title: identity(row), fields: [
+      ['Rank', row.rankLabel], ['Lifecycle', row.lifecycle === 'departed' ? 'Left' : !row.connected ? 'Disconnected' : row.lifecycle === 'dead' ? 'Dead' : 'Active'],
+      ['Distance', `${row.distance} hops`], ['Legs', String(row.legs)], ['Active time', duration(row.duration)], ['Coins', String(row.coins)], ['Pickups', String(row.pickups)], ['Self revives', String(row.selfRevives)], ['Deaths', String(row.deaths)], ['Skips', String(row.skips)],
+    ]})) : result.legs.map(row => ({title: `Leg ${row.leg} · ${identity(row)}`, fields: [
+      ['Outcome', outcome[row.outcome]], ['Frontier', `${row.startFrontier} → ${row.endFrontier}`], ['Distance', `${row.distance} hops`], ['Active time', duration(row.duration)], ['Coins', String(row.coins)], ['Pickups', String(row.pickups)], ['Self revives', String(row.selfRevives)], ['Deaths', String(row.deaths)],
+    ]}));
+    if (!all.length) return [{title: 'No legs opened', fields: []}];
+    return short ? all.flatMap(row => row.fields.length ? row.fields.map(field => ({title: row.title, fields: [field]})) : [row]) : all;
+  }
+  function render() {
+    const all = pages(); page = Math.min(page, all.length - 1); const item = all[page]!;
+    const heading = document.createElement('h3'); heading.textContent = item.title;
+    const fields = document.createElement('dl');
+    for (const [label, value] of item.fields) { const pair = document.createElement('div'), term = document.createElement('dt'), detail = document.createElement('dd'); term.textContent = label; detail.textContent = value; pair.append(term, detail); fields.append(pair); }
+    body.replaceChildren(heading, fields); board.dataset.resultView = ['podium', 'players', 'legs'][view];
+    previous.disabled = page === 0; next.disabled = page === all.length - 1;
+    section.textContent = ['Players', 'Leg ledger', 'Podium'][view]!; section.setAttribute('aria-label', `${['Podium', 'Players', 'Leg ledger'][view]}, page ${page + 1} of ${all.length}. Show ${section.textContent}`);
+    body.setAttribute('aria-label', `Page ${page + 1} of ${all.length}`);
+  }
+  previous.onclick = () => { page--; render(); if (previous.disabled) section.focus(); };
+  next.onclick = () => { page++; render(); if (next.disabled) section.focus(); };
+  section.onclick = () => { view = (view + 1) % 3; page = 0; render(); };
+  const siblings = [...root.children].filter((node): node is HTMLElement => node instanceof HTMLElement).map(node => ({node, inert: node.inert}));
+  for (const {node} of siblings) node.inert = true;
+  root.append(board); render(); section.focus({preventScroll: true}); window.addEventListener('resize', render);
+  board.addEventListener('keydown', event => { if (event.key !== 'Tab') return; const controls = [previous, section, next, restart].filter(control => !control.disabled); const index = controls.indexOf(document.activeElement as HTMLButtonElement); event.preventDefault(); controls[(index + (event.shiftKey ? -1 : 1) + controls.length) % controls.length]!.focus({preventScroll: true}); });
+  return { element: board, dispose() { window.removeEventListener('resize', render); for (const {node, inert} of siblings) node.inert = inert; board.remove(); } };
 }
