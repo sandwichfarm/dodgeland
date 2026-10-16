@@ -3,23 +3,25 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 05-05-PLAN.md; next 05-06
-last_updated: "2026-10-16T07:39:58.935226+00:00"
+stopped_at: Completed 05-06-PLAN.md; next 05-07
+last_updated: "2026-10-16T08:24:20.625896+00:00"
 progress:
   total_phases: 7
   completed_phases: 4
   total_plans: 31
-  completed_plans: 29
+  completed_plans: 30
 current_phase: 05
 current_phase_name: race
-last_activity_desc: Race05-05 complete on8d0c595; full39500 and final affected32571 exit0; next05-06.
+last_activity_desc: Race 05-06 complete on production 2a2bf9a, tracer 3b971e9; exact 38749 and final affected 48236 exit 0; next 05-07.
 ---
 
 # Project State
 
 ## Current Position
 
-05-05 is complete on source `8d0c595`; execute05-06 next. Full canonical39500 exit0 on bdb1a36 supplies exact tasks, full Phase3/2/1 and Relay/Race84 plus balance6. Final UI-only32571 exit0 repeats result/order/lifecycle51/51, tracer6/6, type/build/guidance/conformance/lockfile on8d0c595. Durable logs `/tmp/down-to-duck-05-05-final-complete-gate.log` and `...final-ui-gate.log`; see05-05-SUMMARY.md for combined evidence and inspected78 captures. Complete immutable participant history, accepted market metadata, competition ties and bounded result pages are delivered. No active process. Actual tracking:4 completed phases,29/31 plans; CLI cannot parse the narrative current-plan field, so counts were reconciled manually. Race05-06/07 and independent verification remain open.
+05-06 is complete on production `2a2bf9a`, with test-only tracer reconciliation `3b971e9`; execute 05-07 next. Exact task gate 38749 exited 0 (Race runtime 12/12, ordering/results 35/35, items 18/18, market 62/62, gamepad/runtime and immutable solo 21/21). Final evidence combines 35065's passing full Phase 3/2/1 prefix and 97/100 Relay/Race checks with 48236 exit 0: corrected affected Race tracer 6/6, type/guidance/conformance/lockfile. 35065 exited 1 solely for three obsolete exact HUD expectations and is not a full-pass claim. Logs `/tmp/down-to-duck-05-06-exact-tasks.log`, `...final-gate.log`, `...final-tracer-suffix.log`; inspected 24 captures at `/tmp/race-05-06-contact.png`. See 05-06-SUMMARY.md for actual-input transactions, lifecycle/retry, audio/motion and API reconciliation. No active process. Actual counts: four completed phases, 30/31 plans; CLI could not parse narrative state, so fields were reconciled manually. 05-07 and independent Race verification remain open.
+
+Historical 05-05: source8d0c595; 39500 full shared-code gate and32571 final UI gate exited0. Complete immutable history, accepted transaction metadata, competition tiers and bounded results are delivered; see05-05-SUMMARY.md.
 
 Historical05-04: source69efa16, full51478 exit0, both exact tasks, nested Phase3/2/1 and Relay/Race116/116. Common tactical item dependencies are resolved; see05-04-SUMMARY.md.
 

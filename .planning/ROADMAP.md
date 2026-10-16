@@ -134,7 +134,7 @@ Plans:
   4. Players can use Race-eligible offensive and defensive consumables with visible, muted/reduced-motion-aware feedback; invalid targets, departed players, and ineligible modes cannot spend a charge or corrupt state.
   5. Race results show podium rank including true ties, distance, elapsed/finish time, finish or death status, fog damage, and relevant item/interaction statistics for every character.
 
-**Plans**: 5/7 plans executed
+**Plans**: 6/7 plans executed
 **UI hint**: yes
 
 Plans:
@@ -144,7 +144,7 @@ Plans:
 - [x] 05-03-PLAN.md — Implement recovery, disconnect grace, original-seat reclaim, and waiting.
 - [x] 05-04-PLAN.md — Add Race-only items, authoritative eligibility, and isolated probability rolls.
 - [x] 05-05-PLAN.md — Freeze complete results with true competition ranks and unranked DNF groups.
-- [ ] 05-06-PLAN.md — Integrate input, camera, HUD, feedback, and the owner-labelled market.
+- [x] 05-06-PLAN.md — Integrate input, camera, HUD, feedback, and the owner-labelled market.
 - [ ] 05-07-PLAN.md — Inspect the responsive visual matrix and run the complete canonical gates.
 
 ### Phase 6: Cross-Mode Presentation
@@ -187,6 +187,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 2. Shared Local Session | 6/6 | Complete    | 2026-10-14 |
 | 3. Survive Together & Consumables | 8/8 | Complete    | 2026-10-15 |
 | 4. Relay | 6/6 | Complete    | 2026-10-15 |
-| 5. Race | 5/7 | In Progress|  |
+| 5. Race | 6/7 | In Progress|  |
 | 6. Cross-Mode Presentation | 0/TBD | Not started | - |
 | 7. Release Evidence & PR | 0/TBD | Not started | - |
