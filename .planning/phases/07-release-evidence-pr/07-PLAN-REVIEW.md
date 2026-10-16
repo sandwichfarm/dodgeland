@@ -3,15 +3,15 @@ phase: 07-release-evidence-pr
 reviewed: 2026-10-16
 status: passed
 reviewer_execution: generic-agent-fallback
-plans_checked: 6
-tasks_checked: 15
+plans_checked: 9
+tasks_checked: 24
 blockers: 0
 warnings: 0
 ---
 
 # Phase07 independent plan review
 
-**FINAL RECHECK: VERIFICATION PASSED — zero unresolved blockers or warnings.** All six plans and15 tasks retain the reviewed goal coverage. The final revision observes the actual official storage binding's returned promise per invocation, preserves the original promise and arguments, and requires zero fulfillment for missing/wrong replies and exactly one after the matching reply. Hydration's status text is explicitly excluded from completion evidence. PR title, scope bounds, feedback tiers and clause ownership are also resolved. This is plan approval, not execution proof or human acceptance.
+**CURRENT RECHECK: VERIFICATION PASSED — nine plans,24 tasks, waves1–9; zero unresolved blockers or warnings.** The bounded adapter amendment at `f9024c9` preserves all21 named independent browser owners and transfers the complete initial report to07-09 before07-03 gap closure. Current assessment is appended below; earlier six-plan reviews and resolved findings remain historical. This is plan approval, not implementation or release acceptance.
 
 The original review and first recheck below are retained as historical findings, not the current unresolved count.
 
@@ -210,3 +210,53 @@ The task now explicitly requires a transparent test-host forwarding binding that
 PC07-01 and PC07-02 are resolved; PW07-01/02/03 remain resolved by the previously inspected bounded scope, fast/long verification tiers and final clause ownership/check. No remaining claim depends on stale UI text. Current issue list: `[]`.
 
 Six plans,15 tasks, waves1–6 remain ready for execution. Calibration, package resolution, production coverage, conformance supplement, visual inspection and the PR still require actual execution evidence; Phase05/06 human acceptance remains pending. Only this report was updated, with history preserved. No source/plan edits, application tests, installs or commits.
+
+
+## Adapter checkpoint recheck — f9024c9
+
+**VERIFICATION PASSED.** Applied the full local plan-checker role and required references as a generic fallback. Reviewed the amended foundation, all three new continuations, downstream dependencies, checkpoint/realm inventory, decisions and validation contracts against the previously reviewed requirement/context/pattern baseline. Independently reran all18 plan-structure/must-have extraction checks: nine structurally valid plans,24 tasks, no structural errors or warnings. No application/test execution, installation, source edit or plan edit occurred during this recheck.
+
+| Execution order | Tasks | Declared paths | Wave | Dependency |
+|---|---:|---:|---:|---|
+|07-01 |3 |8 |1 |— |
+|07-02 |3 |13 |2 |07-01 |
+|07-07 |3 |11 |3 |07-02 |
+|07-08 |3 |11 |4 |07-07 |
+|07-09 |3 |11 |5 |07-08 |
+|07-03 |2 |4 |6 |07-09 |
+|07-04 |2 |4 |7 |07-03 |
+|07-05 |3 |6 |8 |07-04 |
+|07-06 |2 |5 |9 |07-05 |
+
+### Goal, scope and ownership
+
+- TEST-02/03/05 retain calibration → canonical all-source inventory → actual Node/browser collection → measured gaps → enforcing report. TEST-04 remains the complete current visual/clauses pipeline in05; SHIP-01 remains verified open PR delivery in06. No requirement was traded for a smaller adapter scope.
+- The checkpoint's21 independent browser owners appear exactly once across07/08/09: seven component/canvas, seven local-input/lifecycle, seven remaining built owners. Legacy sound/gamepad and the common market fixture remain foundation02 responsibilities. Shared helper/runner/manifest changes are sequential, so no same-wave ownership conflict exists.
+- Foundation02 is13 paths; each continuation is11. These exceed the usual file-count target, but explicitly bound repetitive adapters around one shared contract, use three tasks of at most five paths, and stop for another checked continuation before reaching15. This is the concrete resolution of historical PW07-01, not silent expansion.
+- Numbering03 after09 is an explicit acyclic execution dependency, not a reference to unavailable future output: waves and context agree,03 reads09-SUMMARY and the complete report. Foundation02 no longer claims the former full-report completion.
+
+### Executability and cross-plan contracts
+
+02 Task2 creates artifactForCoverage/registerRealm/collectRealm/finishRealms and generic manifest dispatch before continuations use them. It creates the browser-tracer dispatch before policy/manifest files exist, and supplies evaluatePolicy/--check-policy before Task3. Task3 owns the two legacy adapters and policy/manifest; no undeclared runner edit is required there. Each continuation Task1 owns helper/negative-test/runner changes, then subsequent tasks add named owner groups through suites.json. All exact intermediate groups run complete original owner files rather than test-name filters.
+
+Registration occurs before navigation, collection before close/reload/remount, and completion rejects missing, duplicate or empty required app realms. Node-only/browser-only/mixed/control-plane roles are explicit: browser-only workers cannot create fake Node hits, mixed owners must produce both, strict-runner negative subprocesses retain their failure semantics. Oracle/altered-source namespaces cannot merge into current identities. Component-arranged and real public-input provenance remain distinct.
+
+09 Task3 explicitly reconciles the106 static candidates **and transitive helper imports** against the canonical runner/package graph.106 is a discovery count, not an executed-test count or selected allowlist. Additional actual owners trigger bounded planning rather than omission. Default full collection fails while any required adapter remains pending.09 then owns the complete all-source/all-realm initial report; report-only may expose real threshold shortfalls but cannot claim threshold compliance.03's enforcing run remains mandatory.
+
+### Preserved gates and reviewed findings
+
+All24 tasks have automated verification with concrete creation prerequisites, behavior and done criteria. Every three-task window retains automated feedback. Collection/calibration/policy negatives remain the fast tier; full owner groups and the complete report are explicitly slower acceptance tiers. No new baseline repeat or test-filter workaround is introduced.
+
+The original exact floors remain90/90/85 global/noncritical-file/mode and95/95/90 critical-file, without rounding concessions, suppression or denominator deletion. Exact calibration precedes production collection. Canonical content/map/schema validation, unimported zeros and source scopes remain binding. The API contracts and shared responsibility tiers match the previously approved research/pattern design.
+
+Read `tests/phase6-gate.mjs` and final VALIDATION chain:07-06 still invokes it unchanged, preserving both nested Relay6/Race7 blocks and health-runtime once, then additive calibration, enforcing coverage, conformance and evidence integrity. Instrumented build stays separate from normal dist; source/build/lock hashes and terminal outcomes remain required. The supported wire promise-observation fix PC07-01, explicit PR title PC07-02 and final clause ownership PW07-03 remain intact.
+
+All nine original edge-probe dispositions and prohibitions remain preserved. New T07-A7/A8/A9 threats bind required-realm/source-scope negatives and unchanged behavioral assertions to the continuation tasks; no product protocol or trust-boundary relaxation is planned.
+
+Parent reports actual user acceptance on2026-10-16; plans correctly link root-owned UAT/verification/security records instead of asking for acceptance again. The conditional legacy wording “human_needed remains until actual acceptance” does not override that received response. Physical controllers and protocol limitations remain honestly unmeasured where applicable. Security audits05/06 were separately committed as40f42bd; this plan check does not seal phases or certify future release evidence.
+
+```yaml
+current_issues: []
+```
+
+Only07-PLAN-REVIEW.md was updated for this plan-check stage. Earlier review history and other agents' documentation were preserved. Ready to resume07-02 Task2, then follow the declared continuation order; no full coverage or PR completion is inferred.
