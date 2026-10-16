@@ -134,3 +134,37 @@ test('successful innate rescue settles before opening the already latched bounda
   assert.equal(run.relay.snapshot().phase, 'handoff');
   assert.equal(run.session.isRecoverySafePosition(player), true);
 });
+
+for (const hazard of ['traffic', 'wave', 'mob']) test(`fatal ${hazard} resolves before boundary transfer and retains one personal offer`, () => {
+  const run = setup(1, hazard === 'traffic' ? 'stroll' : 'arcade'), player = run.session.players[0];
+  player.powerReadyAt = 10000; player.health = .25;
+  courseLane(run.game, 1, hazard === 'traffic' ? { kind: 'road', phase: 0, speed: 0, spacing: 20, length: 2 } : {});
+  if (hazard === 'wave') run.session.world.waveRow = .5;
+  if (hazard === 'mob') run.game.mobs.push({ id: 1, kind: 'slime', x: 0, y: 1, fromX: 0, fromY: 1, targetX: 0, targetY: 1, phase: 'rest', phaseLeft: 2, phaseDuration: 2 });
+  assert.equal(run.session.dispatch({ seat: 'p1', direction: 'forward' }), true);
+  for (let tick = 0; tick < 120 && player.state !== 'dead'; tick++) run.session.update(STEP);
+  assert.equal(player.state, 'dead'); assert.equal(player.deathCause, hazard);
+  assert.equal(run.relay.snapshot().phase, 'running'); assert.equal(run.relay.snapshot().pendingBoundary, undefined);
+  assert.equal(run.relay.snapshot().transferGeneration, 0); assert.equal(run.relay.snapshot().nextBoundary, 2);
+  assert.equal(player.statistics.deaths, 1); assert.equal(player.completedForwardTiles, 0); assert.ok(player.recovery.offer);
+  const generation = player.recovery.deathGeneration; ticks(run.session, 10);
+  assert.equal(player.recovery.deathGeneration, generation); assert.equal(player.statistics.deaths, 1);
+});
+
+test('fractional platform carry settles before the board freezes actor motion', () => {
+  const run = setup(1), player = run.session.players[0];
+  courseLane(run.game, 0, { kind: 'river', phase: 0, speed: .7, spacing: 20, length: 4 });
+  ticks(run.session, 12);
+  assert.notEqual(player.groundX, 0, 'production platform carry precedes the boundary hop');
+  courseLane(run.game, 1, { kind: 'river', phase: 0, speed: .7, spacing: 20, length: 4 });
+  assert.equal(run.session.dispatch({ seat: 'p1', direction: 'forward' }), true);
+  run.session.update(STEP);
+  assert.equal(run.relay.snapshot().pendingBoundary.target, 1); assert.ok(player.hop > 0);
+  for (let tick = 0; tick < 120 && run.relay.snapshot().phase !== 'handoff'; tick++) run.session.update(STEP);
+  assert.equal(run.relay.snapshot().phase, 'handoff'); assert.equal(player.hop, 0);
+  assert.notEqual(player.groundX, Math.round(player.groundX), 'actual moving platform carry produces fractional x');
+  const position = { x: player.groundX, y: player.groundY }, time = run.session.world.time;
+  ticks(run.session, 120); assert.equal(run.session.world.time, time); assert.equal(player.groundX, position.x);
+  assert.equal(run.relay.confirm(run.relay.confirmation()), true);
+  assert.deepEqual({ x: run.session.players[1].groundX, y: run.session.players[1].groundY }, position);
+});
