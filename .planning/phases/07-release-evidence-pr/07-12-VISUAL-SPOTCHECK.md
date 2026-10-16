@@ -55,3 +55,17 @@ Archive provenance caveat found by root: `final-artifact-report.json` in that sa
 The same collection passed `race-layout` at22:21:10.635Z:10 tests passed, no failures/cancellations/skips, duration314673ms. Root independently parsed `suite-artifacts/race-layout/artifacts/race-layout/report.json` (SHA256 `0ae0cc804d415d054e57c0987a430de5955affcd900d4b0b24fb87749d464ab5`). It records complete=true, eight stages and420 unique cells:35 states × six expected frames × two themes, with no missing/unexpected Cartesian cells, errors, external requests or failures.
 
 The archived `four-racers-240x240-dark.png`, `fog-line-1000x280-light.png` and `mud-target-320x560-dark.png` exactly match all three previously inspected Race digests in this document. During the live job, root also observed newly written floor and Mud-target captures at22:16:27.861633Z and22:16:35.943708Z; the prior fog capture was excluded until terminal archive validation. These byte matches retain the original visual observations, including the still-open pickup-text/nameplate measurement follow-up. They do not imply that this separate gap, the complete132-job collection, coverage floors or final release audit is complete.
+
+## Menu-verified collection: Flow and embedded item-target inspection
+
+Full collection11460, run `ed12cf45-d4d2-4fb1-a77a-89ede7a9ea78`, freezes implementation/tests/tooling at `f625b98`. Root confirmed collector58476 and shell58171 live during inspection. The current cross-mode job began22:55:38.765Z on2026-10-16 and passed at23:02:16.118Z:33 tests, zero failures/cancellations/skips,396838ms. Root independently read those terminal totals and the four archived mode frame reports, each with22 captures and empty errors/external/failures.
+
+Root opened these actual PNGs during the job, then verified all three archived SHA256 values after its terminal pass. Archive root: `artifacts/release-coverage/full/ed12cf45-d4d2-4fb1-a77a-89ede7a9ea78/suite-artifacts/cross-mode-presentation/artifacts/cross-mode-presentation/`.
+
+| Image | Fresh write UTC | SHA256 | Visual observation |
+| --- | --- | --- | --- |
+| flow-240x240-dark.png |22:57:32.699122|0797d2c73592d98ba429b6e38ce2a0ba2ee8dfb77bde49ec9b098e150f02c131|Four player selectors, selected-player health and five bottom controls remain visible. All four travelers and their name labels fit in the intervening world strip. Secondary HUD status is visibly ellipsized at this tier; no claim of complete inline status text.|
+| flow-1000x280-dark.png |22:57:37.429296|259872b3fd501e997f2fd104f0dbbd0f39888d055b7b19670fd121edf65d4a7e|Short-frame player selectors, health/paused status, traveler labels and movement/Notice controls are readable. No observed actor/control overlap; exact numeric clearance still belongs to geometry evidence.|
+| embedded-fog-lantern-target.png |23:01:10.378423|53a97e2913cf4169621ebe62b679782c8d3ac2d46dc2c838597a46143189924c|Target view identifies P1 Butter and the three-second fog protection. Back and the two-line Light lantern action remain visible and legible. Acquisition provenance remains that of the actual fixture; image inspection does not establish public-input-only acquisition.|
+
+The inherited `final-artifact-report.json` remains historical Phase06 evidence, not a fresh acquisition manifest. This scoped inspection does not close the separate pickup-text/nameplate gap, complete07-05's required matrix, or establish full collection/coverage-floor/release acceptance. The complete collection remained live after this job passed.
