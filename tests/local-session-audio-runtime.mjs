@@ -5,6 +5,8 @@ import { readFile, stat, mkdir, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import test from 'node:test';
 import { chromium } from 'playwright';
+import { artifactDirectoryForCoverage } from '../tools/release-coverage/browser.mjs';
+const output=artifactDirectoryForCoverage(new URL('../artifacts/',import.meta.url),'local-session-audio-runtime');
 
 const artifact = new URL('../dist/index.html', import.meta.url);
 const built = await readFile(artifact, 'utf8');
@@ -87,9 +89,9 @@ test('four assigned travelers call independently of the saved solo traveler and 
         assert.equal(after.length, before + 1, `${name} calibration must emit one actual call`);
         fingerprints[id] = after.at(-1);
       } catch (error) {
-        await mkdir(new URL('../artifacts/', import.meta.url), { recursive: true });
-        await page.locator('#napplet').screenshot({ path: new URL(`../artifacts/local-session-audio-failure-${id}.png`, import.meta.url).pathname });
-        await writeFile(new URL('../artifacts/local-session-audio-failure.json', import.meta.url), JSON.stringify(await frame.evaluate(() => ({
+        await mkdir(output, { recursive: true });
+        await page.locator('#napplet').screenshot({ path: new URL(`local-session-audio-failure-${id}.png`, output).pathname });
+        await writeFile(new URL('local-session-audio-failure.json', output), JSON.stringify(await frame.evaluate(() => ({
           state: document.querySelector('#app')?.dataset.runState,
           setupHidden: document.querySelector('#local-session-setup')?.hidden,
           boardHidden: document.querySelector('#session-board')?.hidden,
@@ -169,8 +171,8 @@ test('four assigned travelers call independently of the saved solo traveler and 
     const unmuted = await countCalls();
     for (const id of ['sunny', 'butter', 'pip', 'petal']) assert.equal(unmuted[id], twice[id] + 1, `${id} resumes calling after unmute`);
     assert.deepEqual(errors, []);
-    await mkdir(new URL('../artifacts/', import.meta.url), { recursive: true });
-    await writeFile(new URL('../artifacts/local-session-audio-runtime.json', import.meta.url), JSON.stringify({
+    await mkdir(output, { recursive: true });
+    await writeFile(new URL('local-session-audio-runtime.json', output), JSON.stringify({
       artifact: 'built opaque iframe, real AudioContext buffers, muted browser',
       assigned: { p1: 'sunny', p2: 'butter', p3: 'pip', p4: 'petal' }, saved: 'rust', fingerprints,
       scenarios: ['setup call guard', 'four assigned calls', 'independent cooldown', 'held-edge suppression', 'cooldown expiry', 'pause call guard', 'mute and unmute'], errors,

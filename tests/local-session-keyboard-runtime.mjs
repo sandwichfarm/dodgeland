@@ -1,11 +1,14 @@
 import assert from 'node:assert/strict';
-import { readFile, stat } from 'node:fs/promises';
+import { readFile, stat, mkdir } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { resolve } from 'node:path';
 import test, { after } from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
+import { artifactDirectoryForCoverage } from '../tools/release-coverage/browser.mjs';
+const output=artifactDirectoryForCoverage(new URL('../artifacts/',import.meta.url),'local-session-keyboard-runtime');
 
+await mkdir(output,{recursive:true});
 const root = fileURLToPath(new URL('../', import.meta.url));
 const artifact = new URL('../dist/index.html', import.meta.url);
 const inputs = ['index.html', 'src/main.ts', 'src/session.ts', 'src/keyboard-input.ts', 'src/session-ui.ts', 'src/session-ui.css'];
@@ -117,7 +120,7 @@ test('opaque iframe receives native keyboard profiles only after overlapping own
     for (let index = 0; index < 4; index++) await frame.getByRole('button', { name: 'More' }).click();
     await frame.locator('.session-binding').filter({ hasText: 'Q' }).click();
     assert.equal(await frame.evaluate(() => document.activeElement?.getAttribute('aria-pressed')), 'true', 'capture keeps focus on the replacement capture control');
-    await iframe.screenshot({ path: resolve(root, 'artifacts/local-session-keyboard-capture-900-reduced-dark.png') });
+    await iframe.screenshot({ path: new URL('local-session-keyboard-capture-900-reduced-dark.png', output).pathname });
     await frame.locator('.session-binding[aria-pressed="true"]').press('e');
     await frame.waitForFunction(() => [...document.querySelectorAll('.session-binding')].some(binding => binding.textContent === 'E'));
     const writes = await frame.evaluate(() => window.keyboardRuntimeFixture.writes.length);
@@ -126,27 +129,27 @@ test('opaque iframe receives native keyboard profiles only after overlapping own
     await frame.locator('.session-binding[aria-pressed="true"]').press('e');
     await frame.waitForFunction(() => document.querySelector('.session-controls-status')?.textContent?.includes('already controls P1'));
     assert.equal(await frame.evaluate(() => document.activeElement?.textContent?.trim()), '.', 'conflict returns focus to the newly rendered binding control');
-    await iframe.screenshot({ path: resolve(root, 'artifacts/local-session-keyboard-conflict-900-reduced-dark.png') });
+    await iframe.screenshot({ path: new URL('local-session-keyboard-conflict-900-reduced-dark.png', output).pathname });
     assert.equal(await frame.evaluate(() => window.keyboardRuntimeFixture.writes.length), writes, 'a duplicate key never reaches SDK storage');
     await frame.getByRole('tab', { name: /P1/ }).click();
     await frame.getByRole('button', { name: 'More' }).click();
     await frame.getByRole('button', { name: 'Reset Keyboard A' }).click();
     assert.equal(await frame.evaluate(() => document.activeElement?.textContent), 'Keep current controls', 'reset puts focus on the safe action');
-    await iframe.screenshot({ path: resolve(root, 'artifacts/local-session-keyboard-reset-900-reduced-dark.png') });
+    await iframe.screenshot({ path: new URL('local-session-keyboard-reset-900-reduced-dark.png', output).pathname });
     await frame.getByRole('button', { name: 'Keep current controls' }).click();
     assert.equal(await frame.evaluate(() => document.activeElement?.textContent?.trim()), 'Reset Keyboard A', 'cancel returns focus to the live reset action');
     await frame.getByRole('button', { name: 'Back', exact: true }).click();
     assert.equal(await frame.evaluate(() => document.activeElement?.className), 'session-binding', 'paging focuses the first binding on the newly rendered page');
     assertEditorFits(await editorBounds(frame));
-    await iframe.screenshot({ path: resolve(root, 'artifacts/local-session-keyboard-back-900-reduced-dark.png') });
+    await iframe.screenshot({ path: new URL('local-session-keyboard-back-900-reduced-dark.png', output).pathname });
     await iframe.evaluate(node => { node.style.width = '240px'; node.style.height = '240px'; });
-    await iframe.screenshot({ path: resolve(root, 'artifacts/local-session-keyboard-before-back-240-reduced-dark.png') });
+    await iframe.screenshot({ path: new URL('local-session-keyboard-before-back-240-reduced-dark.png', output).pathname });
     for (let index = 0; index < 4; index++) await frame.getByRole('button', { name: 'Back', exact: true }).click();
     assertEditorFits(await editorBounds(frame));
-    await iframe.screenshot({ path: resolve(root, 'artifacts/local-session-keyboard-back-240-reduced-dark.png') });
+    await iframe.screenshot({ path: new URL('local-session-keyboard-back-240-reduced-dark.png', output).pathname });
     await frame.locator('.session-binding').filter({ hasText: 'W' }).click();
     assert.equal(await frame.evaluate(() => document.activeElement?.getAttribute('aria-pressed')), 'true');
-    await iframe.screenshot({ path: resolve(root, 'artifacts/local-session-keyboard-capture-240-reduced-dark.png') });
+    await iframe.screenshot({ path: new URL('local-session-keyboard-capture-240-reduced-dark.png', output).pathname });
     assertEditorFits(await editorBounds(frame));
     await frame.locator('.session-binding[aria-pressed="true"]').press('Escape');
     assert.equal(await frame.evaluate(() => document.activeElement?.className), 'session-binding', 'Escape returns focus to a live binding control');
@@ -156,13 +159,13 @@ test('opaque iframe receives native keyboard profiles only after overlapping own
     await frame.locator('.session-binding[aria-pressed="true"]').press('e');
     await frame.waitForFunction(() => document.querySelector('.session-controls-status')?.textContent?.includes('already controls P1'));
     assertEditorFits(await editorBounds(frame));
-    await iframe.screenshot({ path: resolve(root, 'artifacts/local-session-keyboard-conflict-240-reduced-dark.png') });
+    await iframe.screenshot({ path: new URL('local-session-keyboard-conflict-240-reduced-dark.png', output).pathname });
     await frame.getByRole('tab', { name: /P1/ }).click();
     await frame.getByRole('button', { name: 'More' }).click();
     await frame.getByRole('button', { name: 'Reset Keyboard A' }).click();
     assert.equal(await frame.evaluate(() => document.activeElement?.textContent), 'Keep current controls');
     assertEditorFits(await editorBounds(frame));
-    await iframe.screenshot({ path: resolve(root, 'artifacts/local-session-keyboard-reset-240-reduced-dark.png') });
+    await iframe.screenshot({ path: new URL('local-session-keyboard-reset-240-reduced-dark.png', output).pathname });
     await frame.getByRole('button', { name: 'Keep current controls' }).click();
 
     await iframe.evaluate(node => { node.style.width = '900px'; node.style.height = '600px'; });
@@ -185,7 +188,7 @@ test('opaque iframe receives native keyboard profiles only after overlapping own
     await frame.getByRole('button', { name: 'Back', exact: true }).click();
     assert.equal(await frame.locator('.session-binding').textContent(), 'W', 'the hidden captured row retains its prior key after page navigation');
     await frame.locator('.session-binding').filter({ hasText: 'W' }).click();
-    await iframe.screenshot({ path: resolve(root, 'artifacts/local-session-keyboard-capture-900-reduced-light.png') });
+    await iframe.screenshot({ path: new URL('local-session-keyboard-capture-900-reduced-light.png', output).pathname });
     await frame.locator('.session-binding[aria-pressed="true"]').press('Escape');
     assert.deepEqual(errors, [], 'the muted native-key iframe reports no page errors');
   } finally { await browser.close(); }

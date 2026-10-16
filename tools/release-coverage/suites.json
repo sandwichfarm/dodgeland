@@ -122,6 +122,16 @@
         "artifacts/local-session-setup.png",
         "artifacts/local-session-active.png"
       ]
+    },
+    "adapters-08-middle": {
+      "files": [
+        "tests/local-session-keyboard-runtime.mjs",
+        "tests/local-session-gamepad-runtime.mjs",
+        "tests/local-session-audio-runtime.mjs"
+      ],
+      "role": "browser",
+      "browser": true,
+      "provenance": "Original built keyboard remounts, controller binding/wire lifecycle and actual PCM observations; fixture runtime injections retained"
     }
   },
   "pendingAdapters": [

@@ -5,6 +5,8 @@ import { readFile, mkdir, stat, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { after, test } from 'node:test';
 import { chromium } from 'playwright';
+import { artifactDirectoryForCoverage } from '../tools/release-coverage/browser.mjs';
+const output=artifactDirectoryForCoverage(new URL('../artifacts/',import.meta.url),'local-session-gamepad-runtime');
 
 const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
 assert.ok(built.includes('gamepad.subscribe') && built.includes('local-session-start') && built.includes('requestFirstPlayer'), 'Build current Local Play gamepad integration first.');
@@ -138,7 +140,7 @@ test('wire and injected binding route actual Local Play seats, seed context chan
       evidence.scenarios.push({ mode, checks: ['first-active solo ownership', 'second-controller setup', 'exactly-one independent P1/P2 movement', 'modal context seeding', 'isolated disconnect, held reconnect, owner-confirmed reclaim', 'global focus safety', 'single transport teardown and late-edge suppression'] });
     }
     assert.deepEqual(evidence.errors, []);
-    await mkdir(new URL('../artifacts/', import.meta.url), { recursive: true });
-    await writeFile(new URL('../artifacts/local-session-gamepad-runtime.json', import.meta.url), JSON.stringify(evidence, null, 2));
+    await mkdir(output, { recursive: true });
+    await writeFile(new URL('local-session-gamepad-runtime.json', output), JSON.stringify(evidence, null, 2));
   } finally { await browser.close(); }
 });
