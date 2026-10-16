@@ -1,0 +1,29 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
+import { readFile, mkdtemp, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { buildInventory } from './inventory.mjs';
+
+test('independent tracked-source inventory retains all source classes and canonical zeros',async()=>{
+ const result=await buildInventory();
+ const tracked=spawnSync('git',['ls-files','-z','src'],{encoding:'utf8'});assert.equal(tracked.status,0);
+ assert.deepEqual(result.files.map(row=>row.path).sort(),tracked.stdout.split('\0').filter(Boolean).sort());
+ assert.ok(result.files.some(row=>row.kind==='stylesheet'));assert.ok(result.files.some(row=>row.kind==='declaration'));
+ assert.ok(result.inventory['session.ts']);assert.ok(result.inventory['main.ts']);
+ for(const row of Object.values(result.inventory)){assert.equal(Object.values(row.zero.s).reduce((a,b)=>a+b,0),0);assert.ok(row.sourceHash);assert.ok(row.mapHash);}
+});
+test('real shared session suites emit complete source-bound worker reports through strict gate',async()=>{
+ const output=await mkdtemp(join(tmpdir(),'release-collection-'));try{
+  const env={...process.env};delete env.NODE_TEST_CONTEXT;
+  const run=spawnSync(process.execPath,['tools/release-coverage/run.mjs','--suite','shared-tracer','--report-only','--output',output],{encoding:'utf8',env,maxBuffer:32*1024*1024,timeout:120000});
+  assert.equal(run.error,undefined);assert.equal(run.signal,null);assert.equal(run.status,0,run.stdout+run.stderr);
+  assert.match(run.stdout,/REPORT ONLY/);assert.doesNotMatch(run.stdout,/RELEASE PASS/);
+  const report=JSON.parse(await readFile(join(output,'report','coverage-final.json'),'utf8'));
+  for(const name of ['session.ts','game.ts']){const key=Object.keys(report).find(key=>key.endsWith('/src/'+name));assert.ok(key,name);assert.ok(Object.values(report[key].s).some(n=>n>0),name);}
+  const manifest=JSON.parse(await readFile(join(output,'manifest.json'),'utf8'));
+  assert.deepEqual(manifest.expectedRealms,['tests/local-session.test.mjs','tests/session-world.test.mjs']);assert.equal(manifest.payloadCount,2);assert.equal(manifest.thresholdsEvaluated,false);assert.equal(manifest.status,'report-only');
+  assert.ok(manifest.files.some(row=>row.path==='src/main.ts'));
+ }finally{await rm(output,{recursive:true,force:true});}
+});
