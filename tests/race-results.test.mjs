@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test, { after } from 'node:test';
 import { loadSources } from './source-loader.mjs';
 
-const sources = await loadSources(['game', 'race', 'session']);
+const sources = await loadSources(['game', 'race', 'session', 'market/catalog']);
 after(sources.dispose);
 const { Game } = await sources.import('game');
 const { createRaceSession } = await sources.import('race');
@@ -252,3 +252,21 @@ async function assertResultContrast(frame) {
 }
 
 
+
+
+test('statistics authoritative market metadata ignores forged extra item IDs for buy sale equip and packs',async()=>{
+  const {LocalSession}=await sources.import('session'),{ITEM_CATALOG}=await sources.import('market/catalog');
+  const game=new Game(113,'pond','arcade',false,ITEM_CATALOG,'butter'),session=LocalSession.stage(game).commit();session.installCoOpMarket();
+  const owner=session.players[0],run=owner.run;run.advanceScore(100);run.creditCoins(10000);let sequence=0;
+  function act(kind,patch={}){const c=session.openCoOpMarket(owner);assert.ok(c);const request={actionId:`metadata-${++sequence}`,kind,seat:owner.seat,device:owner.device,participantId:owner.participantId,expectedOwnerGeneration:c.ownerGeneration,expectedInventoryGeneration:c.inventoryGeneration,expectedRunRevision:c.runRevision,expectedContextGeneration:c.contextGeneration,...patch};const result=session.actCoOpMarket(request);assert.equal(result.ok,true,result.message);assert.equal(session.actCoOpMarket(request).ok,false);return owner.interactions.at(-1);}
+  function buy(id){const item=run.catalog.get(id);const offer={id:`real-offer-${sequence}`,itemId:id,price:item.price,sold:false};run.market.offers.push(offer);return act('buy',{offerId:offer.id,itemId:'forged-unrelated'});}
+  const opened=act('open',{itemId:'forged-unrelated'});
+  const cosmetic=ITEM_CATALOG.find(i=>i.kind==='cosmetic');assert.equal(buy(cosmetic.id).itemId,cosmetic.id);assert.deepEqual(opened.items,[]);
+  assert.deepEqual(act('equip',{itemId:cosmetic.id}).items,[{id:cosmetic.id,kind:'cosmetic'}]);
+  buy('coin-multiplier');const card=run.cards[0],sale=act('sell',{cardId:card.id,itemId:'forged-unrelated'});assert.deepEqual(sale.items,[{id:'coin-multiplier',kind:'card'}]);assert.equal(sale.walletDelta,card.saleValue);
+  buy('pack-satchel');const draft=run.pendingPack,ids=draft.choices.slice(0,draft.picks).map(c=>c.id),expected=[{id:draft.packId,kind:'pack'},...draft.choices.slice(0,draft.picks).flatMap(c=>c.components.map(c=>({id:c.itemId,kind:'card'})))];
+  assert.deepEqual(act('claim-pack',{ids,itemId:'forged-unrelated'}).items,expected);
+  buy('pack-satchel');assert.deepEqual(act('skip-pack',{itemId:'forged-unrelated'}).items,[{id:'pack-satchel',kind:'pack'}]);
+  assert.deepEqual(act('close',{itemId:'forged-unrelated'}).items,[]);
+  assert.ok(owner.interactions.every(e=>Object.isFrozen(e)&&Object.isFrozen(e.items)&&e.items.every(Object.isFrozen)));
+});
