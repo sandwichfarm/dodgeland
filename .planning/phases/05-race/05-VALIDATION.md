@@ -1,3 +1,11 @@
+---
+phase: 05
+slug: race
+status: validated
+nyquist_compliant: true
+wave_0_complete: true
+audited: 2026-10-16
+---
 # Phase 05 Race — Validation Strategy
 
 **Phase goal:** Players race one timed shared course under readable leader-relative fog, contextual tactics, and deterministic competitive outcomes.
@@ -302,3 +310,64 @@ preflight commands, focused test counts, immutable-oracle identity, settings/sam
 versions, muted runtime/visual artifact paths, balance report, conformance skips,
 lockfile identity, and external physical-hardware limits. Phase 5 advances only after
 every matrix row above has current production evidence.
+
+## Validation Audit 2026-10-16 — completed Nyquist record
+
+Generic-agent workaround applying the full local Nyquist auditor role and validate-phase workflow. The active verify:post hook has nyquist_validation enabled. This is a retrospective evidence audit, not a fresh test execution or phase-completion declaration. Existing plans, summaries, requirement truth mappings, review repairs and terminal logs establish the results below. No source/test edit or mirrored test was necessary.
+
+### Test infrastructure and feedback
+
+Installed Node test runner plus strict-node-tests and muted Playwright opaque frames. Every planned task has an automated behavior command; no three-task verification gap, watch command or missing test-creation obligation remains. Fast model evidence includes independent three-invariant check in0.55s; the browser/layout and inherited gates are deliberately separate slow tiers. Full frozen gates were already executed and are not rerun for this documentation repair.
+
+### Per-task executable map
+
+| Task | Executable verification | Evidence / status |
+|---|---|---|
+| 05-01-01 | `test -s .planning/phases/01-composable-solo-baseline/01-04-SUMMARY.md && test -s .planning/phases/02-shared-local-session/02-06-SUMMARY.md && test -s .planning/phases/03-survive-together-consumables/03-07-SUMMARY.md && pnpm test:phase3 && node --test tests/race-tracer.mjs && pnpm type-check && pnpm build` | COVERED — 05-01-SUMMARY:55610/42063/11979 and70346exit0;23683 full tracer6/6 |
+| 05-01-02 | `node --test --test-name-pattern='settings|unique roster|locked roster|start consumed|late device' tests/race-tracer.mjs && pnpm type-check` | COVERED — 05-01-SUMMARY:55610/42063/11979 and70346exit0;23683 full tracer6/6 |
+| 05-01-03 | `node --test tests/mode-authoring.test.mjs tests/race-tracer.mjs && pnpm type-check && pnpm test:guidance` | COVERED — 05-01-SUMMARY:55610/42063/11979 and70346exit0;23683 full tracer6/6 |
+| 05-02-01 | `node --test --test-name-pattern='frontier|fog boundary|actual ground|strict line|cadence|health pipeline|permutation' tests/race-ordering.test.mjs && pnpm test:solo-parity` | COVERED — 05-02-SUMMARY:96373exit0; exact selected11/11,8/8, full ordering/balance17/17 |
+| 05-02-02 | `node --test --test-name-pattern='fatal before finish|same-tick tie|finish before timeout|all down|last survivor|suspension|terminal immutable' tests/race-ordering.test.mjs` | COVERED — 05-02-SUMMARY:96373exit0; exact selected11/11,8/8, full ordering/balance17/17 |
+| 05-02-03 | `node --test tests/race-ordering.test.mjs tests/race-balance.test.mjs && pnpm type-check` | COVERED — 05-02-SUMMARY:96373exit0; exact selected11/11,8/8, full ordering/balance17/17 |
+| 05-03-01 | `node --test --test-name-pattern='disconnect|ghost|grace|replacement|reclaim|unknown device|deadline|held input' tests/race-lifecycle.test.mjs && node --test tests/session-input.test.mjs` | COVERED — 05-03-SUMMARY:67761 and5878exit0;51701 affected lifecycle15/15/tracer6/6; no-ahead clarification1/1 |
+| 05-03-02 | `node --test tests/race-lifecycle.test.mjs tests/race-ordering.test.mjs && node --test tests/survive-together.test.mjs && pnpm test:death-spill && pnpm type-check` | COVERED — 05-03-SUMMARY:67761 and5878exit0;51701 affected lifecycle15/15/tracer6/6; no-ahead clarification1/1 |
+| 05-04-01 | `node --test --test-name-pattern='schema|1:1250|bucket|RNG isolation|default gravity|magnet|contested claim' tests/race-items.test.mjs && node --test tests/consumable-drops.test.mjs tests/consumable-world.test.mjs && pnpm test:solo-parity` | COVERED — 05-04-SUMMARY:51478exit0; exact item/legacy/parity gates |
+| 05-04-02 | `node --test tests/race-items.test.mjs tests/consumables.test.mjs tests/survive-economy.test.mjs && pnpm test:market && pnpm test:magnet && pnpm type-check` | COVERED — 05-04-SUMMARY:51478exit0; exact item/legacy/parity gates |
+| 05-05-01 | `node --test --test-name-pattern='ledger|statistics|death clear|leave|forfeit|item|fog attempted|captured settings' tests/race-results.test.mjs && node --test tests/race-lifecycle.test.mjs tests/race-items.test.mjs` | COVERED — 05-05-SUMMARY:39500exit0 exact tasks;32571exit0 final UI51/51 and tracer6/6 |
+| 05-05-02 | `node --test tests/race-results.test.mjs tests/race-ordering.test.mjs tests/race-lifecycle.test.mjs && pnpm type-check` | COVERED — 05-05-SUMMARY:39500exit0 exact tasks;32571exit0 final UI51/51 and tracer6/6 |
+| 05-06-01 | `pnpm build && node --test --test-name-pattern='camera|fog ribbon|edge marker|HUD|audio|reduced motion|mute' tests/race-runtime.mjs && node --test tests/race-ordering.test.mjs tests/race-results.test.mjs && pnpm type-check` | COVERED — 05-06-SUMMARY:38749exit0 all three exact task commands;48236exit0 affected tracer/suffix;35065 is only passing-prefix evidence |
+| 05-06-02 | `pnpm build && node --test --test-name-pattern='Viewing P|Race gear|Wardrobe|Mud Splash|Fog Lantern|owner switch|stale target|no legacy' tests/race-runtime.mjs && node --test tests/race-items.test.mjs && pnpm test:market` | COVERED — 05-06-SUMMARY:38749exit0 all three exact task commands;48236exit0 affected tracer/suffix;35065 is only passing-prefix evidence |
+| 05-06-03 | `pnpm build && node tests/race-runtime.mjs && node tests/gamepad-runtime.mjs && pnpm test:runtime && pnpm test:solo-parity && pnpm type-check` | COVERED — 05-06-SUMMARY:38749exit0 all three exact task commands;48236exit0 affected tracer/suffix;35065 is only passing-prefix evidence |
+| 05-07-01 | `pnpm build && node tests/race-layout.mjs && pnpm type-check` | COVERED — 05-07-SUMMARY:45358exit0 layout2/2;19289exit0 exact Relay6/Race7; later21972 inherited current presentation gate |
+| 05-07-02 | `pnpm test:phase3 && node --test tests/race-tracer.mjs tests/race-ordering.test.mjs tests/race-balance.test.mjs tests/race-lifecycle.test.mjs tests/race-items.test.mjs tests/race-results.test.mjs && pnpm type-check && pnpm build && node tests/race-runtime.mjs && node tests/race-layout.mjs && pnpm test:guidance && pnpm test:conformance && git diff --exit-code a310a81ed6c76df4b265c9012c23b8c83f4802e5 -- pnpm-lock.yaml` | COVERED — 05-07-SUMMARY:45358exit0 layout2/2;19289exit0 exact Relay6/Race7; later21972 inherited current presentation gate |
+
+### Requirement-to-behavior map
+
+| Requirement | Existing behavioral tests and adversarial assertions | Status |
+|---|---|---|
+| ARCH-02 | mode-authoring.test.mjs executes the exact documented factory/lifecycle; race-tracer.mjs validates closed settings/roster/world-once and rejects forced finish | COVERED |
+| ITEM-06 | race-items.test.mjs actual shared transaction, protected/stale/range rejection and no-waste snapshots; race-runtime.mjs actual collection/purchase/use | COVERED |
+| RACE-01 | race-tracer.mjs actual2/3/4-seat setup/start/finish/retry; unknown device and fresh-start no-hop assertions | COVERED |
+| RACE-02 | race-ordering.test.mjs strict actual-ground line, pre-exclusion earned frontier, cadence/landed loss and permutations; race-balance.test.mjs generated500/180 courses | COVERED |
+| RACE-03 | race-runtime.mjs authoritative camera/fog/edge/HUD; race-layout.mjs six-frame/two-theme matrix; Phase06 full actor-envelope fixes supersede prior geometry | COVERED |
+| RACE-04 | race-lifecycle.test.mjs original-seat replacement, actual pre-loss no-ahead,249/250/251, waiting/death/recovery; ordering fatal/tie/timeout; results DNF | COVERED |
+| RACE-05 | race-items.test.mjs exact two1:1250 buckets, released RNG future outputs, fractional log collection, typed legacy denial and prior-mode controls | COVERED |
+| RACE-06 | race-results.test.mjs authoritative pre-clear statistics, forged metadata rejection, immutable ledger/ranks; race-runtime.mjs actual assigned-controller result paging/retry | COVERED |
+| UI-06 | race-runtime.mjs mute/real graph, motion/fallback/feedback; race-layout.mjs420 captured cells; inherited co-op/Relay effects remain in full gate | COVERED |
+
+Current evidence chain:19289exit0 on62f9958 exact Relay/Race logs `/tmp/down-to-duck-05-07-verified-{relay,race}.log`; terminal routing repair86987exit0 on2da5dd9 `/tmp/down-to-duck-05-review-repair-final.log` (73 shared,16 runtime), independent80996 two controller cases plus three invariant checks. Later presentation21972exit0 `/tmp/down-to-duck-06-02-final-frozen-gate.log` reruns both exact canonical blocks with Race76/model-built,16runtime,420layout captures, then health-runtime and cross-mode. Current narrow main/hand repair92241exit0 onb9bc44f `/tmp/down-to-duck-06-review-repair-final.log` covers full31 cross-mode and104 affected shared/mode/solo input paths. These source scopes are combined honestly; no claim that the full canonical gate was rerun after the narrow handler repair. Independent05 verification40/40 and06 verification47/47 corroborate the mapped behaviors.
+
+### Manual evidence and limits
+
+User acceptance was received2026-10-16 and committed in5eb3c46: “I tested it; the presentation feels clear and usable.” It covers Survive/Relay/Race HUD,compact Controls,recovery and results. Root owns formal verification/security closure. Physical controllers and spoken screen-reader output remain unmeasured; injected SDK input and DOM announcement assertions are narrower. Conformance remains5pass/0fail/5unmeasured; Phase07 supplies the separately scoped release conformance/coverage obligations. Nyquist compliance does not claim those future metrics or hardware measurements.
+
+| Audit metric | Count |
+|---|---|
+| Assigned requirements covered |9/9 |
+| Planned tasks with executed automated evidence |17/17 |
+| Newly uncovered behavioral gaps |0 |
+| Missing compliance-record gaps resolved |1 |
+| New tests / rerun tests / source edits |0/0/0 |
+| Escalated implementation gaps |0 |
+
+Sign-off: all phase requirements have behavioral verification and all task checks have terminal evidence. No acceptance is inferred from symbol existence or passing-count-only evidence; named assertions and independent truth maps were cross-checked. Historical failed/superseded commands remain in their summaries. Immutable oracle/root lock unchanged. Formal phase closure remains root-owned.

@@ -1,8 +1,8 @@
 ---
 phase: 06
 slug: cross-mode-presentation
-status: executed
-nyquist_compliant: false
+status: validated
+nyquist_compliant: true
 wave_0_complete: true
 created: 2026-10-16
 ---
@@ -42,7 +42,7 @@ Existing test infrastructure is installed. Add only missing retained acceptance 
 
 ## Manual-Only Verification
 
-Human aesthetic/play-feel acceptance remains separate from measured geometry and agent image inspection. Phase05-UAT is pending; no approval is inferred from research or this strategy. Record reviewed source and captures and any later human response explicitly.
+Human aesthetic/play-feel acceptance remains separate from measured geometry and agent image inspection. Actual user acceptance was received2026-10-16 (5eb3c46), covering all three modes and Controls/recovery/results. Formal verification/security closure is root-owned; no hardware or spoken screen-reader evidence is inferred.
 
 ## Validation Sign-Off
 
@@ -53,7 +53,7 @@ Human aesthetic/play-feel acceptance remains separate from measured geometry and
 - [x] Conformance5pass/5unmeasured and physical-controller limitations distinguished honestly.
 - [x] Final gates terminal and green; no oracle repin.
 
-Execution:21972exit0 on26c9622; both exact canonical gates, health-runtime once, cross-mode27/27 and diff-check. See06-EVIDENCE.md. Type-check latency1.308s/1.260s measured from runner timestamps; browser tier115.930s. Independent validation/phase approval and human acceptance remain pending.
+Execution:21972exit0 on26c9622; both exact canonical gates, health-runtime once, cross-mode27/27 and diff-check. See06-EVIDENCE.md. Type-check latency1.308s/1.260s measured from runner timestamps; browser tier115.930s. This retrospective audit completes the Nyquist record; actual human acceptance is received. Formal phase/security closure is root-owned.
 
 ## Exact final frozen-source gate
 
@@ -147,6 +147,34 @@ Two-stage prohibition recall was performed per prohibition-probe reference. Reca
 
 Roadmap criterion1 maps06-02 lifecycle; criterion2 maps06-02 immutable participant/results evidence; criterion3 maps06-01 composition plus06-02 owner/setup/state matrix. UI-04/UI-05 map both plans. All locked context themes remain covered: scene-centered presentation, distinct mode summaries, every participant, exact solo, compact tiers, lifecycle continuity, one owner tree, actual input, theme/motion/accessibility and honest evidence. Research G1/G2 map06-01; existing-authority and source-fresh changed-state proof map06-02. Candidate files are not mandatory edits: renderer changes require actual CSS-failure evidence.
 
-Active plan:pre contributions were read from `/tmp/down-to-duck-06-plan-hooks.json`. Security requires ASVS1 with unresolved high findings blocking; each plan has concrete STRIDE mitigations. No ORM/database schema or AI integration is introduced. API and assumption detectors are run against written plans before handoff, with actual outputs recorded in the planning return. No new external API is expected: existing SDK controller fixture usage preserves the delivered boundary. Human Phase05 acceptance remains pending and separate from technical checks; neither phase is completed by this document.
+Active plan:pre contributions were read from `/tmp/down-to-duck-06-plan-hooks.json`. Security requires ASVS1 with unresolved high findings blocking; each plan has concrete STRIDE mitigations. No ORM/database schema or AI integration is introduced. API and assumption detectors are run against written plans before handoff, with actual outputs recorded in the planning return. No new external API is expected: existing SDK controller fixture usage preserves the delivered boundary. Human Phase05/06 acceptance is received and separate from technical checks; neither phase is formally completed by this document.
 
 Planning checks completed: actual `detectApiIntegration` over ROADMAP plus both written plans returned `detected:false, signals:[]`; `assumption-delta scan 06 --json` returned the same. No false-positive coverage matrix or assumption migration is required. Both `frontmatter validate --schema plan` and `verify plan-structure` returned valid for both plans, with zero structure warnings/errors and two tasks each. These are planning checks, not product test evidence. All existing test paths in the verification map were checked to exist; new suite/runner paths have explicit creation tasks.
+
+## Validation Audit 2026-10-16 — completed Nyquist record
+
+Generic-agent workaround applying full local Nyquist auditor instructions and validate-phase. Active verify:post Nyquist hook confirmed. Existing final gates and independent evidence are accepted; no redundant test run or new mirror assertion was added. All four planned tasks have executable verification, existing test files and terminal behavior evidence. The exact gate blocks above are unchanged.
+
+| Task | Requirement | Current executed evidence | Status |
+|---|---|---|---|
+|06-01-01 | UI-04/UI-05 | Actual-mode corrected P6 tracers included in19150exit0; historical generic-labelled Survive traces explicitly excluded | COVERED |
+|06-01-02 | UI-04/UI-05 |19150exit0:22 cross-mode,23 render/solo UI,21 immutable solo, required checks;214 source-hashed captures; later full31 cross-mode supersedes | COVERED |
+|06-02-01 | UI-04/UI-05 |76084exit0 exact Task1 strict27/27 plus Relay/Race layouts;21972 final state/inherited evidence; current92241 parent-child/owner input regression | COVERED |
+|06-02-02 | UI-04/UI-05 |21972exit0 exact phase6-gate: Relay6/Race7, health-runtime once,27 cross-mode, diff; current92241 narrowed repair31 cross-mode/104 affected plus checks | COVERED |
+
+UI-04 has actual native/SDK input proof for lifecycle, recovery and immutable archived participants; UI-05 has actual production body/nameplate rectangles, eight-pixel clearance, visible DOM footprints, complete accessible details, all six frames/themes, minimum restore and motion cases. Tests `cross-mode-presentation.mjs`, `survive-complete-run-runtime.mjs`, `survive-market-pack-owner-runtime.mjs`, `relay-layout.mjs`, `race-layout.mjs` and inherited input/results suites provide the named paths;06-EVIDENCE maps every28 explicit consideration,8 original backstops,2 additional backstops and7 justified dismissals. Arranged participant/stock fixtures remain labelled integration proof, not organic acquisition. Independent06-VERIFICATION establishes47/47,72 recomputed geometry samples and current hash agreement.
+
+The actual missing native child-focus behavior found by independent review was already repaired with retained REDbe71b19: settled participant-details→Leave Race native Tab/ShiftTab/Enter/Space and shared recovery child traversal, original focus/owner/pause restoration, no movement leak. WR-01 has zero unchanged label mutations over1000ms and exactly one actual page-change update. Full current cross-mode31/31 and affected104/104 passed92241 onb9bc44f; independent52826 corroborates. Thus the earlier pointer-only proof is not carried as complete native-keyboard evidence.
+
+Logs inspected: `/tmp/down-to-duck-06-01-final-complete.log`, `/tmp/down-to-duck-06-02-final-frozen-gate.log`, `/tmp/down-to-duck-06-review-repair-final.log`; scoped command/count/source mapping is in06-SUMMARY/EVIDENCE/REVIEW-REPAIR.21972 ends with explicit PASS for both canonical gates and completion suffix.92241 is a bounded repair gate, not another full inherited run. Current Phase07 instrumentation changes only opt-in test collection; these prior normal-mode evidence scopes remain valid. No product tests were executed during this audit.
+
+| Audit metric | Count |
+|---|---|
+| Assigned requirements covered |2/2 |
+| Planned tasks with executed automated evidence |4/4 |
+| Newly uncovered behavioral gaps |0 |
+| Missing compliance-record gaps resolved |1 |
+| New tests / rerun tests / source edits |0/0/0 |
+| Escalated implementation gaps |0 |
+
+User visual/feel acceptance received2026-10-16 in5eb3c46; root owns remaining formal security/verification closure. Physical controllers, actual screen-reader speech and five evidence-dependent conformance checks remain explicitly unmeasured. This validation status means complete mapped phase behavioral evidence, not exhaustive trajectories, production coverage percentage, future Phase07 completion or hardware certification. No active audit process remains.
