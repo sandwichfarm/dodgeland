@@ -4,7 +4,7 @@ import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { chromium } from 'playwright';
 import { compileSources } from './source-loader.mjs';
-import { artifactDirectoryForCoverage } from '../tools/release-coverage/browser.mjs';
+import { artifactDirectoryForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 
 const result = Object.freeze({ mode: 'survive-together', outcome: 'all-dead', podium: 'team', distance: 314, elapsedSeconds: 120,
   contributions: [
@@ -42,12 +42,15 @@ test('immutable co-op results page every participant without ranking, overflow, 
   });
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve)); origin = `http://127.0.0.1:${server.address().port}`;
   const browser = await chromium.launch({ args: ['--mute-audio'] });
+  let frame;
+  const identity={suite:process.argv[1],scenario:'survive-results',frame:'opaque-component',generation:0,scope:'current'};
   try {
     const page = await browser.newPage({ viewport: { width: 900, height: 600 }, reducedMotion: 'reduce' });
+    registerRealm(page,identity);
     page.setDefaultTimeout(5000);
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(origin);
-    const iframe = page.locator('iframe'), frame = await (await iframe.elementHandle()).contentFrame();
+    const iframe = page.locator('iframe'); frame = await (await iframe.elementHandle()).contentFrame();
     await frame.waitForFunction(() => window.resultsFixture?.board);
     await frame.evaluate(() => document.fonts.ready);
     const original = await frame.evaluate(() => JSON.stringify(resultsFixture.snapshot));
@@ -150,5 +153,5 @@ test('immutable co-op results page every participant without ranking, overflow, 
   } catch (error) {
     await browser.contexts()[0]?.pages()[0]?.locator('iframe').screenshot({ path: new URL('survive-results-component-failure.png', artifact).pathname }).catch(() => {});
     throw error;
-  } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); }
+  } finally { try{await collectRealm(frame,identity);}finally{await browser.close(); await new Promise(resolve => server.close(resolve));} }
 });

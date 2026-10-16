@@ -6,6 +6,7 @@ import test, { after } from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 import { loadSources } from './source-loader.mjs';
+import { registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const sources = await loadSources(['game', 'mode-rules', 'solo-ui']);
@@ -48,8 +49,11 @@ after(() => new Promise(resolve => server.close(resolve)));
 
 test('real composed games install usable health and chase meters in a muted browser DOM', async () => {
   const browser = await chromium.launch({ args: ['--mute-audio'] });
+  let page;
+  const identity={suite:process.argv[1],scenario:'composed-meters',frame:'component-dom',generation:0,scope:'current'};
   try {
-    const page = await browser.newPage({ viewport: { width: 240, height: 240 } });
+    page = await browser.newPage({ viewport: { width: 240, height: 240 } });
+    registerRealm(page,identity);
     await page.goto(`http://127.0.0.1:${server.address().port}`);
     await page.waitForFunction(() => typeof window.installMeter === 'function');
     const install = (health, pursuit) => page.evaluate(([nextHealth, nextPursuit]) => window.installMeter(nextHealth, nextPursuit), [health, pursuit]);
@@ -66,5 +70,5 @@ test('real composed games install usable health and chase meters in a muted brow
     assert.deepEqual(await install({}, { warningSeconds: 5 }), {
       max: '3', clips: [22, 22, 22], columns: '16px 16px 16px', featherSize: '16px', fits: true, chaseMax: '5', chaseFill: '80%',
     });
-  } finally { await browser.close(); }
+  } finally { try{if(page)await collectRealm(page,identity);}finally{await browser.close();} }
 });

@@ -116,37 +116,44 @@
     {
       "path": "tests/render.test.mjs",
       "plan": "07-07",
-      "status": "pending-real-payload-proof"
+      "status": "complete",
+      "evidenceRun": "8b92adbd-4927-4646-acd4-a4744f757c88"
     },
     {
       "path": "tests/session-board-controls.test.mjs",
       "plan": "07-07",
-      "status": "pending-real-payload-proof"
+      "status": "complete",
+      "evidenceRun": "8b92adbd-4927-4646-acd4-a4744f757c88"
     },
     {
       "path": "tests/session-labels-render.test.mjs",
       "plan": "07-07",
-      "status": "pending-real-payload-proof"
+      "status": "complete",
+      "evidenceRun": "8b92adbd-4927-4646-acd4-a4744f757c88"
     },
     {
       "path": "tests/consumable-world-render.test.mjs",
       "plan": "07-07",
-      "status": "pending-real-payload-proof"
+      "status": "complete",
+      "evidenceRun": "8b92adbd-4927-4646-acd4-a4744f757c88"
     },
     {
       "path": "tests/death-spill-render.test.mjs",
       "plan": "07-07",
-      "status": "pending-real-payload-proof"
+      "status": "complete",
+      "evidenceRun": "8b92adbd-4927-4646-acd4-a4744f757c88"
     },
     {
       "path": "tests/survive-results-ui.test.mjs",
       "plan": "07-07",
-      "status": "pending-real-payload-proof"
+      "status": "complete",
+      "evidenceRun": "8b92adbd-4927-4646-acd4-a4744f757c88"
     },
     {
       "path": "tests/solo-ui-browser.test.mjs",
       "plan": "07-07",
-      "status": "pending-real-payload-proof"
+      "status": "complete",
+      "evidenceRun": "8b92adbd-4927-4646-acd4-a4744f757c88"
     },
     {
       "path": "tests/local-session-tracer.mjs",
@@ -298,7 +305,7 @@
       "loadSources": false,
       "directDist": false,
       "directTranspile": false,
-      "status": "pending-adapter"
+      "status": "component-adapter-complete"
     },
     {
       "path": "tests/consumable-world.test.mjs",
@@ -368,7 +375,7 @@
       "loadSources": false,
       "directDist": false,
       "directTranspile": false,
-      "status": "pending-adapter"
+      "status": "component-adapter-complete"
     },
     {
       "path": "tests/death-spill.test.mjs",
@@ -808,7 +815,7 @@
       "loadSources": false,
       "directDist": false,
       "directTranspile": false,
-      "status": "pending-adapter"
+      "status": "component-adapter-complete"
     },
     {
       "path": "tests/run-hand-runtime.mjs",
@@ -848,7 +855,7 @@
       "loadSources": false,
       "directDist": false,
       "directTranspile": false,
-      "status": "pending-adapter"
+      "status": "component-adapter-complete"
     },
     {
       "path": "tests/session-input.test.mjs",
@@ -868,7 +875,7 @@
       "loadSources": false,
       "directDist": false,
       "directTranspile": false,
-      "status": "pending-adapter"
+      "status": "component-adapter-complete"
     },
     {
       "path": "tests/session-lifecycle.test.mjs",
@@ -938,7 +945,7 @@
       "loadSources": true,
       "directDist": false,
       "directTranspile": false,
-      "status": "pending-adapter"
+      "status": "component-adapter-complete"
     },
     {
       "path": "tests/solo-ui.test.mjs",
@@ -1228,7 +1235,7 @@
       "loadSources": false,
       "directDist": false,
       "directTranspile": false,
-      "status": "pending-adapter"
+      "status": "component-adapter-complete"
     },
     {
       "path": "tests/survive-together-layout.mjs",
@@ -1375,5 +1382,16 @@
       "status": "pending-complete-attribution",
       "foundationGroups": []
     }
-  }
+  },
+  "adapterObligationSemantics": "pendingAdapters retains the original 21-owner obligation ledger; status records completion and only non-complete rows remain pending.",
+  "remainingAdapterCount": 14,
+  "completedAdapters": [
+    "tests/consumable-world-render.test.mjs",
+    "tests/death-spill-render.test.mjs",
+    "tests/render.test.mjs",
+    "tests/session-board-controls.test.mjs",
+    "tests/session-labels-render.test.mjs",
+    "tests/solo-ui-browser.test.mjs",
+    "tests/survive-results-ui.test.mjs"
+  ]
 }

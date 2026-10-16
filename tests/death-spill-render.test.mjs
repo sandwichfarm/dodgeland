@@ -4,7 +4,7 @@ import { createServer } from 'node:http';
 import test, { after } from 'node:test';
 import { chromium } from 'playwright';
 import { compileSources } from './source-loader.mjs';
-import { artifactDirectoryForCoverage } from '../tools/release-coverage/browser.mjs';
+import { artifactDirectoryForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 
 const modules = await compileSources(['render', 'market/catalog', 'cosmetic-model', 'death-spill']);
 const server = createServer((request, response) => {
@@ -16,8 +16,11 @@ await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const browser = await chromium.launch({ args: ['--mute-audio'] });
 after(async () => { await browser.close(); await new Promise(resolve => server.close(resolve)); });
 
-test('real spilled models match market geometry, tumble above the floor, and remain visible after settling', async () => {
+test('real spilled models match market geometry, tumble above the floor, and remain visible after settling', async t => {
   const page = await browser.newPage({ deviceScaleFactor: 1 });
+  const identity={suite:process.argv[1],scenario:'death-spill',frame:'component-canvas',generation:0,scope:'current'};
+  registerRealm(page,identity);
+  t.after(async()=>{try{await collectRealm(page,identity);}finally{await page.close();}});
   const errors = []; page.on('pageerror', error => errors.push(error.message));
   await page.goto(`http://127.0.0.1:${server.address().port}`);
   const reports = [];
@@ -102,5 +105,4 @@ test('real spilled models match market geometry, tumble above the floor, and rem
   }
   assert.deepEqual(errors, []);
   await writeFile(new URL('death-spill-render.json', artifacts), JSON.stringify({ reports, errors }, null, 2));
-  await page.close();
 });
