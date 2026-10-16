@@ -170,13 +170,13 @@
 /* Compact ready menus have four actions, unlike the two-action result menu.
    Give each a full grid cell instead of shrinking Travelers in a flex row. */
 @media (max-width: 479px) {
-  #app[data-run-menu-open="true"][data-run-menu-page="options"] #run-panel { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr) auto auto; }
-  #app[data-run-menu-open="true"][data-run-menu-page="options"] #run-menu-reader { grid-column: 1 / -1; }
-  #app[data-run-menu-open="true"][data-run-menu-page="options"] #run-panel .panel-bottom { display: contents; }
-  #app[data-run-menu-open="true"][data-run-menu-page="options"] #play { gap: 4px; flex-wrap: wrap; }
+  #app[data-run-state="ready"][data-run-menu-open="true"][data-run-menu-page="options"] #run-panel { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr) auto auto; }
+  #app[data-run-state="ready"][data-run-menu-open="true"][data-run-menu-page="options"] #run-menu-reader { grid-column: 1 / -1; }
+  #app[data-run-state="ready"][data-run-menu-open="true"][data-run-menu-page="options"] #run-panel .panel-bottom { display: contents; }
+  #app[data-run-state="ready"][data-run-menu-open="true"][data-run-menu-page="options"] #play { gap: 4px; flex-wrap: wrap; }
 }
 @media (min-width: 320px) and (max-width: 479px) and (min-height: 460px) {
-  #app[data-run-state="ready"][data-run-menu-open="true"][data-run-menu-page="home"] #run-panel { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #app[data-run-state="ready"][data-run-menu-open="true"][data-run-menu-page="home"] #run-panel { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
   #app[data-run-state="ready"][data-run-menu-open="true"][data-run-menu-page="home"] #ready-content { grid-column: 1 / -1; }
   #app[data-run-state="ready"][data-run-menu-open="true"][data-run-menu-page="home"] #run-panel .panel-bottom { display: contents; }
   #app[data-run-state="ready"][data-run-menu-open="true"][data-run-menu-page="home"] #play { gap: 4px; flex-wrap: wrap; }

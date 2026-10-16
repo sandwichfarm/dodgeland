@@ -16,8 +16,8 @@ async function layout(name) {
     const nodes = [panel,...panel.querySelectorAll('*')].filter(visible);
     return { center: [r.x+r.width/2-innerWidth/2,r.y+r.height/2-innerHeight/2], fits:r.x>=0&&r.y>=0&&r.right<=innerWidth&&r.bottom<=innerHeight,
       font:style.fontFamily, paper:style.backgroundColor, wood:style.borderTopColor, tint:getComputedStyle(document.querySelector('.game-surface'),'::after').backgroundColor,
-      panel:{x:r.x,y:r.y,width:r.width,height:r.height},
-      text:nodes.filter(node=>node.matches('button')).flatMap(node=>[...node.childNodes].filter(n=>n.nodeType===Node.TEXT_NODE&&n.textContent.trim()).map(n=>{const range=document.createRange();range.selectNodeContents(n);const b=node.getBoundingClientRect();return{id:node.id||node.dataset.runTopic, fits:[...range.getClientRects()].every(t=>t.left>=b.left&&t.right<=b.right&&t.top>=b.top&&t.bottom<=b.bottom)};})),
+      state:document.querySelector('#app').dataset.runState,page:document.querySelector('#app').dataset.runMenuPage,viewport:[innerWidth,innerHeight],panel:{x:r.x,y:r.y,width:r.width,height:r.height},
+      text:nodes.filter(node=>node.matches('button')).flatMap(node=>[...function*(){const walker=document.createTreeWalker(node,NodeFilter.SHOW_TEXT);while(walker.nextNode())if(walker.currentNode.textContent.trim()&&visible(walker.currentNode.parentElement))yield walker.currentNode;}()].map(n=>{const range=document.createRange();range.selectNodeContents(n);const b=node.getBoundingClientRect();return{id:node.id||node.dataset.runTopic, fits:[...range.getClientRects()].every(t=>t.left>=b.left&&t.right<=b.right&&t.top>=b.top&&t.bottom<=b.bottom)};})),
       controls:nodes.filter(node=>node.matches('button,textarea')).map(node=>{const b=node.getBoundingClientRect(),hit=document.elementFromPoint(b.x+b.width/2,b.y+b.height/2); return {id:node.id||node.dataset.runTopic,x:b.x,y:b.y,right:b.right,bottom:b.bottom,width:b.width,height:b.height, fits:b.x>=r.x&&b.y>=r.y&&b.right<=r.right&&b.bottom<=r.bottom,hit:hit===node||node.contains(hit)};}),
       overflow:nodes.filter(node=>node.clientWidth&&node.clientHeight&&!node.matches('img,svg,svg *')).filter(node=>node.scrollWidth>node.clientWidth+2||node.scrollHeight>node.clientHeight+2||['auto','scroll'].includes(getComputedStyle(node).overflowY)).map(node=>({id:node.id||node.className,width:node.clientWidth,height:node.clientHeight,sw:node.scrollWidth,sh:node.scrollHeight})),
       focused:document.activeElement?.id,
@@ -26,6 +26,9 @@ async function layout(name) {
   evidence.last = { name, ...result };
   assert.ok(result.center.every(value=>Math.abs(value)<1),`${name} centered`); assert.ok(result.fits,`${name} fits`);
   assert.match(result.font,/Lilita One/); assert.notEqual(result.tint,'rgba(0, 0, 0, 0)');
+  const readyActions = result.state === 'ready' && (result.page === 'options' || (result.page === 'home' && result.viewport[0] >= 320 && result.viewport[1] >= 460));
+  if (readyActions) for(const id of ['play','choose','local-play','mode']) assert.ok(result.controls.some(c=>c.id===id), `${name}: ready action ${id} remains visible`);
+  if (result.state === 'dead') assert.ok(!result.controls.some(c=>c.id==='local-play'), `${name}: results preserve original Local Play absence`);
   assert.deepEqual(result.text.filter(t=>!t.fits),[],`${name} complete control text fits`);
   assert.deepEqual(result.controls.flatMap((a,i)=>result.controls.slice(i+1).filter(b=>a.x<b.right&&a.right>b.x&&a.y<b.bottom&&a.bottom>b.y).map(b=>[a.id,b.id])),[],`${name} action rectangles do not overlap`);
   (evidence.observations ??= []).push({name,...result});
