@@ -183,13 +183,16 @@ Plans:
   4. Type-check, build, guidance, conformance, parity/legacy, per-mode, and browser checks are green with evidence skips explicitly distinguished from proven behavior.
   5. The feature branch contains coherent phase evidence and traceability, and an open reviewable PR against `main` links its tests and visual proofs.
 
-**Plans**: 9 plans in 9 sequential waves; execution order01 →02 →07 →08 →09 →03 →04 →05 →06
+**Plans**: 12 plans in12 sequential waves; execution order01 →02 →07 →08 →09 →10 →11 →12 →03 →04 →05 →06
 
 - [x] 07-01-PLAN.md — Audit isolated tooling and calibrate exact Node/opaque-browser counters.
-- [x] 07-02-PLAN.md — Shared collection foundation and policy complete; full collection follows07-07/08/09.
+- [x] 07-02-PLAN.md — Shared collection foundation and policy complete; full collection follows07-07/08/09/10/11/12.
 - [x] 07-07-PLAN.md — Collect seven canvas/component browser owners.
 - [x] 07-08-PLAN.md — Collect seven local-input/lifecycle browser owners.
-- [ ] 07-09-PLAN.md — Collect seven remaining owners and produce the complete initial report.
+- [ ] 07-09-PLAN.md — Seven canonical owners proven; amended scope awaits independent approval.
+- [ ] 07-10-PLAN.md — Collect eight package component browser owners.
+- [ ] 07-11-PLAN.md — Collect seven package built owners with development/browser variants.
+- [ ] 07-12-PLAN.md — Collect audio jobs, reconcile full inventory and produce valid attributed initial report.
 - [ ] 07-03-PLAN.md — Close meaningful measured coverage and behavioral gaps.
 - [ ] 07-04-PLAN.md — Measure scoped wire, teardown and current-manifest conformance.
 - [ ] 07-05-PLAN.md — Commit current visual proof and complete original-clause traceability.
@@ -208,4 +211,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 4. Relay | 6/6 | Complete    | 2026-10-15 |
 | 5. Race | 7/7 | Complete    | 2026-10-16 |
 | 6. Cross-Mode Presentation | 2/2 | Complete    | 2026-10-16 |
-| 7. Release Evidence & PR | 4/9 | In progress | - |
+| 7. Release Evidence & PR | 4/12 | In progress | - |

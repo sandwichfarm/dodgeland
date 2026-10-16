@@ -56,4 +56,6 @@ Initial Task1 URL-root and nonexistent seed.ts fixture failures were corrected b
 
 ## Self-Check: PASSED
 
+Scope-history addendum after09 checkpoint: foundation02 remains complete on its actual evidence. Its original full-report obligation moved first to09; package-wide discovery then required checked10/11/12 continuations. Full initial collection and valid per-mode attribution are now mandatory12 Task3 prerequisites for03. Historical references to09 below/above describe the earlier amendment, not a claim that09 produced a full report.
+
 All13 declared paths and RED/GREEN commits exist; all three exact task gates are terminal green. Root lock matches immutablea310a81ed6c76df4b265c9012c23b8c83f4802e5. No active process or blocking stub. Deliberately incomplete full collection rejects rather than inventing success.
