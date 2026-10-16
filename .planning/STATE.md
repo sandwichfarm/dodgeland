@@ -12,7 +12,7 @@ progress:
   completed_plans: 40
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Race matrix passed10/10; Race results14pass5cancel requires narrow timing diagnosis; full report pending.
+last_activity_desc: Race44/44 and Relay15/15 focused evidence accepted; complete frozen collection30406 active, report pending.
 ---
 
 # Project State
