@@ -76,6 +76,7 @@ test('one Arcade course survives adoption, four-player recovery, settlement and 
     await frame.locator('#local-session-back').click();
     assert.deepEqual(await onGame(function () { return { seed: this.seedCode, time: this.time, x: this.x, y: this.y, marketState: this.run.state, rows: JSON.stringify([...this.rows]) }; }), soloBefore);
     await frame.locator('#local-play').click(); await frame.getByRole('button', { name: /start together/i }).click();
+    assert.deepEqual(await onSession(function(){return {base:this.definition.id,composed:!!this.mode,market:!!this.coOpMarket};}),{base:'arcade',composed:true,market:true});
     assert.equal(await onSession(function () {
       const retained = window.marketGameFixture.retained;
       return this.world === retained.world && this.players[0] === retained.player && this.players[0].run === retained.run
@@ -249,6 +250,22 @@ test('one Arcade course survives adoption, four-player recovery, settlement and 
     assert.equal(await onSession(function () { return Object.isFrozen(this.result) && Object.isFrozen(this.result.contributions); }), true);
     await frame.getByRole('heading', { name: "The flock's run", exact: true }).waitFor();
     await iframe.screenshot({ path: new URL('survive-complete-result.png', output).pathname });
+    // P6 owner-results: arranged production history, real visible paging of all
+    // five stable participants including the departed and replacement P4.
+    await app.resize(320,560); const visited=new Set();
+    for(let page=0;page<5;page++){
+      const id=await frame.locator('.survive-result-player').getAttribute('data-participant');visited.add(id);
+      assert.deepEqual((await read()).result,settled.result);
+      if(page<4){await frame.getByRole('button',{name:'Next results',exact:true}).focus();await app.page.keyboard.press(page%2?'Space':'Enter');}
+    }
+    assert.deepEqual([...visited].sort(),settled.result.contributions.map(p=>p.participantId).sort());
+    const selected=await frame.locator('.survive-result-player').getAttribute('data-participant');
+    await app.resize(200,160);await app.resize(1000,280);
+    assert.equal(await frame.locator('.survive-result-player').getAttribute('data-participant'),selected);
+    await iframe.screenshot({path:new URL('survive-five-participant-paging.png',output).pathname});
+    assert.deepEqual((await read()).result,settled.result);
+    await app.resize(900,600);
+
     await advance(1500); assert.deepEqual((await read()).result, settled.result);
     await frame.getByRole('button', { name: 'Hop again', exact: true }).click(); app.refreshOwners(); await settle();
     assert.equal(await frame.locator('#session-seats').isVisible(), false);

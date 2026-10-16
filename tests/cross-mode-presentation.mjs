@@ -188,3 +188,21 @@ test('P6 actual pursuit warning remains visible in the bounded action band',{tim
   assert.deepEqual(await capture(app,evidence,'compact-actual-wave-warning'),[]);assert.deepEqual(evidence.errors,[]);
  }finally{await writeFile(new URL('actual-warning.json',output),JSON.stringify(evidence,null,2));await app.close();}
 });
+
+test('P6 lifecycle tracer preserves regular owner page focus through compact short and minimum frames',{timeout:60000},async()=>{
+ const evidence={errors:[],external:[],states:[]},app=await createMarketGameFixture(evidence,{gamepads:true,auditBoundary:true,initialIntent:intent});
+ const snapshot=()=>app.onSession(function(){return {mode:this.mode.id,base:this.definition.id,time:this.world.time,players:this.players.map(p=>({id:p.participantId,seat:p.seat,x:p.x,y:p.y,health:p.health,run:{wallet:p.run.wallet,cards:p.run.cards,pending:p.run.pendingPack},recovery:p.recovery}))};});
+ try{await setup(app,'flow');const before=await snapshot();
+  const owner=app.frame.locator('[data-seat="p2"] .session-hud-identity');await owner.click();await owner.focus();await app.page.keyboard.press('Enter');
+  await app.frame.getByRole('button',{name:'Next details',exact:true}).focus();await app.page.keyboard.press('Space');
+  const page=await app.frame.locator('.session-hud-selected').getAttribute('data-session-hud-page');assert.equal(page,'1');
+  for(const [w,h]of [[320,560],[1000,280],[200,160],[240,240],[900,600]]){
+   await app.resize(w,h);await app.advance(200);
+   assert.deepEqual(await snapshot(),before);assert.equal(await app.frame.locator('.session-hud-selected').getAttribute('data-seat'),'p2');assert.equal(await app.frame.locator('.session-hud-selected').getAttribute('data-session-hud-page'),page);
+   if(w<240)assert.equal(await app.frame.locator('.too-small').isVisible(),true);
+   else {assert.equal(await app.frame.getByRole('button',{name:'Next details',exact:true}).evaluate(n=>n===document.activeElement),true,'logical detail action retains focus');await app.iframe.screenshot({path:new URL(`lifecycle-inspection-${w}x${h}.png`,output).pathname});}
+  }
+  await app.frame.getByRole('button',{name:'Close details',exact:true}).focus();await app.page.keyboard.press('Enter');await app.advance(80);
+  assert.deepEqual(await snapshot(),before);assert.equal(await owner.evaluate(n=>n===document.activeElement),true);assert.equal(await app.frame.locator('#app').getAttribute('data-run-state'),'paused');assert.deepEqual(evidence.errors,[]);
+ }finally{await app.close();}
+});
