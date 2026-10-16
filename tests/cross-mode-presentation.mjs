@@ -115,15 +115,21 @@ for(const variant of ['arcade','flow','race','relay'])test(`P6 frames ${variant}
  assert.deepEqual(evidence.failures,[]);
  }finally{await writeFile(new URL(`${variant}-frames.json`,output),JSON.stringify(evidence,null,2));await app.close();}
 });
-test('P6 compact controls leave the actual travelers and eighty pixels of live course clear',{timeout:60000},async()=>{
+const compactControlReport={errors:[],external:[],captures:[],completedVariants:[],complete:false};
+for(const variant of ['arcade','race','relay'])test(`P6 compact controls ${variant} leave the actual travelers and eighty pixels of live course clear`,{timeout:60000},async()=>{
  const evidence={errors:[],external:[],captures:[]};let app;
- try{for(const variant of ['arcade','race','relay']){
+ try{
   app=await createMarketGameFixture(evidence,{gamepads:true,auditBoundary:true,initialIntent:intent});await setup(app,variant);await app.resize(240,240);
   await capture(app,evidence,`${variant}-compact-control-gap`);
   const controls=await app.frame.evaluate(()=>[...document.querySelectorAll('#session-seats,.hud-tools button,.bottom-bar button,#run-hand-owner,#run-hand-items button')].filter(n=>n.getClientRects().length&&getComputedStyle(n).visibility!=='hidden'&&!n.closest('[hidden]')).map(n=>({name:n.id||n.className,text:n.textContent,rect:n.getBoundingClientRect().toJSON()})));
   evidence.captures.at(-1).controls=controls;await app.close();app=null;
- }assert.deepEqual(evidence.captures.flatMap(c=>c.collisions),[],'live control footprints must not cover actual travelers');}
- finally{await writeFile(new URL('compact-control-gap.json',output),JSON.stringify(evidence,null,2));await app?.close();}
+  assert.deepEqual(evidence.captures.flatMap(c=>c.collisions),[],`${variant} live control footprints must not cover actual travelers`);
+  compactControlReport.completedVariants.push(variant);
+ }finally{
+  compactControlReport.errors.push(...evidence.errors);compactControlReport.external.push(...evidence.external);compactControlReport.captures.push(...evidence.captures);
+  compactControlReport.complete=['arcade','race','relay'].every(name=>compactControlReport.completedVariants.includes(name));
+  await writeFile(new URL('compact-control-gap.json',output),JSON.stringify(compactControlReport,null,2));await app?.close();
+ }
 });
 test('P6 tracer shared personal status replaces solo widgets and regular details operate',{timeout:60000},async()=>{
  const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{gamepads:true,auditBoundary:true,initialIntent:intent});
