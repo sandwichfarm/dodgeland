@@ -90,3 +90,52 @@ test('health pipeline dependency: delivered end is terminal even with a rear con
   assert.equal(player.state, 'dead');
   assert.equal(player.deathCause, 'traffic');
 });
+test('same-tick tie and finish before timeout are permutation independent and terminal immutable',()=>{
+  for(const reverse of [false,true]) {
+    const race=arena({finishTiles:1,activeSeconds:30});if(reverse)race.session.players.reverse();
+    ticks(race,3600-17);
+    for(const seat of ['p1','p2'])assert.equal(race.session.dispatch({seat,direction:'forward'}),true);
+    ticks(race,16);assert.equal(race.result,undefined);ticks(race,1);
+    assert.equal(race.result.outcome,'finish');assert.deepEqual(race.result.winners,['p1','p2']);
+    assert.equal(race.finishTick('p1'),race.finishTick('p2'));
+    const result=race.result,time=race.session.world.time;ticks(race,100);
+    assert.equal(race.session.world.time,time);assert.strictEqual(race.result,result);
+    assert.equal(race.session.dispatch({seat:'p1',direction:'forward'}),false);
+  }
+});
+test('fatal before finish retains earned frontier but no finish; last survivor continues',()=>{
+  const race=arena({finishTiles:1});
+  race.session.dispatch({seat:'p1',direction:'forward'});
+  race.session.world.host.end('Fatal hazard before landing.','train');ticks(race,17);
+  assert.equal(race.isFinished('p1'),false);assert.equal(race.leaderFrontier,1);
+  assert.equal(race.result,undefined);assert.ok(race.session.players[0].recovery.offer);
+  race.session.declineRecovery('p1');assert.equal(race.result,undefined);
+  hop(race,'p2');assert.equal(race.result.outcome,'finish');assert.deepEqual(race.result.winners,['p2']);
+});
+test('all down timeout closes offers before terminal immutable snapshot',()=>{
+  const race=arena({activeSeconds:30});ticks(race,3480);
+  for(const seat of ['p1','p2'])race.session.damage(seat,{cause:'fog',amount:3,reason:'Fatal pressure.'});
+  assert.ok(race.session.players.every(p=>p.recovery.offer));
+  const time=race.session.world.time;ticks(race,60);assert.ok(race.session.world.time>time);assert.equal(race.result,undefined);
+  ticks(race,61);assert.equal(race.result.outcome,'time');
+  assert.ok(race.session.players.every(p=>!p.recovery.offer));
+  assert.deepEqual(race.recoveryClosures.map(e=>e.reason),['race-timeout','race-timeout']);
+  assert.equal(race.session.recover({kind:'personal',ownerSeat:'p1'}),false);
+});
+test('all down accept decline expiry and suspension preserve active clocks',()=>{
+  for(const action of ['accept','decline','expiry']) {
+    const race=arena();for(const seat of ['p1','p2'])race.session.damage(seat,{cause:'fog',amount:3,reason:'Fatal pressure.'});
+    ticks(race,60);assert.equal(race.result,undefined);
+    if(action==='accept') {
+      assert.equal(race.session.recover({kind:'personal',ownerSeat:'p1'}),true);
+      assert.equal(race.session.players[0].completedForwardTiles,0);
+      ticks(race,1000);assert.equal(race.result,undefined,'last living racer continues');
+    }else {
+      if(action==='decline')for(const seat of ['p1','p2'])race.session.declineRecovery(seat);
+      ticks(race,action==='expiry'?1000:1);assert.equal(race.result.outcome,'eliminated');
+    }
+  }
+  const race=arena();const game=race.session.world.host;
+  game.pause();const time=game.time;ticks(race,600);assert.equal(game.time,time);assert.equal(race.elapsed,0);
+  game.resume();ticks(race,1);assert.ok(race.elapsed>0&&race.elapsed<.01);
+});
