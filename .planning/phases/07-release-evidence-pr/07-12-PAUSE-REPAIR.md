@@ -16,6 +16,8 @@ Rebalance the compact pause bottom-row allocation/padding so Travelers and Local
 
 Do not hide or truncate a label, remove an action, shrink typography, add scrolling, clip overflow, increase the minimum frame, reduce the test matrix or weaken its existing assertions. Do not edit `tests/pause-game-layout.mjs`: its unchanged complete behavior is the regression proof. No oracle repinning, root lock change, source-counter suppression or production test hook.
 
+The first compact-only candidate cleared240×240 but unchanged ordinary run27409 exposed the same wrapping defect at320×360: bottom row79.2px, pause-content135px versus138px. Root therefore explicitly authorizes the same allocation repair throughout the existing compact/short breakpoint (`max-width:899px` or `max-height:599px`), retaining ordinary900×600-and-larger styling. Independent review also found a candidate selector-specificity regression: the new grid display could override the existing non-home reader hide rule. Scope the new grid to the home page or otherwise preserve that hide rule. Rules/Power reader pages must keep their original layout and actions. These are evidenced refinements of the same narrow CSS repair, not permission to alter tests or other surfaces.
+
 Apply the installed napplet-ui layout guidance with this game's explicit user-approved large controls/type overriding the generic13px starter defaults. The existing240×240 minimum remains authoritative; below it the existing notice must remain correct.
 
 ## Verification
