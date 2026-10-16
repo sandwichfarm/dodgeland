@@ -185,6 +185,7 @@ function closeRecoveryBoard(resume = false): void {
   updateHud();
 }
 function closeLifecycleBoard(): void {
+  if(race?.confirmingLeave)race.command(race.actionToken(race.confirmingLeave),'cancel');
   const priorFocus = recoveryReturnFocus, resume = lifecycleWasPlaying; recoveryReturnFocus = undefined; lifecycleWasPlaying = false;
   lifecycleBoard?.remove(); lifecycleBoard = undefined; pendingReclaim = undefined; clearRecoveryModalInert();
   if (resume && localSession?.running && frameAvailable()) { sessionPaused = false; game.resume(); activateNativeKeyboard(); }
@@ -215,6 +216,14 @@ function openLifecycleBoard(ownerSeat: SeatId, titleCopy: string, detailCopy: st
 }
 function openDepartureBoard(seat: SeatId): void {
   if (relay) { relayAction('leave', seat); return; }
+  if(race){
+    if(!race.command(race.actionToken(seat),'leave'))return;
+    const token=race.actionToken(seat);
+    openLifecycleBoard(seat,`Leave Race as ${seat.toUpperCase()}?`,'Your race record stays in the results. This is not a death.','Keep racing','Leave Race',true,false,()=>{
+      if(!race?.command(token,'confirm'))return false;
+      router.release(seat);clearRelayInput();return true;
+    });return;
+  }
   const player = localSession?.players.find(candidate => candidate.seat === seat);
   if (!player || player.participation !== 'active') return;
   openLifecycleBoard(seat, `Leave as ${seat.toUpperCase()}?`, 'Your run ends, but this is not a death.', 'Keep playing', 'Leave run', true, false, () => {
@@ -483,7 +492,7 @@ const market = createMarketUI({
   changed: updateHud,
 });
 const router: GamepadRouter = new GamepadRouter({
-  context: () => `${relay ? `relay:${relay.snapshot().phase}:${relay.snapshot().revision}:` : ''}${recoveryBoard ? `recovery:${recoveryBoardOwner?.seat ?? ''}:${recoveryBoard.dataset.recoveryPage ?? ''}` : lifecycleBoard ? `lifecycle:${lifecycleBoard.dataset.lifecycleOwner ?? ''}` : hudDetailsOpen ? `hud:${hudSelected}:${el('session-seats').querySelector<HTMLElement>(`[data-seat="${hudSelected}"]`)?.dataset.sessionHudPage ?? ''}` : !surviveResultsRoot.hidden ? 'survive-results' : localStage ? 'setup' : localSession ? sessionPaused ? 'session-paused' : 'session' : 'solo'}:${game.state}:${hand.isOpen() ? 'hand' : market.isOpen() ? 'market' : el('drawer').hidden ? `run:${el('app').dataset.runMenuPage ?? el('app').dataset.pausePage ?? ''}` : `collection:${el('drawer').dataset.collectionTab}:${el('drawer').dataset.collectionView}`}`,
+  context: () => `${race?.generation ?? 0}:${relay ? `relay:${relay.snapshot().phase}:${relay.snapshot().revision}:` : ''}${recoveryBoard ? `recovery:${recoveryBoardOwner?.seat ?? ''}:${recoveryBoard.dataset.recoveryPage ?? ''}` : lifecycleBoard ? `lifecycle:${lifecycleBoard.dataset.lifecycleOwner ?? ''}` : hudDetailsOpen ? `hud:${hudSelected}:${el('session-seats').querySelector<HTMLElement>(`[data-seat="${hudSelected}"]`)?.dataset.sessionHudPage ?? ''}` : !surviveResultsRoot.hidden ? 'survive-results' : localStage ? 'setup' : localSession ? sessionPaused ? 'session-paused' : 'session' : 'solo'}:${game.state}:${hand.isOpen() ? 'hand' : market.isOpen() ? 'market' : el('drawer').hidden ? `run:${el('app').dataset.runMenuPage ?? el('app').dataset.pausePage ?? ''}` : `collection:${el('drawer').dataset.collectionTab}:${el('drawer').dataset.collectionView}`}`,
   dispatch: ({ seat, direction }) => {
     if (relayHandoff) { relayDirection(seat, direction); return true; }
     if (localSession && !(market.isOpen() || hand.isOpen() || hand.containsFocus() ? localSession.canTransact(seat) : localSession.canAct(seat))) return false;
@@ -517,6 +526,7 @@ const router: GamepadRouter = new GamepadRouter({
   action: (seat, action) => {
     if (relayHandoff) { if (action === 'confirm') relayConfirmControl(seat); else if (action === 'back') relayAction('cancel', seat); return; }
     if (relay && action === 'menu') { relayAction('leave', seat); return; }
+    if (race && action === 'menu' && !lifecycleBoard) { openDepartureBoard(seat); return; }
     if (localSession && !(market.isOpen() || hand.isOpen() || hand.containsFocus() ? localSession.canTransact(seat) : localSession.canAct(seat))) return;
     if (recoveryBoard) {
       if (seat !== recoveryBoardOwner?.seat) return;
@@ -564,6 +574,7 @@ const router: GamepadRouter = new GamepadRouter({
     }
   },
   acceptsDevice: () => !localSession || localStage !== undefined || setupDraft.length < 4,
+  replacementSeat: () => race?.session.players.find(p=>race!.status(p.seat)==='disconnected-grace')?.seat,
   requestFirstPlayer: (device): boolean => {
     if (soloGamepad || localStage || localSession || game.state === 'dead') return false;
     soloGamepad = device;
@@ -980,7 +991,7 @@ function updateHud(): void {
           const value = field === 'revive' || field === 'item' ? document.createElement('button') : document.createElement('span');
           value.dataset.sessionHud = field; if (value instanceof HTMLButtonElement) { value.type = 'button'; value.className = 'session-future'; }
           if (field === 'revive') value.addEventListener('click', () => usePersonalRevive(player.seat));
-          if (field === 'item') value.addEventListener('click', () => relay ? openDepartureBoard(player.seat) : openRecoveryBoard(player.seat));
+          if (field === 'item') value.addEventListener('click', () => relay || race ? openDepartureBoard(player.seat) : openRecoveryBoard(player.seat));
           details.append(value);
         }
         const pager = document.createElement('div'); pager.className = 'session-hud-pager'; pager.dataset.sessionHudPager = 'true';
@@ -1345,14 +1356,19 @@ function reclaimControllerSeat(device: GamepadDevice, seat: SeatId, input: Gamep
     return;
   }
   const player = localSession?.players.find(candidate => candidate.seat === seat);
-  if (!player || (player.participation !== 'device-lost' && !(relay && player.participation === 'dead'))) return;
+  if (!player || (player.participation !== 'device-lost' && !((relay || race) && player.participation === 'dead'))) return;
   if (lifecycleBoard && pendingReclaim && pendingReclaim.seat === seat && sameReclaimDevice(pendingReclaim.device, device)) {
     if (input.actions.includes('back')) { closeLifecycleBoard(); return; }
     if (input.actions.includes('confirm')) { confirmModal(lifecycleBoard); return; }
     if (input.direction) navigateModalControls(lifecycleBoard, input.direction);
     return;
   }
-  openLifecycleBoard(seat, relay ? `Continue as ${characterById(player.characterId).name}` : `Reclaim ${seat.toUpperCase()}`, relay ? 'Your relay seat and items are still here.' : `Continue as ${characterById(player.characterId).name}. Your items are still here.`, 'Not now', `Reclaim ${seat.toUpperCase()}`, false, true, () => {
+  const raceToken=race?.reclaimToken(seat);
+  openLifecycleBoard(seat, relay || race ? `Continue as ${characterById(player.characterId).name}` : `Reclaim ${seat.toUpperCase()}`, race ? 'Your race state is still here.' : relay ? 'Your relay seat and items are still here.' : `Continue as ${characterById(player.characterId).name}. Your items are still here.`, 'Not now', `Reclaim ${seat.toUpperCase()}`, false, true, () => {
+    if(race){
+      if(!pendingReclaim||!sameReclaimDevice(pendingReclaim.device,device)||!router.canReclaim(device,seat)||!race.reclaim(raceToken,markerDevice(device)))return false;
+      router.reclaim(device);clearRelayInput();return true;
+    }
     if (relay) {
       if (!pendingReclaim || pendingReclaim.seat !== seat || !sameReclaimDevice(pendingReclaim.device, device) || !router.canReclaim(device, seat) || !relay.reclaim(seat, markerDevice(device))) return false;
       router.reclaim(device); clearRelayInput(); return true;

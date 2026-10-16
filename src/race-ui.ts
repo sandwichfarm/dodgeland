@@ -7,7 +7,20 @@ export function renderRaceHud(root: HTMLElement, race: RaceCoordinator): void {
   let cue = root.querySelector<HTMLElement>('.race-distance');
   if (!cue) { cue = document.createElement('p'); cue.className = 'race-distance'; root.prepend(cue); }
   cue.textContent = `Finish ${race.descriptor.settings.finishTiles} · ${Math.max(0, Math.ceil(race.descriptor.settings.activeSeconds-race.elapsed))}s`;
-  for (const player of race.session.players) if (race.isFinished(player.seat)) root.querySelector<HTMLElement>(`[data-seat="${player.seat}"] [data-session-hud="device"]`)!.textContent = 'FINISHED';
+  const statuses=race.session.players.map(p=>race.status(p.seat));
+  let notice=root.querySelector<HTMLElement>('.race-lifecycle');
+  if(!notice){notice=document.createElement('p');notice.className='race-lifecycle race-distance';notice.setAttribute('role','status');root.append(notice);}
+  notice.textContent=race.result?'Race complete.':race.waiting?'Waiting for a player to reclaim. A reserved seat can resume this race.':statuses.includes('recovery-offered')&&!statuses.includes('active')?'Everyone is down. Personal offers and the race clock continue.':statuses.filter(s=>s==='active').length===1?'Last racer: keep racing toward the finish.':'Race clock is live.';
+  for (const player of race.session.players){
+    const tile=root.querySelector<HTMLElement>(`[data-seat="${player.seat}"]`)!;
+    const state=race.status(player.seat),name=player.seat.toUpperCase();
+    tile.querySelector<HTMLElement>('[data-session-hud="lifecycle"]')!.textContent=state==='disconnected-grace'?`${name} disconnected · reclaim ${Math.ceil(race.graceRemaining(player.seat))}s`:state==='forfeited'?`${name} forfeited.`:state==='departed'?`${name} departed · DNF`:state==='finished'?'FINISHED':state==='recovery-offered'?'Personal revival offered':state==='eliminated'?'Eliminated · DNF':'Racing';
+    const leave=tile.querySelector<HTMLButtonElement>('[data-session-hud="item"]')!;leave.textContent='Leave Race';leave.disabled=player.deviceLostAt!==null||['finished','forfeited','departed'].includes(state);
+    const revive=tile.querySelector<HTMLButtonElement>('[data-session-hud="revive"]')!;revive.disabled=state!=='recovery-offered';
+    let decline=tile.querySelector<HTMLButtonElement>('[data-race-decline]');
+    if(!decline){decline=document.createElement('button');decline.type='button';decline.className='session-future';decline.dataset.raceDecline='true';decline.textContent='Continue without revive';decline.onclick=()=>{if(race.status(player.seat)==='recovery-offered')race.session.declineRecovery(player.seat);};revive.after(decline);}
+    decline.hidden=state!=='recovery-offered';
+  }
 }
 
 /** Uses the existing roster editor and its binding leases. */
@@ -60,9 +73,9 @@ export function createRaceResultsBoard(root: HTMLElement, again: () => void) {
       if (shown === result) return;
       shown = result; root.replaceChildren(); root.hidden = false; root.dataset.initialRace = 'true'; root.setAttribute('aria-labelledby', 'race-results-heading');
       const sheet = document.createElement('div'); sheet.className = 'survive-results-sheet';
-      const title = document.createElement('h2'); title.id = 'race-results-heading'; title.textContent = result.outcome === 'finish' ? 'Race complete.' : 'Race time ended.';
+      const title = document.createElement('h2'); title.id = 'race-results-heading'; title.textContent = result.outcome === 'time' ? 'Race time ended.' : 'Race complete.';
       const summary = document.createElement('p'); summary.textContent = `Finish ${result.descriptor.settings.finishTiles} · ${result.elapsed.toFixed(2)}s`;
-      const winner = document.createElement('p'); winner.textContent = `Winner ${result.winners.map(s => s.toUpperCase()).join(' / ')}`;
+      const winner = document.createElement('p'); winner.textContent = result.outcome==='eliminated'?'No eligible racers remain.':`Winner ${result.winners.map(s => s.toUpperCase()).join(' / ')}`;
       const button = document.createElement('button'); button.type = 'button'; button.textContent = 'Race again'; button.onclick = again;
       sheet.append(title, summary, winner, button); root.append(sheet);
       document.querySelector<HTMLElement>('.game-surface')!.inert = true;
