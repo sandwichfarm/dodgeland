@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-12 collection30406 terminal failure at owned-hand compact pause
-last_updated: "2026-10-16T21:34:02.977762+00:00"
+stopped_at: 07-12 owned-hand repair focused87963 passed; independent review pending
+last_updated: "2026-10-16T21:51:30.733771+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,10 +12,12 @@ progress:
   completed_plans: 40
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Collection30406 exited1 after82 production jobs; compact owned-hand Travelers action obscured by Local Play. Diagnosis pending; no active process.
+last_activity_desc: Owned-hand repair65ca494 passed ordinary and canonical focused gates87963; full report pending, no active process.
 ---
 
 # Project State
+
+Latest focused repair:65ca494,87963 exit0. Ordinary wholehand44frames/six scenarios and canonical c3e74067-922c-412a-a263-9894d7d3b511 hand44+pause24,38 added home/reader geometry checks, required type/build/guidance7/conformance5pass5unmeasured/oracle/diff passed. Both-theme240 heading/rivet clearance measured3.34375px and visually inspected. All ordinary outputs preserved, seven output paths registered. Independent review/root acceptance required before full collection; no active process. Counts remain6 phases40/45plans.
 
 CURRENT TERMINAL execution: collection30406 exited1 after82 timestamped production PASS records, run`f8000273-69e8-4ab1-a47e-d4d9b4c29907`, frozen source/tests/toolingf492377. Log`/tmp/down-to-duck-07-12-full-collection-results-verified.log`. Race layout10/10 (420 cells), Race results44/44 (six complete reports/46 cells), Relay layout5/5 (252 cells) and Relay results15/15 cleared prior frontiers. Failure: tests/run-hand-runtime.mjs:150, dark240×240 pause with six owned cards; Local Play intercepts Travelers click for6000ms. This is an assertion/action failure, not cancellation. Archived PNG/JSON under the run's suite-artifacts/run-hand-runtime/artifacts preserve the obscured control; existing three ordinary files restored byte-for-byte, normal dist SHA c67e3b6fee36829ebec67029d2a7053624a7c1ac9f895458d030fd5cc216e698 unchanged. No process remains active, no source/test/tool repair or rerun authorized yet. All historical active statements below are superseded. Complete initial report, floors and07-12 remain pending; counts remain6 phases40/45 plans.
 
