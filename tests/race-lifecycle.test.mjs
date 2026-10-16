@@ -2,10 +2,11 @@ import assert from 'node:assert/strict';
 import test, { after } from 'node:test';
 import { loadSources } from './source-loader.mjs';
 
-const sources = await loadSources(['game', 'race']);
+const sources = await loadSources(['game', 'race', 'session-input']);
 after(sources.dispose);
 const { Game } = await sources.import('game');
 const { createRaceSession } = await sources.import('race');
+const { GamepadRouter } = await sources.import('session-input');
 function ticks(session,n) { for(let i=0;i<n;i++) session.update(1/120); }
 function start() {
   const game = new Game(113, 'pond', 'arcade', false, [], 'butter');
@@ -24,6 +25,23 @@ test('disconnect dependency control: living ghost preserves its economy and anot
   session.update(1 / 120);
   assert.equal(owner.participation, 'device-lost'); assert.ok(race.elapsed > 0);
   assert.deepEqual({ wallet: owner.run.wallet, health: owner.health, deaths: owner.statistics.deaths, recovery: owner.recovery }, before);
+});
+
+const pad=(index,pressed=[],id=`pad-${index}`)=>({index,id,mapping:'standard',connected:true,timestamp:1,axes:[0,0],buttons:Array.from({length:17},(_,i)=>({pressed:pressed.includes(i),value:pressed.includes(i)?1:0,touched:pressed.includes(i)}))});
+test('replacement router requires fresh neutral and stable lease/context; held input never hops',()=>{
+  const {race,session}=start(),devices=new Map();let count=0;
+  const router=new GamepadRouter({context:()=>race.generation,dispatch:a=>session.dispatch(a),acceptsDevice:()=>false,
+    replacementSeat:()=>race.status('p1')==='disconnected-grace'?'p1':undefined,
+    lifecycle:e=>{if(e.type==='seen')devices.set(e.device.index,e.device);if(e.type==='disconnected'&&e.seat)session.deviceLost(e.seat);},
+    requestReclaim:(d,seat,input)=>{if(input.actions.includes('confirm')&&router.canReclaim(d,seat)&&race.reclaim(race.reclaimToken(seat),d.deviceId)){assert.equal(router.reclaim(d),true);count++;}},
+  });
+  const send=pads=>router.receive({available:true,focused:true,pads},0);
+  send([pad(0),pad(1)]);router.assign(devices.get(0),'p1');router.assign(devices.get(1),'p2');
+  const stale=devices.get(0);send([pad(1)]);send([pad(9,[12]),pad(1)]);send([pad(9,[12,0]),pad(1)]);assert.equal(count,0);
+  send([pad(9),pad(1)]);send([pad(9,[0]),pad(1)]);assert.equal(count,1);assert.equal(router.canReclaim(stale,'p1'),false);
+  send([pad(9,[0]),pad(1)]);router.update(10000);assert.equal(session.players[0].earnedDistance,0);
+  send([pad(0),pad(9,[0]),pad(1)]);send([pad(0,[0]),pad(9,[0]),pad(1)]);assert.equal(count,1,'old hardware cannot steal its replaced seat');
+  router.close();
 });
 
 test('grace deadline expires at twelve active seconds and preserves ghost assets',()=>{
