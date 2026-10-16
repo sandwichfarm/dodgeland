@@ -1,4 +1,41 @@
 body:has(#local-session-setup:not([hidden]) #session-board), body:has(#session-seats:not([hidden])) { font-size: 16px; }
+
+/* Shared live composition: one status source, bounded summaries above the
+   course. Inspection reuses the same owner and details, never a second tree. */
+#app:has(#session-seats:not([hidden])) .hud > .score-block,
+#app:has(#session-seats:not([hidden])) .hud-tools .coin-count,
+#app:has(#session-seats:not([hidden])) #pluck,
+#app:has(#session-seats:not([hidden])) #character-power,
+#app:has(#session-seats:not([hidden])) #active-run-powers,
+#app:has(#session-seats:not([hidden])) .world-label,
+#app:has(#session-seats:not([hidden])) #chapter-label { display: none; }
+#app #session-seats { position: fixed; inset: 4px 8px auto; width: auto; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 4px; pointer-events: none; }
+#app #session-seats .session-course { grid-column: 1/-1; height: 20px; color: var(--session-ink); background: var(--session-paper); font: 400 16px/20px var(--game-font); text-align: center; }
+#app #session-seats .session-hud-tile { min-height: 64px; padding: 0; border-width: 2px; box-shadow: none; pointer-events: auto; }
+#app #session-seats .session-hud-identity { min-height: 44px; padding: 0 8px; font: 400 20px/1 var(--game-font); white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }
+#app #session-seats .session-hud-summary { height: 16px; padding: 0 8px; font: 400 16px/1 var(--game-font); }
+#app #session-seats .session-hud-details { display: none; }
+#app:has(#session-seats:not([hidden])) .hud-tools { position: fixed; inset: auto 8px 64px auto; transform: none; }
+#app #session-seats[data-session-hud-inspect="true"] { inset: 8px; z-index: 9; pointer-events: auto; }
+#app #session-seats[data-session-hud-inspect="true"] > :not(.session-hud-selected) { display: none; }
+#app #session-seats[data-session-hud-inspect="true"] .session-hud-selected { grid-column: 1/-1; height: 100%; padding: 8px; display: grid; grid-template-rows: 44px 1fr; align-content: start; gap: 8px; background: var(--session-paper); }
+#app #session-seats[data-session-hud-inspect="true"] .session-hud-summary { display: none; }
+#app #session-seats[data-session-hud-inspect="true"] .session-hud-details { position: static; width: auto; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); align-content: start; gap: 8px; padding: 0; border: 0; box-shadow: none; }
+#app #session-seats[data-session-hud-inspect="true"] .session-hud-details > span,
+#app #session-seats[data-session-hud-inspect="true"] .session-hud-details > button { display: block; min-height: 44px; white-space: normal; overflow-wrap: anywhere; font: 400 20px/1.2 var(--game-font); }
+#app #session-seats[data-session-hud-inspect="true"] .session-hud-pager { display: grid; grid-column: 1/-1; grid-template-columns: 44px minmax(0,1fr) 44px; gap: 8px; align-items: center; }
+#app #session-seats[data-session-hud-inspect="true"] .session-hud-pager button { width: 44px; height: 44px; font-size: 0; padding: 0; background: var(--session-paper); color: var(--session-ink); border: 2px solid var(--session-edge); }
+#app #session-seats[data-session-hud-inspect="true"] .session-hud-pager button::before { font: 400 28px/1 var(--game-font); }
+#app #session-seats[data-session-hud-inspect="true"] .session-hud-pager button:first-child::before { content: '‹'; }
+#app #session-seats[data-session-hud-inspect="true"] .session-hud-pager button:last-child::before { content: '›'; }
+#app #session-seats[data-session-hud-inspect="true"] .session-hud-pager span { text-align: center; font: 400 16px/1.2 var(--game-font); }
+#app #session-seats[data-session-hud-inspect="true"] .session-hud-close { display: block; grid-column: 1/-1; min-height: 44px; background: var(--session-paper); color: var(--session-ink); border: 2px solid var(--session-edge); }
+#app #session-seats[data-session-hud-inspect="true"] [data-session-hud-page="0"] .session-hud-details > :is([data-session-hud="power"],[data-session-hud="wallet"],[data-session-hud="revive"],[data-session-hud="item"],[data-session-hud="lifecycle"]),
+#app #session-seats[data-session-hud-inspect="true"] [data-session-hud-page="1"] .session-hud-details > :is([data-session-hud="device"],[data-session-hud="health"],[data-session-hud="revive"],[data-session-hud="item"],[data-session-hud="lifecycle"]),
+#app #session-seats[data-session-hud-inspect="true"] [data-session-hud-page="2"] .session-hud-details > :is([data-session-hud="device"],[data-session-hud="health"],[data-session-hud="power"],[data-session-hud="wallet"],[data-session-hud="item"]),
+#app #session-seats[data-session-hud-inspect="true"] [data-session-hud-page="3"] .session-hud-details > :is([data-session-hud="device"],[data-session-hud="health"],[data-session-hud="power"],[data-session-hud="wallet"],[data-session-hud="revive"],[data-session-hud="lifecycle"]) { display: none; }
+#app:has(#session-seats[data-session-hud-inspect="true"]) :is(.bottom-bar,#run-inventory) { visibility: hidden; }
+
 .local-session-setup { --session-ink: var(--game-ink, #263c38); color: var(--session-ink); font-size: 16px; font-weight: 650; }
 .local-session-setup > button { min-height: 44px; }
 #app:has(#local-session-setup:not([hidden]) #session-board) #run-panel.run-panel { position: absolute; z-index: 7; inset: 12px; transform: none; animation: none; width: auto; max-height: none; padding: 12px; overflow: auto; background: var(--game-paper, var(--bg)); color: var(--session-ink); }

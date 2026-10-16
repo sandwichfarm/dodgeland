@@ -7,7 +7,8 @@ const output = new URL('../artifacts/cross-mode-presentation/', import.meta.url)
 const pad = (index, pressed=[]) => ({index,id:`presentation-${index}`,connected:true,mapping:'standard',timestamp:1,axes:[0,0],buttons:Array.from({length:17},(_,i)=>({pressed:pressed.includes(i),value:+pressed.includes(i),touched:false}))});
 const themes={dark:{background:'#242b32',text:'#f0eee5',primary:'#9fc28a'},light:{background:'#f6f1e5',text:'#24362d',primary:'#4b7b61'}};
 function separated(a,b,gap=8){return a.right+gap<=b.left||b.right+gap<=a.left||a.bottom+gap<=b.top||b.bottom+gap<=a.top;}
-async function setup(app){
+async function setup(app,variant='arcade'){
+  if(variant==='arcade')await app.frame.locator('#mode').click();
   await app.frame.locator('#local-play').click();
   for(let i=0;i<2;i++){await app.sendPads([pad(0),pad(1)]);await app.sendPads([pad(0,i===0?[0]:[]),pad(1,i===1?[0]:[])]);await app.sendPads([pad(0),pad(1)]);}
   await app.frame.locator('#local-session-start').click();await app.advance(80);
@@ -37,6 +38,8 @@ test('P6 tracer full production bodies and packed labels clear the four-seat HUD
 test('P6 tracer shared personal status replaces solo widgets and regular details operate',{timeout:60000},async()=>{
  const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{gamepads:true,auditBoundary:true});
  try{await setup(app);const visible=await app.frame.locator('.score-block,.hud-tools .coin-count,#pluck,#character-power,#active-run-powers').evaluateAll(nodes=>nodes.filter(n=>n.getClientRects().length&&getComputedStyle(n).visibility!=='hidden'&&!n.closest('[hidden]')).map(n=>n.id||n.className));assert.deepEqual(visible,[],'G2 no duplicate solo personal status');
- const identity=app.frame.locator('[data-seat="p1"] [data-session-hud="identity"]');await identity.click();assert.equal(await app.frame.locator('#session-seats').getAttribute('data-session-hud-inspect'),'true');await app.frame.getByRole('button',{name:'Next details',exact:true}).click();await app.frame.getByRole('button',{name:'Close details',exact:true}).click();assert.equal(await app.onGame(function(){return this.state;}),'paused','prior user pause retained');
+ const state=()=>app.onSession(function(){return {time:this.world.time,players:this.players.map(p=>({seat:p.seat,x:p.x,y:p.y,health:p.health,wallet:p.run.wallet}))};});const before=await state();
+ const identity=app.frame.locator('[data-seat="p1"] [data-session-hud="identity"]');await identity.click();assert.equal(await app.frame.locator('#session-seats').getAttribute('data-session-hud-inspect'),'true');await app.frame.getByRole('button',{name:'Next details',exact:true}).click();await app.iframe.screenshot({path:new URL('tracer-inspection.png',output).pathname});await app.frame.getByRole('button',{name:'Close details',exact:true}).click();assert.equal(await app.frame.locator('#app').getAttribute('data-run-state'),'paused','shared prior user pause retained');
+ await identity.focus();await app.page.keyboard.press('Enter');assert.equal(await app.frame.locator('#session-seats').getAttribute('data-session-hud-inspect'),'true');await app.page.keyboard.press('Tab');assert.equal(await app.frame.locator('#session-seats').evaluate(n=>n.contains(document.activeElement)),true);await app.frame.getByRole('button',{name:'Close details',exact:true}).focus();await app.page.keyboard.press('Space');await app.advance(80);assert.deepEqual(await state(),before,'inspection has no clock/position/economy side effect');
  }finally{await app.close();}
 });

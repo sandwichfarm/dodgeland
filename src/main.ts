@@ -1014,7 +1014,7 @@ function updateHud(): void {
         const tile = document.createElement('article'); tile.className = 'session-hud-tile'; tile.dataset.seat = player.seat;
         const identity = document.createElement('button'); identity.type = 'button'; identity.className = 'session-hud-identity'; identity.dataset.sessionHud = 'identity';
         identity.addEventListener('click', () => {
-          if (innerHeight <= 319 && hudSelected === player.seat) {
+          if (hudSelected === player.seat) {
             if (hudDetailsOpen) closeHudInspection();
             else { hudInspectWasPlaying = displayedRunState() === 'playing'; hudDetailsOpen = true; hudDetailsPage = 0; if (hudInspectWasPlaying) { sessionPaused = true; game.pause(); } }
           } else { if (hudDetailsOpen) closeHudInspection(); selectHudOwner(player.seat); }
@@ -1034,7 +1034,8 @@ function updateHud(): void {
         const next = document.createElement('button'); next.type = 'button'; next.textContent = 'Next details'; next.setAttribute('aria-label', 'Next details'); next.addEventListener('click', () => { hudDetailsPage = (hudDetailsPage + 1) % 4; updateHud(); });
         pager.append(previous, label, next);
         const close = document.createElement('button'); close.type = 'button'; close.className = 'session-hud-close'; close.dataset.sessionHudClose = 'true'; close.textContent = 'Close details'; close.addEventListener('click', () => { closeHudInspection(); updateHud(); queueMicrotask(() => identity.focus({ preventScroll: true })); }); details.append(pager, close);
-        tile.append(identity, details); return tile;
+        const summary = document.createElement('span'); summary.className = 'session-hud-summary';
+        tile.append(identity, summary, details); return tile;
       }));
       if (focusSeat) queueMicrotask(() => seats.querySelector<HTMLButtonElement>(`[data-seat="${focusSeat}"] .session-hud-identity`)?.focus({ preventScroll: true }));
     }
@@ -1046,7 +1047,7 @@ function updateHud(): void {
       const compactHud = innerWidth <= 479 || innerHeight <= 419;
       identity.textContent = compactHud ? `${player.seat.toUpperCase()} ${seatMarker(player.seat)}` : `${player.seat.toUpperCase()} ${seatMarker(player.seat)} · ${character.name}`;
       identity.setAttribute('aria-label', `${player.seat.toUpperCase()} ${seatMarker(player.seat)} ${character.name}, ${player.device}, ${player.health} of ${player.maxHealth} feathers`);
-      const inspectable = innerHeight <= 319 && hudSelected === player.seat;
+      const inspectable = hudSelected === player.seat;
       identity.setAttribute('aria-pressed', String(inspectable && hudDetailsOpen));
       identity.title = inspectable && hudDetailsOpen ? `Close ${player.seat.toUpperCase()} details` : `Show ${player.seat.toUpperCase()} details`;
       const compactDevice = player.device.replace(/^gamepad-(\d+)$/, (_match, index: string) => `Pad ${Number(index) + 1}`);
@@ -1063,9 +1064,15 @@ function updateHud(): void {
       if (relay) items.textContent = 'Leave Relay';
       items.disabled = player.participation !== 'active';
       tile.querySelector<HTMLElement>('[data-session-hud="lifecycle"]')!.textContent = lifecycleLabel(player);
+      tile.querySelector<HTMLElement>('.session-hud-summary')!.textContent = `${player.health}/${player.maxHealth} feathers · ${lifecycleLabel(player)}`;
       tile.querySelector<HTMLElement>('[data-session-hud-page-label]')!.textContent = `${hudDetailsPage === 0 ? 'Status' : hudDetailsPage === 1 ? 'Run' : hudDetailsPage === 2 ? 'Recovery' : 'Items'} ${hudDetailsPage + 1} of 4`;
     }
     seats.dataset.sessionHudInspect = String(hudDetailsOpen);
+    if (hudDetailsOpen) { seats.setAttribute('role', 'dialog'); seats.setAttribute('aria-modal', 'true'); seats.setAttribute('aria-label', `${hudSelected.toUpperCase()} details`); }
+    else { seats.removeAttribute('role'); seats.removeAttribute('aria-modal'); seats.removeAttribute('aria-label'); }
+    let course = seats.querySelector<HTMLElement>('.session-course');
+    if (!relay && !race) { if (!course) { course = document.createElement('div'); course.className = 'session-course'; seats.prepend(course); } course.textContent = `Team distance ${localSession.world.frontier}`; }
+    else course?.remove();
     if (relay) renderRelayHud(seats, relay);
     else { delete seats.dataset.relayHud; seats.removeAttribute('aria-live'); seats.querySelector('.relay-distance')?.remove(); }
     if (race) renderRaceHud(seats, race);
@@ -1439,6 +1446,12 @@ function moveLocal(seat: SeatId, direction: Direction): void {
   audio.unlock(); if (localSession.dispatch({ seat, direction })) audio.play('hop'); updateHud();
 }
 function localSetupKeydown(event: KeyboardEvent): void {
+  if (hudDetailsOpen && event.key === 'Tab') {
+    const tile = el('session-seats').querySelector<HTMLElement>(`[data-seat="${hudSelected}"]`);
+    const controls = tile ? visibleModalControls(tile) : [];
+    if (controls.length) { const current = controls.indexOf(document.activeElement as HTMLButtonElement); event.preventDefault(); controls[(current + (event.shiftKey ? -1 : 1) + controls.length) % controls.length]!.focus({ preventScroll: true }); }
+    return;
+  }
   if (!localStage || disposed || event.key !== 'Tab') return;
   const setup = el('local-session-setup');
   const actionButtons = ['local-session-start', 'local-session-back']
@@ -1612,7 +1625,8 @@ const observer = new ResizeObserver(() => {
       else el<HTMLElement>('scene').focus({ preventScroll: true });
     });
   }
-  if (hudDetailsOpen && innerHeight > 319) { closeHudInspection(); updateHud(); }
+  // Inspection is a shared modal at every tier; resize preserves its owner,
+  // page and independent prior pause reason.
   if (recoveryBoard || lifecycleBoard) queueMicrotask(() => {
     const modal = recoveryBoard ?? lifecycleBoard;
     if (!modal) return;
