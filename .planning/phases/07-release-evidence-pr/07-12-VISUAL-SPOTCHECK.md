@@ -91,3 +91,17 @@ These limited visual observations retain the exact matrix's automated evidence w
 Collection11460 passed `race-layout` at23:21:55.594Z:10 tests, zero failures/cancellations/skips,318193ms. Root independently read the current archived report under run `ed12cf45-d4d2-4fb1-a77a-89ede7a9ea78`: complete=true, eight stages, exact420 unique cells across the unchanged35 states × six required frames × two themes, with empty errors/external/failures. The report SHA256 is `0ae0cc804d415d054e57c0987a430de5955affcd900d4b0b24fb87749d464ab5`, byte-identical to the previously validated deterministic report. The current strict terminal result and collection archive establish the new execution; matching bytes alone would not do so.
 
 Current archived `four-racers-240x240-dark.png`, `fog-line-1000x280-light.png` and `mud-target-320x560-dark.png` match all three already inspected Race digests above exactly. Their existing visual observations therefore apply to these bytes. The pickup-text/nameplate measurement gap remains open; this matrix does not close it. The full collection continued into Race lifecycle tests and remains incomplete.
+
+### Current Race results: exact reports and inspected podiums
+
+The same collection passed `race-results-test` at23:24:25.442Z:44 tests, no failures/cancellations/skips,111741ms. Root read all six archived reports and independently checked their complete flags, empty errors/external arrays, and exact46 unique scenario/frame/theme cells: ordered finish has12, three podium scenarios have10 each, and timeout/departure have two each. All78 named PNGs exist, with no duplicate capture names or unlisted PNGs in this job's results directory. This is a current terminal run, not a directory-count inference from historical artifacts.
+
+Root inspected the following full-size bytes under `suite-artifacts/race-results-test/artifacts/race-results/`:
+
+| Image | SHA256 | Visual observation |
+| --- | --- | --- |
+| race-05-05-tiers-4-tie-900x600-light-0.png |3f0cce8b3da4a69a5f301c0e881b515a2952bd0b5e7f2b94b6d466c5d8815b88|The shared first-place tier shows all four distinct character models and names, a winner line naming all four, page navigation and Race again. No visible clipping.|
+| race-05-05-tiers-4-distinct-240x240-dark-3.png |249090f4437e2249bf1ed0cdeedac4b82b63b8d284e8e151d97f29da0444f1d0|The fourth-place page identifies P4 Petal, the finish/time line and both navigation buttons with Race again. The floor layout pages the results; the image shows page4/44 and does not imply all statistics are visible at once.|
+| race-05-05-time-240.png |d667cf4e8f32e587ac6aca97cc4065423fe3beaec8eccd8686c65addd03ca8ae|The timeout page explicitly says Race time ended, displays the30.00s clock and both tied participants, with bounded navigation and retry.|
+
+Root read the acquisition code in `tests/race-results.test.mjs`. The viewed four-seat podiums use visible Local Play/Race setup, a one-tile finish entered through the production field, a public seeded intent, actual keyboard presses and authorized shell-controller snapshots. Ties use one controlled simulation tick; no private result/progress write creates the ranking. Timeout uses the visible30-second setting and the fixture's controlled clock. These are actual production input journeys in a controlled browser fixture, not physical-controller or long-course endurance evidence. The separate model cases in the same file explicitly arrange terrain/inventory and retain that distinction. The full collection, coverage floors and durable07-05 evidence remain pending.
