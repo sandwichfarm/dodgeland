@@ -125,8 +125,18 @@
   #app[data-hand-visible="true"][data-pause-open="true"] #run-panel button,
   #app[data-hand-visible="true"][data-pause-open="true"] #run-panel #play { min-height: 44px; font-size: 18px; padding: 4px; margin: 0; }
   #app[data-hand-visible="true"][data-pause-open="true"][data-pause-page="home"] #run-panel { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  #app[data-hand-visible="true"][data-pause-open="true"][data-pause-page="home"] #pause-content { grid-column: 1 / -1; }
-  #app[data-hand-visible="true"][data-pause-open="true"][data-pause-page="home"] .panel-bottom { display: flex; }
+  /* Share three full-width rows with the fixed hand reservation; never nest
+     Travelers and Local Play inside a single half-width action cell. */
+  #app[data-hand-visible="true"][data-pause-open="true"][data-pause-page="home"] #run-panel #pause-content,
+  #app[data-hand-visible="true"][data-pause-open="true"][data-pause-page="home"] #run-panel #pause-home,
+  #app[data-hand-visible="true"][data-pause-open="true"][data-pause-page="home"] #run-panel .pause-topics,
+  #app[data-hand-visible="true"][data-pause-open="true"][data-pause-page="home"] #run-panel .panel-bottom { display: contents; }
+  #app[data-hand-visible="true"][data-pause-open="true"][data-pause-page="home"] #pause-heading { grid-area: 1 / 1; margin: 0; align-self: center; }
+  #app[data-hand-visible="true"][data-pause-open="true"][data-pause-page="home"] #run-panel #play { grid-area: 1 / 2; }
+  #app[data-hand-visible="true"][data-pause-open="true"][data-pause-page="home"] [data-pause-topic="rules"] { grid-area: 2 / 1; }
+  #app[data-hand-visible="true"][data-pause-open="true"][data-pause-page="home"] [data-pause-topic="power"] { grid-area: 2 / 2; }
+  #app[data-hand-visible="true"][data-pause-open="true"][data-pause-page="home"] #choose { grid-area: 3 / 1; }
+  #app[data-hand-visible="true"][data-pause-open="true"][data-pause-page="home"] #local-play { grid-area: 3 / 2; }
   #app[data-hand-visible="true"][data-pause-open="true"] #run-panel #choose { min-height: 44px; font-size: 17px; padding: 4px; }
   #app[data-hand-visible="true"][data-pause-open="true"] #run-panel #play { font-size: 0; gap: 0; }
   #app[data-hand-visible="true"][data-pause-open="true"] #run-panel #play::before { content: 'Hop on'; font-size: 18px; }
