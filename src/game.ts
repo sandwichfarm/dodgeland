@@ -531,6 +531,7 @@ export class Game {
     // Regrow deliberately returns a single feather as its character identity.
     if (power.id === 'regrow') this.health = 1;
     this.caughtByWave = false; this.touchingCars.clear();
+    this.scoringPlayer?.recordInteraction({ kind: 'innate', powerId: power.id, cause });
     this.onPower({ power, cause });
     return true;
   }

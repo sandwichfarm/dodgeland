@@ -45,6 +45,13 @@ export interface WorldFrame {
   readonly playerGround: ReadonlyMap<SessionPlayer, Readonly<{ x: number; y: number }>>;
 }
 export type SessionLifecycleHandler = (record: SessionLifecycleRecord) => void;
+export type ParticipantInteraction = Readonly<
+  | { kind: 'market'; actionId: string; action: import('./co-op-market.js').CoOpMarketActionKind; itemId?: string; itemKind?: string; ownerGeneration: number; inventoryGeneration: number; contextGeneration: number; walletDelta: number }
+  | { kind: 'innate'; powerId: string; cause: DeathCause }
+  | { kind: 'collection'; pickupId: string; itemId: ConsumableId }
+  | { kind: 'item-use'; actionId: string; itemId: ConsumableId; ownerGeneration: number; inventoryGeneration: number; targets: readonly Readonly<{ seat: SeatId; participantId: string; generation: number }>[] }
+>;
+export type ParticipantInteractionEvent = ParticipantInteraction & Readonly<{ id: string; seat: SeatId; participantId: string; characterId: string; generation: number; tick: number; time: number }>;
 export interface SessionContributionObservation {
   readonly seat: SeatId; readonly participantId: string; readonly characterId: string;
   readonly coins: number; readonly pickups: number; readonly selfRevives: number; readonly deaths: number; readonly wallet: number;
@@ -360,7 +367,21 @@ export class SessionPlayer {
   personalFrontierY = -Infinity;
   participation: SessionParticipation = 'active';
   deviceLostAt: number | null = null;
-  readonly statistics = { distance: 0, coins: 0, pickups: 0, damage: 0, deaths: 0, selfRevives: 0, teammateRevives: 0, itemsFound: 0, itemsUsed: 0, deviceLostDuration: 0, deathCause: null as DeathCause | null };
+  readonly statistics = { marketPurchases: 0, marketInteractions: 0, coinsSpent: 0, innateUses: 0, distance: 0, coins: 0, pickups: 0, damage: 0, deaths: 0, selfRevives: 0, teammateRevives: 0, itemsFound: 0, itemsUsed: 0, deviceLostDuration: 0, deathCause: null as DeathCause | null };
+
+  private readonly interactionRecords: ParticipantInteractionEvent[] = [];
+  get interactions(): readonly ParticipantInteractionEvent[] { return Object.freeze([...this.interactionRecords]); }
+  /** Called only at successful shared transaction boundaries, never by presentation callbacks. */
+  recordInteraction(event: ParticipantInteraction): void {
+    if (!this.session || this.session.result) return;
+    if (event.kind === 'market') {
+      this.statistics.marketInteractions++;
+      if (event.action === 'buy' || event.action === 'buy-consumable') this.statistics.marketPurchases++;
+      this.statistics.coinsSpent += Math.max(0, -event.walletDelta);
+    }
+    if (event.kind === 'innate') this.statistics.innateUses++;
+    this.interactionRecords.push(Object.freeze({ ...event, id: `${this.participantId}:${this.interactionRecords.length + 1}`, seat: this.seat, participantId: this.participantId, characterId: this.characterId, generation: this.recovery?.deathGeneration ?? 0, tick: this.world.simulationTick, time: this.world.time }));
+  }
 
   constructor(world: SharedWorld, seat: SeatId, device: DeviceId, characterId: string, primary = false) {
     this.world = world; this.seat = seat; this.device = device; this.marker = seat.toUpperCase();
@@ -500,7 +521,7 @@ class ConsumableWorld implements GameWorldExtension {
         return { player, distance: endX * endX + endY * endY, fraction: fraction >= 0 && fraction <= 1 ? fraction : Infinity };
       });
       const winner = contacts.filter(candidate => candidate.fraction !== Infinity).sort((a, b) => a.fraction - b.fraction || a.distance - b.distance || a.player.seat.localeCompare(b.player.seat))[0];
-      if (winner && this.credit(winner.player, pickup)) { this.claims.set(pickup.id, winner.player.seat); this.pickups.delete(pickup.id); continue; }
+      if (winner && this.credit(winner.player, pickup)) { winner.player.recordInteraction({kind:'collection',pickupId:pickup.id,itemId:pickup.itemId}); this.claims.set(pickup.id, winner.player.seat); this.pickups.delete(pickup.id); continue; }
       const candidates = contacts.filter(candidate => candidate.distance <= (game.rules.retention.captureDistance + DEFAULT_COIN_GRAVITY) ** 2);
       if (!candidates.length) continue;
       const target = [...candidates].sort((a, b) => a.distance - b.distance || a.player.seat.localeCompare(b.player.seat))[0]!;
@@ -549,7 +570,7 @@ class ConsumableWorld implements GameWorldExtension {
         if (!plan.ok || !this.debit(action, plan.resultingCharges)) return false;
         bound = Object.freeze(targets.map(p=>p.seat)); return true;
       });
-      if (ok) { owner.statistics.itemsUsed++; this.uses.push(Object.freeze({cue:this.policy.catalogue.find(item=>item.id===action.itemId)?.cue ?? 'coin',actionId:action.actionId,itemId:action.itemId,ownerSeat:owner.seat,targets:bound,tick:game.world.simulationTick,time:game.time})); }
+      if (ok) { owner.recordInteraction({kind:'item-use',actionId:action.actionId,itemId:action.itemId,ownerGeneration:action.expectedOwnerGeneration,inventoryGeneration:action.expectedInventoryGeneration,targets:Object.freeze(bound.map(seat=>{const p=this.session.players.find(p=>p.seat===seat)!;return Object.freeze({seat,participantId:p.participantId,generation:p.recovery?.deathGeneration??0});}))}); owner.statistics.itemsUsed++; this.uses.push(Object.freeze({cue:this.policy.catalogue.find(item=>item.id===action.itemId)?.cue ?? 'coin',actionId:action.actionId,itemId:action.itemId,ownerSeat:owner.seat,targets:bound,tick:game.world.simulationTick,time:game.time})); }
       return ok;
     }
     const targets = action.itemId === 'revival' ? action.targetSeat ? this.session.players.filter(player => player.seat === action.targetSeat) : []
@@ -627,6 +648,7 @@ export class LocalSession {
     if (this.coOpMarket) return;
     if (policy?.consumables !== false) this.installConsumableWorld();
     this.coOpMarket = new CoOpMarketAdapter({
+      coOpMarketCommitted: (owner, commit) => { const {kind: action, ...data} = commit; (owner as SessionPlayer).recordInteraction({kind:'market',action,...data}); },
       coOpMarketCatalogue: () => this.consumableWorld?.policy?.catalogue ?? CONSUMABLES,
       coOpMarketEnabled: () => this.active && this.coOpMarket !== undefined && !this.resultRecord,
       coOpMarketOwners: () => this.players,

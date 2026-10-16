@@ -42,4 +42,33 @@ test('statistics dependency: successful market interaction survives death clear 
   // must remain observable after clear, independently of Race's result view.
   assert.equal(owner.statistics.marketPurchases, 1,
     'common participant statistics must retain the accepted purchase, excluding its rejected replay');
+  assert.equal(owner.statistics.marketInteractions, 2);
+  assert.equal(owner.statistics.coinsSpent, 30);
+  assert.equal(owner.statistics.itemsFound, 0, 'purchase is not world collection');
+  const history = owner.interactions;
+  assert.equal(history.length, 2);
+  assert.deepEqual(history.map(e => [e.kind, e.action, e.walletDelta]), [['market', 'open', 0], ['market', 'buy-consumable', -30]]);
+  assert.equal(history[1].participantId, owner.participantId);
+  assert.equal(history[1].itemId, 'mud-splash');
+  assert.equal(history[1].itemKind, 'consumable');
+  assert.equal(history[1].ownerGeneration, purchase.expectedOwnerGeneration);
+  assert.ok(Object.isFrozen(history) && Object.isFrozen(history[1]));
+  assert.equal(session.players[1].interactions.length, 0);
+});
+
+test('statistics innate commit belongs to stable receiver before presentation callback and survives death', () => {
+  const game = new Game(113, 'pond', 'arcade', false, [], 'butter');
+  const race = createRaceSession(game, { seats: [
+    { seat:'p1',device:'keyboard-a',characterId:'butter' },
+    { seat:'p2',device:'keyboard-b',characterId:'pip' },
+  ] });
+  const [primary, secondary] = race.session.players;
+  let calls = 0;
+  secondary.onPower = () => { calls++; assert.equal(secondary.statistics.innateUses, 1); assert.equal(primary.statistics.innateUses, 0); };
+  race.session.damage('p2', {cause:'mob',amount:99,reason:'innate success'});
+  assert.equal(calls, 1);
+  assert.equal(secondary.interactions.filter(e=>e.kind==='innate').length, 1);
+  race.session.damage('p2', {cause:'mob',amount:99,reason:'protected replay'});
+  assert.equal(calls, 1);
+  assert.equal(primary.interactions.length, 0);
 });

@@ -47,7 +47,13 @@ export interface CoOpMarketResult {
   readonly context: CoOpMarketContext | undefined;
 }
 
+export interface CoOpMarketCommit {
+  readonly actionId: string; readonly kind: CoOpMarketActionKind; readonly itemId?: string; readonly itemKind?: string;
+  readonly ownerGeneration: number; readonly inventoryGeneration: number; readonly contextGeneration: number; readonly walletDelta: number;
+}
+
 export interface CoOpMarketHost {
+  coOpMarketCommitted?(owner: CoOpMarketOwner, commit: CoOpMarketCommit): void;
   coOpMarketCatalogue?(): readonly ConsumableDefinition[];
   coOpMarketEnabled(): boolean;
   coOpMarketCloseOnInvalidate?(): boolean;
@@ -105,9 +111,13 @@ export class CoOpMarketAdapter {
     const current = this.snapshot();
     const owner = this.owner(request);
     if (!owner || !current || !this.matches(request, current) || !actionId(request.actionId) || this.actions.has(request.actionId)) return this.fail('That market interaction is no longer current.');
+    const wallet = owner.run.wallet;
+    const itemId = request.itemId ?? owner.run.market?.offers.find(offer => offer.id === request.offerId)?.itemId;
+    const itemKind = itemId && (this.catalogue.find(item => item.id === itemId)?.kind ?? owner.run.catalog.get(itemId)?.kind);
     const result = this.dispatch(owner, request);
     if (!result.ok) return this.fail(result.message);
     this.actions.add(request.actionId);
+    this.host.coOpMarketCommitted?.(owner, Object.freeze({ actionId: request.actionId, kind: request.kind, ...(itemId ? { itemId, itemKind } : {}), ownerGeneration: current.ownerGeneration, inventoryGeneration: current.inventoryGeneration, contextGeneration: current.contextGeneration, walletDelta: owner.run.wallet - wallet }));
     return Object.freeze({ ok: true, message: result.message, context: this.snapshot() });
   }
 
