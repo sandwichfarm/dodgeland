@@ -270,3 +270,34 @@ test('statistics authoritative market metadata ignores forged extra item IDs for
   assert.deepEqual(act('close',{itemId:'forged-unrelated'}).items,[]);
   assert.ok(owner.interactions.every(e=>Object.isFrozen(e)&&Object.isFrozen(e.items)&&e.items.every(Object.isFrozen)));
 });
+
+for(const [count,tied] of [[3,true],[4,true],[4,false]])test(`built podium tiers ${count} racers ${tied?'tied':'distinct'} stay bounded`,{timeout:60000},async()=>{
+  const {createMarketGameFixture}=await import('./market-game-fixture.mjs');
+  const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{auditBoundary:true,gamepads:true,initialIntent:{sender:'race-results',archetype:'game',action:'open',convention:'napplet:game/open',payload:{seed:'ph3-00000071-pond-s-n'}}});
+  const pad=(index,pressed=[])=>({index,id:`pad-${index}`,connected:true,mapping:'standard',timestamp:1,axes:[0,0,0,0],buttons:Array.from({length:17},(_,i)=>({pressed:pressed.includes(i),touched:pressed.includes(i),value:pressed.includes(i)?1:0}))});
+  try{
+    const f=app.frame;await f.locator('#local-play').click();
+    for(let i=0;i<count-2;i++){await app.sendPads(Array.from({length:i+1},(_,j)=>pad(j)));await app.sendPads(Array.from({length:i+1},(_,j)=>pad(j,j===i?[0]:[])));await app.sendPads(Array.from({length:i+1},(_,j)=>pad(j)));}
+    await f.locator('#race-play').click();await f.locator('#race-finish').fill('1');await f.locator('#local-session-start').click();await f.locator('#scene').focus();
+    if(tied){await app.page.evaluate(pads=>window.marketPads(pads,true),Array.from({length:count-2},(_,j)=>pad(j,[12])));await app.page.keyboard.press('w');await app.page.keyboard.press('ArrowUp');await app.advance(300);}
+    else{await app.page.keyboard.press('w');await app.advance(300);await app.page.keyboard.press('ArrowUp');await app.advance(300);for(let i=0;i<count-2;i++){await app.sendPads(Array.from({length:count-2},(_,j)=>pad(j,j===i?[12]:[])));await app.advance(300);}}
+    await f.getByRole('heading',{name:'Race results',exact:true}).waitFor();const frozen=await app.onSession(function(){return JSON.stringify(this.result);});
+    assert.deepEqual(JSON.parse(frozen).players.map(p=>p.rankLabel),tied?Array(count).fill('=1'):['1','2','3','4']);
+    for(const light of [false,true])for(const [w,h]of [[240,240],[320,560],[900,600],[1000,280],[2400,1200]]){
+      await app.resize(w,h);await f.evaluate(light=>window.marketGameFixture.setTheme({colors:light?{background:'#f6f1e5',text:'#24362d',primary:'#4b7b61'}:{background:'#242b32',text:'#f0eee5',primary:'#9fc28a'}}),light);
+      const root=f.locator('#survive-results-root');while(await root.getByRole('button',{name:'Previous results',exact:true}).isEnabled())await root.getByRole('button',{name:'Previous results',exact:true}).click();
+      const pages=h<420&&!tied?count:1;
+      for(let page=0;page<pages;page++){
+        assert.equal(await root.locator('[data-race-tier]').count(),tied||h<420?1:count);
+        assert.equal(await root.locator('[data-race-member]').count(),tied?count:h<420?1:count);
+        await assertResultContrast(f);
+        assert.deepEqual(await root.evaluate(n=>[...n.querySelectorAll('button,[data-race-tier],[data-race-member]')].filter(e=>e.getClientRects().length).flatMap(e=>{const r=e.getBoundingClientRect();return r.left<0||r.top<0||r.right>innerWidth+1||r.bottom>innerHeight+1||e.scrollWidth>e.clientWidth+1||(e.tagName==='BUTTON'&&(r.width<44||r.height<44||!e.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2))))?[e.textContent]:[];})),[]);
+        assert.equal(await root.locator('.race-results-body').evaluate(n=>n.scrollHeight>n.clientHeight+1||n.scrollWidth>n.clientWidth+1),false,`${w}x${h} ${page}`);
+        await app.iframe.screenshot({path:`/tmp/race-05-05-tiers-${count}-${tied?'tie':'distinct'}-${w}x${h}-${light?'light':'dark'}-${page}.png`});
+        if(page+1<pages)await root.getByRole('button',{name:'Next results',exact:true}).click();
+      }
+      assert.equal(await app.onSession(function(){return JSON.stringify(this.result);}),frozen);
+    }
+    assert.deepEqual(evidence.errors,[]);assert.deepEqual(evidence.external,[]);
+  }finally{await app.close();}
+});
