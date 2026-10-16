@@ -139,3 +139,70 @@ test('all down accept decline expiry and suspension preserve active clocks',()=>
   game.pause();const time=game.time;ticks(race,600);assert.equal(game.time,time);assert.equal(race.elapsed,0);
   game.resume();ticks(race,1);assert.ok(race.elapsed>0&&race.elapsed<.01);
 });
+test('cadence attempts differ from landed losses under immunity and recovery protection',()=>{
+  const race=arena();for(let i=0;i<13;i++)hop(race,'p1');
+  const p=race.session.players[1];p.hurtRemaining=3;
+  ticks(race,120);assert.equal(race.fogState('p2').attempts,1);assert.equal(race.fogState('p2').landed,0);
+  race.session.updateRecovery(p,r=>({...r,protectionUntil:race.session.world.time+2}));
+  ticks(race,120);assert.equal(race.fogState('p2').attempts,1);assert.equal(race.fogState('p2').exposure,0);
+  race.session.deviceLost('p2');ticks(race,240);assert.equal(race.fogState('p2').attempts,1);
+  assert.equal(race.leaderFrontier,13);assert.equal(race.fogBoundary,1);
+});
+test('fatal before finish actual unsupported water and traffic settle before qualifying landing',()=>{
+  for(const cause of ['water','traffic']) {
+    const race=arena({finishTiles:1}),game=race.session.world.host,p=race.session.players[0];
+    p.powerReadyAt=10000;
+    if(cause==='traffic'){race.session.damage('p1',{cause:'fog',amount:2,reason:'Prior damage.'});ticks(race,121);}
+    game.rows.set(1,{...game.rows.get(1),kind:cause==='water'?'river':'road',phase:cause==='water'?10:0,speed:0,length:1.15,spacing:30,variant:0});
+    assert.equal(race.session.dispatch({seat:'p1',direction:'forward'}),true);
+    for(let i=0;i<60&&p.state==='playing';i++)race.session.update(step);
+    assert.equal(p.deathCause,cause);assert.equal(race.isFinished('p1'),false);
+    assert.equal(race.leaderFrontier,1);
+  }
+});
+test('all-controller suspension freezes ordinary clocks and reclaim adds no frontier',()=>{
+  const race=arena();hop(race,'p1');
+  for(const seat of ['p1','p2'])race.session.deviceLost(seat);
+  const time=race.session.world.time,frontier=race.leaderFrontier;
+  ticks(race,600);assert.equal(race.session.world.time,time);assert.equal(race.leaderFrontier,frontier);
+  race.session.reclaim('p2','keyboard-b');ticks(race,1);assert.ok(race.session.world.time>time);
+  assert.equal(race.leaderFrontier,frontier);assert.equal(race.session.players[1].completedForwardTiles,0);
+});
+test('cadence exact fixed-step intervals land one feather each without floating immunity drift',()=>{
+  const race=arena();for(let i=0;i<13;i++)hop(race,'p1');
+  const p=race.session.players[1];
+  while(race.fogState('p2').attempts<1)ticks(race,1);
+  assert.equal(p.health,2);ticks(race,120);
+  assert.equal(race.fogState('p2').attempts,2);assert.equal(race.fogState('p2').landed,2);
+  ticks(race,120);assert.equal(p.state,'dead');assert.equal(p.deathCause,'fog');
+  assert.equal(race.fogState('p2').landed,3);assert.ok(p.recovery.offer);
+});
+test('cadence ghost exposure freezes until reclaim; carried drift earns no frontier',()=>{
+  const race=arena();for(let i=0;i<13;i++)hop(race,'p1');ticks(race,30);
+  const p=race.session.players[1],exposure=race.fogState('p2').exposure;
+  assert.ok(exposure>0);race.session.deviceLost('p2');ticks(race,100);
+  assert.equal(race.fogState('p2').exposure,exposure);
+  race.session.reclaim('p2','keyboard-b');ticks(race,1);
+  assert.ok(race.fogState('p2').exposure>exposure);
+  const carried=arena(),q=carried.session.players[1],game=carried.session.world.host;
+  game.rows.set(0,{...game.rows.get(0),kind:'river',phase:0,speed:.1,length:20,spacing:30});
+  const before=q.x;ticks(carried,60);assert.notEqual(q.x,before);assert.equal(carried.leaderFrontier,0);
+  assert.equal(q.personalScore,0);assert.equal(q.completedForwardTiles,0);
+});
+test('fatal before finish delivered train wave and mob transactions win on the landing tick',()=>{
+  for(const cause of ['train','wave','mob']) {
+    const race=arena({finishTiles:1}),game=race.session.world.host;
+    race.session.dispatch({seat:'p1',direction:'forward'});ticks(race,16);
+    game.end('Fatal delivered hazard.',cause);ticks(race,1);
+    assert.equal(race.session.players[0].deathCause,cause);
+    assert.equal(race.isFinished('p1'),false);assert.equal(race.session.players[0].completedForwardTiles,0);
+    assert.equal(race.leaderFrontier,1);
+  }
+});
+test('finish before timeout preserves an earlier finisher while the other racer continues',()=>{
+  const race=arena({finishTiles:1,activeSeconds:30});ticks(race,3582);
+  hop(race,'p1');assert.equal(race.result,undefined);
+  ticks(race,1);assert.equal(race.result.outcome,'time');assert.deepEqual(race.result.winners,['p1']);
+  assert.equal(race.session.dispatch({seat:'p2',direction:'forward'}),false);
+  assert.equal(race.finishTick('p2'),undefined);
+});
