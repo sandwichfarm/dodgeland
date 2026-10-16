@@ -85,3 +85,9 @@ Root opened these three archived full-size images under `suite-artifacts/local-s
 | local-session-owner-market-1000x280-dark.png |293cef87dd128c5215be8be29505890e957d8608bd637680723037e633f33ddf|The short frame preserves owner selection, three visible offers with paging, the current hand and both recovery-item controls. No observed text/control clipping in the selected image.|
 
 These limited visual observations retain the exact matrix's automated evidence without substituting image inspection for numerical geometry or transaction authority. Full collection and07-05 release evidence remain pending.
+
+### Current Race matrix validated after terminal pass
+
+Collection11460 passed `race-layout` at23:21:55.594Z:10 tests, zero failures/cancellations/skips,318193ms. Root independently read the current archived report under run `ed12cf45-d4d2-4fb1-a77a-89ede7a9ea78`: complete=true, eight stages, exact420 unique cells across the unchanged35 states × six required frames × two themes, with empty errors/external/failures. The report SHA256 is `0ae0cc804d415d054e57c0987a430de5955affcd900d4b0b24fb87749d464ab5`, byte-identical to the previously validated deterministic report. The current strict terminal result and collection archive establish the new execution; matching bytes alone would not do so.
+
+Current archived `four-racers-240x240-dark.png`, `fog-line-1000x280-light.png` and `mud-target-320x560-dark.png` match all three already inspected Race digests above exactly. Their existing visual observations therefore apply to these bytes. The pickup-text/nameplate measurement gap remains open; this matrix does not close it. The full collection continued into Race lifecycle tests and remains incomplete.
