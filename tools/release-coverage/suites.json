@@ -241,6 +241,23 @@
       ],
       "role": "browser",
       "provenance": "Eight original arranged production component owners; no public-app journey claim"
+    },
+    "adapters-11-tracer": {
+      "files": [
+        "tests/devtools-runtime.mjs"
+      ],
+      "role": "browser",
+      "browser": true,
+      "buildScopes": [
+        "production",
+        "development"
+      ],
+      "artifactDirectories": [
+        "artifacts/development-900-dark.png",
+        "artifacts/development-320-light.png",
+        "artifacts/development-runtime.json"
+      ],
+      "provenance": "Original genuine development controls and ordinary production stripping checks; four opaque generations, original arranged sandbox actions retained"
     }
   },
   "pendingAdapters": [
