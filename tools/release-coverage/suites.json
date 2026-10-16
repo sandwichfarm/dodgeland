@@ -31,6 +31,28 @@
         "tests/sound.test.mjs": "mixed"
       },
       "provenance": "Production gamepad snapshot component and sound parser/PCM/audio lifecycle component tests; not an opaque-app journey"
+    },
+    "adapters-07-tracer": {
+      "files": [
+        "tests/render.test.mjs"
+      ],
+      "role": "browser",
+      "provenance": "Arranged production Canvas fixture; independent archived oracle namespace excluded from current hits",
+      "artifactDirectories": [
+        "artifacts/render-after.png",
+        "artifacts/render-after.json",
+        "artifacts/wave-approaching.png",
+        "artifacts/wave-caught.png",
+        "artifacts/duck-turns.png",
+        "artifacts/duck-turns.json",
+        "artifacts/collision-train-after.json",
+        "artifacts/collision-hop-after.json",
+        "artifacts/collision-scenes-after.png",
+        "artifacts/solo-render-parity.json",
+        "artifacts/solo-render-parity.png",
+        "artifacts/local-session-render-foreground.png",
+        "artifacts/local-session-render-river.png"
+      ]
     }
   },
   "pendingAdapters": [
