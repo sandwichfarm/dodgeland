@@ -292,6 +292,35 @@
         "artifacts/character-power-320-light-playing.png"
       ],
       "provenance": "Original power, queued intent and market opaque journeys; original CDP arrangements retained"
+    },
+    "adapters-11-tail-tracer": {
+      "files": [
+        "tests/mob-runtime.mjs"
+      ],
+      "role": "browser",
+      "browser": true,
+      "artifactDirectories": [
+        "artifacts/mob-runtime.json",
+        "artifacts/mob-runtime-slime-spawn.png",
+        "artifacts/mob-runtime-slime-walking.png",
+        "artifacts/mob-runtime-slime-windup.png",
+        "artifacts/mob-runtime-slime-strike.png",
+        "artifacts/mob-runtime-slime-rest.png",
+        "artifacts/mob-runtime-slime-caught.png",
+        "artifacts/mob-runtime-crab-spawn.png",
+        "artifacts/mob-runtime-crab-walking.png",
+        "artifacts/mob-runtime-crab-windup.png",
+        "artifacts/mob-runtime-crab-strike.png",
+        "artifacts/mob-runtime-crab-rest.png",
+        "artifacts/mob-runtime-crab-caught.png",
+        "artifacts/mob-runtime-wasp-spawn.png",
+        "artifacts/mob-runtime-wasp-walking.png",
+        "artifacts/mob-runtime-wasp-windup.png",
+        "artifacts/mob-runtime-wasp-strike.png",
+        "artifacts/mob-runtime-wasp-rest.png",
+        "artifacts/mob-runtime-wasp-caught.png"
+      ],
+      "provenance": "Original arranged mob encounters and actual subsequent input/simulation; full remount lifecycle"
     }
   },
   "pendingAdapters": [
