@@ -341,3 +341,6 @@
   #app:has(#market[hidden]) #run-inventory:has(#run-hand-owner:not([hidden])):has(#run-hand-items:not([hidden])):not(:has(.run-hand-card)) :is(#run-cards, .run-hand-pager) { display: none; }
   #app:has(#market[hidden]) #run-inventory:has(#run-hand-owner:not([hidden])):has(#run-hand-items:not([hidden])):not(:has(.run-hand-card)) #run-hand-items { grid-row: 1; }
 }
+/* Read-only paid packs expose Close in the shared toolbar action slot.
+   An unavailable Skip cannot cover that owner's only dismissal control. */
+#app #market[data-market-view="draft"]:has(#market-owner:not([hidden])) #market-skip:disabled { display: none; }
