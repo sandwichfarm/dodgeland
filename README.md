@@ -16,23 +16,25 @@ Down to Duck is an endless voxel crossing game built as a **napplet**: a self-co
 
 ## Quick start
 
-Use **Node.js 22+** and **pnpm 10.8.0**. From the project directory:
+Use **Node.js 22+**, **pnpm 10.8.0**, and the [Paja runtime (`kehto` CLI)](https://napplet.run/docs/guide/getting-started.html). From the project directory:
 
 ```sh
 pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-Open the URL printed by Vite. Touch, mouse, and on-screen controls work here; saved progress, registered keyboard shortcuts, shared sound packs, and intents depend on a napplet runtime.
+`pnpm dev` starts Vite and Paja on dynamically assigned available ports, then opens the printed **Paja Runtime URL** in your browser. Paja receives Vite's actual bound address, so other running projects and previews are left alone. Source changes retain Vite's development reload behavior. Stop both servers with Ctrl+C.
 
-To preview the complete shell integration, install the [Napplet CLI and Paja runtime](https://napplet.run/docs/guide/getting-started.html), then run:
+For the bare Vite server without the runtime, use `pnpm dev:app`. Saved progress, registered keyboard shortcuts, shared sound packs, and intents depend on the runtime.
+
+To preview the self-contained development build instead:
 
 ```sh
 pnpm build:dev
 napplet paja -- pnpm preview:dev
 ```
 
-Open the **Paja URL** printed by the command. This serves the self-contained development artifact inside the runtime's opaque iframe. Rebuild after source changes, then reload the frame. No account or signer is needed to play.
+Open the printed **Paja URL**. Rebuild after source changes, then reload the frame. No account or signer is needed to play.
 
 ## Play
 
