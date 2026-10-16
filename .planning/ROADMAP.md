@@ -183,7 +183,14 @@ Plans:
   4. Type-check, build, guidance, conformance, parity/legacy, per-mode, and browser checks are green with evidence skips explicitly distinguished from proven behavior.
   5. The feature branch contains coherent phase evidence and traceability, and an open reviewable PR against `main` links its tests and visual proofs.
 
-**Plans**: TBD
+**Plans**: 6 plans in 6 sequential waves
+
+- [ ] 07-01-PLAN.md — Audit isolated tooling and calibrate exact Node/opaque-browser counters.
+- [ ] 07-02-PLAN.md — Collect all production strata with explicit coverage floors.
+- [ ] 07-03-PLAN.md — Close meaningful measured coverage and behavioral gaps.
+- [ ] 07-04-PLAN.md — Measure scoped wire, teardown and current-manifest conformance.
+- [ ] 07-05-PLAN.md — Commit current visual proof and complete original-clause traceability.
+- [ ] 07-06-PLAN.md — Run unchanged inherited plus additive gates and open the authorized PR.
 
 ## Progress
 
