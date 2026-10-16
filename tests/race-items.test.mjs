@@ -70,3 +70,12 @@ test('generic cooldown preserves real primary and secondary interpolation and fr
     assert.equal(p.hopCooldown.multiplier,1);
   }
 });
+
+test('Race captures race-item-schema-1 and installs only its common-system catalogue', () => {
+  const game = new Game(113,'pond','arcade',false,[],'butter');
+  const race = createRaceSession(game,{seats:[{seat:'p1',device:'keyboard-a',characterId:'butter'},{seat:'p2',device:'keyboard-b',characterId:'pip'}]});
+  assert.equal(race.descriptor.itemVersion,'race-item-schema-1');
+  assert.ok(race.session.consumableSnapshot());
+  assert.ok(race.items,'Race must compose the common item policy');
+  assert.deepEqual(race.items.catalogue.map(i=>[i.id,i.price]),[['mud-splash',30],['fog-lantern',30]]);
+});
