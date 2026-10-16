@@ -70,8 +70,11 @@ test('actual worker preload captures once before temporary source cleanup; merge
   const payloads=[];
   for(const [realmId,value] of [['positive',1],['negative',-1]]) {
    const outputPath=join(tree.root,realmId+'.json');
-   await new Promise((resolve,reject)=>{const worker=new Worker(pathToFileURL(workerEntry),{execArgv:['--import',new URL('./collector.mjs',import.meta.url).href],env:{...process.env,RELEASE_COVERAGE_INVENTORY:inventoryPath,RELEASE_COVERAGE_OUTPUT:outputPath,RELEASE_COVERAGE_RUN:'workers',RELEASE_COVERAGE_REALM:realmId,CALIBRATION_VALUE:String(value)}});worker.once('error',reject);worker.once('exit',code=>code===0?resolve():reject(Error('worker exit '+code)));});
+   // Separate temporary module instances retain the same original source identity.
+   const instance=join(tree.root,'instance-'+realmId);await mkdir(instance);await writeFile(join(instance,'package.json'),'{"type":"module"}');await writeFile(join(instance,'exercised.js'),tree.inventory['exercised.ts'].code);await writeFile(join(instance,'worker.mjs'),await readFile(workerEntry,'utf8'));
+   await new Promise((resolve,reject)=>{const worker=new Worker(pathToFileURL(join(instance,'worker.mjs')),{execArgv:['--import',new URL('./collector.mjs',import.meta.url).href],env:{...process.env,RELEASE_COVERAGE_INVENTORY:inventoryPath,RELEASE_COVERAGE_OUTPUT:outputPath,RELEASE_COVERAGE_RUN:'workers',RELEASE_COVERAGE_REALM:realmId,CALIBRATION_VALUE:String(value)}});worker.once('error',reject);worker.once('exit',code=>code===0?resolve():reject(Error('worker exit '+code)));});
    payloads.push(JSON.parse(await readFile(outputPath,'utf8')));
+   await rm(instance,{recursive:true,force:true});
   }
   assert.notEqual(payloads[0].threadId,payloads[1].threadId);
   const options={runId:'workers',expectedRealms:['positive','negative']};

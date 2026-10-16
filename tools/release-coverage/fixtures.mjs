@@ -26,3 +26,13 @@ export function total(): number {
   'items/b.ts': `const item = { n: 3 }; export default item;\n`,
   'declarations.ts': `export interface OnlyTypes { n: number }\nexport type Label = 'a' | 'b';\n`,
 };
+
+/** Visible calibration-only controls; this HTML is never part of the napplet build. */
+export function calibrationHtml(inventory) {
+  const specifier='data:text/javascript;base64,'+Buffer.from(inventory['exercised.ts'].code).toString('base64');
+  return `<!doctype html><html><body><button id="positive">Choose positive</button><button id="negative">Choose negative</button><output id="output"></output><script type="module">
+import {choose} from ${JSON.stringify(specifier)};
+for(const [id,value] of [['positive',1],['negative',-1]])document.getElementById(id).addEventListener('click',()=>document.getElementById('output').textContent=choose(value));
+document.body.dataset.ready='true';
+</script></body></html>`;
+}
