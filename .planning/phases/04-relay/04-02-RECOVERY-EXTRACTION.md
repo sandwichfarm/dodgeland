@@ -1,6 +1,6 @@
 # 04-02 shared recovery reconciliation
 
-Plan 04-02 remains in progress. Generic executor fallback applies the local GSD executor instructions; typed-agent execution is not claimed.
+This is the retained dependency-repair record. Plan 04-02 is now complete; its authoritative final evidence is in `04-02-SUMMARY.md`. Generic executor fallback applies the local GSD executor instructions; typed-agent execution is not claimed.
 
 Entry evidence is unchanged source `e16211f` / documentation `b04b11c`: canonical session 90748 exited 0, full Phase 3 gate plus Relay 12/12, `/tmp/down-to-duck-04-01-final-gate.log`. No entry gate rerun was needed.
 
@@ -26,4 +26,4 @@ Root authorized the smallest shared extraction as necessary to the all-mode arch
 - Six explicit production parity cases compare the shared opt-in service with Survive in Arcade/Flow for accept/decline/expiry, pause freeze, invalid owner, repeated acceptance, personal assets/provenance, and rejection of teammate items without debit. `/tmp/down-to-duck-04-02-recovery-parity.log`, exit 0.
 - Relay consumer first exposed safe placement selecting an inactive roster avatar (`x=-2` instead of retained safe `x=0`). The simulated-participant filter fixes the generic turn-mode distinction without a Relay mode-name branch.
 
-Final repair gate and the remaining boundary/continuity work will be recorded in 04-02-SUMMARY.md after terminal verification. This note does not complete either task, RELAY-02, or the phase.
+The repair gate (session67125) and final canonical gate (session37530) both exited0. `04-02-SUMMARY.md` records the complete boundary/continuity evidence and remaining scope. RELAY-02 and the phase remain open for later plans and independent verification.

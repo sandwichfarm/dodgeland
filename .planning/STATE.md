@@ -3,22 +3,23 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-current_phase: 04
-current_phase_name: relay
-stopped_at: Completed Relay04-01; ready for04-02 exact-boundary and continuity adversaries.
-last_activity_desc: Relay04-01 setup and safe first handoff complete; canonical phase3 plus Relay12/12 gate passed.
+stopped_at: Completed 04-02-PLAN.md; ready for 04-03
+last_updated: "2026-10-16T00:18:03.868Z"
 progress:
   total_phases: 7
   completed_phases: 3
   total_plans: 31
-  completed_plans: 19
+  completed_plans: 20
+current_phase: 04
+current_phase_name: relay
+last_activity_desc: Relay04-02 exact boundaries and continuity complete; canonical phase3 plus strict Relay/recovery34/34 passed.
 ---
 
 # Project State
 
 ## Current Position
 
-Phase04 Relay, Plan02 of6 next; Plan01 complete. Phases01–03 independently verified. Survive Together is complete; Relay, Race, cross-mode presentation and release/PR remain mandatory. Original scope: USER-REQUEST.md and REQUIREMENTS.md. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
+Phase04 Relay, Plan03 of6 next; Plans01–02 complete. Phases01–03 independently verified. Survive Together is complete; Relay, Race, cross-mode presentation and release/PR remain mandatory. Original scope: USER-REQUEST.md and REQUIREMENTS.md. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
 
 ## Accepted Relay Entry Evidence
 
@@ -28,7 +29,9 @@ Relay04-01 is complete on source `e16211f`. Final canonical `pnpm test:phase3 &&
 
 Root's generic participant-score repair `fdad9f0` resolved the historical primary cooldown/economy checkpoint. It captures adopted solo score once and uses personal earned movement for session economy, healing, power and contributions; spatial maxY remains placement state. Both original RED Relay assertions now pass unchanged. See04-DEPENDENCY-REPAIR and04-01SUMMARY for exact pre-entry gates and API reconciliation.
 
-Only RELAY-01 is completed. RELAY-02/03 have first-handoff/closed-roster proof but remain open for later adversarial boundary and reconnect policy work. Continue04-02 through04-06, then every reviewed Race/presentation/audit/release requirement. No phase or milestone completion claim. All executor build/browser commands are terminal; source ownership returns to root.
+Relay04-02 is complete on source `31d992c`. Canonical session37530 exit0, `/tmp/down-to-duck-04-02-final-gate.log`, runs exact Task2 verification, full phase3 and strict Relay/recovery34/34. It proves lengths1/7/50/999,49/50/51, backtracking, fatal traffic/water/wave/mob priority, successful innate rescue, fractional platform carry, future world/RNG/claim continuity and actual99/100 innate plus249/250 revival credit. Authorized shared `SessionRecoveryController` extraction preserves Survive44/44 and explicit Arcade/Flow lifecycle parity6/6; inactive turn-mode seats no longer anchor recovery. See04-02SUMMARY andRECOVERY-EXTRACTION for API decisions and RED/GREEN logs.
+
+Only RELAY-01 is completed. RELAY-02/03 retain partial status pending later lifecycle/rotation and full-phase verification. Continue04-03 through04-06, then every reviewed Race/presentation/audit/release requirement. No phase or milestone completion claim. All executor build/browser commands are terminal; source ownership returns to root.
 
 ## Execution Runtime
 
@@ -45,8 +48,20 @@ Typed gsd-verifier stayed pending_init across multiple turns and was explicitly 
 
 ## Remaining Evidence and Presentation
 
-- Execute remaining5 Relay plans,7 Race plans, Phase06 UI, Phase07 full audit and PR. Do not shrink stop condition.
+- Execute remaining4 Relay plans,7 Race plans, Phase06 UI, Phase07 full audit and PR. Do not shrink stop condition.
 - Phase06 must address regular900×600 HUD overlap with nearby actors using actual completed lifecycle/results flows.
 - Conformance5pass/0fail/5unmeasured (manifest3,wire1,lifecycle1), not10passes. Physical controllers unmeasured. See research/CONFORMANCE-EVIDENCE.md.
 - Coverage calibration remains exploratory until normal-install/browser instrumentation proven; see research/COVERAGE-CALIBRATION.md.
 - Detailed Phase03 intermediate history is archived in phases/03-survive-together-consumables/03-EXECUTION-HISTORY.md. Accepted summaries and final VERIFICATION are authoritative.
+
+## Performance Metrics
+
+| Plan | Duration | Tasks | Files |
+|------|----------|-------|-------|
+| Phase 04 P02 | 28 min | 2 tasks | 6 files |
+
+## Session
+
+**Last session:** 2026-10-16T00:18:03.861Z
+**Stopped at:** Completed 04-02-PLAN.md; ready for 04-03
+**Resume file:** None
