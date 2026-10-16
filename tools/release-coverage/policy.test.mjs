@@ -1,9 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFile} from 'node:fs/promises';
+import {readFile, writeFile, mkdtemp, rm} from 'node:fs/promises';
+import {join, relative} from 'node:path';
+import {tmpdir} from 'node:os';
 import {spawnSync} from 'node:child_process';
 import {evaluatePolicy, resolveCommandInventory, validateFullManifest} from './run.mjs';
 import {buildInventory} from './inventory.mjs';
+import * as runner from './run.mjs';
 
 const summary=(covered=100,total=100)=>Object.fromEntries(['lines','functions','branches'].map(m=>[m,{covered,total}]));
 const floors={global:{lines:90,functions:90,branches:85},ordinary:{lines:90,functions:90,branches:85},critical:{lines:95,functions:95,branches:90},mode:{lines:90,functions:90,branches:85}};
@@ -54,4 +57,24 @@ test('complete dispatch rejects omitted owners, variants and declared realm requ
  const manifest={complete:true,execution:{jobs:[{id:'a',file:'tests/a.mjs',role:'node',requiredRealms:['node']},{id:'sound',file:'tests/sound.mjs',role:'browser',requiredRealms:['browser'],env:{DOWN_TO_DUCK_AUDIO_BROWSER:'firefox'}}],controls:[]}};
  assert.equal(validateFullManifest(manifest,inventory),true);
  for(const change of [m=>m.complete=false,m=>m.execution.jobs.pop(),m=>m.execution.jobs[1].env={},m=>m.execution.jobs[1].requiredRealms=[],m=>m.execution.jobs.push(m.execution.jobs[0])]){const broken=structuredClone(manifest);change(broken);assert.throws(()=>validateFullManifest(broken,inventory));}
+});
+
+test('both default Chromium and explicit Firefox commands require their own jobs',()=>{
+ const file='tests/sound.mjs',inventory={entries:[{path:file}],commands:[{executable:'node',args:[file],env:{}},{executable:'node',args:[file],env:{DOWN_TO_DUCK_AUDIO_BROWSER:'firefox'}}]};
+ const manifest={complete:true,execution:{controls:[],jobs:[{id:'chromium',file,role:'browser',requiredRealms:['browser']},{id:'firefox',file,role:'browser',requiredRealms:['browser'],env:{DOWN_TO_DUCK_AUDIO_BROWSER:'firefox'}}]}};
+ assert.equal(validateFullManifest(manifest,inventory),true);
+ for(const missing of ['chromium','firefox']){const copy=structuredClone(manifest);copy.execution.jobs=copy.execution.jobs.filter(j=>j.id!==missing);assert.throws(()=>validateFullManifest(copy,inventory),/variant/);}
+});
+
+test('real artifact preservation restores present and removes initially absent outputs on success and failure',async()=>{
+ assert.equal(typeof runner.preserveJobArtifacts,'function');
+ const ordinary=await mkdtemp(new URL('../../artifacts/preservation-regression-',import.meta.url)),evidence=await mkdtemp(join(tmpdir(),'coverage-preservation-'));
+ try{for(const existed of [false,true])for(const fails of [false,true]){
+  const path=join(ordinary,`${existed}-${fails}.png`),pattern=relative(new URL('../..',import.meta.url).pathname,path),job={id:`${existed}-${fails}`,artifactPatterns:[pattern]};
+  if(existed)await writeFile(path,'original');
+  const action=()=>runner.preserveJobArtifacts(job,evidence,async()=>{await writeFile(path,'generated');if(fails)throw Error('retained failure');return 'passed';});
+  if(fails)await assert.rejects(action,/retained failure/);else assert.equal(await action(),'passed');
+  assert.equal(await readFile(join(evidence,'suite-artifacts',job.id,pattern),'utf8'),'generated');
+  if(existed)assert.equal(await readFile(path,'utf8'),'original');else await assert.rejects(readFile(path),{code:'ENOENT'});
+ }}finally{await rm(ordinary,{recursive:true,force:true});await rm(evidence,{recursive:true,force:true});}
 });
