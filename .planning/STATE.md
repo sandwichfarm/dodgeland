@@ -3,23 +3,23 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Adapter continuation planning ready for checker; human accepted, formal05/06 closure/security audit pending
-last_updated: "2026-10-16T13:57:49.407Z"
+stopped_at: Executing07-02 browser collection foundation;05/06 formally complete
+last_updated: "2026-10-16T14:19:13.059Z"
 progress:
   total_phases: 7
-  completed_phases: 4
+  completed_phases: 6
   total_plans: 42
   completed_plans: 34
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Reconciled07-02 checkpoint into foundation plus07/08/09 adapters;34/42 plans complete, pending checker.
+last_activity_desc: User presentation acceptance and security/validation audits close05/06;07plans independently approved;34/42 complete.
 ---
 
 # Project State
 
-Current position: Phase07 adapter continuation plans await independent checker.07-01 is complete;07-02 Task1 alone is complete (4fffa33;93470exit0:9 calibration/collection,22 instrumented shared,28 ordinary shared/strict). Its blocked SUMMARY is not plan completion.02 foundation →07 component owners →08 local-input owners →09 remaining owners/full initial report →03 gaps →04 conformance →05 evidence →06 release runner/PR. No executor process is active; no source changes or tests in this planning revision.
+Current position: Phase07 nine-plan adapter chain independently approved (0ef40bd). Executor is implementing07-02 Task2/3, preserving completed Task1 (4fffa33;93470exit0:9 calibration/collection,22 instrumented shared,28 ordinary shared/strict). Its checkpoint SUMMARY is not plan completion.02 foundation →07 component owners →08 local-input owners →09 remaining owners/full initial report →03 gaps →04 conformance →05 evidence →06 release runner/PR.
 
-Actual tracking: **4 formally completed phases,34/42 plans complete**. User acceptance was received2026-10-16: presentation feels clear and usable for Survive/Relay/Race HUD, compact Controls, recovery and results. Root owns formal05/06 UAT/verification closure after retrospective security audit; do not infer those reports already pass. Technical05 verification40/40 and06 verification47/47 remain established. Sourceb9bc44f accepted21972 inherited prefix,92241 current narrow gate and independent52826.
+Actual tracking: **6 completed phases,34/42 plans complete**. User explicitly tested and accepted Survive/Relay/Race presentation on2026-10-16; UAT5eb3c46 and verification addenda ba9540c. Security40f42bd has zero open threats (Race30/30,presentation7/7); validation3496365 maps every task/requirement to existing evidence. Both canonical UAT/verification predicates and phase.complete passed with no warnings. Technical05 verification40/40 and06 verification47/47 retain their original source/provenance limits. Root corrected CLI counting of checkpoint summaries and historical plan artifacts; roadmap totals are authoritative.
 
 07-01 exact Node/opaque-browser calibration10/10 passed32469exit0 onf04d332. Audited standalone dependencies/own lock are installed: historical Node HTTPS EBADF resolved through installed Bun running pinned pnpm, followed by ordinary frozen reinstall. Root lock/oracle unchanged. Production shared-tracer data is partial; no full coverage or floor-compliance claim.07-09 must account for all audited/transitive realms before07-03 uses the initial report.
 

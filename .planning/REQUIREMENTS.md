@@ -7,7 +7,7 @@
 ## Architecture and solo parity
 
 - [x] **ARCH-01**: Gameplay tuning is represented by typed, validated, composable rule configuration rather than mode-dependent magic numbers embedded in update logic.
-- [ ] **ARCH-02**: Each solo/multiplayer mode composes reusable mechanics and explicit lifecycle handlers for join, leave, disconnect, reconnect, death, progress and results.
+- [x] **ARCH-02**: Each solo/multiplayer mode composes reusable mechanics and explicit lifecycle handlers for join, leave, disconnect, reconnect, death, progress and results.
 - [x] **ARCH-03**: Shared terrain, actor time, RNG, pickup ownership and camera policy are separated from each player's movement, health, powers, inventory and statistics; world updates occur once per tick.
 - [x] **ARCH-04**: A new mode can be defined from rule configuration and handlers without editing core input, renderer or adding another hard-coded mode branch throughout the engine; document an example.
 - [x] **SOLO-01**: Existing Arcade and Stroll/Flow modes migrate with 1:1 gameplay and numerical parity against the committed pre-refactor engine, including hazards, health, wave, mobs, economy, powers, pauses and deaths.
@@ -38,7 +38,7 @@
 - [x] **ITEM-03**: Consumables can be acquired from world pickups and purchased in the shop; inventory, prices and availability are visible and mode-appropriate.
 - [x] **ITEM-04**: World consumables use the default collection gravity so fractional log-hop grids remain viable; coin-magnet cards/powers never increase their capture range.
 - [x] **ITEM-05**: Rare spawning is seeded, bounded and verifiable at exact probability boundaries; contested pickups award once to a deterministic eligible player.
-- [ ] **ITEM-06**: Supply usable offensive/defensive Race consumables with clear effects and feedback; invalid use, departed targets and ineligible modes never waste charges or corrupt state.
+- [x] **ITEM-06**: Supply usable offensive/defensive Race consumables with clear effects and feedback; invalid use, departed targets and ineligible modes never waste charges or corrupt state.
 
 ## Relay
 
@@ -50,21 +50,21 @@
 
 ## Race
 
-- [ ] **RACE-01**: Race setup defines a playable common course with configurable finish distance/time limit; participants race the clock and each other.
-- [ ] **RACE-02**: The leading player's progress determines the fog boundary; trailing players can remain in fog while losing feathers at a configured cadence rather than instantly dying.
-- [ ] **RACE-03**: Camera, boundary/fog presentation, warning and health feedback make both leader and trailing-player states legible.
-- [ ] **RACE-04**: Disconnect/dropout/reconnect, ties, simultaneous finishes, timeout, deaths and last-survivor cases produce deterministic results without resetting the race clock.
-- [ ] **RACE-05**: Race items support offensive/defensive play through the composable mode/item system and do not leak into unrelated modes.
-- [ ] **RACE-06**: Dedicated race results show a podium and per-character rank, distance, time, finish/death status and relevant item/interaction statistics.
+- [x] **RACE-01**: Race setup defines a playable common course with configurable finish distance/time limit; participants race the clock and each other.
+- [x] **RACE-02**: The leading player's progress determines the fog boundary; trailing players can remain in fog while losing feathers at a configured cadence rather than instantly dying.
+- [x] **RACE-03**: Camera, boundary/fog presentation, warning and health feedback make both leader and trailing-player states legible.
+- [x] **RACE-04**: Disconnect/dropout/reconnect, ties, simultaneous finishes, timeout, deaths and last-survivor cases produce deterministic results without resetting the race clock.
+- [x] **RACE-05**: Race items support offensive/defensive play through the composable mode/item system and do not leak into unrelated modes.
+- [x] **RACE-06**: Dedicated race results show a podium and per-character rank, distance, time, finish/death status and relevant item/interaction statistics.
 
 ## Interface and presentation
 
 - [x] **UI-01**: Provide game-styled mode/setup/unique-character selection screens, ready/join feedback and controller/keyboard help while preserving the simple solo start.
 - [x] **UI-02**: Render all players as actual distinct character models with persistent identifying marks, individual health/power/revival/item state and readable active-turn/leader cues.
 - [x] **UI-03**: Multiplayer market, inventory, consumable use and persistent hand clearly identify whose wallet/items are active and preserve player/run state across menus.
-- [ ] **UI-04**: Each mode has appropriate custom pause/disconnect, ghost/death/revival and end-of-game screens, per-character breakdowns and podium presentation.
-- [ ] **UI-05**: Small screens use purpose-built views/pages with large usable controls and no accidental scrollbars; desktop/compact/short frames and both themes remain usable.
-- [ ] **UI-06**: Revive, flare, relay transfer, fog damage and race-item interactions have contextual visual/audio feedback that respects mute and reduced motion.
+- [x] **UI-04**: Each mode has appropriate custom pause/disconnect, ghost/death/revival and end-of-game screens, per-character breakdowns and podium presentation.
+- [x] **UI-05**: Small screens use purpose-built views/pages with large usable controls and no accidental scrollbars; desktop/compact/short frames and both themes remain usable.
+- [x] **UI-06**: Revive, flare, relay transfer, fog damage and race-item interactions have contextual visual/audio feedback that respects mute and reduced motion.
 
 ## Verification and delivery
 
@@ -121,8 +121,8 @@ behavior is implemented, verified and committed.
 | UI-01 | Phase 2 | Complete |
 | UI-02 | Phase 2 | Complete |
 | UI-03 | Phase 3 | Complete |
-| UI-04 | Phase 6 | Pending |
-| UI-05 | Phase 6 | Pending |
+| UI-04 | Phase 6 | Complete |
+| UI-05 | Phase 6 | Complete |
 | UI-06 | Phase 5 | Ready for independent verification: 05-07 exact gates and production evidence |
 | TEST-01 | Phase 1 | Complete |
 | TEST-02 | Phase 7 | Pending |

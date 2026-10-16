@@ -25,12 +25,12 @@ harder to start or changing its established mechanics.
 
 ### Active
 
-- [ ] Extend composed rules with shared-session and multiplayer lifecycle handlers.
+- [x] Extend composed rules with shared-session and multiplayer lifecycle handlers.
 - [x] Shared local session, distinct characters, multiple devices and keyboard bindings.
 - [x] Survive Together in Arcade and Flow, dynamic joining/leaving, revival and consumables.
-- [ ] Configurable Relay with closed roster, turn handoffs and dropout continuity.
-- [ ] Timed Race with leader-relative feather-damaging fog and contextual items.
-- [ ] In-game setup, player HUD, inventory, disconnect/reconnect and result/podium screens.
+- [x] Configurable Relay with closed roster, turn handoffs and dropout continuity.
+- [x] Timed Race with leader-relative feather-damaging fog and contextual items.
+- [x] In-game setup, player HUD, inventory, disconnect/reconnect and result/podium screens.
 - [ ] Requirement-linked tests, real rendered visual proofs, clean checks and an open PR.
 
 ### Out of Scope
@@ -55,13 +55,7 @@ harder to start or changing its established mechanics.
 
 ## Current State
 
-Phases01–03 are complete and independently verified. Survive Together now has live
-join/leave, personal recovery, world/shop consumables, owner-safe menus and immutable
-team results. Phase03 re-verification passed42/42 after fixing unreclaimed ghost-time
-accounting. Full canonical gate passed on6017f9f, including exact solo parity and34
-final browser cases. Relay execution begins next; Race, final presentation, release
-evidence and the open PR remain required. Conformance has5 passing and5 unmeasured
-checks; physical-controller behavior remains unmeasured.
+Phases01–06 are complete. Composable solo parity, shared local sessions, Survive Together, Relay and Race have independent behavioral verification. The user explicitly tested and accepted the multiplayer presentation on2026-10-16; Race and presentation security/validation audits are complete with no open threats or uncovered assigned requirements. Phase07 release evidence is active: calibrated coverage tooling and a real Node tracer pass; browser collection, full coverage floors, durable visual/clause/conformance evidence and an open PR remain outstanding. Existing conformance has5 passing and5 unmeasured checks; physical-controller behavior remains unmeasured.
 
 ## Constraints
 
@@ -92,4 +86,4 @@ state. Preserve the original request and record any unresolved gap explicitly.
 Do not mark the milestone complete until the full requirement audit and PR check pass.
 
 ---
-*Last updated: 2026-10-15 after Phase03 independent re-verification.*
+*Last updated: 2026-10-16 after Phase05/06 user acceptance and audit closure.*
