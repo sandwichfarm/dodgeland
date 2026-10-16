@@ -127,3 +127,19 @@ The same collection passed `run-hand-runtime` at23:38:43.832Z and then `run-menu
 Root opened the current full-run `run-menu-options-ready-dark-240x240.png` (SHA256 `d733ca3ffbd86958895ab498abc450f0b7e2fe724b91da39f435feee29d97169`) and `run-menu-ready-dark-320x560.png` (`f0f798845f5fe3b0252dd1620f4bdfce9fdd9e650346262006c329823b48ecff`) under `suite-artifacts/run-menu-layout/artifacts/`. All four ready actions are visible with complete labels in both images; the320px home also retains traveler preview, help and power controls. The previously recorded decorative rivet/Back border touch remains visible at240px, with no observed arrow obstruction; this is not a claim of numerical decoration clearance. Current image bytes differ from the focused-run images, so their independent inspection is recorded explicitly.
 
 This clears the previous full-run menu assertion on the frozen repaired source. At observation the full132-job collection remained live, beginning runtime-smoke; complete coverage and release acceptance are still pending.
+
+### Current Survive integrated scenario: acquisition limits and actual scene
+
+Collection11460 passed `survive-complete-run-runtime` at23:49:36.940Z: one test, no failures/cancellations/skips,52589ms. Root read the archived `survive-complete-run.json` (SHA256 `521a3a6b9335aca9e3d6d7d9038c31b560c69d975648d8230dd9766834eeed51`): seven checkpoints, empty errors/external and no failure field. Root also read the entire acquisition in `tests/survive-complete-run-runtime.mjs`.
+
+The test starts from a public seeded intent and uses actual menu, keyboard and authorized controller events for adoption, joining, reclaim, purchases, targeting, selling, pack choices, result paging and retry. It explicitly **arranges production terrain, wave position, pickup contestant positions, wallets, score/market stock and fatal events** through the fixture. Its continuous interaction and real-owner assertions are valuable integration evidence, but the `complete-run` filename must not be interpreted as an entirely public-input course.07-03/05 must bind any full public-input journey claims to their actual separate acquisition proof; this scenario alone cannot establish them.
+
+Root opened these current images under `suite-artifacts/survive-complete-run-runtime/artifacts/`:
+
+| Image | SHA256 | Actual visible scope |
+| --- | --- | --- |
+| survive-complete-regroup.png |10ea6a9277fbe571017eab140d75e44ac7fdc29f6f4fa1024ac3e39dd14e9c8c|P3 Pip's item inspector after the charge is spent, with item paging and Close details. The opaque inspector hides the world; this image is **not** visual proof of four regrouped travelers despite its filename.|
+| survive-complete-paused-market.png |7fdf051d89580265db4aa87ba0abd120f8645c6cc4965189356979e893fac381|After closing the inspector, all four distinct travelers and their Protected labels are visible, with matching four-player health HUD, paused notice, market invitation and bottom controls. Use this image for the visible regrouped/protected scene, retaining the arranged-state provenance.|
+| survive-five-participant-paging.png |6aa17552e1c1e58630bfc8e51794f7b97c890fd65ddf252122e73ec653118b4b|The short result page identifies the departed P4 Petal as Left run, with Hops, page17/20, navigation, retry and seed controls. This single image shows one participant; the test's actual paging assertion covers all five stable participants including the replacement P4.|
+
+The scene test separately measures each actual traveler/body envelope against the paused market invitation with the inclusive8px condition. The image alone is not numerical clearance evidence. Result immutability, all-participant paging and unchanged ownership come from the named assertions, not from the screenshot or the suite name. Full collection and release acceptance remain pending.
