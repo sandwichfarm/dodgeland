@@ -109,10 +109,13 @@ for (const count of [2,3,4]) test(`built opaque iframe ${count}-seat Race start 
     assert.equal(await frame.locator('#race-time').inputValue(), '30');
     assert.equal(await frame.locator('#race-setup-error').textContent(), 'Choose 1–9999 whole finish tiles.');
     await frame.locator('#race-finish').fill('1');
-    await frame.locator('#local-session-start').focus(); await page.keyboard.press('Enter');
+    await frame.locator('#local-session-start').focus();
+    if (count === 3) { await send([pad([0])]); await send([pad([0])]); }
+    else await page.keyboard.press('Enter');
     await page.waitForTimeout(150);
     assert.match(await frame.locator('.race-distance').textContent(), /^Finish 1 · 30s$/);
     assert.equal(await frame.locator('#race-results-heading').count(), 0, 'start did not hop');
+    for (const tile of await frame.locator('#session-seats [data-session-hud="health"]').all()) assert.match(await tile.textContent(), /· 0 tiles$/, 'Start and held confirm never earn a first hop');
     await send([pad(), pad([],9)]); await send([pad(),pad([0],9)]); await send([pad(),pad([],9)]);
     assert.equal(await frame.locator('#local-session-setup').isVisible(), false);
     assert.equal(await frame.locator('#session-seats [data-seat]').count(), count);
