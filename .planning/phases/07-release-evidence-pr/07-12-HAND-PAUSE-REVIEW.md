@@ -2,7 +2,7 @@
 phase: 07-release-evidence-pr
 reviewed: 2026-10-16
 reviewed_commit: a7ef5f8
-regression_commit: 7a1293e
+regression_commit: 39e9ffe
 depth: standard
 reviewer_execution: generic-agent-fallback
 files_reviewed: 3
@@ -12,10 +12,10 @@ files_reviewed_list:
   - tools/release-coverage/suites.json
 findings:
   critical: 0
-  warning: 0
+  warning: 1
   info: 0
-  total: 0
-status: clean
+  total: 1
+status: issues_found
 ---
 
 # Plan12 owned-hand pause repair review
@@ -25,6 +25,14 @@ Generic-agent fallback applying the full local GSD code-reviewer role; not typed
 ## Narrative Findings (AI reviewer)
 
 No concrete scoped implementation defect found. Static review is clean; ordinary/canonical execution and visual/geometry acceptance remain pending.
+
+### HP-01 — WARNING: decorative rivet overlaps the first heading letter at the floor
+
+**File:** `/Users/sandwich/Develop/crossy-road-clone/src/hand-layout.css:134`, interacting with `src/game-ui.css:23–24`.
+
+Subsequent visual inspection of both ordinary240×240 PNGs shows the top-left decorative square touching/covering the upper-left portion of the initial P in `Paused.`. The heading remains readable, so this is a bounded visual quality issue rather than loss of an action or unreadable label. The new first-cell heading placement brings it into the absolutely positioned board rivet's region (top10px/left10px plus border/shadow). The panel/text-range containment assertion cannot detect this painted overlap.
+
+**Fix:** within the existing owned-hand/home/short-frame scope, move the nonsemantic decoration clear of the heading or adjust its painting order/placement so it cannot cover glyphs. Preserve heading size/content, button geometry, hand clearance and other board states. Do not globally alter decoration or reduce type to fix this small overlap. Reinspect the two floor captures after the bounded change.
 
 ## CSS scope and layout
 
@@ -49,3 +57,13 @@ Read-only manifest parsing confirms132 full execution jobs, unchanged inventory 
 The prior omitted image cannot be retroactively recovered by adding its path. Root's scope honestly preserves the current failed-run image and does not claim older unbacked provenance. New ordinary/canonical runs must prove restoration against their own source/build identities and retain all44 hand records plus24 unchanged pause cases.
 
 Only this review report was written and committed under explicit authorization. No runtime pass, screenshot acceptance, full collection success, coverage floor or phase completion is claimed.
+
+## Ordinary evidence and refinement follow-up
+
+Reviewed39e9ffe: button `fits` now includes actual panel bounds as well as viewport/hand clearance. The helper records panel rectangle/computed max-height and checks visible heading text ranges against that panel. It does not weaken original journeys or geometry checks. The added light240×240 PNG is the seventh declared output in both full/focused copies; all original basenames remain. The change measures containment, not painted occlusion, hence HP-01 above.
+
+Independently parsed `/tmp/down-to-duck-07-12-hand-pause-final-ordinary-evidence/generated/run-hand-runtime.json`:44 frames,6 scenarios,38 pauseChecks, empty runtime errors/external requests. Both floor home rows record panel x12/y6/width216/height164, computed max-height `calc(100% - 24px)`, five91×44 controls, no pairwise overlap, true hit ownership/text fit/panel containment, and headingFits true. This confirms the earlier cascade calculation; the proposed152px limit was not active.
+
+Directly viewed `run-hand-pause-240x240.png` and `run-hand-pause-240x240-light.png` from that directory. Rules, Power, Travelers, Local Play and the existing pseudo-element Hop on label are visibly readable and separated; the hand shelf remains below the board. The pseudo-label is visually inspected rather than credited to the text-range assertion that bypasses font-size0. The decorative heading overlap is retained as HP-01. These screenshots precede the final `pauseLayout` measurements in the test sequence, so their animated board offset should not be equated pixel-for-pixel with the later recorded settled rectangle; the relative rivet/heading placement is visible in both.
+
+Canonical group `1186a7d2-cbe4-41a1-9c82-8a8e310c094c` and final chain32044 were still active at this follow-up. No canonical pass or complete final verification is inferred. No tests/builds/browsers or source changes were performed by the reviewer.
