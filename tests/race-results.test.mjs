@@ -54,6 +54,9 @@ test('statistics dependency: successful market interaction survives death clear 
   assert.equal(history[1].ownerGeneration, purchase.expectedOwnerGeneration);
   assert.ok(Object.isFrozen(history) && Object.isFrozen(history[1]));
   assert.equal(session.players[1].interactions.length, 0);
+  session.declineRecovery('p1');session.depart('p2','confirmed-leave');race.tick(session);
+  assert.equal(race.result.players[0].marketPurchases,1);assert.equal(race.result.players[0].coinsSpent,30);
+  assert.deepEqual(race.result.players[0].interactions,history);
 });
 
 test('statistics innate commit belongs to stable receiver before presentation callback and survives death', () => {
@@ -185,8 +188,9 @@ test('built frozen Race results expose podium and complete paged participants th
       while(await root.getByRole('button',{name:'Previous results',exact:true}).isEnabled())await root.getByRole('button',{name:'Previous results',exact:true}).click();
       let pages=0;const text=[];
       while(true){
-        text.push(await root.innerText());
+        text.push(await root.innerText());await assertResultContrast(f);
         const problems=await root.evaluate(root=>[...root.querySelectorAll('button,h2,h3,dt,dd')].filter(n=>n.getClientRects().length).flatMap(n=>{const r=n.getBoundingClientRect();return r.left<0||r.top<0||r.right>innerWidth+1||r.bottom>innerHeight+1||n.scrollWidth>n.clientWidth+1||(n.tagName==='BUTTON'&&(r.width<44||r.height<44))?[n.textContent]:[];}));assert.deepEqual(problems,[],`${w}x${h} page ${pages}`);
+        const overflow=await root.locator('.race-results-body').evaluate(n=>({bad:n.scrollHeight>n.clientHeight+1||n.scrollWidth>n.clientWidth+1,h:n.clientHeight,sh:n.scrollHeight,children:[...n.querySelectorAll('h3,p')].map(c=>[c.textContent,c.clientHeight,getComputedStyle(c).fontSize])}));assert.equal(overflow.bad,false,JSON.stringify(overflow)+`bounded results body ${w}x${h} page ${pages}`);
         if(pages<2||!(await root.getByRole('button',{name:'Next results',exact:true}).isEnabled()))await app.iframe.screenshot({path:`/tmp/race-05-05-results-${w}x${h}-${light?'light':'dark'}-${pages}.png`});
         pages++;assert.ok(pages<50);
         if(!(await root.getByRole('button',{name:'Next results',exact:true}).isEnabled()))break;
@@ -196,8 +200,55 @@ test('built frozen Race results expose podium and complete paged participants th
       assert.equal(await app.onSession(function(){return JSON.stringify(this.result);}),frozen);
       const again=root.getByRole('button',{name:'Race again',exact:true});await again.focus();await app.page.keyboard.press('Tab');assert.equal(await root.evaluate(n=>n.contains(document.activeElement)),true);
     }
-    await app.resize(900,600);await f.getByRole('button',{name:'Race again',exact:true}).click();assert.equal(await f.locator('#survive-results-root').isVisible(),false);
+    await app.resize(240,240);
+    const navigation=f.locator('#survive-results-root');
+    while(await navigation.getByRole('button',{name:'Previous results',exact:true}).isEnabled())await navigation.getByRole('button',{name:'Previous results',exact:true}).click();
+    for(let i=0;i<8;i++)await navigation.getByRole('button',{name:'Next results',exact:true}).click();
+    const selected=await navigation.locator('[data-participant]').getAttribute('data-participant');
+    await app.resize(900,600);assert.equal(await navigation.locator('[data-participant]').getAttribute('data-participant'),selected,'resize preserves inspected participant');
+    await f.getByRole('button',{name:'Race again',exact:true}).click();assert.equal(await f.locator('#survive-results-root').isVisible(),false);
     await f.locator('#local-play').click();await f.locator('#race-play').click();await f.locator('#local-session-start').click();assert.equal(await f.locator('#race-results-heading').count(),0);
     assert.deepEqual(evidence.errors,[]);assert.deepEqual(evidence.external,[]);assert.deepEqual(await f.evaluate(()=>window.marketGameFixture.forbidden),[]);
   }finally{await app.close();}
 });
+
+for(const outcome of ['time','left'])test(`built ${outcome} results retain explicit status and frozen history`,{timeout:30000},async()=>{
+  const {createMarketGameFixture}=await import('./market-game-fixture.mjs');const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{auditBoundary:true});
+  try{
+    const f=app.frame;await f.locator('#local-play').click();await f.locator('#race-play').click();await f.locator('#race-time').fill('30');await f.locator('#local-session-start').click();
+    if(outcome==='time')await app.advance(31000);
+    else for(const seat of ['p1','p2']){await f.locator(`[data-seat="${seat}"] [data-session-hud="item"]`).click();await f.locator('#survive-lifecycle-board').getByRole('button',{name:'Leave Race',exact:true}).click();await app.advance(30);}
+    await f.getByRole('heading',{name:'Race results',exact:true}).waitFor();
+    const frozen=await app.onSession(function(){return JSON.stringify(this.result);}),result=JSON.parse(frozen);
+    assert.deepEqual(result.players.map(p=>p.rankLabel),outcome==='time'?['=1','=1']:['DNF','DNF']);
+    for(const [w,h]of [[240,240],[900,600]]){
+      await app.resize(w,h);const root=f.locator('#survive-results-root');
+      if(outcome==='left')assert.match(await root.textContent(),/DNF · Left/);
+      const body=await root.locator('.race-results-body').evaluate(n=>({h:n.clientHeight,sh:n.scrollHeight,w:n.clientWidth,sw:n.scrollWidth}));assert.ok(body.sh<=body.h+1&&body.sw<=body.w+1,JSON.stringify(body));
+      await app.iframe.screenshot({path:`/tmp/race-05-05-${outcome}-${w}.png`});
+      assert.equal(await app.onSession(function(){return JSON.stringify(this.result);}),frozen);
+    }
+    assert.deepEqual(evidence.errors,[]);assert.deepEqual(evidence.external,[]);
+  }finally{await app.close();}
+});
+
+async function assertResultContrast(frame) {
+  const failures = await frame.evaluate(() => {
+    const canvas = document.createElement('canvas'); canvas.width = canvas.height = 1; const context = canvas.getContext('2d');
+    const luminance = color => {
+      context.clearRect(0, 0, 1, 1); context.fillStyle = color; context.fillRect(0, 0, 1, 1);
+      const values = [...context.getImageData(0, 0, 1, 1).data].slice(0, 3).map(v => v / 255).map(v => v <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4);
+      return values[0] * .2126 + values[1] * .7152 + values[2] * .0722;
+    };
+    const board = document.querySelector('#survive-results-root');
+    return [...board.querySelectorAll('button,h2,h3,p,dt,dd,strong')].filter(node => node.getClientRects().length).flatMap(node => {
+      let background = node, color = getComputedStyle(background).backgroundColor;
+      while ((color === 'transparent' || color === 'rgba(0, 0, 0, 0)') && background.parentElement) { background = background.parentElement; color = getComputedStyle(background).backgroundColor; }
+      const a = luminance(getComputedStyle(node).color), b = luminance(color), ratio = (Math.max(a, b) + .05) / (Math.min(a, b) + .05);
+      return ratio < 4.5 ? [{ text: node.textContent, ratio }] : [];
+    });
+  });
+  assert.deepEqual(failures, []);
+}
+
+
