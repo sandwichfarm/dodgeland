@@ -104,6 +104,20 @@ test('reclaim preserves exposure resources deadlines and no-ahead position acros
   assert.equal(race.reclaim(race.reclaimToken('p2'),'gamepad-7'),true);assert.deepEqual(fields(),before);assert.ok(p.groundY<=p.earnedDistance);assert.equal(p.hop,0);game.resume();
   ticks(session,1);assert.ok(race.fogState('p2').exposure>before.exposure.exposure);
 });
+test('backtracked and airborne reclaim is bounded by actual pre-loss ground, not earned high-water',()=>{
+  const {race,session}=meadow(start()),p=session.players[1];
+  for(let i=0;i<5;i++)hop(session,'p2');
+  hop(session,'p2','back');hop(session,'p2','back');
+  assert.equal(p.groundY,3);assert.equal(p.earnedDistance,5);
+  assert.equal(session.dispatch({seat:'p2',direction:'forward'}),true);ticks(session,4);
+  const preLossGround=p.groundY,earned=p.earnedDistance,completed=p.completedForwardTiles;
+  assert.ok(preLossGround>=3&&preLossGround<4);assert.ok(p.hop>0);
+  session.deviceLost('p2');ticks(session,20);assert.equal(p.groundY,preLossGround);
+  assert.equal(race.reclaim(race.reclaimToken('p2'),'gamepad-9'),true);
+  assert.ok(p.groundY<=preLossGround);assert.equal(p.groundY,Math.floor(preLossGround));
+  assert.ok(p.groundY<earned,'reclaim cannot move the backtracked racer to its earned high-water');
+  assert.equal(p.earnedDistance,earned);assert.equal(p.completedForwardTiles,completed);assert.equal(p.hop,0);
+});
 test('dead replacement waiting preserves its offer and cannot invoke recovery before reclaim',()=>{
   const {game,race,session}=start();game.end('Actual train fatality','train');ticks(session,1);
   const p=session.players[0],offer=p.recovery.offer;session.deviceLost('p1');session.deviceLost('p2');const time=game.time;ticks(session,2000);
