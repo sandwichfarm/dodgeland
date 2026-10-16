@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-12 collection23954 exited1 at layout lifecycle timeout; scoped repair authorized
-last_updated: "2026-10-16T17:50:25Z"
+stopped_at: 07-12 layout repair verified; full collection51274 running frozen ef3d1c6
+last_updated: "2026-10-16T18:01:00Z"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,10 +12,14 @@ progress:
   completed_plans: 40
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: 07-12 full collection passed40 jobs and cross-mode33/33, then layout ended during static measurements; same-board bounded-stage repair authorized.
+last_activity_desc: 07-12 same-board layout repair passes6 tests and24 rows with clean independent review; full collection51274 active, complete report pending.
 ---
 
 # Project State
+
+Current continuation: layout repair ef3d1c6 retains one live board, five bounded120-second stages, all original24 frame/theme rows and active-input/resize assertions. Public pauses protect static measurements; each200→240 safety transition explicitly begins playing. Diagnostic51670 passed before LR-01 repair and is not final proof. Corrected focused16152 exited0 with6 strict tests,24 rows, one canonical realm, no errors/deficiencies (~84.7seconds); root and independent reviewer read its terminal log `/tmp/down-to-duck-07-12-layout-repair-verified.log`. Final metadata-only correction identifies viewport-suspended200px rows. Independent07-12-LAYOUT-REVIEW.md closes LR-01/LW-01 with no remaining findings.
+
+Full collection51274 is now active, PID68917, frozen source/test/toolingef3d1c6, run `1d412486-f52d-4ef1-a2c9-6d8da5bdf813`, log `/tmp/down-to-duck-07-12-full-collection-final.log`. Preserve and poll this process. The failed runs below remain historical evidence; their earlier stopped checkpoints do not describe the current process. Complete report and floors are still pending; no phase/plan completion inferred from the focused layout proof.
 
 Current position: Phase07 plans01/02/07/08/09/10/11 complete.07-12 audio adapters and six-mode attribution are committed; a56b882 reconciles134 discovered entries/140 closure paths into132 execution jobs. First full run10259 exited1 at guidance from generated-artifact memory exhaustion, repaired99fc863. Second run51722 exited1 with cross-mode30 passes/1 cancelled compound compact case: its three real journeys completed in approximately67seconds against one60-second deadline, with no geometry errors. Both failed logs are preserved. Root's scoped addenda authorize the exact repairs; see07-12-GUIDANCE-REPAIR,07-12-REVIEW-REPAIR and07-12-COMPACT-REPAIR.
 
@@ -86,8 +90,8 @@ Typed gsd-verifier stayed pending_init across multiple turns and was explicitly 
 
 ## Session
 
-**Last session:** 2026-10-16T17:50:25Z
-**Stopped at:** 07-12 collection23954 exited1; same-board layout lifecycle/stage repair authorized, full report pending.
+**Last session:** 2026-10-16T18:01:00Z
+**Stopped at:** 07-12 repaired full collection51274 running, source/test/toolingef3d1c6; complete report pending.
 **Resume file:** None
 
 ## Decisions
