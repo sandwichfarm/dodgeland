@@ -65,7 +65,10 @@ test('wire and injected binding route actual Local Play seats, seed context chan
       await frame.evaluate(() => Promise.resolve()); await page.waitForTimeout(35);
     };
     const press = async (pads, next) => { await send(pads); await send(next); await page.waitForTimeout(90); await send(pads); };
-    const distance = async seat => Number((await frame.locator(`#session-seats [data-seat="${seat}"]`).innerText()).match(/(\d+) tiles/)?.[1] ?? -1);
+    const distance = async seat => {
+      assert.equal(await frame.locator(`#session-seats [data-seat="${seat}"] .session-hud-identity`).isVisible(),true);
+      return Number((await frame.locator(`#session-seats [data-seat="${seat}"] [data-session-hud="health"]`).textContent()).match(/(\d+) tiles/)?.[1] ?? -1);
+    };
 
     for (const mode of ['wire', 'binding']) {
       await mount(mode);
@@ -96,25 +99,25 @@ test('wire and injected binding route actual Local Play seats, seed context chan
       assert.equal(await frame.locator('#app').getAttribute('data-run-state'), 'playing', `${mode}: a fresh post-neutral P1 confirm resumes`);
 
       await send([pad(0, alpha)]); await page.waitForTimeout(50);
-      assert.match(await frame.locator('#session-seats [data-seat="p2"]').innerText(), /Waiting to reclaim/, `${mode}: P2 disconnects`);
+      assert.match(await frame.locator('#session-seats [data-seat="p2"]').innerText(), /Ghost · reclaim-ready/, `${mode}: P2 disconnects`);
       const p1BeforeDisconnectMove = await distance('p1');
       await press([pad(0, alpha)], [pad(0, alpha, [12])]);
       assert.equal(await distance('p1'), p1BeforeDisconnectMove + 1, `${mode}: P1 keeps exactly one hop while P2 is disconnected`);
       const p2BeforeReclaim = await distance('p2');
       await send([pad(0, alpha), pad(1, beta, [0])]); await send(neutral);
-      assert.match(await frame.locator('#session-seats [data-seat="p2"]').innerText(), /Waiting to reclaim/, `${mode}: held reconnect is seeded`);
+      assert.match(await frame.locator('#session-seats [data-seat="p2"]').innerText(), /Ghost · reclaim-ready/, `${mode}: held reconnect is seeded`);
       await press(neutral, [pad(0, alpha), pad(1, beta, [0])]);
       await frame.getByRole('heading', { name: 'Reclaim P2', exact: true }).waitFor();
-      assert.match(await frame.locator('#session-seats [data-seat="p2"]').innerText(), /Waiting to reclaim/, `${mode}: fresh controller edge opens an explicit reclaim decision without consuming P2`);
+      assert.match(await frame.locator('#session-seats [data-seat="p2"]').innerText(), /Ghost · reclaim-ready/, `${mode}: fresh controller edge opens an explicit reclaim decision without consuming P2`);
       await press(neutral, [pad(0, alpha, [0]), pad(1, beta)]);
       assert.equal(await frame.getByRole('heading', { name: 'Reclaim P2', exact: true }).isVisible(), true, `${mode}: P1 cannot confirm P2's reclaim decision`);
       await press(neutral, [pad(0, alpha), pad(1, beta, [0])]);
       await frame.getByRole('heading', { name: 'Reclaim P2', exact: true }).waitFor({ state: 'hidden' });
-      assert.doesNotMatch(await frame.locator('#session-seats [data-seat="p2"]').innerText(), /Waiting to reclaim/, `${mode}: P2's fresh confirmation reclaims its retained seat`);
+      assert.doesNotMatch(await frame.locator('#session-seats [data-seat="p2"]').innerText(), /Ghost · reclaim-ready/, `${mode}: P2's fresh confirmation reclaims its retained seat`);
       assert.equal(await distance('p2'), p2BeforeReclaim, `${mode}: reclaim edge is consumed without a hop`);
       await send(neutral, false);
-      assert.doesNotMatch(await frame.locator('#session-seats [data-seat="p1"]').innerText(), /Waiting to reclaim/, `${mode}: global focus loss does not mark P1 disconnected`);
-      assert.doesNotMatch(await frame.locator('#session-seats [data-seat="p2"]').innerText(), /Waiting to reclaim/, `${mode}: global focus loss does not mark P2 disconnected`);
+      assert.doesNotMatch(await frame.locator('#session-seats [data-seat="p1"]').innerText(), /Ghost · reclaim-ready/, `${mode}: global focus loss does not mark P1 disconnected`);
+      assert.doesNotMatch(await frame.locator('#session-seats [data-seat="p2"]').innerText(), /Ghost · reclaim-ready/, `${mode}: global focus loss does not mark P2 disconnected`);
       const frozenFocusDistances = await Promise.all(['p1', 'p2'].map(distance));
       await send([pad(0, alpha, [12]), pad(1, beta, [12])], false);
       assert.deepEqual(await Promise.all(['p1', 'p2'].map(distance)), frozenFocusDistances, `${mode}: global focus loss suspends every controller edge`);

@@ -221,15 +221,21 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
         if (!value.sceneUsable) fail(`${state}/${theme}/${width}×${height} must leave a usable 44px scene area beside the session shelf`, value);
         if (value.identity.length !== 4 || value.identity.some(seat => !/P[1-4].*[▲●◆■]/.test(`${seat.text} ${seat.label}`))) fail(`${state}/${theme}/${width}×${height} HUD identity is incomplete`, value.identity);
         const detailed = value.identity.filter(seat => seat.detailVisible);
-        const compactHud = width < 480 || height < 420;
-        const shortHud = height < 320;
-        if (shortHud ? detailed.length > 1 : compactHud ? detailed.length !== 1 : detailed.length !== 4) fail(`${state}/${theme}/${width}×${height} must show ${shortHud ? 'one selected status plus identity chips' : compactHud ? 'one selected detailed tile plus identity chips' : 'four detailed tiles'}`, value.identity);
+        const wideHud = width >= 1600 && height >= 900;
+        if (detailed.length !== (wideHud ? 4 : 0)) fail(`${state}/${theme}/${width}×${height} must show wide details or bounded shared summaries`, value.identity);
         const requiredFields = ['identity', 'device', 'health', 'power', 'wallet', 'revive', 'item', 'lifecycle'];
-        const visibleFields = value.selectedFields.filter(field => field.fullyVisible && field.readable && field.text);
-        const hasSelectedStatus = ['identity', 'health'].every(field => visibleFields.some(value => value.field === field));
-        if (!hasSelectedStatus || (!shortHud && (value.selectedFields.length !== requiredFields.length || requiredFields.some(field => !visibleFields.some(value => value.field === field))))) {
-          fail(`${state}/${theme}/${width}×${height} selected HUD must keep identity, real state, and unavailable future fields fully visible`, value.selectedFields);
+        const summaries=await frame.locator('.session-hud-summary').evaluateAll(nodes=>nodes.filter(n=>n.checkVisibility()).map(n=>n.textContent));
+        if(!summaries.length||summaries.some(text=>!/feathers/.test(text)))fail('live summaries retain real health and lifecycle',summaries);
+        const selected=frame.locator('#session-seats .session-hud-selected .session-hud-identity');
+        await selected.click();
+        const visibleFields=[];
+        for(let detailPage=0;detailPage<4;detailPage++){
+          const detail=await metrics('hud-inspect',width,height);
+          visibleFields.push(...detail.selectedFields.filter(field=>field.fullyVisible&&field.readable&&field.text));
+          await frame.getByRole('button',{name:'Next details',exact:true}).click();
         }
+        if(requiredFields.some(field=>!visibleFields.some(value=>value.field===field)))fail('actual detail pages expose every complete personal field',visibleFields);
+        await frame.getByRole('button',{name:'Close details',exact:true}).click();
         if (value.identity.some(seat => seat.contrast < 4.5)) fail(`${state}/${theme}/${width}×${height} HUD paper/ink contrast is below 4.5:1`, value.identity);
         if (visibleFields.some(field => field.contrast < 4.5)) fail(`${state}/${theme}/${width}×${height} selected HUD field contrast is below 4.5:1`, visibleFields);
         if (value.slots.some(slot => slot.interactive)) fail(`${state}/${theme}/${width}×${height} reserved fields must remain noninteractive`, value.slots);
@@ -340,6 +346,8 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
           assert.equal(await frame.locator('#session-seats [data-seat]').count(), 4, 'safety pause retains all four session owners');
           // Shared Local Play keeps its owner HUD visible and hides the solo
           // run panel, so its toolbar Pause control is the real resume action.
+          await frame.locator('#session-controls-open').click();
+          await frame.getByRole('button',{name:'Next controls',exact:true}).click();
           const resume = frame.getByRole('button', { name: 'Resume game', exact: true });
           assert.equal(await resume.isVisible(), true, 'restored working frame exposes the real shared resume control');
           await resume.click();
@@ -349,7 +357,7 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
         if (width === 240 && height === 240 && theme === 'dark') {
           const identity = frame.locator('#session-seats .session-hud-selected .session-hud-identity');
           const p3Distance = async () => {
-            const text = await frame.locator('#session-seats [data-seat="p3"] [data-session-hud="health"]').innerText();
+            const text = await frame.locator('#session-seats [data-seat="p3"] [data-session-hud="health"]').textContent();
             return Number(text.match(/·\s*(\d+)\s*tiles/)?.[1]);
           };
           const p3BeforeInspect = await p3Distance();
@@ -392,8 +400,11 @@ test('Local Play setup and four-seat HUD stay reachable across the required ifra
           await identity.click();
           await frame.waitForFunction(() => document.querySelector('#session-seats')?.dataset.sessionHudInspect === 'true');
           await resize(320, 560);
-          await frame.waitForFunction(() => document.querySelector('#session-seats')?.dataset.sessionHudInspect !== 'true');
-          assert.equal(await frame.locator('#app').getAttribute('data-run-state'), 'playing', 'short to tall resize predictably closes inspection and restores play');
+          assert.equal(await frame.locator('#session-seats').getAttribute('data-session-hud-inspect'),'true','resize preserves deliberate inspection');
+          assert.equal(await frame.locator('#app').getAttribute('data-run-state'), 'paused', 'short to tall resize retains inspection pause');
+          assert.equal(await frame.locator('.session-hud-selected').getAttribute('data-seat'),'p1');
+          await frame.getByRole('button',{name:'Close details',exact:true}).click();
+          assert.equal(await frame.locator('#app').getAttribute('data-run-state'),'playing','explicit close restores prior play');
           await resize(width, height);
           await identity.click();
           await frame.waitForFunction(() => document.querySelector('#session-seats')?.dataset.sessionHudInspect === 'true');

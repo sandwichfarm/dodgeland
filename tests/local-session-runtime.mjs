@@ -167,7 +167,12 @@ test('two shell controllers and two remapped keyboards enter four-seat Local Pla
     // Deliver a neutral snapshot after the router returns from the market
     // context. Its following d-pad press must be a new session edge.
     await send([pad(0, alpha), pad(1, beta)]);
-    const distance = async seat => Number((await frame.locator(`#session-seats [data-seat="${seat}"]`).innerText()).match(/(\d+) tiles/)?.[1] ?? -1);
+    // Earned distance lives on the disclosed personal page. Observe the actual
+    // participant without opening a paused inspection during movement input.
+    const distance = async seat => {
+      assert.equal(await frame.locator(`#session-seats [data-seat="${seat}"] .session-hud-identity`).isVisible(), true);
+      return (await onSession(function () { return this.players.map(player => ({seat:player.seat,distance:player.statistics.distance})); })).find(player=>player.seat===seat)?.distance ?? -1;
+    };
     const beforeMoves = await Promise.all(['p1', 'p2'].map(distance));
     const movementState = await onSession(function () { return this.players.slice(0, 3).map(player => ({ seat: player.seat, state: player.state, runOpen: player.run.isOpen, alive: player.run.alive })); });
     const movementUi = await frame.evaluate(() => ({ active: document.activeElement?.id, handFocused: document.getElementById('run-inventory')?.contains(document.activeElement), marketHidden: document.getElementById('market')?.hasAttribute('hidden'), runState: document.getElementById('app')?.dataset.runState }));
@@ -188,17 +193,17 @@ test('two shell controllers and two remapped keyboards enter four-seat Local Pla
     await mkdir(new URL('../artifacts/', import.meta.url), { recursive: true });
     await page.locator('#napplet').screenshot({ path: new URL('../artifacts/local-session-runtime-live-900.png', import.meta.url).pathname });
     await send([pad(1, beta)]); await page.waitForTimeout(50);
-    assert.match(await frame.locator('#session-seats [data-seat="p2"]').innerText(), /Waiting to reclaim/);
+    assert.match(await frame.locator('#session-seats [data-seat="p2"]').innerText(), /Ghost · reclaim-ready/);
     await send([pad(0, alpha, [0]), pad(1, beta)]); await page.waitForTimeout(30); await send([pad(0, alpha), pad(1, beta)]);
-    assert.match(await frame.locator('#session-seats [data-seat="p2"]').innerText(), /Waiting to reclaim/, 'returning held input is seeded, never reclaimed');
+    assert.match(await frame.locator('#session-seats [data-seat="p2"]').innerText(), /Ghost · reclaim-ready/, 'returning held input is seeded, never reclaimed');
     await send([pad(0, alpha, [0]), pad(1, beta)]); await page.waitForTimeout(30); await send([pad(0, alpha), pad(1, beta)]);
     await frame.getByRole('heading', { name: 'Reclaim P2', exact: true }).waitFor();
-    assert.match(await frame.locator('#session-seats [data-seat="p2"]').innerText(), /Waiting to reclaim/, 'a fresh owner edge opens an explicit reclaim decision without consuming the ghost seat');
+    assert.match(await frame.locator('#session-seats [data-seat="p2"]').innerText(), /Ghost · reclaim-ready/, 'a fresh owner edge opens an explicit reclaim decision without consuming the ghost seat');
     await send([pad(0, alpha), pad(1, beta, [0])]); await page.waitForTimeout(30); await send([pad(0, alpha), pad(1, beta)]);
     assert.equal(await frame.getByRole('heading', { name: 'Reclaim P2', exact: true }).isVisible(), true, 'P1 cannot confirm P2’s reclaim dialog');
     await send([pad(0, alpha, [0]), pad(1, beta)]); await page.waitForTimeout(30); await send([pad(0, alpha), pad(1, beta)]);
     await frame.getByRole('heading', { name: 'Reclaim P2', exact: true }).waitFor({ state: 'hidden' });
-    assert.doesNotMatch(await frame.locator('#session-seats [data-seat="p2"]').innerText(), /Waiting to reclaim/, 'only P2’s fresh confirmation reclaims the retained seat');
+    assert.doesNotMatch(await frame.locator('#session-seats [data-seat="p2"]').innerText(), /Ghost · reclaim-ready/, 'only P2’s fresh confirmation reclaims the retained seat');
     const before = await page.evaluate(() => window.messages.filter(message => message.type === 'gamepad.unsubscribe').length);
     await frame.evaluate(() => dispatchEvent(new Event('pagehide')));
     await page.waitForFunction(count => window.messages.filter(message => message.type === 'gamepad.unsubscribe').length === count + 1, before);
