@@ -1,3 +1,5 @@
+import { characterById } from './content.js';
+import { modelThumbnail } from './render.js';
 import { validateRaceSetup } from './race.js';
 import './race-ui.css';
 import type { RaceProposal, RaceResult, RaceCoordinator } from './race.js';
@@ -65,22 +67,69 @@ export function createRaceSetup(options: { root: HTMLElement; seats(): readonly 
   return { proposal, reset() { finish.value = '500'; seconds.value = '180'; page = 'settings'; }, render };
 }
 
-/** Initial short-race result projection; consumes only the frozen record. */
+/** Presentation reads only a frozen result, including on resize and page changes. */
 export function createRaceResultsBoard(root: HTMLElement, again: () => void) {
-  let shown: RaceResult | undefined;
+  let shown: RaceResult | undefined, page=0, previousPageSize=20, previousPodium=1;
+  const previews=new Map<string,string>();
+  const metrics = (p:RaceResult['players'][number]):readonly (readonly [string,string|number])[] => [
+    ['Earned tiles',p.distance],['Finish / end',`${(p.finishTime??p.terminalTime).toFixed(2)}s`],
+    ['Deaths',p.deaths],['Personal revives',p.selfRevives],['Innate powers',p.innateUses],['Fog attempted',p.fogAttempted],
+    ['Fog landed',p.fogLanded],['Fog seconds',p.fogSeconds.toFixed(2)],['Mud collected',p.mudCollected],['Mud used',p.mudUsed],
+    ['Mud received',p.mudReceived],['Lantern collected',p.lanternCollected],['Lantern used',p.lanternUsed],['Pickups',p.pickups],
+    ['Coins earned',p.coins],['Market interactions',p.marketInteractions],['Purchases',p.marketPurchases],['Coins spent',p.coinsSpent],
+    ['Disconnected',`${p.ghostSeconds.toFixed(2)}s`],['Lifecycle',p.status],
+  ];
+  function render(focus?:string, resizing=false) {
+    if(!shown)return;
+    const result=shown,short=innerHeight<420,small=short||innerWidth<480,wide=!short&&innerWidth>=900;
+    const perPage=short?2:innerWidth<480?8:innerWidth<1200?10:20,groups=Math.ceil(20/perPage),podiumPages=short?result.players.length:1,total=podiumPages+result.players.length*groups;
+    if(resizing&&page>=previousPodium){const oldGroups=Math.ceil(20/previousPageSize),selected=Math.floor((page-previousPodium)/oldGroups),metric=((page-previousPodium)%oldGroups)*previousPageSize;page=podiumPages+selected*groups+Math.floor(metric/perPage);}
+    else if(resizing)page=Math.min(page,podiumPages-1);
+    previousPageSize=perPage;previousPodium=podiumPages;
+    page=Math.min(page,total-1);root.dataset.raceResultPage=String(page);
+    root.replaceChildren();
+    const notice=document.createElement('p');notice.className='survive-results-tiny';notice.textContent='Needs 240×240 to play — enlarge this pane.';
+    const sheet=document.createElement('div');sheet.className='survive-results-sheet race-results-sheet';
+    const title=document.createElement('h2');title.id='race-results-heading';title.textContent='Race results';
+    const body=document.createElement('div');body.className='race-results-body';body.dataset.wide=String(wide&&page>0);
+    function podium() {
+      const node=document.createElement('section');node.className='race-podium';
+      const outcome=document.createElement('h3');outcome.textContent=result.outcome==='time'?'Race time ended.':'Race complete.';
+      const summary=document.createElement('p');summary.textContent=`Finish ${result.descriptor.settings.finishTiles} · ${result.elapsed.toFixed(2)}s`;
+      const winner=document.createElement('p');winner.className='race-winner';winner.textContent=result.winners.length?`Winner ${result.winners.map(s=>s.toUpperCase()).join(' / ')}`:'No eligible racers remain.';
+      node.append(outcome,summary,winner);
+      const tiers=document.createElement('div');tiers.className='race-result-tiers';
+      const ordered=[...result.players].sort((a,b)=>(a.rank??Infinity)-(b.rank??Infinity)||a.seat.localeCompare(b.seat));
+      for(const p of short?ordered.slice(Math.min(page,podiumPages-1),Math.min(page,podiumPages-1)+1):ordered){
+        const row=document.createElement('p');row.dataset.rank=p.rankLabel;row.textContent=`${p.rankLabel}${p.dnf?` · ${p.dnf}`:''}  ${p.marker} · ${characterById(p.characterId).name}`; if(!short){const image=document.createElement('img');image.alt='';image.className='race-podium-character';if(!previews.has(p.characterId))previews.set(p.characterId,modelThumbnail(characterById(p.characterId).model,240));image.src=previews.get(p.characterId)!;row.prepend(image);} tiers.append(row);
+      }
+      node.append(tiers);return node;
+    }
+    if(page<podiumPages)body.append(podium());
+    else {
+      if(wide)body.append(podium());
+      const index=Math.floor((page-podiumPages)/groups),group=(page-podiumPages)%groups,p=result.players[index]!;
+      const panel=document.createElement('section');panel.className='race-result-participant';panel.dataset.participant=p.participantId;
+      const heading=document.createElement('h3');heading.textContent=`${p.marker} · ${characterById(p.characterId).name} · ${p.rankLabel}${p.dnf?` · ${p.dnf}`:''}`;
+      if(!small){const image=document.createElement('img');image.alt='';image.className='race-result-character';if(!previews.has(p.characterId))previews.set(p.characterId,modelThumbnail(characterById(p.characterId).model,240));image.src=previews.get(p.characterId)!;panel.append(image);}
+      const stats=document.createElement('dl');stats.className='race-result-statistics';
+      for(const [label,value]of metrics(p).slice(group*perPage,(group+1)*perPage)){const row=document.createElement('div'),dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=label;dd.textContent=String(value);row.append(dt,dd);stats.append(row);}
+      panel.append(heading,stats);body.append(panel);
+    }
+    const nav=document.createElement('nav');nav.className='race-results-nav';nav.setAttribute('aria-label','Race result pages');
+    for(const [delta,label]of [[-1,'Previous results'],[1,'Next results']] as const){const b=document.createElement('button');b.type='button';b.textContent=delta<0?'←':'→';b.setAttribute('aria-label',label);b.dataset.raceResultAction=delta<0?'previous':'next';b.disabled=delta<0?page===0:page===total-1;b.onclick=()=>{page+=delta;render(b.dataset.raceResultAction);};nav.append(b);}
+    const position=document.createElement('span');position.setAttribute('aria-live','polite');position.textContent=`${page+1} / ${total}`;nav.insertBefore(position,nav.lastChild);
+    const button=document.createElement('button');button.type='button';button.textContent='Race again';button.className='survive-results-again';button.dataset.raceResultAction='again';button.onclick=again;
+    sheet.append(title,body,nav,button);root.append(notice,sheet);
+    if(focus&&innerWidth>=240&&innerHeight>=240)(root.querySelector<HTMLButtonElement>(`[data-race-result-action="${focus}"]:not(:disabled)`)??button).focus({preventScroll:true});
+  }
+  addEventListener('resize',()=>{if(shown&&!root.hidden)render((document.activeElement as HTMLElement)?.dataset.raceResultAction??'again',true);});
   return {
     show(result: RaceResult) {
-      if (shown === result) return;
-      shown = result; root.replaceChildren(); root.hidden = false; root.dataset.initialRace = 'true'; root.setAttribute('aria-labelledby', 'race-results-heading');
-      const sheet = document.createElement('div'); sheet.className = 'survive-results-sheet';
-      const title = document.createElement('h2'); title.id = 'race-results-heading'; title.textContent = result.outcome === 'time' ? 'Race time ended.' : 'Race complete.';
-      const summary = document.createElement('p'); summary.textContent = `Finish ${result.descriptor.settings.finishTiles} · ${result.elapsed.toFixed(2)}s`;
-      const winner = document.createElement('p'); winner.textContent = result.outcome==='eliminated'?'No eligible racers remain.':`Winner ${result.winners.map(s => s.toUpperCase()).join(' / ')}`;
-      const button = document.createElement('button'); button.type = 'button'; button.textContent = 'Race again'; button.onclick = again;
-      sheet.append(title, summary, winner, button); root.append(sheet);
-      document.querySelector<HTMLElement>('.game-surface')!.inert = true;
-      button.focus({ preventScroll: true });
+      if(shown===result&&!root.hidden)return;
+      shown=result;page=0;root.hidden=false;root.dataset.initialRace='true';root.setAttribute('aria-labelledby','race-results-heading');
+      document.querySelector<HTMLElement>('.game-surface')!.inert=true;render('again');
     },
-    hide() { if (!shown) return; shown = undefined; root.hidden = true; root.replaceChildren(); delete root.dataset.initialRace; root.setAttribute('aria-labelledby', 'survive-results-heading'); document.querySelector<HTMLElement>('.game-surface')!.inert = false; },
+    hide(){if(!shown)return;shown=undefined;root.hidden=true;root.replaceChildren();delete root.dataset.initialRace;delete root.dataset.raceResultPage;root.setAttribute('aria-labelledby','survive-results-heading');document.querySelector<HTMLElement>('.game-surface')!.inert=false;},
   };
 }

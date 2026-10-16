@@ -113,7 +113,7 @@ export class CoOpMarketAdapter {
     if (!owner || !current || !this.matches(request, current) || !actionId(request.actionId) || this.actions.has(request.actionId)) return this.fail('That market interaction is no longer current.');
     const wallet = owner.run.wallet;
     const itemId = request.itemId ?? owner.run.market?.offers.find(offer => offer.id === request.offerId)?.itemId;
-    const itemKind = itemId && (this.catalogue.find(item => item.id === itemId)?.kind ?? owner.run.catalog.get(itemId)?.kind);
+    const itemKind = itemId ? (this.catalogue.find(item => item.id === itemId)?.kind ?? owner.run.catalog.get(itemId)?.kind) : undefined;
     const result = this.dispatch(owner, request);
     if (!result.ok) return this.fail(result.message);
     this.actions.add(request.actionId);

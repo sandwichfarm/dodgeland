@@ -37,3 +37,44 @@
   .race-settings label { display: grid; gap: 0; min-width: 0; }
   #race-configuration input { width:100%; }
 }
+/* Frozen Race results use bounded pages over the retained game scene. */
+#survive-results-root[data-initial-race] { inset: 0; }
+#survive-results-root[data-initial-race] .race-results-sheet { height: 100%; align-self: stretch; grid-template-rows: auto minmax(0,1fr) 44px 44px; }
+.race-results-body { display: grid; min-width: 0; min-height: 0; align-items: center; }
+.race-results-body[data-wide="true"] { grid-template-columns: 1fr 1fr; gap: 24px; }
+.race-podium { display: grid; gap: 16px; text-align: center; }
+.race-result-tiers { display: grid; gap: 8px; }
+.race-result-tiers p { padding: 8px; background: color-mix(in srgb,var(--game-gold) 25%,var(--game-paper)); font-size: 20px; }
+.race-result-tiers [data-rank="1"], .race-result-tiers [data-rank="=1"] { border-bottom: 4px solid var(--game-gold); font-weight: 600; }
+.race-results-nav { display: flex; align-items: center; justify-content: center; gap: 16px; }
+.race-results-nav span { min-width: 64px; text-align: center; font-size: 20px; }
+.race-result-participant { min-width: 0; display: grid; gap: 8px; text-align: center; }
+.race-result-character { width: 64px; height: 64px; object-fit: contain; justify-self: center; }
+.race-result-statistics { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 8px; }
+.race-result-statistics dt { font-size: 16px; line-height: 1.2; }
+.race-result-statistics dd { font-size: 20px; line-height: 1.2; font-weight: 600; }
+@media (max-width: 899px) { .race-result-statistics { grid-template-columns: repeat(2,minmax(0,1fr)); } .race-result-character { display: none; } }
+@media (max-width: 479px), (max-height: 419px) {
+  #survive-results-root[data-initial-race] .race-results-sheet { gap: 4px; padding: 4px; }
+  .race-podium { gap: 4px; }
+  .race-podium h3 { font-size: 20px; }
+  .race-winner { display: none; }
+  .race-result-tiers { gap: 4px; grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .race-result-tiers p { padding: 4px; font-size: 16px; }
+  .race-result-participant h3 { font-size: 20px; }
+  .race-result-statistics { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 4px; }
+  .race-result-character { display: none; }
+}
+@media (max-width:239px), (max-height:239px) { #survive-results-root[data-initial-race] .race-results-sheet { display: none; } }
+
+.race-podium-character { width: 64px; height: 64px; object-fit: contain; vertical-align: middle; margin-right: 8px; }
+@media (min-width:1200px) and (min-height:600px) { .race-podium-character { width: 96px; height: 96px; } }
+@media (max-height:419px) {
+  .race-podium h3, .race-podium p { line-height: 1.2; }
+  .race-result-tiers { grid-template-columns: minmax(0,1fr); }
+}
+@media (max-height:419px) {
+  .race-result-participant { gap: 4px; }
+  .race-result-participant h3 { line-height: 1.2; }
+  .race-result-statistics dt { line-height: 1.1; }
+}

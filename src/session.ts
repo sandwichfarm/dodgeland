@@ -51,7 +51,7 @@ export type ParticipantInteraction = Readonly<
   | { kind: 'collection'; pickupId: string; itemId: ConsumableId }
   | { kind: 'item-use'; actionId: string; itemId: ConsumableId; ownerGeneration: number; inventoryGeneration: number; targets: readonly Readonly<{ seat: SeatId; participantId: string; generation: number }>[] }
 >;
-export type ParticipantInteractionEvent = ParticipantInteraction & Readonly<{ id: string; seat: SeatId; participantId: string; characterId: string; generation: number; tick: number; time: number }>;
+export type ParticipantInteractionEvent = ParticipantInteraction & Readonly<{ id: string; seat: SeatId; participantId: string; characterId: string; generation: number; tick: number; time: number; activeTime: number }>;
 export interface SessionContributionObservation {
   readonly seat: SeatId; readonly participantId: string; readonly characterId: string;
   readonly coins: number; readonly pickups: number; readonly selfRevives: number; readonly deaths: number; readonly wallet: number;
@@ -380,7 +380,7 @@ export class SessionPlayer {
       this.statistics.coinsSpent += Math.max(0, -event.walletDelta);
     }
     if (event.kind === 'innate') this.statistics.innateUses++;
-    this.interactionRecords.push(Object.freeze({ ...event, id: `${this.participantId}:${this.interactionRecords.length + 1}`, seat: this.seat, participantId: this.participantId, characterId: this.characterId, generation: this.recovery?.deathGeneration ?? 0, tick: this.world.simulationTick, time: this.world.time }));
+    this.interactionRecords.push(Object.freeze({ ...event, ...(event.kind === 'item-use' ? {targets:Object.freeze(event.targets.map(target=>Object.freeze({...target})))} : {}), id: `${this.participantId}:${this.interactionRecords.length + 1}`, seat: this.seat, participantId: this.participantId, characterId: this.characterId, generation: this.recovery?.deathGeneration ?? 0, tick: this.world.simulationTick, time: this.world.time, activeTime: this.world.time / this.world.rules.simulation.worldTimeScale }));
   }
 
   constructor(world: SharedWorld, seat: SeatId, device: DeviceId, characterId: string, primary = false) {
