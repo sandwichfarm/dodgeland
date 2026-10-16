@@ -3,23 +3,23 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 04-05-PLAN.md; ready for 04-06
-last_updated: "2026-10-16T01:59:01.847Z"
+stopped_at: Completed 04-06-PLAN.md; awaiting independent Relay verification
+last_updated: "2026-10-16T03:50:09.865Z"
 progress:
   total_phases: 7
   completed_phases: 3
   total_plans: 31
-  completed_plans: 23
+  completed_plans: 24
 current_phase: 04
 current_phase_name: relay
-last_activity_desc: Relay04-05 runtime and owner economy complete; exact tasks, full phase3 and strict Relay/recovery/runtime79/79 passed.
+last_activity_desc: Relay04-06 complete; exact Gate6 passed on2506ee6, awaiting independent phase verification.
 ---
 
 # Project State
 
 ## Current Position
 
-Phase04 Relay, Plan06 of6 next; Plans01–05 complete. Phases01–03 independently verified. Survive Together is complete; Relay, Race, cross-mode presentation and release/PR remain mandatory. Original scope: USER-REQUEST.md and REQUIREMENTS.md. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
+Phase04 Relay, Plans01–06 complete; independent full-phase verification next. Phases01–03 independently verified. Survive Together is complete; Relay, Race, cross-mode presentation and release/PR remain mandatory. Original scope: USER-REQUEST.md and REQUIREMENTS.md. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
 
 ## Accepted Relay Entry Evidence
 
@@ -37,7 +37,9 @@ Relay04-04 is complete on source `2ce6edf`. Canonical session93254 exit0, `/tmp/
 
 Relay04-05 is complete on source `eb0e72a`. Canonical session5643 exit0, `/tmp/down-to-duck-04-05-final-verified-gate.log`, runs both exact task gates (runtime8/8 each, economy/consumables15/15, build/type), full phase3 including Survive browser34/34, and strict Relay/recovery/runtime79/79. One owner-labelled market/hand uses optional generic capability and paused-transaction policy; only the active runner can mutate, all stale contexts reject, and Relay installs no consumable world. Built mixed keyboard/controller/audio, pointer inspection, paid pack/sale, lifecycle/recovery/results/retry and36 responsive/theme captures pass. Initial canonical92119 exposed a read-only paid-pack Close obstruction; retained Survive and Relay regressions pass after eb0e72a. Superseded59647 was canceled exit143 for a command filename error. See04-05SUMMARY for actual APIs and logs. Historical WINDOWS1 remains open; verified shared-policy WINDOWS4 is fixed.
 
-RELAY-01 and RELAY-05 are completed. RELAY-02/03/04 retain partial status pending remaining integration and independent full-phase verification. Continue04-06, then every reviewed Race/presentation/audit/release requirement. No phase or milestone completion claim. All executor build/browser commands are terminal; source ownership returns to root.
+Relay04-06 is complete on source `2506ee6`. Exact Gate6 session13852 exit0, `/tmp/down-to-duck-04-06-final-verified-gate.log`: full nested Phase2/3, Relay65/65, runtime9/9, layout1/1 with252 captures, type/build/guidance, conformance5pass/0fail/5unmeasured and immutable-oracle lockfile diff. Actual public-seed keyboard travel proves49/50/51 fractional-platform continuity; browser RNG identity is distinguished from production-object future-state proof. Both theme contact sheets and targeted captures were inspected. Frozen-board minimum-size suspension preserves authority and fresh confirmation; wide setup Roster remains bounded. Superseded84045 failed a retained roster-clipping check before repair. See04-06SUMMARY for exact API reconciliation and all evidence. Historical WINDOWS1 remains open. Phase04 awaits independent verification; no milestone completion claim.
+
+RELAY-01 and RELAY-05 are completed. RELAY-02/03/04 retain partial status pending remaining integration and independent full-phase verification. Independently verify Phase04, then execute every reviewed Race/presentation/audit/release requirement. No phase or milestone completion claim. All executor build/browser commands are terminal; source ownership returns to root.
 
 ## Execution Runtime
 
@@ -54,7 +56,7 @@ Typed gsd-verifier stayed pending_init across multiple turns and was explicitly 
 
 ## Remaining Evidence and Presentation
 
-- Execute remaining1 Relay plan,7 Race plans, Phase06 UI, Phase07 full audit and PR. Do not shrink stop condition.
+- Independently verify Relay, then execute7 Race plans, Phase06 UI, Phase07 full audit and PR. Do not shrink stop condition.
 - Phase06 must address regular900×600 HUD overlap with nearby actors using actual completed lifecycle/results flows.
 - Conformance5pass/0fail/5unmeasured (manifest3,wire1,lifecycle1), not10passes. Physical controllers unmeasured. See research/CONFORMANCE-EVIDENCE.md.
 - Coverage calibration remains exploratory until normal-install/browser instrumentation proven; see research/COVERAGE-CALIBRATION.md.
@@ -68,11 +70,12 @@ Typed gsd-verifier stayed pending_init across multiple turns and was explicitly 
 | Phase 04 P03 | 31 min | 2 tasks | 8 files |
 | Phase 04 P04 | 31 min | 2 tasks | 9 files |
 | Phase 04 P05 | 32 min | 2 tasks | 9 files |
+| Phase 04 P06 | 100 min | 2 tasks | 7 files |
 
 ## Session
 
-**Last session:** 2026-10-16T01:58:54.795Z
-**Stopped at:** Completed 04-05-PLAN.md; ready for 04-06
+**Last session:** 2026-10-16T03:50:09.857Z
+**Stopped at:** Completed 04-06-PLAN.md; awaiting independent Relay verification
 **Resume file:** None
 
 ## Decisions
@@ -80,3 +83,5 @@ Typed gsd-verifier stayed pending_init across multiple turns and was explicitly 
 - [Phase 04]: Relay recovery offers precede skip; explicit owner departure is separately confirmed, and reclaim invalidates stale skip prompts.
 - [Phase 04]: Relay captures pre-clear death credit while personal recovery retains the same leg; dropout selects immediately but fresh confirmation opens the next leg, and unconfirmed skips remain participant events.
 - [Phase 04]: Relay reuses the owner adapter with opt-in capabilities and paused transaction authority; pointer inspection remains shared/read-only, while actual turn/lifecycle changes invalidate all contexts.
+
+- [Phase 04]: Already-frozen Relay boards retain participant authority during resize; public-seed input proof and opaque RNG identity remain distinct from model semantic-future evidence.

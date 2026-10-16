@@ -109,7 +109,7 @@ Plans:
   4. Active and inactive controller losses follow clear Relay-owned outcomes: reclaim, skip to the next eligible runner, or finish the run if no runner remains, with no ambiguous no-controller state.
   5. The Relay result presents the shared outcome and each character's legs, distance, time, coins, pickups, revives, skips, and other outcomes in a dedicated breakdown and podium.
 
-**Plans**: 5/6 plans executed
+**Plans**: 6/6 plans executed
 **UI hint**: yes
 
 Plans:
@@ -119,7 +119,7 @@ Plans:
 - [x] 04-03-PLAN.md — Implement Relay disconnect, reclaim, skip, leave, recovery, and waiting policy.
 - [x] 04-04-PLAN.md — Record immutable leg contributions and tied podium results.
 - [x] 04-05-PLAN.md — Integrate mixed inputs and the active owner's hand/market.
-- [ ] 04-06-PLAN.md — Inspect responsive proofs and run the complete inherited gate.
+- [x] 04-06-PLAN.md — Inspect responsive proofs and run the complete inherited gate.
 
 ### Phase 5: Race
 
@@ -186,7 +186,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 1. Composable Solo Baseline | 4/4 | Complete    | 2026-10-14 |
 | 2. Shared Local Session | 6/6 | Complete    | 2026-10-14 |
 | 3. Survive Together & Consumables | 8/8 | Complete    | 2026-10-15 |
-| 4. Relay | 5/6 | In Progress|  |
+| 4. Relay | 6/6 | In Progress — verification pending |  |
 | 5. Race | 0/7 | Reviewed; awaits dependencies | - |
 | 6. Cross-Mode Presentation | 0/TBD | Not started | - |
 | 7. Release Evidence & PR | 0/TBD | Not started | - |
