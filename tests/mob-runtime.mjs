@@ -1,3 +1,4 @@
+import { artifactForCoverage, artifactDirectoryForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 // Built-artifact integration in an opaque allow-scripts iframe. Chrome debugger
 // scopes supply explicit late-score / clear-meadow scenario fixtures; this is
 // not an end-to-end claim that a human or autoplay route survived the first 480
@@ -8,9 +9,9 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { chromium } from 'playwright';
 
-const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
+const built = await readFile(artifactForCoverage(new URL('../dist/index.html', import.meta.url)), 'utf8');
 assert.ok(built.includes('mob.spawn') && built.includes('death.mob'), 'Build the current mob implementation first.');
-const output = new URL('../artifacts/', import.meta.url);
+const output = artifactDirectoryForCoverage(new URL('../artifacts/', import.meta.url), 'mob-runtime');
 await mkdir(output, { recursive: true });
 
 function installFixture() {
@@ -54,7 +55,13 @@ await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const evidence = { artifact: 'unmodified production module; opaque allow-scripts iframe',
   fixture: 'CDP closure inspection supplies score-minus-one, elapsed run time, earlier encounter history for isolated crab/wasp scenes, expired earlier market invitations, and clear meadow terrain; subsequent controls and simulation are real',
   scenarios: [], errors: [], external: [] };
-let browser;
+let browser, frame, identity, generation = 0;
+async function beginRealm(page) {
+  if (frame) await collectRealm(frame, identity);
+  frame = undefined;
+  identity = { suite: process.argv[1], scenario: 'mob-runtime', frame: 'opaque-app', generation: generation++, scope: 'current' };
+  registerRealm(page, identity);
+}
 try {
   browser = await chromium.launch({ args: ['--mute-audio'] });
   const page = await browser.newPage({ viewport: { width: 1000, height: 700 } });
@@ -70,8 +77,8 @@ try {
     if (new URL(route.request().url()).hostname === '127.0.0.1') return route.continue();
     evidence.external.push(route.request().url()); return route.abort();
   });
+  await beginRealm(page);
   await page.goto(`http://127.0.0.1:${server.address().port}`);
-  let frame;
   async function currentFrame() {
     frame = await (await page.locator('#napplet').elementHandle()).contentFrame();
     await frame.locator('#sound-preview-cue option[value="death.mob"]').waitFor({ state: 'attached' });
@@ -158,6 +165,7 @@ try {
     assert.equal((await snapshot()).state, 'playing', 'visible Play starts the staged ready run before movement');
   }
   async function remount() {
+    await beginRealm(page);
     await page.evaluate(() => window.mount()); await currentFrame();
     await frame.locator('#character-call').dispatchEvent('click');
     // A previous trusted gesture grants audio on this same iframe/document flow.
@@ -305,6 +313,5 @@ try {
   await writeFile(new URL('mob-runtime.json', output), JSON.stringify(evidence, null, 2) + '\n');
   console.log('PASS: built mob integration — late score/time gates, quiet continuous pursuit, two eased close-range attacks with recovery, contextual catches, frozen pause, retry reset and SDK result save.');
 } finally {
-  await browser?.close();
-  await new Promise(resolve => server.close(resolve));
+  try { if (frame) await collectRealm(frame, identity); } finally { await browser?.close(); await new Promise(resolve => server.close(resolve)); }
 }

@@ -1,3 +1,4 @@
+import { artifactForCoverage, artifactDirectoryForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 // SDK domain fixtures test the built napplet's integration. This is not a live
 // relay or Paja test; tests/runtime-smoke.mjs covers the actual shell separately.
 import assert from 'node:assert/strict';
@@ -6,7 +7,7 @@ import { createServer } from 'node:http';
 import { createHash } from 'node:crypto';
 import { chromium, firefox } from 'playwright';
 
-const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
+const built = await readFile(artifactForCoverage(new URL('../dist/index.html', import.meta.url)), 'utf8');
 assert.ok(built.includes('sound-address'), 'Build the current napplet before running this suite.');
 const author = 'a'.repeat(64);
 const address = name => `30063:${author}:${name}`;
@@ -83,7 +84,8 @@ function installFixture(config) {
       unregisterAction() {},
     };
     window.napplet.storage = {
-      async getItem() {
+      async getItem(key) {
+        if (key !== 'puddlehop.progress.v1') return null;
         const snapshot = observed.saved;
         // Ordering assertions release this read explicitly after the user action;
         // browser/CI load must never decide whether hydration wins the race.
@@ -142,7 +144,13 @@ const server = createServer((request, response) => {
   response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); response.end(harness);
 });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
-let browser;
+let browser, frame, identity, generation = 0;
+async function beginRealm(page) {
+  if (frame) await collectRealm(frame, identity);
+  frame = undefined;
+  identity = { suite: process.argv[1], scenario: 'sound-' + (process.env.DOWN_TO_DUCK_AUDIO_BROWSER ?? 'chromium'), frame: 'opaque-app', generation: generation++, scope: 'current' };
+  registerRealm(page, identity);
+}
 const errors = [], external = [];
 try {
   const browserType = process.env.DOWN_TO_DUCK_AUDIO_BROWSER === 'firefox' ? firefox : chromium;
@@ -159,15 +167,17 @@ try {
     if (new URL(route.request().url()).hostname === '127.0.0.1') return route.continue();
     external.push(route.request().url()); return route.abort();
   });
+  await beginRealm(page);
   await page.goto(`http://127.0.0.1:${server.address().port}`);
   async function currentFrame(mount) {
     const handle = await page.locator('#napplet').elementHandle();
-    const frame = await handle.contentFrame();
+    frame = await handle.contentFrame();
     if (mount) await frame.waitForFunction(expected => window.fixture?.mount === expected, mount);
     await frame.locator('#sound-pack option[value="arcade"]').waitFor({ state: 'attached' });
     return frame;
   }
   async function remount(options = {}) {
+    await beginRealm(page);
     const mount = await page.evaluate(options => window.mount(options), options);
     const frame = await currentFrame(mount);
     if (!options.deferStorage && !options.missing) await frame.waitForFunction(() => window.fixture.hydrated);
@@ -231,7 +241,7 @@ try {
     finally { await page.mouse.up(); }
   }
 
-  let frame = await currentFrame();
+  frame = await currentFrame();
   console.log(`Audio integration browser: ${browserType.name()}; cancelAndHoldAtTime=${await frame.evaluate(() => typeof AudioParam.prototype.cancelAndHoldAtTime)}`);
   assert.equal(await frame.evaluate(() => location.origin), 'null', 'iframe is opaque');
   assert.equal(await frame.evaluate(() => !!crypto.subtle), true, 'fixture retains secure-context hashing');
@@ -628,6 +638,5 @@ try {
   assert.deepEqual(errors, [], 'no uncaught page errors');
   console.log('Sound integration fixture suite passed (no live relay claims).');
 } finally {
-  await browser?.close();
-  await new Promise(resolve => server.close(resolve));
+  try { if (frame) await collectRealm(frame, identity); } finally { await browser?.close(); await new Promise(resolve => server.close(resolve)); }
 }

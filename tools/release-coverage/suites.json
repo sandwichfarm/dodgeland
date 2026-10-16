@@ -321,6 +321,102 @@
         "artifacts/mob-runtime-wasp-caught.png"
       ],
       "provenance": "Original arranged mob encounters and actual subsequent input/simulation; full remount lifecycle"
+    },
+    "adapters-11": {
+      "files": [
+        "tests/devtools-runtime.mjs",
+        "tests/character-power-runtime.mjs",
+        "tests/game-intents-runtime.mjs",
+        "tests/market-runtime.mjs",
+        "tests/mob-runtime.mjs",
+        "tests/seed-copy-runtime.mjs",
+        "tests/sound-runtime.mjs"
+      ],
+      "role": "browser",
+      "browser": true,
+      "buildScopes": [
+        "production",
+        "development"
+      ],
+      "jobs": [
+        {
+          "id": "devtools-runtime",
+          "file": "tests/devtools-runtime.mjs",
+          "requiredBuildScopes": [
+            "production",
+            "development"
+          ]
+        },
+        {
+          "id": "character-power-runtime",
+          "file": "tests/character-power-runtime.mjs"
+        },
+        {
+          "id": "game-intents-runtime",
+          "file": "tests/game-intents-runtime.mjs"
+        },
+        {
+          "id": "market-runtime",
+          "file": "tests/market-runtime.mjs"
+        },
+        {
+          "id": "mob-runtime",
+          "file": "tests/mob-runtime.mjs"
+        },
+        {
+          "id": "seed-copy-runtime",
+          "file": "tests/seed-copy-runtime.mjs"
+        },
+        {
+          "id": "sound-chromium",
+          "file": "tests/sound-runtime.mjs",
+          "env": {
+            "DOWN_TO_DUCK_AUDIO_BROWSER": "chromium"
+          }
+        },
+        {
+          "id": "sound-firefox",
+          "file": "tests/sound-runtime.mjs",
+          "env": {
+            "DOWN_TO_DUCK_AUDIO_BROWSER": "firefox"
+          }
+        }
+      ],
+      "provenance": "Seven complete original built owners; real development and production artifacts, distinct Chromium/Firefox sound jobs and actual Paja seed frame. Original arranged/actual provenance preserved."
+    },
+    "adapters-11-tail": {
+      "files": [
+        "tests/mob-runtime.mjs",
+        "tests/seed-copy-runtime.mjs",
+        "tests/sound-runtime.mjs"
+      ],
+      "role": "browser",
+      "browser": true,
+      "jobs": [
+        {
+          "id": "mob-runtime",
+          "file": "tests/mob-runtime.mjs"
+        },
+        {
+          "id": "seed-copy-runtime",
+          "file": "tests/seed-copy-runtime.mjs"
+        },
+        {
+          "id": "sound-chromium",
+          "file": "tests/sound-runtime.mjs",
+          "env": {
+            "DOWN_TO_DUCK_AUDIO_BROWSER": "chromium"
+          }
+        },
+        {
+          "id": "sound-firefox",
+          "file": "tests/sound-runtime.mjs",
+          "env": {
+            "DOWN_TO_DUCK_AUDIO_BROWSER": "firefox"
+          }
+        }
+      ],
+      "provenance": "Actual mob/seed/sound owners, Paja and both required sound browsers; original assertions retained"
     }
   },
   "pendingAdapters": [
@@ -1663,8 +1759,9 @@
     {
       "path": "tests/character-power-runtime.mjs",
       "role": "independent-built-browser",
-      "status": "pending-checked-continuation",
-      "adapterNeeded": true
+      "status": "built-adapter-complete",
+      "adapterNeeded": true,
+      "proofRun": "a5867e53-cefc-479e-842e-232eebdf6892"
     },
     {
       "path": "tests/coin-denominations-render.test.mjs",
@@ -1700,14 +1797,16 @@
     {
       "path": "tests/devtools-runtime.mjs",
       "role": "independent-built-browser",
-      "status": "pending-checked-continuation",
-      "adapterNeeded": true
+      "status": "built-adapter-complete",
+      "adapterNeeded": true,
+      "proofRun": "a5867e53-cefc-479e-842e-232eebdf6892"
     },
     {
       "path": "tests/game-intents-runtime.mjs",
       "role": "independent-built-browser",
-      "status": "pending-checked-continuation",
-      "adapterNeeded": true
+      "status": "built-adapter-complete",
+      "adapterNeeded": true,
+      "proofRun": "a5867e53-cefc-479e-842e-232eebdf6892"
     },
     {
       "path": "tests/hud-game-layout.mjs",
@@ -1744,8 +1843,9 @@
     {
       "path": "tests/market-runtime.mjs",
       "role": "independent-built-browser",
-      "status": "pending-checked-continuation",
-      "adapterNeeded": true
+      "status": "built-adapter-complete",
+      "adapterNeeded": true,
+      "proofRun": "a5867e53-cefc-479e-842e-232eebdf6892"
     },
     {
       "path": "tests/market-scenery-render.test.mjs",
@@ -1770,8 +1870,9 @@
     {
       "path": "tests/mob-runtime.mjs",
       "role": "independent-built-browser",
-      "status": "pending-checked-continuation",
-      "adapterNeeded": true
+      "status": "built-adapter-complete",
+      "adapterNeeded": true,
+      "proofRun": "a5867e53-cefc-479e-842e-232eebdf6892"
     },
     {
       "path": "tests/pause-game-layout.mjs",
@@ -1788,14 +1889,16 @@
     {
       "path": "tests/seed-copy-runtime.mjs",
       "role": "independent-built-browser",
-      "status": "pending-checked-continuation",
-      "adapterNeeded": true
+      "status": "built-adapter-complete",
+      "adapterNeeded": true,
+      "proofRun": "a5867e53-cefc-479e-842e-232eebdf6892"
     },
     {
       "path": "tests/sound-runtime.mjs",
       "role": "independent-built-browser",
-      "status": "pending-checked-continuation",
-      "adapterNeeded": true
+      "status": "built-adapter-complete",
+      "adapterNeeded": true,
+      "proofRun": "a5867e53-cefc-479e-842e-232eebdf6892"
     },
     {
       "path": "tests/wearables-render.test.mjs",
