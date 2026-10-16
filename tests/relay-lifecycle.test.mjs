@@ -158,6 +158,32 @@ test('inactive leave archives immutable contribution without releasing the froze
   assert.equal(run.session.reclaim('p2', 'gamepad-1'), false);
 });
 
+test('original reclaim cancels a pending skip and cannot let its stale confirmation skip a connected runner', () => {
+  const run = setup(); run.session.deviceLost('p1'); act(run, 'skip', 'p2');
+  const stale = { ...run.relay.actionToken('p2'), kind: 'confirm' };
+  run.session.reclaim('p1', 'gamepad-0');
+  assert.equal(run.relay.snapshot().phase, 'running'); assert.equal(run.relay.command(stale), false);
+  assert.equal(act(run, 'confirm', 'p2'), false); assert.equal(run.relay.activeSeat, 'p1');
+});
+
+test('disconnect while confirming leave preserves the underlying pending handoff on reclaim', () => {
+  const run = setup(); run.session.dispatch({ seat: 'p1', direction: 'forward' }); ticks(run);
+  assert.equal(run.relay.snapshot().phase, 'handoff'); act(run, 'leave', 'p1'); run.session.deviceLost('p1');
+  assert.equal(run.relay.snapshot().phase, 'disconnected'); run.session.reclaim('p1', 'gamepad-0');
+  assert.equal(run.relay.snapshot().phase, 'handoff'); assert.equal(run.relay.confirm(run.relay.confirmation()), true);
+});
+
+test('a connected dead owner can cancel or explicitly leave recovery without a second death transaction', () => {
+  const run = setup(2); run.session.depart('p2'); run.game.end('Fixture traffic fatality', 'traffic'); ticks(run, 1);
+  const before = assets(run), offer = run.session.players[0].recovery.offer;
+  assert.equal(act(run, 'leave', 'p1'), true); ticks(run, 1000); assert.equal(act(run, 'cancel', 'p1'), true);
+  assert.deepEqual(assets(run), before); assert.deepEqual(run.session.players[0].recovery.offer, offer);
+  assert.equal(act(run, 'leave', 'p1'), true); assert.equal(act(run, 'confirm', 'p1'), true);
+  assert.deepEqual(assets(run), before); assert.equal(run.session.players[0].participation, 'departed');
+  assert.equal(run.session.players[0].recovery.offer, undefined); assert.equal(run.relay.snapshot().phase, 'ended');
+  assert.equal(run.relay.snapshot().outcomes.at(-1).outcome, 'left');
+});
+
 function installRuntime() {
   let pads = [], themeChanged = () => {}; const listeners = new Set();
   window.relayFixture = { emit(next) { pads = next; for (const listener of listeners) listener({ available: true, focused: true, pads }); }, theme(light) { themeChanged({ colors: light ? { background: '#f6f1e5', text: '#24362d', primary: '#4b7b61' } : { background: '#242b32', text: '#f0eee5', primary: '#9fc28a' } }); } };
