@@ -4,6 +4,8 @@ import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { after, test } from 'node:test';
 import { chromium } from 'playwright';
+const output=artifactDirectoryForCoverage(new URL('../artifacts/',import.meta.url),'local-session-runtime');
+import { artifactDirectoryForCoverage } from '../tools/release-coverage/browser.mjs';
 
 const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
 assert.ok(built.includes('gamepad.subscribe') && built.includes('local-session-start'), 'Build Local Play before this fixture.');
@@ -190,8 +192,8 @@ test('two shell controllers and two remapped keyboards enter four-seat Local Pla
     await onSession(function () { const player = this.players.find(candidate => candidate.seat === 'p3'); player.run.alive = false; player.run.changed(); });
     await waitFor(() => document.querySelector('#market')?.hasAttribute('hidden'), 'dead empty owner closes only its virtual surface');
     assert.equal(await frame.locator('#session-seats').isVisible(), true, 'closing a dead owner surface returns to the still-running shared session');
-    await mkdir(new URL('../artifacts/', import.meta.url), { recursive: true });
-    await page.locator('#napplet').screenshot({ path: new URL('../artifacts/local-session-runtime-live-900.png', import.meta.url).pathname });
+    await mkdir(output, { recursive: true });
+    await page.locator('#napplet').screenshot({ path: new URL('local-session-runtime-live-900.png', output).pathname });
     await send([pad(1, beta)]); await page.waitForTimeout(50);
     assert.match(await frame.locator('#session-seats [data-seat="p2"]').innerText(), /Ghost · reclaim-ready/);
     await send([pad(0, alpha, [0]), pad(1, beta)]); await page.waitForTimeout(30); await send([pad(0, alpha), pad(1, beta)]);
@@ -207,7 +209,7 @@ test('two shell controllers and two remapped keyboards enter four-seat Local Pla
     const before = await page.evaluate(() => window.messages.filter(message => message.type === 'gamepad.unsubscribe').length);
     await frame.evaluate(() => dispatchEvent(new Event('pagehide')));
     await page.waitForFunction(count => window.messages.filter(message => message.type === 'gamepad.unsubscribe').length === count + 1, before);
-    await writeFile(new URL('../artifacts/local-session-runtime.json', import.meta.url), JSON.stringify({ scenarios: ['first active controller claims solo with two neutral pads', 'second controller setup', 'two keyboard profiles fill P3/P4', 'four-seat run', 'disconnect/reclaim', 'single teardown'], errors }, null, 2));
+    await writeFile(new URL('local-session-runtime.json', output), JSON.stringify({ scenarios: ['first active controller claims solo with two neutral pads', 'second controller setup', 'two keyboard profiles fill P3/P4', 'four-seat run', 'disconnect/reclaim', 'single teardown'], errors }, null, 2));
     assert.deepEqual(errors, []);
   } finally { await browser.close(); }
 });

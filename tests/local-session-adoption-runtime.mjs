@@ -5,6 +5,8 @@ import { readFile, stat, mkdir, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import test from 'node:test';
 import { chromium } from 'playwright';
+const output=artifactDirectoryForCoverage(new URL('../artifacts/',import.meta.url),'local-session-adoption-runtime');
+import { artifactDirectoryForCoverage } from '../tools/release-coverage/browser.mjs';
 
 const artifact = new URL('../dist/index.html', import.meta.url);
 const built = await readFile(artifact, 'utf8');
@@ -190,8 +192,8 @@ test('progressed solo setup cancels unchanged and commits the same owners and RN
     await page.keyboard.press('ArrowUp'); await page.clock.runFor(220);
     assert.deepEqual(await positions(), starting.map(player => ({ ...player, y: player.y + 1 })), 'new P2 responds to Keyboard B without moving P1 again');
     assert.deepEqual(errors, []);
-    await mkdir(new URL('../artifacts/', import.meta.url), { recursive: true });
-    await writeFile(new URL('../artifacts/local-session-adoption-runtime.json', import.meta.url), JSON.stringify({
+    await mkdir(output, { recursive: true });
+    await writeFile(new URL('local-session-adoption-runtime.json', output), JSON.stringify({
       artifact: 'built production opaque iframe; real UI transitions; debugger owner observation',
       progress: { hops: before.maxY, x: before.x, time: before.time, wallet: before.run.wallet },
       cancelledOwners, committedOwners, next, errors,

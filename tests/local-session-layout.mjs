@@ -5,9 +5,10 @@ import { mkdir, readFile, stat, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { after, test } from 'node:test';
 import { chromium } from 'playwright';
+import { artifactDirectoryForCoverage } from '../tools/release-coverage/browser.mjs';
 
 const root = new URL('../', import.meta.url);
-const output = new URL('../artifacts/', import.meta.url);
+const output = artifactDirectoryForCoverage(new URL('../artifacts/', import.meta.url),'local-session-layout');
 const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
 assert.ok(built.includes('local-session-start') && built.includes('local-session-setup'), 'Build the Local Play production artifact before running this layout evidence.');
 const artifact = await stat(new URL('../dist/index.html', import.meta.url));

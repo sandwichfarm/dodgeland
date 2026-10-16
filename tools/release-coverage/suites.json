@@ -132,6 +132,27 @@
       "role": "browser",
       "browser": true,
       "provenance": "Original built keyboard remounts, controller binding/wire lifecycle and actual PCM observations; fixture runtime injections retained"
+    },
+    "adapters-08": {
+      "files": [
+        "tests/local-session-tracer.mjs",
+        "tests/local-session-keyboard-runtime.mjs",
+        "tests/local-session-gamepad-runtime.mjs",
+        "tests/local-session-audio-runtime.mjs",
+        "tests/local-session-adoption-runtime.mjs",
+        "tests/local-session-runtime.mjs",
+        "tests/local-session-layout.mjs"
+      ],
+      "role": "browser",
+      "roles": {
+        "tests/local-session-tracer.mjs": "mixed"
+      },
+      "browser": true,
+      "artifactDirectories": [
+        "artifacts/local-session-setup.png",
+        "artifacts/local-session-active.png"
+      ],
+      "provenance": "Original local session input/lifecycle/layout flows; adoption and inventory arrangements retain explicit component provenance"
     }
   },
   "pendingAdapters": [
