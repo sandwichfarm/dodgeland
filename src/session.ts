@@ -46,7 +46,7 @@ export interface WorldFrame {
 }
 export type SessionLifecycleHandler = (record: SessionLifecycleRecord) => void;
 export type ParticipantInteraction = Readonly<
-  | { kind: 'market'; actionId: string; action: import('./co-op-market.js').CoOpMarketActionKind; itemId?: string; itemKind?: import('./market/types.js').ItemDefinition['kind'] | 'consumable'; ownerGeneration: number; inventoryGeneration: number; contextGeneration: number; walletDelta: number }
+  | { kind: 'market'; items: readonly import('./co-op-market.js').CoOpMarketItem[]; actionId: string; action: import('./co-op-market.js').CoOpMarketActionKind; itemId?: string; itemKind?: import('./market/types.js').ItemDefinition['kind'] | 'consumable'; ownerGeneration: number; inventoryGeneration: number; contextGeneration: number; walletDelta: number }
   | { kind: 'innate'; powerId: string; cause: DeathCause }
   | { kind: 'collection'; pickupId: string; itemId: ConsumableId }
   | { kind: 'item-use'; actionId: string; itemId: ConsumableId; ownerGeneration: number; inventoryGeneration: number; targets: readonly Readonly<{ seat: SeatId; participantId: string; generation: number }>[] }
@@ -380,7 +380,7 @@ export class SessionPlayer {
       this.statistics.coinsSpent += Math.max(0, -event.walletDelta);
     }
     if (event.kind === 'innate') this.statistics.innateUses++;
-    this.interactionRecords.push(Object.freeze({ ...event, ...(event.kind === 'item-use' ? {targets:Object.freeze(event.targets.map(target=>Object.freeze({...target})))} : {}), id: `${this.participantId}:${this.interactionRecords.length + 1}`, seat: this.seat, participantId: this.participantId, characterId: this.characterId, generation: this.recovery?.deathGeneration ?? 0, tick: this.world.simulationTick, time: this.world.time, activeTime: this.world.time / this.world.rules.simulation.worldTimeScale }));
+    this.interactionRecords.push(Object.freeze({ ...event, ...(event.kind === 'market' ? {items:Object.freeze(event.items.map(item=>Object.freeze({...item})))} : {}), ...(event.kind === 'item-use' ? {targets:Object.freeze(event.targets.map(target=>Object.freeze({...target})))} : {}), id: `${this.participantId}:${this.interactionRecords.length + 1}`, seat: this.seat, participantId: this.participantId, characterId: this.characterId, generation: this.recovery?.deathGeneration ?? 0, tick: this.world.simulationTick, time: this.world.time, activeTime: this.world.time / this.world.rules.simulation.worldTimeScale }));
   }
 
   constructor(world: SharedWorld, seat: SeatId, device: DeviceId, characterId: string, primary = false) {
