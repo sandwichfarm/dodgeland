@@ -15,3 +15,15 @@ All three files were opened through the image viewer at their actual dimensions.
 This does not replace07-05's complete required-cell manifest, committed image bytes, source/build validation, all-sheet inspection or critical-state review. Exact8px clearance remains an automated geometry obligation and is not inferred from these images. The previously received user play-feel acceptance remains a separate factual record.
 
 Subsequent job result: the same full run logged `PASS cross-mode-presentation` at 2026-10-16T19:51:02.198Z, with 33 passed, zero failed/cancelled/skipped, and duration 390126ms. Root then verified all three archived PNG digests against the inspected bytes; all match. Source/tests/tooling/root lock still have no diff against `cb0e569`. This establishes the cross-mode job's terminal pass and archived-image identity, while the full collection remains active and release acceptance remains pending.
+
+## Race observations during the same collection
+
+Root opened these three actual PNGs while `race-layout` was live on2026-10-16. Their modification times are after the job's20:05:31.901Z start. They are observations of the current job, pending its terminal result and archived-byte validation; no final matrix acceptance is implied.
+
+| Image under `artifacts/race-layout/` | Written UTC | SHA256 | Root observation |
+| --- | --- | --- | --- |
+| four-racers-240x240-dark.png |20:06:09.449001|76d9393705d5e13623ca0fff301d92b4b659841d2e141e1a957e16593cc83453|All four HUD selectors, selected traveler health and five bottom controls fit. World labels are clustered around the Mud Splash pickup text; specifically inspect this crowding in07-05 before claiming all labels are clear. The image alone does not establish whether label footprints intersect.|
+| fog-line-1000x280-light.png |20:07:30.661687|6bf9c31d6361d9d8a461bdac82bd923a1b768982e00944ef5708be01ef2f0ea5|Short layout exposes the leader, finish/clock/fog numbers, a trailing-player status banner and movement controls. The selected duck remains visible. Numeric geometry and actual fog-damage behavior still require their assertions.|
+| mud-target-320x560-dark.png |20:06:19.759073|d800a9052ba3d64825dfba39809d97e57611911a2e4e362a7fc7c8c58b492008|Compact target view identifies P1 Butter as owner, P2 as selected recipient and the other eligible players. Back and Use on P2 are large and readable; all target rows fit without visible clipping.|
+
+The smallest-frame pickup/label crowding is a concrete visual-review follow-up, not a product defect confirmed by this inspection and not a waived clearance requirement. Preserve this exact capture in the07-05 selection or reacquire equivalent current evidence if source changes. This documentation-only observation does not authorize changing the running collection's source or assertions.
