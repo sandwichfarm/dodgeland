@@ -3,23 +3,23 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 04-06-PLAN.md; awaiting independent Relay verification
-last_updated: "2026-10-16T03:50:09.865Z"
+stopped_at: Phase04 independently verified; beginning Race05-01
+last_updated: "2026-10-16T04:15:51.044Z"
 progress:
   total_phases: 7
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 31
   completed_plans: 24
-current_phase: 04
-current_phase_name: relay
-last_activity_desc: CR-01 repaired on52f8e0d; exact Gate6 passed89260; WINDOWS1 independently resolved; Relay verification next.
+current_phase: 05
+current_phase_name: race
+last_activity_desc: Relay verified34/34 on52f8e0d; review clean; Race05-01 next.
 ---
 
 # Project State
 
 ## Current Position
 
-Phase04 Relay, Plans01–06 complete; independent full-phase verification next. Phases01–03 independently verified. Survive Together is complete; Relay, Race, cross-mode presentation and release/PR remain mandatory. Original scope: USER-REQUEST.md and REQUIREMENTS.md. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
+Phase05 Race begins with seven reviewed plans. Phases01–04 independently verified; Relay34/34 and code review clean after CR-01 keyboard/controller handoff repair52f8e0d. Exact Gate6 session89260 exit0 covers inherited Phase2/3, Relay65/65, runtime12/12 and252 layout captures. Independent controls3/3, invariants3/3 and actual-input49/50/51 continuity1/1 passed. See04-VERIFICATION.md and04-REVIEW-REPAIR.md. Race, cross-mode presentation and release/PR remain mandatory. Original scope: USER-REQUEST.md and REQUIREMENTS.md. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
 
 ## Accepted Relay Entry Evidence
 

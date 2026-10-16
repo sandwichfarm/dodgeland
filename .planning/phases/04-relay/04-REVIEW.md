@@ -1,6 +1,6 @@
 ---
 phase: 04-relay
-reviewed: 2026-10-16T03:58:00Z
+reviewed: 2026-10-16T04:12:37Z
 depth: standard
 files_reviewed: 24
 files_reviewed_list:
@@ -29,14 +29,15 @@ files_reviewed_list:
   - tests/relay-tracer.mjs
   - tests/session-recovery.test.mjs
 findings:
-  critical: 1
+  critical: 0
   warning: 0
   info: 0
-  total: 1
-status: issues_found
+  total: 0
+status: clean
 reviewer_execution: generic-agent-fallback
-reviewed_head: 5a1d99b
-reviewed_source: 2506ee6
+reviewed_head: 4ee9869
+reviewed_source: 52f8e0d
+resolved_findings: [CR-01]
 diff_base: 6ba2d5d
 ---
 
@@ -48,7 +49,11 @@ Independent standard-depth review using the generic-agent workaround, applying t
 
 ### CR-01: Handoff intercepts keyboard button activation without an actor
 
-**Classification: BLOCKER — incorrect supported keyboard behavior.**
+**Historical classification: BLOCKER — incorrect supported keyboard behavior. Resolved by 52f8e0d; independently re-reviewed.**
+
+The original finding below is retained as history against source `2506ee6`. On `52f8e0d`, the board identifies the incoming actor and Start action; focused-control activation distinguishes read-only navigation from Start, retains the captured Start callback/ticket, checks connection/frame availability, and preserves incoming-seat authority. Non-forward controller directions navigate the board. Native Enter/Space consume one fresh edge; terminal navigation permits departed keyboard owners without granting gameplay authority.
+
+Independently read the full source/test diff and executed `node --test --test-name-pattern='handoff (Enter|Space|controller focus)' tests/relay-runtime.mjs`. Session **92751 exited 0**; `/tmp/down-to-duck-04-independent-repair.log` records **3 passed, 0 failed, 0 skipped**. Actual input covers Tab/Enter/Space on Start, View, Next, Previous and Back; read-only navigation preserves positions; held confirmation creates no incoming hop; wrong keyboard seat cannot Start a controller runner; controller focus/confirmation works; terminal navigation/retry remains usable. The fixture uses the built opaque artifact and muted audio, with no private world arrangement in these cases. No unresolved review findings remain. Canonical repaired-source Gate6 is `/tmp/down-to-duck-04-review-repair-final-gate.log` (89260 exit 0), with runtime **12/12**; the earlier 9/9 evidence below is historical.
 
 **File:** `/Users/sandwich/Develop/crossy-road-clone/src/main.ts:1371` (handler lines 1366–1376); related `/Users/sandwich/Develop/crossy-road-clone/src/relay-ui.ts:102` and `/Users/sandwich/Develop/crossy-road-clone/src/main.ts:720`.
 
