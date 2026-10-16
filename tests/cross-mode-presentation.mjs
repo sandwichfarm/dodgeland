@@ -11,6 +11,8 @@ async function setup(app,variant='arcade'){
   if(variant==='arcade')await app.frame.locator('#mode').click();
   await app.frame.locator('#local-play').click();
   for(let i=0;i<2;i++){await app.sendPads([pad(0),pad(1)]);await app.sendPads([pad(0,i===0?[0]:[]),pad(1,i===1?[0]:[])]);await app.sendPads([pad(0),pad(1)]);}
+  if(variant==='race')await app.frame.locator('#race-play').click();
+  if(variant==='relay')await app.frame.locator('#relay-play').click();
   await app.frame.locator('#local-session-start').click();await app.advance(80);
   assert.equal(await app.onSession(function(){return this.players.length;}),4);
   await app.frame.locator('#pause').click();await app.advance(32);
@@ -34,6 +36,43 @@ test('P6 tracer full production bodies and packed labels clear the four-seat HUD
   await mkdir(output,{recursive:true});
   try{await setup(app);for(const [name,colors]of Object.entries(themes)){await app.frame.evaluate(colors=>window.marketGameFixture.setTheme({colors}),colors);await app.advance(32);const collisions=await capture(app,evidence,`tracer-${name}`);assert.deepEqual(collisions,[],'G1 full body/nameplate versus visible DOM must have 8px clearance');}}
   finally{await writeFile(new URL('tracer-geometry.json',output),JSON.stringify(evidence,null,2));await app.close();}
+});
+for(const variant of ['arcade','flow','race','relay'])test(`P6 scene ${variant} initial and actual lateral travel`,{timeout:90000},async()=>{
+ const evidence={errors:[],external:[],captures:[]},app=await createMarketGameFixture(evidence,{gamepads:true,auditBoundary:true,initialIntent:{sender:'presentation-proof',archetype:'game',action:'open',convention:'napplet:game/open',payload:{seed:'ph3-00000071-pond-s-n'}}});
+ try{await setup(app,variant);
+  for(const pose of ['initial','left','right']){
+   if(pose!=='initial'){
+    await app.frame.locator('#pause').click();await app.frame.locator('#scene').focus();
+    const left=pose==='left';await app.page.keyboard.press(left?'a':'d');
+    if(variant!=='relay'){await app.page.keyboard.press(left?'ArrowLeft':'ArrowRight');await app.sendPads([pad(0,[left?14:15]),pad(1,[left?14:15])]);await app.sendPads([pad(0),pad(1)]);}
+    await app.advance(220);await app.frame.locator('#pause').click();await app.advance(32);
+   }
+   for(const [theme,colors]of Object.entries(themes)){await app.frame.evaluate(colors=>window.marketGameFixture.setTheme({colors}),colors);await app.advance(32);await capture(app,evidence,`${variant}-${pose}-${theme}`);}
+  }
+  assert.deepEqual(evidence.captures.flatMap(c=>c.collisions),[]);
+  assert.ok(evidence.captures.every(c=>c.travelers.length===(variant==='relay'?1:4)));
+  assert.deepEqual(evidence.errors,[]);assert.deepEqual(evidence.external,[]);
+ }finally{await writeFile(new URL(`${variant}-scene.json`,output),JSON.stringify(evidence,null,2));await app.close();}
+});
+for(const variant of ['arcade','flow','race','relay'])test(`P6 frames ${variant} summaries and details`,{timeout:90000},async()=>{
+ const evidence={errors:[],external:[],captures:[],failures:[]},app=await createMarketGameFixture(evidence,{gamepads:true,auditBoundary:true});
+ try{await setup(app,variant);
+ for(const [theme,colors]of Object.entries(themes))for(const [width,height]of [[200,160],[240,240],[320,560],[900,600],[1000,280],[2400,1200]]){
+  await app.resize(width,height);await app.frame.evaluate(colors=>window.marketGameFixture.setTheme({colors}),colors);await app.advance(32);
+  const failures=await app.frame.evaluate(({width,height})=>{
+   const failures=[],visible=n=>n.getClientRects().length&&getComputedStyle(n).visibility!=='hidden'&&!n.closest('[hidden]');
+   if(document.documentElement.scrollWidth>innerWidth||document.documentElement.scrollHeight>innerHeight)failures.push('document overflow');
+   if(width<240){if([...document.querySelectorAll('button')].some(visible))failures.push('controls below minimum');return failures;}
+   const seats=document.querySelector('#session-seats'),r=seats.getBoundingClientRect(),limit=width>=1600&&height>=900?416:height<420?80:width<480?144:160;
+   if(r.bottom>limit+.5)failures.push(`top band ${r.bottom} > ${limit}`);
+   for(const n of seats.querySelectorAll('button'))if(visible(n)){const r=n.getBoundingClientRect();if(r.width<43.5||r.height<43.5||r.left<0||r.right>width||r.top<0||r.bottom>height)failures.push(`control bounds ${n.textContent}`);}
+   for(const n of document.querySelectorAll('.score-block,.hud-tools .coin-count,#pluck,#character-power,#active-run-powers'))if(visible(n))failures.push(`duplicate ${n.id||n.className}`);
+   return failures;
+  },{width,height});
+  const name=`${variant}-${width}x${height}-${theme}`;await app.iframe.screenshot({path:new URL(`${name}.png`,output).pathname});evidence.captures.push({name,width,height,theme,failures});evidence.failures.push(...failures.map(x=>`${name}: ${x}`));
+ }
+ assert.deepEqual(evidence.failures,[]);
+ }finally{await writeFile(new URL(`${variant}-frames.json`,output),JSON.stringify(evidence,null,2));await app.close();}
 });
 test('P6 tracer shared personal status replaces solo widgets and regular details operate',{timeout:60000},async()=>{
  const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{gamepads:true,auditBoundary:true});
