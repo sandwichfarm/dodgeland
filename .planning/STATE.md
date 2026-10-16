@@ -3,29 +3,31 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 05-04-PLAN.md; next 05-05
-last_updated: "2026-10-16T06:57:05.665Z"
+stopped_at: Completed 05-05-PLAN.md; next 05-06
+last_updated: "2026-10-16T07:39:58.935226+00:00"
 progress:
   total_phases: 7
-  completed_phases: 4
-  total_plans: 31
-  completed_plans: 28
+  completed_phases: 1
+  total_plans: 35
+  completed_plans: 29
 current_phase: 05
 current_phase_name: race
-last_activity_desc: Race05-04 complete on69efa16; final51478 exit0 with exact task gates, full Phase3 and Relay/Race116; next05-05.
+last_activity_desc: Race05-05 complete on8d0c595; full39500 and final affected32571 exit0; next05-06.
 ---
 
 # Project State
 
 ## Current Position
 
-05-04 is complete on source `69efa16`; execute05-05 next. Canonical51478 exit0, `/tmp/down-to-duck-05-04-final-gate.log`: both exact task gates, immutable solo21, full inherited Phase3/2/1, combined Relay/Race116/116, actual built keyboard item collection, type/build/guidance/conformance/lockfile. Shared item policy dependency is resolved; common default gravity, claim/debit ledger and Survive defaults remain authoritative. Mud/Lantern core transactions are delivered; owner gear, results, effect presentation and full integration remain later Race plans. See05-04-SUMMARY.md. No active process. Actual tracking:4 completed phases,28/31 plans; generated1/35 counts corrected.
+05-05 is complete on source `8d0c595`; execute05-06 next. Full canonical39500 exit0 on bdb1a36 supplies exact tasks, full Phase3/2/1 and Relay/Race84 plus balance6. Final UI-only32571 exit0 repeats result/order/lifecycle51/51, tracer6/6, type/build/guidance/conformance/lockfile on8d0c595. Durable logs `/tmp/down-to-duck-05-05-final-complete-gate.log` and `...final-ui-gate.log`; see05-05-SUMMARY.md for combined evidence and inspected78 captures. Complete immutable participant history, accepted market metadata, competition ties and bounded result pages are delivered. No active process. Actual tracking:4 completed phases,29/31 plans; CLI cannot parse the narrative current-plan field, so counts were reconciled manually. Race05-06/07 and independent verification remain open.
+
+Historical05-04: source69efa16, full51478 exit0, both exact tasks, nested Phase3/2/1 and Relay/Race116/116. Common tactical item dependencies are resolved; see05-04-SUMMARY.md.
 
 Historical05-03 closeout: source `cfe358f`. Exact task gates67761 and5878 passed. Final evidence combines93033's passing full Phase3/2/1, Relay22, shared/Race ordering/balance21 and lifecycle15 prefix with51701 terminal exit0 after the narrow Race HUD/fresh-input repair: tracer6, lifecycle15, type/build/guidance/conformance/lockfile.93033 itself exited1 at the legacy tracer and is not a full-pass claim. See05-03-SUMMARY.md and the durable `/tmp/down-to-duck-05-03-final-gate.log` / `...final-ui-complete-gate.log`. The authorized dead-device and bounded position-retention repair resolved the historical checkpoint. No active process. Actual tracking:4 completed phases,27/31 plans; CLI-generated1/35 counts corrected.
 
 05-02 is complete; execute05-03 next. Final96373 exited0 on frozenHEAD6d36f39/production8f59d42, `/tmp/down-to-duck-05-02-final-gate.log`: exact task gates11+21,8,17; full inheritedPhase3/2/1; Relay/shared damage69; builtRace6; finaltype/build/guidance/conformance/lockfile. The authorized generic pursuit/damage repair resolved retainedREDe34188e; cadence rounding and ghost-exposure regressions are fixed. Generated-course balance at500/180,buffer12,1feather/sec completes allsix scenarios in97.47–102s with exact repeat/permutation agreement; `artifacts/race/balance.json`. See05-02-SUMMARY.md and05-02-DEPENDENCY-REPAIR.md. No active process. Actual tracking:4 completed phases,26/31 plans; CLI-generated1/35 counts were corrected.
 
-Race05-01 supplied accepted unchanged-source entry evidence70346 and23683 on67eb0d3; see05-01-SUMMARY.md. Phases01–04 remain independently verified. Race05-05..07, cross-mode presentation, audit and PR remain mandatory. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
+Race05-01 supplied accepted unchanged-source entry evidence70346 and23683 on67eb0d3; see05-01-SUMMARY.md. Phases01–04 remain independently verified. Race05-06/07, cross-mode presentation, audit and PR remain mandatory. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
 
 ## Accepted Relay Entry Evidence
 
@@ -86,8 +88,8 @@ Typed gsd-verifier stayed pending_init across multiple turns and was explicitly 
 
 ## Session
 
-**Last session:** 2026-10-16T06:57:05.657Z
-**Stopped at:** Completed 05-04-PLAN.md; next 05-05
+**Last session:** 2026-10-16T07:39:40.627Z
+**Stopped at:** Completed 05-05-PLAN.md; next 05-06
 **Resume file:** None
 
 ## Decisions
