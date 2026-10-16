@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: 07-12 collection14319 terminal at run-menu compact options overflow
-last_updated: "2026-10-16T22:39:10.965096+00:00"
+last_updated: "2026-10-16T22:41:02.114486+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -16,6 +16,8 @@ last_activity_desc: Collection14319 exited1 after83 production PASS; repaired ha
 ---
 
 # Project State
+
+Latest run-menu diagnostic: ordinary27306 exited1 reproducing ready/dark240 Options overflow; read-only62074 measured192px inner row allocating44px Travelers despite72.203px text. Fonts loaded, all34 artifacts/set/hashes restored, dist unchanged. Evidence07-12-RUN-MENU-REPAIR.md. No active process/source repair; narrow Options grid proposal awaiting root scope.
 
 CURRENT TERMINAL execution:14319 exited1, run`085c8764-1a31-41c9-9db9-d8aabfc7bde4`, frozen source/tests/tooling9e09aad (last implementation65ca494). Log`/tmp/down-to-duck-07-12-full-collection-hand-verified.log`.83 production jobs passed; repaired run-hand-runtime cleared with44frames/six scenarios in87.9s. Next unchanged run-menu-layout failed ready dark240×240 Options: Travelers outer44px/client38px versus scrollWidth77, with Local Play/Stroll competing in192px row. Actual overflow assertion, no cancellation. Archived failure PNG SHA19718246acab1c3538d32e38750663bc1744b387b088ea8c506408c03b949fd2 under suite-artifacts/run-menu-layout/artifacts. No active process or source/test/tool repair/rerun. Full initial report/floors remain incomplete. Historical active statements below superseded. Cross-mode final-artifact-report.json is inherited5ab22ab/19150 evidence, not current-run214capture proof; only current strict33/33 and newly emitted case reports establish this run's scope.
 
