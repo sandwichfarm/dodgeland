@@ -110,6 +110,18 @@
         "artifacts/consumable-world-900x600.png",
         "artifacts/consumable-world-1440x900.png"
       ]
+    },
+    "adapters-08-tracer": {
+      "files": [
+        "tests/local-session-tracer.mjs"
+      ],
+      "role": "mixed",
+      "browser": true,
+      "provenance": "Real production session model plus original built opaque keyboard/hydration/remount journey",
+      "artifactDirectories": [
+        "artifacts/local-session-setup.png",
+        "artifacts/local-session-active.png"
+      ]
     }
   },
   "pendingAdapters": [
