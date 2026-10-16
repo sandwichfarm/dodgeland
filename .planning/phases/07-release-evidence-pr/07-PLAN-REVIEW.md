@@ -3,15 +3,15 @@ phase: 07-release-evidence-pr
 reviewed: 2026-10-16
 status: passed
 reviewer_execution: generic-agent-fallback
-plans_checked: 9
-tasks_checked: 24
+plans_checked: 12
+tasks_checked: 33
 blockers: 0
 warnings: 0
 ---
 
 # Phase07 independent plan review
 
-**CURRENT RECHECK: VERIFICATION PASSED — nine plans,24 tasks, waves1–9; zero unresolved blockers or warnings.** The bounded adapter amendment at `f9024c9` preserves all21 named independent browser owners and transfers the complete initial report to07-09 before07-03 gap closure. Current assessment is appended below; earlier six-plan reviews and resolved findings remain historical. This is plan approval, not implementation or release acceptance.
+**CURRENT RECHECK: VERIFICATION PASSED — twelve plans,33 tasks, waves1–12; no concrete blocking findings.** The package-wide amendment at `44f3765` preserves all27 discovered additional entries, genuine development/browser variants and exclusive mode attribution.07-12 now owns the complete initial report;07-03 depends on12. Prior reviews remain historical; approval does not establish complete execution coverage.
 
 The original review and first recheck below are retained as historical findings, not the current unresolved count.
 
@@ -260,3 +260,52 @@ current_issues: []
 ```
 
 Only07-PLAN-REVIEW.md was updated for this plan-check stage. Earlier review history and other agents' documentation were preserved. Ready to resume07-02 Task2, then follow the declared continuation order; no full coverage or PR completion is inferred.
+
+
+## Package-wide inventory and attribution recheck — 44f3765
+
+**VERIFICATION PASSED.** Generic-agent fallback applying the full local plan-checker role. Reviewed the amended twelve-plan graph with emphasis on09's scoped seal and10/11/12, checkpoint/summary, package commands, actual collection API seams, decisions and validation. Graph lookup returned no coverage-tool nodes; targeted source reads supplied the missing helper/runner/config context. Independently reran all24 structure/must-have extraction checks:12 valid plans,33 tasks. No source edits, application tests, installs or commits during this recheck.
+
+### Coverage preserved
+
+| Newly discovered responsibility | Exact assignment | Result |
+|---|---|---|
+|8 independent component owners |10: actor; power/coin/magnet; preview/scenery/mob/wearables | All8 named paths appear; complete suites and pages retained |
+|7 independent built owners |11: devtools; power/intents/market; mob/seed/sound | All7 named paths appear; genuine development, separate Paja page and both sound-browser jobs explicit |
+|2 audio generation owners |12 Task1: audio-demo/audio-zones | Actual canonical source execution/PCM assertions; not misclassified helpers |
+|8 existing shared-fixture consumers |12 Task3, exact09 checkpoint inventory as read-first | Each worker and shared-fixture realm required, existing collector reused, output restoration on failure |
+|2 Node suites |12 Task3: exact checkpoint inventory | Real Node workers through canonical-capable loader; all tests required |
+
+All17 additional independent owner filenames match the checkpoint and new plans. The remaining ten entries have explicit inventory/execution responsibility rather than unnecessary new adapters. The original21 adapted owners remain required; their completion cannot satisfy the newly discovered obligations.
+
+09's amendment is a legitimate scope transfer: its seven owned adapters have cited65803 exit0 and34 payloads, while the full report was not run. The new SUMMARY expressly disclaims original full-report success. This check approves the revised dependency contract, not an independent rerun or new certification of65803. Default full collection remains incomplete until12.03 reads12-SUMMARY/report, so no gap-closure task can consume09's partial report as complete.
+
+### Mechanical inventory completeness
+
+12's inventory_reconciliation explicitly requires independent resolution of **all package-command recursion plus canonical runner arrays, local static/dynamic imports and fixture loaders**, including actual variables and globs against tracked files. A literal regex is only candidate discovery. Every entry retains origin, resolved job and disposition; unresolved dynamic execution or an unmatched source-executing entry fails completeness. The executed job/realm ledger must match this independently resolved inventory before a full report is issued.
+
+This closes the planning cause of the second discovery gap:106 covered only the canonical gate graph, while133/138 were still static snapshots. None of those numbers is now an allowlist or execution count. The plan cannot guarantee there are no further actual owners before execution, but it expressly prevents a third omitted owner from being silently accepted. Any genuine additional adapter requires explicit bounded ownership before edits. Helpers, source-executing audio generation, control-plane synthetic subprocesses and upstream conformance are distinguished by actual role, not by what a regex happened to find.
+
+### Attribution and merging
+
+12 Task2 specifies actual six-mode acquisitions in fresh realms, read-only actual mode/base assertions before and after a live interval, and counter deltas from the same realm without resetting counters. Known fixtures test statements/functions/branch arrays, zero intervals, identity mismatch, decreasing counters and overlapping/duplicate intervals. Missing mode proof and mixed-total relabeling reject. Boot/setup and cross-mode intervals remain unclassified.
+
+The parent realm's complete final snapshot supplies global/per-file coverage. Mode intervals are a separate projection and are never added back into that global snapshot. Existing mixed Node/browser worker totals remain global-only unless independently partitioned by equally valid proof; mode-exclusive workers are allowed only under that provenance contract. Missing source counters retain canonical zero denominators. Source/map/schema/run/realm/build identity and oracle/variant separation remain mandatory. All nine policy strata retain explicit roots and real contributing jobs; genuine development comes from11's development job, not a production payload relabel.
+
+This is an executable attribution design, not a prediction that a short six-mode tracer will reach the floors.12 must publish actual sorted shortfalls;03 still owns meaningful branch expansion and enforcing success. Missing/unknown attribution cannot supply a passing stratum, and no floor reduction is authorized.
+
+11's declared helper/config/runner ownership covers the existing API changes needed for genuine production/development artifacts and distinct browser jobs. Original production stripping scans remain on ordinary production bytes; instrumented sourcesContent cannot replace them. Sound Chromium and Firefox are separate required jobs; actual browser failure is explicit rather than a substitution/skip. Paja receives the selected artifact and each real navigation is registered/captured.12 audio jobs preserve PCM assertions and use canonical compilation rather than a second audio implementation.
+
+### Dependency, scope and verification
+
+Execution is01 →02 →07 →08 →09 →10 →11 →12 →03 →04 →05 →06, waves1–12. All dependencies exist and are acyclic. The new plans own10/11/9 paths and three tasks each; tasks own at most five paths. Shared manifests/helpers are edited sequentially. All33 tasks have automated checks, with the new attribution test created before its use. Fast collection/attribution/policy negatives stay distinct from complete browser groups and the long full report.
+
+TEST-02/03/05 retain complete calibrated inventory, actual realms, immutable zeros, semantic branch review and exact90/90/85 ordinary/global/mode and95/95/90 critical floors. TEST-04 and SHIP-01 remain unchanged downstream visual/clauses and verified open-PR delivery obligations.12 report-only and enforcing paths must share full collection and the same evaluator; negative fixtures establish below-floor failure without a gratuitous second known-failing full collection.
+
+VALIDATION now includes attribution.test.mjs in the final additive calibration stage. The inherited phase6 runner remains byte-identical and mandatory, with both canonical nested blocks and health-runtime once. Original wire-correlation/returned-promise proof, PR title/head readback, durable images, root lock/oracle and human-acceptance record requirements remain in force. No new dependency, product hook, protocol relaxation or speculative source change is requested.
+
+```yaml
+current_issues: []
+```
+
+Only this review document was changed. No complete production report, floor pass, release acceptance or PR delivery is inferred. The bounded amendment is ready for root recording of09's revised scope and execution of10 onward.
