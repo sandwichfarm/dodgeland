@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Phase06 plans independently passed; execute06-01; Phase05 human acceptance remains pending
+stopped_at: Phase06-01 Task1 tracer passed; Task2 compact controls/shelf dependency checkpoint; Phase05 human acceptance remains pending
 last_updated: "2026-10-16T10:23:46.911713+00:00"
 progress:
   total_phases: 7
@@ -12,7 +12,7 @@ progress:
   completed_plans: 31
 current_phase: 06
 current_phase_name: cross-mode-presentation
-last_activity_desc: Phase06 UI contract and two plans independently approved; UI04/UI05 coverage passes; execute06-01.
+last_activity_desc: Phase06-01 regular geometry and duplicate-status tracer passed; retained compact-control collision requires bounded shared shelf/action disclosure; plan incomplete.
 ---
 
 # Project State
