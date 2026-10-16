@@ -167,3 +167,37 @@ test('pure ranks ignore all participant ordering and presentation identities',as
   const before=JSON.stringify(run.race.result);run.session.players[0].statistics.coins=999;run.session.players[0].run.clear();
   const retry=arena();hop(retry,['p1']);assert.equal(JSON.stringify(run.race.result),before);
 });
+
+test('built frozen Race results expose podium and complete paged participants through actual inputs', {timeout:90000}, async()=>{
+  const {createMarketGameFixture}=await import('./market-game-fixture.mjs');
+  const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{auditBoundary:true,initialIntent:{sender:'race-results',archetype:'game',action:'open',convention:'napplet:game/open',payload:{seed:'ph3-00000071-pond-s-n'}}});
+  try{
+    const f=app.frame;await f.locator('#local-play').click();await f.locator('#race-play').click();await f.locator('#race-finish').fill('1');await f.locator('#local-session-start').click();
+    await f.locator('#scene').focus();await app.page.keyboard.press('w');await app.advance(300);await app.page.keyboard.press('ArrowUp');await app.advance(300);
+    await f.getByRole('heading',{name:'Race results',exact:true}).waitFor();
+    const frozen=await app.onSession(function(){return JSON.stringify(this.result);});
+    assert.deepEqual(JSON.parse(frozen).players.map(p=>p.rankLabel),['1','2']);
+    for(const light of [false,true])for(const [w,h]of [[200,160],[240,240],[320,560],[900,600],[1000,280],[2400,1200]]){
+      await app.resize(w,h);await f.evaluate(light=>window.marketGameFixture.setTheme({colors:light?{background:'#f6f1e5',text:'#24362d',primary:'#4b7b61'}:{background:'#242b32',text:'#f0eee5',primary:'#9fc28a'}}),light);
+      if(w===200){assert.equal(await f.locator('.survive-results-tiny').isVisible(),true);await app.iframe.screenshot({path:`/tmp/race-05-05-tiny-${light?'light':'dark'}.png`});continue;}
+      const root=f.locator('#survive-results-root');
+      // Return to the first page through production controls, not model/UI injection.
+      while(await root.getByRole('button',{name:'Previous results',exact:true}).isEnabled())await root.getByRole('button',{name:'Previous results',exact:true}).click();
+      let pages=0;const text=[];
+      while(true){
+        text.push(await root.innerText());
+        const problems=await root.evaluate(root=>[...root.querySelectorAll('button,h2,h3,dt,dd')].filter(n=>n.getClientRects().length).flatMap(n=>{const r=n.getBoundingClientRect();return r.left<0||r.top<0||r.right>innerWidth+1||r.bottom>innerHeight+1||n.scrollWidth>n.clientWidth+1||(n.tagName==='BUTTON'&&(r.width<44||r.height<44))?[n.textContent]:[];}));assert.deepEqual(problems,[],`${w}x${h} page ${pages}`);
+        if(pages<2||!(await root.getByRole('button',{name:'Next results',exact:true}).isEnabled()))await app.iframe.screenshot({path:`/tmp/race-05-05-results-${w}x${h}-${light?'light':'dark'}-${pages}.png`});
+        pages++;assert.ok(pages<50);
+        if(!(await root.getByRole('button',{name:'Next results',exact:true}).isEnabled()))break;
+        await root.getByRole('button',{name:'Next results',exact:true}).focus();await app.page.keyboard.press(pages%2?'Enter':'Space');
+      }
+      for(const label of ['P1','P2','Innate powers','Fog attempted','Mud received','Lantern collected','Market interactions','Coins spent'])assert.ok(text.join('\n').includes(label),`${label} remains reachable`);
+      assert.equal(await app.onSession(function(){return JSON.stringify(this.result);}),frozen);
+      const again=root.getByRole('button',{name:'Race again',exact:true});await again.focus();await app.page.keyboard.press('Tab');assert.equal(await root.evaluate(n=>n.contains(document.activeElement)),true);
+    }
+    await app.resize(900,600);await f.getByRole('button',{name:'Race again',exact:true}).click();assert.equal(await f.locator('#survive-results-root').isVisible(),false);
+    await f.locator('#local-play').click();await f.locator('#race-play').click();await f.locator('#local-session-start').click();assert.equal(await f.locator('#race-results-heading').count(),0);
+    assert.deepEqual(evidence.errors,[]);assert.deepEqual(evidence.external,[]);assert.deepEqual(await f.evaluate(()=>window.marketGameFixture.forbidden),[]);
+  }finally{await app.close();}
+});
