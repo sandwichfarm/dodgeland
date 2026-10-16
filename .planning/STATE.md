@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-12 complete collection14319 active after accepted hand repair
-last_updated: "2026-10-16T21:52:47.457306+00:00"
+stopped_at: 07-12 collection14319 terminal at run-menu compact options overflow
+last_updated: "2026-10-16T22:39:10.965096+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,12 @@ progress:
   completed_plans: 40
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Root accepted87963 and review9e09aad; frozen full collection14319 active, initial report pending.
+last_activity_desc: Collection14319 exited1 after83 production PASS; repaired hand passed, ready240 options Travelers overflow requires diagnosis.
 ---
 
 # Project State
 
-CURRENT ACTIVE execution:14319, collector PID19286/shell19025, run`085c8764-1a31-41c9-9db9-d8aabfc7bde4`, frozen source/tests/tooling9e09aad (last implementation65ca494). Log`/tmp/down-to-duck-07-12-full-collection-hand-verified.log`. Root accepted87963 exit0 and clean independent review9e09aad. Exact collection/attribution/policy prefix passed; complete132 production jobs/report-only plus immutable lock/diff suffix now running. All seven hand outputs registered; prior failed archives retained. No source/test/tool changes while live. Historical terminal/no-active statements below are superseded for current status; no complete report or coverage-floor claim.
+CURRENT TERMINAL execution:14319 exited1, run`085c8764-1a31-41c9-9db9-d8aabfc7bde4`, frozen source/tests/tooling9e09aad (last implementation65ca494). Log`/tmp/down-to-duck-07-12-full-collection-hand-verified.log`.83 production jobs passed; repaired run-hand-runtime cleared with44frames/six scenarios in87.9s. Next unchanged run-menu-layout failed ready dark240×240 Options: Travelers outer44px/client38px versus scrollWidth77, with Local Play/Stroll competing in192px row. Actual overflow assertion, no cancellation. Archived failure PNG SHA19718246acab1c3538d32e38750663bc1744b387b088ea8c506408c03b949fd2 under suite-artifacts/run-menu-layout/artifacts. No active process or source/test/tool repair/rerun. Full initial report/floors remain incomplete. Historical active statements below superseded. Cross-mode final-artifact-report.json is inherited5ab22ab/19150 evidence, not current-run214capture proof; only current strict33/33 and newly emitted case reports establish this run's scope.
 
 Latest focused repair:65ca494,87963 exit0. Ordinary wholehand44frames/six scenarios and canonical c3e74067-922c-412a-a263-9894d7d3b511 hand44+pause24,38 added home/reader geometry checks, required type/build/guidance7/conformance5pass5unmeasured/oracle/diff passed. Both-theme240 heading/rivet clearance measured3.34375px and visually inspected. All ordinary outputs preserved, seven output paths registered. Independent review/root acceptance required before full collection; no active process. Counts remain6 phases40/45plans.
 
