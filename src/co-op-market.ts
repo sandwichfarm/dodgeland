@@ -1,4 +1,4 @@
-import { CONSUMABLES } from './consumables.js';
+import { CONSUMABLES, planConsumableCredit } from './consumables.js';
 import type { ConsumableId } from './consumables.js';
 import type { RunInventory } from './market/run.js';
 import type { DeviceId, SeatId, SessionParticipation } from './session.js';
@@ -49,6 +49,9 @@ export interface CoOpMarketResult {
 
 export interface CoOpMarketHost {
   coOpMarketEnabled(): boolean;
+  coOpMarketCloseOnInvalidate?(): boolean;
+  coOpMarketCanAct?(owner: CoOpMarketOwner): boolean;
+  coOpMarketMode?(): Readonly<{ name: string; capabilities: readonly string[] }>;
   coOpMarketOwners(): readonly CoOpMarketOwner[];
   coOpMarketConsumableState(owner: CoOpMarketOwner): Readonly<{ ownerGeneration: number; inventoryGeneration: number }> | undefined;
   coOpMarketCanCredit(owner: CoOpMarketOwner, itemId: ConsumableId, expectedOwnerGeneration: number, expectedInventoryGeneration: number): boolean;
@@ -86,12 +89,12 @@ export class CoOpMarketAdapter {
     if (!consumables) return undefined;
     const offers = [
       ...(owner.run.market?.offers ?? []).map(offer => Object.freeze({ id: offer.id, itemId: offer.itemId, price: offer.price, sold: offer.sold, source: 'run' as const })),
-      ...CONSUMABLES.map(item => Object.freeze({ id: `consumable:${item.id}`, itemId: item.id, price: item.price, sold: !canBuyOrEquip(owner.run) || !this.host.coOpMarketCanCredit(owner, item.id, consumables.ownerGeneration, consumables.inventoryGeneration), source: 'consumable' as const })),
+      ...CONSUMABLES.filter(item => this.itemEligible(owner, item.id)).map(item => Object.freeze({ id: `consumable:${item.id}`, itemId: item.id, price: item.price, sold: !canBuyOrEquip(owner.run) || !this.host.coOpMarketCanCredit(owner, item.id, consumables.ownerGeneration, consumables.inventoryGeneration), source: 'consumable' as const })),
     ];
     return Object.freeze({ seat: owner.seat, participantId: owner.participantId, ownerGeneration: consumables.ownerGeneration, inventoryGeneration: consumables.inventoryGeneration, runRevision: owner.run.revision, contextGeneration: this.contextGeneration, offers: Object.freeze(offers) });
   }
 
-  invalidate(): void { this.selectedSeat = undefined; this.contextGeneration++; }
+  invalidate(): void { if (this.host.coOpMarketCloseOnInvalidate?.()) this.host.coOpMarketOwners().find(owner => owner.seat === this.selectedSeat)?.run.close(); this.selectedSeat = undefined; this.contextGeneration++; }
 
   dispose(): void { this.invalidate(); this.actions.clear(); }
 
@@ -110,7 +113,14 @@ export class CoOpMarketAdapter {
     return this.host.coOpMarketOwners().find(owner => owner.seat === request.seat && owner.device === request.device && (!request.participantId || owner.participantId === request.participantId) && this.eligible(owner));
   }
 
-  private eligible(owner: CoOpMarketOwner): boolean { return owner.participation === 'active' && owner.state !== 'dead' && owner.run.alive; }
+  private eligible(owner: CoOpMarketOwner): boolean { return (this.host.coOpMarketCanAct?.(owner) ?? true) && owner.participation === 'active' && owner.state !== 'dead' && owner.run.alive; }
+
+  private itemEligible(owner: CoOpMarketOwner, itemId: ConsumableId): boolean {
+    const mode = this.host.coOpMarketMode?.(); if (!mode) return true;
+    const state = this.host.coOpMarketConsumableState(owner); if (!state) return false;
+    const identity = { id: owner.participantId, generation: state.ownerGeneration };
+    return planConsumableCredit({ mode, owner: identity, inventory: { owner: identity, generation: state.inventoryGeneration, charges: {} }, expectedInventoryGeneration: state.inventoryGeneration, itemId }).ok;
+  }
 
   private matches(request: CoOpMarketRequest, context: CoOpMarketContext): boolean {
     return request.seat === context.seat && (!request.participantId || request.participantId === context.participantId)
@@ -119,6 +129,7 @@ export class CoOpMarketAdapter {
   }
 
   private dispatch(owner: CoOpMarketOwner, request: CoOpMarketRequest): Readonly<{ ok: boolean; message: string }> {
+    if (request.kind === 'buy-consumable' && isConsumable(request.itemId) && !this.itemEligible(owner, request.itemId)) return { ok: false, message: `${CONSUMABLES.find(item => item.id === request.itemId)!.name} is not available in ${this.host.coOpMarketMode!().name}.` };
     if (request.kind === 'open') return owner.run.open() ? { ok: true, message: 'Market opened.' } : { ok: false, message: 'Open an active market to shop.' };
     if (request.kind === 'close') { owner.run.close(); return { ok: true, message: 'Market closed.' }; }
     if (request.kind === 'sell') return request.cardId ? owner.run.sell(request.cardId) : { ok: false, message: 'Choose a card to sell.' };

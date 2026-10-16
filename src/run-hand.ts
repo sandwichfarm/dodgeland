@@ -281,7 +281,7 @@ export function createRunHand(options: RunHandOptions) {
       active = shown; root.hidden = !shown;
       const unavailable = !options.canSell() && !!options.unavailableReason?.();
       ownerNote.hidden = !unavailable; ownerNote.textContent = unavailable ? options.unavailableReason!() : '';
-      const label = options.getOwnerLabel?.(); ownerLabel.hidden = !label; ownerLabel.textContent = label ?? '';
+      const label = options.getOwnerLabel?.(); root.setAttribute('aria-label', label || 'Your active cards'); ownerLabel.hidden = !label; ownerLabel.textContent = label ?? '';
       root.dataset.ownerMutationUnavailable = String(unavailable);
       app.dataset.handVisible = String(shown); root.classList.toggle('less-motion', reduced);
       if (!shown) {

@@ -15,6 +15,7 @@ interface MarketUIOptions {
   getOwner?(): { key: string; seat: string; marker: string; character: Character } | undefined;
   getOwners?(): readonly { key: string; seat: string; marker: string; character: Character }[];
   getOwnerKey?(): string;
+  getOwnerLabel?(): string | undefined;
   selectOwner?(seat: string): void;
   selectNextOwner?(): void;
   canMutate?(): boolean;
@@ -165,7 +166,8 @@ export function createMarketUI(options: MarketUIOptions) {
     const owners = options.getOwners?.() ?? [];
     owner.hidden = !shared;
     ownerStrip.hidden = owners.length < 2;
-    owner.textContent = shared ? `Viewing ${shared.seat.toUpperCase()} ${shared.marker} · ${shared.character.name}` : '';
+    owner.textContent = options.getOwnerLabel?.() ?? (shared ? `Viewing ${shared.seat.toUpperCase()} ${shared.marker} · ${shared.character.name}` : '');
+    overlay.setAttribute('aria-label', owner.textContent || 'Market');
     owner.dataset.ownerKey = shared?.key ?? '';
     owner.title = shared ? `${owner.textContent}. ${mutationsAvailable() ? 'Run interactions are available.' : unavailableReason()}` : '';
     const roster = owners.map(candidate => `${candidate.key}:${candidate.character.id}`).join('|');

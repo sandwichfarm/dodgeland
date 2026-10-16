@@ -286,3 +286,58 @@
   #app #market[data-market-view="wardrobe"]:has(#market-owner:not([hidden])) .market-cosmetic-display { display: none; }
   #app #market[data-market-view="wardrobe"]:has(#market-owner:not([hidden])) :is(.market-cosmetic-name, .market-tile-price) { font-size: 16px; line-height: 1.1; }
 }
+
+/* Paid owner drafts retain the same two-row owner toolbar as the shop. */
+#app #market[data-market-view="draft"]:has(#market-owner:not([hidden])) { grid-template-rows: 92px minmax(0, 1fr) auto; }
+#app #market[data-market-view="draft"]:has(#market-owner:not([hidden])) .market-toolbar {
+  display: grid; grid-row: 1; grid-column: 1 / -1; padding: 0;
+  grid-template-columns: minmax(0, 1fr) auto 44px; grid-template-rows: 44px 44px; gap: 2px 4px;
+}
+#app #market[data-market-view="draft"]:has(#market-owner:not([hidden])) #market-owner {
+  grid-row: 1; grid-column: 1; min-width: 0; min-height: 0; padding: 4px; font-size: 16px; line-height: 1.1; white-space: normal;
+}
+#app #market[data-market-view="draft"]:has(#market-owner:not([hidden])) #market-wallet { grid-row: 1; grid-column: 2; margin: 0; padding: 4px; font-size: 16px; }
+#app #market[data-market-view="draft"]:has(#market-owner:not([hidden])) :is(#market-skip, #market-close) { grid-row: 1; grid-column: 3; width: 44px; min-width: 44px; height: 44px; padding: 2px; font-size: 14px; }
+#app #market[data-market-view="draft"]:has(#market-owner:not([hidden])) .market-owner-strip { display: grid; grid-row: 2; grid-column: 1 / -1; grid-template-columns: repeat(4, minmax(44px, 1fr)); gap: 4px; }
+#app #market[data-market-view="draft"]:has(#market-owner:not([hidden])) .market-owner-seat { min-height: 44px; padding: 2px; font-size: 16px; }
+#app #market[data-market-view="draft"]:has(#market-owner:not([hidden])) #market-heading { display: none; }
+
+/* A paid owner draft uses the same bounded toolbar as the owner shop. At the
+   240px floor, 64 + 44 + 44 leaves the permanent 88px hand intact. */
+@media (max-height: 329px) {
+  #app #market[data-market-view="draft"]:has(#market-owner:not([hidden])) {
+    padding: 0; gap: 0; grid-template-columns: minmax(0, 1fr); grid-template-rows: 64px minmax(44px, 1fr) 44px;
+  }
+  #app #market[data-market-view="draft"]:has(#market-owner:not([hidden])) .market-toolbar {
+    display: grid; grid-row: 1; grid-column: 1; padding: 0;
+    grid-template-columns: repeat(5, minmax(44px, 1fr)); grid-template-rows: 20px 44px; gap: 0;
+  }
+  #app #market[data-market-view="draft"]:has(#market-owner:not([hidden])) #market-owner {
+    grid-row: 1; grid-column: 1 / -1; height: 20px; min-height: 0; padding: 2px 4px; border: 0;
+    font-size: 16px; line-height: 16px; white-space: nowrap;
+  }
+  #app #market[data-market-view="draft"]:has(#market-owner:not([hidden])) .market-owner-strip { display: contents; }
+  #app #market[data-market-view="draft"]:has(#market-owner:not([hidden])) .market-owner-seat { grid-row: 2; width: 100%; height: 44px; min-height: 44px; padding: 2px; }
+  #app #market[data-market-view="draft"]:has(#market-owner:not([hidden])) :is(#market-skip, #market-close) { grid-row: 2; grid-column: 5; width: 44px; min-width: 44px; height: 44px; padding: 2px; font-size: 14px; }
+  #app #market[data-market-view="draft"]:has(#market-owner:not([hidden])) :is(#market-wallet, #market-heading, .market-draft-heading) { display: none; }
+  #app #market[data-market-view="draft"]:has(#market-owner:not([hidden])) .market-workspace { grid-row: 2; grid-column: 1; padding: 0; }
+  #app #market[data-market-view="draft"]:has(#market-owner:not([hidden])) .market-bottom { position: relative; inset: auto; grid-row: 3; grid-column: 1; min-height: 44px; height: 44px; padding: 0; margin: 0; }
+  #app #market[data-market-view="draft"]:has(#market-owner:not([hidden])) #market-choices { padding: 0; }
+}
+/* Empty personal items must remain readable over either runtime theme. */
+.run-hand-items-empty { padding: 2px 6px; border-radius: 4px; background: #263e32; color: #fff0c5; }
+/* The draft quota already appears in its controls. Keep the live purchase
+   announcement available to assistive technology without covering a choice. */
+#app #market[data-market-short="true"][data-market-view="draft"]:has(#market-owner:not([hidden])) #market-status {
+  position: absolute; width: 1px; height: 1px; padding: 0; border: 0; overflow: hidden; clip-path: inset(50%);
+}
+/* An empty owner shelf needs its label and item state, not three full-height
+   placeholder cards over the compact session controls. */
+@media (max-height: 329px) {
+  #app[data-hand-visible="true"]:has(#market[hidden]):has(#run-inventory #run-hand-owner:not([hidden])):has(#run-hand-items:not([hidden])):not(:has(.run-hand-card)) { --hand-space: 96px; }
+  #app:has(#market[hidden]) #run-inventory:has(#run-hand-owner:not([hidden])):has(#run-hand-items:not([hidden])):not(:has(.run-hand-card)) {
+    height: 88px; padding-top: 44px; bottom: 8px; grid-template-rows: 44px;
+  }
+  #app:has(#market[hidden]) #run-inventory:has(#run-hand-owner:not([hidden])):has(#run-hand-items:not([hidden])):not(:has(.run-hand-card)) :is(#run-cards, .run-hand-pager) { display: none; }
+  #app:has(#market[hidden]) #run-inventory:has(#run-hand-owner:not([hidden])):has(#run-hand-items:not([hidden])):not(:has(.run-hand-card)) #run-hand-items { grid-row: 1; }
+}

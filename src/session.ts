@@ -56,6 +56,7 @@ export interface SessionModeHandlers {
   canLifecycle?(kind: 'device-lost' | 'reclaim-offered' | 'reclaimed' | 'departed', seat: SeatId, device?: DeviceId): boolean;
   preserveReclaimPosition?: boolean;
   canAct?(seat: SeatId): boolean;
+  canTransact?(seat: SeatId): boolean;
   canAdmit?(): boolean;
   simulates?(player: SessionPlayer): boolean;
   canAdvance?(): boolean;
@@ -558,18 +559,22 @@ export class LocalSession {
   consumableSnapshot(): ConsumableWorldSnapshot | undefined { return this.consumableWorld?.snapshot(); }
   useConsumable(action: ConsumableAction): boolean { return !!this.consumableWorld && !this.resultRecord && this.consumableWorld.use(action); }
   clearConsumables(seat: SeatId): void { const player = this.players.find(candidate => candidate.seat === seat); if (player) this.consumableWorld?.clear(player); }
-  /** Survive Together installs the owner router only after its staged adoption commits. */
-  installCoOpMarket(): void {
+  /** Modes install the owner router after adoption, with optional capabilities and owner policy. */
+  installCoOpMarket(policy?: Readonly<{ consumables: boolean; name: string; capabilities: readonly string[]; closeOnInvalidate?: boolean }>): void {
     if (this.coOpMarket) return;
-    this.installConsumableWorld();
+    if (policy?.consumables !== false) this.installConsumableWorld();
     this.coOpMarket = new CoOpMarketAdapter({
       coOpMarketEnabled: () => this.active && this.coOpMarket !== undefined && !this.resultRecord,
       coOpMarketOwners: () => this.players,
-      coOpMarketConsumableState: owner => this.consumableWorld?.marketState(owner as SessionPlayer),
+      coOpMarketCloseOnInvalidate: () => policy?.closeOnInvalidate ?? false,
+      coOpMarketCanAct: owner => this.canTransact(owner.seat),
+      ...(policy ? { coOpMarketMode: () => policy } : {}),
+      coOpMarketConsumableState: owner => this.consumableWorld?.marketState(owner as SessionPlayer) ?? (policy?.consumables === false ? { ownerGeneration: this.lifecycle.filter(record => record.seat === owner.seat).length, inventoryGeneration: 0 } : undefined),
       coOpMarketCanCredit: (owner, itemId, expectedOwnerGeneration, expectedInventoryGeneration) => !!this.consumableWorld?.canMarketCredit(owner as SessionPlayer, itemId, expectedOwnerGeneration, expectedInventoryGeneration),
       coOpMarketCredit: (owner, itemId, expectedOwnerGeneration, expectedInventoryGeneration) => !!this.consumableWorld?.marketCredit(owner as SessionPlayer, itemId, expectedOwnerGeneration, expectedInventoryGeneration),
     });
   }
+  invalidateOwnerInteractions(): void { this.coOpMarket?.invalidate(); }
   /** Selects an owner interaction context even when their market window is closed. */
   openCoOpMarket(owner: Readonly<{ seat: SeatId; device: DeviceId; participantId?: string }>): CoOpMarketContext | undefined { return this.coOpMarket?.select(owner); }
   /** A read-only refresh never changes the selected owner or context generation. */
@@ -624,6 +629,7 @@ export class LocalSession {
     const moved = !!player && this.active && this.canAct(action.seat) && player.participation === 'active' && player.move(action.direction);
     return moved;
   }
+  canTransact(seat: SeatId): boolean { return this.mode?.handlers.canTransact?.(seat) ?? this.canAct(seat); }
   canAct(seat: SeatId): boolean { return this.mode?.handlers.canAct?.(seat) ?? true; }
   /** Transfer a settled living position without world, wallet, health or progress credit. */
   transferPosition(outgoingSeat: SeatId, incomingSeat: SeatId): boolean {

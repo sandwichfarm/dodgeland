@@ -68,7 +68,7 @@ export class RelayCoordinator {
     this.nextBoundary = this.futureBoundary(); this.observedEarned = this.runner()!.earnedDistance; this.recovery.attach(session);
     this.ledger = createRelayLedger(this.setup.seats.map(seat => session.players.find(p => p.seat === seat.seat)!));
     for (const player of session.players) this.observed.set(player.seat, { coins: player.coins, pickups: player.statistics.pickups, selfRevives: player.statistics.selfRevives, deaths: player.statistics.deaths, distance: 0 });
-    this.openLeg();
+    this.openLeg(); session.installCoOpMarket({ consumables: false, name: 'Relay', capabilities: [], closeOnInvalidate: true });
   }
   private eventId(): string { return `${this.session.id}:${++this.eventSequence}`; }
   private openLeg(): void {
@@ -107,7 +107,7 @@ export class RelayCoordinator {
     for (let offset = 1; offset <= this.setup.seats.length; offset++) { const seat = this.setup.seats[(this.index + offset) % this.setup.seats.length]!.seat; if (this.eligible(seat)) return seat; }
     return undefined;
   }
-  private setPhase(phase: RelayPhase): void { if (this.phase !== phase) { this.phase = phase; this.revision++; } }
+  private setPhase(phase: RelayPhase): void { if (this.phase !== phase) { this.session.invalidateOwnerInteractions(); this.phase = phase; this.revision++; } }
   allowsLifecycle(_kind: string, seat: SeatId, device?: DeviceId): boolean {
     const original = this.setup.seats.find(p => p.seat === seat), player = this.session.players.find(p => p.seat === seat);
     return this.phase !== 'ended' && !!original && player?.participation !== 'departed' && (!device || device === original.device);
@@ -224,6 +224,7 @@ export class RelayCoordinator {
     this.recordLifecycle(request.ownerSeat); this.observedTime = this.session.world.time;
     this.suspended = 'running'; this.setPhase('running'); this.capture(); return true;
   }
+  canTransact(seat: SeatId): boolean { const player = this.runner(); return this.phase === 'running' && !this.pending && seat === this.activeSeat && this.connections.get(seat) === true && player?.participation === 'active' && (player.state === 'playing' || player.state === 'paused'); }
   canAct(seat: SeatId): boolean { return this.phase === 'running' && !this.pending && seat === this.activeSeat && this.eligible(seat); }
   progress(player: SessionPlayer, session: LocalSession): void {
     if (player.seat !== this.activeSeat || this.phase !== 'running' || player.participation !== 'active' || player.state !== 'playing') return;
@@ -243,7 +244,7 @@ export class RelayCoordinator {
     const player = this.runner();
     if (player) this.progress(player, session);
     this.capture(); this.observedTime = session.world.time;
-    if (this.phase === 'running' && this.pending && player?.participation === 'active' && player.state === 'playing' && this.pending.participantId === player.participantId && this.pending.lifecycleGeneration === this.lifecycleGeneration(player.seat) && session.isRecoverySafePosition(player)) { this.phase = 'handoff'; this.generation++; }
+    if (this.phase === 'running' && this.pending && player?.participation === 'active' && player.state === 'playing' && this.pending.participantId === player.participantId && this.pending.lifecycleGeneration === this.lifecycleGeneration(player.seat) && session.isRecoverySafePosition(player)) { this.setPhase('handoff'); this.generation++; }
   }
   snapshot() {
     return Object.freeze({ phase: this.phase, activeSeat: this.activeSeat, incomingSeat: this.incomingSeat, leg: this.leg, distance: this.distance, nextBoundary: this.nextBoundary, pendingBoundary: this.pending, tilesPerLeg: this.setup.tilesPerLeg, transferGeneration: this.generation, roster: this.setup.seats, revision: this.revision, actionActor: this.confirmationState?.actor, outcomes: Object.freeze([...this.outcomes]), terminalReason: this.terminalReason, connections: Object.freeze(Object.fromEntries(this.connections)), readyReason: this.readyReason });
@@ -271,7 +272,7 @@ export function createRelayDefinition(base: ModeDefinition, relay: RelayCoordina
     attach: (session: LocalSession) => relay.attach(session),
     beforeDeath: (observation: SessionContributionObservation, cause: string) => relay.beforeDeath(observation, cause),
     beforeDepart: (observation: SessionContributionObservation) => relay.beforeDepart(observation),
-    canAct: (seat: SeatId) => relay.canAct(seat), canAdmit: () => false,
+    canAct: (seat: SeatId) => relay.canAct(seat), canTransact: (seat: SeatId) => relay.canTransact(seat), canAdmit: () => false,
     simulates: (player: SessionPlayer) => player.seat === relay.activeSeat,
     canAdvance: () => ['running', 'recovery'].includes(relay.snapshot().phase),
     canLifecycle: (kind: string, seat: SeatId, device?: DeviceId) => relay.allowsLifecycle(kind, seat, device),

@@ -76,7 +76,7 @@ function selectedOwnerRun() { return selectedSessionOwner()?.run ?? game.run; }
 function selectedOwnerCharacter() { return characterById(selectedSessionOwner()?.characterId ?? progress.selected); }
 function selectedOwnerKey(): string { const owner = selectedSessionOwner(); return owner && localSession ? `${localSession.id}:${owner.seat}` : 'solo'; }
 function selectedOwnerLabel(): string | undefined {
-  const owner = sharedOwner(); return owner ? `Viewing ${owner.seat.toUpperCase()} ${owner.marker} · ${owner.character.name}` : undefined;
+  const owner = sharedOwner(); return owner ? relay ? `Viewing ${owner.seat.toUpperCase()} · ${owner.character.name}` : `Viewing ${owner.seat.toUpperCase()} ${owner.marker} · ${owner.character.name}` : undefined;
 }
 function sharedOwner() {
   const owner = selectedSessionOwner();
@@ -87,11 +87,12 @@ function sharedOwners() {
   return session?.players.map(player => ({ key: `${session.id}:${player.seat}`, seat: player.seat, marker: seatMarker(player.seat), character: characterById(player.characterId) })) ?? [];
 }
 function ownerMutationsAvailable(): boolean {
-  if (localSession && !localSession.canAct(hudSelected)) return false;
+  if (localSession && !localSession.canTransact(hudSelected)) return false;
   const owner = selectedSessionOwner();
   return !localSession?.running || !!owner && owner.participation === 'active' && owner.state !== 'dead' && owner.run.alive;
 }
 function ownerMutationReason(): string {
+  if (relay && !relay.canTransact(hudSelected)) return 'Only the active runner can use the relay hand.';
   const owner = selectedSessionOwner();
   if (owner?.participation === 'device-lost') return `${owner.seat.toUpperCase()} must reclaim their controller first.`;
   if (owner?.participation === 'dead') return `${owner.seat.toUpperCase()} cannot use market actions while recovering.`;
@@ -382,7 +383,7 @@ const hand = createRunHand({
   sell: cardId => localSession?.running ? coOpMarketTransaction({ kind: 'sell', cardId }) : selectedOwnerRun().sell(cardId),
   getItems: () => {
     const charge = itemCharge(hudSelected);
-    return charge ? { revival: charge.revival, flare: charge.flare } : undefined;
+    return charge ? { revival: charge.revival, flare: charge.flare } : relay ? { revival: 0, flare: 0 } : undefined;
   },
   canUseItems: () => ownerMutationsAvailable() && !disposed && !document.hidden && localFocus,
   itemUnavailableReason: ownerMutationReason,
@@ -431,6 +432,7 @@ const market = createMarketUI({
   getRun: selectedOwnerRun,
   getCharacter: selectedOwnerCharacter,
   getOwner: sharedOwner,
+  getOwnerLabel: selectedOwnerLabel,
   getOwners: sharedOwners,
   getOwnerKey: selectedOwnerKey,
   selectOwner: selectHudOwner,
@@ -448,7 +450,7 @@ const market = createMarketUI({
     if (request.kind === 'equip') return run.equipCosmetic(request.itemId ?? '');
     return { ok: false, message: 'That market action is unavailable.' };
   },
-  canOpen: () => !localStage && !disposed && !(import.meta.env.DEV && devTools?.isOpen) && !document.hidden && localFocus && innerWidth >= 240 && innerHeight >= 240 && el('drawer').hidden && (localSession?.running || game.state === 'playing' || (game.state === 'paused' && !!selectedOwnerRun().pendingPack)) && (localSession?.running || !!selectedOwnerRun().market),
+  canOpen: () => !relayHandoff && !localStage && !disposed && !(import.meta.env.DEV && devTools?.isOpen) && !document.hidden && localFocus && innerWidth >= 240 && innerHeight >= 240 && el('drawer').hidden && (localSession?.running || game.state === 'playing' || (game.state === 'paused' && !!selectedOwnerRun().pendingPack)) && (localSession?.running || !!selectedOwnerRun().market),
   open: () => {
     if (localSession?.running) {
       coOpMarketTransaction({ kind: 'open' });
@@ -477,7 +479,7 @@ const router: GamepadRouter = new GamepadRouter({
   context: () => `${relay ? `relay:${relay.snapshot().phase}:${relay.snapshot().revision}:` : ''}${recoveryBoard ? `recovery:${recoveryBoardOwner?.seat ?? ''}:${recoveryBoard.dataset.recoveryPage ?? ''}` : lifecycleBoard ? `lifecycle:${lifecycleBoard.dataset.lifecycleOwner ?? ''}` : hudDetailsOpen ? `hud:${hudSelected}:${el('session-seats').querySelector<HTMLElement>(`[data-seat="${hudSelected}"]`)?.dataset.sessionHudPage ?? ''}` : !surviveResultsRoot.hidden ? 'survive-results' : localStage ? 'setup' : localSession ? sessionPaused ? 'session-paused' : 'session' : 'solo'}:${game.state}:${hand.isOpen() ? 'hand' : market.isOpen() ? 'market' : el('drawer').hidden ? `run:${el('app').dataset.runMenuPage ?? el('app').dataset.pausePage ?? ''}` : `collection:${el('drawer').dataset.collectionTab}:${el('drawer').dataset.collectionView}`}`,
   dispatch: ({ seat, direction }) => {
     if (relayHandoff) { relayDirection(seat, direction); return true; }
-    if (localSession && !localSession.canAct(seat)) return false;
+    if (localSession && !(market.isOpen() || hand.isOpen() || hand.containsFocus() ? localSession.canTransact(seat) : localSession.canAct(seat))) return false;
     if (recoveryBoard) {
       if (seat !== recoveryBoardOwner?.seat) return false;
       navigateModalControls(recoveryBoard, direction); return true;
@@ -508,7 +510,7 @@ const router: GamepadRouter = new GamepadRouter({
   action: (seat, action) => {
     if (relayHandoff) { if (action === 'confirm') relayConfirmControl(seat); else if (action === 'back') relayAction('cancel', seat); return; }
     if (relay && action === 'menu') { relayAction('leave', seat); return; }
-    if (localSession && !localSession.canAct(seat)) return;
+    if (localSession && !(market.isOpen() || hand.isOpen() || hand.containsFocus() ? localSession.canTransact(seat) : localSession.canAct(seat))) return;
     if (recoveryBoard) {
       if (seat !== recoveryBoardOwner?.seat) return;
       if (action === 'confirm') confirmModal(recoveryBoard);
@@ -610,7 +612,7 @@ function callCharacter(): void {
 }
 /** Session calls deliberately resolve the assigned seat, never saved solo choice. */
 function callSessionCharacter(seat: SeatId): void {
-  if (localSession && !localSession.canAct(seat)) return;
+  if (localSession && !(market.isOpen() || hand.isOpen() || hand.containsFocus() ? localSession.canTransact(seat) : localSession.canAct(seat))) return;
   if (import.meta.env.DEV && devTools?.isOpen) return;
   if (!localSession?.running || localStage || sessionPaused || disposed || !localFocus || document.hidden || market.isOpen() || !el('drawer').hidden || progress.muted || innerWidth < 240 || innerHeight < 240 || displayedRunState() !== 'playing') return;
   const player = localSession.players.find(candidate => candidate.seat === seat);
@@ -621,7 +623,7 @@ function callSessionCharacter(seat: SeatId): void {
 }
 function moveSessionCharacter(seat: SeatId, direction: Direction): void {
   if (relayHandoff) { relayDirection(seat, direction); return; }
-  if (localSession && !localSession.canAct(seat)) return;
+  if (localSession && !(market.isOpen() || hand.isOpen() || hand.containsFocus() ? localSession.canTransact(seat) : localSession.canAct(seat))) return;
   if (recoveryBoard) { if (seat === recoveryBoardOwner?.seat) navigateModalControls(recoveryBoard, direction); return; }
   if (lifecycleBoard) { if (seat === lifecycleBoard.dataset.lifecycleOwner) navigateModalControls(lifecycleBoard, direction); return; }
   if (!surviveResultsRoot.hidden) { navigateModalControls(surviveResultsRoot, direction); return; }
@@ -731,9 +733,14 @@ function relayDirection(seat: SeatId, direction: Direction): void {
 }
 function syncRelayHandoff(): void {
   if (!relay || lifecycleBoard) return;
-  const state = relay.snapshot(), key = `${state.phase}:${state.revision}:${state.incomingSeat}:${relay.session.lifecycle.length}`;
-  if (relayRenderedOwner !== state.activeSeat) { relayRenderedOwner = state.activeSeat; selectHudOwner(state.activeSeat); }
+  // A paused primary facade can change the prospective next eligible seat.
+  // Only a real handoff owns that identity; opening an owner modal is not a turn change.
+  const state = relay.snapshot(), key = `${state.phase}:${state.revision}:${state.phase === 'handoff' ? state.incomingSeat : ''}:${relay.session.lifecycle.length}`;
   if (key === relayBoardKey) return;
+  const marketWasOpen = market.invalidateOwner(); const handWasOpen = hand.isOpen(); hand.invalidateOwner(); coOpMarketContext = undefined;
+  tinyReturnFocus = undefined; lastAppFocus = undefined;
+  if (marketWasOpen || handWasOpen) { sessionPaused = false; handPausedPlay = false; game.resume(); }
+  if (relayRenderedOwner !== state.activeSeat) { relayRenderedOwner = state.activeSeat; selectHudOwner(state.activeSeat); }
   relayBoardKey = key; disposeRelayResults?.(); disposeRelayResults = undefined; relayHandoff?.remove(); relayHandoff = undefined;
   clearRelayInput();
   if (state.phase === 'running') { el('scene').focus({ preventScroll: true }); return; }
@@ -995,7 +1002,7 @@ function updateHud(): void {
   const state = displayedRunState();
   const ownerRun = selectedOwnerRun();
   const ownerCharge = itemCharge(hudSelected);
-  hand.update({ visible: !terminalResult && !localStage && ownerRun.alive && (state === 'playing' || state === 'paused') && (ownerRun.cards.length > 0 || ownerRun.isOpen || Boolean(ownerCharge?.revival || ownerCharge?.flare)) && !(import.meta.env.DEV && devTools?.isOpen), reduced: progress.reduced || mediaQuery.matches });
+  hand.update({ visible: !terminalResult && !localStage && ownerRun.alive && (state === 'playing' || state === 'paused') && (!!relay || ownerRun.cards.length > 0 || ownerRun.isOpen || Boolean(ownerCharge?.revival || ownerCharge?.flare)) && !(import.meta.env.DEV && devTools?.isOpen), reduced: progress.reduced || mediaQuery.matches });
   seedUI.update(state === 'dead' && !presentingDeathSpill() ? game.seedCode : null);
   el<HTMLButtonElement>('character-call').disabled = progress.muted || (state !== 'ready' && state !== 'playing');
   const viewState = `${state}:${Boolean(selectedOwnerRun().pendingPack)}:${Boolean(localStage)}:${Boolean(localSession)}`;
