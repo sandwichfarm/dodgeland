@@ -1,3 +1,9 @@
+import { artifactForCoverage, artifactDirectoryForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
+import { mkdirSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+const coverageArtifacts = artifactDirectoryForCoverage(new URL('file:///tmp/'), 'relay-tracer');
+mkdirSync(coverageArtifacts, { recursive: true });
+let coverageGeneration = 0;
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
@@ -88,20 +94,23 @@ function installRuntime() {
 const pad = (index, buttons = []) => ({ index, id: `relay-${index}`, mapping: 'standard', connected: true, timestamp: 1, axes: [0, 0, 0, 0], buttons: Array.from({ length: 17 }, (_, button) => ({ value: buttons.includes(button) ? 1 : 0, pressed: buttons.includes(button), touched: buttons.includes(button) })) });
 
 async function withRelayBrowser(run) {
-  const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
+  const built = await readFile(artifactForCoverage(new URL('../dist/index.html', import.meta.url)), 'utf8');
   const harness = `<!doctype html><iframe sandbox="allow-scripts" style="border:0;width:900px;height:600px"></iframe><script>document.querySelector('iframe').srcdoc=${JSON.stringify(built.replace('<head>', `<head><script>(${installRuntime.toString()})();</script>`)).replaceAll('<', '\\u003c')};</script>`;
   const server = createServer((_request, response) => { response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); response.end(harness); });
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   const browser = await chromium.launch({ args: ['--mute-audio'] });
+  let frame;
+  const identity = { suite: process.argv[1], scenario: 'raw-relay-tracer', frame: 'opaque-app', generation: coverageGeneration++, scope: 'current' };
   try {
     const page = await browser.newPage({ viewport: { width: 930, height: 630 } });
     const errors = []; page.on('pageerror', error => errors.push(error.message));
+    registerRealm(page, identity);
     await page.goto(`http://127.0.0.1:${server.address().port}`);
-    const frame = await (await page.locator('iframe').elementHandle()).contentFrame();
+    frame = await (await page.locator('iframe').elementHandle()).contentFrame();
     await frame.locator('#play').waitFor();
     await run({ page, frame, send: pads => frame.evaluate(next => window.relayFixture.emit(next), pads) });
     assert.deepEqual(errors, []);
-  } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); }
+  } finally { try { if (frame) await collectRealm(frame, identity); } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); } }
 }
 
 test('held inactive controller input cannot confirm the transfer or become the next hop', { timeout: 30_000 }, async () => withRelayBrowser(async ({ page, frame, send }) => {
@@ -168,18 +177,21 @@ for (const check of ['innate cooldown', 'economy score']) {
 }
 
 test('muted built opaque iframe configures Relay and consumes fresh incoming confirmation', { timeout: 30_000 }, async () => {
-  const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
+  const built = await readFile(artifactForCoverage(new URL('../dist/index.html', import.meta.url)), 'utf8');
   assert.match(built, /Start Relay/, 'build must contain the real Relay setup');
   const setup = `<script>(${installRuntime.toString()})();</script>`;
   const harness = `<!doctype html><iframe sandbox="allow-scripts" style="border:0;width:900px;height:600px"></iframe><script>document.querySelector('iframe').srcdoc=${JSON.stringify(built.replace('<head>', '<head>' + setup)).replaceAll('<', '\\u003c')};</script>`;
   const server = createServer((_request, response) => { response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); response.end(harness); });
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   const browser = await chromium.launch({ args: ['--mute-audio'] });
+  let frame;
+  const identity = { suite: process.argv[1], scenario: 'raw-relay-tracer', frame: 'opaque-app', generation: coverageGeneration++, scope: 'current' };
   try {
     const page = await browser.newPage({ viewport: { width: 900, height: 600 } });
     const errors = []; page.on('pageerror', error => errors.push(error.message));
+    registerRealm(page, identity);
     await page.goto(`http://127.0.0.1:${server.address().port}`);
-    const frame = await (await page.locator('iframe').elementHandle()).contentFrame();
+    frame = await (await page.locator('iframe').elementHandle()).contentFrame();
     await frame.locator('#play').waitFor();
     await frame.locator('#local-play').click();
     await frame.locator('#relay-play').click();
@@ -203,7 +215,7 @@ test('muted built opaque iframe configures Relay and consumes fresh incoming con
     await frame.evaluate(next => window.relayFixture.emit(next), [pad(2, [0])]);
     assert.equal(await frame.locator('#session-seats [data-seat]').count(), 2);
     assert.deepEqual(errors, []);
-  } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); }
+  } finally { try { if (frame) await collectRealm(frame, identity); } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); } }
 });
 
 test('setup validates every roster size and length atomically and freezes copied stable order', async () => {
@@ -319,7 +331,7 @@ test('Relay configuration and handoff remain bounded across frame sizes and runt
         assert.ok(ratios.every(ratio => ratio >= 4.5), `handoff contrast ratios: ${ratios}`);
       }
 
-      await page.locator('iframe').screenshot({ path: `/tmp/relay-${name}-${width}x${height}-${light ? 'light' : 'dark'}.png` });
+      await page.locator('iframe').screenshot({ path: fileURLToPath(new URL(`relay-${name}-${width}x${height}-${light ? 'light' : 'dark'}.png`, coverageArtifacts)) });
     }
   }
   await inspect('length');

@@ -1,3 +1,9 @@
+import { artifactForCoverage, artifactDirectoryForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
+import { mkdirSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+const coverageArtifacts = artifactDirectoryForCoverage(new URL('file:///tmp/'), 'race-tracer');
+mkdirSync(coverageArtifacts, { recursive: true });
+let coverageGeneration = 0;
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { loadSources } from './source-loader.mjs';
@@ -56,17 +62,20 @@ function runtime() {
 }
 const pad = (buttons = [], index = 0) => ({ index, id: `race-${index}`, mapping: 'standard', connected: true, timestamp: 1, axes: [0,0,0,0], buttons: Array.from({ length: 17 }, (_, i) => ({ value: buttons.includes(i) ? 1 : 0, pressed: buttons.includes(i), touched: buttons.includes(i) })) });
 for (const count of [2,3,4]) test(`built opaque iframe ${count}-seat Race start consumed, mixed inputs finish, late device stays out, retry returns solo`, { timeout: 30000 }, async () => {
-  const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
+  const built = await readFile(artifactForCoverage(new URL('../dist/index.html', import.meta.url)), 'utf8');
   const harness = `<!doctype html><iframe sandbox="allow-scripts" style="border:0;width:900px;height:600px"></iframe><script>document.querySelector('iframe').srcdoc=${JSON.stringify(built.replace('<head>', `<head><script>(${runtime.toString()})();</script>`)).replaceAll('<', '\\u003c')};</script>`;
   const server = createServer((_req, res) => { res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); res.end(harness); });
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   const browser = await chromium.launch({ args: ['--mute-audio'] });
+  let frame;
+  const identity = { suite: process.argv[1], scenario: 'raw-race-tracer', frame: 'opaque-app', generation: coverageGeneration++, scope: 'current' };
   try {
     const page = await browser.newPage({ viewport: { width: 940, height: 640 } });
     const errors = []; page.on('pageerror', e => errors.push(e.message));
     const external = []; page.on('request', request => { if (!request.url().startsWith(`http://127.0.0.1:${server.address().port}`) && !request.url().startsWith('data:')) external.push(request.url()); });
+    registerRealm(page, identity);
     await page.goto(`http://127.0.0.1:${server.address().port}`);
-    const frame = await (await page.locator('iframe').elementHandle()).contentFrame();
+    frame = await (await page.locator('iframe').elementHandle()).contentFrame();
     const send = pads => frame.evaluate(next => window.raceTransport(next), [...pads, ...Array.from({ length: count-1 }, (_,index) => pad([],index)).filter(p => !pads.some(next => next.index === p.index))]);
     await frame.locator('#local-play').click();
     await frame.locator('#session-roster [data-seat="p2"]').click();
@@ -78,7 +87,7 @@ for (const count of [2,3,4]) test(`built opaque iframe ${count}-seat Race start 
       await page.setViewportSize({ width: width+40, height: height+40 });
       await page.locator('iframe').evaluate((node, size) => { node.style.width = `${size[0]}px`; node.style.height = `${size[1]}px`; }, [width,height]);
       await frame.evaluate(value => window.raceTheme(value), light); await page.waitForTimeout(80);
-      await page.screenshot({ path: `/tmp/down-to-duck-05-01-setup-${width}x${height}-${light?'light':'dark'}.png` });
+      await page.screenshot({ path: fileURLToPath(new URL(`down-to-duck-05-01-setup-${width}x${height}-${light?'light':'dark'}.png`, coverageArtifacts)) });
       if (width >= 240 && height >= 240) {
         const bounds = await frame.locator('#local-session-start').boundingBox();
         assert.ok(bounds && bounds.height >= 44 && bounds.x >= 0 && bounds.y >= 0 && bounds.y+bounds.height <= height+8, `Start visible ${width}x${height}: ${JSON.stringify(bounds)} ${await frame.locator('#session-board').getAttribute('data-race-page')}`);
@@ -93,12 +102,12 @@ for (const count of [2,3,4]) test(`built opaque iframe ${count}-seat Race start 
         });
         assert.equal(clipped, false, 'Start remains inside every clipping ancestor');
       }
-      await page.screenshot({ path: `/tmp/down-to-duck-05-01-setup-${width}x${height}-${light?'light':'dark'}.png` });
+      await page.screenshot({ path: fileURLToPath(new URL(`down-to-duck-05-01-setup-${width}x${height}-${light?'light':'dark'}.png`, coverageArtifacts)) });
     }
     await page.setViewportSize({ width:940,height:640 }); await page.locator('iframe').evaluate(node => { node.style.width='900px'; node.style.height='600px'; });
     await frame.locator('#race-configuration').getByRole('button', {name:'Roster',exact:true}).click();
     assert.equal(await frame.locator('#session-roster').isVisible(), true);
-    await page.screenshot({path:`/tmp/down-to-duck-05-01-roster-${count}.png`});
+    await page.screenshot({path:fileURLToPath(new URL(`down-to-duck-05-01-roster-${count}.png`, coverageArtifacts))});
     await frame.locator('#race-configuration').getByRole('button', {name:'Settings',exact:true}).click();
     assert.equal(await frame.locator('#race-finish').inputValue(), '500');
     assert.equal(await frame.locator('#race-time').inputValue(), '180');
@@ -131,7 +140,7 @@ for (const count of [2,3,4]) test(`built opaque iframe ${count}-seat Race start 
     for (let index = 1; index < count-1; index++) { await send([pad([12],index)]); await send([]); }
     await frame.getByRole('heading', { name: 'Race complete.', exact: true }).waitFor();
     assert.match(await frame.locator('#survive-results-root').textContent(), /Winner P1/);
-    await page.screenshot({ path: '/tmp/down-to-duck-05-01-race-result.png' });
+    await page.screenshot({ path: fileURLToPath(new URL('down-to-duck-05-01-race-result.png', coverageArtifacts)) });
     await frame.getByRole('button', { name: 'Race again', exact: true }).click();
     assert.equal(await frame.locator('.race-distance, .race-lifecycle').count(),0,'retry removes all prior Race HUD projections');
     await frame.locator('#local-play').click(); await frame.locator('#local-session-back').click();
@@ -139,7 +148,7 @@ for (const count of [2,3,4]) test(`built opaque iframe ${count}-seat Race start 
     assert.equal(await frame.locator('#session-seats').isVisible(), false);
     assert.deepEqual(errors, []);
     assert.deepEqual(external, []); assert.equal(await frame.evaluate(() => window.raceNativeCalls), 0);
-  } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); }
+  } finally { try { if (frame) await collectRealm(frame, identity); } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); } }
 });
 
 test('settings and unique roster validate atomically; locked roster captures schema and stable order for 2/3/4 seats', async () => {

@@ -1,3 +1,9 @@
+import { artifactForCoverage, artifactDirectoryForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
+import { mkdirSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+const coverageArtifacts = artifactDirectoryForCoverage(new URL('file:///tmp/'), 'relay-lifecycle');
+mkdirSync(coverageArtifacts, { recursive: true });
+let coverageGeneration = 0;
 import test, { after } from 'node:test';
 import assert from 'node:assert/strict';
 import { loadSources } from './source-loader.mjs';
@@ -195,15 +201,18 @@ function installRuntime() {
   };
 }
 async function browserRun(run) {
-  const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
+  const built = await readFile(artifactForCoverage(new URL('../dist/index.html', import.meta.url)), 'utf8');
   const harness = `<!doctype html><iframe sandbox="allow-scripts" style="border:0;width:900px;height:600px"></iframe><script>document.querySelector('iframe').srcdoc=${JSON.stringify(built.replace('<head>', `<head><script>(${installRuntime.toString()})();</script>`)).replaceAll('<', '\\u003c')};</script>`;
   const server = createServer((_, response) => { response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); response.end(harness); });
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve)); const browser = await chromium.launch({ args: ['--mute-audio'] });
+  let frame;
+  const identity = { suite: process.argv[1], scenario: 'raw-relay-lifecycle', frame: 'opaque-app', generation: coverageGeneration++, scope: 'current' };
   try {
     const page = await browser.newPage({ viewport: { width: 930, height: 630 }, reducedMotion: 'reduce' }); const errors = []; page.on('pageerror', error => errors.push(error.message));
-    await page.goto(`http://127.0.0.1:${server.address().port}`); const frame = await (await page.locator('iframe').elementHandle()).contentFrame();
+    registerRealm(page, identity);
+    await page.goto(`http://127.0.0.1:${server.address().port}`); frame = await (await page.locator('iframe').elementHandle()).contentFrame();
     await frame.locator('#play').waitFor(); await run({ page, frame, send: pads => frame.evaluate(pads => window.relayFixture.emit(pads), pads) }); assert.deepEqual(errors, []);
-  } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); }
+  } finally { try { if (frame) await collectRealm(frame, identity); } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); } }
 }
 async function assertBoardContrast(frame) {
   const failures = await frame.evaluate(() => {
@@ -250,7 +259,7 @@ test('built Relay routes original reclaim, fresh skip/cancel, deliberate leave a
       }).map(node => node.textContent));
       assert.deepEqual(invalid, [], `${name} ${width}x${height}`);
       await assertBoardContrast(frame);
-      await page.locator('iframe').screenshot({ path: `/tmp/relay-lifecycle-${name}-${width}x${height}-${light ? 'light' : 'dark'}.png` });
+      await page.locator('iframe').screenshot({ path: fileURLToPath(new URL(`relay-lifecycle-${name}-${width}x${height}-${light ? 'light' : 'dark'}.png`, coverageArtifacts)) });
     }
     await page.setViewportSize({ width: 930, height: 630 }); await page.locator('iframe').evaluate(node => { node.style.width = '900px'; node.style.height = '600px'; }); await page.waitForTimeout(30);
   }
@@ -293,7 +302,7 @@ test('built fresh keyboard skip leaves the original reserved seat waiting after 
     assert.equal(await frame.locator('#relay-handoff button').count(), 0);
     if (width === 200) assert.equal(await frame.locator('#relay-handoff').isVisible(), false);
     else assert.equal(await frame.getByRole('heading', { name: 'Waiting for a player to reclaim.' }).isVisible(), true);
-    await page.locator('iframe').screenshot({ path: `/tmp/relay-lifecycle-waiting-${width}x${height}-${light ? 'light' : 'dark'}.png` });
+    await page.locator('iframe').screenshot({ path: fileURLToPath(new URL(`relay-lifecycle-waiting-${width}x${height}-${light ? 'light' : 'dark'}.png`, coverageArtifacts)) });
   }
   await page.setViewportSize({ width: 930, height: 630 }); await page.locator('iframe').evaluate(node => { node.style.width = '900px'; node.style.height = '600px'; }); await page.waitForTimeout(40);
   await send([pad(0, [0])]); assert.equal(await frame.locator('#survive-lifecycle-board').count(), 0);
@@ -321,7 +330,7 @@ for (const choice of ['accept', 'decline', 'expire', 'leave']) test(`built perso
           assert.equal(await app.frame.getByRole('heading', { name: 'P1 can return' }).isVisible(), true);
           assert.deepEqual(await app.frame.locator('#relay-handoff button').evaluateAll(nodes => nodes.filter(node => { const r = node.getBoundingClientRect(); return r.width < 44 || r.height < 44 || r.left < 0 || r.top < 0 || r.right > innerWidth + 1 || r.bottom > innerHeight + 1 || !node.contains(document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2)); }).map(node => node.textContent)), []);
         }
-        await app.iframe.screenshot({ path: `/tmp/relay-lifecycle-recovery-${width}x${height}-${light ? 'light' : 'dark'}.png` });
+        await app.iframe.screenshot({ path: fileURLToPath(new URL(`relay-lifecycle-recovery-${width}x${height}-${light ? 'light' : 'dark'}.png`, coverageArtifacts)) });
       }
       await app.resize(900,600); await app.key('pause');
       await app.frame.getByRole('button', { name: 'Revive P1', exact: true }).focus(); await app.page.keyboard.press('Enter');
