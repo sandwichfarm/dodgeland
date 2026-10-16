@@ -101,6 +101,8 @@ test('dead runner device loss freezes its existing offer and original reclaim re
   const player = run.session.players[0], offer = player.recovery.offer, before = assets(run), time = run.game.time;
   run.relay.disconnect('p1'); ticks(run, 2000);
   assert.equal(run.game.time, time); assert.deepEqual(player.recovery.offer, offer); assert.deepEqual(assets(run), before);
+  assert.equal(act(run, 'skip', 'p2'), false, 'another seat cannot skip an unsettled personal death offer');
+  assert.equal(run.relay.activeSeat, 'p1'); assert.deepEqual(player.recovery.offer, offer);
   assert.equal(run.relay.reclaim('p1', 'gamepad-9'), false);
   assert.equal(run.relay.reclaim('p1', 'gamepad-0'), true);
   assert.equal(player.participation, 'dead'); assert.equal(run.relay.snapshot().phase, 'recovery');
