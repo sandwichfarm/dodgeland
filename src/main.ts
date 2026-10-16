@@ -1071,12 +1071,13 @@ function updateChaseHud(): void {
 function play(): void {
   if (import.meta.env.DEV && devTools?.isOpen) return;
   if (localStage || !el('drawer').hidden || market.isOpen() || !frameAvailable()) return;
-  if (presentingDeathSpill()) return;
+  if (!localSession?.running && presentingDeathSpill()) return;
   if (selectedOwnerRun().pendingPack) { market.toggle(); return; }
   audio.unlock();
   if (localSession?.running && (localSession.players.some(player => player.state === 'playing' || player.state === 'paused') || hasPendingRecoveryOffer())) {
     sessionPaused = false; game.resume(); accumulator = 0; activateNativeKeyboard(); updateHud(); return;
   }
+  if (presentingDeathSpill()) return;
   if (game.state === 'dead') reset();
   if (game.state === 'paused') game.resume(); else game.start();
   updateHud();
