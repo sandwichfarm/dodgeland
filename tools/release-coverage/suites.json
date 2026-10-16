@@ -161,6 +161,16 @@
       "role": "mixed",
       "browser": true,
       "provenance": "Original production Survive Arcade/Flow model and actual opaque controller adoption journeys; both executing realm classes required"
+    },
+    "adapters-09-middle": {
+      "files": [
+        "tests/relay-tracer.mjs",
+        "tests/relay-lifecycle.test.mjs",
+        "tests/race-tracer.mjs"
+      ],
+      "role": "mixed",
+      "browser": true,
+      "provenance": "Original Relay and Race production model plus built opaque journeys; Relay raw and shared-fixture realms remain distinct"
     }
   },
   "pendingAdapters": [
