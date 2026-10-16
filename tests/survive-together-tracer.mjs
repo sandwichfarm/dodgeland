@@ -4,6 +4,7 @@ import { createServer } from 'node:http';
 import test, { after } from 'node:test';
 import { chromium } from 'playwright';
 import { loadSources } from './source-loader.mjs';
+import { artifactForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 
 const sources = await loadSources(['game', 'mode-rules', 'session', 'survive-together']);
 after(() => sources.dispose());
@@ -91,19 +92,22 @@ function installSurviveRuntime(mode = 'arcade') {
 const pad = (index, id, buttons = []) => ({ index, id, mapping: 'standard', connected: true, timestamp: 1, axes: [0, 0, 0, 0], buttons: Array.from({ length: 17 }, (_, button) => ({ value: buttons.includes(button) ? 1 : 0, pressed: buttons.includes(button), touched: buttons.includes(button) })) });
 
 test('the muted opaque iframe consumes a live second-controller edge, cancels unchanged, then commits two players', { timeout: 30_000 }, async () => {
-  const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
+  const built = await readFile(artifactForCoverage(new URL('../dist/index.html', import.meta.url)), 'utf8');
   assert.match(built, /survive-together|Play together\?/, 'run pnpm build after wiring Survive Together');
   const setup = `<script>(${installSurviveRuntime.toString()})('arcade');</script>`;
   const harness = `<!doctype html><iframe sandbox="allow-scripts" style="border:0;width:900px;height:600px"></iframe><script>document.querySelector('iframe').srcdoc=${JSON.stringify(built.replace('<head>', '<head>' + setup)).replaceAll('<', '\\u003c')};</script>`;
-  const server = createServer((_request, response) => { response.writeHead(200, { 'Content-Type': 'text/html' }); response.end(harness); });
+  const server = createServer((_request, response) => { response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); response.end(harness); });
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   const browser = await chromium.launch({ args: ['--mute-audio'] });
+  let frame;
+  const identity = { suite: process.argv[1], scenario: 'survive-arcade-adoption', frame: 'opaque-app', generation: 0, scope: 'current' };
   try {
     const page = await browser.newPage({ viewport: { width: 900, height: 600 } });
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
+    registerRealm(page, identity);
     await page.goto(`http://127.0.0.1:${server.address().port}`);
-    const frame = await (await page.locator('iframe').elementHandle()).contentFrame();
+    frame = await (await page.locator('iframe').elementHandle()).contentFrame();
     assert.ok(frame);
     await frame.locator('#play').waitFor();
     const send = pads => frame.evaluate(next => window.surviveFixture.emit(next), pads);
@@ -143,23 +147,27 @@ test('the muted opaque iframe consumes a live second-controller edge, cancels un
     assert.deepEqual(await frame.locator('#session-seats [data-seat]').evaluateAll(nodes => nodes.map(node => node.dataset.seat)), ['p1', 'p2', 'p3']);
     assert.deepEqual(errors, []);
   } finally {
-    await browser.close(); await new Promise(resolve => server.close(resolve));
+    try { if (frame) await collectRealm(frame, identity); }
+    finally { await browser.close(); await new Promise(resolve => server.close(resolve)); }
   }
 });
 
 test('the muted opaque iframe joins a progressed Flow run without replacing its run state', { timeout: 30_000 }, async () => {
-  const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
+  const built = await readFile(artifactForCoverage(new URL('../dist/index.html', import.meta.url)), 'utf8');
   const setup = `<script>(${installSurviveRuntime.toString()})('stroll');</script>`;
   const harness = `<!doctype html><iframe sandbox="allow-scripts" style="border:0;width:900px;height:600px"></iframe><script>document.querySelector('iframe').srcdoc=${JSON.stringify(built.replace('<head>', '<head>' + setup)).replaceAll('<', '\\u003c')};</script>`;
-  const server = createServer((_request, response) => { response.writeHead(200, { 'Content-Type': 'text/html' }); response.end(harness); });
+  const server = createServer((_request, response) => { response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); response.end(harness); });
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   const browser = await chromium.launch({ args: ['--mute-audio'] });
+  let frame;
+  const identity = { suite: process.argv[1], scenario: 'survive-flow-adoption', frame: 'opaque-app', generation: 0, scope: 'current' };
   try {
     const page = await browser.newPage({ viewport: { width: 900, height: 600 } });
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
+    registerRealm(page, identity);
     await page.goto(`http://127.0.0.1:${server.address().port}`);
-    const frame = await (await page.locator('iframe').elementHandle()).contentFrame();
+    frame = await (await page.locator('iframe').elementHandle()).contentFrame();
     assert.ok(frame);
     await frame.locator('#play').waitFor();
     const send = pads => frame.evaluate(next => window.surviveFixture.emit(next), pads);
@@ -181,6 +189,7 @@ test('the muted opaque iframe joins a progressed Flow run without replacing its 
     assert.deepEqual(await frame.locator('#session-seats [data-seat]').evaluateAll(nodes => nodes.map(node => node.dataset.seat)), ['p1', 'p2']);
     assert.deepEqual(errors, []);
   } finally {
-    await browser.close(); await new Promise(resolve => server.close(resolve));
+    try { if (frame) await collectRealm(frame, identity); }
+    finally { await browser.close(); await new Promise(resolve => server.close(resolve)); }
   }
 });
