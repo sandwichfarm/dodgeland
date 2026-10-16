@@ -56,6 +56,8 @@ export interface SessionModeHandlers {
   beforeDepart?(observation: SessionContributionObservation): void;
   canLifecycle?(kind: 'device-lost' | 'reclaim-offered' | 'reclaimed' | 'departed', seat: SeatId, device?: DeviceId): boolean;
   preserveReclaimPosition?: boolean;
+  /** Retain device absence separately from a dead participant's recovery state. */
+  retainDeadDevice?: boolean;
   suppressPursuit?: boolean;
   canAct?(seat: SeatId): boolean;
   canTransact?(seat: SeatId): boolean;
@@ -86,7 +88,7 @@ export function composeSessionModeDefinition(definition: ModeDefinition, handler
   const callbacks = ['beforeDeath', 'beforeDepart', 'canLifecycle', 'canAct', 'canTransact', 'canAdmit', 'simulates', 'canAdvance', 'attach', 'join', 'deviceLost', 'reclaim', 'depart', 'death', 'progress', 'result', 'tick', 'pending', 'recover'];
   if (!handlers || typeof handlers !== 'object' || Array.isArray(handlers)) throw new TypeError('Expected session handlers.');
   for (const [key, value] of Object.entries(handlers)) {
-    if (key === 'preserveReclaimPosition' || key === 'suppressPursuit' ? typeof value !== 'boolean' : !callbacks.includes(key) || typeof value !== 'function') throw new TypeError(`Invalid session handler: ${key}`);
+    if (key === 'preserveReclaimPosition' || key === 'suppressPursuit' || key === 'retainDeadDevice' ? typeof value !== 'boolean' : !callbacks.includes(key) || typeof value !== 'function') throw new TypeError(`Invalid session handler: ${key}`);
   }
   return Object.freeze({ definition, handlers: Object.freeze({ ...handlers }) });
 }
@@ -97,6 +99,10 @@ export interface SessionAdmission {
   readonly seat?: SeatId;
   /** A stronger identity is preferred over device/character aliases on re-entry. */
   readonly participantId?: string;
+}
+export interface DeviceReclaimToken {
+  readonly sessionId: string; readonly participantId: string; readonly seat: SeatId;
+  readonly device: DeviceId; readonly generation: number;
 }
 export interface SessionAdmissionPlan {
   readonly admission: SessionAdmission;
@@ -872,28 +878,40 @@ export class LocalSession {
   deviceLost(seat: SeatId, cause = 'device-lost'): boolean {
     if (this.mode?.handlers.canLifecycle?.('device-lost', seat) === false) return false;
     const player = this.players.find(candidate => candidate.seat === seat);
-    if (!player || player.participation !== 'active') return false;
-    player.participation = 'device-lost'; player.deviceLostAt = this.world.time;
-    this.emit('device-lost', player, 'active', 'device-lost', cause); return true;
+    const retainDead = !!this.mode?.handlers.retainDeadDevice && player?.participation === 'dead' && player.deviceLostAt === null;
+    if (!player || (player.participation !== 'active' && !retainDead)) return false;
+    const previous = player.participation;
+    if (!retainDead) player.participation = 'device-lost';
+    player.deviceLostAt = this.world.time;
+    this.emit('device-lost', player, previous, player.participation, cause); return true;
+  }
+  deviceReclaimToken(seat: SeatId): DeviceReclaimToken | undefined {
+    const player = this.players.find(p => p.seat === seat);
+    if (this.result || !player || player.deviceLostAt === null || !['dead', 'device-lost'].includes(player.participation)) return undefined;
+    return Object.freeze({ sessionId: this.id, participantId: player.participantId, seat, device: player.device, generation: this.lifecycle.length });
   }
   offerReclaim(seat: SeatId, device: DeviceId): boolean {
     if (this.mode?.handlers.canLifecycle?.('reclaim-offered', seat, device) === false) return false;
     const player = this.players.find(candidate => candidate.seat === seat);
-    if (!player || player.participation !== 'device-lost') return false;
-    this.emit('reclaim-offered', player, 'device-lost', 'device-lost', 'device-reclaim-offered', device);
+    if (!player || (player.participation !== 'device-lost' && !(this.mode?.handlers.retainDeadDevice && player.participation === 'dead' && player.deviceLostAt !== null))) return false;
+    this.emit('reclaim-offered', player, player.participation, player.participation, 'device-reclaim-offered', device);
     return true;
   }
-  reclaim(seat: SeatId, device: DeviceId): boolean {
+  reclaim(seat: SeatId, device: DeviceId, token?: DeviceReclaimToken): boolean {
+    const current = this.deviceReclaimToken(seat);
+    if (token && (!current || token.sessionId !== current.sessionId || token.participantId !== current.participantId || token.seat !== current.seat || token.device !== current.device || token.generation !== current.generation)) return false;
     if (this.mode?.handlers.canLifecycle?.('reclaimed', seat, device) === false) return false;
     const player = this.players.find(candidate => candidate.seat === seat);
-    if (!player || player.participation !== 'device-lost' || this.players.some(candidate => candidate !== player && candidate.participation === 'active' && candidate.device === device)) return false;
-    const relocate = !!this.mode?.handlers.reclaim && !this.mode.handlers.preserveReclaimPosition;
+    const retainDead = !!token && !!this.mode?.handlers.retainDeadDevice && player?.participation === 'dead' && player.deviceLostAt !== null;
+    if (!isDeviceId(device) || this.result || !player || (player.participation !== 'device-lost' && !retainDead) || this.players.some(candidate => candidate !== player && (candidate.participation === 'active' || (this.mode?.handlers.retainDeadDevice && candidate.participation === 'dead' && candidate.deviceLostAt === null)) && candidate.device === device)) return false;
+    const relocate = !retainDead && !!this.mode?.handlers.reclaim && !this.mode.handlers.preserveReclaimPosition;
     const placement = relocate ? this.safePlacement(player) : undefined;
     if (relocate && !placement) return false;
-    player.device = device; this.addRecoveryDeviceAlias(player, device); player.participation = 'active';
+    const previous = player.participation;
+    player.device = device; this.addRecoveryDeviceAlias(player, device); if (!retainDead) player.participation = 'active';
     if (placement) { player.x = player.fromX = placement.x; player.y = player.fromY = placement.y; }
     player.statistics.deviceLostDuration += Math.max(0, this.world.time - (player.deviceLostAt ?? this.world.time)); player.deviceLostAt = null;
-    this.emit('reclaimed', player, 'device-lost', 'active', 'device-reclaimed'); return true;
+    this.emit('reclaimed', player, previous, player.participation, 'device-reclaimed'); return true;
   }
   depart(seat: SeatId, cause = 'departed'): boolean {
     if (this.observingDepartures.has(seat)) return false;

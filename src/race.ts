@@ -112,6 +112,7 @@ export class RaceCoordinator {
 export function composeRaceDefinition(base: ModeDefinition, race: RaceCoordinator): SessionModeDefinition {
   return composeSessionModeDefinition(base, {
     suppressPursuit: true,
+    retainDeadDevice: true,
     attach: session => race.attach(session), canAdmit: () => false,
     canAct: seat => !race.result && !race.isFinished(seat), canTransact: () => false, canAdvance: () => !race.result,
     simulates: player => !race.isFinished(player.seat),
