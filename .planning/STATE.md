@@ -101,3 +101,7 @@ Typed gsd-verifier stayed pending_init across multiple turns and was explicitly 
 - [Phase 04]: Relay reuses the owner adapter with opt-in capabilities and paused transaction authority; pointer inspection remains shared/read-only, while actual turn/lifecycle changes invalidate all contexts.
 
 - [Phase 04]: Already-frozen Relay boards retain participant authority during resize; public-seed input proof and opaque RNG identity remain distinct from model semantic-future evidence.
+
+## Root post-wave check — 07-02
+
+SUMMARY0caad7e and owned RED/GREEN commits spot-checked after terminal gates. No redundant test rerun. The installed loop registry exposes ui.safety-gate, but this installed CLI rejects both `query ui.safety-gate 07` and `ui safety-gate 07` (exit1; help lists no ui command). Recorded tooling limitation, not a fabricated hook pass. This bounded plan changes test/coverage tooling only, with no product frontend edits; required build/guidance/conformance and original cross-mode assertions passed as recorded. Continue independently approved07-07 component adapters.
