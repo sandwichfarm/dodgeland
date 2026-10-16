@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-12 complete collection11460 active after accepted menu repair
-last_updated: "2026-10-16T22:52:56.837256+00:00"
+stopped_at: 07-12 collection11460 terminal at Survive recovery matrix timeout
+last_updated: "2026-10-16T23:55:08.241833+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,14 +12,14 @@ progress:
   completed_plans: 40
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Root accepted f625b98/cdb3113 and independent review; frozen full collection11460 active, report pending.
+last_activity_desc: Collection11460 exited1 after119 production PASS; hand/menu repaired frontiers cleared, recovery matrix120s cancellation pending diagnosis.
 ---
 
 # Project State
 
 Adjacent run-menu observation14480 confirms ready320×360 Options,320×560 home and390×844 home share the Travelers overflow; corresponding dead states fit because Local Play is absent. Temporary read-only diagnostic only, no replacement gate or source/test edits. No active process; repair scope must cover ready home as well as Options.
 
-CURRENT ACTIVE execution:11460, collector PID58476/shell58171, run`ed12cf45-d4d2-4fb1-a77a-89ede7a9ea78`, frozen source/tests/toolingf625b98 (evidencecdb3113). Log`/tmp/down-to-duck-07-12-full-collection-menu-verified.log`. Exact fast collection/attribution/policy prefix passed; all132 production jobs plus controls and final immutable lock/diff checks required. Root accepted independent review:36menu/223observations,44hand/38checks,24pause and34 restored artifacts; conformance5pass5unmeasured. Preexisting rivet/Back border touch has no glyph/hit obstruction; no numerical decorative clearance claimed. No source/test/tool changes while live. Historical inactive/terminal statements below superseded; full report/floors remain pending.
+CURRENT TERMINAL execution:11460 exited1 after119 production PASS records (controls separate), run`ed12cf45-d4d2-4fb1-a77a-89ede7a9ea78`, frozen source/tests/toolingf625b98. Log`/tmp/down-to-duck-07-12-full-collection-menu-verified.log`. Both repaired hand/menu frontiers passed; next survive-recovery-board-layout aggregate canceled at120000ms, suite127833.855ms with0assertion failures/1cancel. Archived report has127frames/PNGs through final empty-items wide state, errors/external empty, SHA256d067a7b4a286f7065c6dcb5e2294ff4d1ab12e653e13ebedf7d51ef197171711; completion of asynchronous body does not waive cancellation.128 ordinary files restored byte-for-byte, normaldistbc1bcc8f07aae95e7308f3c659157ee5f2cf31dd98dce77d393d2b070373f2fb unchanged. No active process or edits/rerun; precise timing and narrow same-app stage/cleanup repair require root authorization. Complete132-job report/floors still pending. Historical active statements below superseded.
 
 Latest focused run-menu repair:f625b98,78868 exit0; ordinary36frames/223observations plus canonical e3c0810e-4922-412d-b7ef-be9d72fa8a7a menu36/hand44/pause24, required checks all passed.34 ordinary artifacts restored exactly; ready compact home/Options full labels and existing dead layout preserved.51193 intermediate6px height overflow retained as superseded RED. See07-12-RUN-MENU-REPAIR.md. No active process; independent review/root acceptance before full collection. Counts remain6 phases40/45 plans, complete initial report pending.
 
