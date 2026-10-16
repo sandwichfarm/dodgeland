@@ -1,7 +1,7 @@
 ---
 phase: 05-race
 verified: 2026-10-16
-status: human_needed
+status: passed
 score: 40/40 must-haves behaviorally verified
 behavior_unverified: 0
 overrides_applied: 0
@@ -16,6 +16,9 @@ human_verification:
 ---
 
 # Phase 05: Race verification
+
+> **Acceptance addendum — 2026-10-16:** The user explicitly reported: "I tested it; the presentation feels clear and usable" in response to the combined Survive/Relay/Race HUD, compact Controls, recovery and results question. The human presentation item is now passed; see this phase’s UAT record. The original independent report below is retained as dated evidence, so its pending-human statements describe the pre-response checkpoint. This adds no hardware, exhaustive frame/theme, coverage or conformance claim. Formal phase closure also requires the configured security gate.
+
 
 **Goal:** Players race one timed shared course under readable leader-relative fog, contextual tactics, and deterministic competitive outcomes.
 

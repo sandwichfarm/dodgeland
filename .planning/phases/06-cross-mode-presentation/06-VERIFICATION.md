@@ -1,7 +1,7 @@
 ---
 phase: 06-cross-mode-presentation
 verified: 2026-10-16
-status: human_needed
+status: passed
 score: 47/47 technical roadmap and plan truths verified
 behavior_unverified: 0
 overrides_applied: 0
@@ -20,6 +20,9 @@ human_verification:
 ---
 
 # Phase 06: Cross-Mode Presentation verification
+
+> **Acceptance addendum — 2026-10-16:** The user explicitly reported: "I tested it; the presentation feels clear and usable" in response to the combined Survive/Relay/Race HUD, compact Controls, recovery and results question. The human presentation item is now passed; see this phase’s UAT record. The original independent report below is retained as dated evidence, so its pending-human statements describe the pre-response checkpoint. This adds no hardware, exhaustive frame/theme, coverage or conformance claim. Formal phase closure also requires the configured security gate.
+
 
 **Goal:** Every multiplayer mode remains understandable and usable through interruptions, recovery, results, and every supported frame size/theme.
 
