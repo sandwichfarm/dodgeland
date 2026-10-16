@@ -1461,7 +1461,7 @@
     "scope": "Static canonical-runner/package-script discovery; candidate realm owners, not executed full collection or a final suite allowlist",
     "candidateCount": 106,
     "notAnAllowlist": true,
-    "completion": "07-09 must reconcile transitive fixture imports, every source-executing realm and all nine mode strata before enabling full collection"
+    "completion": "07-12 reconciles package scripts, transitive fixture imports, every source-executing realm and all nine mode strata before enabling full collection"
   },
   "separateScopes": [
     {
@@ -1557,8 +1557,9 @@
     {
       "path": "tests/actor-render.test.mjs",
       "role": "independent-component-browser",
-      "status": "pending-checked-continuation",
-      "adapterNeeded": true
+      "status": "component-adapter-complete",
+      "adapterNeeded": true,
+      "proofRun": "3fc05508-2cc2-42c1-bfa5-123e10c4fc79"
     },
     {
       "path": "tests/audio-demo.mjs",
@@ -1575,8 +1576,9 @@
     {
       "path": "tests/character-power-render.test.mjs",
       "role": "independent-component-browser",
-      "status": "pending-checked-continuation",
-      "adapterNeeded": true
+      "status": "component-adapter-complete",
+      "adapterNeeded": true,
+      "proofRun": "3fc05508-2cc2-42c1-bfa5-123e10c4fc79"
     },
     {
       "path": "tests/character-power-runtime.mjs",
@@ -1587,8 +1589,9 @@
     {
       "path": "tests/coin-denominations-render.test.mjs",
       "role": "independent-component-browser",
-      "status": "pending-checked-continuation",
-      "adapterNeeded": true
+      "status": "component-adapter-complete",
+      "adapterNeeded": true,
+      "proofRun": "3fc05508-2cc2-42c1-bfa5-123e10c4fc79"
     },
     {
       "path": "tests/coin-denominations.test.mjs",
@@ -1635,8 +1638,9 @@
     {
       "path": "tests/magnet-render.test.mjs",
       "role": "independent-component-browser",
-      "status": "pending-checked-continuation",
-      "adapterNeeded": true
+      "status": "component-adapter-complete",
+      "adapterNeeded": true,
+      "proofRun": "3fc05508-2cc2-42c1-bfa5-123e10c4fc79"
     },
     {
       "path": "tests/market-layout.mjs",
@@ -1653,8 +1657,9 @@
     {
       "path": "tests/market-preview.test.mjs",
       "role": "independent-component-browser",
-      "status": "pending-checked-continuation",
-      "adapterNeeded": true
+      "status": "component-adapter-complete",
+      "adapterNeeded": true,
+      "proofRun": "3fc05508-2cc2-42c1-bfa5-123e10c4fc79"
     },
     {
       "path": "tests/market-runtime.mjs",
@@ -1665,8 +1670,9 @@
     {
       "path": "tests/market-scenery-render.test.mjs",
       "role": "independent-component-browser",
-      "status": "pending-checked-continuation",
-      "adapterNeeded": true
+      "status": "component-adapter-complete",
+      "adapterNeeded": true,
+      "proofRun": "3fc05508-2cc2-42c1-bfa5-123e10c4fc79"
     },
     {
       "path": "tests/market-scenery.test.mjs",
@@ -1677,8 +1683,9 @@
     {
       "path": "tests/mob-render.test.mjs",
       "role": "independent-component-browser",
-      "status": "pending-checked-continuation",
-      "adapterNeeded": true
+      "status": "component-adapter-complete",
+      "adapterNeeded": true,
+      "proofRun": "3fc05508-2cc2-42c1-bfa5-123e10c4fc79"
     },
     {
       "path": "tests/mob-runtime.mjs",
@@ -1713,9 +1720,10 @@
     {
       "path": "tests/wearables-render.test.mjs",
       "role": "independent-component-browser",
-      "status": "pending-checked-continuation",
-      "adapterNeeded": true
+      "status": "component-adapter-complete",
+      "adapterNeeded": true,
+      "proofRun": "3fc05508-2cc2-42c1-bfa5-123e10c4fc79"
     }
   ],
-  "fullCollectionBlocker": "Package-wide graph adds27 paths beyond106 static canonical candidates:17 independent browser owners,8 existing-fixture consumers,2 Node suites. Full report and mode attribution await bounded checked continuation; no extra paths edited."
+  "fullCollectionBlocker": "Eight additional component owners have actual payload proof in07-10. Seven built owners await07-11; two audio generation owners, eight existing-fixture consumers, two Node suites, mechanical full inventory and valid mode attribution await07-12. Complete remains false."
 }

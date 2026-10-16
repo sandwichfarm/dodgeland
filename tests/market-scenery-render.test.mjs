@@ -1,3 +1,15 @@
+import { artifactDirectoryForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
+const coverageArtifacts = artifactDirectoryForCoverage(new URL('../artifacts/', import.meta.url), 'market-scenery-render');
+const coveragePages = new Map();
+let coverageGeneration = 0;
+function registerPage(page) {
+  const identity = { suite: process.argv[1], scenario: 'market-scenery-render', frame: 'component-page', generation: coverageGeneration++, scope: 'current' };
+  registerRealm(page, identity); coveragePages.set(page, identity);
+}
+async function closePage(page) {
+  try { await collectRealm(page, coveragePages.get(page)); }
+  finally { coveragePages.delete(page); await page.close(); }
+}
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
@@ -15,11 +27,12 @@ const server = createServer((request, response) => {
 });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const browser = await chromium.launch({ args: ['--mute-audio'] });
-after(async () => { await browser.close(); await new Promise(resolve => server.close(resolve)); });
+after(async () => { try { for (const page of coveragePages.keys()) await closePage(page); } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); } });
 
 test('market stands rasterize at existing generated obstacles without changing lanes', async () => {
   const page = await browser.newPage({ viewport: { width: 900, height: 600 }, deviceScaleFactor: 1 });
   const errors = []; page.on('pageerror', error => errors.push(error.message));
+  registerPage(page);
   await page.goto(`http://127.0.0.1:${server.address().port}`);
   const sheet = await page.evaluate(async () => {
     const [{ Renderer }, { Game }, { marketScenery }] = await Promise.all([
@@ -70,7 +83,7 @@ test('market stands rasterize at existing generated obstacles without changing l
     assert.ok(stand.voxels.length > 0);
     for (const voxel of stand.voxels) for (const key of ['x', 'y', 'z', 'w', 'd', 'h']) assert.ok(Number.isFinite(voxel[key]));
   }
-  const artifacts = new URL('../artifacts/', import.meta.url);
+  const artifacts = coverageArtifacts;
   await mkdir(artifacts, { recursive: true });
   await writeFile(new URL('market-scenery-models.png', artifacts), Buffer.from(sheet.png, 'base64'));
   const results = [];
@@ -126,5 +139,5 @@ test('market stands rasterize at existing generated obstacles without changing l
   assert.deepEqual(ordinary, { replacements: 0, unchanged: true });
   assert.deepEqual(errors, []);
   await writeFile(new URL('market-scenery-render.json', artifacts), JSON.stringify({ scenes: results, ordinary, errors }, null, 2));
-  await page.close();
+  await closePage(page);
 });

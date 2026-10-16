@@ -1,3 +1,15 @@
+import { artifactDirectoryForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
+const coverageArtifacts = artifactDirectoryForCoverage(new URL('../artifacts/', import.meta.url), 'market-preview');
+const coveragePages = new Map();
+let coverageGeneration = 0;
+function registerPage(page) {
+  const identity = { suite: process.argv[1], scenario: 'market-preview', frame: 'component-page', generation: coverageGeneration++, scope: 'current' };
+  registerRealm(page, identity); coveragePages.set(page, identity);
+}
+async function closePage(page) {
+  try { await collectRealm(page, coveragePages.get(page)); }
+  finally { coveragePages.delete(page); await page.close(); }
+}
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
@@ -13,10 +25,11 @@ const server = createServer((request, response) => {
 });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const browser = await chromium.launch({ args: ['--mute-audio'] });
-after(async () => { await browser.close(); await new Promise(resolve => server.close(resolve)); });
+after(async () => { try { for (const page of coveragePages.keys()) await closePage(page); } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); } });
 
 async function fixture() {
   const page = await browser.newPage({ viewport: { width: 640, height: 600 }, deviceScaleFactor: 2 });
+  registerPage(page);
   await page.goto(`http://127.0.0.1:${server.address().port}`);
   await page.evaluate(async () => {
     const [{ createMarketPreview }, { CHARACTERS }, { ITEM_CATALOG }, { Renderer }] = await Promise.all([
@@ -98,8 +111,8 @@ test('all cosmetic items and dressed travelers render visibly through a full 3D 
     window.preview.dispose();
     return { results, expected: window.characters.length + window.cosmetics.length, png: sheet.toDataURL().split(',')[1] };
   });
-  await mkdir(new URL('../artifacts/', import.meta.url), { recursive: true });
-  await writeFile(new URL('../artifacts/market-preview-sheet.png', import.meta.url), Buffer.from(result.png, 'base64'));
+  await mkdir(coverageArtifacts, { recursive: true });
+  await writeFile(new URL('market-preview-sheet.png', coverageArtifacts), Buffer.from(result.png, 'base64'));
   assert.equal(result.results.length, result.expected);
   for (const entry of result.results) {
     assert.ok(entry.changed, `${entry.name} shows different faces when rotated`);
@@ -111,7 +124,7 @@ test('all cosmetic items and dressed travelers render visibly through a full 3D 
       assert.equal(frame.scale, entry.initialScale, 'turning never changes the framing');
     }
   }
-  await page.close();
+  await closePage(page);
 });
 
 test('turntable stops when hidden, offscreen, reduced or disposed and returns home after hover', async () => {
@@ -183,7 +196,7 @@ test('turntable stops when hidden, offscreen, reduced or disposed and returns ho
     return { pending: window.pendingFrames.size, width: window.preview.element.width, height: window.preview.element.height };
   });
   assert.deepEqual(disposed, { pending: 0, width: 1, height: 1 });
-  await page.close();
+  await closePage(page);
 });
 
 test('changing the current traveler or equipment updates the actual portrait and accessible description', async () => {
@@ -204,5 +217,5 @@ test('changing the current traveler or equipment updates the actual portrait and
   assert.notEqual(result.dressed, result.other);
   assert.match(result.label, /Butter wearing Straw Boater, Sailor Shirt/);
   assert.match(result.otherLabel, /Beep/);
-  await page.close();
+  await closePage(page);
 });
