@@ -53,6 +53,26 @@
         "artifacts/local-session-render-foreground.png",
         "artifacts/local-session-render-river.png"
       ]
+    },
+    "adapters-07-middle": {
+      "files": [
+        "tests/session-board-controls.test.mjs",
+        "tests/session-labels-render.test.mjs",
+        "tests/consumable-world-render.test.mjs"
+      ],
+      "role": "browser",
+      "provenance": "Arranged production setup, labels and world-item components; original assertions unchanged",
+      "artifactDirectories": [
+        "artifacts/session-labels-render.json",
+        "artifacts/consumable-world-render.json",
+        "artifacts/consumable-protected-return.png",
+        "artifacts/consumable-protected-return.json",
+        "artifacts/consumable-river-render.json",
+        "artifacts/consumable-world-200x160.png",
+        "artifacts/consumable-world-320x560.png",
+        "artifacts/consumable-world-900x600.png",
+        "artifacts/consumable-world-1440x900.png"
+      ]
     }
   },
   "pendingAdapters": [
