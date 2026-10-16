@@ -467,6 +467,32 @@
         }
       ],
       "provenance": "Complete original same-board Local Play setup/HUD/theme/input journey; public pause for static measurements; canonical source-bound realm"
+    },
+    "pause-12": {
+      "files": [
+        "tests/pause-game-layout.mjs"
+      ],
+      "roles": {
+        "tests/pause-game-layout.mjs": "browser"
+      },
+      "browser": true,
+      "jobs": [
+        {
+          "id": "pause-game-layout",
+          "file": "tests/pause-game-layout.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "defaultBuildScope": "production",
+          "artifactPatterns": [
+            "artifacts/pause-*.png",
+            "artifacts/pause-game-failure.png",
+            "artifacts/pause-game-layout.json"
+          ]
+        }
+      ],
+      "provenance": "Unchanged complete solo pause layout, rules/powers/input and frozen-clock assertions; real built opaque iframe"
     }
   },
   "pendingAdapters": [
