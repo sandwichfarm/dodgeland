@@ -27,3 +27,7 @@ Temporary diagnostic14480 exited0, log`/tmp/down-to-duck-07-12-run-menu-adjacent
 | Dead390×844 home |Travelers194.469px | No measured overflow |
 
 Ready home at320×560 has panel284×511.469 with20px padding;390×844 panel354×480.078. Short320 Options panel288×332,12px18px padding. Dead has no Local Play control, so existing two-action allocation fits. Necessary responsive scope includes ready compact home and short Options whenever the three bottom actions coexist; an Options-only repair would leave verified overflow. Keep actual dead two-action state and other reader/home visibility behavior. Root must authorize production ownership; no implementation performed.
+
+## Authorized implementation
+
+Root authorizes only src/run-menu.css, tests/run-menu-layout.mjs, tools/release-coverage/suites.json and this evidence/STATE. Repair measured ready compact home and compact Options with bounded action cells; keep fonts,44px targets, all labels, reader/ready/dead semantics, no scrolling/minimum changes, desktop unchanged. Original ordinary suite is retained RED; add actual text/overlap observations and small Options images while preserving all36 cases/actions/assertions/stat/seed/focus/material/motion checks. Serialized fresh ordinary whole menu, canonical whole menu+hand+pause, required type/build/guidance/conformance/oracle/diff. No full collection until independent review/root acceptance. No edits during verification.

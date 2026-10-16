@@ -16,7 +16,9 @@ async function layout(name) {
     const nodes = [panel,...panel.querySelectorAll('*')].filter(visible);
     return { center: [r.x+r.width/2-innerWidth/2,r.y+r.height/2-innerHeight/2], fits:r.x>=0&&r.y>=0&&r.right<=innerWidth&&r.bottom<=innerHeight,
       font:style.fontFamily, paper:style.backgroundColor, wood:style.borderTopColor, tint:getComputedStyle(document.querySelector('.game-surface'),'::after').backgroundColor,
-      controls:nodes.filter(node=>node.matches('button,textarea')).map(node=>{const b=node.getBoundingClientRect(),hit=document.elementFromPoint(b.x+b.width/2,b.y+b.height/2); return {id:node.id||node.dataset.runTopic,width:b.width,height:b.height, fits:b.x>=r.x&&b.y>=r.y&&b.right<=r.right&&b.bottom<=r.bottom,hit:hit===node||node.contains(hit)};}),
+      panel:{x:r.x,y:r.y,width:r.width,height:r.height},
+      text:nodes.filter(node=>node.matches('button')).flatMap(node=>[...node.childNodes].filter(n=>n.nodeType===Node.TEXT_NODE&&n.textContent.trim()).map(n=>{const range=document.createRange();range.selectNodeContents(n);const b=node.getBoundingClientRect();return{id:node.id||node.dataset.runTopic, fits:[...range.getClientRects()].every(t=>t.left>=b.left&&t.right<=b.right&&t.top>=b.top&&t.bottom<=b.bottom)};})),
+      controls:nodes.filter(node=>node.matches('button,textarea')).map(node=>{const b=node.getBoundingClientRect(),hit=document.elementFromPoint(b.x+b.width/2,b.y+b.height/2); return {id:node.id||node.dataset.runTopic,x:b.x,y:b.y,right:b.right,bottom:b.bottom,width:b.width,height:b.height, fits:b.x>=r.x&&b.y>=r.y&&b.right<=r.right&&b.bottom<=r.bottom,hit:hit===node||node.contains(hit)};}),
       overflow:nodes.filter(node=>node.clientWidth&&node.clientHeight&&!node.matches('img,svg,svg *')).filter(node=>node.scrollWidth>node.clientWidth+2||node.scrollHeight>node.clientHeight+2||['auto','scroll'].includes(getComputedStyle(node).overflowY)).map(node=>({id:node.id||node.className,width:node.clientWidth,height:node.clientHeight,sw:node.scrollWidth,sh:node.scrollHeight})),
       focused:document.activeElement?.id,
     };
@@ -24,6 +26,9 @@ async function layout(name) {
   evidence.last = { name, ...result };
   assert.ok(result.center.every(value=>Math.abs(value)<1),`${name} centered`); assert.ok(result.fits,`${name} fits`);
   assert.match(result.font,/Lilita One/); assert.notEqual(result.tint,'rgba(0, 0, 0, 0)');
+  assert.deepEqual(result.text.filter(t=>!t.fits),[],`${name} complete control text fits`);
+  assert.deepEqual(result.controls.flatMap((a,i)=>result.controls.slice(i+1).filter(b=>a.x<b.right&&a.right>b.x&&a.y<b.bottom&&a.bottom>b.y).map(b=>[a.id,b.id])),[],`${name} action rectangles do not overlap`);
+  (evidence.observations ??= []).push({name,...result});
   assert.deepEqual(result.overflow,[],`${name} overflow: ${JSON.stringify(result.overflow)}`);
   assert.ok(result.controls.every(c=>c.width>=43.9&&c.height>=43.9&&c.fits&&c.hit),`${name} controls: ${JSON.stringify(result.controls)}`);
   return result;
@@ -68,7 +73,7 @@ try {
           const token=await frame.locator('#run-seed-code').inputValue();assert.match(token,/^ph3-/);
           assert.equal(await frame.locator('#play').isVisible(),true);await home();
         }
-        if(await frame.locator('[data-run-topic="options"]:visible').count()) {await topic('options');await layout('options');assert.equal(await frame.locator('#choose').isVisible(),true);assert.equal(await frame.locator('#mode').isVisible(),true);await home();}
+        if(await frame.locator('[data-run-topic="options"]:visible').count()) {await topic('options');await layout('options');if(width<=390)await iframe.screenshot({path:new URL(`run-menu-options-${state}-${theme}-${width}x${height}.png`,output).pathname});assert.equal(await frame.locator('#choose').isVisible(),true);assert.equal(await frame.locator('#mode').isVisible(),true);await home();}
         await iframe.screenshot({path:new URL(`run-menu-${state}-${theme}-${width}x${height}.png`,output).pathname});
         evidence.frames.push({state,theme,width,height,controls:metrics.controls.length});
       }

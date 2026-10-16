@@ -641,6 +641,68 @@
         }
       ],
       "provenance": "Whole owned-hand runtime including original arranged-state journeys and unchanged solo pause matrix; all assertions retained"
+    },
+    "run-menu-12": {
+      "files": [
+        "tests/run-menu-layout.mjs",
+        "tests/run-hand-runtime.mjs",
+        "tests/pause-game-layout.mjs"
+      ],
+      "roles": {
+        "tests/run-hand-runtime.mjs": "browser",
+        "tests/pause-game-layout.mjs": "browser",
+        "tests/run-menu-layout.mjs": "browser"
+      },
+      "browser": true,
+      "jobs": [
+        {
+          "id": "run-menu-layout",
+          "file": "tests/run-menu-layout.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "defaultBuildScope": "production",
+          "artifactPatterns": [
+            "artifacts/run-menu-*-*-*x*.png",
+            "artifacts/run-menu-failure.png",
+            "artifacts/run-menu-layout.json"
+          ]
+        },
+        {
+          "id": "run-hand-runtime",
+          "file": "tests/run-hand-runtime.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "defaultBuildScope": "production",
+          "artifactPatterns": [
+            "artifacts/run-hand-runtime.json",
+            "artifacts/run-hand-runtime-failure.png",
+            "artifacts/run-hand-offer-320x560.png",
+            "artifacts/run-hand-pause-240x240.png",
+            "artifacts/run-hand-market-900x600.png",
+            "artifacts/run-hand-market-2400x1200.png",
+            "artifacts/run-hand-pause-240x240-light.png"
+          ]
+        },
+        {
+          "id": "pause-game-layout",
+          "file": "tests/pause-game-layout.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "defaultBuildScope": "production",
+          "artifactPatterns": [
+            "artifacts/pause-*.png",
+            "artifacts/pause-game-failure.png",
+            "artifacts/pause-game-layout.json"
+          ]
+        }
+      ],
+      "provenance": "Whole unchanged-scenario menu matrix plus complete owned-hand and pause suites; additional read-only text/overlap evidence"
     }
   },
   "pendingAdapters": [
