@@ -84,7 +84,7 @@ behavior is implemented, verified and committed.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | ARCH-01 | Phase 1 | Complete |
-| ARCH-02 | Phase 5 | Ready for independent verification: 05-07 exact gates and production evidence |
+| ARCH-02 | Phase 5 | Complete (05-VERIFICATION, 05-UAT, 05-SECURITY) |
 | ARCH-03 | Phase 2 | Complete |
 | ARCH-04 | Phase 1 | Complete |
 | SOLO-01 | Phase 1 | Complete |
@@ -106,24 +106,24 @@ behavior is implemented, verified and committed.
 | ITEM-03 | Phase 3 | Complete |
 | ITEM-04 | Phase 3 | Complete |
 | ITEM-05 | Phase 3 | Complete |
-| ITEM-06 | Phase 5 | Ready for independent verification: 05-07 exact gates and production evidence |
+| ITEM-06 | Phase 5 | Complete (05-VERIFICATION, 05-UAT, 05-SECURITY) |
 | RELAY-01 | Phase 4 | Complete (04-01) |
 | RELAY-02 | Phase 4 | Complete |
 | RELAY-03 | Phase 4 | Complete |
 | RELAY-04 | Phase 4 | Complete |
 | RELAY-05 | Phase 4 | Complete |
-| RACE-01 | Phase 5 | Ready for independent verification: 05-07 exact gates and production evidence |
-| RACE-02 | Phase 5 | Ready for independent verification: 05-07 exact gates and production evidence |
-| RACE-03 | Phase 5 | Ready for independent verification: 05-07 exact gates and production evidence |
-| RACE-04 | Phase 5 | Ready for independent verification: 05-07 exact gates and production evidence |
-| RACE-05 | Phase 5 | Ready for independent verification: 05-07 exact gates and production evidence |
-| RACE-06 | Phase 5 | Ready for independent verification: 05-07 exact gates and production evidence |
+| RACE-01 | Phase 5 | Complete (05-VERIFICATION, 05-UAT, 05-SECURITY) |
+| RACE-02 | Phase 5 | Complete (05-VERIFICATION, 05-UAT, 05-SECURITY) |
+| RACE-03 | Phase 5 | Complete (05-VERIFICATION, 05-UAT, 05-SECURITY) |
+| RACE-04 | Phase 5 | Complete (05-VERIFICATION, 05-UAT, 05-SECURITY) |
+| RACE-05 | Phase 5 | Complete (05-VERIFICATION, 05-UAT, 05-SECURITY) |
+| RACE-06 | Phase 5 | Complete (05-VERIFICATION, 05-UAT, 05-SECURITY) |
 | UI-01 | Phase 2 | Complete |
 | UI-02 | Phase 2 | Complete |
 | UI-03 | Phase 3 | Complete |
 | UI-04 | Phase 6 | Complete |
 | UI-05 | Phase 6 | Complete |
-| UI-06 | Phase 5 | Ready for independent verification: 05-07 exact gates and production evidence |
+| UI-06 | Phase 5 | Complete (05-VERIFICATION, 05-UAT, 05-SECURITY) |
 | TEST-01 | Phase 1 | Complete |
 | TEST-02 | Phase 7 | Pending |
 | TEST-03 | Phase 7 | Pending |
