@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-12 collection14319 terminal at run-menu compact options overflow
-last_updated: "2026-10-16T22:41:02.114486+00:00"
+stopped_at: 07-12 run-menu focused78868 passed; independent review pending
+last_updated: "2026-10-16T22:52:16.895419+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,14 @@ progress:
   completed_plans: 40
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Collection14319 exited1 after83 production PASS; repaired hand passed, ready240 options Travelers overflow requires diagnosis.
+last_activity_desc: Compact ready menu f625b98 passed ordinary36 and canonical menu/hand/pause78868; full collection held, no active process.
 ---
 
 # Project State
 
 Adjacent run-menu observation14480 confirms ready320×360 Options,320×560 home and390×844 home share the Travelers overflow; corresponding dead states fit because Local Play is absent. Temporary read-only diagnostic only, no replacement gate or source/test edits. No active process; repair scope must cover ready home as well as Options.
+
+Latest focused run-menu repair:f625b98,78868 exit0; ordinary36frames/223observations plus canonical e3c0810e-4922-412d-b7ef-be9d72fa8a7a menu36/hand44/pause24, required checks all passed.34 ordinary artifacts restored exactly; ready compact home/Options full labels and existing dead layout preserved.51193 intermediate6px height overflow retained as superseded RED. See07-12-RUN-MENU-REPAIR.md. No active process; independent review/root acceptance before full collection. Counts remain6 phases40/45 plans, complete initial report pending.
 
 Latest run-menu diagnostic: ordinary27306 exited1 reproducing ready/dark240 Options overflow; read-only62074 measured192px inner row allocating44px Travelers despite72.203px text. Fonts loaded, all34 artifacts/set/hashes restored, dist unchanged. Evidence07-12-RUN-MENU-REPAIR.md. No active process/source repair; narrow Options grid proposal awaiting root scope.
 
