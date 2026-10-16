@@ -1,6 +1,6 @@
 # 05-04 common item dependency checkpoint
 
-Status: **blocked on shared responsibility; neither task complete**. Generic executor fallback, applying the GSD executor workflow; no typed-agent execution claim.
+Historical status at checkpoint: **blocked on shared responsibility; neither task complete**. Subsequently authorized and resolved bycfba517/69efa16; canonical51478 passed. See05-04-SUMMARY.md for completed evidence. Generic executor fallback, applying the GSD executor workflow; no typed-agent execution claim.
 
 Entry: clean `575d1d4`, production unchanged from `cfe358f`. Accepted 51701 terminal success plus the explicitly passing 93033 inherited prefix remain entry evidence. No baseline repeated. No production changes, installs, lockfile changes, browser or preview processes.
 

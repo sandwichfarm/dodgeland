@@ -3,27 +3,29 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 05-03-PLAN.md; next 05-04
-last_updated: "2026-10-16T06:21:19.055Z"
+stopped_at: Completed 05-04-PLAN.md; next 05-05
+last_updated: "2026-10-16T06:57:05.665Z"
 progress:
   total_phases: 7
   completed_phases: 4
   total_plans: 31
-  completed_plans: 27
+  completed_plans: 28
 current_phase: 05
 current_phase_name: race
-last_activity_desc: Race05-03 complete on cfe358f; final affected51701 exit0 plus accepted93033 passing inherited prefix; next05-04.
+last_activity_desc: Race05-04 complete on69efa16; final51478 exit0 with exact task gates, full Phase3 and Relay/Race116; next05-05.
 ---
 
 # Project State
 
 ## Current Position
 
-05-03 is complete on source `cfe358f`; execute05-04 next. Exact task gates67761 and5878 passed. Final evidence combines93033's passing full Phase3/2/1, Relay22, shared/Race ordering/balance21 and lifecycle15 prefix with51701 terminal exit0 after the narrow Race HUD/fresh-input repair: tracer6, lifecycle15, type/build/guidance/conformance/lockfile.93033 itself exited1 at the legacy tracer and is not a full-pass claim. See05-03-SUMMARY.md and the durable `/tmp/down-to-duck-05-03-final-gate.log` / `...final-ui-complete-gate.log`. The authorized dead-device and bounded position-retention repair resolved the historical checkpoint. No active process. Actual tracking:4 completed phases,27/31 plans; CLI-generated1/35 counts corrected.
+05-04 is complete on source `69efa16`; execute05-05 next. Canonical51478 exit0, `/tmp/down-to-duck-05-04-final-gate.log`: both exact task gates, immutable solo21, full inherited Phase3/2/1, combined Relay/Race116/116, actual built keyboard item collection, type/build/guidance/conformance/lockfile. Shared item policy dependency is resolved; common default gravity, claim/debit ledger and Survive defaults remain authoritative. Mud/Lantern core transactions are delivered; owner gear, results, effect presentation and full integration remain later Race plans. See05-04-SUMMARY.md. No active process. Actual tracking:4 completed phases,28/31 plans; generated1/35 counts corrected.
+
+Historical05-03 closeout: source `cfe358f`. Exact task gates67761 and5878 passed. Final evidence combines93033's passing full Phase3/2/1, Relay22, shared/Race ordering/balance21 and lifecycle15 prefix with51701 terminal exit0 after the narrow Race HUD/fresh-input repair: tracer6, lifecycle15, type/build/guidance/conformance/lockfile.93033 itself exited1 at the legacy tracer and is not a full-pass claim. See05-03-SUMMARY.md and the durable `/tmp/down-to-duck-05-03-final-gate.log` / `...final-ui-complete-gate.log`. The authorized dead-device and bounded position-retention repair resolved the historical checkpoint. No active process. Actual tracking:4 completed phases,27/31 plans; CLI-generated1/35 counts corrected.
 
 05-02 is complete; execute05-03 next. Final96373 exited0 on frozenHEAD6d36f39/production8f59d42, `/tmp/down-to-duck-05-02-final-gate.log`: exact task gates11+21,8,17; full inheritedPhase3/2/1; Relay/shared damage69; builtRace6; finaltype/build/guidance/conformance/lockfile. The authorized generic pursuit/damage repair resolved retainedREDe34188e; cadence rounding and ghost-exposure regressions are fixed. Generated-course balance at500/180,buffer12,1feather/sec completes allsix scenarios in97.47–102s with exact repeat/permutation agreement; `artifacts/race/balance.json`. See05-02-SUMMARY.md and05-02-DEPENDENCY-REPAIR.md. No active process. Actual tracking:4 completed phases,26/31 plans; CLI-generated1/35 counts were corrected.
 
-Race05-01 supplied accepted unchanged-source entry evidence70346 and23683 on67eb0d3; see05-01-SUMMARY.md. Phases01–04 remain independently verified. Race05-04..07, cross-mode presentation, audit and PR remain mandatory. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
+Race05-01 supplied accepted unchanged-source entry evidence70346 and23683 on67eb0d3; see05-01-SUMMARY.md. Phases01–04 remain independently verified. Race05-05..07, cross-mode presentation, audit and PR remain mandatory. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
 
 ## Accepted Relay Entry Evidence
 
@@ -80,14 +82,17 @@ Typed gsd-verifier stayed pending_init across multiple turns and was explicitly 
 | Phase 05 P01 | 35 min | 3 tasks | 8 files |
 | Phase 05 P02 | 52 min | 3 tasks | 8 files |
 | Phase 05 P03 | 33 min | 2 tasks | 9 files |
+| Phase 05 P04 | 30 min | 2 tasks | 13 files |
 
 ## Session
 
-**Last session:** 2026-10-16T06:21:19.047Z
-**Stopped at:** Completed 05-03-PLAN.md; next 05-04
+**Last session:** 2026-10-16T06:57:05.657Z
+**Stopped at:** Completed 05-04-PLAN.md; next 05-05
 **Resume file:** None
 
 ## Decisions
+
+- [Phase 05]: Race tactics extend the existing common consumable catalogue/schema/world/transaction policy. Timed hop readiness changes cooldown only, not hop interpolation; all effect durations use active world time. Legacy economy uses typed appearance-only restriction in Race.
 
 - [Phase 05]: Fog uses personal accepted movement for monotonic boundary and settled movement for finish/revival credit; actual ground controls exposure. Generic optional pursuit suppression and seat-bound named health damage preserve legacy defaults. Timeout closes offers before immutable results; default500/180 pressure remains versioned and measured.
 

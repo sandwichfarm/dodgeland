@@ -106,7 +106,7 @@ behavior is implemented, verified and committed.
 | ITEM-03 | Phase 3 | Complete |
 | ITEM-04 | Phase 3 | Complete |
 | ITEM-05 | Phase 3 | Complete |
-| ITEM-06 | Phase 5 | Pending |
+| ITEM-06 | Phase 5 | Partial: common Race item transactions05-04; owner UI/full feedback and integration pending |
 | RELAY-01 | Phase 4 | Complete (04-01) |
 | RELAY-02 | Phase 4 | Complete |
 | RELAY-03 | Phase 4 | Complete |
@@ -116,7 +116,7 @@ behavior is implemented, verified and committed.
 | RACE-02 | Phase 5 | Partial: monotonic fog, health cadence and balance05-02; presentation/integration05-06/07 pending |
 | RACE-03 | Phase 5 | Pending |
 | RACE-04 | Phase 5 | Partial: ordering05-02 and lifecycle/replacement/recovery05-03 verified; final results/integration pending |
-| RACE-05 | Phase 5 | Pending |
+| RACE-05 | Phase 5 | Partial: isolated sampler/common-world tactics05-04; complete Race integration pending |
 | RACE-06 | Phase 5 | Pending |
 | UI-01 | Phase 2 | Complete |
 | UI-02 | Phase 2 | Complete |
