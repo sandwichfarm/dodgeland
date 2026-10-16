@@ -69,3 +69,19 @@ Root opened these actual PNGs during the job, then verified all three archived S
 | embedded-fog-lantern-target.png |23:01:10.378423|53a97e2913cf4169621ebe62b679782c8d3ac2d46dc2c838597a46143189924c|Target view identifies P1 Butter and the three-second fog protection. Back and the two-line Light lantern action remain visible and legible. Acquisition provenance remains that of the actual fixture; image inspection does not establish public-input-only acquisition.|
 
 The inherited `final-artifact-report.json` remains historical Phase06 evidence, not a fresh acquisition manifest. This scoped inspection does not close the separate pickup-text/nameplate gap, complete07-05's required matrix, or establish full collection/coverage-floor/release acceptance. The complete collection remained live after this job passed.
+
+### Current owner and market captures
+
+The same run passed `local-session-owner-layout` at23:08:37.841Z in79408ms, one complete strict test with no failure/cancellation/skip. Root independently verified its archived report SHA256 `55d7717d5691d789bc72502f10b7db42915b44fb6b611971addba6dfa57a1e69`, empty deficiencies/errors/external, and exact53 unique cells: market plus four owner-hand states × five supported frames × two themes, two200×160 market notices, and one900×600 light reduced-motion case.
+
+Provenance is explicit in the report: authorized shell pad snapshots enter four-seat play; CDP stages distinct real `RunInventory` contents; inspection and owner selection then use production controls. This is proof of the owner interface with arranged inventory, not of earning those contents through public gameplay or of rare-item drop probabilities.
+
+Root opened these three archived full-size images under `suite-artifacts/local-session-owner-layout/artifacts/` and calculated their digests:
+
+| Image | SHA256 | Visual observation |
+| --- | --- | --- |
+| local-session-owner-market-320x560-light.png |764c81ed3142a2937f178f330e1707f257d9a9f06e04dbe6b2f7206d3bffc15b|Viewing P1 Butter, all four owner selectors, market/wardrobe tabs, six offer tiles, paging, the hand and two recovery-item controls are visible. The compact page retains clear owner context.|
+| local-session-owner-hand-p3-240x240-dark.png |677350ffe5cbd6d42fdc10093e03aadcc1467d58fbf5254f04f287470bbe083c|The Longboats inspector identifies P3 Pip, displays its complete description, and keeps Close/Sell visible at the frame floor.|
+| local-session-owner-market-1000x280-dark.png |293cef87dd128c5215be8be29505890e957d8608bd637680723037e633f33ddf|The short frame preserves owner selection, three visible offers with paging, the current hand and both recovery-item controls. No observed text/control clipping in the selected image.|
+
+These limited visual observations retain the exact matrix's automated evidence without substituting image inspection for numerical geometry or transaction authority. Full collection and07-05 release evidence remain pending.
