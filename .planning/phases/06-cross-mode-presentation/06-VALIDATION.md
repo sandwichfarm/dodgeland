@@ -1,9 +1,9 @@
 ---
 phase: 06
 slug: cross-mode-presentation
-status: draft
+status: executed
 nyquist_compliant: false
-wave_0_complete: false
+wave_0_complete: true
 created: 2026-10-16
 ---
 
@@ -48,12 +48,12 @@ Human aesthetic/play-feel acceptance remains separate from measured geometry and
 
 - [x] All planned tasks have executable automated checks or explicit test-creation dependencies.
 - [x] No three consecutive tasks without automated verification.
-- [ ] No watch-mode commands; measured fast-feedback latency recorded.
-- [ ] Source-fresh captures inspected and linked to requirements/state/mode/frame/theme.
-- [ ] Conformance5pass/5unmeasured and physical-controller limitations distinguished honestly.
-- [ ] Final gates terminal and green; no oracle repin.
+- [x] No watch-mode commands; measured fast-feedback latency recorded.
+- [x] Source-fresh captures inspected and linked to requirements/state/mode/frame/theme.
+- [x] Conformance5pass/5unmeasured and physical-controller limitations distinguished honestly.
+- [x] Final gates terminal and green; no oracle repin.
 
-Approval: pending plan/checker and execution evidence.
+Execution:21972exit0 on26c9622; both exact canonical gates, health-runtime once, cross-mode27/27 and diff-check. See06-EVIDENCE.md. Type-check latency1.308s/1.260s measured from runner timestamps; browser tier115.930s. Independent validation/phase approval and human acceptance remain pending.
 
 ## Exact final frozen-source gate
 

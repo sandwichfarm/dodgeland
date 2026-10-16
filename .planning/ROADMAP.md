@@ -166,9 +166,9 @@ Plans:
 
 - [x] 06-01-PLAN.md — Clear the shared live scene and remove duplicate personal status with a real four-player tracer.
 
-**Wave 2** *(blocked on Wave 1 completion)*
+**Wave 2** *(Wave 1 complete)*
 
-- [ ] 06-02-PLAN.md — Prove changed lifecycle/owner/result surfaces and run exact inherited acceptance gates.
+- [x] 06-02-PLAN.md — Prove changed lifecycle/owner/result surfaces and run exact inherited acceptance gates.
 
 ### Phase 7: Release Evidence & PR
 
@@ -197,5 +197,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 3. Survive Together & Consumables | 8/8 | Complete    | 2026-10-15 |
 | 4. Relay | 6/6 | Complete    | 2026-10-15 |
 | 5. Race | 7/7 | Technical verification passed; human acceptance pending |  |
-| 6. Cross-Mode Presentation | 0/2 | Planned; reversible implementation next | - |
+| 6. Cross-Mode Presentation | 2/2 | Implementation complete; independent verification pending | - |
 | 7. Release Evidence & PR | 0/TBD | Not started | - |
