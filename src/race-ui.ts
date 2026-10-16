@@ -37,7 +37,7 @@ export function renderRaceHud(root: HTMLElement, race: RaceCoordinator): void {
     const state=race.status(player.seat),name=player.seat.toUpperCase();
     tile.dataset.raceHud='true';
     tile.querySelector<HTMLElement>('[data-session-hud="power"]')!.textContent=`Power · ${player.powerReady?100:100-player.powerRemaining}/100 tiles${player.powerReady?' · Ready':''}`;
-    if(!player.recovery?.offer)tile.querySelector<HTMLElement>('[data-session-hud="revive"]')!.textContent=`Personal revive · ${player.recovery?.charge==='available'?250:Math.max(0,250-((player.recovery?.nextRecharge??250)-(player.recovery?.personalHighWater??0)))}/250 tiles${player.recovery?.charge==='available'?' · Ready':''}`;
+    if(!player.recovery?.offer)tile.querySelector<HTMLElement>('[data-session-hud="revive"]')!.textContent=`Personal revive · ${player.recovery?.charge==='available'?250:Math.max(0,250-((player.recovery?.nextRecharge??250)-(player.recovery?.personalHighWater??0)))}/250 tiles`;
     tile.querySelector<HTMLElement>('[data-session-hud="wallet"]')!.textContent=`${player.run.wallet} coins · ${player.earnedDistance===race.leaderFrontier?'Leader · ':''}${player.earnedDistance} tiles`;
     let fog=tile.querySelector<HTMLElement>('[data-race-fog]');if(!fog){fog=document.createElement('span');fog.dataset.raceFog='true';tile.querySelector('.session-hud-details')!.append(fog);}fog.textContent=raceFogLabel(race,player.seat);
     let effect=tile.querySelector<HTMLElement>('[data-race-effect]');if(!effect){effect=document.createElement('span');effect.dataset.raceEffect='true';tile.querySelector('.session-hud-details')!.append(effect);}

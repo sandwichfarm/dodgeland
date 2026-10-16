@@ -128,3 +128,38 @@
 #app #market[data-gear-only="true"][data-market-short="true"] #market-offers { grid-template-columns:minmax(0,1fr); }
 #app #market[data-gear-only="true"][data-market-short="true"] .market-gear { min-height:44px; grid-template-columns:44px minmax(0,1fr) minmax(0,1fr); padding:4px 8px; align-content:center; align-items:center; }
 #app #market[data-gear-only="true"][data-market-short="true"] .market-gear .market-tile-price { font-size:16px; padding:0; }
+/* Race material typography and four-seat scene edges. */
+#app #session-board:has(#race-configuration) :is(button,input,label,p,h3) { font-size:20px; font-weight:400; line-height:1.2; }
+#app #session-board:has(#race-configuration) h2 { font-size:28px; font-weight:600; line-height:1.2; }
+#app #session-seats:has([data-race-hud]) button { font-size:16px; font-weight:400; line-height:1.2; }
+@media(min-width:900px) and (min-height:420px){
+ #session-seats:has([data-race-hud]) { gap:8px; align-items:start; }
+ #session-seats:has([data-race-hud]) .session-hud-tile { padding:4px; }
+ #session-seats:has([data-race-hud]) .session-hud-identity { min-height:44px; font-size:28px; font-weight:600; }
+ #session-seats:has([data-race-hud]) .session-hud-details { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4px; }
+ #session-seats:has([data-race-hud]) .session-hud-details span { min-height:20px; white-space:normal; overflow-wrap:anywhere; }
+ #session-seats:has([data-race-hud]) [data-session-hud="device"],#session-seats:has([data-race-hud]) [data-session-hud="power"],#session-seats:has([data-race-hud]) [data-race-effect] { grid-column:1/-1; }
+ #session-seats:has([data-race-hud]) .session-future:disabled { opacity:1; }
+}
+@media(max-width:479px),(max-height:419px){
+ #app #session-board:has(#race-configuration) :is(button,input,label,p,h3) { font-size:16px; font-weight:400; line-height:1.2; }
+}
+@media(max-height:319px){
+ #app:has(#local-session-setup:not([hidden]) #session-board[data-race-page="settings"]) #run-panel.run-panel { inset:0; height:100%; transform:none; padding:4px; border-width:4px; }
+ #session-board[data-race-page="settings"] #race-configuration { align-content:start; }
+ #session-board[data-race-page="settings"] .session-actions { padding:0; }
+}
+#app #session-board:has(#race-configuration) span { font-weight:400; }
+@media(min-width:900px) and (min-height:420px){
+ #app #session-seats:has([data-race-hud]) { grid-template-columns:300px 1fr 300px; }
+ #app #session-seats:has([data-race-hud]) .session-hud-details { grid-template-areas:'device device' 'health wallet' 'power power' 'revive leave' 'lifecycle fog' 'effect effect'; gap:0 4px; }
+ #app #session-seats:has([data-race-hud]) [data-session-hud="device"] { grid-area:device; }
+ #app #session-seats:has([data-race-hud]) [data-session-hud="health"] { grid-area:health; }
+ #app #session-seats:has([data-race-hud]) [data-session-hud="wallet"] { grid-area:wallet; }
+ #app #session-seats:has([data-race-hud]) [data-session-hud="power"] { grid-area:power; }
+ #app #session-seats:has([data-race-hud]) [data-session-hud="revive"] { grid-area:revive; }
+ #app #session-seats:has([data-race-hud]) [data-session-hud="item"] { grid-area:leave; }
+ #app #session-seats:has([data-race-hud]) [data-session-hud="lifecycle"] { grid-area:lifecycle; }
+ #app #session-seats:has([data-race-hud]) [data-race-fog] { grid-area:fog; }
+ #app #session-seats:has([data-race-hud]) [data-race-effect] { grid-area:effect; }
+}
