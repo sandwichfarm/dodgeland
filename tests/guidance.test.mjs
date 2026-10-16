@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
-import { readdir, readFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, readdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
 import { dirname, extname, join, relative } from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
@@ -10,12 +11,13 @@ const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const textExtensions = new Set(['.css', '.html', '.json', '.md', '.mjs', '.ts']);
 const skippedDirectories = new Set(['.git', 'dist', 'dist-dev', 'node_modules']);
 
-async function collectTextFiles(directory = root) {
+async function collectTextFiles(directory = root, repositoryRoot = root) {
   const files = [];
   for (const entry of await readdir(directory, { withFileTypes: true })) {
     if (entry.isDirectory() && skippedDirectories.has(entry.name)) continue;
     const path = join(directory, entry.name);
-    if (entry.isDirectory()) files.push(...await collectTextFiles(path));
+    if (entry.isDirectory() && relative(repositoryRoot, path) === join('artifacts', 'release-coverage')) continue;
+    if (entry.isDirectory()) files.push(...await collectTextFiles(path, repositoryRoot));
     else if (entry.isFile() && textExtensions.has(extname(entry.name))) files.push(path);
   }
   return files;
@@ -25,6 +27,29 @@ const files = await collectTextFiles();
 const sources = new Map(
   await Promise.all(files.map(async (path) => [relative(root, path), await readFile(path, 'utf8')])),
 );
+
+test('guidance traversal excludes only generated release coverage artifacts', async () => {
+  const fixture = await mkdtemp(join(tmpdir(), 'guidance-scope-'));
+  const included = [
+    'src/main.ts', 'docs/boundaries.md', 'tests/example.mjs',
+    'artifacts/ordinary/report.json', 'artifacts/release-coverage-other/report.json',
+    'src/artifacts/release-coverage/example.ts',
+    'docs/release-coverage/example.md',
+  ];
+  try {
+    for (const path of [...included, 'artifacts/release-coverage/nested/generated.json']) {
+      const destination = join(fixture, path);
+      await mkdir(dirname(destination), { recursive: true });
+      await writeFile(destination, 'fixture');
+    }
+    assert.deepEqual(
+      (await collectTextFiles(fixture, fixture)).map((path) => relative(fixture, path)).sort(),
+      included.sort(),
+    );
+  } finally {
+    await rm(fixture, { recursive: true, force: true });
+  }
+});
 
 test('rejects retired app-owned bootstrap and probing APIs', () => {
   const joined = (...parts) => parts.join('');
