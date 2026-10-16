@@ -6,10 +6,11 @@ import test, { after } from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 import { loadSources } from './source-loader.mjs';
+import { artifactForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const mainSource = await readFile(resolve(root, 'src/main.ts'), 'utf8');
-const artifact = new URL('../dist/index.html', import.meta.url);
+const artifact = artifactForCoverage(new URL('../dist/index.html', import.meta.url));
 const artifactInputs = [
   'index.html',
   'src/game.ts',
@@ -172,14 +173,21 @@ test('the built opaque iframe transfers solo shell shortcuts to native local inp
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   const serverPort = server.address().port;
   const browser = await chromium.launch({ args: ['--mute-audio'] });
+  let frame, identity, generation=0;
   try {
     const page = await browser.newPage({ viewport: { width: 900, height: 600 } });
+    async function navigate(url){
+      if(frame)await collectRealm(frame,identity);
+      frame=undefined;
+      identity={suite:process.argv[1],scenario:'local-session-tracer',frame:'opaque-app',generation:generation++,scope:'current'};
+      registerRealm(page,identity);await page.goto(url);
+    }
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
     page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
-    await page.goto(`http://127.0.0.1:${serverPort}`);
+    await navigate(`http://127.0.0.1:${serverPort}`);
     const iframe = page.locator('iframe');
-    let frame = await (await iframe.elementHandle()).contentFrame();
+    frame = await (await iframe.elementHandle()).contentFrame();
     assert.ok(frame);
     assert.equal(await iframe.getAttribute('sandbox'), 'allow-scripts');
     assert.equal(await frame.evaluate(() => location.origin), 'null');
@@ -314,7 +322,7 @@ test('the built opaque iframe transfers solo shell shortcuts to native local inp
     await page.waitForTimeout(80);
     assert.deepEqual(await seatRows(frame), undersized, 'P2 actions are ignored below the playable frame size');
 
-    await page.goto(`http://127.0.0.1:${serverPort}?delayed-hydration`);
+    await navigate(`http://127.0.0.1:${serverPort}?delayed-hydration`);
     frame = await (await page.locator('iframe').elementHandle()).contentFrame();
     assert.ok(frame);
     await frame.locator('#local-play').waitFor();
@@ -326,7 +334,7 @@ test('the built opaque iframe transfers solo shell shortcuts to native local inp
     await frame.locator('#session-seats [data-seat="p1"]').waitFor();
     assert.match((await seatRows(frame)).find(player => player.seat === 'p1')?.text ?? '', /Butter/, 'delayed hydration cannot replace a staged primary traveler before commit');
 
-    await page.goto(`http://127.0.0.1:${serverPort}?delayed-hydration`);
+    await navigate(`http://127.0.0.1:${serverPort}?delayed-hydration`);
     frame = await (await page.locator('iframe').elementHandle()).contentFrame();
     assert.ok(frame);
     await frame.locator('#local-play').waitFor();
@@ -358,7 +366,7 @@ test('the built opaque iframe transfers solo shell shortcuts to native local inp
     assert.deepEqual(await seatRows(frame), disposedSeats, 'queued movement cannot change either disposed seat');
     assert.equal(await sceneSnapshot(frame), disposedScene, 'disposal cancels the shared animation loop');
 
-    await page.goto(`http://127.0.0.1:${serverPort}`);
+    await navigate(`http://127.0.0.1:${serverPort}`);
     frame = await (await page.locator('iframe').elementHandle()).contentFrame();
     await frame.waitForFunction(() => typeof window.localSessionFixture.handlers['puddlehop.forward-w'] === 'function');
     assert.equal(await frame.locator('#session-seats').isHidden(), true, 'a new instance starts in the default solo flow');
@@ -366,5 +374,5 @@ test('the built opaque iframe transfers solo shell shortcuts to native local inp
     await shellAction('puddlehop.forward-w');
     await frame.waitForFunction(() => document.querySelector('#score')?.textContent === '1');
     assert.deepEqual(errors, [], 'the built opaque iframe reports no boot errors');
-  } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); }
+  } finally { try{if(identity)await collectRealm(frame,identity);}finally{await browser.close(); await new Promise(resolve => server.close(resolve));} }
 });
