@@ -55,3 +55,17 @@ runConformance(makeContext({ manifestHtml: '<!doctype html><p>fixture</p>' }));
 ```
 
 Source grounding: installed package READMEs and `dist/index.d.ts`; engine `validateManifestEvent`, `makeContext`, `buildContext`, and `CHECKS`; CLI option parser and `main`. These findings describe the pinned installed versions, not an assumption about newer releases.
+
+## Read-only preparation for 07-04, 2026-10-16
+
+Independent reviewer `/root/survive_verifier_fallback` inspected the installed packages and primary protocol sources during full collection11460. No tests, builds, browser journeys, dependency changes or implementation ran for this preparation. It does not complete07-04 or bypass07-03's dependency on the complete07-12 report.
+
+- Resolve the SDK0.29 real package directory and its dependency context for nap/core0.33. The public `@napplet/nap/storage/shim` export provides `nappletStorage` and `installStorageShim`; the separate nap0.28 install and hardcoded pnpm paths are not appropriate substitutes.
+- SDK `storage.setItem` directly returns the injected domain promise. Official `nappletStorage.setItem` returns `setItemScoped`, which awaits the wire request. A non-async host-only forwarding wrapper can observe settlement and return that same promise. Actual requests are `{type:"storage.set",id:UUID,key,value}` and replies `{type:"storage.set.result",id}`. Hydration uses `storage.get` and `{type:"storage.get.result",id,value:null}`. Official `postToShell` delegates to core `sendEnvelope` with default target `"*"`.
+- The shim verifies `event.source === window.parent`, the storage-result type pattern and pending ID. It does not additionally check that the result action matches the original request action. Wrong-source, wrong-ID and duplicate-reply checks remain meaningful; do not claim stronger matching than the code implements.
+- Its timeout is5000ms. Cleanup removes the listener and clears the pending map, but does not cancel pending timeout handles or reject pending promises. Observe the missing-response timeout before cleanup. Keep product subscription disposal distinct from host-installed shim cleanup.
+- Conformance0.13 exposes `buildContext`, `runConformance`, `validateEnvelope`, `validateManifestEvent`, `CHECKS` and reporters. `validateEnvelope` is outbound-only: a `storage.set.result` input yields `inbound-type-emitted`. Validate actual response correlation separately, not as an inbound engine pass. The engine's lifecycle input is only `{listenerLeak:boolean}` and cannot independently establish complete teardown.
+
+The primary NIP-5D revision observed today is `5560820fa4f37f45b8ab742a11aeb3001b17dc67`: [pinned text](https://raw.githubusercontent.com/dskvr/nips/5560820fa4f37f45b8ab742a11aeb3001b17dc67/5D.md). Its candidate manifest contract uses one artifact `x`, `R`/`O`, nonempty description content and constrained optional `source`, including SSH/Git forms. The installed legacy `path`/`requires` validator cannot prove that contract. Storage remains a [draft proposal](https://github.com/napplet/naps/pull/3) with correlated requests/results and omitted scope meaning shared. Differing cached branch snapshots were observed: resolve and pin fresh primary reference bytes/revision during07-04 execution instead of relying on a PR description or this preparatory note.
+
+The planned host proof remains implementable with these limits. It must not imply signed-manifest identity, external-shell persistence, physical hardware coverage, inbound engine validation or complete shim timer cleanup.
