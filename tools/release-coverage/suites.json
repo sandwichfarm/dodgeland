@@ -572,6 +572,29 @@
         }
       ],
       "provenance": "Whole unchanged Race results job; timing diagnostic, temporary screenshots separately preserved by outer diagnostic wrapper"
+    },
+    "relay-results-12": {
+      "files": [
+        "tests/relay-results.test.mjs"
+      ],
+      "roles": {
+        "tests/relay-results.test.mjs": "mixed"
+      },
+      "browser": true,
+      "jobs": [
+        {
+          "id": "relay-results-test",
+          "file": "tests/relay-results.test.mjs",
+          "role": "mixed",
+          "requiredRealms": [
+            "node",
+            "browser"
+          ],
+          "defaultBuildScope": "production",
+          "artifactPatterns": []
+        }
+      ],
+      "provenance": "Whole unchanged Relay results timing diagnostic; existing arranged meadow/production-dispatch provenance preserved; temporary screenshots separately archived/restored"
     }
   },
   "pendingAdapters": [
