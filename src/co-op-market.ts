@@ -48,7 +48,7 @@ export interface CoOpMarketResult {
 }
 
 export interface CoOpMarketCommit {
-  readonly actionId: string; readonly kind: CoOpMarketActionKind; readonly itemId?: string; readonly itemKind?: string;
+  readonly actionId: string; readonly kind: CoOpMarketActionKind; readonly itemId?: string; readonly itemKind?: import('./market/types.js').ItemDefinition['kind'] | 'consumable';
   readonly ownerGeneration: number; readonly inventoryGeneration: number; readonly contextGeneration: number; readonly walletDelta: number;
 }
 

@@ -118,9 +118,52 @@ for(const reason of ['leave','forfeit','decline','expiry'])test(`ledger ${reason
 });
 
 test('ledger personal recovery and fog attempted versus landed retain pre-clear contribution',()=>{
-  const run=arena();for(let i=0;i<14;i++)hop(run,['p1']);step(run,121);
-  const p=run.session.players[1];kill(run,'p2');assert.equal(run.session.recover({kind:'personal',ownerSeat:'p2'}),true);
+  const run=arena();kill(run,'p2');assert.equal(run.session.recover({kind:'personal',ownerSeat:'p2'}),true);
+  for(let i=0;i<14;i++)hop(run,['p1']);step(run,180);
   endByLeave(run);const record=run.race.result.players[1];assert.equal(record.selfRevives,1);assert.equal(record.deaths,1);
   assert.ok(record.fogAttempted>=1);assert.ok(record.fogLanded>=1);assert.equal(record.distance,0);
   assert.ok(run.race.result.events.some(e=>e.kind==='death'&&e.seat==='p2'));
+});
+
+test('item statistics preserve each world collection use target generation and death clear', async()=>{
+  const {sampleItemDrop}=await sources.import('consumable-drops');const {RACE_DROP_SCHEMA}=await sources.import('race-items');
+  for(const item of ['mud-splash','fog-lantern']){
+    let seed=0;while(sampleItemDrop(RACE_DROP_SCHEMA,{courseSeed:seed,row:1,slot:0}).itemId!==item)seed++;
+    const game=new Game(seed,'pond','arcade',false,[],'butter');
+    const race=createRaceSession(game,{seats:[{seat:'p1',characterId:'butter',device:'keyboard-a'},{seat:'p2',characterId:'pip',device:'keyboard-b'}]});
+    const run={game,race,session:race.session},p=run.session.players[0];
+    for(const row of game.rows.values())Object.assign(row,{kind:'meadow',blocked:[],coin:null});
+    const pickup=run.session.consumableSnapshot().pickups.find(p=>p.itemId===item&&p.row===1);assert.ok(pickup);
+    p.x=p.fromX=pickup.x;p.y=p.fromY=pickup.y;p.hop=0;step(run);
+    const plan=race.items.plan('p1',item,'p2');assert.equal(plan.ok,true);assert.equal(race.items.commit(plan),true);assert.equal(race.items.commit(plan),false);
+    const old=p.interactions.find(e=>e.kind==='item-use');assert.equal(old.targets[0].participantId,run.session.players[item==='mud-splash'?1:0].participantId);
+    kill(run,'p1');run.session.declineRecovery('p1');run.session.depart('p2','confirmed-leave');race.tick(run.session);
+    const own=race.result.players[0],other=race.result.players[1];assert.equal(own[item==='mud-splash'?'mudCollected':'lanternCollected'],1);assert.equal(own[item==='mud-splash'?'mudUsed':'lanternUsed'],1);
+    assert.equal(other.mudReceived,item==='mud-splash'?1:0);assert.ok(Object.isFrozen(own.interactions));
+    assert.deepEqual(own.interactions.find(e=>e.kind==='item-use'),old);
+  }
+});
+
+test('ledger rejects duplicate wrong-owner stale generation invalid and postterminal events atomically',async()=>{
+  const {createRaceLedger,freezeRaceResult}=await sources.import('race-results');
+  const run=arena();step(run);const source=run.race.history.events[0],ledger=createRaceLedger(run.session.players.map(p=>({seat:p.seat,participantId:p.participantId,characterId:p.characterId,marker:p.marker})));
+  assert.equal(ledger.append(source).ok,true);
+  for(const [event,reason]of [[source,'duplicate'],[{...source,id:'wrong',participantId:'wrong'},'wrong-owner'],[{...source,id:'bad',time:NaN},'invalid']]){const before=JSON.stringify(ledger.snapshot());assert.deepEqual(ledger.append(event),{ok:false,reason});assert.equal(JSON.stringify(ledger.snapshot()),before);}
+  const next={...source,id:'next',generation:1,record:{...source.record,generation:1}};assert.equal(ledger.append(next).ok,true);assert.equal(ledger.append({...source,id:'stale'}).reason,'stale');
+  const finished=endByLeave(run),common={...finished};delete common.players;delete common.events;delete common.winners;
+  const result=freezeRaceResult(ledger,common),json=JSON.stringify(result);assert.equal(ledger.append({...next,id:'late'}).reason,'terminal');assert.strictEqual(freezeRaceResult(ledger,{...common,elapsed:999}),result);
+  source.record.interactions.length&&assert.ok(Object.isFrozen(source.record.interactions[0]));
+  assert.throws(()=>result.descriptor.settings.finishTiles=1,TypeError);assert.equal(JSON.stringify(result),json);
+});
+
+test('pure ranks ignore all participant ordering and presentation identities',async()=>{
+  const {rankRaceParticipants}=await sources.import('race-results');const run=arena(4,2);hop(run,['p1','p2','p3']);hop(run,['p1']);step(run,3700);
+  const records=run.race.result.players,expected=new Map(records.map(p=>[p.participantId,p.rankLabel]));
+  function permutations(xs){return xs.length?xs.flatMap((x,i)=>permutations(xs.filter((_,j)=>i!==j)).map(rest=>[x,...rest])):[[]];}
+  for(const order of permutations(records)){
+    const projection=rankRaceParticipants(order.map((p,i)=>({...p,characterId:`visual-${i}`,marker:`marker-${3-i}`})),true);
+    for(const p of projection)assert.equal(p.rankLabel,expected.get(p.participantId));
+  }
+  const before=JSON.stringify(run.race.result);run.session.players[0].statistics.coins=999;run.session.players[0].run.clear();
+  const retry=arena();hop(retry,['p1']);assert.equal(JSON.stringify(run.race.result),before);
 });

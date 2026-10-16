@@ -46,7 +46,7 @@ export interface WorldFrame {
 }
 export type SessionLifecycleHandler = (record: SessionLifecycleRecord) => void;
 export type ParticipantInteraction = Readonly<
-  | { kind: 'market'; actionId: string; action: import('./co-op-market.js').CoOpMarketActionKind; itemId?: string; itemKind?: string; ownerGeneration: number; inventoryGeneration: number; contextGeneration: number; walletDelta: number }
+  | { kind: 'market'; actionId: string; action: import('./co-op-market.js').CoOpMarketActionKind; itemId?: string; itemKind?: import('./market/types.js').ItemDefinition['kind'] | 'consumable'; ownerGeneration: number; inventoryGeneration: number; contextGeneration: number; walletDelta: number }
   | { kind: 'innate'; powerId: string; cause: DeathCause }
   | { kind: 'collection'; pickupId: string; itemId: ConsumableId }
   | { kind: 'item-use'; actionId: string; itemId: ConsumableId; ownerGeneration: number; inventoryGeneration: number; targets: readonly Readonly<{ seat: SeatId; participantId: string; generation: number }>[] }
