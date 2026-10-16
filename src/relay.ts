@@ -3,7 +3,9 @@ import type { Game } from './game.js';
 import type { ModeDefinition } from './mode-rules.js';
 import { LocalSession } from './session.js';
 import { SessionRecoveryController } from './session-recovery.js';
-import type { DeviceId, SeatId, SessionModeDefinition, SessionPlayer, SessionRecoveryRequest } from './session.js';
+import { createRelayLedger, finalizeRelayResult } from './relay-results.js';
+import type { RelayLedger, RelayResult } from './relay-results.js';
+import type { DeviceId, SeatId, SessionModeDefinition, SessionPlayer, SessionRecoveryRequest, SessionContributionObservation } from './session.js';
 
 export interface RelaySeat { readonly seat: SeatId; readonly characterId: string; readonly device: DeviceId; readonly disconnected?: boolean }
 export interface RelayProposal { readonly seats: readonly RelaySeat[]; readonly tilesPerLeg?: string | number }
@@ -47,15 +49,51 @@ export class RelayCoordinator {
   private rotationPending = false;
   private terminalReason: 'no-eligible-runner' | undefined;
   private generation = 0;
+  private ledger!: RelayLedger;
+  private eventSequence = 0;
+  private observedTime = 0;
+  private activeDuration = 0;
+  private readonly observed = new Map<SeatId, { coins: number; pickups: number; selfRevives: number; deaths: number; distance: number }>();
+  private readyReason: RelayOutcome['outcome'] | undefined;
   private readonly recovery = new SessionRecoveryController();
   constructor(readonly setup: RelaySetup) {}
   get session(): LocalSession { if (!this.attached) throw new Error('Relay is not started.'); return this.attached; }
   get activeSeat(): SeatId { return this.setup.seats[this.index]!.seat; }
-  get incomingSeat(): SeatId { return this.nextEligible() ?? this.activeSeat; }
+  get incomingSeat(): SeatId { return this.readyReason ? this.activeSeat : this.nextEligible() ?? this.activeSeat; }
+  get history() { return this.ledger.snapshot(); }
+  get result(): RelayResult | undefined { return this.session.result as RelayResult | undefined; }
   attach(session: LocalSession): void {
     this.attached = session; this.origin = this.frontier = session.world.frontier;
     for (const seat of this.setup.seats) this.connections.set(seat.seat, true);
     this.nextBoundary = this.futureBoundary(); this.observedEarned = this.runner()!.earnedDistance; this.recovery.attach(session);
+    this.ledger = createRelayLedger(this.setup.seats.map(seat => session.players.find(p => p.seat === seat.seat)!));
+    for (const player of session.players) this.observed.set(player.seat, { coins: player.coins, pickups: player.statistics.pickups, selfRevives: player.statistics.selfRevives, deaths: player.statistics.deaths, distance: 0 });
+    this.openLeg();
+  }
+  private eventId(): string { return `${this.session.id}:${++this.eventSequence}`; }
+  private openLeg(): void {
+    const p = this.runner()!; this.activeDuration = 0; this.observedTime = this.session.world.time;
+    this.observed.get(p.seat)!.distance = 0;
+    this.ledger.open({ id: this.eventId(), seat: p.seat, participantId: p.participantId, leg: this.leg, generation: this.eventSequence, frontier: this.session.world.frontier, time: this.session.world.time, position: { x: p.groundX, y: p.groundY } });
+  }
+  private capture(observation = this.session.contributionObservation(this.runner()!), death?: string): void {
+    const token = this.ledger.token(); if (!token || token.seat !== observation.seat) return;
+    if (this.phase === 'running') this.activeDuration += Math.max(0, observation.time - this.observedTime);
+    this.observedTime = observation.time;
+    const prior = this.observed.get(observation.seat)!;
+    const current = { coins: observation.coins, pickups: observation.pickups, selfRevives: observation.selfRevives, deaths: observation.deaths + (death ? 1 : 0), distance: this.distance };
+    const delta = { coins: Math.max(0, current.coins-prior.coins), pickups: Math.max(0,current.pickups-prior.pickups), selfRevives: Math.max(0,current.selfRevives-prior.selfRevives), deaths: Math.max(0,current.deaths-prior.deaths), distance: Math.max(0,current.distance-prior.distance) };
+    if (Object.values(delta).some(value => value > 0) || death) {
+      const result = this.ledger.credit({ ...token, id: death ? `${observation.participantId}:death:${observation.deaths + 1}` : this.eventId(), delta, ...(death ? { death: { cause: death, wallet: observation.wallet } } : {}) });
+      if (!result.ok) return;
+    }
+    this.observed.set(observation.seat, current);
+  }
+  beforeDeath(observation: SessionContributionObservation, cause: string): void { if (observation.seat === this.activeSeat && this.phase === 'running') this.capture(observation, cause); }
+  beforeDepart(observation: SessionContributionObservation): void { if (observation.seat === this.activeSeat) { this.capture(observation); this.closeLeg('left'); } }
+  private recordLifecycle(seat: SeatId): void {
+    const player = this.session.players.find(p => p.seat === seat)!;
+    const id = this.eventId(); this.ledger.lifecycle({ id, seat, participantId: player.participantId, characterId: player.characterId, generation: this.eventSequence, lifecycle: player.participation, connected: !!this.connections.get(seat) });
   }
   private runner(): SessionPlayer | undefined { return this.session.players.find(player => player.seat === this.activeSeat); }
   private futureBoundary(): number { return this.origin + (Math.floor((this.frontier - this.origin) / this.setup.tilesPerLeg) + 1) * this.setup.tilesPerLeg; }
@@ -77,12 +115,14 @@ export class RelayCoordinator {
   disconnect(seat: SeatId): void {
     if (!this.allowsLifecycle('device-lost', seat)) return;
     this.connections.set(seat, false); this.revision++;
+    this.recordLifecycle(seat);
     if (seat === this.activeSeat && (this.phase === 'running' || this.phase === 'handoff' || this.phase === 'recovery')) this.suspended = this.phase;
     this.refreshAvailability();
   }
   reclaimed(seat: SeatId): void {
     if (!this.allowsLifecycle('reclaimed', seat)) return;
     this.connections.set(seat, true); this.revision++;
+    this.recordLifecycle(seat);
     if (seat === this.activeSeat && this.pending) this.pending = Object.freeze({ ...this.pending, lifecycleGeneration: this.lifecycleGeneration(seat) + 1 });
     this.refreshAvailability();
   }
@@ -91,7 +131,7 @@ export class RelayCoordinator {
     const player = this.session.players.find(p => p.seat === seat)!;
     if (player.participation === 'device-lost') return this.session.reclaim(seat, device);
     if (player.participation !== 'dead') return false;
-    this.connections.set(seat, true); this.revision++; this.refreshAvailability(); return true;
+    this.connections.set(seat, true); this.revision++; this.recordLifecycle(seat); this.refreshAvailability(); return true;
   }
   private refreshAvailability(): void {
     if (this.phase === 'ended') return;
@@ -119,18 +159,25 @@ export class RelayCoordinator {
     this.confirmationState = undefined; this.setPhase(context.phase);
     if (input.kind === 'cancel') return true;
     if (context.kind === 'leave') return this.session.depart(input.actor, 'relay-left');
+    const player = this.runner()!;
+    const skipToken = this.ledger.token() ?? { seat: player.seat, participantId: player.participantId, leg: 0, generation: this.ledger.snapshot().roster.find(row => row.participantId === player.participantId)!.generation };
+    this.ledger.skip({ ...skipToken, id: this.eventId() });
     this.closeLeg('skipped'); this.rotationPending = true; this.rotate(); return true;
   }
   private closeLeg(outcome: RelayOutcome['outcome']): void {
+    if (!this.ledger.token()) return;
+    this.capture();
     const p = this.runner()!;
     if (this.outcomes.some(record => record.leg === this.leg)) return;
     this.outcomes.push(Object.freeze({ leg: this.leg, seat: p.seat, participantId: p.participantId, outcome, distance: this.distance, time: this.session.world.time, statistics: Object.freeze({ ...p.statistics }) }));
+    this.ledger.close({ ...this.ledger.token()!, id: this.eventId(), frontier: this.session.world.frontier, time: this.session.world.time, duration: this.activeDuration, position: { x: p.groundX, y: p.groundY }, outcome });
   }
   departed(seat: SeatId): void {
     if (this.phase === 'ended') return;
     const player = this.session.players.find(p => p.seat === seat);
     if (player?.recovery?.offer) this.session.updateRecovery(player, recovery => ({ ...recovery, offer: undefined }));
     this.connections.set(seat, false); this.revision++;
+    this.recordLifecycle(seat);
     if (seat === this.activeSeat) { this.closeLeg('left'); this.rotationPending = true; this.rotate(); }
     else this.refreshAvailability();
   }
@@ -139,8 +186,7 @@ export class RelayCoordinator {
     if (!next) {
       const reserved = this.session.players.some(p => p.participation === 'device-lost' || (p.participation === 'dead' && !!p.recovery?.offer));
       if (reserved) { this.setPhase('waiting-for-reclaim'); return; }
-      this.terminalReason = 'no-eligible-runner'; this.setPhase('ended');
-      this.session.completeResult(Object.freeze({ mode: 'relay', outcome: this.terminalReason })); return;
+      this.finish('no-eligible-runner'); return;
     }
     const outgoing = this.runner()!, last = outgoing.recovery?.lastSafe;
     const exact = this.session.isRecoverySafePosition(outgoing) ? { x: outgoing.groundX, y: outgoing.groundY } : last;
@@ -149,21 +195,34 @@ export class RelayCoordinator {
     for (const row of [...this.session.world.rows.keys()].filter(row => row >= this.session.world.frontier).sort((a, b) => a - b)) for (const x of [0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5]) candidates.push({ x, y: row });
     const cell = candidates.find(cell => this.session.isSafeCell(cell));
     if (!cell || !this.session.placeTurnPosition(next, cell)) { this.setPhase('waiting-for-reclaim'); return; }
-    this.index = this.setup.seats.findIndex(p => p.seat === next); this.leg++; this.distance = 0;
+    this.index = this.setup.seats.findIndex(p => p.seat === next); this.distance = 0;
     this.frontier = Math.max(this.frontier, this.session.world.frontier); this.nextBoundary = this.futureBoundary(); this.pending = undefined;
-    this.observedEarned = this.runner()!.earnedDistance; this.rotationPending = false; this.suspended = 'running'; this.setPhase('running');
+    this.observedEarned = this.runner()!.earnedDistance; this.rotationPending = false; this.suspended = 'handoff'; this.readyReason = this.outcomes.at(-1)?.outcome ?? 'skipped'; this.generation++; this.setPhase('handoff');
+  }
+  finish(outcome: 'complete' | 'no-eligible-runner' = 'complete'): RelayResult {
+    if (this.result) return this.result;
+    if (this.ledger.token()) {
+      this.capture(); const p = this.runner()!;
+      this.ledger.close({ ...this.ledger.token()!, id: this.eventId(), frontier: this.session.world.frontier, time: this.session.world.time, duration: this.activeDuration, position: { x: p.groundX, y: p.groundY }, outcome: 'ended' });
+    }
+    if (outcome === 'no-eligible-runner') this.terminalReason = outcome;
+    this.setPhase('ended');
+    const result = finalizeRelayResult(this.ledger, { mode: 'relay', outcome, distance: this.session.world.frontier, elapsedSeconds: this.session.world.time, seedCode: this.session.world.host.seedCode });
+    this.session.completeResult(result); return result;
   }
   death(seat: SeatId): void {
     if (seat !== this.activeSeat) return;
     this.pending = undefined; this.frontier = Math.max(this.frontier, this.session.world.frontier);
     this.nextBoundary = this.futureBoundary(); this.observedEarned = this.runner()!.earnedDistance;
     this.recovery.death(seat);
+    this.recordLifecycle(seat);
     this.suspended = 'recovery'; this.setPhase('recovery');
   }
   pendingRecovery(session: LocalSession): boolean { return this.recovery.pending(session); }
   recover(session: LocalSession, request: SessionRecoveryRequest): boolean {
     if (this.phase !== 'recovery' || request.ownerSeat !== this.activeSeat || !this.connections.get(request.ownerSeat) || !this.recovery.recover(session, request)) return false;
-    this.suspended = 'running'; this.setPhase('running'); return true;
+    this.recordLifecycle(request.ownerSeat); this.observedTime = this.session.world.time;
+    this.suspended = 'running'; this.setPhase('running'); this.capture(); return true;
   }
   canAct(seat: SeatId): boolean { return this.phase === 'running' && !this.pending && seat === this.activeSeat && this.eligible(seat); }
   progress(player: SessionPlayer, session: LocalSession): void {
@@ -183,10 +242,11 @@ export class RelayCoordinator {
     if (this.phase === 'recovery' && !this.runner()?.recovery?.offer) { this.closeLeg('dead'); this.rotationPending = true; this.rotate(); return; }
     const player = this.runner();
     if (player) this.progress(player, session);
+    this.capture(); this.observedTime = session.world.time;
     if (this.phase === 'running' && this.pending && player?.participation === 'active' && player.state === 'playing' && this.pending.participantId === player.participantId && this.pending.lifecycleGeneration === this.lifecycleGeneration(player.seat) && session.isRecoverySafePosition(player)) { this.phase = 'handoff'; this.generation++; }
   }
   snapshot() {
-    return Object.freeze({ phase: this.phase, activeSeat: this.activeSeat, incomingSeat: this.incomingSeat, leg: this.leg, distance: this.distance, nextBoundary: this.nextBoundary, pendingBoundary: this.pending, tilesPerLeg: this.setup.tilesPerLeg, transferGeneration: this.generation, roster: this.setup.seats, revision: this.revision, actionActor: this.confirmationState?.actor, outcomes: Object.freeze([...this.outcomes]), terminalReason: this.terminalReason, connections: Object.freeze(Object.fromEntries(this.connections)) });
+    return Object.freeze({ phase: this.phase, activeSeat: this.activeSeat, incomingSeat: this.incomingSeat, leg: this.leg, distance: this.distance, nextBoundary: this.nextBoundary, pendingBoundary: this.pending, tilesPerLeg: this.setup.tilesPerLeg, transferGeneration: this.generation, roster: this.setup.seats, revision: this.revision, actionActor: this.confirmationState?.actor, outcomes: Object.freeze([...this.outcomes]), terminalReason: this.terminalReason, connections: Object.freeze(Object.fromEntries(this.connections)), readyReason: this.readyReason });
   }
   confirmation(): RelayConfirmation {
     const incoming = this.session.players.find(player => player.seat === this.incomingSeat)!;
@@ -195,9 +255,13 @@ export class RelayCoordinator {
   /** Only a fresh router edge bound to this transfer generation may call this. */
   confirm(input: RelayConfirmation): boolean {
     const incoming = this.session.players.find(player => player.seat === this.incomingSeat);
+    if (this.readyReason) {
+      if (this.phase !== 'handoff' || !incoming || !this.eligible(incoming.seat) || input.seat !== incoming.seat || input.device !== incoming.device || input.participantId !== incoming.participantId || input.generation !== this.generation || input.lifecycleGeneration !== this.session.lifecycle.length) return false;
+      this.readyReason = undefined; this.leg++; this.openLeg(); this.setPhase('running'); return true;
+    }
     if (this.phase !== 'handoff' || !this.pending || this.pending.lifecycleGeneration !== this.lifecycleGeneration(this.activeSeat) || input.generation !== this.generation || input.lifecycleGeneration !== this.session.lifecycle.length || input.participantId !== incoming?.participantId || input.seat !== this.incomingSeat || input.device !== incoming?.device || !this.session.transferPosition(this.activeSeat, this.incomingSeat)) return false;
     this.closeLeg('complete'); this.index = this.setup.seats.findIndex(p => p.seat === incoming.seat); this.leg++; this.distance = 0; this.frontier = Math.max(this.frontier, this.session.world.frontier);
-    this.nextBoundary = this.futureBoundary(); this.observedEarned = incoming.earnedDistance; this.pending = undefined; this.setPhase('running');
+    this.nextBoundary = this.futureBoundary(); this.observedEarned = incoming.earnedDistance; this.pending = undefined; this.openLeg(); this.setPhase('running');
     return true;
   }
 }
@@ -205,6 +269,8 @@ export class RelayCoordinator {
 export function createRelayDefinition(base: ModeDefinition, relay: RelayCoordinator): SessionModeDefinition {
   return Object.freeze({ definition: base, handlers: Object.freeze({
     attach: (session: LocalSession) => relay.attach(session),
+    beforeDeath: (observation: SessionContributionObservation, cause: string) => relay.beforeDeath(observation, cause),
+    beforeDepart: (observation: SessionContributionObservation) => relay.beforeDepart(observation),
     canAct: (seat: SeatId) => relay.canAct(seat), canAdmit: () => false,
     simulates: (player: SessionPlayer) => player.seat === relay.activeSeat,
     canAdvance: () => ['running', 'recovery'].includes(relay.snapshot().phase),

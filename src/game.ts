@@ -466,7 +466,12 @@ export class Game {
       return item?.kind === 'cosmetic' ? [item] : [];
     });
     this.deathSpill = createDeathSpill(this.run.wallet, cosmetics, this.groundX, this.groundY, 0, this.seed ^ Math.imul(this.maxY, 0x45d9f3b));
-    this.health = 0; this.hurtRemaining = 0; this.reason = reason; this.deathCause = cause; this.state = 'dead'; this.run.clear(); this.onEnd(); this.lifecycle('terminal');
+    this.health = 0; this.hurtRemaining = 0; this.reason = reason; this.deathCause = cause; this.state = 'dead';
+    // The terminal state already blocks reentrant death. Mode observers retain
+    // contribution before inventory clear without deciding the transaction.
+    const participant = this.scoringPlayer;
+    try { if (participant) participant.session?.observeDeath(participant, cause); }
+    finally { this.run.clear(); this.onEnd(); this.lifecycle('terminal'); }
   }
   advanceDeathVisuals(dt: number): void {
     if (this.state === 'dead' && this.deathSpill && Number.isFinite(dt) && dt > 0) this.deathSpill.age = Math.min(3, this.deathSpill.age + dt);

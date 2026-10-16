@@ -43,9 +43,16 @@ export interface WorldFrame {
   readonly playerGround: ReadonlyMap<SessionPlayer, Readonly<{ x: number; y: number }>>;
 }
 export type SessionLifecycleHandler = (record: SessionLifecycleRecord) => void;
+export interface SessionContributionObservation {
+  readonly seat: SeatId; readonly participantId: string; readonly characterId: string;
+  readonly coins: number; readonly pickups: number; readonly selfRevives: number; readonly deaths: number; readonly wallet: number;
+  readonly time: number; readonly frontier: number; readonly position: Readonly<{ x: number; y: number }>;
+}
 
 /** Mode policies receive lifecycle facts through this generic session boundary. */
 export interface SessionModeHandlers {
+  beforeDeath?(observation: SessionContributionObservation, cause: DeathCause): void;
+  beforeDepart?(observation: SessionContributionObservation): void;
   canLifecycle?(kind: 'device-lost' | 'reclaim-offered' | 'reclaimed' | 'departed', seat: SeatId, device?: DeviceId): boolean;
   preserveReclaimPosition?: boolean;
   canAct?(seat: SeatId): boolean;
@@ -520,6 +527,7 @@ export class LocalSession {
   private readonly contributionRecords: SessionContribution[] = [];
   private readonly pendingForwardHops = new Map<SessionPlayer, number>();
   private resultRecord: SessionResult | undefined;
+  private readonly observingDepartures = new Set<SeatId>();
   private nextGrant = 1;
   private nextParticipant = 1;
   private active = false;
@@ -786,6 +794,14 @@ export class LocalSession {
     this.updateRecovery(player, current => ({ ...current, personalHighWater: absoluteProgress, charge: charged, nextRecharge }));
   }
   recover(request: SessionRecoveryRequest): boolean { return !this.resultRecord && !!this.mode?.handlers.recover?.(this, request); }
+  observeDeath(player: SessionPlayer, cause: DeathCause): void {
+    if (!this.resultRecord && this.players.includes(player)) this.mode?.handlers.beforeDeath?.(this.contributionObservation(player), cause);
+  }
+  contributionObservation(player: SessionPlayer): SessionContributionObservation {
+    return Object.freeze({ seat: player.seat, participantId: player.participantId, characterId: player.characterId,
+      coins: player.coins, pickups: player.statistics.pickups, selfRevives: player.statistics.selfRevives, deaths: player.statistics.deaths, wallet: player.run.wallet,
+      time: this.world.time, frontier: this.world.frontier, position: Object.freeze({ x: player.groundX, y: player.groundY }) });
+  }
   /** A player can explicitly close only their current personal-revival offer. */
   declineRecovery(seat: SeatId): boolean {
     const player = this.players.find(candidate => candidate.seat === seat);
@@ -850,9 +866,13 @@ export class LocalSession {
     this.emit('reclaimed', player, 'device-lost', 'active', 'device-reclaimed'); return true;
   }
   depart(seat: SeatId, cause = 'departed'): boolean {
+    if (this.observingDepartures.has(seat)) return false;
     if (this.mode?.handlers.canLifecycle?.('departed', seat) === false) return false;
     const player = this.players.find(candidate => candidate.seat === seat);
     if (!player || player.participation === 'departed') return false;
+    this.observingDepartures.add(seat);
+    try { this.mode?.handlers.beforeDepart?.(this.contributionObservation(player)); }
+    finally { this.observingDepartures.delete(seat); }
     // Close an unreclaimed interval before archiving; later team time must not
     // accrue to a participant who has deliberately left.
     player.statistics.deviceLostDuration += Math.max(0, this.world.time - (player.deviceLostAt ?? this.world.time));
