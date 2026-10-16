@@ -3,9 +3,12 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { chromium } from 'playwright';
+import { artifactForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
+let coverageScenario=0;
 
 export async function createMarketGameFixture(evidence, options = {}) {
-  const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
+  const built = await readFile(artifactForCoverage(options.artifact ?? new URL('../dist/index.html', import.meta.url)), 'utf8');
+  const coverageIdentity={suite:process.argv[1],scenario:`market-fixture-${coverageScenario++}`,frame:'opaque-app',generation:0,scope:'current'};
   function installFixture(options) {
     const fixture = window.marketGameFixture = { writes: [], handlers: {}, hydrated: false, forbidden: [], voices: [] };
     if (options.auditBoundary) {
@@ -74,6 +77,7 @@ frame.srcdoc=${artifact};</script>`;
   cdp.on('Runtime.executionContextDestroyed', ({ executionContextId }) => contexts.delete(executionContextId));
   cdp.on('Runtime.executionContextsCleared', () => contexts.clear());
   await cdp.send('Runtime.enable');
+  registerRealm(page,coverageIdentity);
   await page.goto(`http://127.0.0.1:${server.address().port}`);
   const iframe = page.locator('iframe');
   const frame = await (await iframe.elementHandle()).contentFrame();
@@ -167,6 +171,9 @@ frame.srcdoc=${artifact};</script>`;
   async function observeTravelers() {
     await onObject('renderer', function () { return this.width; }, []);
     const records = [], failures = [], breakpoints = new Map();
+    const scripts = new Map();
+    const parsed = script => scripts.set(script.scriptId, script);
+    cdp.on('Debugger.scriptParsed', parsed);
     await cdp.send('Debugger.enable');
     const paused = async event => {
       try {
@@ -210,13 +217,31 @@ frame.srcdoc=${artifact};</script>`;
     try {
       for (const method of ['appendTraveler', 'turnedModel', 'model']) {
         const { result } = await cdp.send('Runtime.callFunctionOn', { objectId: objectIds.get('renderer'), functionDeclaration: 'function(name){return this[name];}', arguments: [{value:method}] });
-        const { breakpointId } = await cdp.send('Debugger.setBreakpointOnFunctionCall', { objectId: result.objectId });
+        let breakpointId;
+        if(process.env.DOWN_TO_DUCK_COVERAGE_CONFIG){
+          // Instrumented default arguments are executable. Function-call
+          // breakpoints can stop only when defaults run, missing explicit
+          // traveler arguments. Observe the first actual body instruction.
+          const detail=await cdp.send('Runtime.getProperties',{objectId:result.objectId,ownProperties:true});
+          const location=detail.internalProperties.find(row=>row.name==='[[FunctionLocation]]').value.value;
+          const possible=await cdp.send('Debugger.getPossibleBreakpoints',{start:location,restrictToFunction:true});
+          const {scriptSource}=await cdp.send('Debugger.getScriptSource',{scriptId:location.scriptId});
+          const origin=scripts.get(location.scriptId);
+          assert.ok(origin, 'inline script origin is known');
+          const lines=scriptSource.split('\n'),offset=point=>lines.slice(0,point.lineNumber-origin.startLine).reduce((n,line)=>n+line.length+1,0)+point.columnNumber-(point.lineNumber===origin.startLine?origin.startColumn:0);
+          let cursor=scriptSource.indexOf('(',offset(location)),depth=0;
+          do {if(scriptSource[cursor]==='(')depth++;if(scriptSource[cursor]===')')depth--;cursor++;}while(depth&&cursor<scriptSource.length);
+          const body=scriptSource.indexOf('{',cursor)+1;
+          const executable=possible.locations.find(point=>offset(point)>=body);
+          assert.ok(executable,`${method} has a real body executable location`);
+          ({breakpointId}=await cdp.send('Debugger.setBreakpoint',{location:executable}));
+        }else ({breakpointId}=await cdp.send('Debugger.setBreakpointOnFunctionCall', { objectId: result.objectId }));
         breakpoints.set(breakpointId, method);
       }
       await advance(17);
     } finally {
       for (const breakpointId of breakpoints.keys()) await cdp.send('Debugger.removeBreakpoint', { breakpointId });
-      cdp.off('Debugger.paused', paused); await cdp.send('Debugger.disable');
+      cdp.off('Debugger.paused', paused); cdp.off('Debugger.scriptParsed', parsed); await cdp.send('Debugger.disable');
     }
     assert.deepEqual(failures, [], 'read-only production geometry observation');
     const labels = [...new Map(records.filter(r=>r.kind==='label').map(r=>[r.text,r])).values()];
@@ -225,7 +250,7 @@ frame.srcdoc=${artifact};</script>`;
   return { browser, page, frame, iframe, advance, onGame, onSession, onRenderer:(fn,...args)=>onObject('renderer',fn,args), sendPads, resize, key, open, stageMarket, stageOffers,
     observeTravelers,
     refreshOwners() { objectIds.clear(); },
-    async close() { await browser.close(); await new Promise(resolve => server.close(resolve)); } };
+    async close() { try { await collectRealm(frame,coverageIdentity); } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); } } };
 }
 
 /** Explicit public disclosure navigation for inherited shared HUD actions.

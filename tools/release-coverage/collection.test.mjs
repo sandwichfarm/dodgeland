@@ -11,7 +11,7 @@ import vm from 'node:vm';
 test('browser realm registration fails closed before missing duplicate or mismatched capture',async()=>{
  const {createBrowserCollector}=await import('./browser.mjs');
  const inventory=instrumentSources({'fixture.ts':'export const answer = 42;'},'/coverage-browser');
- const context=vm.createContext({});vm.runInContext(inventory['fixture.ts'].code.replace('export const','const'),context);
+ const context=vm.createContext({});vm.runInContext(inventory['fixture.ts'].code.replace(/^export const/gm,'const'),context);
  const raw=JSON.parse(JSON.stringify(context.__coverage__));
  const output=await mkdtemp(join(tmpdir(),'browser-realms-'));
  try {

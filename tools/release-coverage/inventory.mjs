@@ -21,10 +21,12 @@ export async function buildInventory(){
 if(process.env.DOWN_TO_DUCK_COVERAGE_CONFIG&&process.env.NODE_TEST_CONTEXT==='child-v8'){
  const config=JSON.parse(readFileSync(process.env.DOWN_TO_DUCK_COVERAGE_CONFIG,'utf8'));
  const realmId=relative(repositoryRoot,resolve(process.argv[1])).split('\\').join('/');
- if(!config.expectedRealms.includes(realmId))throw Error(`Unexpected test worker ${realmId}`);
+ const role=config.workerRoles?.[realmId]??'node';
+ if(!(config.expectedWorkers??config.expectedRealms).includes(realmId))throw Error(`Unexpected test worker ${realmId}`);
+ if(!['node','browser','mixed','control'].includes(role))throw Error(`Unknown worker role ${role}`);
  const inventory=JSON.parse(readFileSync(config.inventoryPath,'utf8'));
  process.once('exit',()=>{
-  try{const payload=capturePayload(inventory,globalThis.__coverage__,{runId:config.runId,realmId});writeFileSync(join(config.payloadDirectory,realmId.replaceAll('/','__')+'.json'),JSON.stringify(payload));}
+  try{if(role==='browser'||role==='control'){if(globalThis.__coverage__)throw Error('Undeclared Node source execution');return;}const payload=capturePayload(inventory,globalThis.__coverage__,{runId:config.runId,realmId});writeFileSync(join(config.payloadDirectory,realmId.replaceAll('/','__')+'.json'),JSON.stringify(payload));}
   catch(error){console.error('Coverage worker failed:',error.message);process.exitCode=1;}
  });
 }
