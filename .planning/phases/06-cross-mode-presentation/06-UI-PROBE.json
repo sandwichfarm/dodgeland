@@ -1,0 +1,404 @@
+{
+  "items": [
+    {
+      "requirement_id": "E1",
+      "category": "empty",
+      "status": "resolved",
+      "verification": "explicit",
+      "resolution": "Before commitment use setup; after no available racers use existing waiting/terminal policy, never an empty live HUD.",
+      "reason": null,
+      "probe": "What is shown when there is no data \u2014 zero items, an unfilled form, or absent media?"
+    },
+    {
+      "requirement_id": "E1",
+      "category": "loading",
+      "status": "dismissed",
+      "verification": null,
+      "resolution": null,
+      "reason": "Local committed roster is synchronous; setup/reclaim checking remains in its existing board.",
+      "probe": "What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?"
+    },
+    {
+      "requirement_id": "E1",
+      "category": "error",
+      "status": "resolved",
+      "verification": "explicit",
+      "resolution": "Preserve explicit disconnected/reclaim state and existing safe actions.",
+      "reason": null,
+      "probe": "What is shown when the load or submit fails (message, retry affordance, partial fallback)?"
+    },
+    {
+      "requirement_id": "E1",
+      "category": "populated",
+      "status": "resolved",
+      "verification": "explicit",
+      "resolution": "G1 identity, health and mode/lifecycle summaries; compact chips use clarified selected-summary disclosure.",
+      "reason": null,
+      "probe": "What does the normal populated (happy-path) state look like at a typical volume of content?"
+    },
+    {
+      "requirement_id": "E1",
+      "category": "partial",
+      "status": "resolved",
+      "verification": "explicit",
+      "resolution": "Dead, ghosted, finished and reserved seats remain explicitly labelled; no fabricated actor.",
+      "reason": null,
+      "probe": "What is shown for partial or incomplete data \u2014 some fields or rows present, others missing?"
+    },
+    {
+      "requirement_id": "E1",
+      "category": "overflow",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "G1 band budgets and full actor/nameplate-versus-DOM proof at required frames.",
+      "reason": null,
+      "probe": "What happens when content exceeds its container \u2014 scroll, clip, wrap, or truncate?"
+    },
+    {
+      "requirement_id": "E1",
+      "category": "zero-one-many",
+      "status": "resolved",
+      "verification": "explicit",
+      "resolution": "Relay has one active actor; simultaneous modes2\u20134 seats; zero available actors uses waiting/terminal policy.",
+      "reason": null,
+      "probe": "How does the layout read at zero, one, and many items (singular vs plural copy, spacing)?"
+    },
+    {
+      "requirement_id": "E2",
+      "category": "loading",
+      "status": "dismissed",
+      "verification": null,
+      "resolution": null,
+      "reason": "Inspection reads current in-memory state synchronously; no asynchronous content loader.",
+      "probe": "What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?"
+    },
+    {
+      "requirement_id": "E2",
+      "category": "error",
+      "status": "resolved",
+      "verification": "explicit",
+      "resolution": "Invalid owner/context follows existing safe return and focus restoration.",
+      "reason": null,
+      "probe": "What is shown when the load or submit fails (message, retry affordance, partial fallback)?"
+    },
+    {
+      "requirement_id": "E2",
+      "category": "overflow",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "Existing bounded detail pages retain participant and logical page through resize.",
+      "reason": null,
+      "probe": "What happens when content exceeds its container \u2014 scroll, clip, wrap, or truncate?"
+    },
+    {
+      "requirement_id": "E2",
+      "category": "long-text",
+      "status": "resolved",
+      "verification": "explicit",
+      "resolution": "Typography/Copywriting contracts preserve full required facts through wrapping/paging.",
+      "reason": null,
+      "probe": "What happens with unusually long text \u2014 truncation, wrapping, ellipsis, or reflow?"
+    },
+    {
+      "requirement_id": "E3",
+      "category": "empty",
+      "status": "resolved",
+      "verification": "explicit",
+      "resolution": "Render retained course during no-living-player recovery/wait/result; no fake traveler.",
+      "reason": null,
+      "probe": "What is shown when there is no data \u2014 zero items, an unfilled form, or absent media?"
+    },
+    {
+      "requirement_id": "E3",
+      "category": "loading",
+      "status": "dismissed",
+      "verification": null,
+      "resolution": null,
+      "reason": "Procedural bundled scene has no external media fetch; preserve existing startup rendering.",
+      "probe": "What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?"
+    },
+    {
+      "requirement_id": "E3",
+      "category": "error",
+      "status": "dismissed",
+      "verification": null,
+      "resolution": null,
+      "reason": "No new external media failure path; retain existing boot/optional-domain fallback.",
+      "probe": "What is shown when the load or submit fails (message, retry affordance, partial fallback)?"
+    },
+    {
+      "requirement_id": "E3",
+      "category": "populated",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "G1 full body/nameplate envelopes avoid actual opaque UI; conditional shared-only viewport preserves solo.",
+      "reason": null,
+      "probe": "What does the normal populated (happy-path) state look like at a typical volume of content?"
+    },
+    {
+      "requirement_id": "E4",
+      "category": "empty",
+      "status": "resolved",
+      "verification": "explicit",
+      "resolution": "Copywriting empty items/targets and safe Back; inventory charge unchanged.",
+      "reason": null,
+      "probe": "What is shown when there is no data \u2014 zero items, an unfilled form, or absent media?"
+    },
+    {
+      "requirement_id": "E4",
+      "category": "loading",
+      "status": "dismissed",
+      "verification": null,
+      "resolution": null,
+      "reason": "Existing owner inventory and seeded offers are synchronous, no network loader.",
+      "probe": "What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?"
+    },
+    {
+      "requirement_id": "E4",
+      "category": "error",
+      "status": "resolved",
+      "verification": "explicit",
+      "resolution": "Existing authoritative rejection reason precedes any success/debit.",
+      "reason": null,
+      "probe": "What is shown when the load or submit fails (message, retry affordance, partial fallback)?"
+    },
+    {
+      "requirement_id": "E4",
+      "category": "populated",
+      "status": "resolved",
+      "verification": "explicit",
+      "resolution": "One owned tree with real selected-player wallet/hand and eligible items.",
+      "reason": null,
+      "probe": "What does the normal populated (happy-path) state look like at a typical volume of content?"
+    },
+    {
+      "requirement_id": "E4",
+      "category": "partial",
+      "status": "resolved",
+      "verification": "explicit",
+      "resolution": "Sold/unavailable/disabled offers retain real availability and ownership.",
+      "reason": null,
+      "probe": "What is shown for partial or incomplete data \u2014 some fields or rows present, others missing?"
+    },
+    {
+      "requirement_id": "E4",
+      "category": "overflow",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "Bounded market/pack pages; selling preserves page and selected-owner context.",
+      "reason": null,
+      "probe": "What happens when content exceeds its container \u2014 scroll, clip, wrap, or truncate?"
+    },
+    {
+      "requirement_id": "E4",
+      "category": "zero-one-many",
+      "status": "resolved",
+      "verification": "explicit",
+      "resolution": "Existing inventory capacities and pages; zero items and variable eligible selections retain delivered controls.",
+      "reason": null,
+      "probe": "How does the layout read at zero, one, and many items (singular vs plural copy, spacing)?"
+    },
+    {
+      "requirement_id": "E4",
+      "category": "long-text",
+      "status": "resolved",
+      "verification": "explicit",
+      "resolution": "Complete action/error copy wraps/pages; no smaller type or clipped controls.",
+      "reason": null,
+      "probe": "What happens with unusually long text \u2014 truncation, wrapping, ellipsis, or reflow?"
+    },
+    {
+      "requirement_id": "E5",
+      "category": "overflow",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "Bounded recovery/reclaim/handoff pages preserve offer,target,deadline and focus through notice/resize.",
+      "reason": null,
+      "probe": "What happens when content exceeds its container \u2014 scroll, clip, wrap, or truncate?"
+    },
+    {
+      "requirement_id": "E5",
+      "category": "long-text",
+      "status": "resolved",
+      "verification": "explicit",
+      "resolution": "Full authoritative copy and44px actions fit by wrapping/paging; no hidden recovery.",
+      "reason": null,
+      "probe": "What happens with unusually long text \u2014 truncation, wrapping, ellipsis, or reflow?"
+    },
+    {
+      "requirement_id": "E6",
+      "category": "empty",
+      "status": "resolved",
+      "verification": "explicit",
+      "resolution": "Valid committed run records include original participants; no synthetic empty podium. Existing ready/setup appears before terminal result.",
+      "reason": null,
+      "probe": "What is shown when there is no data \u2014 zero items, an unfilled form, or absent media?"
+    },
+    {
+      "requirement_id": "E6",
+      "category": "loading",
+      "status": "dismissed",
+      "verification": null,
+      "resolution": null,
+      "reason": "Frozen results produced synchronously from authoritative settlement; no network result loader.",
+      "probe": "What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?"
+    },
+    {
+      "requirement_id": "E6",
+      "category": "error",
+      "status": "dismissed",
+      "verification": null,
+      "resolution": null,
+      "reason": "No external result retrieval; preserve prior frozen result during retry/teardown.",
+      "probe": "What is shown when the load or submit fails (message, retry affordance, partial fallback)?"
+    },
+    {
+      "requirement_id": "E6",
+      "category": "populated",
+      "status": "resolved",
+      "verification": "explicit",
+      "resolution": "Team equal-height, Relay contribution ties/ledger, Race true competition ties and unrankedDNF.",
+      "reason": null,
+      "probe": "What does the normal populated (happy-path) state look like at a typical volume of content?"
+    },
+    {
+      "requirement_id": "E6",
+      "category": "partial",
+      "status": "resolved",
+      "verification": "explicit",
+      "resolution": "Explicit left/dead/forfeit statuses; all archived/replaced participants retained.",
+      "reason": null,
+      "probe": "What is shown for partial or incomplete data \u2014 some fields or rows present, others missing?"
+    },
+    {
+      "requirement_id": "E6",
+      "category": "overflow",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "Bounded immutable participant/metric pages; retain selected participant after resize.",
+      "reason": null,
+      "probe": "What happens when content exceeds its container \u2014 scroll, clip, wrap, or truncate?"
+    },
+    {
+      "requirement_id": "E6",
+      "category": "zero-one-many",
+      "status": "resolved",
+      "verification": "explicit",
+      "resolution": "Page frozen participants rather than live roster; one remaining actor does not remove archived records.",
+      "reason": null,
+      "probe": "How does the layout read at zero, one, and many items (singular vs plural copy, spacing)?"
+    },
+    {
+      "requirement_id": "E6",
+      "category": "long-text",
+      "status": "resolved",
+      "verification": "explicit",
+      "resolution": "Full identity/stat fields accessible on bounded pages, no truncation of required outcomes.",
+      "reason": null,
+      "probe": "What happens with unusually long text \u2014 truncation, wrapping, ellipsis, or reflow?"
+    },
+    {
+      "requirement_id": "E7",
+      "category": "empty",
+      "status": "resolved",
+      "verification": "explicit",
+      "resolution": "Existing valid defaults and explicit unique-character readiness; incomplete roster cannot start.",
+      "reason": null,
+      "probe": "What is shown when there is no data \u2014 zero items, an unfilled form, or absent media?"
+    },
+    {
+      "requirement_id": "E7",
+      "category": "loading",
+      "status": "resolved",
+      "verification": "explicit",
+      "resolution": "Existing Checking status and disabled dependent action retain valid identity.",
+      "reason": null,
+      "probe": "What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?"
+    },
+    {
+      "requirement_id": "E7",
+      "category": "error",
+      "status": "resolved",
+      "verification": "explicit",
+      "resolution": "Existing inline binding conflict/invalid settings copy and correction/reset controls.",
+      "reason": null,
+      "probe": "What is shown when the load or submit fails (message, retry affordance, partial fallback)?"
+    },
+    {
+      "requirement_id": "E7",
+      "category": "partial",
+      "status": "resolved",
+      "verification": "explicit",
+      "resolution": "Retain unfinished draft across pages/resize; unique character/device validation unchanged.",
+      "reason": null,
+      "probe": "What is shown for partial or incomplete data \u2014 some fields or rows present, others missing?"
+    },
+    {
+      "requirement_id": "E7",
+      "category": "long-text",
+      "status": "resolved",
+      "verification": "explicit",
+      "resolution": "Existing bounded setup pages and complete accessible device/character labels.",
+      "reason": null,
+      "probe": "What happens with unusually long text \u2014 truncation, wrapping, ellipsis, or reflow?"
+    },
+    {
+      "requirement_id": "E8",
+      "category": "long-text",
+      "status": "resolved",
+      "verification": "explicit",
+      "resolution": "Existing accessible global action names,44px targets and tier layouts; no label clipping.",
+      "reason": null,
+      "probe": "What happens with unusually long text \u2014 truncation, wrapping, ellipsis, or reflow?"
+    },
+    {
+      "requirement_id": "E9",
+      "category": "overflow",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "Exact minimum notice at200\u00d7160; no game actions; restore state without activation.",
+      "reason": null,
+      "probe": "What happens when content exceeds its container \u2014 scroll, clip, wrap, or truncate?"
+    },
+    {
+      "requirement_id": "E9",
+      "category": "long-text",
+      "status": "resolved",
+      "verification": "explicit",
+      "resolution": "Exact short minimum copy wraps inside notice; no invented long dynamic content.",
+      "reason": null,
+      "probe": "What happens with unusually long text \u2014 truncation, wrapping, ellipsis, or reflow?"
+    },
+    {
+      "requirement_id": "E10",
+      "category": "overflow",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "Shared-only hide duplicate personal visuals/accessibility content; restore exact solo chrome.",
+      "reason": null,
+      "probe": "What happens when content exceeds its container \u2014 scroll, clip, wrap, or truncate?"
+    },
+    {
+      "requirement_id": "E10",
+      "category": "long-text",
+      "status": "resolved",
+      "verification": "explicit",
+      "resolution": "Existing solo typography/copy remains unchanged; no new dynamic text surface.",
+      "reason": null,
+      "probe": "What happens with unusually long text \u2014 truncation, wrapping, ellipsis, or reflow?"
+    }
+  ],
+  "coverage": {
+    "applicable": 43,
+    "covered": 28,
+    "backstop": 8,
+    "dismissed": 7,
+    "unresolved": 0
+  },
+  "provenance": {
+    "engine": "/Users/sandwich/.codex/gsd-core/bin/lib/ui-consideration-probe.cjs",
+    "engine_exit": 0,
+    "resolution": "orchestrator contract mapping; not implementation verification",
+    "elements_file": "/tmp/down-to-duck-06-ui-elements.json"
+  }
+}
