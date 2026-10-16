@@ -158,8 +158,17 @@ Plans:
   2. Co-op, Relay, and Race results each render their required per-character contribution/breakdown and mode-appropriate podium from immutable result records.
   3. Setup, HUD, hand/market, recovery, and result views use purpose-built compact views with large controls and no accidental scrolling at tiny, compact, regular, wide, and short frames in both runtime themes.
 
-**Plans**: TBD
+**Plans**: 2 plans
 **UI hint**: yes
+
+Plans:
+**Wave 1**
+
+- [ ] 06-01-PLAN.md — Clear the shared live scene and remove duplicate personal status with a real four-player tracer.
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 06-02-PLAN.md — Prove changed lifecycle/owner/result surfaces and run exact inherited acceptance gates.
 
 ### Phase 7: Release Evidence & PR
 
@@ -188,5 +197,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 3. Survive Together & Consumables | 8/8 | Complete    | 2026-10-15 |
 | 4. Relay | 6/6 | Complete    | 2026-10-15 |
 | 5. Race | 7/7 | Technical verification passed; human acceptance pending |  |
-| 6. Cross-Mode Presentation | 0/TBD | Not started | - |
+| 6. Cross-Mode Presentation | 0/2 | Planned; reversible implementation next | - |
 | 7. Release Evidence & PR | 0/TBD | Not started | - |

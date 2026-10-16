@@ -2,28 +2,28 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: verifying
-stopped_at: Race technical verification 40/40; human visual acceptance pending; Phase06 research complete; UI contract/planning next
-last_updated: "2026-10-16T08:24:20.625896+00:00"
+status: executing
+stopped_at: Phase06 plans independently passed; execute06-01; Phase05 human acceptance remains pending
+last_updated: "2026-10-16T10:23:46.911713+00:00"
 progress:
   total_phases: 7
   completed_phases: 4
-  total_plans: 31
+  total_plans: 33
   completed_plans: 31
-current_phase: 05
-current_phase_name: race
-last_activity_desc: Race CR-01 repaired on 2da5dd9; independent review clean, technical verification 40/40; human acceptance pending.
+current_phase: 06
+current_phase_name: cross-mode-presentation
+last_activity_desc: Phase06 UI contract and two plans independently approved; UI04/UI05 coverage passes; execute06-01.
 ---
 
 # Project State
 
 ## Current Position
 
-Phase05 implementation is complete; independent review is clean after CR-01 controller-results repair on `2da5dd9`. Independent verification reports **40/40 technical truths**, zero implementation gaps and zero behavior-unverified truths, but `human_needed` for explicit visual/play-feel acceptance. See05-REVIEW.md,05-VERIFICATION.md and05-UAT.md. An asynchronous user question is pending; do not invent acceptance or markPhase05 complete. Independent Phase06 research is complete in06-RESEARCH.md: confirmed cross-layer HUD/actor occlusion and duplicate solo personal status; departed co-op records already work. UI contract/planning preparation is next; execution remains subject to pending acceptance.
+Phase05 implementation is complete; independent review is clean after CR-01 controller-results repair on `2da5dd9`. Independent verification reports **40/40 technical truths**, zero implementation gaps and zero behavior-unverified truths, but `human_needed` for explicit visual/play-feel acceptance. See05-REVIEW.md,05-VERIFICATION.md and05-UAT.md. An asynchronous user question is pending; do not invent acceptance or markPhase05 complete. Independent Phase06 research is complete in06-RESEARCH.md: confirmed cross-layer HUD/actor occlusion and duplicate solo personal status; departed co-op records already work. UI contract and two sequential plans are independently approved. Proceed with reversible Phase06 presentation fixes under the user’s standing autonomous full-delivery authorization; preserve Phase05 human_needed and pending UAT. This sequencing exception does not supply human acceptance or mark Phase05 complete: complete the known presentation repair before final subjective acceptance rather than stop authorized work on the known overlapping layout.
 
 Final complete pre-repair gates:19289 exit0 on62f9958, exactRelayGate6 thenRaceGate7, including inheritedPhase3/2/1, Relay65/12runtime/252captures andRace76/12runtime/420captures. Narrow routing repair final86987 exit0:73sharedinput/results and16Race runtime plus type/build/guidance/conformance/lockfile. Independent80996 controller2/2 and invariant3/3 pass. Logs and source distinctions are in05-REVIEW-REPAIR and05-VERIFICATION.
 
-Actual tracking: **4 completed phases,31/31 existing plans executed**. Phase06 and07 are not yet planned. Full objective remains cross-mode presentation, release/coverage audit and an open PR againstmain. Branch`feat/local-multiplayer`; immutable solo oracle`a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin. Prior summaries and independent verification reports are authoritative historical evidence.
+Actual tracking: **4 completed phases,31/33 existing plans executed**. Phase06 has two reviewed plans in waves1→2; Phase07 is not yet planned. Full objective remains cross-mode presentation, release/coverage audit and an open PR againstmain. Branch`feat/local-multiplayer`; immutable solo oracle`a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin. Prior summaries and independent verification reports are authoritative historical evidence.
 
 ## Accepted Relay Entry Evidence
 
@@ -85,7 +85,7 @@ Typed gsd-verifier stayed pending_init across multiple turns and was explicitly 
 ## Session
 
 **Last session:** 2026-10-16T07:39:40.627Z
-**Stopped at:** Race technical verification40/40; human acceptance pending; Phase06 research complete; UI contract/planning next
+**Stopped at:** Phase06 plans passed; execute06-01; Phase05 UAT pending
 **Resume file:** None
 
 ## Decisions
