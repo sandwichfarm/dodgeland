@@ -3,41 +3,27 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed07-01; ready07-02; Phase05/06 human acceptance pending
+stopped_at: Adapter continuation planning ready for checker; human accepted, formal05/06 closure/security audit pending
 last_updated: "2026-10-16T13:57:49.407Z"
 progress:
   total_phases: 7
-  completed_phases: 2
-  total_plans: 43
+  completed_phases: 4
+  total_plans: 42
   completed_plans: 34
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Phase07-01 calibration completed;10/10 final Node/browser checks, audited standalone lock, no production coverage claim.
+last_activity_desc: Reconciled07-02 checkpoint into foundation plus07/08/09 adapters;34/42 plans complete, pending checker.
 ---
 
 # Project State
 
-Current07-02 checkpoint:1/3 tasks complete on4fffa33;93470exit0 proves9 calibrated collection checks,22 instrumented shared tests and28 ordinary shared/strict checks. Browser audit identifies21 additional independent owners beyond original12 paths, triggering the approved15-path split threshold. See07-02-ADAPTER-CHECKPOINT and REALM-AUDIT; root/checker must reconcile continuation placement before extra adapters. Full initial report and07-03 wait. Still34/39 implemented plans; blocked07-02SUMMARY is not completion. No live executor process.
+Current position: Phase07 adapter continuation plans await independent checker.07-01 is complete;07-02 Task1 alone is complete (4fffa33;93470exit0:9 calibration/collection,22 instrumented shared,28 ordinary shared/strict). Its blocked SUMMARY is not plan completion.02 foundation →07 component owners →08 local-input owners →09 remaining owners/full initial report →03 gaps →04 conformance →05 evidence →06 release runner/PR. No executor process is active; no source changes or tests in this planning revision.
 
-Phase07-01 complete:3/3 tasks, exact Node/opaque-browser calibration10/10 finalhandle32469exit0 onf04d332; SUMMARYbc0eb3a. Normal isolated dependencies and own lock are audited; root lock/oracle unchanged. Initial Node HTTPS EBADF checkpoint was resolved using existing Bun for pinned pnpm followed by normal frozen reinstall. Next07-02 production collection; no product coverage percentage claimed.34/39 plans implemented,4 phases complete,05/06 human acceptance pending. No live executor process.
+Actual tracking: **4 formally completed phases,34/42 plans complete**. User acceptance was received2026-10-16: presentation feels clear and usable for Survive/Relay/Race HUD, compact Controls, recovery and results. Root owns formal05/06 UAT/verification closure after retrospective security audit; do not infer those reports already pass. Technical05 verification40/40 and06 verification47/47 remain established. Sourceb9bc44f accepted21972 inherited prefix,92241 current narrow gate and independent52826.
 
-Release preparation:07-01 through07-06 comprise15 tasks in six sequential waves. Independent07-PLAN-REVIEW passed after concrete SDK storage wire/promise proof, explicit PR title, scope/timing and clause ownership corrections. Post-planning gap check covers5/5 requirement IDs; API no-new-integration declaration passes. 34/39 plans implemented;4 phases complete,05/06 subjective acceptance still pending. Next execute07-02: production source inventory, Node/browser collection and explicit policy using the calibrated tooling. No production coverage percentage is yet measured. Ordinary tooling execution is authorized by the full-delivery goal; no install was performed during research/planning.
+07-01 exact Node/opaque-browser calibration10/10 passed32469exit0 onf04d332. Audited standalone dependencies/own lock are installed: historical Node HTTPS EBADF resolved through installed Bun running pinned pnpm, followed by ordinary frozen reinstall. Root lock/oracle unchanged. Production shared-tracer data is partial; no full coverage or floor-compliance claim.07-09 must account for all audited/transitive realms before07-03 uses the initial report.
 
-Latest checkpoint: Phase06 independent review is clean (`ed408d0`), with CR-01/WR-01 independently rechecked in52826exit0. Verification `1b5f05e` establishes47/47 technical truths,13 matching source/test/build hashes and72 recomputed geometry samples; overall status remains `human_needed`. `06-UAT.md` persists the subjective visual/play-feel item, and an asynchronous user feedback request is pending. Phase05 remains human_needed as well. Current source `b9bc44f`, final bounded92241 cross-mode31/31 and affected104/104; full preceding21972 remains scoped evidence for unchanged mechanics/layout.
-
-Proceed with reversible Phase07 research/planning under the standing autonomous full-delivery instruction while preserving both pending human statuses. This is preparation, not a phase-completion transition or inferred acceptance. Research owns only07-RESEARCH.md; no production/dependency/lockfile/preview changes are authorized by that research dispatch. Phase07 must still establish meaningful production coverage, final requirement/visual/conformance evidence and the requested open PR; no goal completion claim.
-
-Phase06-02 completed on26c9622 (production7a7c128). Final21972 exit0, `/tmp/down-to-duck-06-02-final-frozen-gate.log`: exact Relay Gate6 then Race Gate7, health-runtime once, strict cross-mode27/27 and diff-check. All inherited gates passed on one frozen artifact. See06-02SUMMARY and06-EVIDENCE. No active process. Independent Phase06 review/verification next; Phase05 human acceptance stays pending.
-
-Phase06 review repair: source `b9bc44f`, retained RED `be71b19`; final92241 exit0, `/tmp/down-to-duck-06-review-repair-final.log`, cross-mode31/31 and affected shared/mode/solo input/runtime104/104 plus required checks. See06-REVIEW-REPAIR.md. Reviewer report remains unchanged pending independent re-review. No active process; no phase or human approval inferred.
-
-## Current Position
-
-Phase05 implementation is complete; independent review is clean after CR-01 controller-results repair on `2da5dd9`. Independent verification reports **40/40 technical truths**, zero implementation gaps and zero behavior-unverified truths, but `human_needed` for explicit visual/play-feel acceptance. See05-REVIEW.md,05-VERIFICATION.md and05-UAT.md. An asynchronous user question is pending; do not invent acceptance or markPhase05 complete. Independent Phase06 research is complete in06-RESEARCH.md: confirmed cross-layer HUD/actor occlusion and duplicate solo personal status; departed co-op records already work. UI contract and two sequential plans are independently approved. Proceed with reversible Phase06 presentation fixes under the user’s standing autonomous full-delivery authorization; preserve Phase05 human_needed and pending UAT. This sequencing exception does not supply human acceptance or mark Phase05 complete: complete the known presentation repair before final subjective acceptance rather than stop authorized work on the known overlapping layout.
-
-Final complete pre-repair gates:19289 exit0 on62f9958, exactRelayGate6 thenRaceGate7, including inheritedPhase3/2/1, Relay65/12runtime/252captures andRace76/12runtime/420captures. Narrow routing repair final86987 exit0:73sharedinput/results and16Race runtime plus type/build/guidance/conformance/lockfile. Independent80996 controller2/2 and invariant3/3 pass. Logs and source distinctions are in05-REVIEW-REPAIR and05-VERIFICATION.
-
-Actual tracking: **4 completed phases,33/33 existing plans executed**. Phase06 has two reviewed plans in waves1→2; Phase07 is not yet planned. Full objective remains cross-mode presentation, release/coverage audit and an open PR againstmain. Branch`feat/local-multiplayer`; immutable solo oracle`a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin. Prior summaries and independent verification reports are authoritative historical evidence.
+Branchfeat/local-multiplayer; immutable solo oraclea310a81ed6c76df4b265c9012c23b8c83f4802e5. Remaining goal: complete meaningful release coverage, durable visual/clause/conformance evidence and authorized open PR againstmain. No merge/deploy/publish. Historical evidence below is superseded for current status by the position above and accepted final VERIFICATION/SUMMARY records.
 
 ## Accepted Relay Entry Evidence
 
@@ -76,10 +62,10 @@ Typed gsd-verifier stayed pending_init across multiple turns and was explicitly 
 
 ## Remaining Evidence and Presentation
 
-- Race technical verification is complete; visual/play-feel acceptance remains pending. Prepare Phase06 UI, then Phase07 full audit and PR. Do not shrink stop condition.
-- Phase06 must address regular900×600 HUD overlap with nearby actors using actual completed lifecycle/results flows.
+- Race/presentation technical verification and user visual/play-feel acceptance are received; formal closure/security audit is root-owned. Phase07 full audit and PR remain required.
+- Phase06 presentation repair is technically verified; preserve its real actor-envelope and lifecycle evidence.
 - Conformance5pass/0fail/5unmeasured (manifest3,wire1,lifecycle1), not10passes. Physical controllers unmeasured. See research/CONFORMANCE-EVIDENCE.md.
-- Coverage calibration remains exploratory until normal-install/browser instrumentation proven; see research/COVERAGE-CALIBRATION.md.
+- Coverage calibration is proven07-01; full production collection/floors remain pending07-09/03.
 - Detailed Phase03 intermediate history is archived in phases/03-survive-together-consumables/03-EXECUTION-HISTORY.md. Accepted summaries and final VERIFICATION are authoritative.
 
 ## Performance Metrics
@@ -99,7 +85,7 @@ Typed gsd-verifier stayed pending_init across multiple turns and was explicitly 
 ## Session
 
 **Last session:** 2026-10-16T13:57:49.395Z
-**Stopped at:** Completed07-01; ready07-02; Phase05/06 human acceptance pending
+**Stopped at:** Adapter continuation plans await checker; formal05/06 closure/security audit is root-owned.
 **Resume file:** None
 
 ## Decisions

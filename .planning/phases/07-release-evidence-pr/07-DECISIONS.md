@@ -1,6 +1,6 @@
 # Phase07 planning decisions and source audit
 
-Generic planner fallback using the full local planner role and plan-phase workflow; no typed-runtime claim. Planning only: no installation, product edit, test execution, commit or remote write. Entry production b9bc44f; accepted21972 full prior gates plus92241 current narrow gate and independent52826. Phase05/06 technical verification is distinct from their pending human acceptance.
+Generic planner fallback using the full local planner role and plan-phase workflow; no typed-runtime claim. Planning only: no installation, product edit, test execution, commit or remote write. Entry production b9bc44f; accepted21972 full prior gates plus92241 current narrow gate and independent52826. Historical preparation began with human acceptance pending; user acceptance was received2026-10-16. Formal05/06 closure/security audit is now root-owned and pending.
 
 ## Locked context mapping
 
@@ -41,28 +41,28 @@ Precision: these are already locked evidence/delivery constraints or routine cor
 | Source | Obligation | Plans | Status |
 |---|---|---|---|
 | GOAL | Real built artifacts, fully checked, traceable, open PR |01–06 | COVERED |
-| REQ | TEST-02 production coverage and adversarial branches |01–03 | COVERED |
-| REQ | TEST-03 complete actual-input flows and boundaries |02,04–06 | COVERED |
+| REQ | TEST-02 production coverage and adversarial branches |01–03,07–09 | COVERED |
+| REQ | TEST-03 complete actual-input flows and boundaries |02,04–09 | COVERED |
 | REQ | TEST-04 inspected full matrix and durable images |05–06 | COVERED |
 | REQ | TEST-05 calibrated floors and exact gates |01–04,06 | COVERED |
 | REQ | SHIP-01 original feature branch, GSD traceability, open PR |05–06 | COVERED |
 | CONTEXT | C07-1 every requirement and verbatim clause |03,05–06 | COVERED |
 | CONTEXT | C07-2 original oracle and root lock unchanged |All | COVERED |
-| CONTEXT | C07-3 calibration/maps/inventory/real coverage |01–03 | COVERED |
+| CONTEXT | C07-3 calibration/maps/inventory/real coverage |01–03,07–09 | COVERED |
 | CONTEXT | C07-4 exact canonical checks |06 | COVERED |
 | CONTEXT | C07-5 actual wire/teardown/current authority and honest gaps |04,06 | COVERED |
 | CONTEXT | C07-6 all listed states, frames/themes/motion/absence |02,05–06 | COVERED |
 | CONTEXT | C07-7 branch, coherent commits, remote visuals and PR |05–06 | COVERED |
 | CONTEXT | C07-8 ignored credentials and napplet boundary |All | COVERED |
-| RESEARCH | Standalone audited normal dependency tree, own lock, EBADF not resolved |01 | COVERED |
-| RESEARCH | Exact Node/browser calibration, workers/realms and schema-safe merge |01–02 | COVERED |
-| RESEARCH | All-source inventory, legacy adapters, variants, independent normal dist |02 | COVERED |
+| RESEARCH | Standalone audited normal dependency tree, own lock, historical EBADF resolved by normal pinned pnpm under installed Bun and normal frozen reinstall |01 | COVERED |
+| RESEARCH | Exact Node/browser calibration, workers/realms and schema-safe merge |01–02,07–09 | COVERED |
+| RESEARCH | All-source inventory, legacy adapters, variants, independent normal dist |02,07–09 | COVERED |
 | RESEARCH | Global/per-file/mode floors and meaningful branch ledger |02–03 | COVERED |
 | RESEARCH | Supplemental protocol scopes, no synthetic passing defaults |04 | COVERED |
 | RESEARCH | Current image manifests/sheets, all clauses and provenance |05 | COVERED |
-| RESEARCH | One final unchanged inherited runner plus additives, pending UAT and PR |06 | COVERED |
+| RESEARCH | One final unchanged inherited runner plus additives, recorded UAT/formal closure and PR |06 | COVERED |
 
-Pending human acceptance is an actual final-completion dependency. Technical preparation, evidence and the authorized review PR proceed while pending, accurately labelled; final phase/milestone completion must fail closed until the real user response is recorded and any resulting issue resolved. No new confirmation for routine tooling or already-authorized PR creation is introduced.
+User human acceptance is now received. Formal05/06 verification closure waits root recording and retrospective security audit; final milestone completion still requires every release obligation and resolution of reported issues. No new confirmation for routine tooling or already-authorized PR creation is introduced.
 
 ## Planning gates and instruction reconciliation
 
@@ -79,3 +79,11 @@ Preserved07-PLAN-REVIEW.md unchanged. PC07-01 now names the exact public-input p
 
 
 Revision2 closes the residual PC07-01 settlement ambiguity: the official storage binding is transparently forwarded and its actual returned promise observed per invocation (unchanged arguments/returned promise, no request synthesis or resolved mock). Literal wire correlation and0-before/1-after fulfillment assertions replace #storage-status, which is hidden or hydration-prepopulated. Missing/wrong-ID/wrong-source and duplicate replies cannot falsely establish settlement. No source/test execution or review-history changes.
+
+## Adapter checkpoint reconciliation — current execution contract
+
+Generic planner fallback; documentation only. Preserve07-02 Task1 GREEN4fffa33 and93470exit0. Foundation02 owns13 paths; each continuation07/08/09 owns11 paths, seven actual browser owners plus four shared adapter/manifest paths. Each task changes at most five paths. Execution order/waves:01(1),02(2),07(3),08(4),09(5),03(6),04(7),05(8),06(9).02 finishes shared browser tracer, legacy loaders and policy;07 component/canvas,08 local input/lifecycle,09 remaining built owners plus complete inventory/full initial report.03 cannot start from a partial report.
+
+No obligation is dropped: full tracked source zero denominator; exact90/90/85 global/noncritical/mode and95/95/90critical; canonical hashes/maps/schemas; mixed worker and all frame generations; oracle/variant separation; unchanged phase6 gate. Named intermediate suites retain every original test;09 reconciles all transitive owners from the106 candidate audit before enabling full collection. Report-only exposes truthful shortfalls; only03 may establish enforced coverage success. Dependency/threshold/final-gate policies are unchanged.
+
+Human acceptance received2026-10-16; root owns formal05/06 closure/security audit. Planning amendments neither seal phases nor change34 completed plans. Original review and checkpoint remain historical evidence; current validation mapping supersedes earlier six-plan/15-task descriptions. No source/test/build/install/commit action is part of this revision.

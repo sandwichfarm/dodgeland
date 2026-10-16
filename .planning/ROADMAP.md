@@ -134,7 +134,7 @@ Plans:
   4. Players can use Race-eligible offensive and defensive consumables with visible, muted/reduced-motion-aware feedback; invalid targets, departed players, and ineligible modes cannot spend a charge or corrupt state.
   5. Race results show podium rank including true ties, distance, elapsed/finish time, finish or death status, fog damage, and relevant item/interaction statistics for every character.
 
-**Plans**: 7/7 plans executed; technical verification40/40, human acceptance pending
+**Plans**: 7/7 plans executed; technical verification40/40, human accepted; formal closure/security audit pending
 **UI hint**: yes
 
 Plans:
@@ -183,10 +183,13 @@ Plans:
   4. Type-check, build, guidance, conformance, parity/legacy, per-mode, and browser checks are green with evidence skips explicitly distinguished from proven behavior.
   5. The feature branch contains coherent phase evidence and traceability, and an open reviewable PR against `main` links its tests and visual proofs.
 
-**Plans**: 6 plans in 6 sequential waves
+**Plans**: 9 plans in 9 sequential waves; execution order01 →02 →07 →08 →09 →03 →04 →05 →06
 
 - [x] 07-01-PLAN.md — Audit isolated tooling and calibrate exact Node/opaque-browser counters.
-- [ ] 07-02-PLAN.md — Collect all production strata with explicit coverage floors.
+- [ ] 07-02-PLAN.md — Complete shared collection foundation and policy; Task1 already passed.
+- [ ] 07-07-PLAN.md — Collect seven canvas/component browser owners.
+- [ ] 07-08-PLAN.md — Collect seven local-input/lifecycle browser owners.
+- [ ] 07-09-PLAN.md — Collect seven remaining owners and produce the complete initial report.
 - [ ] 07-03-PLAN.md — Close meaningful measured coverage and behavioral gaps.
 - [ ] 07-04-PLAN.md — Measure scoped wire, teardown and current-manifest conformance.
 - [ ] 07-05-PLAN.md — Commit current visual proof and complete original-clause traceability.
@@ -203,6 +206,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 2. Shared Local Session | 6/6 | Complete    | 2026-10-14 |
 | 3. Survive Together & Consumables | 8/8 | Complete    | 2026-10-15 |
 | 4. Relay | 6/6 | Complete    | 2026-10-15 |
-| 5. Race | 7/7 | Technical verification passed; human acceptance pending |  |
-| 6. Cross-Mode Presentation | 2/2 | Implementation complete; independent verification pending | - |
-| 7. Release Evidence & PR | 1/6 | In progress | - |
+| 5. Race | 7/7 | Technical verification passed; human accepted; formal closure/security audit pending |  |
+| 6. Cross-Mode Presentation | 2/2 | Technical verification47/47; human accepted; formal closure/security audit pending | - |
+| 7. Release Evidence & PR | 1/9 | In progress | - |
