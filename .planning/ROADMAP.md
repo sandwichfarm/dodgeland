@@ -190,7 +190,7 @@ Plans:
 - [x] 07-07-PLAN.md — Collect seven canvas/component browser owners.
 - [x] 07-08-PLAN.md — Collect seven local-input/lifecycle browser owners.
 - [x] 07-09-PLAN.md — Seven canonical owners proven; amended scope awaits independent approval.
-- [ ] 07-10-PLAN.md — Collect eight package component browser owners.
+- [x] 07-10-PLAN.md — Eight package component owners20/20,12 canonical browser payloads.
 - [ ] 07-11-PLAN.md — Collect seven package built owners with development/browser variants.
 - [ ] 07-12-PLAN.md — Collect audio jobs, reconcile full inventory and produce valid attributed initial report.
 - [ ] 07-03-PLAN.md — Close meaningful measured coverage and behavioral gaps.
