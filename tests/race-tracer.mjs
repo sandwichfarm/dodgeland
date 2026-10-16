@@ -42,17 +42,18 @@ test('Race completes earned settled movement in one shared world and freezes its
 });
 
 function runtime() {
-  let pads = []; const listeners = new Set();
+  let pads = []; const listeners = new Set(); let themeChanged = () => {};
+  window.raceTheme = light => themeChanged({ colors: light ? { background: '#f6f1e5', text: '#24362d', primary: '#4b7b61' } : { background: '#242b32', text: '#f0eee5', primary: '#9fc28a' } });
   window.raceTransport = next => { pads = next; listeners.forEach(fn => fn({ available: true, focused: true, pads })); };
   window.napplet = {
     storage: { async getItem() { return JSON.stringify({ mode: 'arcade', muted: true, selected: 'butter', travelerVersion: 2 }); }, async setItem() {} },
-    theme: { async get() { return { colors: { background: '#242b32', text: '#f0eee5', primary: '#9fc28a' } }; }, onChanged() { return { close() {} }; } },
+    theme: { async get() { return { colors: { background: '#242b32', text: '#f0eee5', primary: '#9fc28a' } }; }, onChanged(fn) { themeChanged = fn; return { close() {} }; } },
     keys: { async registerAction(action) { return { actionId: action.id, binding: action.defaultKey }; }, onAction() { return { close() {} }; }, unregisterAction() {} },
     gamepad: { get available() { return true; }, get focused() { return true; }, getGamepads() { return pads; }, onChange(fn) { listeners.add(fn); return { close() { listeners.delete(fn); } }; } },
   };
 }
 const pad = (buttons = [], index = 0) => ({ index, id: `race-${index}`, mapping: 'standard', connected: true, timestamp: 1, axes: [0,0,0,0], buttons: Array.from({ length: 17 }, (_, i) => ({ value: buttons.includes(i) ? 1 : 0, pressed: buttons.includes(i), touched: buttons.includes(i) })) });
-test('built opaque iframe Race start consumed, mixed inputs finish, late device stays out, retry returns solo', { timeout: 30000 }, async () => {
+for (const count of [2,3,4]) test(`built opaque iframe ${count}-seat Race start consumed, mixed inputs finish, late device stays out, retry returns solo`, { timeout: 30000 }, async () => {
   const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
   const harness = `<!doctype html><iframe sandbox="allow-scripts" style="border:0;width:900px;height:600px"></iframe><script>document.querySelector('iframe').srcdoc=${JSON.stringify(built.replace('<head>', `<head><script>(${runtime.toString()})();</script>`)).replaceAll('<', '\\u003c')};</script>`;
   const server = createServer((_req, res) => { res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); res.end(harness); });
@@ -63,12 +64,39 @@ test('built opaque iframe Race start consumed, mixed inputs finish, late device 
     const errors = []; page.on('pageerror', e => errors.push(e.message));
     await page.goto(`http://127.0.0.1:${server.address().port}`);
     const frame = await (await page.locator('iframe').elementHandle()).contentFrame();
-    const send = pads => frame.evaluate(next => window.raceTransport(next), pads);
+    const send = pads => frame.evaluate(next => window.raceTransport(next), [...pads, ...Array.from({ length: count-1 }, (_,index) => pad([],index)).filter(p => !pads.some(next => next.index === p.index))]);
     await frame.locator('#local-play').click();
     await frame.locator('#session-roster [data-seat="p2"]').click();
     await frame.getByRole('button', { name: 'Leave this seat', exact: true }).click();
     await send([pad()]); await send([pad([0])]); await send([pad()]);
+    for (let index = 1; index < count-1; index++) { await send([pad([0],index)]); await send([]); }
     await frame.locator('#race-play').click();
+    if (count === 2) for (const light of [false,true]) for (const [width,height] of [[200,160],[240,240],[320,560],[900,600],[1000,280],[2400,1200]]) {
+      await page.setViewportSize({ width: width+40, height: height+40 });
+      await page.locator('iframe').evaluate((node, size) => { node.style.width = `${size[0]}px`; node.style.height = `${size[1]}px`; }, [width,height]);
+      await frame.evaluate(value => window.raceTheme(value), light); await page.waitForTimeout(80);
+      await page.screenshot({ path: `/tmp/down-to-duck-05-01-setup-${width}x${height}-${light?'light':'dark'}.png` });
+      if (width >= 240 && height >= 240) {
+        const bounds = await frame.locator('#local-session-start').boundingBox();
+        assert.ok(bounds && bounds.height >= 44 && bounds.x >= 0 && bounds.y >= 0 && bounds.y+bounds.height <= height+8, `Start visible ${width}x${height}: ${JSON.stringify(bounds)} ${await frame.locator('#session-board').getAttribute('data-race-page')}`);
+        for (const id of ['race-finish','race-time']) assert.equal(await frame.locator(`#${id}`).isVisible(), true);
+        const clipped = await frame.locator('#local-session-start').evaluate(node => {
+          const r = node.getBoundingClientRect();
+          for (let parent = node.parentElement; parent; parent = parent.parentElement) {
+            const c = getComputedStyle(parent), p = parent.getBoundingClientRect();
+            if (['hidden','clip','auto','scroll'].includes(c.overflowY) && (r.bottom > p.bottom + 1 || r.top < p.top - 1)) return true;
+          }
+          return false;
+        });
+        assert.equal(clipped, false, 'Start remains inside every clipping ancestor');
+      }
+      await page.screenshot({ path: `/tmp/down-to-duck-05-01-setup-${width}x${height}-${light?'light':'dark'}.png` });
+    }
+    await page.setViewportSize({ width:940,height:640 }); await page.locator('iframe').evaluate(node => { node.style.width='900px'; node.style.height='600px'; });
+    await frame.locator('#race-configuration').getByRole('button', {name:'Roster',exact:true}).click();
+    assert.equal(await frame.locator('#session-roster').isVisible(), true);
+    await page.screenshot({path:`/tmp/down-to-duck-05-01-roster-${count}.png`});
+    await frame.locator('#race-configuration').getByRole('button', {name:'Settings',exact:true}).click();
     assert.equal(await frame.locator('#race-finish').inputValue(), '500');
     assert.equal(await frame.locator('#race-time').inputValue(), '180');
     await frame.locator('#race-finish').fill('1'); await frame.locator('#race-time').fill('30');
@@ -81,14 +109,15 @@ test('built opaque iframe Race start consumed, mixed inputs finish, late device 
     await frame.locator('#local-session-start').focus(); await page.keyboard.press('Enter');
     await page.waitForTimeout(150);
     assert.equal(await frame.locator('#race-results-heading').count(), 0, 'start did not hop');
-    await send([pad(), pad([],1)]); await send([pad(),pad([0],1)]); await send([pad(),pad([],1)]);
+    await send([pad(), pad([],9)]); await send([pad(),pad([0],9)]); await send([pad(),pad([],9)]);
     assert.equal(await frame.locator('#local-session-setup').isVisible(), false);
-    assert.equal(await frame.locator('#session-seats [data-seat]').count(), 2);
+    assert.equal(await frame.locator('#session-seats [data-seat]').count(), count);
     await send([pad([14])]); await send([pad()]);
     await frame.locator('#scene').focus(); await page.keyboard.press('w');
     await page.waitForTimeout(400);
     assert.equal(await frame.locator('#race-results-heading').count(), 0, 'remaining racer continues');
     await send([pad([12])]); await send([pad()]);
+    for (let index = 1; index < count-1; index++) { await send([pad([12],index)]); await send([]); }
     await frame.getByRole('heading', { name: 'Race complete.', exact: true }).waitFor();
     assert.match(await frame.locator('#survive-results-root').textContent(), /Winner P1/);
     await page.screenshot({ path: '/tmp/down-to-duck-05-01-race-result.png' });

@@ -4,13 +4,14 @@ import type { ModeDefinition } from './mode-rules.js';
 import { composeSessionModeDefinition, LocalSession } from './session.js';
 import type { DeviceId, SeatId, SessionModeDefinition, SessionResult } from './session.js';
 import { SessionRecoveryController } from './session-recovery.js';
+import type { RunSeed } from './run-seed.js';
 
 export const RACE_DEFAULTS = Object.freeze({ finishTiles: 500, activeSeconds: 180 });
 export interface RaceSettings { readonly finishTiles: number; readonly activeSeconds: number }
 export interface RaceSeat { readonly seat: SeatId; readonly characterId: string; readonly device: DeviceId; readonly disconnected?: boolean }
 export interface RaceProposal { readonly seats: readonly RaceSeat[]; readonly finishTiles?: number | string; readonly activeSeconds?: number | string }
 export interface RaceSetup { readonly seats: readonly RaceSeat[]; readonly settings: RaceSettings }
-export interface RaceDescriptor extends RaceSetup { readonly seed: number; readonly seedCode: string | null; readonly schema: 'race-1'; readonly itemVersion: 'race-items-1' }
+export interface RaceDescriptor extends RaceSetup { readonly seed: number; readonly seedCode: string | null; readonly runSeed: RunSeed | null; readonly schema: 'race-1'; readonly itemVersion: 'race-items-1' }
 export interface RaceResult extends SessionResult { readonly mode: 'race'; readonly outcome: 'finish' | 'time'; readonly descriptor: RaceDescriptor; readonly winners: readonly SeatId[]; readonly elapsed: number; readonly players: readonly Readonly<{ seat: SeatId; characterId: string; distance: number }>[] }
 
 function integer(value: unknown, fallback: number, min: number, max: number, message: string): number {
@@ -25,6 +26,7 @@ export function validateRaceSetup(proposal: RaceProposal): RaceSetup {
     activeSeconds: integer(proposal.activeSeconds, 180, 30, 3600, 'Choose 30–3600 whole seconds.'),
   });
   const seats = proposal.seats;
+  if (Array.isArray(seats) && seats.some(p => p && (typeof p.device !== 'string' || typeof p.characterId !== 'string' || (p.disconnected !== undefined && typeof p.disconnected !== 'boolean')))) throw new TypeError('Choose two to four ready players with different devices.');
   if (!Array.isArray(seats) || seats.length < 2 || seats.length > 4 || !seats.some(p => p?.seat === 'p1') || seats.some(p => !p || Object.keys(p).some(key => !['seat', 'device', 'characterId', 'disconnected'].includes(key)) || !['p1','p2','p3','p4'].includes(p.seat) || p.disconnected || !/^(keyboard-[ab]|gamepad-(?:0|[1-9]\d*))$/.test(p.device) || !CHARACTERS.some(c => c.id === p.characterId)) || new Set(seats.map(p => p.seat)).size !== seats.length || new Set(seats.map(p => p.device)).size !== seats.length) throw new TypeError('Choose two to four ready players with different devices.');
   for (const seat of seats) { const first = seats.find(p => p.characterId === seat.characterId)!; if (first !== seat) throw new TypeError(`Already chosen by ${first.seat.toUpperCase()}.`); }
   return Object.freeze({ settings, seats: Object.freeze([...seats].sort((a,b) => a.seat.localeCompare(b.seat)).map(p => Object.freeze({ seat: p.seat, characterId: p.characterId, device: p.device }))) });
@@ -72,7 +74,7 @@ export function composeRaceDefinition(base: ModeDefinition, race: RaceCoordinato
 export function createRaceSession(game: Game, proposal: RaceProposal): RaceCoordinator {
   const setup = validateRaceSetup(proposal);
   if (game.state !== 'ready') throw new TypeError('Race starts from a fresh ready course.');
-  const descriptor: RaceDescriptor = Object.freeze({ ...setup, seed: game.world.seed, seedCode: game.world.seedCode, schema: 'race-1', itemVersion: 'race-items-1' });
+  const descriptor: RaceDescriptor = Object.freeze({ ...setup, seed: game.world.seed, seedCode: game.world.seedCode, runSeed: game.runSeed ? Object.freeze({ ...game.runSeed }) : null, schema: 'race-1', itemVersion: 'race-items-1' });
   const race = new RaceCoordinator(descriptor), primary = setup.seats.find(p => p.seat === 'p1')!;
   const original = game.characterId;
   try {

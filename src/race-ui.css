@@ -1,9 +1,34 @@
 #race-configuration { grid-area: relay; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 #race-configuration [hidden] { display: none !important; }
 #race-configuration input { width: 90px; min-height: 44px; }
+#race-configuration nav { display: flex; gap: 8px; }
+#race-configuration :is(button, input) { min-height: 44px; min-width: 44px; font: 400 20px/1.5 var(--game-font, system-ui); }
+.race-settings input { min-width: 0; }
 .race-settings { display: flex; gap: 12px; flex-wrap: wrap; }
 .race-settings label { display: flex; align-items: center; gap: 8px; }
 #session-board:has(> #race-configuration) { grid-template-areas: 'heading heading' 'subtitle subtitle' 'strip strip' 'roster detail' 'relay relay' 'status status' 'actions actions'; }
+#session-board[data-race-page="roster"] { grid-template-areas: 'heading heading' 'strip strip' 'roster detail' 'relay relay' 'actions actions'; }
+#session-board[data-race-page="roster"] > :is(.session-subtitle,#session-status) { display: none; }
+#session-board[data-race-page="settings"] { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'heading' 'relay' 'actions'; }
+#app:has(#local-session-setup:not([hidden]) #session-board[data-race-page="settings"]) #run-panel.run-panel { inset: 50% 12px auto; transform: translateY(-50%); height: auto; overflow: hidden; }
+#session-board[data-race-page="settings"] { min-height: 0; }
+#session-board[data-race-page="settings"] > :is(.session-subtitle, .session-roster-strip, .session-setup-pages, #session-roster, #session-seat-detail, #session-status) { display: none; }
+#session-board[data-race-page="settings"] .session-actions > button:not(#local-session-start):not(#local-session-back) { display: none; }
+#session-board[data-race-page="settings"] .session-actions { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); }
+#race-configuration :is(h2,p) { margin: 0; }
+#survive-results-root[data-initial-race] .survive-results-sheet { align-self: center; height: auto; grid-template-rows: auto; gap: 16px; }
 @media (max-width: 479px) {
   #session-board:has(> #race-configuration) { grid-template-areas: 'heading' 'strip' 'pages' 'roster' 'detail' 'relay' 'status' 'actions'; }
+}
+@media (max-height: 420px), (max-width: 479px) {
+  #session-board[data-race-page="settings"] { grid-template-areas: 'heading' 'relay' 'actions'; gap: 4px; }
+  #race-configuration { gap: 4px; }
+  #race-setup-lock { display: none; }
+  #race-configuration :is(button,input,label) { font-size: 16px; }
+  #app #race-configuration button { font: 400 16px/1.2 var(--game-font,system-ui) !important; }
+  #race-configuration nav { width: 100%; gap: 4px; }
+  #race-configuration nav button { flex: 1; min-width: 0; padding: 4px; }
+  .race-settings { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 4px; width:100%; }
+  .race-settings label { display: grid; gap: 0; min-width: 0; }
+  #race-configuration input { width:100%; }
 }
