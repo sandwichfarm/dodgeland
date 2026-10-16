@@ -201,6 +201,13 @@
       },
       "browser": true,
       "provenance": "Seven remaining canonical owners; original model, actual-input and arranged provenance retained separately"
+    },
+    "adapters-10-tracer": {
+      "files": [
+        "tests/actor-render.test.mjs"
+      ],
+      "role": "browser",
+      "provenance": "Original arranged production traffic/platform Canvas assertions; independent component pages"
     }
   },
   "pendingAdapters": [
