@@ -7,13 +7,34 @@ import { chromium } from 'playwright';
 export async function createMarketGameFixture(evidence, options = {}) {
   const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
   function installFixture(options) {
-    const fixture = window.marketGameFixture = { writes: [], handlers: {}, hydrated: false };
+    const fixture = window.marketGameFixture = { writes: [], handlers: {}, hydrated: false, forbidden: [], voices: [] };
+    if (options.auditBoundary) {
+      const forbidden = name => () => { fixture.forbidden.push(name); throw new Error(`Forbidden browser authority: ${name}`); };
+      navigator.getGamepads = forbidden('navigator.getGamepads');
+      for (const name of ['fetch', 'WebSocket', 'EventSource']) window[name] = forbidden(name);
+      for (const name of ['localStorage', 'sessionStorage']) Object.defineProperty(window, name, { configurable: true, get: forbidden(name) });
+    }
+    if (options.observeAudio) {
+      Math.random = () => 0;
+      const Native = window.AudioContext;
+      window.AudioContext = class extends Native {
+        createBufferSource() {
+          const source = super.createBufferSource(), start = source.start.bind(source);
+          source.start = (...args) => {
+            let fingerprint = 2166136261;
+            for (const sample of source.buffer?.getChannelData(0) ?? []) fingerprint = Math.imul(fingerprint ^ Math.round(sample * 1e6), 16777619);
+            fixture.voices.push({ fingerprint, loop: source.loop }); return start(...args);
+          };
+          return source;
+        }
+      };
+    }
     const themes = new Set();
     fixture.theme = { colors: { background: '#242b32', text: '#f0eee5', primary: '#9fc28a' } };
     fixture.setTheme = theme => { fixture.theme = theme; for (const fn of themes) fn(theme); };
     window.napplet = {
       storage: {
-        async getItem() { fixture.hydrated = true; return JSON.stringify({ mode: 'stroll', coins: 0, muted: true, selected: 'butter', travelerVersion: 2 }); },
+        async getItem() { fixture.hydrated = true; return JSON.stringify({ mode: 'stroll', coins: 0, muted: !options.observeAudio, selected: options.selected ?? 'butter', travelerVersion: 2 }); },
         async setItem(key, value) { fixture.writes.push({ key, value }); },
       },
       theme: { async get() { return fixture.theme; }, onChanged(fn) { themes.add(fn); return { close() { themes.delete(fn); } }; } },
@@ -31,7 +52,7 @@ export async function createMarketGameFixture(evidence, options = {}) {
     };
     if (options.gamepads) window.napplet.gamepad = {};
   }
-  const artifact = JSON.stringify(built.replace('<head>', `<head><script>(${installFixture.toString()})(${JSON.stringify({ gamepads: !!options.gamepads, initialIntent: options.initialIntent })});</script>`)).replaceAll('<', '\\u003c');
+  const artifact = JSON.stringify(built.replace('<head>', `<head><script>(${installFixture.toString()})(${JSON.stringify({ gamepads: !!options.gamepads, initialIntent: options.initialIntent, auditBoundary: !!options.auditBoundary, observeAudio: !!options.observeAudio, selected: options.selected })});</script>`)).replaceAll('<', '\\u003c');
   const harness = `<!doctype html><style>html,body{margin:0;overflow:hidden;background:#111}iframe{display:block;border:0;width:900px;height:600px}</style><iframe title="Market game fixture" sandbox="allow-scripts"></iframe><script>
 const frame=document.querySelector('iframe');
 window.marketPads=(pads,focused=true)=>frame.contentWindow.postMessage({type:'gamepad.state',available:true,focused,pads},'*');
