@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 05-01-PLAN.md; next 05-02
+stopped_at: 05-02 dependency checkpoint; inherited pursuit and generic damage seam
 last_updated: "2026-10-16T04:50:39.382Z"
 progress:
   total_phases: 7
@@ -12,12 +12,14 @@ progress:
   completed_plans: 25
 current_phase: 05
 current_phase_name: race
-last_activity_desc: Race05-01 complete; source67eb0d3, full gate70346 exit0; execute05-02 next.
+last_activity_desc: Race05-02 retained RED e34188e; shared pursuit/damage repair needed before remaining tasks.
 ---
 
 # Project State
 
 ## Current Position
+
+05-02 is at a concrete dependency checkpoint, with no task accepted and no production edits. Retained RED `e34188e` proves stationary default Race participants die from inherited solo wave despite remaining ahead of the initial fog line. Delivered nonfatal damage is private traffic-only code; `end` is terminal. See `05-02-DEPENDENCY-CHECKPOINT.md` and `/tmp/down-to-duck-05-02-dependency-red.log` (1 pass, 1 expected failure, exit 1). Root must coordinate the narrow generic pursuit/damage repair before execution resumes. No active process; counts remain 4 completed phases and 25/31 plans.
 
 Race05-01 is complete; execute05-02 next. All three task gates passed. Final combined70346 exit0 on source67eb0d3 includes full Phase2/3, exact Relay Gate6 and authoring/Race12/12; `/tmp/down-to-duck-05-01-final-gate.log`. Test-only held-controller Start strengthening3fc13d1 passed Race6/6 in23683 without changing production source. See05-01-SUMMARY.md for pre-edit API reconciliation, commits, actual setup/result captures and limits. Phases01–04 remain independently verified. Race05-02..07, cross-mode presentation, audit and PR remain mandatory. Actual tracking is4 completed phases and25/31 plans; generated CLI counts were corrected. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
 
