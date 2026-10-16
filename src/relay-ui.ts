@@ -1,8 +1,42 @@
+import './relay-ui.css';
 import { characterById } from './content.js';
 import { validateRelaySetup } from './relay.js';
 import type { RelayCoordinator, RelaySeat, RelayActionToken } from './relay.js';
 import type { SessionSetupSeat } from './session-ui.js';
 import type { SeatId } from './session.js';
+
+const marker = (seat: SeatId) => ['▲', '●', '◆', '■'][Number(seat.slice(1)) - 1];
+const relayIdentity = (seat: SeatId, characterId: string) => `${marker(seat)} ${seat.toUpperCase()} · ${characterById(characterId).name}`;
+const setCopy = (node: Element, copy: string) => { if (node.textContent !== copy) node.textContent = copy; };
+function announce(copy: string): void {
+  let region = document.getElementById('relay-announcement');
+  if (!region) { region = document.createElement('p'); region.id = 'relay-announcement'; region.className = 'relay-announcement'; region.setAttribute('role', 'status'); region.setAttribute('aria-live', 'polite'); document.getElementById('app')!.append(region); }
+  setCopy(region, copy);
+}
+
+/** Presentation over the shared HUD; it owns no player or progress state. */
+export function renderRelayHud(root: HTMLElement, relay: RelayCoordinator): void {
+  const state = relay.snapshot(); root.dataset.relayHud = 'true'; root.setAttribute('aria-live', 'off');
+  const announcement = `${relay.session.id}:${state.activeSeat}:${JSON.stringify(state.connections)}`;
+  if (state.phase === 'running' && root.dataset.relayAnnouncement !== announcement) {
+    const disconnected = state.roster.filter(seat => !state.connections[seat.seat]).map(seat => `${seat.seat.toUpperCase()} disconnected — their slot is saved.`);
+    announce(disconnected.join(' ') || `${state.activeSeat.toUpperCase()} is running.`); root.dataset.relayAnnouncement = announcement;
+  }
+  let distance = root.querySelector<HTMLElement>('.relay-distance');
+  if (!distance) { distance = document.createElement('p'); distance.className = 'relay-distance'; root.prepend(distance); }
+  setCopy(distance, `Relay distance ${relay.session.world.frontier}`);
+  for (const player of relay.session.players) {
+    const tile = root.querySelector<HTMLElement>(`[data-seat="${player.seat}"]`)!;
+    const active = player.seat === state.activeSeat;
+    tile.dataset.relayActive = String(active);
+    const status = player.participation === 'departed' ? 'departed' : !state.connections[player.seat] ? 'disconnected' : player.participation === 'dead' ? 'down' : active ? 'RUNNING' : player.seat === state.incomingSeat ? 'NEXT' : 'waiting';
+    setCopy(tile.querySelector('[data-session-hud="identity"]')!, relayIdentity(player.seat, player.characterId));
+    setCopy(tile.querySelector('[data-session-hud="device"]')!, status);
+    setCopy(tile.querySelector('[data-session-hud="power"]')!, `Power · ${100 - player.powerRemaining}/100 tiles`);
+    const recovery = player.recovery;
+    if (!recovery?.offer) setCopy(tile.querySelector('[data-session-hud="revive"]')!, `Personal revive · ${recovery?.charge === 'available' ? 250 : Math.min(250, Math.max(0, 250 - ((recovery?.nextRecharge ?? 250) - (recovery?.personalHighWater ?? 0))))}/250 tiles`);
+  }
+}
 
 /** Configuration decorates the shipped roster editor; no second binding/catalog tree. */
 export function createRelaySetup(options: { root: HTMLElement; seats(): readonly SessionSetupSeat[]; active(): boolean; choose(): void; reorder(seat: SeatId, offset: number): void }) {
@@ -24,8 +58,8 @@ export function createRelaySetup(options: { root: HTMLElement; seats(): readonly
   const validate = () => {
     const start = options.root.querySelector<HTMLButtonElement>('#local-session-start')!;
     if (!options.active()) return;
-    try { validateRelaySetup(proposal()); error.textContent = ''; start.disabled = false; input.removeAttribute('aria-invalid'); }
-    catch (reason) { error.textContent = reason instanceof Error ? reason.message : 'Choose ready players.'; start.disabled = true; input.setAttribute('aria-invalid', 'true'); }
+    try { validateRelaySetup(proposal()); setCopy(error, ''); start.disabled = false; input.removeAttribute('aria-invalid'); }
+    catch (reason) { setCopy(error, reason instanceof Error ? reason.message : 'Choose ready players.'); start.disabled = true; input.setAttribute('aria-invalid', 'true'); }
   };
   input.oninput = () => { value = input.value; validate(); };
   panel.append(choice, nav, label, input, order, error);
@@ -42,7 +76,7 @@ export function createRelaySetup(options: { root: HTMLElement; seats(): readonly
       order.replaceChildren(...all.filter(seat => seat.seat === selected).map(seat => {
         const index = all.indexOf(seat);
         const row = document.createElement('div');
-        const identity = document.createElement('span'); identity.textContent = `${index + 1}. ${seat.seat.toUpperCase()} · ${seat.characterId ? characterById(seat.characterId).name : 'Choose traveler'}`;
+        const identity = document.createElement('span'); identity.textContent = `${index + 1}. ${marker(seat.seat)} ${seat.seat.toUpperCase()} · ${seat.characterId ? characterById(seat.characterId).name : 'Choose traveler'}`;
         const pager = document.createElement('div'); pager.className = 'relay-order-pager';
         const previous = document.createElement('button'); previous.type = 'button'; previous.textContent = '‹'; previous.setAttribute('aria-label', 'Previous runner'); previous.disabled = index === 0; previous.onclick = () => { selected = all[index - 1]!.seat; render(true); };
         const next = document.createElement('button'); next.type = 'button'; next.textContent = '›'; next.setAttribute('aria-label', 'Next runner'); next.disabled = index === all.length - 1; next.onclick = () => { selected = all[index + 1]!.seat; render(true); };
@@ -69,7 +103,7 @@ export function createRelayHandoff(root: HTMLElement, relay: RelayCoordinator, c
   const title = document.createElement('h2'); title.id = 'relay-handoff-title'; title.textContent = snapshot.readyReason ? `${snapshot.incomingSeat.toUpperCase()}'s turn` : `Leg ${snapshot.leg} complete`;
   const status = document.createElement('p'); status.textContent = snapshot.readyReason ? 'The next runner starts when ready.' : `${snapshot.activeSeat.toUpperCase()} carried the baton ${snapshot.tilesPerLeg} tiles.`;
   const incoming = snapshot.roster.find(seat => seat.seat === snapshot.incomingSeat)!;
-  const identity = document.createElement('p'); identity.textContent = `Up next · ${incoming.seat.toUpperCase()} · ${characterById(incoming.characterId).name}`;
+  const identity = document.createElement('p'); identity.textContent = `Up next · ${relayIdentity(incoming.seat, incoming.characterId)}`;
   const start = document.createElement('button'); start.type = 'button'; start.textContent = `Start ${incoming.seat.toUpperCase()}'s leg`; start.onclick = confirm;
   const hint = document.createElement('p'); hint.textContent = `${incoming.seat.toUpperCase()}: press forward or confirm when ready.`;
   const view = document.createElement('button'); view.type = 'button'; view.textContent = 'View relay';
@@ -84,8 +118,9 @@ export function createRelayHandoff(root: HTMLElement, relay: RelayCoordinator, c
       button.onclick = () => { selected += offset; renderSummary(); view.focus({ preventScroll: true }); }; summary.append(button);
     }
   };
-  view.onclick = () => { summary.hidden = !summary.hidden; board.dataset.summary = String(!summary.hidden); view.textContent = summary.hidden ? 'View relay' : 'Back to handoff'; if (!summary.hidden) renderSummary(); };
+  view.onclick = () => { summary.hidden = !summary.hidden; board.dataset.summary = String(!summary.hidden); view.textContent = summary.hidden ? 'View relay' : 'Back to handoff'; if (!summary.hidden) renderSummary(); else start.focus({ preventScroll: true }); };
   board.append(title, status, identity, start, hint, summary, view); root.append(board); start.focus({ preventScroll: true });
+  announce(`${title.textContent}. ${identity.textContent}`);
   board.addEventListener('keydown', event => {
     if (event.key !== 'Tab') return;
     const buttons = [...board.querySelectorAll<HTMLButtonElement>('button:not(:disabled)')].filter(button => button.getClientRects().length);
@@ -103,7 +138,7 @@ export function createRelayLifecycle(root: HTMLElement, relay: RelayCoordinator,
   board.setAttribute('role', 'dialog'); board.setAttribute('aria-modal', 'true'); board.setAttribute('aria-labelledby', 'relay-handoff-title');
   const title = document.createElement('h2'); title.id = 'relay-handoff-title';
   const body = document.createElement('p');
-  const identity = document.createElement('p'); identity.className = 'relay-lifecycle-identity'; identity.textContent = `${state.activeSeat.toUpperCase()} · ${characterById(runner.characterId).name}`;
+  const identity = document.createElement('p'); identity.className = 'relay-lifecycle-identity'; identity.textContent = relayIdentity(state.activeSeat, runner.characterId);
   board.append(title, body, identity);
   const button = (text: string, kind: string, seat = actor) => { const control = document.createElement('button'); control.type = 'button'; control.textContent = text; control.dataset.relayAction = kind; control.dataset.actor = seat; const token = relay.actionToken(seat); control.onclick = () => action(kind, seat, token); board.append(control); };
   if (state.phase === 'confirm-skip') {
@@ -128,6 +163,7 @@ export function createRelayLifecycle(root: HTMLElement, relay: RelayCoordinator,
     title.textContent = 'No runner remains.'; body.textContent = 'Your relay has ended.'; button('Hop again', 'restart');
   }
   root.append(board); (board.querySelector('button') ?? title).setAttribute('tabindex', '0'); (board.querySelector<HTMLButtonElement>('button') ?? title).focus({ preventScroll: true });
+  announce(`${title.textContent} ${identity.textContent}`);
   board.addEventListener('keydown', event => { if (event.key !== 'Tab') return; const controls = [...board.querySelectorAll<HTMLButtonElement>('button')]; event.preventDefault(); if (!controls.length) return; const index = controls.indexOf(document.activeElement as HTMLButtonElement); controls[(index + (event.shiftKey ? -1 : 1) + controls.length) % controls.length]!.focus({ preventScroll: true }); });
   return board;
 }
@@ -138,7 +174,7 @@ export function createRelayResults(root: HTMLElement, result: import('./relay-re
   board.id = 'relay-handoff'; board.className = 'relay-handoff relay-results'; board.dataset.phase = 'ended';
   board.setAttribute('role', 'dialog'); board.setAttribute('aria-modal', 'true'); board.setAttribute('aria-labelledby', 'relay-results-title');
   const title = document.createElement('h2'); title.id = 'relay-results-title'; title.textContent = 'Relay results';
-  const body = document.createElement('div'); body.className = 'relay-results-body'; body.setAttribute('aria-live', 'polite');
+  const body = document.createElement('div'); body.className = 'relay-results-body';
   const nav = document.createElement('nav'); nav.className = 'relay-results-nav'; nav.setAttribute('aria-label', 'Result pages');
   const previous = document.createElement('button'), section = document.createElement('button'), next = document.createElement('button'), restart = document.createElement('button');
   for (const button of [previous, section, next, restart]) button.type = 'button';
@@ -183,6 +219,8 @@ export function createRelayResults(root: HTMLElement, result: import('./relay-re
     const heading = document.createElement('h3'); heading.textContent = item.title;
     const fields = document.createElement('dl');
     for (const [label, value] of item.fields) { const pair = document.createElement('div'), term = document.createElement('dt'), detail = document.createElement('dd'); term.textContent = label; detail.textContent = value; pair.append(term, detail); fields.append(pair); }
+    const copy = `${item.title}. ${item.fields.map(([label, value]) => `${label}: ${value}`).join('. ')}`;
+    if (body.dataset.announcement !== copy) { announce(copy); body.dataset.announcement = copy; }
     body.replaceChildren(heading, fields); board.dataset.resultView = ['podium', 'players', 'legs'][view];
     previous.disabled = page === 0; next.disabled = page === all.length - 1;
     section.textContent = ['Players', 'Leg ledger', 'Podium'][view]!; section.setAttribute('aria-label', `${['Podium', 'Players', 'Leg ledger'][view]}, page ${page + 1} of ${all.length}. Show ${section.textContent}`);
@@ -191,7 +229,7 @@ export function createRelayResults(root: HTMLElement, result: import('./relay-re
   previous.onclick = () => { page--; render(); if (previous.disabled) section.focus(); };
   next.onclick = () => { page++; render(); if (next.disabled) section.focus(); };
   section.onclick = () => { view = (view + 1) % 3; page = 0; render(); };
-  const siblings = [...root.children].filter((node): node is HTMLElement => node instanceof HTMLElement).map(node => ({node, inert: node.inert}));
+  const siblings = [...root.children].filter((node): node is HTMLElement => node instanceof HTMLElement && node.id !== 'relay-announcement').map(node => ({node, inert: node.inert}));
   for (const {node} of siblings) node.inert = true;
   root.append(board); render(); section.focus({preventScroll: true}); window.addEventListener('resize', render);
   board.addEventListener('keydown', event => { if (event.key !== 'Tab') return; const controls = [previous, section, next, restart].filter(control => !control.disabled); const index = controls.indexOf(document.activeElement as HTMLButtonElement); event.preventDefault(); controls[(index + (event.shiftKey ? -1 : 1) + controls.length) % controls.length]!.focus({preventScroll: true}); });

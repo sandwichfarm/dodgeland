@@ -27,7 +27,7 @@ import { createLocalSessionBoard, createSessionKeyboardEditor } from './session-
 import type { LocalSessionBoard, SessionSetupSeat } from './session-ui.js';
 import { createRelaySession, RELAY_LOCKED } from './relay.js';
 import type { RelayCoordinator, RelayConfirmation, RelayActionToken } from './relay.js';
-import { createRelaySetup, createRelayHandoff, createRelayLifecycle, createRelayResults } from './relay-ui.js';
+import { createRelaySetup, createRelayHandoff, createRelayLifecycle, createRelayResults, renderRelayHud } from './relay-ui.js';
 import { GameAudio } from './audio.js';
 import { Soundscape } from './soundscape.js';
 import { createSoundSettings } from './sound-settings.js';
@@ -701,7 +701,8 @@ function confirmRelay(seat: SeatId, captured?: RelayConfirmation): void {
   if (!relayHandoff || !relay || !frameAvailable()) return;
   const player = relay.session.players.find(candidate => candidate.seat === seat);
   if (!player || !relay.confirm({ ...(captured ?? relay.confirmation()), seat, device: player.device })) return;
-  relayHandoff.remove(); relayHandoff = undefined; selectHudOwner(seat); clearRelayInput(); updateHud(); el('scene').focus({ preventScroll: true });
+  sessionPaused = false;
+  relayHandoff.remove(); relayHandoff = undefined; document.querySelector<HTMLElement>('.game-surface')!.inert = false; selectHudOwner(seat); clearRelayInput(); updateHud(); el('scene').focus({ preventScroll: true });
 }
 function relayAction(kind: string, actor: SeatId, captured?: RelayActionToken): void {
   if (!relay || !frameAvailable()) return;
@@ -742,6 +743,7 @@ function syncRelayHandoff(): void {
   if (marketWasOpen || handWasOpen) { sessionPaused = false; handPausedPlay = false; game.resume(); }
   if (relayRenderedOwner !== state.activeSeat) { relayRenderedOwner = state.activeSeat; selectHudOwner(state.activeSeat); }
   relayBoardKey = key; disposeRelayResults?.(); disposeRelayResults = undefined; relayHandoff?.remove(); relayHandoff = undefined;
+  document.querySelector<HTMLElement>('.game-surface')!.inert = state.phase !== 'running';
   clearRelayInput();
   if (state.phase === 'running') { el('scene').focus({ preventScroll: true }); return; }
   if (state.phase === 'handoff') {
@@ -817,6 +819,7 @@ function reset(launch?: GameLaunch): void {
   localSession?.stop(); localSession = undefined; localStage?.cancel(); localStage = undefined; setupDraft = []; sessionPaused = false;
   disposeRelayResults?.(); disposeRelayResults = undefined;
   relay = undefined; relayBoardKey = ''; relayRenderedOwner = undefined; stagingRelay = false; relayHandoff?.remove(); relayHandoff = undefined;
+  document.querySelector<HTMLElement>('.game-surface')!.inert = false; document.getElementById('relay-announcement')?.remove();
   if (restoreController) router.assign(restoreController, 'p1');
   sessionKeyboardEditor.close();
   el<HTMLDivElement>('local-session-setup').hidden = true;
@@ -988,6 +991,8 @@ function updateHud(): void {
       tile.querySelector<HTMLElement>('[data-session-hud-page-label]')!.textContent = `${hudDetailsPage === 0 ? 'Status' : hudDetailsPage === 1 ? 'Run' : hudDetailsPage === 2 ? 'Recovery' : 'Items'} ${hudDetailsPage + 1} of 4`;
     }
     seats.dataset.sessionHudInspect = String(hudDetailsOpen);
+    if (relay) renderRelayHud(seats, relay);
+    else { delete seats.dataset.relayHud; seats.removeAttribute('aria-live'); seats.querySelector('.relay-distance')?.remove(); }
   } else if (sessionHudRoster) { sessionHudRoster = ''; seats.replaceChildren(); }
   el('score').textContent = String(game.maxY); el('coins').textContent = String(game.run.wallet);
   el('best').textContent = `${game.mode === 'stroll' ? 'STROLL BEST' : 'BEST'} ${game.mode === 'stroll' ? progress.strollBest : progress.best}`;
@@ -1438,8 +1443,11 @@ function togglePause(): void {
 }
 function suspendPlay({ preserveHudInspection = false }: { preserveHudInspection?: boolean } = {}): void {
   if (!preserveHudInspection) closeHudInspection(false);
-  releaseNativeKeyboard(); if (localSession) sessionPaused = true; pointer = null; audio.stop(); handPausedPlay = false;
-  hand.close(); if (market.isOpen()) market.close(false); else game.closeMarket(false); game.pause();
+  // Frozen mode boards already prohibit simulation. Pausing their primary
+  // participant would revoke a living actor's pending skip/leave authority.
+  const frozenRelayBoard = relayHandoff && relay && !['running', 'recovery'].includes(relay.snapshot().phase);
+  releaseNativeKeyboard(); if (localSession && !frozenRelayBoard) sessionPaused = true; pointer = null; audio.stop(); handPausedPlay = false;
+  hand.close(); if (market.isOpen()) market.close(false); else game.closeMarket(false); if (!frozenRelayBoard) game.pause();
   restoreAfterDrawer = false; restoreModalFocus = false; updateHud(); restoreModalFocus = true;
 }
 function openDrawer(): void {
@@ -1497,6 +1505,10 @@ const observer = new ResizeObserver(() => {
       if (restoreMarket) market.openForSelected();
       if (canRestoreTinyFocus(priorFocus)) priorFocus.focus({ preventScroll: true });
       else if (restoreMarket && market.isOpen()) market.focusSelectedOwner();
+      else if (relayHandoff || localStage) {
+        const modal = relayHandoff ?? el('session-board');
+        (visibleModalControls(modal)[0] ?? modal.querySelector<HTMLElement>('h2'))?.focus({ preventScroll: true });
+      }
       else el<HTMLElement>('scene').focus({ preventScroll: true });
     });
   }
