@@ -10,8 +10,8 @@ export function createBrowserCollector(config, inventory) {
  const realms=new Map();
  function enrich(identity) {
   if(!config.jobId)return identity;
-  const buildScope=identity.buildScope??'production',build=config.browserBuilds?.[buildScope];
-  if(!['production','development'].includes(buildScope)||!build?.artifactHash)throw Error('Missing browser build scope');
+  const buildScope=identity.buildScope??config.defaultBuildScope??'production',build=config.browserBuilds?.[buildScope];
+  if(!['production','development','modules'].includes(buildScope)||!build?.artifactHash)throw Error('Missing browser build scope');
   if(identity.jobId&&identity.jobId!==config.jobId)throw Error('Wrong browser job');
   return {...identity,jobId:config.jobId,buildScope,artifactHash:build.artifactHash};
  }

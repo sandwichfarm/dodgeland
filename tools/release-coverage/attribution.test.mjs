@@ -4,6 +4,7 @@ import vm from 'node:vm';
 import { instrumentSources } from './instrument.mjs';
 import { capturePayload, mergePayloads } from './collector.mjs';
 import { deriveInterval, validateIntervals } from './attribution.mjs';
+import { validateModeRows } from './run.mjs';
 
 function fixture() {
  const inventory=instrumentSources({'counter.ts':'function step(flag: boolean) { if (flag) return 1; return 2; }','unimported.ts':'export function never() { return 3; }'},'/attribution');
@@ -15,10 +16,18 @@ function fixture() {
 }
 test('exclusive interval exact function/branch counts retain zeros and never duplicate global totals',()=>{
  const {inventory,before,after}=fixture();const interval=deriveInterval(inventory,before,after,'first');
- const file=interval.payload.coverage['/attribution/counter.ts'];assert.deepEqual(Object.values(file.f),[2]);assert.deepEqual(Object.values(file.b),[[1,1]]);
+ const file=interval.payload.coverage['/attribution/counter.ts'];assert.deepEqual(Object.values(file.s),[2,1,1]);assert.deepEqual(Object.values(file.f),[2]);assert.deepEqual(Object.values(file.b),[[1,1]]);
  const map=mergePayloads(inventory,[interval.payload],{runId:'run',expectedRealms:[interval.payload.realmId]});assert.ok(Object.values(map['/attribution/unimported.ts'].s).every(n=>n===0));
  assert.deepEqual(validateIntervals(inventory,[interval]),[interval]);assert.equal(Object.values(after.payload.coverage['/attribution/counter.ts'].f)[0],2);
  const zero=deriveInterval(inventory,{...after,sequence:2},{...after,sequence:3},'zero');assert.ok(Object.values(zero.payload.coverage['/attribution/counter.ts'].f).every(n=>n===0));
+});
+test('mode report rejects missing mode, wrong parent hash and delta greater than whole snapshot',()=>{
+ const {inventory,before,after}=fixture(),interval=deriveInterval(inventory,before,after,'first');
+ const row={realmId:'realm',identity:{jobId:'mode-proof',artifactHash:'artifact'},payload:after.payload,intervals:[interval]};
+ assert.equal(validateModeRows(inventory,[row],['solo-arcade']).length,1);
+ assert.throws(()=>validateModeRows(inventory,[row]),/Missing exclusive mode/);
+ const wrong=structuredClone(row);wrong.identity.artifactHash='wrong';assert.throws(()=>validateModeRows(inventory,[wrong],['solo-arcade']),/parent/);
+ const inflated=structuredClone(row);inflated.intervals[0].payload.coverage['/attribution/counter.ts'].f['0']=3;assert.throws(()=>validateModeRows(inventory,[inflated],['solo-arcade']),/exceeds parent/);
 });
 test('identity schema counter mode and interval replay failures reject before attribution',()=>{
  const {inventory,before,after}=fixture();

@@ -1,6 +1,6 @@
 {
   "schema": "release-suite-inventory-1",
-  "complete": false,
+  "complete": true,
   "groups": {
     "shared-tracer": {
       "files": [
@@ -1768,14 +1768,16 @@
     {
       "path": "tests/audio-demo.mjs",
       "role": "independent-audio-generation-browser",
-      "status": "pending-checked-continuation",
-      "adapterNeeded": true
+      "status": "audio-adapter-complete",
+      "adapterNeeded": true,
+      "proof": "07-12 Task1 gate44409"
     },
     {
       "path": "tests/audio-zones.mjs",
       "role": "independent-audio-generation-browser",
-      "status": "pending-checked-continuation",
-      "adapterNeeded": true
+      "status": "audio-adapter-complete",
+      "adapterNeeded": true,
+      "proof": "07-12 Task1 gate44409"
     },
     {
       "path": "tests/character-power-render.test.mjs",
@@ -1801,25 +1803,25 @@
     {
       "path": "tests/coin-denominations.test.mjs",
       "role": "existing-node-loader",
-      "status": "pending-checked-continuation",
+      "status": "declared-full-dispatch-awaiting-execution",
       "adapterNeeded": false
     },
     {
       "path": "tests/collection-game-layout.mjs",
       "role": "existing-market-fixture-browser",
-      "status": "pending-checked-continuation",
+      "status": "declared-full-dispatch-awaiting-execution",
       "adapterNeeded": false
     },
     {
       "path": "tests/death-spill-audio-runtime.mjs",
       "role": "existing-market-fixture-browser",
-      "status": "pending-checked-continuation",
+      "status": "declared-full-dispatch-awaiting-execution",
       "adapterNeeded": false
     },
     {
       "path": "tests/death-spill-runtime.mjs",
       "role": "existing-market-fixture-browser",
-      "status": "pending-checked-continuation",
+      "status": "declared-full-dispatch-awaiting-execution",
       "adapterNeeded": false
     },
     {
@@ -1839,7 +1841,7 @@
     {
       "path": "tests/hud-game-layout.mjs",
       "role": "existing-market-fixture-browser",
-      "status": "pending-checked-continuation",
+      "status": "declared-full-dispatch-awaiting-execution",
       "adapterNeeded": false
     },
     {
@@ -1852,13 +1854,13 @@
     {
       "path": "tests/market-layout.mjs",
       "role": "existing-market-fixture-browser",
-      "status": "pending-checked-continuation",
+      "status": "declared-full-dispatch-awaiting-execution",
       "adapterNeeded": false
     },
     {
       "path": "tests/market-pack-replacement.mjs",
       "role": "existing-market-fixture-browser",
-      "status": "pending-checked-continuation",
+      "status": "declared-full-dispatch-awaiting-execution",
       "adapterNeeded": false
     },
     {
@@ -1885,7 +1887,7 @@
     {
       "path": "tests/market-scenery.test.mjs",
       "role": "existing-node-loader",
-      "status": "pending-checked-continuation",
+      "status": "declared-full-dispatch-awaiting-execution",
       "adapterNeeded": false
     },
     {
@@ -1905,13 +1907,13 @@
     {
       "path": "tests/pause-game-layout.mjs",
       "role": "existing-market-fixture-browser",
-      "status": "pending-checked-continuation",
+      "status": "declared-full-dispatch-awaiting-execution",
       "adapterNeeded": false
     },
     {
       "path": "tests/run-menu-layout.mjs",
       "role": "existing-market-fixture-browser",
-      "status": "pending-checked-continuation",
+      "status": "declared-full-dispatch-awaiting-execution",
       "adapterNeeded": false
     },
     {
@@ -1936,5 +1938,1534 @@
       "proofRun": "3fc05508-2cc2-42c1-bfa5-123e10c4fc79"
     }
   ],
-  "fullCollectionBlocker": "Eight additional component owners have actual payload proof in07-10. Seven built owners await07-11; two audio generation owners, eight existing-fixture consumers, two Node suites, mechanical full inventory and valid mode attribution await07-12. Complete remains false."
+  "fullCollectionBlocker": null,
+  "execution": {
+    "jobs": [
+      {
+        "id": "actor-integration-test",
+        "file": "tests/actor-integration.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "actor-render-test",
+        "file": "tests/actor-render.test.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "actors-test",
+        "file": "tests/actors.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "audio-demo",
+        "file": "tests/audio-demo.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "audio-zones",
+        "file": "tests/audio-zones.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "card-expansion-test",
+        "file": "tests/card-expansion.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "character-power-render-test",
+        "file": "tests/character-power-render.test.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "character-power-runtime",
+        "file": "tests/character-power-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [],
+        "minimumBrowserRealms": 1
+      },
+      {
+        "id": "character-powers-test",
+        "file": "tests/character-powers.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "coin-denominations-render-test",
+        "file": "tests/coin-denominations-render.test.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "coin-denominations-test",
+        "file": "tests/coin-denominations.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "collection-game-layout",
+        "file": "tests/collection-game-layout.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [
+          "artifacts/collection-*-*x*.png",
+          "artifacts/collection-game-layout.json"
+        ]
+      },
+      {
+        "id": "consumable-boundaries-test",
+        "file": "tests/consumable-boundaries.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "consumable-drops-test",
+        "file": "tests/consumable-drops.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "consumable-world-boundaries-test",
+        "file": "tests/consumable-world-boundaries.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "consumable-world-render-test",
+        "file": "tests/consumable-world-render.test.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": [
+          "artifacts/consumable-protected-return.json",
+          "artifacts/consumable-protected-return.png",
+          "artifacts/consumable-river-render.json",
+          "artifacts/consumable-world-*x*.png",
+          "artifacts/consumable-world-render.json"
+        ]
+      },
+      {
+        "id": "consumable-world-test",
+        "file": "tests/consumable-world.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "consumables-test",
+        "file": "tests/consumables.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "cosmetic-expansion-test",
+        "file": "tests/cosmetic-expansion.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "cross-mode-presentation",
+        "file": "tests/cross-mode-presentation.mjs",
+        "role": "mixed",
+        "requiredRealms": [
+          "node",
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [
+          "artifacts/cross-mode-presentation",
+          "artifacts/cross-mode-presentation/*-details-*x*-*.png",
+          "artifacts/cross-mode-presentation/*-details.json",
+          "artifacts/cross-mode-presentation/*-frames.json",
+          "artifacts/cross-mode-presentation/*-scene.json",
+          "artifacts/cross-mode-presentation/*.png",
+          "artifacts/cross-mode-presentation/actual-warning.json",
+          "artifacts/cross-mode-presentation/compact-control-gap.json",
+          "artifacts/cross-mode-presentation/compact-departure-*-*.png",
+          "artifacts/cross-mode-presentation/controls-*.png",
+          "artifacts/cross-mode-presentation/earned-hand-before.png",
+          "artifacts/cross-mode-presentation/earned-hand-detail.png",
+          "artifacts/cross-mode-presentation/embedded-*-target.png",
+          "artifacts/cross-mode-presentation/lifecycle-inspection-*x*.png",
+          "artifacts/cross-mode-presentation/source-provenance.json",
+          "artifacts/cross-mode-presentation/tracer-geometry.json",
+          "artifacts/cross-mode-presentation/tracer-inspection.png"
+        ]
+      },
+      {
+        "id": "death-spill-audio-runtime",
+        "file": "tests/death-spill-audio-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [
+          "artifacts/death-spill-audio-runtime.json"
+        ]
+      },
+      {
+        "id": "death-spill-audio-test",
+        "file": "tests/death-spill-audio.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "death-spill-integration-test",
+        "file": "tests/death-spill-integration.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "death-spill-render-test",
+        "file": "tests/death-spill-render.test.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "death-spill-runtime",
+        "file": "tests/death-spill-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [
+          "artifacts/death-spill-runtime-*-falling.png",
+          "artifacts/death-spill-runtime-*-result.png",
+          "artifacts/death-spill-runtime.json"
+        ]
+      },
+      {
+        "id": "death-spill-test",
+        "file": "tests/death-spill.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "devtools-runtime",
+        "file": "tests/devtools-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [],
+        "requiredBuildScopes": [
+          "production",
+          "development"
+        ],
+        "minimumBrowserRealms": 4
+      },
+      {
+        "id": "devtools-test",
+        "file": "tests/devtools.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "game-intents-runtime",
+        "file": "tests/game-intents-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [],
+        "minimumBrowserRealms": 5
+      },
+      {
+        "id": "game-test",
+        "file": "tests/game.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "gamepad-runtime",
+        "file": "tests/gamepad-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": []
+      },
+      {
+        "id": "gamepad-test",
+        "file": "tests/gamepad.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "health-runtime",
+        "file": "tests/health-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": []
+      },
+      {
+        "id": "health-test",
+        "file": "tests/health.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "hud-game-layout",
+        "file": "tests/hud-game-layout.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [
+          "artifacts/hud-*.png",
+          "artifacts/hud-game-failure.png",
+          "artifacts/hud-game-layout.json"
+        ]
+      },
+      {
+        "id": "keyboard-input-test",
+        "file": "tests/keyboard-input.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "local-session-adoption-runtime",
+        "file": "tests/local-session-adoption-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": []
+      },
+      {
+        "id": "local-session-audio-runtime",
+        "file": "tests/local-session-audio-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": []
+      },
+      {
+        "id": "local-session-gamepad-runtime",
+        "file": "tests/local-session-gamepad-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": []
+      },
+      {
+        "id": "local-session-keyboard-runtime",
+        "file": "tests/local-session-keyboard-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": []
+      },
+      {
+        "id": "local-session-layout",
+        "file": "tests/local-session-layout.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": []
+      },
+      {
+        "id": "local-session-owner-layout",
+        "file": "tests/local-session-owner-layout.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [
+          "artifacts/local-session-owner-*.png",
+          "artifacts/local-session-owner-failure.png",
+          "artifacts/local-session-owner-layout.json"
+        ]
+      },
+      {
+        "id": "local-session-runtime",
+        "file": "tests/local-session-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": []
+      },
+      {
+        "id": "local-session-tracer",
+        "file": "tests/local-session-tracer.mjs",
+        "role": "mixed",
+        "requiredRealms": [
+          "node",
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": []
+      },
+      {
+        "id": "local-session-test",
+        "file": "tests/local-session.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "log-coin-gravity-test",
+        "file": "tests/log-coin-gravity.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "magnet-render-test",
+        "file": "tests/magnet-render.test.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "magnet-test",
+        "file": "tests/magnet.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "market-capacity-test",
+        "file": "tests/market-capacity.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "market-engine-test",
+        "file": "tests/market-engine.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "market-layout",
+        "file": "tests/market-layout.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [
+          "artifacts/market-board-*.png",
+          "artifacts/market-board-runtime.json"
+        ]
+      },
+      {
+        "id": "market-pack-replacement",
+        "file": "tests/market-pack-replacement.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [
+          "artifacts/market-pack-replacement-failure.png",
+          "artifacts/market-pack-replacement.json"
+        ]
+      },
+      {
+        "id": "market-preview-test",
+        "file": "tests/market-preview.test.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "market-runtime",
+        "file": "tests/market-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [],
+        "minimumBrowserRealms": 1
+      },
+      {
+        "id": "market-scenery-render-test",
+        "file": "tests/market-scenery-render.test.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "market-scenery-test",
+        "file": "tests/market-scenery.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "market-tiny-focus-runtime",
+        "file": "tests/market-tiny-focus-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [
+          "artifacts/market-tiny-*-*x*.png",
+          "artifacts/market-tiny-focus-runtime.json",
+          "artifacts/market-tiny-owner-*x*.png",
+          "artifacts/market-tiny-owner-runtime.json"
+        ]
+      },
+      {
+        "id": "market-test",
+        "file": "tests/market.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "mob-render-test",
+        "file": "tests/mob-render.test.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "mob-runtime",
+        "file": "tests/mob-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [],
+        "minimumBrowserRealms": 7
+      },
+      {
+        "id": "mobs-test",
+        "file": "tests/mobs.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "mode-authoring-test",
+        "file": "tests/mode-authoring.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "mode-rules-test",
+        "file": "tests/mode-rules.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "pause-game-layout",
+        "file": "tests/pause-game-layout.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [
+          "artifacts/pause-*.png",
+          "artifacts/pause-game-failure.png",
+          "artifacts/pause-game-layout.json"
+        ]
+      },
+      {
+        "id": "race-balance-test",
+        "file": "tests/race-balance.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": [
+          "artifacts/race/balance.json"
+        ]
+      },
+      {
+        "id": "race-items-test",
+        "file": "tests/race-items.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "race-layout",
+        "file": "tests/race-layout.mjs",
+        "role": "mixed",
+        "requiredRealms": [
+          "node",
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [
+          "artifacts/race-layout",
+          "artifacts/race-layout/contact-*.png",
+          "artifacts/race-layout/report.json"
+        ]
+      },
+      {
+        "id": "race-lifecycle-test",
+        "file": "tests/race-lifecycle.test.mjs",
+        "role": "mixed",
+        "requiredRealms": [
+          "node",
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": []
+      },
+      {
+        "id": "race-ordering-test",
+        "file": "tests/race-ordering.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "race-results-test",
+        "file": "tests/race-results.test.mjs",
+        "role": "mixed",
+        "requiredRealms": [
+          "node",
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": []
+      },
+      {
+        "id": "race-runtime",
+        "file": "tests/race-runtime.mjs",
+        "role": "mixed",
+        "requiredRealms": [
+          "node",
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": []
+      },
+      {
+        "id": "race-tracer",
+        "file": "tests/race-tracer.mjs",
+        "role": "mixed",
+        "requiredRealms": [
+          "node",
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": []
+      },
+      {
+        "id": "recovery-plan-boundaries-test",
+        "file": "tests/recovery-plan-boundaries.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "recovery-target-identity-test",
+        "file": "tests/recovery-target-identity.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "relay-boundary-test",
+        "file": "tests/relay-boundary.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "relay-layout",
+        "file": "tests/relay-layout.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [
+          "artifacts/relay-layout",
+          "artifacts/relay-layout/contact-*.png",
+          "artifacts/relay-layout/index.html",
+          "artifacts/relay-layout/report.json"
+        ]
+      },
+      {
+        "id": "relay-lifecycle-test",
+        "file": "tests/relay-lifecycle.test.mjs",
+        "role": "mixed",
+        "requiredRealms": [
+          "node",
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": []
+      },
+      {
+        "id": "relay-results-test",
+        "file": "tests/relay-results.test.mjs",
+        "role": "mixed",
+        "requiredRealms": [
+          "node",
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": []
+      },
+      {
+        "id": "relay-runtime",
+        "file": "tests/relay-runtime.mjs",
+        "role": "mixed",
+        "requiredRealms": [
+          "node",
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": []
+      },
+      {
+        "id": "relay-tracer",
+        "file": "tests/relay-tracer.mjs",
+        "role": "mixed",
+        "requiredRealms": [
+          "node",
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": []
+      },
+      {
+        "id": "release-mode-coverage",
+        "file": "tests/release-mode-coverage.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": []
+      },
+      {
+        "id": "render-test",
+        "file": "tests/render.test.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": [
+          "artifacts/collision-hop-*.json",
+          "artifacts/collision-scenes-*.png",
+          "artifacts/collision-train-*.json",
+          "artifacts/duck-turns.json",
+          "artifacts/duck-turns.png",
+          "artifacts/render-*.json",
+          "artifacts/render-*.png",
+          "artifacts/solo-render-parity.json",
+          "artifacts/solo-render-parity.png",
+          "artifacts/wave-approaching.png",
+          "artifacts/wave-caught.png"
+        ]
+      },
+      {
+        "id": "run-hand-runtime",
+        "file": "tests/run-hand-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [
+          "artifacts/run-hand-offer-320x560.png",
+          "artifacts/run-hand-runtime-failure.png",
+          "artifacts/run-hand-runtime.json"
+        ]
+      },
+      {
+        "id": "run-menu-layout",
+        "file": "tests/run-menu-layout.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [
+          "artifacts/run-menu-*-*-*x*.png",
+          "artifacts/run-menu-failure.png",
+          "artifacts/run-menu-layout.json"
+        ]
+      },
+      {
+        "id": "runtime-smoke",
+        "file": "tests/runtime-smoke.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": []
+      },
+      {
+        "id": "seed-copy-runtime",
+        "file": "tests/seed-copy-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [],
+        "minimumBrowserRealms": 2
+      },
+      {
+        "id": "seed-test",
+        "file": "tests/seed.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "session-board-controls-test",
+        "file": "tests/session-board-controls.test.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "session-input-test",
+        "file": "tests/session-input.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "session-labels-render-test",
+        "file": "tests/session-labels-render.test.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": [
+          "artifacts/session-labels-render.json"
+        ]
+      },
+      {
+        "id": "session-lifecycle-test",
+        "file": "tests/session-lifecycle.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "session-player-test",
+        "file": "tests/session-player.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "session-world-test",
+        "file": "tests/session-world.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "solo-parity-actors-test",
+        "file": "tests/solo-parity-actors.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "solo-parity-economy-test",
+        "file": "tests/solo-parity-economy.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "solo-parity-test",
+        "file": "tests/solo-parity.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "solo-ui-browser-test",
+        "file": "tests/solo-ui-browser.test.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "solo-ui-test",
+        "file": "tests/solo-ui.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "sound-chromium",
+        "file": "tests/sound-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [],
+        "env": {
+          "DOWN_TO_DUCK_AUDIO_BROWSER": "chromium"
+        },
+        "minimumBrowserRealms": 18
+      },
+      {
+        "id": "sound-firefox",
+        "file": "tests/sound-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [],
+        "env": {
+          "DOWN_TO_DUCK_AUDIO_BROWSER": "firefox"
+        },
+        "minimumBrowserRealms": 18
+      },
+      {
+        "id": "sound-test",
+        "file": "tests/sound.test.mjs",
+        "role": "mixed",
+        "requiredRealms": [
+          "node",
+          "browser"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "soundscape-test",
+        "file": "tests/soundscape.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "survive-admission-test",
+        "file": "tests/survive-admission.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "survive-board-boundaries-test",
+        "file": "tests/survive-board-boundaries.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "survive-complete-run-runtime",
+        "file": "tests/survive-complete-run-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [
+          "artifacts/survive-complete-failure.png",
+          "artifacts/survive-complete-paused-market.png",
+          "artifacts/survive-complete-regroup.png",
+          "artifacts/survive-complete-result.png",
+          "artifacts/survive-complete-run.json",
+          "artifacts/survive-five-participant-paging.png"
+        ]
+      },
+      {
+        "id": "survive-economy-boundaries-test",
+        "file": "tests/survive-economy-boundaries.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "survive-economy-test",
+        "file": "tests/survive-economy.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "survive-hand-items-runtime",
+        "file": "tests/survive-hand-items-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [
+          "artifacts/survive-hand-item-purchased.png",
+          "artifacts/survive-hand-items-failure.png",
+          "artifacts/survive-hand-items-runtime.json"
+        ]
+      },
+      {
+        "id": "survive-hud-controller-runtime",
+        "file": "tests/survive-hud-controller-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": []
+      },
+      {
+        "id": "survive-lifecycle-layout",
+        "file": "tests/survive-lifecycle-layout.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [
+          "artifacts/survive-lifecycle-layout.json"
+        ]
+      },
+      {
+        "id": "survive-market-controller-owner-runtime",
+        "file": "tests/survive-market-controller-owner-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": []
+      },
+      {
+        "id": "survive-market-fresh-context-runtime",
+        "file": "tests/survive-market-fresh-context-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": []
+      },
+      {
+        "id": "survive-market-ghost-inspection-runtime",
+        "file": "tests/survive-market-ghost-inspection-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": []
+      },
+      {
+        "id": "survive-market-ghost-sale-runtime",
+        "file": "tests/survive-market-ghost-sale-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [
+          "artifacts/survive-market-ghost-sale-failure.png",
+          "artifacts/survive-market-ghost-sale-runtime.json",
+          "artifacts/survive-market-ghost-sale.png"
+        ]
+      },
+      {
+        "id": "survive-market-keyboard-owner-runtime",
+        "file": "tests/survive-market-keyboard-owner-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": []
+      },
+      {
+        "id": "survive-market-pack-owner-runtime",
+        "file": "tests/survive-market-pack-owner-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [
+          "artifacts/survive-market-pack-owner-failure.png",
+          "artifacts/survive-market-pack-owner-runtime.json",
+          "artifacts/survive-market-pack-owner-sale.png"
+        ]
+      },
+      {
+        "id": "survive-offer-clock-runtime",
+        "file": "tests/survive-offer-clock-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [
+          "artifacts/survive-offer-clock-failure.png",
+          "artifacts/survive-offer-clock-result.png",
+          "artifacts/survive-offer-clock.json"
+        ]
+      },
+      {
+        "id": "survive-paused-recovery-test",
+        "file": "tests/survive-paused-recovery.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "survive-primary-departure-test",
+        "file": "tests/survive-primary-departure.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "survive-recovery-board-layout",
+        "file": "tests/survive-recovery-board-layout.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [
+          "artifacts/survive-recovery-*-*-*x*-*.png",
+          "artifacts/survive-recovery-board-layout.json"
+        ]
+      },
+      {
+        "id": "survive-recovery-boundaries-test",
+        "file": "tests/survive-recovery-boundaries.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "survive-recovery-outcomes-runtime",
+        "file": "tests/survive-recovery-outcomes-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": []
+      },
+      {
+        "id": "survive-recovery-owner-runtime",
+        "file": "tests/survive-recovery-owner-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [
+          "artifacts/survive-recovery-owner-failure.png",
+          "artifacts/survive-recovery-owner-flare.png",
+          "artifacts/survive-recovery-owner.json"
+        ]
+      },
+      {
+        "id": "survive-recovery-terminal-test",
+        "file": "tests/survive-recovery-terminal.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "survive-results-seed-runtime",
+        "file": "tests/survive-results-seed-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": []
+      },
+      {
+        "id": "survive-results-ui-test",
+        "file": "tests/survive-results-ui.test.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "survive-together-layout",
+        "file": "tests/survive-together-layout.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [
+          "artifacts/survive-together-layout.json"
+        ]
+      },
+      {
+        "id": "survive-together-runtime",
+        "file": "tests/survive-together-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [
+          "artifacts/survive-market-wardrobe-240.png"
+        ]
+      },
+      {
+        "id": "survive-together-tracer",
+        "file": "tests/survive-together-tracer.mjs",
+        "role": "mixed",
+        "requiredRealms": [
+          "node",
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": []
+      },
+      {
+        "id": "survive-together-test",
+        "file": "tests/survive-together.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "wearables-render-test",
+        "file": "tests/wearables-render.test.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "wearables-test",
+        "file": "tests/wearables.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      }
+    ],
+    "controls": [
+      "tests/strict-node-tests.mjs",
+      "tests/strict-node-tests.test.mjs",
+      "tests/guidance.test.mjs"
+    ],
+    "dynamicImports": {
+      "tests/consumable-drops.test.mjs": [
+        {
+          "expression": "`data:text/javascript;base64,${Buffer.from(alternate).toString('base64')}`",
+          "resolution": "Altered sampler generated copy; separate variant, no canonical instrumentation or current-source credit"
+        }
+      ],
+      "tests/gamepad.test.mjs": [
+        {
+          "expression": "`data:text/javascript;base64,${Buffer.from(compiled).toString('base64')}`",
+          "resolution": "Existing canonical-capable gamepad adapter; current source matches inventory before compilation"
+        }
+      ],
+      "tests/sound.test.mjs": [
+        {
+          "expression": "pathToFileURL(join(directory, 'sound-packs.js'))",
+          "resolution": "Existing canonical-capable temporary source modules; exact source/schema validation"
+        },
+        {
+          "expression": "pathToFileURL(join(directory, 'audio.js'))",
+          "resolution": "Existing canonical-capable temporary source modules; exact source/schema validation"
+        }
+      ],
+      "tests/source-loader.mjs": [
+        {
+          "expression": "pathToFileURL(join(directory, `${name.replace(/\\.js$/, '')}.js`)).href",
+          "resolution": "Canonical compileSources emitted module graph; current root instrumented, explicit alternate root stays separate"
+        }
+      ]
+    },
+    "nonCounterEvidence": {
+      "inheritedGate": "tests/phase6-gate.mjs",
+      "disposition": "Byte-identical final inherited gate remains07-06; type/build/guidance/conformance are distinct normal-artifact evidence, never synthetic counters",
+      "canonicalHash": "7bdba2abaf0346075ffe9a037eb02332c7cfc5a837a99387a4bb650f09e059e9"
+    },
+    "closureDispositions": {
+      "tests/market-board-runtime.mjs": "Executable shared-fixture suite body imported by market-layout; captured under invoking worker, not a standalone duplicate",
+      "tests/market-game-fixture.mjs": "Shared opaque browser lifecycle owner; registration/capture bind invoking worker",
+      "tests/race-browser-fixture.mjs": "Public-input helper with read-only source-based hazard prediction; invoking workers declare mixed Node/browser roles where used",
+      "tests/source-loader.mjs": "Canonical current-source compilation and explicit alternate-root separation",
+      "tests/solo-baseline.mjs": "Immutable oracle extraction; no current-source hit contribution",
+      "tests/solo-parity-snapshot.mjs": "Paired current/oracle semantic observation; current loader counters belong invoking Node worker"
+    }
+  },
+  "completenessMeaning": "Mechanically resolved dispatch is ready; only a successful actual full run establishes collected evidence, and policy floors remain separate."
 }
