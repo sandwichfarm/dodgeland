@@ -115,7 +115,7 @@ for (const count of [2,3,4]) test(`built opaque iframe ${count}-seat Race start 
     await page.waitForTimeout(150);
     assert.equal(await frame.locator('.race-distance').count(),1,'one authoritative distance readout');
     assert.equal(await frame.locator('.race-lifecycle').count(),1,'one separately identified lifecycle notice');
-    assert.match(await frame.locator('.race-distance').textContent(), /^Finish 1 · 30s$/);
+    assert.match(await frame.locator('.race-distance').textContent(), /^Finish 1 · 30s · Lead 0 · fog -12$/);
     assert.equal(await frame.locator('#race-results-heading').count(), 0, 'start did not hop');
     for (const tile of await frame.locator('#session-seats [data-session-hud="health"]').all()) assert.match(await tile.textContent(), /· 0 tiles$/, 'Start and held confirm never earn a first hop');
     await send([pad(), pad([],9)]); await send([pad(),pad([0],9)]); await send([pad(),pad([],9)]);
