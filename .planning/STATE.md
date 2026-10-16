@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-12 collection54934 exited1 at Race aggregate layout timeout; bounded repair checkpoint
+stopped_at: 07-12 Race repair proven; unchanged Relay diagnostic11826 canceled at aggregate deadline
 last_updated: "2026-10-16T19:12:24.841988+00:00"
 progress:
   total_phases: 7
@@ -12,10 +12,12 @@ progress:
   completed_plans: 40
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Collection54934 cleared pause then failed Race aggregate180s deadline;420 captures have zero geometry errors, but no full report exists.
+last_activity_desc: Race focused10/10 and cancellation negative verified; unchanged Relay252-cell diagnostic timed out, awaiting bounded test ownership.
 ---
 
 # Project State
+
+Latest checkpoint: Race repair64b76e9 independently reviewed6e9d277; focused48452 exited0 with10/10,420 cells/35 states, complete=true, type/build/guidance7/conformance5pass5unmeasured and immutable lock check. Runtime first-stage cancellation negative proved incomplete24-cell report and browser exit before next test acquisition; see07-12-RACE-LAYOUT-REPAIR.md/fdf586d. Root-requested unchanged Relay diagnostic11826 exited1 at180000ms (total188832ms), runf5db4de1-ad5a-40ad-92a8-27dd239f220e, log`/tmp/down-to-duck-07-12-relay-layout-diagnostic.log`. Archived report has252 cells/21 states and zero geometry/errors/external, but cancellation remains failure. Proposed four bounded same-journey stages await Relay test ownership; no Relay edits or full rerun. No active process. Full report/floors and07-12 completion remain pending.
 
 Latest terminal execution: full collection **54934**, exit1, former PID33009, run `485614b7-02bb-4d5c-bed3-06c728767c94`, log `/tmp/down-to-duck-07-12-full-collection-pause-fixed.log`, frozen source/test/tooling `f84a7f9`. Final focused18395 exited0: unchanged ordinary and instrumented pause suites each cover24 frame/theme combinations, all rules/powers/input/frozen-clock assertions; guidance7/7 and conformance5pass/0fail/5unmeasured. Type-check passed27409 before CSS-only refinements. Final instrumented focused run66ef71ae-9381-4a5e-9b89-868c42e57c6d contains one canonical realm. Root inspected final240px dark/light and320×560/900×600/2400×1200 captures; independent review9ce407b closes PR-01. All27 prior ordinary artifacts restored byte-for-byte. Superseded27409 exposed320×360 wrapping;10510 passed before home-only selector correction and is not final proof. No full report, coverage-floor or plan-completion claim yet. Historical inactive-process statements below refer to their respective checkpoints.
 
