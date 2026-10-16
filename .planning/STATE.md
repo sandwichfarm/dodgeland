@@ -12,7 +12,7 @@ progress:
   completed_plans: 24
 current_phase: 04
 current_phase_name: relay
-last_activity_desc: Relay04-06 complete; exact Gate6 passed on2506ee6, awaiting independent phase verification.
+last_activity_desc: CR-01 repaired on52f8e0d; exact Gate6 passed89260; WINDOWS1 independently resolved; Relay verification next.
 ---
 
 # Project State
@@ -37,9 +37,11 @@ Relay04-04 is complete on source `2ce6edf`. Canonical session93254 exit0, `/tmp/
 
 Relay04-05 is complete on source `eb0e72a`. Canonical session5643 exit0, `/tmp/down-to-duck-04-05-final-verified-gate.log`, runs both exact task gates (runtime8/8 each, economy/consumables15/15, build/type), full phase3 including Survive browser34/34, and strict Relay/recovery/runtime79/79. One owner-labelled market/hand uses optional generic capability and paused-transaction policy; only the active runner can mutate, all stale contexts reject, and Relay installs no consumable world. Built mixed keyboard/controller/audio, pointer inspection, paid pack/sale, lifecycle/recovery/results/retry and36 responsive/theme captures pass. Initial canonical92119 exposed a read-only paid-pack Close obstruction; retained Survive and Relay regressions pass after eb0e72a. Superseded59647 was canceled exit143 for a command filename error. See04-05SUMMARY for actual APIs and logs. Historical WINDOWS1 remains open; verified shared-policy WINDOWS4 is fixed.
 
-Relay04-06 is complete on source `2506ee6`. Exact Gate6 session13852 exit0, `/tmp/down-to-duck-04-06-final-verified-gate.log`: full nested Phase2/3, Relay65/65, runtime9/9, layout1/1 with252 captures, type/build/guidance, conformance5pass/0fail/5unmeasured and immutable-oracle lockfile diff. Actual public-seed keyboard travel proves49/50/51 fractional-platform continuity; browser RNG identity is distinguished from production-object future-state proof. Both theme contact sheets and targeted captures were inspected. Frozen-board minimum-size suspension preserves authority and fresh confirmation; wide setup Roster remains bounded. Superseded84045 failed a retained roster-clipping check before repair. See04-06SUMMARY for exact API reconciliation and all evidence. Historical WINDOWS1 remains open. Phase04 awaits independent verification; no milestone completion claim.
+Relay04-06 is complete on source `2506ee6`. Exact Gate6 session13852 exit0, `/tmp/down-to-duck-04-06-final-verified-gate.log`: full nested Phase2/3, Relay65/65, runtime9/9, layout1/1 with252 captures, type/build/guidance, conformance5pass/0fail/5unmeasured and immutable-oracle lockfile diff. Actual public-seed keyboard travel proves49/50/51 fractional-platform continuity; browser RNG identity is distinguished from production-object future-state proof. Both theme contact sheets and targeted captures were inspected. Frozen-board minimum-size suspension preserves authority and fresh confirmation; wide setup Roster remains bounded. Superseded84045 failed a retained roster-clipping check before repair. See04-06SUMMARY for exact API reconciliation and all evidence. Historical WINDOWS1 was subsequently closed by independent review and04-REVIEW-REPAIR evidence. Phase04 awaits independent verification; no milestone completion claim.
 
 RELAY-01 and RELAY-05 are completed. RELAY-02/03/04 retain partial status pending remaining integration and independent full-phase verification. Independently verify Phase04, then execute every reviewed Race/presentation/audit/release requirement. No phase or milestone completion claim. All executor build/browser commands are terminal; source ownership returns to root.
+
+Review repair CR-01 is complete on `52f8e0d`: focused keyboard/controller handoff actions preserve incoming Start authority, read-only navigation and no-hop freshness. Exact Gate6 session89260 exit0, `/tmp/down-to-duck-04-review-repair-final-gate.log`: inherited Phase2/3, Relay65/65, runtime12/12, layout252 captures and all required final checks. WINDOWS1 is fixed based on stable receiver code and independent1/1 reentrancy proof, not waived. See04-REVIEW-REPAIR.md. Independent review/phase verification remains next.
 
 ## Execution Runtime
 

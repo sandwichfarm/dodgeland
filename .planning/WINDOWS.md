@@ -1,10 +1,10 @@
 ---
 schema_version: 1
-open_count: 1
+open_count: 0
 waived_count: 0
-fixed_count: 3
+fixed_count: 4
 total_count: 4
-last_updated: 2026-10-16T01:59:22.467Z
+last_updated: 2026-10-16T04:10:20.040838+00:00
 ---
 
 # Broken Windows Ledger
@@ -15,7 +15,7 @@ last_updated: 2026-10-16T01:59:22.467Z
 
 | id | phase | kind | file | line | description | status | reason | recorded_at | resolved_at |
 |----|-------|------|------|------|-------------|--------|--------|-------------|-------------|
-| 1 | 02 | deviation | src/game.ts |  | Scoped withSessionPlayer callback reentrancy can route nested P1 dispatch through temporary P2 binding; Plan 02-02 must replace it with permanent player/world context. | open |  | 2026-10-14T23:23:28.349Z |  |
+| 1 | 02 | deviation | src/game.ts |  | Scoped withSessionPlayer callback reentrancy can route nested P1 dispatch through temporary P2 binding; Plan 02-02 must replace it with permanent player/world context. | fixed | Independent04-REVIEW: stable Game.operationFor/inPlayerOperation receivers; local-session.test.mjs reentrant P2 reward callback passed1/1 in /tmp/down-to-duck-04-review-windows1.log and final89260 shared gate. See04-REVIEW-REPAIR.md. | 2026-10-14T23:23:28.349Z | 2026-10-16T04:10:20.040838+00:00 |
 | 2 | 04 | deviation | src/session.ts |  | 04-03 added opt-in lifecycle guards, preserved-position reclaim and archive/placement seams; full inherited gate passed. | fixed |  | 2026-10-16T00:50:26.162Z | 2026-10-16T00:51:16.235Z |
 | 3 | 04 | deviation | src/session.ts |  | 04-04 added optional immutable pre-clear and pre-depart contribution observations; canonical inherited parity and reentrancy checks passed. | fixed |  | 2026-10-16T01:23:52.104Z | 2026-10-16T01:24:03.504Z |
 | 4 | 04 | deviation | src/session.ts |  | 04-05 adds optional owner/capability and paused-transaction policy to the existing market adapter; legacy Survive defaults and full inherited parity are preserved. | fixed |  | 2026-10-16T01:59:01.928Z | 2026-10-16T01:59:22.467Z |
@@ -29,10 +29,10 @@ last_updated: 2026-10-16T01:59:22.467Z
     "file": "src/game.ts",
     "line": null,
     "description": "Scoped withSessionPlayer callback reentrancy can route nested P1 dispatch through temporary P2 binding; Plan 02-02 must replace it with permanent player/world context.",
-    "status": "open",
-    "reason": "",
+    "status": "fixed",
+    "reason": "Independent04-REVIEW: stable Game.operationFor/inPlayerOperation receivers; local-session.test.mjs reentrant P2 reward callback passed1/1 in /tmp/down-to-duck-04-review-windows1.log and final89260 shared gate. See04-REVIEW-REPAIR.md.",
     "recorded_at": "2026-10-14T23:23:28.349Z",
-    "resolved_at": null
+    "resolved_at": "2026-10-16T04:10:20.040838+00:00"
   },
   {
     "id": 2,
