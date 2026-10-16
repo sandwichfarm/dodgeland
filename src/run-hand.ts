@@ -25,9 +25,11 @@ export function createSharedControlPages(options: { root: HTMLElement; play: HTM
   return { root,
     pageCount: () => options.hand.dataset.gearOnly === 'true' ? 3 : 4,
     update(page: number | undefined, owner: string) {
-      heading.textContent = owner;
+      if (heading.textContent !== owner) heading.textContent = owner;
       if (page === undefined) { if (mounted !== -1) restore(); mounted = -1; root.hidden = true; return; }
-      root.hidden = false; root.dataset.page = String(page); label.textContent = ['Play', 'Tools', options.hand.dataset.gearOnly === 'true' ? 'Gear' : 'Hand', 'Items'][page]!;
+      root.hidden = false; root.dataset.page = String(page);
+      const pageLabel = ['Play', 'Tools', options.hand.dataset.gearOnly === 'true' ? 'Gear' : 'Hand', 'Items'][page]!;
+      if (label.textContent !== pageLabel) label.textContent = pageLabel;
       if (mounted === page) return;
       restore(); mounted = page;
       if (page >= 2) { options.hand.dataset.embeddedControls = page === 3 ? 'items' : 'hand'; content.append(options.hand); }

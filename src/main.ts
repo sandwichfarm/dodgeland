@@ -1487,6 +1487,9 @@ function moveLocal(seat: SeatId, direction: Direction): void {
   audio.unlock(); if (localSession.dispatch({ seat, direction })) audio.play('hop'); updateHud();
 }
 function localSetupKeydown(event: KeyboardEvent): void {
+  // A child board owns native traversal and its existing boundary trap.
+  // The inspected participant remains mounted but is inert beneath it.
+  if (event.key === 'Tab' && (lifecycleBoard || recoveryBoard || relayHandoff)) return;
   if (hudDetailsOpen && event.key === 'Tab' && !hand.isOpen()) {
     const tile = inspectionRoot();
     const controls = tile ? visibleModalControls(tile) : [];
