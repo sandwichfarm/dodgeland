@@ -2,8 +2,8 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: executing
-stopped_at: Completed 05-07-PLAN.md; independent Race review and verification next
+status: verifying
+stopped_at: Race technical verification 40/40; human visual acceptance pending; Phase06 research next
 last_updated: "2026-10-16T08:24:20.625896+00:00"
 progress:
   total_phases: 7
@@ -12,24 +12,18 @@ progress:
   completed_plans: 31
 current_phase: 05
 current_phase_name: race
-last_activity_desc: Race 05-07 complete on 62f9958; exact Relay Gate 6 and Race Gate 7 session19289 exit0; independent review next.
+last_activity_desc: Race CR-01 repaired on 2da5dd9; independent review clean, technical verification 40/40; human acceptance pending.
 ---
 
 # Project State
 
 ## Current Position
 
-05-07 is complete on `62f9958`. Exact sequential Relay Gate 6 and Race Gate 7 session19289 exited0: full inherited Phase3/2/1, Relay65 models/12 runtime/252 captures, Race76 models/12 runtime/420 captures, type/build/guidance/conformance/lockfile. See05-07-SUMMARY.md and `/tmp/down-to-duck-05-07-verified-{relay,race}.log`. No active executor process. Independent Race review/verification is next; phase remains open. Actual tracking:4 completed phases,31/31 plans.
+Phase05 implementation is complete; independent review is clean after CR-01 controller-results repair on `2da5dd9`. Independent verification reports **40/40 technical truths**, zero implementation gaps and zero behavior-unverified truths, but `human_needed` for explicit visual/play-feel acceptance. See05-REVIEW.md,05-VERIFICATION.md and05-UAT.md. An asynchronous user question is pending; do not invent acceptance or markPhase05 complete. Independent Phase06 research/preparation can proceed.
 
-Historical 05-05: source8d0c595; 39500 full shared-code gate and32571 final UI gate exited0. Complete immutable history, accepted transaction metadata, competition tiers and bounded results are delivered; see05-05-SUMMARY.md.
+Final complete pre-repair gates:19289 exit0 on62f9958, exactRelayGate6 thenRaceGate7, including inheritedPhase3/2/1, Relay65/12runtime/252captures andRace76/12runtime/420captures. Narrow routing repair final86987 exit0:73sharedinput/results and16Race runtime plus type/build/guidance/conformance/lockfile. Independent80996 controller2/2 and invariant3/3 pass. Logs and source distinctions are in05-REVIEW-REPAIR and05-VERIFICATION.
 
-Historical05-04: source69efa16, full51478 exit0, both exact tasks, nested Phase3/2/1 and Relay/Race116/116. Common tactical item dependencies are resolved; see05-04-SUMMARY.md.
-
-Historical05-03 closeout: source `cfe358f`. Exact task gates67761 and5878 passed. Final evidence combines93033's passing full Phase3/2/1, Relay22, shared/Race ordering/balance21 and lifecycle15 prefix with51701 terminal exit0 after the narrow Race HUD/fresh-input repair: tracer6, lifecycle15, type/build/guidance/conformance/lockfile.93033 itself exited1 at the legacy tracer and is not a full-pass claim. See05-03-SUMMARY.md and the durable `/tmp/down-to-duck-05-03-final-gate.log` / `...final-ui-complete-gate.log`. The authorized dead-device and bounded position-retention repair resolved the historical checkpoint. No active process. Actual tracking:4 completed phases,27/31 plans; CLI-generated1/35 counts corrected.
-
-05-02 is complete; execute05-03 next. Final96373 exited0 on frozenHEAD6d36f39/production8f59d42, `/tmp/down-to-duck-05-02-final-gate.log`: exact task gates11+21,8,17; full inheritedPhase3/2/1; Relay/shared damage69; builtRace6; finaltype/build/guidance/conformance/lockfile. The authorized generic pursuit/damage repair resolved retainedREDe34188e; cadence rounding and ghost-exposure regressions are fixed. Generated-course balance at500/180,buffer12,1feather/sec completes allsix scenarios in97.47–102s with exact repeat/permutation agreement; `artifacts/race/balance.json`. See05-02-SUMMARY.md and05-02-DEPENDENCY-REPAIR.md. No active process. Actual tracking:4 completed phases,26/31 plans; CLI-generated1/35 counts were corrected.
-
-Race05-01 supplied accepted unchanged-source entry evidence70346 and23683 on67eb0d3; see05-01-SUMMARY.md. Phases01–04 remain independently verified. Race05-06/07, cross-mode presentation, audit and PR remain mandatory. Branch `feat/local-multiplayer`; immutable solo oracle `a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin.
+Actual tracking: **4 completed phases,31/31 existing plans executed**. Phase06 and07 are not yet planned. Full objective remains cross-mode presentation, release/coverage audit and an open PR againstmain. Branch`feat/local-multiplayer`; immutable solo oracle`a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin. Prior summaries and independent verification reports are authoritative historical evidence.
 
 ## Accepted Relay Entry Evidence
 
@@ -68,7 +62,7 @@ Typed gsd-verifier stayed pending_init across multiple turns and was explicitly 
 
 ## Remaining Evidence and Presentation
 
-- Independently verify Relay, then execute7 Race plans, Phase06 UI, Phase07 full audit and PR. Do not shrink stop condition.
+- Race technical verification is complete; visual/play-feel acceptance remains pending. Prepare Phase06 UI, then Phase07 full audit and PR. Do not shrink stop condition.
 - Phase06 must address regular900×600 HUD overlap with nearby actors using actual completed lifecycle/results flows.
 - Conformance5pass/0fail/5unmeasured (manifest3,wire1,lifecycle1), not10passes. Physical controllers unmeasured. See research/CONFORMANCE-EVIDENCE.md.
 - Coverage calibration remains exploratory until normal-install/browser instrumentation proven; see research/COVERAGE-CALIBRATION.md.
@@ -91,7 +85,7 @@ Typed gsd-verifier stayed pending_init across multiple turns and was explicitly 
 ## Session
 
 **Last session:** 2026-10-16T07:39:40.627Z
-**Stopped at:** Completed 05-05-PLAN.md; next 05-06
+**Stopped at:** Race technical verification40/40; human acceptance pending; Phase06 research next
 **Resume file:** None
 
 ## Decisions

@@ -134,7 +134,7 @@ Plans:
   4. Players can use Race-eligible offensive and defensive consumables with visible, muted/reduced-motion-aware feedback; invalid targets, departed players, and ineligible modes cannot spend a charge or corrupt state.
   5. Race results show podium rank including true ties, distance, elapsed/finish time, finish or death status, fog damage, and relevant item/interaction statistics for every character.
 
-**Plans**: 6/7 plans executed
+**Plans**: 7/7 plans executed; technical verification40/40, human acceptance pending
 **UI hint**: yes
 
 Plans:
@@ -187,6 +187,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 2. Shared Local Session | 6/6 | Complete    | 2026-10-14 |
 | 3. Survive Together & Consumables | 8/8 | Complete    | 2026-10-15 |
 | 4. Relay | 6/6 | Complete    | 2026-10-15 |
-| 5. Race | 7/7 | Awaiting independent verification |  |
+| 5. Race | 7/7 | Technical verification passed; human acceptance pending |  |
 | 6. Cross-Mode Presentation | 0/TBD | Not started | - |
 | 7. Release Evidence & PR | 0/TBD | Not started | - |
