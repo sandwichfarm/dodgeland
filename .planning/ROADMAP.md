@@ -186,7 +186,7 @@ Plans:
 **Plans**: 9 plans in 9 sequential waves; execution order01 →02 →07 →08 →09 →03 →04 →05 →06
 
 - [x] 07-01-PLAN.md — Audit isolated tooling and calibrate exact Node/opaque-browser counters.
-- [ ] 07-02-PLAN.md — Complete shared collection foundation and policy; Task1 already passed.
+- [x] 07-02-PLAN.md — Shared collection foundation and policy complete; full collection follows07-07/08/09.
 - [ ] 07-07-PLAN.md — Collect seven canvas/component browser owners.
 - [ ] 07-08-PLAN.md — Collect seven local-input/lifecycle browser owners.
 - [ ] 07-09-PLAN.md — Collect seven remaining owners and produce the complete initial report.
@@ -208,4 +208,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 4. Relay | 6/6 | Complete    | 2026-10-15 |
 | 5. Race | 7/7 | Complete    | 2026-10-16 |
 | 6. Cross-Mode Presentation | 2/2 | Complete    | 2026-10-16 |
-| 7. Release Evidence & PR | 1/9 | In progress | - |
+| 7. Release Evidence & PR | 2/9 | In progress | - |

@@ -3,23 +3,23 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Executing07-02 browser collection foundation;05/06 formally complete
+stopped_at: Completed07-02 collection foundation; next07-07 independent browser adapters
 last_updated: "2026-10-16T14:19:13.059Z"
 progress:
   total_phases: 7
   completed_phases: 6
   total_plans: 42
-  completed_plans: 34
+  completed_plans: 35
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: User presentation acceptance and security/validation audits close05/06;07plans independently approved;34/42 complete.
+last_activity_desc: 07-02 canonical Node/browser foundation and exact policy complete;6 phases and35/42 plans complete.
 ---
 
 # Project State
 
-Current position: Phase07 nine-plan adapter chain independently approved (0ef40bd). Executor is implementing07-02 Task2/3, preserving completed Task1 (4fffa33;93470exit0:9 calibration/collection,22 instrumented shared,28 ordinary shared/strict). Its checkpoint SUMMARY is not plan completion.02 foundation →07 component owners →08 local-input owners →09 remaining owners/full initial report →03 gaps →04 conformance →05 evidence →06 release runner/PR.
+Current position: Phase07 plan02 complete (3/3 amended tasks). Shared tracer93470, browser30060 (31/31) and final policy/legacy31732 (8/8,42/42 instrumented,42/42 ordinary plus required checks) are terminal green. See07-02-SUMMARY. Next07-07 component owners →07-08 local-input owners →07-09 remaining owners/full initial report →07-03 gaps →07-04 conformance →07-05 evidence →07-06 release runner/PR. Full collection/floor compliance remain unclaimed.
 
-Actual tracking: **6 completed phases,34/42 plans complete**. User explicitly tested and accepted Survive/Relay/Race presentation on2026-10-16; UAT5eb3c46 and verification addenda ba9540c. Security40f42bd has zero open threats (Race30/30,presentation7/7); validation3496365 maps every task/requirement to existing evidence. Both canonical UAT/verification predicates and phase.complete passed with no warnings. Technical05 verification40/40 and06 verification47/47 retain their original source/provenance limits. Root corrected CLI counting of checkpoint summaries and historical plan artifacts; roadmap totals are authoritative.
+Actual tracking: **6 completed phases,35/42 plans complete**. User explicitly tested and accepted Survive/Relay/Race presentation on2026-10-16; UAT5eb3c46 and verification addenda ba9540c. Security40f42bd has zero open threats (Race30/30,presentation7/7); validation3496365 maps every task/requirement to existing evidence. Both canonical UAT/verification predicates and phase.complete passed with no warnings. Technical05 verification40/40 and06 verification47/47 retain their original source/provenance limits. Root corrected CLI counting of checkpoint summaries and historical plan artifacts; roadmap totals are authoritative.
 
 07-01 exact Node/opaque-browser calibration10/10 passed32469exit0 onf04d332. Audited standalone dependencies/own lock are installed: historical Node HTTPS EBADF resolved through installed Bun running pinned pnpm, followed by ordinary frozen reinstall. Root lock/oracle unchanged. Production shared-tracer data is partial; no full coverage or floor-compliance claim.07-09 must account for all audited/transitive realms before07-03 uses the initial report.
 
@@ -62,7 +62,7 @@ Typed gsd-verifier stayed pending_init across multiple turns and was explicitly 
 
 ## Remaining Evidence and Presentation
 
-- Race/presentation technical verification and user visual/play-feel acceptance are received; formal closure/security audit is root-owned. Phase07 full audit and PR remain required.
+- Race/presentation technical verification and user visual/play-feel acceptance are received; formal closure/security audit completed by root. Phase07 full audit and PR remain required.
 - Phase06 presentation repair is technically verified; preserve its real actor-envelope and lifecycle evidence.
 - Conformance5pass/0fail/5unmeasured (manifest3,wire1,lifecycle1), not10passes. Physical controllers unmeasured. See research/CONFORMANCE-EVIDENCE.md.
 - Coverage calibration is proven07-01; full production collection/floors remain pending07-09/03.
