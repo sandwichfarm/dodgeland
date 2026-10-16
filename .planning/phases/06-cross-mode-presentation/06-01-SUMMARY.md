@@ -1,78 +1,75 @@
 ---
 phase: 06-cross-mode-presentation
 plan: "01"
-status: checkpoint
+status: complete
 subsystem: ui
 tags: [presentation, opaque-iframe, geometry, generic-agent-fallback]
 requires: [05-race]
-provides: [regular-frame shared summary and retained compact-control dependency proof]
+provides: [clear shared live composition, bounded controls and owner inspection]
 affects: [06-02]
 key-files:
   created: [tests/cross-mode-presentation.mjs]
-  modified: [src/main.ts, src/session-ui.css, src/race-ui.css, src/relay-ui.css, tests/market-game-fixture.mjs]
+  modified: [src/main.ts, src/render.ts, src/session-ui.css, src/race-ui.ts, src/race-ui.css, src/relay-ui.ts, src/relay-ui.css, src/run-hand.ts, src/run-hand.css, src/hand-layout.css, tests/market-game-fixture.mjs]
 ---
 
-# Phase06 Plan01 — Compact control dependency checkpoint
+# Phase06 Plan01 — Clear shared live composition
 
-**Plan incomplete: Task1 regular tracer passed; Task2 exposes a shared compact-control/shelf responsibility.** Generic executor fallback applied the local executor workflow and installed napplet-ui/test skills. Phase05 human acceptance remains pending; no phase, requirement or plan completion is claimed. Counts remain4 completed phases,31/33 plans.
+Both tasks complete on `5ab22ab`; final command19150 exited0. Generic executor fallback applied the full local executor workflow and installed napplet skills. This is plan completion only: Phase05 human acceptance remains pending, Phase06-02 and independent verification remain required. Tracking:4 completed phases,32/33 plans.
 
-## Entry and actual API reconciliation
+## Entry and API reconciliation
 
-EntryHEAD `af12564`; production `src/`, package and lockfile were unchanged from reviewed `2da5dd9`. Accepted19289 full prior gates and86987 narrow shared-input/runtime repair therefore supplied unchanged entry evidence; no baseline rerun.
+Entry `af12564` had unchanged production from reviewed `2da5dd9`; accepted19289 full gates and86987 narrow repair supplied entry proof without a baseline rerun.
 
-| Responsibility | Delivered API / reconciliation |
+| Responsibility | Actual integration |
 |---|---|
-| World and player presentation | `LocalSession.views()` → `Renderer.drawSession()` → `appendTraveler`; actual calls contain interpolated ground position, hop lift and character model |
-| Full body measurement | CDP breakpoints on production `model`/`turnedModel`, actual argument voxels/lift/yaw/pitch and `Renderer.project`; all corners measured without replacing renderer or mutating state |
-| Identity measurement | Actual `appendTraveler` packed label argument and measured native text/status envelope; no center-only proxy |
-| Owner selection | Existing `selectHudOwner` invalidates market, hand and router before updating selected owner; retained |
-| Inspection | Existing `hudDetailsOpen`, `hudInspectWasPlaying`, four detail pages and controller routing; previously limited to height≤319 and closed by resize |
-| Shared pause | `displayedRunState()` includes `sessionPaused`; host `game.state` alone does not represent a shared pause. Regression corrected to visible shared state plus unchanged clock/positions |
-| Compact owner shelf | Existing `run-hand.ts`/`run-hand.css` owns physical owner, card/item and gear controls. Main/CSS controls occupy independent additional rows; no shared bounded action pagination exists |
+| Actor geometry | `LocalSession.views()` → `Renderer.drawSession()` → actual `appendTraveler`/`model`/`turnedModel` arguments; read-only CDP observes voxel corners, interpolation/lift/yaw/pitch and packed native label bounds |
+| Inspection authority | Existing `hudDetailsOpen`, prior-pause state, `selectHudOwner`, router seeding and detail pages; regular pointer/keyboard inspection now uses the same authority |
+| Compact actions | `createSharedControlPages` reparents original controls and one hand tree using DOM-home placeholders; Play/Tools/Hand/Items or Gear pages; four44px movement buttons remain live |
+| Hand layout | Authorized `hand-layout.css` seam excludes only embedded controls using zero-specificity `:where(:not(...))`; legacy solo shelf defaults remain unchanged |
+| Renderer | Optional generic `PresentationViewport` affects shared screen-space projection only; all scene layers/labels use the same transform, gameplay camera/world/earned progress unchanged, solo default exact |
+| Notifications | Existing toast/live region and expiry reused; compact Notice opens full text on paused Play, preserves lifetime while shared time is paused; actual pursuit countdown uses the existing forward control |
+| Actual mode setup | Survive requires solo Play→Pause→Local Play; the ready-screen Local Play path is a legacy generic session. Final fixtures assert actual base/composed mode, shared item/market policy and actor authority before every mode case |
 
-## Commits and terminal evidence
+## Implementation and bounded deviations
 
-| Commit / session | Evidence |
+Shared-only composition removes duplicate solo personal widgets, keeps concise owner/health/lifecycle and mode facts, and exposes full details through existing pages. Minimum240×240 notice, both themes, system/app reduced motion, owner/page/focus restoration and fresh assigned controller edges are retained. Actual earned Survive card purchase/detail and Race item target/use prove the reused physical hand, beyond empty labels.
+
+The root authorized the compact control/shelf extension after `b440c3e`; plan/UI addenda record it. After controls were bounded, CSS-only run11800 still measured Race's top band ending104px while P4's label occupied77.8–93.8px. This justified the optional compact-short presentation viewport. It retains the original actor scale, moves every scene layer consistently, and packs actual labels horizontally when needed; no actor/world injection or hidden-nearby-actor workaround.
+
+Final visual review found the seeded-launch toast over actual compact actors. Retained RED98ac9a4 includes toast/warning footprints. Authorized Notice disclosure adds no permanent row, retains full accessible text and a single live announcement, and preserves paused lifetime. Regular/wide toast sits below the HUD. Actual advancing pursuit warning is visible as “↑ 5s” inside its44px action, with the full existing accessible description. Selected identity outlines stay inside controls, clear of health text.
+
+## Commits and evidence
+
+| Commit / command | Result |
 |---|---|
-| `e426acc`;23437 exit1 | Retained two real REDs: voxel/nameplate occlusion and duplicate solo score/wallet/health/power. `/tmp/down-to-duck-06-01-red.log` |
-| 24119 exit1 | CSS-only geometry passed; test incorrectly inspected host state for shared pause. Corrected to shared UI and authoritative unchanged state. `/tmp/down-to-duck-06-01-css.log` |
-| 13677 exit0 | Type/build, tracer2/2, immutable solo21/21. Inspection image exposed dark-on-dark controls; corrected after terminal. `/tmp/down-to-duck-06-01-tracer-green.log` |
-| `b5d5149`;65023 exit0 | Corrected exact tracer feedback: type/build, actual Arcade tracer2/2 and immutable solo21/21. `/tmp/down-to-duck-06-01-tracer-feedback.log` |
-| `b499925`;5665 exit1 | Retained Task2 expansion RED: all four mode geometry tests passed, all four frame tests failed top-band limits. `/tmp/down-to-duck-06-01-expansion-red.log` |
-| 48871 exit1 | Compact strip follow-up: Survive Arcade/Flow band tests pass; Race/Relay remain failing. Full-size inspection revealed additional actual controls obstructing travelers. `/tmp/down-to-duck-06-01-compact.log` |
-| `38bdd9d`;5649 exit1 | Coherent WIP plus retained actual compact-control collision regression. `/tmp/down-to-duck-06-01-compact-controls-red.log` |
+| `e426acc`,23437 | Original G1/G2 RED; `/tmp/down-to-duck-06-01-red.log` |
+| `b5d5149`,65023 | Historical generic shared tracer and solo21/21; not Survive acceptance |
+| `b499925`,5665; `38bdd9d`,5649; `b440c3e` | Retained expanded frame/control REDs and explicit incomplete checkpoint |
+| `74b8f15`,87689 | Corrected actual-mode suite21/21, render/solo UI23/23, solo21/21 and required suffix passed; superseded for final acceptance by missing toast-footprint coverage |
+| `98ac9a4`,68407 exit1 | Actual visible toast/body/nameplate RED; `/tmp/down-to-duck-06-01-toast-red.log` |
+| 70692 exit1 | New notice paragraph leaked at its DOM home; fixed visibility to the actual Play page only |
+| 52538 exit0;75222 exit0;47591 exit0 | Frame/disclosure7/7, actual warning/disclosure2/2, final readable warning1/1; inspected full-size captures |
+| `5ab22ab`,19150 exit0 | Final frozen-source exact Task2 plus required suffix; `/tmp/down-to-duck-06-01-final-complete.log` |
 
-No active command/browser/server remains. No installs, lockfile change, oracle repin, external network, native polling or preview5175 activity. Every automated browser used `--mute-audio`. Historical conformance5pass/5unmeasured and physical controllers unmeasured remain unchanged; no new conformance run is claimed.
+Final command:
 
-## Current production changes
+```sh
+pnpm type-check && pnpm build &&
+node tests/strict-node-tests.mjs tests/cross-mode-presentation.mjs &&
+node tests/strict-node-tests.mjs tests/render.test.mjs tests/solo-ui.test.mjs tests/solo-ui-browser.test.mjs &&
+pnpm test:solo-parity && pnpm test:guidance && pnpm test:conformance &&
+git diff --check &&
+git diff --exit-code a310a81ed6c76df4b265c9012c23b8c83f4802e5 -- pnpm-lock.yaml
+```
 
-- Main: regular selected-seat inspection now opens the existing modal, uses dialog semantics and Tab containment, retains prior pause and page through resize, and adds authoritative concise health/lifecycle summaries/team distance. Existing owner invalidation remains unchanged.
-- Session CSS: shared-only duplicate solo widgets hidden; regular top2×2 summary band fits160px; explicit details expose existing facts/pages with44px controls; compact marker strip and wide expanded details are WIP.
-- Race/Relay CSS: replace tall live cards with bounded cue treatment; Race extra ordinary live text is clipped as a live region, with mode facts still in existing detail projection. Mode-specific summary copy and complete constrained-page behavior are not yet finished.
-- Renderer remains untouched. CSS-only regular geometry passed; no viewport workaround was introduced.
+Results: cross-mode22/22; render/solo UI23/23; immutable solo21/21; type/build/guidance pass; conformance5pass/0fail/5unmeasured; lockfile and diff checks pass. Task1 tracer is included in the complete strict suite. No active process remains.
 
-## Concrete dependency evidence
+## Evidence corrections and artifacts
 
-Read `artifacts/cross-mode-presentation/compact-control-gap.json` and full-size `*-compact-control-gap.png`. All measurements below are CSS pixels from the real240×240 opaque iframe, actual controls and production draw arguments.
+All earlier “Survive” traces before corrected setup in33989 were **generic-only**, even when named Arcade/Flow. Their geometry RED/GREEN remains useful generic evidence, but none supplies Survive acceptance.33989 proved actual Survive geometry and purchase, then failed a redundant already-closed market action.31511 passed13/21 with eight optional-intent fixture declaration failures; these were corrected together.82897 failed an artifact-path assumption. Final19150 asserts actual mode/base and supersedes these runs. Earlier PNG byte comparison differed despite identical decoded pixels; final solo preservation compares rawRGBA and actual baseline widget visibility (ready score is originally hidden).
 
-| Mode | Top HUD | Additional real footprints | Actual collision |
-|---|---|---|---|
-| Survive Arcade | y4..76 | Mute/pause/menu y100..144; movement/call y188..232 | P1 label x86.61..153.39,y139.37..155.37 intersects mute/pause; body x113.33..128.44,y153.04..173.56 lacks8px clearance |
-| Race | y4..120 | Movement/call y92..136; tools y100..144; owner y144..188; item/gear y183.41..236.59 | P1 label/body intersects tools/owner; live course is not a clear80px region |
-| Relay | y4..100 | Movement/call y92..136; tools y100..144; owner y144..188 | Actual single runner label/body intersects tools/owner |
+`artifacts/cross-mode-presentation/final-artifact-report.json` lists214 final-run PNG captures and built asset hashes; `source-provenance.json` hashes changed sources and the built entry. Both `final-frames-{dark,light}.jpg` sheets and all four `final-details-{arcade,flow,race,relay}.jpg` sheets were inspected, with representative full-size regular/compact/short/wide images, earned card detail, actual item target, Notice/Play and pursuit warning. Geometry JSONs retain exact rectangles and8px separation evidence. The final runs use real opaque production iframes, public seed intent, real controls and authorized SDK snapshots; observations never write model/world state.
 
-At1000×280 Race/Relay top band remains100px versus80px budget. At2400×1200 Race is424px versus416px; these are ordinary remaining owned CSS fixes. The240×240 issue is different: moving all existing44px controls and the physical shelf into another permanently visible row cannot preserve80px of clear world. Moving/hiding actors or changing authoritative camera cannot fix missing UI space.
+## Remaining limits
 
-## Proposed bounded repair / minimum additional ownership
-
-Authorize a **generic shared compact action/shelf disclosure** in existing `src/run-hand.ts` and `src/run-hand.css`, composed with currently owned main/session CSS. Reuse/move the existing actual controls and one hand tree; do not duplicate buttons, inventory or authority. A small bounded action strip/pager can expose movement/call, global tools and owned hand/items in reachable44px pages while maintaining a visible owner label. The full details/gear controls must remain actual operable elements, with native keyboard/assigned-controller focus, page preservation, fresh seeding and prior pause restoration. Pointer inspection retains deliberate shared modal pause; inactive gameplay/controller input gains no pause authority. Exact compact grouping/copy should be reconciled with the approved UI contract before implementation.
-
-Keep the scene as the same actual canvas with no actor relocation. Only after this structural occupied-space repair, measure again; a generic presentation viewport remains conditional on residual CSS-only failure and cannot substitute for missing control space. No new service, gameplay, storage or protocol responsibility is proposed.
-
-## Remaining acceptance
-
-Task2 is incomplete: constrained complete facts and mode labels, truly left AND right travel (current right sample returns toward initial; extend to the positive-side position), required frame focus/motion/solo restore, no clipping, all required inspected captures and exact Task2 command. Current geometry observer is retained and source-backed; compact test intentionally fails. Final06-02 exact inherited gates are not run or claimed. Do not mark06-01 complete or advance plan count until repair and all declared checks pass.
-
-## Self-check
-
-All cited commits and logs exist; artifacts are inspectable. This is a checkpoint summary, not a completion summary. Source/test WIP is explicitly committed and no unrelated edits were reverted.
+Full lifecycle/result/market regression and exact inherited Relay6/Race7 gates belong06-02 and are not claimed here. Physical controllers and subjective human visual/feel acceptance remain unmeasured/pending. No installs, dependencies, lockfile change, oracle repin, direct networking/native polling, publication or preview5175 change. All browsers were muted. No phase or milestone completion claim.

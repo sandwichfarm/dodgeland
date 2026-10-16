@@ -164,7 +164,7 @@ Plans:
 Plans:
 **Wave 1**
 
-- [ ] 06-01-PLAN.md — Clear the shared live scene and remove duplicate personal status with a real four-player tracer.
+- [x] 06-01-PLAN.md — Clear the shared live scene and remove duplicate personal status with a real four-player tracer.
 
 **Wave 2** *(blocked on Wave 1 completion)*
 

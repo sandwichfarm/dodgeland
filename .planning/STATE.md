@@ -3,19 +3,21 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Phase06-01 Task1 tracer passed; Task2 compact controls/shelf dependency checkpoint; Phase05 human acceptance remains pending
-last_updated: "2026-10-16T10:23:46.911713+00:00"
+stopped_at: Phase06-01 complete on5ab22ab; exact Task2 gate19150 passed; Phase06-02 next; Phase05 human acceptance pending
+last_updated: "2026-10-16T11:26:11.248350+00:00"
 progress:
   total_phases: 7
   completed_phases: 4
   total_plans: 33
-  completed_plans: 31
+  completed_plans: 32
 current_phase: 06
 current_phase_name: cross-mode-presentation
-last_activity_desc: Phase06-01 regular geometry and duplicate-status tracer passed; retained compact-control collision requires bounded shared shelf/action disclosure; plan incomplete.
+last_activity_desc: Phase06-01 complete; actual four-mode geometry22/22, solo UI23/23 and solo parity21/21; bounded controls and notices preserve shared actors. Phase06-02 remains.
 ---
 
 # Project State
+
+Phase06-01 completed on5ab22ab. Final19150 exit0, `/tmp/down-to-duck-06-01-final-complete.log`: exact Task2,22cross-mode/23render-soloUI/21solo parity, required guidance/conformance/lockfile checks;214source-fresh captures. Earlier mislabeled Survive evidence is explicitly generic-only and superseded by actual mode assertions. See06-01SUMMARY. No active process. Next06-02; Phase05 human acceptance stays pending.
 
 ## Current Position
 
@@ -23,7 +25,7 @@ Phase05 implementation is complete; independent review is clean after CR-01 cont
 
 Final complete pre-repair gates:19289 exit0 on62f9958, exactRelayGate6 thenRaceGate7, including inheritedPhase3/2/1, Relay65/12runtime/252captures andRace76/12runtime/420captures. Narrow routing repair final86987 exit0:73sharedinput/results and16Race runtime plus type/build/guidance/conformance/lockfile. Independent80996 controller2/2 and invariant3/3 pass. Logs and source distinctions are in05-REVIEW-REPAIR and05-VERIFICATION.
 
-Actual tracking: **4 completed phases,31/33 existing plans executed**. Phase06 has two reviewed plans in waves1→2; Phase07 is not yet planned. Full objective remains cross-mode presentation, release/coverage audit and an open PR againstmain. Branch`feat/local-multiplayer`; immutable solo oracle`a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin. Prior summaries and independent verification reports are authoritative historical evidence.
+Actual tracking: **4 completed phases,32/33 existing plans executed**. Phase06 has two reviewed plans in waves1→2; Phase07 is not yet planned. Full objective remains cross-mode presentation, release/coverage audit and an open PR againstmain. Branch`feat/local-multiplayer`; immutable solo oracle`a310a81ed6c76df4b265c9012c23b8c83f4802e5`, never repin. Prior summaries and independent verification reports are authoritative historical evidence.
 
 ## Accepted Relay Entry Evidence
 
@@ -85,7 +87,7 @@ Typed gsd-verifier stayed pending_init across multiple turns and was explicitly 
 ## Session
 
 **Last session:** 2026-10-16T07:39:40.627Z
-**Stopped at:** Phase06 plans passed; execute06-01; Phase05 UAT pending
+**Stopped at:** Phase06-01 complete; execute06-02; Phase05 UAT pending
 **Resume file:** None
 
 ## Decisions
