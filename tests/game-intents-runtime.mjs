@@ -31,7 +31,8 @@ function installFixture(options) {
   f.releaseStorage = () => {};
   window.napplet = {
     storage: {
-      async getItem() {
+      async getItem(key) {
+        if (key !== 'puddlehop.progress.v1') return null;
         f.order.push('storage:start');
         if (options.delayStorage) await new Promise(resolve => { f.releaseStorage = resolve; });
         f.hydrated = true; f.order.push('storage:done');
