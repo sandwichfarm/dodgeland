@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 05-02-PLAN.md; next 05-03
+stopped_at: 05-03 dependency checkpoint; dead-seat device rebind seam required
 last_updated: "2026-10-16T05:47:34.968Z"
 progress:
   total_phases: 7
@@ -12,12 +12,14 @@ progress:
   completed_plans: 26
 current_phase: 05
 current_phase_name: race
-last_activity_desc: Race05-02 complete; final96373 exit0 on production8f59d42; execute05-03 next.
+last_activity_desc: Race05-03 retained RED dca48e0; dead-seat device loss/rebind dependency, no production changes.
 ---
 
 # Project State
 
 ## Current Position
+
+05-03 is paused at a concrete shared dependency checkpoint, with neither task accepted. Retained RED `dca48e0` uses actual delivered death and shows `LocalSession.deviceLost` cannot reserve a dead racer's device while preserving its pending personal offer; shared reclaim also requires `device-lost` and forces active participation. See `05-03-DEPENDENCY-CHECKPOINT.md` for the smallest opt-in generic repair and complete API reconciliation. Durable `/tmp/down-to-duck-05-03-dependency-red.log`, immediate terminal exit1:1 control pass/1 expected failure. Production source is unchanged; no active process. Counts remain4 completed phases,26/31 plans.
 
 05-02 is complete; execute05-03 next. Final96373 exited0 on frozenHEAD6d36f39/production8f59d42, `/tmp/down-to-duck-05-02-final-gate.log`: exact task gates11+21,8,17; full inheritedPhase3/2/1; Relay/shared damage69; builtRace6; finaltype/build/guidance/conformance/lockfile. The authorized generic pursuit/damage repair resolved retainedREDe34188e; cadence rounding and ghost-exposure regressions are fixed. Generated-course balance at500/180,buffer12,1feather/sec completes allsix scenarios in97.47–102s with exact repeat/permutation agreement; `artifacts/race/balance.json`. See05-02-SUMMARY.md and05-02-DEPENDENCY-REPAIR.md. No active process. Actual tracking:4 completed phases,26/31 plans; CLI-generated1/35 counts were corrected.
 
