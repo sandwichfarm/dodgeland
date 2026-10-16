@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Phase06-02 complete on26c9622; exact final gate21972 passed; independent review next; Phase05 human acceptance pending
+stopped_at: Phase06 review repair b9bc44f passed bounded gate92241; independent re-review next; human acceptance pending
 last_updated: "2026-10-16T12:40:02.529678+00:00"
 progress:
   total_phases: 7
@@ -12,12 +12,14 @@ progress:
   completed_plans: 33
 current_phase: 06
 current_phase_name: cross-mode-presentation
-last_activity_desc: Phase06-02 complete; exact Relay Gate6 and Race Gate7 plus health-runtime and cross-mode27/27 passed together; independent review and human acceptance pending.
+last_activity_desc: CR-01 child modal Tab ownership and WR-01 repeated live label repaired; cross-mode31/31 and affected input/runtime104/104 passed.
 ---
 
 # Project State
 
 Phase06-02 completed on26c9622 (production7a7c128). Final21972 exit0, `/tmp/down-to-duck-06-02-final-frozen-gate.log`: exact Relay Gate6 then Race Gate7, health-runtime once, strict cross-mode27/27 and diff-check. All inherited gates passed on one frozen artifact. See06-02SUMMARY and06-EVIDENCE. No active process. Independent Phase06 review/verification next; Phase05 human acceptance stays pending.
+
+Phase06 review repair: source `b9bc44f`, retained RED `be71b19`; final92241 exit0, `/tmp/down-to-duck-06-review-repair-final.log`, cross-mode31/31 and affected shared/mode/solo input/runtime104/104 plus required checks. See06-REVIEW-REPAIR.md. Reviewer report remains unchanged pending independent re-review. No active process; no phase or human approval inferred.
 
 ## Current Position
 
