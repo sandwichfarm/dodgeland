@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-12 Race repair reviewed; unchanged Relay results diagnostic15/15 passed; awaiting full-run authorization
-last_updated: "2026-10-16T20:47:38.704072+00:00"
+stopped_at: 07-12 complete collection30406 active on verified result repairs
+last_updated: "2026-10-16T20:48:16.207768+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -16,6 +16,8 @@ last_activity_desc: Race matrix passed10/10; Race results14pass5cancel requires 
 ---
 
 # Project State
+
+CURRENT ACTIVE execution: full collection30406, collector PID75739/shell75472, run`f8000273-69e8-4ab1-a47e-d4d9b4c29907`, frozen source/tests/toolingf492377 (last implementation6528a82, manifest7b731ed). Log`/tmp/down-to-duck-07-12-full-collection-results-verified.log`. Exact fast collection/attribution/policy prefix passed; all132 production jobs and final oracle-lock/diff checks required. Root accepted Race runtime review4df7c31 and unchanged Relay diagnosticf492377. All historical no-active/checkpoint statements below are superseded by this live run. No complete initial report, floor or plan-completion claim.
 
 Latest terminal diagnostic: unchanged Relay-results66213 exited0,15/15, run83539c63-3217-4644-a63d-3346fb8b26a8, no overlap or assertions. Three browser cases32.262/12.392/12.303s;34 tmp captures restored with exact hashes/set, normal dist unchanged. See07-12-RELAY-RESULTS-DIAGNOSTIC.md for exact logs/timings/arranged provenance. Race focused/negative accepted with runtime review4df7c31. No active process; full collection awaits root authorization,07-12/full report/floors remain incomplete.
 
