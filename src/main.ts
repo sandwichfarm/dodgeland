@@ -187,6 +187,7 @@ function discardRecoveryBoard(message?: string): void {
 }
 function closeRecoveryBoard(resume = false): void {
   discardRecoveryBoard();
+  if (!resume && hudDetailsOpen) hudInspectWasPlaying = false;
   if (resume && localSession?.running && frameAvailable()) { sessionPaused = false; game.resume(); activateNativeKeyboard(); }
   updateHud();
 }

@@ -26,7 +26,7 @@ async function setup(app,variant='arcade'){
 }
 async function footprints(app){return app.frame.evaluate(()=>{
   const visible=n=>n.getClientRects().length&&getComputedStyle(n).visibility!=='hidden'&&getComputedStyle(n).clipPath!=='inset(50%)'&&!n.closest('[hidden]');
-  return [...document.querySelectorAll('.session-hud-tile,.session-hud-details,.session-hud-summary,.score-block,.coin-count,#pluck,#character-power,#active-run-powers,.world-label,#chapter-label,.hud-tools button,.bottom-bar button,#run-hand-owner,#run-hand-items button,.relay-distance,.race-distance,.race-lifecycle,#session-controls-open,#toast,#idle')].filter(visible).map(n=>{const r=n.getBoundingClientRect();return {name:n.id||n.className,rect:{left:r.left,top:r.top,right:r.right+3,bottom:r.bottom+3}};});
+  return [...document.querySelectorAll('.session-hud-tile,.session-hud-details,.session-hud-summary,.score-block,.coin-count,#pluck,#character-power,#active-run-powers,.world-label,#chapter-label,.hud-tools button,.bottom-bar button,#run-hand-owner,#run-hand-items button,.relay-distance,.race-distance,.race-lifecycle,#session-controls-open,#toast,#idle,#market-open,#hint')].filter(visible).map(n=>{const r=n.getBoundingClientRect();return {name:n.id||n.className,rect:{left:r.left,top:r.top,right:r.right+3,bottom:r.bottom+3}};});
 });}
 async function capture(app,evidence,name){
   const travelers=await app.observeTravelers(),panels=await footprints(app);

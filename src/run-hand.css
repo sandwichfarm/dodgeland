@@ -114,9 +114,9 @@
 #app #session-control-pages .run-hand-art, #app #session-control-pages .run-hand-empty { display: none; }
 #app #session-control-pages .run-hand-card { height: 44px; width: 44px; transform: none; }
 @media (max-width: 479px), (max-height: 419px) {
-  #app:has(#session-seats:not([hidden])) { --hand-space: 0px; }
+  #app:has(#session-seats:not([hidden])):has(#market[hidden]) { --hand-space: 0px; }
   #app:has(#session-seats:not([hidden])) .hud-tools,
-  #app:has(#session-seats:not([hidden])) #run-inventory:not([data-embedded-controls]),
+  #app:has(#session-seats:not([hidden])):has(#market[hidden]) #run-inventory:not([data-embedded-controls]),
   #app:has(#session-seats:not([hidden])) .play-controls > #character-call { display: none; }
   #app:has(#session-seats:not([hidden])) .bottom-bar { inset: auto 56px 8px 8px; height: 44px; justify-content: flex-start; }
   #app:has(#session-seats:not([hidden])) .dpad { gap: 0; }
@@ -144,15 +144,15 @@
 #app #session-control-pages:has(#run-hand-detail:not([hidden])) > :is(h2,nav,button) { visibility: hidden; }
 #app #session-control-pages #run-hand-detail:not([hidden]) { position: fixed; inset: 4px; width: auto; height: auto; transform: none; visibility: visible; }
 @media(min-width:480px) and (min-height:420px) {
- #app:has(#session-seats:not([hidden])) #run-inventory:not([data-embedded-controls]):has(#run-hand-owner):has(#run-hand-items) { height: 88px; padding: 0; bottom: 8px; display: flex; flex-wrap: wrap; justify-content: center; align-content: start; gap: 0 8px; }
- #app:has(#session-seats:not([hidden])) #run-inventory:not([data-embedded-controls]):has(#run-hand-owner):has(#run-hand-items) #run-hand-owner { position: static; transform: none; height: 44px; flex: 0 0 100%; width: auto; }
- #app:has(#session-seats:not([hidden])) #run-inventory:not([data-embedded-controls]):has(#run-hand-owner):has(#run-hand-items) :is(#run-cards,#run-hand-items) { position: static; height: 44px; padding: 0; border: 0; filter: none; flex: 0 1 auto; }
- #app:has(#session-seats:not([hidden])) #run-inventory:not([data-embedded-controls]) :is(.run-hand-card,.run-hand-empty) { height: 44px; min-height: 44px; }
- #app:has(#session-seats:not([hidden])) #run-inventory:not([data-embedded-controls]) .run-hand-art { display: none; }
+ #app:has(#session-seats:not([hidden])):has(#market[hidden]) #run-inventory:not([data-embedded-controls]):has(#run-hand-owner):has(#run-hand-items) { height: 88px; padding: 0; bottom: 8px; display: flex; flex-wrap: wrap; justify-content: center; align-content: start; gap: 0 8px; }
+ #app:has(#session-seats:not([hidden])):has(#market[hidden]) #run-inventory:not([data-embedded-controls]):has(#run-hand-owner):has(#run-hand-items) #run-hand-owner { position: static; transform: none; height: 44px; flex: 0 0 100%; width: auto; }
+ #app:has(#session-seats:not([hidden])):has(#market[hidden]) #run-inventory:not([data-embedded-controls]):has(#run-hand-owner):has(#run-hand-items) :is(#run-cards,#run-hand-items) { position: static; height: 44px; padding: 0; border: 0; filter: none; flex: 0 1 auto; }
+ #app:has(#session-seats:not([hidden])):has(#market[hidden]) #run-inventory:not([data-embedded-controls]) :is(.run-hand-card,.run-hand-empty) { height: 44px; min-height: 44px; }
+ #app:has(#session-seats:not([hidden])):has(#market[hidden]) #run-inventory:not([data-embedded-controls]) .run-hand-art { display: none; }
 }
 @media(min-width:480px) and (min-height:420px) {
- #app:has(#session-seats:not([hidden])) #run-inventory:not([data-embedded-controls]):has(#run-hand-owner):has(#run-hand-items) { padding-top: 44px; flex-wrap: nowrap; }
- #app:has(#session-seats:not([hidden])) #run-inventory:not([data-embedded-controls]):has(#run-hand-owner):has(#run-hand-items) #run-hand-owner { position: absolute; top: 0; bottom: auto; left: 50%; transform: translateX(-50%); width: auto; max-width: 50%; }
+ #app:has(#session-seats:not([hidden])):has(#market[hidden]) #run-inventory:not([data-embedded-controls]):has(#run-hand-owner):has(#run-hand-items) { padding-top: 44px; flex-wrap: nowrap; }
+ #app:has(#session-seats:not([hidden])):has(#market[hidden]) #run-inventory:not([data-embedded-controls]):has(#run-hand-owner):has(#run-hand-items) #run-hand-owner { position: absolute; top: 0; bottom: auto; left: 50%; transform: translateX(-50%); width: auto; max-width: 50%; }
 }
 
 /* Shared notifications reuse the existing disclosure and paused Play surface. */
@@ -160,3 +160,6 @@
 #app .shared-notice-announcement { position: absolute; width: 1px; height: 1px; padding: 0; border: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); box-shadow: none; white-space: nowrap; }
 #session-control-pages[data-page="0"]:has(#session-control-notice:not([hidden])) #character-call { min-height: 44px; }
 #app #session-control-pages #character-call { width: auto; min-width: 80px; }
+
+/* A modal market retains the established owned hand and room reservation. */
+#app:has(#session-seats:not([hidden])):has(#market:not([hidden])) #session-controls-open { display: none; }

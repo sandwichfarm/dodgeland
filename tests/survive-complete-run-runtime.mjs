@@ -228,6 +228,13 @@ test('one Arcade course survives adoption, four-player recovery, settlement and 
     assert.equal(owner(regrouped, 'p1').recovery.nextRecharge, owner(regrouped, 'p1').recovery.personalHighWater + 250, 'spent personal revival retains its separate 250-new-tile threshold');
     await iframe.screenshot({ path: new URL('survive-complete-regroup.png', output).pathname });
 
+    await frame.getByRole('button',{name:'Close details',exact:true}).click();
+    const invitation=await frame.locator('#market-open').evaluate(n=>{const r=n.getBoundingClientRect();return {left:r.left,top:r.top,right:r.right+4,bottom:r.bottom+4};});
+    const renderedTravelers=await app.observeTravelers();assert.equal(renderedTravelers.length,4,'paused invitation proof observes all four actual travelers');
+    for(const traveler of renderedTravelers)for(const body of [{rect:traveler.rect},...traveler.bodies]){
+      const r=body.rect;assert.ok(r.right+8<=invitation.left||invitation.right+8<=r.left||r.bottom+8<=invitation.top||invitation.bottom+8<=r.top,'paused market invitation clears actual traveler envelopes');
+    }
+    await iframe.screenshot({path:new URL('survive-complete-paused-market.png',output).pathname});
     await resume(); await advance(2400); await die(['p1', 'p2', 'p3', 'p4']);
     const allDown = await read();
     assert.equal(allDown.result, null, 'remaining personal offers defer settlement');
