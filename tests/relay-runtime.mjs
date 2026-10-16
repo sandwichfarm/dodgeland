@@ -22,7 +22,13 @@ const owners = app => app.onSession(function () { return this.players.map(p=>({s
 test('built active Relay market buys through the existing authoritative adapter without installing world consumables', {timeout:30000}, async()=>{
   const evidence={errors:[],external:[]}, app=await createMarketGameFixture(evidence);
   try {
-    await start(app); await marketStock(app);
+    await start(app);
+    for(const light of [false,true]) for(const [width,height] of [[200,160],[240,240],[320,560],[900,600],[1000,280],[2400,1200]]) {
+      await app.resize(width,height);await app.frame.evaluate(light=>window.marketGameFixture.setTheme({colors:light?{background:'#f6f1e5',text:'#24362d',primary:'#4b7b61'}:{background:'#242b32',text:'#f0eee5',primary:'#9fc28a'}}),light);
+      if(width>=240) assert.deepEqual(await app.frame.locator('#run-hand-owner, #run-hand-items').evaluateAll(nodes=>nodes.filter(n=>{const r=n.getBoundingClientRect();return r.top<0||r.left<0||r.right>innerWidth+1||r.bottom>innerHeight+1;}).map(n=>n.id)),[]);
+      await app.iframe.screenshot({path:`/tmp/relay-runtime-empty-${width}x${height}-${light?'light':'dark'}.png`});
+    }
+    await app.resize(900,600);await app.key('pause');await marketStock(app);
     const before=await owners(app);
     assert.equal(await app.onSession(function(){return this.consumableSnapshot()===undefined;}),true);
     await app.frame.locator('#market-open').click(); await app.advance(100);
@@ -63,7 +69,7 @@ async function captureOwnerSurface(app,name) {
   assert.equal(await app.frame.locator('#market').count(),1);assert.equal(await app.frame.locator('#run-inventory').count(),1);
   if(width>=240) {
    assert.equal(await app.frame.locator('#market').isVisible(),true);
-   const invalid=await app.frame.locator('#market-owner-strip button, #market-close, #market-claim, #market-inspect-action').evaluateAll(nodes=>nodes.filter(n=>n.getClientRects().length).filter(n=>{const r=n.getBoundingClientRect();return r.width<28||r.height<28||r.left<0||r.top<0||r.right>innerWidth+1||r.bottom>innerHeight+1;}).map(n=>n.id||n.textContent));if(invalid.length) {await app.iframe.screenshot({path:`/tmp/relay-runtime-${name}-clip.png`});console.log(await app.frame.locator('#market-owner-strip button').evaluateAll(ns=>ns.map(n=>({text:n.textContent,rect:n.getBoundingClientRect().toJSON()}))));}assert.deepEqual(invalid,[],`${name} ${width}x${height}`);
+   const invalid=await app.frame.locator('#market-owner-strip button, #market-close, #market-claim, #market-inspect-action').evaluateAll(nodes=>nodes.filter(n=>n.getClientRects().length).filter(n=>{const r=n.getBoundingClientRect();return r.width<28||r.height<28||r.left<0||r.top<0||r.right>innerWidth+1||r.bottom>innerHeight+1;}).map(n=>n.id||n.textContent));if(invalid.length) await app.iframe.screenshot({path:`/tmp/relay-runtime-${name}-clip.png`});assert.deepEqual(invalid,[],`${name} ${width}x${height}`);
   }
   await app.iframe.screenshot({path:`/tmp/relay-runtime-${name}-${width}x${height}-${light?'light':'dark'}.png`});
  }
@@ -140,7 +146,7 @@ test('mixed keyboard/controller Relay preserves per-seat calls, fresh boards, re
   await app.page.keyboard.press('w');assert.equal(await heading('Leg 1 complete').isVisible(),true);await app.sendPads([pad(0,[0])]);await app.sendPads([pad(0,[0])]);
   assert.equal(await app.frame.locator('#relay-handoff').count(),0);assert.equal(await app.onSession(function(){return this.players[1].personalScore;}),0);
   await app.sendPads([pad(0)]);await app.sendPads([pad(0,[2])]);assert.equal(await count('sunny'),p+1);await app.sendPads([pad(0)]);await app.sendPads([pad(0,[2])]);assert.equal(await count('sunny'),p+1);await app.sendPads([pad(0)]);await app.advance(500);await app.sendPads([pad(0,[2])]);assert.equal(await count('sunny'),p+2);await app.sendPads([pad(0)]);
-  await marketStock(app);await app.onSession(function(){const run=this.players[1].run,close=run.close;run.close=function(...args){window.marketGameFixture.closeStack=new Error().stack;return close.apply(this,args);};});console.log('before open',await app.onSession(function(){return {host:this.world.host.state,players:this.players.map(p=>({seat:p.seat,state:p.state,part:p.participation,open:p.run.isOpen,can:this.canTransact(p.seat)})),context:this.coOpMarketSnapshot()};}));await app.frame.locator('#market-open').click();console.log('after open',await app.onSession(function(){return {host:this.world.host.state,players:this.players.map(p=>({seat:p.seat,state:p.state,part:p.participation,open:p.run.isOpen,can:this.canTransact(p.seat)})),context:this.coOpMarketSnapshot()};}));await app.advance(100);assert.match(await app.frame.locator('#market-owner').innerText(),/^Viewing P2 · /);const funds=await owners(app);await app.iframe.screenshot({path:'/tmp/relay-runtime-controller-market.png'});console.log('P2close',await app.frame.evaluate(()=>window.marketGameFixture.closeStack));await app.frame.locator('[data-market-action="inspect"][data-id="offer:active-offer"]').click();await app.frame.locator('#market-inspect-action').focus();await app.sendPads([pad(0,[0])]);await app.sendPads([pad(0)]);assert.equal((await owners(app))[1].cards.length,1);assert.ok((await owners(app))[1].wallet<funds[1].wallet);assert.equal((await owners(app))[0].wallet,funds[0].wallet);await app.key('market');
+  await marketStock(app);await app.frame.locator('#market-open').click();await app.advance(100);assert.equal(await app.frame.locator('#market').isVisible(),true);assert.match(await app.frame.locator('#market-owner').innerText(),/^Viewing P2 · /);const funds=await owners(app);await app.iframe.screenshot({path:'/tmp/relay-runtime-controller-market.png'});await app.frame.locator('[data-market-action="inspect"][data-id="offer:active-offer"]').click();await app.frame.locator('#market-inspect-action').focus();await app.sendPads([pad(0)]);await app.sendPads([pad(0,[0])]);await app.sendPads([pad(0)]);assert.equal((await owners(app))[1].cards.length,1);assert.ok((await owners(app))[1].wallet<funds[1].wallet);assert.equal((await owners(app))[0].wallet,funds[0].wallet);await app.key('market');
   await app.sendPads([]);assert.equal(await heading('P2 controller disconnected.').isVisible(),true);const stopped=await app.onSession(function(){return this.world.time;});await app.advance(1000);assert.equal(await app.onSession(function(){return this.world.time;}),stopped);
   await app.sendPads([pad(1),pad(0,[],'wrong-device')]);await app.sendPads([pad(1,[0]),pad(0,[0],'wrong-device')]);assert.equal(await app.frame.locator('#survive-lifecycle-board').count(),0);
   await app.frame.getByRole('button',{name:'Skip P2',exact:true}).click();await app.frame.getByRole('button',{name:'Back',exact:true}).click();
@@ -177,7 +183,7 @@ for(const transition of ['death','leave']) test(`every captured market action lo
  try{
   await start(app);await marketStock(app);await app.frame.locator('#market-open').click();await app.advance(80);const stale=await request(app);
   await app.frame.locator('[data-market-action="inspect"][data-id="offer:active-offer"]').click();
-  await app.onSession(function(transition){if(transition==='death'){this.world.host.end('Runtime real death','train');this.update(1/120);}else this.depart('p1');},transition);await app.advance(100);
+  await app.onSession(function(transition){if(transition==='death'){this.players[0].run.close();this.world.host.resume();this.world.host.end('Runtime real death','train');this.update(1/120);}else this.depart('p1');},transition);await app.advance(100);
   assert.equal(await app.frame.locator('#market').isVisible(),false);assert.equal(await app.frame.locator('#market-inspect').isVisible(),false);assert.equal(await app.frame.locator('#run-hand-detail').isVisible(),false);
   const after=await owners(app);for(const kind of ['open','close','buy','sell','claim-pack','skip-pack','equip','buy-consumable']){assert.equal((await apply(app,{...stale,kind,actionId:`stale-${transition}-${kind}`})).ok,false);assert.deepEqual(await owners(app),after);}
   if(transition==='death'){await app.frame.getByRole('button',{name:'Continue without revive',exact:true}).click();await app.advance(80);}
