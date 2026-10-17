@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Current full enforcing169-job collection live;session18032 runner63419 collector63428
-last_updated: "2026-10-17T19:35:54.099507+00:00"
+last_updated: "2026-10-17T19:42:29.997528+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -18,6 +18,17 @@ last_activity_desc: River proof committed d661eb9;current full collection runnin
 # Project State
 
 ## Current work
+
+Latest live audit19:42:29 UTC:runner63419/collector63428 remain live;9 controls and
+19/169 production jobs are terminal green. Cross-mode presentation continues
+producing real captures(38 browser realms collected so far). All397 frozen files
+remain byte-identical. No terminal manifest or floor result yet. Read-only primary
+NIP-5D PR-head recheck and normal public candidate inspection are retained in
+artifacts/release-conformance-prep and CONFORMANCE-EVIDENCE research;this does not
+execute07-04 or supply wire/teardown acceptance. Public x matches normale980;
+unsigned identity/signature/publication remain unmeasured. No PR is open,verified
+with actual gh query. No new test/build/browser chain or frozen-file edit.
+
 
 LIVE full enforcing collection started19:33:54 UTC,commitd661eb9,session18032,
 runnerPID63419/collectorPID63428. Both verified live at2026-10-17T19:35:54.099507+00:00;

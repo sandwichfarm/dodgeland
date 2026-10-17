@@ -69,3 +69,29 @@ Independent reviewer `/root/survive_verifier_fallback` inspected the installed p
 The primary NIP-5D revision observed today is `5560820fa4f37f45b8ab742a11aeb3001b17dc67`: [pinned text](https://raw.githubusercontent.com/dskvr/nips/5560820fa4f37f45b8ab742a11aeb3001b17dc67/5D.md). Its candidate manifest contract uses one artifact `x`, `R`/`O`, nonempty description content and constrained optional `source`, including SSH/Git forms. The installed legacy `path`/`requires` validator cannot prove that contract. Storage remains a [draft proposal](https://github.com/napplet/naps/pull/3) with correlated requests/results and omitted scope meaning shared. Differing cached branch snapshots were observed: resolve and pin fresh primary reference bytes/revision during07-04 execution instead of relying on a PR description or this preparatory note.
 
 The planned host proof remains implementable with these limits. It must not imply signed-manifest identity, external-shell persistence, physical hardware coverage, inbound engine validation or complete shim timer cleanup.
+
+
+## Read-only reference and public-candidate recheck,2026-10-17
+
+During the live current-full-03 collection,read-only preparation resolved the
+actual NIP-5D PR2303 head through GitHub's public API. It is still5560820fa4f37f45b8ab742a11aeb3001b17dc67
+on dskvr/nips nip/5d. Exact primary text SHA256 is
+7d716e8ec9f1737b070f4716b998f52fd6e189d5bb1bc4c2efe6c1dae35b9f37;
+retrieved bytes and JSON metadata are retained under artifacts/release-conformance-prep.
+The repository's master branch does not contain5D.md;the PR head is the authority,
+not that404 or the PR description. No protocol/dependency/source change follows.
+
+The normal public dist/.nip5a-manifest.json candidate was inspected without
+reading ignored deployment/signing configuration. It has kind35129,a single
+stable d=puddlehop,a single x matching actual normal index.html SHA e9800fc8,
+nonempty plain description,title Down to Duck,optional intent,z=game and the
+seed/mode intent parameters. No legacy path/requires/description tags occur.
+No source tag is present. id/pubkey/sig are absent:signature and publication
+remain unmeasured,not an identity verification failure of this unsigned candidate.
+Exact candidate bytes and inspection metadata are retained in the prep artifacts.
+
+This is preparatory inspection only. It does not execute07-04,bypass07-03,prove a
+wire request/response or teardown,replace positive/negative validator controls,
+or change the installed legacy engine's limitations. The full169-job coverage
+run remains the only active test/build/browser chain. Reconfirm exact artifact
+and reference identities during final07-04 execution.
