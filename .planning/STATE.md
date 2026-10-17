@@ -302,8 +302,19 @@ runs once. Eight formerly-zero current-session branches have exact source/map/
 site-schema matches to51a4bea2. Initial changed-session ledger is not relabelled.
 One Node parent, no mode credit, source/policy/normal build/root lock unchanged.
 See07-03-SESSION-SETUP-GUARDS.md andPROOF.json. Fresh enforcing aggregate remains
-required; no runtime active. Next genuine turn-mode lifecycle reuse is read-only
-analysis, not yet authored or measured.
+required; no runtime active. Race lifecycle reuse passed whole16/16 ordinary then16/16 canonical,
+`e5e54bed-9ff2-499b-a35d-3816fa01c58e`,4607terminal0. It measures13actual
+lifetimes/26intervals against one independent Node parent; all four original
+browser realms stay distinct. No router-only credit. Independent review accepted
+phase counts, retained assertions and outside-interval fixture arrangement.
+All13ordinary screenshots restored, normal build/root lock unchanged. Focused
+Race1029/2222L373/769F1130/3141B is not a full result. Exact-current diagnostic
+full+new lifecycle shows1994/2222L671/769F2219/3141B,24new branches and no new
+lines/functions. Floors remain open. See07-03-RACE-LIFECYCLE-PROOF.json/md.
+All full/focused metadata copies now expect Race-lifecycle13/26; three reused
+jobs total39lifetimes/102intervals, superseding measured historical27/78 from
+full51a4bea2 without relabelling it. No runtime is active. Next: genuine remaining
+mode and DEV/solo/browser behavior gaps, then fresh enforcing collection.
 
 ## Next required work
 

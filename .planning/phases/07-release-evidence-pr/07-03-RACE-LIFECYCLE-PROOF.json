@@ -1,0 +1,193 @@
+{
+  "runId": "e5e54bed-9ff2-499b-a35d-3816fa01c58e",
+  "jobs": [
+    {
+      "id": "race-lifecycle-test",
+      "file": "tests/race-lifecycle.test.mjs",
+      "role": "mixed",
+      "requiredRealms": [
+        "node",
+        "browser"
+      ],
+      "defaultBuildScope": "production",
+      "artifactPatterns": [],
+      "modelAttribution": [
+        {
+          "mode": "race",
+          "lifetimes": 13,
+          "phases": [
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "settled"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "settled"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "settled"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "independentParents": 5,
+  "nodeParents": 1,
+  "browserRealms": 4,
+  "actualLifetimes": 13,
+  "intervals": 26,
+  "raw": {
+    "lines": {
+      "covered": 1029,
+      "total": 2303
+    },
+    "functions": {
+      "covered": 373,
+      "total": 818
+    },
+    "branches": {
+      "covered": 1130,
+      "total": 3255
+    }
+  },
+  "applicable": {
+    "lines": {
+      "covered": 1029,
+      "total": 2222
+    },
+    "functions": {
+      "covered": 373,
+      "total": 769
+    },
+    "branches": {
+      "covered": 1130,
+      "total": 3141
+    }
+  },
+  "ordinary": "16/16",
+  "canonical": "16/16",
+  "normalSha256": "a34fd21258f80302593c584f5a9566f7511af49798c0b0cac6dacc1beb478bc1",
+  "lockSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "restoredFiles": 13,
+  "preservation": "/var/folders/g8/w4qrj6k57hx_3lg6ltc1k70w0000gn/T/down-to-duck-race-lifecycle-reuse-l25wvh2z",
+  "independentReview": "Accepted exact lifetime/phase order, retained assertions, fixture separation and parent provenance before terminal collection",
+  "diagnostic": {
+    "purpose": "not enforcing acceptance",
+    "comparison": "full51a4bea2 plus exact-current turn-lifecycle-03 counters",
+    "race": {
+      "lines": {
+        "covered": 1994,
+        "total": 2222
+      },
+      "statements": {
+        "covered": 2864,
+        "total": 3509
+      },
+      "functions": {
+        "covered": 671,
+        "total": 769
+      },
+      "branches": {
+        "covered": 2219,
+        "total": 3141
+      }
+    },
+    "newBranchArms": 24,
+    "newLines": 0,
+    "newFunctions": 0
+  }
+}
