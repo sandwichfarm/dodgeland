@@ -334,8 +334,20 @@ Normal build/root lock unchanged. Exact-current diagnostic full+newsolo is now
 Arcade1152/1207L275/296F1187/1427B and Flow1018/1067L253/276F1047/1252B:
 26/28new branches beyond the shop tranche,2new lines each, no new functions.
 Solo floors still need26Arcade/18Flow arms. See07-03-SOLO-HAZARDS-PROOF.md/json.
-All full/focused solo job copies expect44/88 without relabelling historical
-reports. No runtime is active; no source/policy/exclusion change.
+Solo continuity tranche passed whole52-scenario ordinary and canonical,
+run `5539f80c-54a4-495f-b32c-2914d104bec6`,61645terminal0.52actual current
+lifetimes/104intervals bind one parent; original44cases retained. Paid draft
+close/reopen, menu/input guards, invitation expiry, default death, genuine pull
+retirement and offscreen coins retain pinned parity and explicit assertions.
+Initial27622fixture wait left Flow coin visible due actual world-time scale;
+480fixed steps corrected only the fixture.15311ordinary and61645canonical pass;
+logs retain both outcomes. Review accepted compound-fixture boundaries and
+progressed-owner component provenance; no public teleport or explicit callback
+count claim. Normal build/root lock unchanged. Diagnostic full+newsolo reaches
+Arcade1160/1207L275/296F1202/1427B and Flow1026/1067L253/276F1062/1252B:
+15new branches/8lines per base; only11Arcade/3Flow arms needed for solo floors.
+See07-03-SOLO-CONTINUITY-PROOF.md/json. Full/focused metadata52/104, historical
+reports unchanged. No runtime is active; no source/policy/exclusion changes.
 
 ## Next required work
 

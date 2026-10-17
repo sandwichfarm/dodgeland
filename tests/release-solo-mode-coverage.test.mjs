@@ -245,9 +245,67 @@ for(const mode of ['arcade','stroll']){
  }
 }
 
+const continuityNames=[];
+for(const mode of ['arcade','stroll']){
+ const base={mode,home:'pond',characterId:'butter',seed:113};
+ {
+  const name=`${mode}-paid-menu-continuity`;continuityNames.push(name);
+  breadth.push({...base,name,catalogIds:['coin-multiplier','magnet','regen-bonus','extra-pocket','pack-pocket'],setup:(game,module)=>{
+   for(const row of game.rows.keys())safeRow(game,module,row);
+   game.state='playing';game.run.advanceScore(100);game.run.creditCoins(100);
+  },tape:[{kind:'fixture',apply:game=>{
+   assert.equal(game.openMarket(),true);paidOffer(game,'pack-pocket');const draft=game.run.pendingPack,wallet=game.run.wallet;
+   game.closeMarket(false);assert.equal(game.state,'paused');assert.equal(game.run.isOpen,false);
+   game.resume();assert.equal(game.state,'paused','a paid draft blocks an accidental gameplay resume');
+   assert.equal(game.move('forward'),false);assert.equal(game.openMarket(),true,'the paid pack can reopen while paused');
+   assert.strictEqual(game.run.pendingPack,draft);assert.equal(game.run.wallet,wallet);
+   assert.equal(game.run.claimPack([draft.choices[0].id]).ok,true);assert.equal(game.run.wallet,wallet);
+   game.closeMarket(false);assert.equal(game.state,'paused');
+   game.resume();game.resume();assert.equal(game.state,'playing');
+   game.pause();game.pause();game.closeMarket();assert.equal(game.state,'paused');game.resume();
+   game.run.tick(99);assert.equal(game.run.market,null);assert.equal(game.openMarket(),false);assert.equal(game.state,'playing');
+   game.end('ordinary default-cause death');assert.equal(game.state,'dead');assert.equal(game.deathCause,'traffic');
+   game.pause();game.resume();game.end('late duplicate death');assert.equal(game.state,'dead');
+   return {cause:game.deathCause,wallet:game.run.wallet};
+  }}]});
+ }
+ {
+  const name=`${mode}-retained-pull-retirement`;continuityNames.push(name);
+  breadth.push({...base,name,catalogIds:['magnet'],setup:(game,module)=>{
+   for(const row of game.rows.keys())safeRow(game,module,row);
+   game.state='playing';game.run.advanceScore(100);game.run.creditCoins(100);assert.equal(game.openMarket(),true);paidOffer(game,'magnet');game.closeMarket();
+   Object.assign(game.rows.get(0),{coin:.5,coinDenomination:'bar'});
+  },tape:[{kind:'fixture',apply:(game,module)=>{
+   const source=game.rows.get(0),wallet=game.run.wallet;
+   game.update(0);assert.ok(source.coinPull);assert.equal(game.attractedCoins.get(0),source);
+   // Arrange a progressed owner while preserving the genuine in-flight object.
+   // This is retained-pickup component evidence, not public teleport input.
+   game.y=game.fromY=game.maxY=40;game.rows.clear();game.ensureRows();safeRow(game,module,40);
+   game.update(0);assert.equal(game.attractedCoins.has(0),false);assert.equal(source.coin,null);
+   assert.equal(source.coinPull,undefined);assert.equal(source.coinDenomination,undefined);
+   assert.equal(game.coins,0);assert.equal(game.run.wallet,wallet,'an off-trail pull cannot pay remotely');
+   return {coins:game.coins,retained:game.attractedCoins.size};
+  }}]});
+ }
+ for(const direction of [-1,1]){
+  const name=`${mode}-offscreen-platform-coin-${direction}`;continuityNames.push(name);
+  breadth.push({...base,name,setup:(game,module)=>{
+   for(const row of game.rows.keys())safeRow(game,module,row);
+   game.state='playing';Object.assign(game.rows.get(1),{kind:'river',coin:0,coinActor:0,phase:direction*9.5,speed:direction,spacing:20,length:2});
+  },tape:[{kind:'fixture',apply:(game,module)=>{
+   const coin=module.coinPosition(game.rows.get(1),game.time);assert.ok(coin);assert.equal(coin.x,direction*9.5);return coin;
+  }},step(480),{kind:'fixture',apply:(game,module)=>{
+   assert.equal(game.state,'playing');assert.equal(module.coinPosition(game.rows.get(1),game.time),null);
+   assert.equal(game.coins,0);assert.equal(game.run.wallet,0,'an offscreen platform coin is neither contacted nor paid');
+   assert.equal(game.rows.get(1).coin,0,'visibility alone does not collect the source coin');
+   return {coins:game.coins,visible:false};
+  }}]});
+ }
+}
+
 test('bounded actual solo bases retain pinned movement, hazards, recovery, economy and terminal behavior',{timeout:120000},async()=>{
  const results=await runDifferentialMatrix([...scenarios,...breadth],{currentRecorderFactory:createSoloModelRecorder});
- assert.equal(results.length,44);
+ assert.equal(results.length,52);
  for(let index=0;index<16;index+=8){
   const [movement,traffic,river,hurt,market,terminal,actors,mobs]=results.slice(index,index+8);
   for(const result of results.slice(index,index+8)){assert.equal(result.baselineSha,PINNED_BASELINE_SHA);assert.ok(result.points>1);}
@@ -264,6 +322,6 @@ test('bounded actual solo bases retain pinned movement, hazards, recovery, econo
   if(scenario.name.includes('-schema-')){assert.equal(result.final.game.rows.length,39);assert.equal(result.final.game.rows[0].row,999990);assert.equal(result.final.game.rows.at(-1).row,1000028);assert.equal(result.final.game.runSeed.schema,scenario.seed.schema);}
   else if(scenario.name.endsWith('-paid-pickup-health-powers')){assert.deepEqual(result.final.callbacks.filter(e=>e.name==='onCoin').map(e=>e.payload.amount),[1,2,5,10,25]);assert.equal(result.final.callbacks.filter(e=>e.name==='onPower').length,7,'all seven authored traveler powers execute');assert.ok(result.final.callbacks.some(e=>e.name==='onHeal'&&e.payload.amount===.5));}
   else if(scenario.name.endsWith('-shop-boundaries')){assert.equal(result.final.game.state,'dead');assert.equal(result.final.game.inventory.visible.wallet,0);assert.deepEqual(result.final.game.inventory.visible.cards,[]);}
-  else assert.ok(hazardNames.includes(scenario.name),'each added hazard has explicit in-tape assertions and pinned final comparison');
+  else assert.ok(hazardNames.includes(scenario.name)||continuityNames.includes(scenario.name),'each added scene has explicit in-tape assertions and pinned final comparison');
  }
 });
