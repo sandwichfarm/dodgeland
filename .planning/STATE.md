@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Actual saved preference hydration passes both builds;diagnostic gaps Relay26 Race72 browser8 DEV60
-last_updated: "2026-10-17T22:38:20.736022+00:00"
+stopped_at: Source-proved browser unused-API scope passes;remaining diagnostic branch gaps Relay26 Race72 DEV60
+last_updated: "2026-10-17T22:46:07.416054+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,28 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Ten saved preference cases pass normal/PROD/DEV;20 iframe realms,8 collection controls,4 default-fixture regressions;176 jobs. Remaining branch gaps26 Relay/72 Race/8 browser/60 DEV;full verification and PR remain.
+last_activity_desc: Browser diagnostic floors pass source-proved accounting;20 focused/115 controls and4 PROD+4 DEV integrated cases pass. Remaining Relay26 Race72 DEV60;semantic ledger/full enforcement/07-04/05/06/PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+Latest production-browser unused-API scope:4c169fd refactor passes18 before/
+after controls and ten byte-identical reports;f91a853 retains tool-contract
+RED4pass/3fail. Final20 focused/all115 controls and actual4 PROD+4 DEV integration
+pass,eight browser realms/two independent Node parents/no mode intervals.
+APP-UNUSED-CLOSURE/AUDIT/PROOF bind fresh159-source reference review,complete
+disk/canonical158-source authority/config pins and exact scripts/logs/reports.
+Only ten already source-proved compatibility bodies gain production-browser
+scope:25 statements/15 functions/29 branches. Raw and all covered numerators
+stay unchanged;DEV reports/dispositions remain byte-equivalent. Five distinct
+cohorts/diagnostic union yield browser8362/9817B,meeting all browser floors.
+Remaining diagnostic gaps:DEV2307/2784(needs60),Relay2288/2722(needs26),
+Race2495/3020(needs72). No new gameplay/initial-ledger credit,no app source,
+dependency,oracle,rootlock or floor change. Original full report stays enforced-
+fail. Semantic ledger,fresh full enforcement,07-04/05/06 and PR remain. All
+processes terminal;registry remains176 jobs.
 
 Latest actual preference hydration:ten cases pass ordinary and each built
 PROD/DEV scope,20 independent iframe realms/no Node contribution/no mode

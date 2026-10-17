@@ -22,10 +22,20 @@ const before=(a,b)=>a.line<b.line||a.line===b.line&&a.column<=b.column;
 const contains=(a,b)=>valid(b?.start)&&valid(b?.end)&&before(b.start,b.end)&&before(a.start,b.start)&&before(b.end,a.end);
 /** Pure source-bound dispositions. Caller must separately establish genuine DEV app provenance. */
 export function applicationUnusedApplicabilityDispositions({mode,sources,authoritySources,canonicalSources,configSources}){
- if(mode!==DEVELOPMENT_STRATUM)throw Error('Exact development application stratum required');
+ const production=mode==='browser-presentation-owner-lifecycle';
+ if(!production&&mode!==DEVELOPMENT_STRATUM)throw Error('Exact application stratum required');
  if(!Array.isArray(authoritySources)||authoritySources.length!==158)throw Error('Complete reviewed development authority required');
  const entries=authoritySources.map(s=>{if(!/^src\/.+\.(ts|tsx|js|mjs)$/.test(s.path)||s.path.endsWith('.d.ts')||typeof s.source!=='string')throw Error('Invalid development authority');return{path:s.path,sha256:sha(s.source)};}).sort((a,b)=>a.path<b.path?-1:a.path>b.path?1:0);
  if(new Set(entries.map(e=>e.path)).size!==158||sha(JSON.stringify(entries))!==DEVELOPMENT_AUTHORITY_DIGEST)throw Error('Reviewed development caller inventory changed');
+ if(production){
+  if(!Array.isArray(canonicalSources)||canonicalSources.length!==158)throw Error('Complete application canonical caller inventory required');
+  const compiled=canonicalSources.map(source=>{
+   if(typeof source?.path!=='string'||typeof source.source!=='string')throw Error('Invalid application canonical caller inventory');
+   const normalized=source.path.replaceAll('\\','/'),path=normalized.startsWith('src/')?normalized:'src/'+normalized.split('/src/').at(-1);
+   return {path,sha256:sha(source.source)};
+  }).sort((a,b)=>a.path<b.path?-1:a.path>b.path?1:0);
+  if(new Set(compiled.map(row=>row.path)).size!==158||sha(JSON.stringify(compiled))!==DEVELOPMENT_AUTHORITY_DIGEST)throw Error('Reviewed application canonical caller inventory changed');
+ }
  if(!Array.isArray(configSources)||configSources.length!==3)throw Error('Development config authority required');
  for(const[path,pin]of Object.entries(DEVELOPMENT_CONFIG_PINS)){const found=configSources.filter(s=>s.path===path);if(found.length!==1||sha(found[0].source)!==pin)throw Error('Reviewed development config changed: '+path);}
  if(!Array.isArray(sources))throw Error('Mapped development sources required');
@@ -44,7 +54,7 @@ export function applicationUnusedApplicabilityDispositions({mode,sources,authori
    ranges.push({body:span(fn.body),callable:span(fn),name:span(fn.name),symbol:[owner,name].filter(Boolean).join('.')});
   }
   const ifs=[];function walk(n){if(ts.isIfStatement(n))ifs.push(n);ts.forEachChild(n,walk);}walk(tree);
-  const emit=(kind,id,r,arm)=>output.push({mode,path:source.path,...identity,kind,id,...(arm===undefined?{}:{arm}),callReason:`${r.symbol}: complete pinned158-module DEV import/reference closure has no caller, extraction, alias or import-time invocation.`,stateReason:'Actual verified built DEV application only; declaration allocation, module initialization, shared validators and actual frame routes remain applicable. Direct API evidence remains globally accountable.',authority});
+  const emit=(kind,id,r,arm)=>output.push({mode,path:source.path,...identity,kind,id,...(arm===undefined?{}:{arm}),callReason:`${r.symbol}: complete pinned158-module ${production?'application':'DEV'} import/reference closure has no caller, extraction, alias or import-time invocation.`,stateReason:production?'Production browser application only; complete independent disk/canonical source and entry/build authority. Declaration allocation, module initialization, shared validators and actual frame routes remain applicable. Direct API evidence remains globally accountable.':'Actual verified built DEV application only; declaration allocation, module initialization, shared validators and actual frame routes remain applicable. Direct API evidence remains globally accountable.',authority:production?'.planning/phases/07-release-evidence-pr/07-03-APP-UNUSED-CLOSURE.md':authority});
   for(const[id,loc]of Object.entries(source.coverage.statementMap)){const r=ranges.find(r=>contains(r.body,loc));if(r)emit('statement',id,r);}
   for(const[id,site]of Object.entries(source.coverage.fnMap)){
    const r=ranges.find(r=>contains(r.body,site.loc)&&contains(r.body,site.decl)

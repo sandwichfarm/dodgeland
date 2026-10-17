@@ -60,3 +60,27 @@ maps,separate current cohort projections and actual integrated PROD/DEV run.
 Generic tests stay global/per-file accountable. No full release success is
 implied;remaining real gaps,semantic ledger,fresh enforcing collection,
 07-04/05/06 and PR remain requirements.
+
+## Executed evidence
+
+4c169fd extracts the shared mapper with18 before/after controls and ten byte-
+identical projection reports. f91a853 retains the scope-contract RED:seven
+cases,four pass/three expected failures. Final implementation passes20 focused
+and all115 controls. No new app source,dependency,oracle or floor changes.
+
+Five distinct existing cohort maps and their max-positive diagnostic union
+are reprojected. Every raw metric and covered numerator stays unchanged.
+DEV's previous reports/dispositions remain byte-equivalent. Browser adds
+25 statement,15 function and29 branch dispositions,all within the ten existing
+source-proved bodies. Current diagnostic browser8362/9817 branches meets85%;
+all browser line/function floors also pass. DEV2307/2784 still needs60.
+Relay2288/2722 needs26;Race2495/3020 needs72. No new gameplay hit credit.
+
+Actual integrated a90bb488-e374-46e9-801a-7167d44c0c77 exits0 withfour PROD
+andfour genuine DEV cases,eight browser realms/two independent Node parents
+and no mode intervals. Every new excluded site has zero actual positive hits.
+Full canonical158-source inventory f46f,normal raw e980 and rootlock5ac remain
+verified. APP-UNUSED-PROOF binds the exact scripts,logs,reports,payloads and
+source/config authority. The run is report-only;the original full report remains
+enforced-fail. Remaining real gaps,full semantic ledger review,fresh enforcing
+full collection,07-04/05/06 and PR remain required.

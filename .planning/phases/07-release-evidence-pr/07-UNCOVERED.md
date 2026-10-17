@@ -2,6 +2,16 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Latest source-proved production-browser API scope
+
+APP-UNUSED-CLOSURE/AUDIT/PROOF records fresh complete caller/reflection review
+for the ten already DEV-proved compatibility bodies. The browser mode gains
+25 statement/15 function/29 branch dispositions,with raw metrics and covered
+numerators unchanged. DEV is byte-equivalent. Twenty focused/all115 controls
+and actual4 PROD+4 DEV cases pass. Diagnostic browser8362/9817B meets its floors;
+DEV60/Relay26/Race72 gaps remain. Original frozen rows/global/per-file/full
+reports are preserved. No fresh full acceptance or semantic completion claim.
+
 ## Latest actual saved preference evidence
 
 PREFERENCE-HYDRATION/PROOF records10 normal plus10 PROD/10 DEV cases,20
