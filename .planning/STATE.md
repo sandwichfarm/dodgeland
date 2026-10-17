@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: 07-03 meaningful coverage closure; full enforcing report pending
-last_updated: "2026-10-17T07:41:26.973899+00:00"
+last_updated: "2026-10-17T08:49:19.821977+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,7 +12,7 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Reviewed61-scenario solo parity canonical passes; Flow diagnostic targets pass, Arcade two arms short; full enforcing release remains pending.
+last_activity_desc: Solo diagnostic targets pass; Relay ordinary22/22, two canonical attempts failed amid UI timeout and forced sleep; no active runtime or new coverage credit.
 ---
 
 # Project State
@@ -383,6 +383,18 @@ full+newsolo diagnostic is Arcade1166/1207L276/296F1216/1427B and
 Flow1028/1067L254/276F1069/1252B: five new Arcade branches/four lines.
 Both solo diagnostic targets pass; fresh enforcing full collection remains
 mandatory. See07-03-SOLO-FREEZE-PROOF.md/json. No runtime is active.
+
+Relay lifecycle reuse candidate bounds15 actual acquisitions and30 intervals;
+original assertions and six browser realms retained. Ordinary22/22 passes.
+Canonical a3ed53e4/exec71375 terminal1 (21pass/1cancel), restored74 PNGs plus
+normal artifact/root lock. Idle sleep900s correlates with898.7s browser delay.
+Unchanged scoped-caffeinate retry b9d61585/exec51581 terminal1 (20pass/2cancel):
+keyboard skip reached45001.9ms, cause unresolved; later recovery overlapped
+901s Dark Wake Thermal Emergency sleep. No more browser retries this turn.
+Both failed payload sets/logs preserved, normal/root lock independently checked.
+No partial-mode coverage union credit, no release-pass claim. See
+07-03-RELAY-LIFECYCLE-REUSE.md/json. No runtime is active; next investigation is
+bounded stage/abort evidence for keyboard-skip before another whole collection.
 
 ## Next required work
 

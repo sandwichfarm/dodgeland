@@ -1,0 +1,58 @@
+{
+  "status": "ordinary passed; canonical unresolved, no coverage-union credit",
+  "ordinary": {
+    "cases": 22,
+    "pass": 22,
+    "fail": 0,
+    "cancelled": 0,
+    "log": "/tmp/down-to-duck-07-03-relay-lifecycle-reuse-chain.log"
+  },
+  "testSha256": "d244095620ef11cf73f8de07a5710eccfd3508d2ae748b5315efb6d60a01a92f",
+  "runs": [
+    {
+      "runId": "a3ed53e4-e198-4b36-8190-4c753c1a7497",
+      "session": 71375,
+      "status": "failed; not coverage acceptance",
+      "exitCode": 1,
+      "wholeCases": 22,
+      "pass": 21,
+      "cancelled": 1,
+      "partialModelIntervals": 30,
+      "partialActualLifetimes": 15,
+      "normalAndLockPreserved": true,
+      "originalPngsRestored": 74,
+      "stateLog": "/tmp/down-to-duck-07-03-relay-lifecycle-reuse-state.json"
+    },
+    {
+      "runId": "b9d61585-9ed6-4ba8-bad2-f705b20c4e7a",
+      "session": 51581,
+      "status": "failed; not coverage acceptance",
+      "exitCode": 1,
+      "wholeCases": 22,
+      "pass": 20,
+      "cancelled": 2,
+      "partialModelIntervals": 30,
+      "partialActualLifetimes": 15,
+      "normalAndLockPreserved": true,
+      "originalPngsRestored": 74,
+      "stateLog": "/tmp/down-to-duck-07-03-relay-lifecycle-awake-state.json"
+    }
+  ],
+  "originalRequirements": [
+    "INPUT-04",
+    "INPUT-05",
+    "RELAY-02",
+    "RELAY-03",
+    "RELAY-04",
+    "RELAY-05",
+    "TEST-02",
+    "TEST-03"
+  ],
+  "limitations": [
+    "Existing component scenes arrange safe terrain and death contact; they are not public-input journeys.",
+    "Terrain and funds fixtures are outside the recorder; router-only component is global-only.",
+    "Six original browser realms remain separate; no whole mixed-worker mode credit.",
+    "Partial payloads from failed whole jobs are not accepted coverage evidence.",
+    "Retry keyboard-skip case hit its actual45000ms timeout; its cause remains unresolved. Thermal sleep explains the later recovery delay, not every failure."
+  ]
+}
