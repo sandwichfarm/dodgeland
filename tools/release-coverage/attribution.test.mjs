@@ -113,3 +113,17 @@ test('solo applicability projection refuses absent or nonpublic ownership eviden
  const {projectSoloApplicability}=await import('./run.mjs');
  for(const intervals of [[],[{mode:'solo-arcade',provenance:'component-model',observation:{}}],[{mode:'solo-arcade',provenance:'public-input',observation:{ownership:{worldIsOwn:true}}}]])assert.throws(()=>projectSoloApplicability('solo-arcade',{}, {},[],intervals),/stable ownership/);
 });
+
+test('solo component owner/staging evidence and turn base identity remain explicit',()=>{
+ const {inventory,before,after}=fixture();before.provenance=after.provenance='component-model';
+ const solo={mode:'solo-arcade',base:'arcade',kind:'solo',ownerId:'actual-game-1',participants:1,phase:'playing',ownership:{worldIsOwn:true,playerIsOwn:true,sessionActive:false,playerSessionAbsent:true,stageCalls:0,boundaryChecks:2}};
+ before.observation=after.observation=solo;
+ assert.equal(deriveInterval(inventory,before,after,'solo').mode,'solo-arcade');
+ for(const changed of [{...solo,ownerId:'other'},{...solo,ownership:{...solo.ownership,stageCalls:1}},{...solo,ownership:{...solo.ownership,playerSessionAbsent:false}}])assert.throws(()=>deriveInterval(inventory,before,{...after,observation:changed},'bad'));
+ for(const mode of ['relay','race']){
+  before.observation={mode,base:'arcade',kind:mode,phase:'acquiring',sessionId:null,participants:0};
+  after.observation={mode,base:'arcade',kind:mode,phase:'playing',sessionId:'actual-session',participants:2};
+  assert.equal(deriveInterval(inventory,before,after,mode).mode,mode);
+  assert.throws(()=>deriveInterval(inventory,before,{...after,observation:{...after.observation,base:'stroll'}},'changed-base'));
+ }
+});

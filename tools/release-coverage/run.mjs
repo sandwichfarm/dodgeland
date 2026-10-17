@@ -57,7 +57,7 @@ export async function auditExecutionInventory(manifest){
  const paths=tracked.stdout.split('\0').filter(Boolean),pkg=JSON.parse(await readFile(join(repositoryRoot,'package.json'),'utf8'));
  const resolved=resolveCommandInventory(pkg.scripts,await readFile(join(repositoryRoot,'tests/phase6-gate.mjs'),'utf8'),paths);
  // This plan's new original-purpose suite is an explicit additive entry, never a replacement.
- resolved.entries.push({path:'tests/release-mode-coverage.mjs',origins:['plan07-12:mode-attribution']},{path:'tests/release-survive-mode-coverage.test.mjs',origins:['plan07-03:component-mode-attribution']});resolved.entries.sort((a,b)=>a.path.localeCompare(b.path));
+ resolved.entries.push({path:'tests/release-mode-coverage.mjs',origins:['plan07-12:mode-attribution']},{path:'tests/release-survive-mode-coverage.test.mjs',origins:['plan07-03:component-mode-attribution']},{path:'tests/release-solo-mode-coverage.test.mjs',origins:['plan07-03:solo-component-attribution']});resolved.entries.sort((a,b)=>a.path.localeCompare(b.path));
  const closure=new Map(),queue=resolved.entries.map(r=>r.path);
  while(queue.length){const path=queue.shift();if(closure.has(path))continue;const text=await readFile(join(repositoryRoot,path),'utf8'),source=ts.createSourceFile(path,text,ts.ScriptTarget.Latest,true,ts.ScriptKind.JS),imports=[],dynamic=[];
   function add(spec){if(!spec.startsWith('.'))return;const target=relative(repositoryRoot,resolve(repositoryRoot,dirname(path),spec));if(!paths.includes(target))throw Error(`Unresolved local import ${path}: ${spec}`);imports.push(target);if(target.startsWith('tests/'))queue.push(target);}
@@ -118,15 +118,28 @@ export function validateModelSidecar(inventory,row,parents,{runId,jobId,realmId,
  if(intervals.some(i=>i.provenance!=='component-model'||!expectations.some(e=>e.mode===i.mode)))throw Error('Unexpected model interval');
  for(const expected of expectations){
   const actual=intervals.filter(i=>i.mode===expected.mode);
-  if(actual.length!==expected.phases.length||actual.some((i,n)=>i.observation.phase!==expected.phases[n][0]||i.endObservation.phase!==expected.phases[n][1]))throw Error('Incomplete model lifecycle intervals');
-  if(new Set(actual.map(i=>i.endObservation.sessionId)).size!==1)throw Error('Multiple model session lifetimes');
+  if(expected.scenarios){
+   if(actual.length!==expected.scenarios.length*2||new Set(expected.scenarios).size!==expected.scenarios.length)throw Error('Incomplete solo scenarios');
+   for(const [index,name]of expected.scenarios.entries()){
+    const [acquisition,runtime]=actual.slice(index*2,index*2+2);
+    if(acquisition.id!==`${name}:acquisition`||runtime.id!==`${name}:runtime`||acquisition.observation.phase!=='acquiring'||acquisition.endObservation.phase!=='ready'||runtime.observation.phase!=='ready'||acquisition.endObservation.ownerId!==name||runtime.endObservation.ownerId!==name)throw Error('Incomplete solo scenario lifecycle');
+   }
+  }else{
+   if(actual.length!==expected.phases.length||actual.some((i,n)=>i.observation.phase!==expected.phases[n][0]||i.endObservation.phase!==expected.phases[n][1]))throw Error('Incomplete model lifecycle intervals');
+   if(new Set(actual.map(i=>i.endObservation.sessionId)).size!==1)throw Error('Multiple model session lifetimes');
+  }
  }
  return bound;
 }
 
 export function projectSoloApplicability(mode,inventory,mapped,paths,intervals){
  const witnesses=intervals.filter(i=>i.mode===mode);
- if(!witnesses.length||witnesses.some(i=>i.provenance!=='public-input'||Object.entries({worldIsOwn:true,playerIsOwn:true,sessionActive:false,playerSessionAbsent:true,sessionBindings:0,stageBindings:0}).some(([key,value])=>i.observation?.ownership?.[key]!==value)))throw Error('Solo applicability requires actual stable ownership');
+ if(!witnesses.length||witnesses.some(i=>{
+  if(i.provenance==='public-input')return Object.entries({worldIsOwn:true,playerIsOwn:true,sessionActive:false,playerSessionAbsent:true,sessionBindings:0,stageBindings:0}).some(([key,value])=>i.observation?.ownership?.[key]!==value);
+  if(i.provenance!=='component-model')return true;
+  const observations=i.observation.phase==='acquiring'?[i.endObservation]:[i.observation,i.endObservation];
+  return observations.some(o=>!o||Object.entries({worldIsOwn:true,playerIsOwn:true,sessionActive:false,playerSessionAbsent:true,stageCalls:0}).some(([key,value])=>o.ownership?.[key]!==value)||!(o.ownership.boundaryChecks>0));
+ }))throw Error('Solo applicability requires actual stable ownership');
  const sources=paths.map(path=>{
   const absolute=resolve(repositoryRoot,path),record=Object.values(inventory).find(r=>r.path===absolute);
   if(!record||!mapped[absolute])throw Error('Missing mapped applicability source');

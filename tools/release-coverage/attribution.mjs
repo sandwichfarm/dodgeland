@@ -9,7 +9,14 @@ function checkObservation(o) {
  if(o.kind!==kind||o.base!==base||!Number.isInteger(o.participants)||(kind==='solo'?o.participants!==1:o.participants<2||o.participants>4))throw Error('Invalid actual mode/base evidence');
 }
 function checkComponent(o) {
- if(!o || !['survive-arcade','survive-flow'].includes(o.mode) || o.kind!=='survive' || o.base!==(o.mode==='survive-arcade'?'arcade':'stroll'))throw Error('Invalid component mode evidence');
+ const solo=o?.mode?.startsWith('solo-'),turn=['relay','race'].includes(o?.mode);
+ if(!o || !['solo-arcade','solo-flow','survive-arcade','survive-flow','relay','race'].includes(o.mode) || o.kind!==(solo?'solo':turn?o.mode:'survive') || (turn?!['arcade','stroll'].includes(o.base):o.base!==(o.mode.endsWith('arcade')?'arcade':'stroll')))throw Error('Invalid component mode evidence');
+ if(solo){
+  if(!['acquiring','ready','playing','paused','dead'].includes(o.phase)||typeof o.ownerId!=='string'||!o.ownerId)throw Error('Invalid solo component phase/owner');
+  if(o.phase==='acquiring'){if(o.participants!==0)throw Error('Invalid solo acquisition');}
+  else if(o.participants!==1||Object.entries({worldIsOwn:true,playerIsOwn:true,sessionActive:false,playerSessionAbsent:true,stageCalls:0}).some(([key,value])=>o.ownership?.[key]!==value)||!Number.isSafeInteger(o.ownership.boundaryChecks)||o.ownership.boundaryChecks<1)throw Error('Invalid solo component ownership');
+  return;
+ }
  if(!['acquiring','playing','paused','pending','settled'].includes(o.phase))throw Error('Invalid component lifecycle phase');
  if(o.phase==='acquiring') { if(o.sessionId!==null || o.participants!==0)throw Error('Invalid acquisition evidence'); }
  else if(typeof o.sessionId!=='string'||!o.sessionId||!Number.isInteger(o.participants)||o.participants<1||o.participants>4)throw Error('Missing component session identity');
@@ -17,6 +24,7 @@ function checkComponent(o) {
 function checkPair(before,after,provenance) {
  if(provenance==='component-model') {
   checkComponent(before);checkComponent(after);
+  if(before.ownerId!==after.ownerId)throw Error('Solo owner changed during interval');
   if(before.mode!==after.mode||before.base!==after.base||after.phase==='acquiring'||(before.phase!=='acquiring'&&before.sessionId!==after.sessionId))throw Error('Component session changed during interval');
  } else {
   if(provenance!=='public-input')throw Error('Invalid mode provenance');

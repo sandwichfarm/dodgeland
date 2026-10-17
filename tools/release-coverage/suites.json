@@ -1030,6 +1030,75 @@
         }
       ],
       "provenance": "Existing production mode composer validation assertions"
+    },
+    "solo-model-03": {
+      "files": [
+        "tests/release-solo-mode-coverage.test.mjs"
+      ],
+      "role": "node",
+      "jobs": [
+        {
+          "id": "release-solo-mode-coverage",
+          "file": "tests/release-solo-mode-coverage.test.mjs",
+          "role": "node",
+          "requiredRealms": [
+            "node"
+          ],
+          "modelAttribution": [
+            {
+              "mode": "solo-arcade",
+              "scenarios": [
+                "arcade-movement",
+                "arcade-traffic",
+                "arcade-river",
+                "arcade-pause-hurt",
+                "arcade-market",
+                "arcade-terminal",
+                "arcade-actors",
+                "arcade-mobs"
+              ]
+            },
+            {
+              "mode": "solo-flow",
+              "scenarios": [
+                "stroll-movement",
+                "stroll-traffic",
+                "stroll-river",
+                "stroll-pause-hurt",
+                "stroll-market",
+                "stroll-terminal",
+                "stroll-actors",
+                "stroll-mobs"
+              ]
+            }
+          ]
+        }
+      ],
+      "provenance": "Bounded current-engine component deltas; independent immutable oracle uninstrumented; arranged production parity scenarios"
+    },
+    "sound-settings-03": {
+      "files": [
+        "tests/sound-runtime.mjs"
+      ],
+      "role": "browser",
+      "browser": true,
+      "jobs": [
+        {
+          "id": "sound-chromium",
+          "file": "tests/sound-runtime.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "defaultBuildScope": "production",
+          "artifactPatterns": [],
+          "env": {
+            "DOWN_TO_DUCK_AUDIO_BROWSER": "chromium"
+          },
+          "minimumBrowserRealms": 18
+        }
+      ],
+      "provenance": "Existing complete sound runtime job; saved custom pack UI states"
     }
   },
   "pendingAdapters": [
@@ -4137,6 +4206,42 @@
                 "settled",
                 "settled"
               ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "release-solo-mode-coverage",
+        "file": "tests/release-solo-mode-coverage.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "modelAttribution": [
+          {
+            "mode": "solo-arcade",
+            "scenarios": [
+              "arcade-movement",
+              "arcade-traffic",
+              "arcade-river",
+              "arcade-pause-hurt",
+              "arcade-market",
+              "arcade-terminal",
+              "arcade-actors",
+              "arcade-mobs"
+            ]
+          },
+          {
+            "mode": "solo-flow",
+            "scenarios": [
+              "stroll-movement",
+              "stroll-traffic",
+              "stroll-river",
+              "stroll-pause-hurt",
+              "stroll-market",
+              "stroll-terminal",
+              "stroll-actors",
+              "stroll-mobs"
             ]
           }
         ]

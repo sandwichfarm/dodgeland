@@ -198,12 +198,18 @@ async function runLoadedScenario(loaded, { name, seed, home = 'pond', mode = 'ar
   const baselineDefinitions = resolveCatalog(baselineCatalog, 'baseline');
   const currentDefinitions = resolveCatalog(currentCatalog, 'current');
   const baseline = new baselineGame.Game(seed, home, mode, gentle, baselineDefinitions, characterId);
-  const current = new currentGame.Game(seed, home, mode, gentle, currentDefinitions, characterId);
+  if(loaded.currentRecorder&&perturbCurrent)throw Error('Mode attribution refuses perturbed current engines');
+  const recorder=loaded.currentRecorder?.scenario(name,mode);
+  const construct=()=>new currentGame.Game(seed, home, mode, gentle, currentDefinitions, characterId);
+  const current = recorder?recorder.acquire(construct):construct();
+  recorder?.begin();
   ensureMobRngTrack(baseline);
   ensureMobRngTrack(current);
   if (setup) {
     setup(baseline, baselineGame, baselineCatalog, baselineActors);
+    recorder?.boundary();
     setup(current, currentGame, currentCatalog, currentActors);
+    recorder?.boundary();
   }
   const baselineCallbacks = attachCallbackRecorder(baseline), currentCallbacks = attachCallbackRecorder(current);
   let points = 0, last;
@@ -222,9 +228,14 @@ async function runLoadedScenario(loaded, { name, seed, home = 'pond', mode = 'ar
   for (let commandIndex = 0; commandIndex < tape.length; commandIndex += 1) {
     const command = tape[commandIndex], repetitions = command.kind === 'step' ? command.count : 1;
     for (let step = 0; step < repetitions; step += 1) {
-      compare(commandIndex, step, invoke(baseline, baselineGame, command, fixedStep), invoke(current, currentGame, command, fixedStep));
+      const baselineResult=invoke(baseline, baselineGame, command, fixedStep);
+      recorder?.boundary();
+      const currentResult=invoke(current, currentGame, command, fixedStep);
+      recorder?.boundary();
+      compare(commandIndex, step, baselineResult, currentResult);
     }
   }
+  recorder?.end();
   return { baselineSha: PINNED_BASELINE_SHA, points, final: last, results, trace };
 }
 
@@ -238,11 +249,15 @@ export async function runDifferentialScenario(options) {
 }
 
 /** Load once, then run a bounded matrix while retaining independent constructors. */
-export async function runDifferentialMatrix(scenarios) {
+export async function runDifferentialMatrix(scenarios, { currentRecorderFactory } = {}) {
   const loaded = await loadIndependentEngines();
   try {
-    return await Promise.all(scenarios.map(scenario => runLoadedScenario(loaded, scenario)));
+    if(currentRecorderFactory)loaded.currentRecorder=await currentRecorderFactory(await loaded.currentModules.import('session'));
+    const results=await Promise.all(scenarios.map(scenario => runLoadedScenario(loaded, scenario)));
+    await loaded.currentRecorder?.finish();
+    return results;
   } finally {
+    loaded.currentRecorder?.dispose();
     await Promise.all([loaded.baselineModules.dispose(), loaded.currentModules.dispose()]);
   }
 }
