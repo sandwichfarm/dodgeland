@@ -6,7 +6,7 @@ const ts=createRequire(new URL('../../package.json',import.meta.url))('typescrip
 export const TURN_APPLICABILITY_SOURCES=Object.freeze({
  'src/relay.ts':'f5c1eea5b82e6e42d7b6bbc6a95f7f0d28aa7ad7468c4464e0217ab9f89e6c02',
  'src/race.ts':'d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da',
- 'src/session.ts':'5b9363b3d26641705d3a85d0e56fae0df9aed49ce1276f25fad918c1562887ed',
+ 'src/session.ts':'f8ce62cdc5c87557636cce62f0b15005bfa5f9cde42c708d67915b4c1ebcec39',
  'src/session-recovery.ts':'35119abd8ac6551d253ec0ada320c934fd5a9cf20c142444e3afdb4094093b9c',
  'src/recovery.ts':'835df7ab867c3421e7d295778c864ceba83f0ea10e588c4c6f4d95cdc2c1702b',
  'src/shared-world-effects.ts':'715dce9a98a83c398aa3a3d43531568008a9cefaa9be8df766a921dd2eb43a45',

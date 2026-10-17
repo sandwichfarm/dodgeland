@@ -2,6 +2,26 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Current-source shared pickup repair
+
+INPUT-05/COOP-01/TEST-02: a living disconnected traveler must not permanently
+retain a coin pull that an active teammate can reach. Real-app RED0638b42 uses
+public paid magnets and shell disconnect; P1's `device-lost` state retained its
+claim while P2 advanced. The narrow cleanup predicate now requires playing and
+active participation, preserving connected Relay bench ownership. Unchanged
+ordinary82694 and canonical51569 pass;44/44 lifecycle/world/boundary checks pass.
+Canonical `f6cdf906-bf4d-4980-8540-40e11f0dc4fc` has separate verified production
+and DEV realms. Current mapped cleanup delete branch18 counts `[1,99]`; behavioral
+observations prove P2 receives exactly one payout and P1 none after disconnect.
+Details, source/map/schema pins and retained failures are in
+[gameplay evidence](07-03-DEVELOPMENT-GAMEPLAY-EVIDENCE.md) and
+[source review](07-03-PICKUP-CLAIM-SOURCE-REVIEW.md).
+
+The session source changed to `f8ce62cdc5c87557636cce62f0b15005bfa5f9cde42c708d67915b4c1ebcec39`.
+No initial session counter is relabelled or merged with this new schema. Initial
+branch annotations below remain historical; a fresh enforcing report and full
+semantic review are still required.
+
 ## Task1 authority tracer
 
 INPUT-04/INPUT-05/TEST-02: a stale or foreign device-reclaim ticket must not bind a traveler, alter either owner resources/recovery/world time, or append lifecycle history. Current source `src/session.ts:969`, branch299 true arm has0baselinehits. Existing `tests/session-device-lifecycle.test.mjs` already proves dead-seat stale/wrong/occupied cases but is absent from package/canonical execution roots; reuse it unchanged via release-gaps group. Add only cross-session, original-device and seat mismatch tickets plus consumed-ticket replay to `tests/release-coverage-gaps.test.mjs`. Arranged production objects, not public-input proof. No product defect or invented RED assumed; ordinary/canonical results and actual counter delta pending. No source change.

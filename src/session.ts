@@ -300,7 +300,7 @@ export class SharedWorld {
     })[0];
   }
   releaseInactivePickupClaims(players: readonly SessionPlayer[]): void {
-    const activeSeats = new Set(players.filter(player => player.state === 'playing').map(player => player.seat));
+    const activeSeats = new Set(players.filter(player => player.state === 'playing' && player.participation === 'active').map(player => player.seat));
     for (const [row, seat] of this.pickupOwners) if (!activeSeats.has(seat as SeatId)) this.pickupOwners.delete(row);
   }
   view(): SharedWorld { return this; }

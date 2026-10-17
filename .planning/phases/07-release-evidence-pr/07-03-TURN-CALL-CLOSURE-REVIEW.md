@@ -1,5 +1,8 @@
 # Relay/Race call-closure review
 
+Current session-pin addendum: [pickup claim source review](07-03-PICKUP-CLAIM-SOURCE-REVIEW.md).
+Historical identities and measurements below retain their original source.
+
 2026-10-17 UTC. Read-only generic-executor review; no test/build/browser execution or generator change. Prior `07-03-TURN-SCOPE-FINDINGS.md` remains authority. Graph project `Users-sandwich-Develop-crossy-road-clone` found relevant symbols but omitted Race's restrictItems edge; current source audit supplies missing callers. Candidates below derive from callers and installed state, not counters. Fresh ESM/Game acquisition is part of current witness: initialization cannot be discarded merely because gameplay does not call it.
 
 ## Both modes: application-unused compatibility wrappers

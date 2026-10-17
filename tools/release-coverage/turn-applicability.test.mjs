@@ -27,7 +27,13 @@ test('exact opt-in closures are excluded but guards, common world and acquisitio
  const before=structuredClone(sources),session=sourceFor('session.ts'),recovery=sourceFor('session-recovery.ts');
  for(const mode of['relay','race']){
   const dispositions=turnApplicabilityDispositions({mode,sources});assert.ok(dispositions.length);
-  for(const fragment of['static stage(','prepareAdmission(admission:','installCoOpMarket(','private refreshSharedWorldEffects()','constructor(game: Game)','noteProgress(row:'])for(const id of functionIds(session,fragment))assert.equal(excluded(dispositions,session,id),false,fragment);
+  for(const fragment of['static stage(','prepareAdmission(admission:','installCoOpMarket(','private refreshSharedWorldEffects()','constructor(game: Game)','noteProgress(row:','releaseInactivePickupClaims('])for(const id of functionIds(session,fragment))assert.equal(excluded(dispositions,session,id),false,fragment);
+  const claimLine=line(session,"const activeSeats = new Set(players.filter");
+  for(const [map,kind]of [['statementMap','statement'],['fnMap','function'],['branchMap','branch']]){
+   const sites=Object.entries(session.coverage[map]).filter(([,site])=>(site.loc??site).start.line===claimLine);
+   assert.ok(sites.length,'mapped live pickup predicate '+kind);
+   for(const[id]of sites)assert.equal(excluded(dispositions,session,id,kind),false,'live pickup predicate '+kind+' '+id);
+  }
   for(const id of functionIds(recovery,'recover(session:'))assert.equal(excluded(dispositions,recovery,id),false);
   const guardLine=line(recovery,"if (!owner || session.result || !this.allowed.includes(request.kind))");
   const guards=Object.entries(recovery.coverage.statementMap).filter(([,site])=>site.start.line===guardLine);assert.ok(guards.length);for(const[id]of guards)assert.equal(excluded(dispositions,recovery,id,'statement'),false);

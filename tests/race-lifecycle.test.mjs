@@ -179,15 +179,26 @@ test('leave requires fresh confirmation, cancel is inert, terminal ignores late 
   assert.equal(JSON.stringify({events:race.events,result:race.result}),before);assert.equal(session.players[0].run.wallet,11);
 });
 test('lifecycle permutations produce the same frozen DNF records and append-only events',()=>{
-  const outputs=[];
+  const outputs=[], lifetimes=[];
   for(const reverse of [false,true]){
-    const {race,session}=start();if(reverse)session.players.reverse();
+    const {race,session}=start();
+    const identities=new Map(session.players.map(player=>[player.seat,player.participantId]));
+    assert.equal(new Set(identities.values()).size,2);
+    for(const id of identities.values())assert.ok(id.startsWith(`${session.id}:`), 'participant belongs to this actual session lifetime');
+    lifetimes.push({id:session.id,identities});
+    if(reverse)session.players.reverse();
     session.deviceLost('p2');ticks(session,1440);
     race.command(race.actionToken('p1'),'leave');race.command(race.actionToken('p1'),'confirm');
     assert.ok(Object.isFrozen(race.result));assert.ok(race.events.every(Object.isFrozen));
     assert.deepEqual(race.result.players.map(p=>p.status),['departed','forfeited']);
-    outputs.push({players:race.result.players,events:race.events,time:race.elapsed});
+    for(const player of race.result.players)assert.equal(player.participantId,identities.get(player.seat), 'frozen result retains its authoritative participant');
+    // RaceLifecycleEvent contains seat/state/reason/tick/time, no participant ID.
+    // Only the verified lifetime-specific result ID is normalized; every other
+    // result field and the complete append-only event records remain compared.
+    outputs.push({players:race.result.players.map(player=>({...player,participantId:`participant:${player.seat}`})),events:race.events,time:race.elapsed});
   }
+  assert.notEqual(lifetimes[0].id,lifetimes[1].id);
+  for(const seat of ['p1','p2'])assert.notEqual(lifetimes[0].identities.get(seat),lifetimes[1].identities.get(seat), 'independent lifetimes never reuse participant IDs');
   assert.deepEqual(outputs[0],outputs[1]);
 });
 

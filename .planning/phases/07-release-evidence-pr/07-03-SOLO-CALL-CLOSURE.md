@@ -1,5 +1,8 @@
 # Remaining strict-solo call closures
 
+Current session-pin addendum: [pickup claim source review](07-03-PICKUP-CLAIM-SOURCE-REVIEW.md).
+Historical identities and measurements below retain their original source.
+
 Read-only source review after `f19d919`, before any new dispositions. This note
 does not claim a coverage pass. The graph project is unavailable; source reads
 and an exhaustive `src` caller search supply the findings below. Positive

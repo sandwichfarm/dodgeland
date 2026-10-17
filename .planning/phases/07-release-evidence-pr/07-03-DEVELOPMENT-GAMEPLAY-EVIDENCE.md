@@ -52,3 +52,63 @@ Ordinary sessions46974/24388/52069/95352/39241/95664/70303/96024/33247 all exite
 Final ordinary33247 reaches and passes both public paid magnet purchases, contact-before-pull, equal-distance P1 election and exactly one P1 pull payout. It then fails the meaningful disconnect assertion. Raw report `/tmp/down-to-duck-shared-pickup-ordinary-evidence/shared-pickup-runtime.json`: prior payout tick99, public disconnect checkpoint tick105; P1 participation=device-lost, P2active, both wallets89; pickupOwners remains[[0,p1]], and coinPull remains x=-0.0010033502044300888,speed0.13839671501215256. The retained ordinary wrapper restored all four original outputs and verified normal dist bytes unchanged.
 
 Positive source explanation: `LocalSession.deviceLost` changes participation but preserves the living player's state. `SharedWorld.releaseInactivePickupClaims` filters only state===playing, so it retains the disconnected owner's claim. `collectSessionCoins` rejects the other owner when the stored seat differs. Active session ticks continue but the inaccessible reward remains attached to the disconnected seat. Root notified before any production change; no canonical collection or floor claim. This is a potential production defect rather than a reason to relax the lifecycle assertion.
+
+## Root-authorized production repair scope
+
+After retaining RED in0638b42 and independently confirming the caller/state cause, root assigned exactly SharedWorld.releaseInactivePickupClaims in src/session.ts: require both state===playing and participation===active. Keep the caller's complete players list, preserving active Relay future-owner continuity. No mode checks, resets, RNG changes or other product edits. Authorized serial validation: type-check/build, unchanged whole new ordinary browser journey with four outputs restored, session-world/relay-boundary/race-lifecycle/session-device-lifecycle, guidance/conformance. Canonical collection remains blocked pending root-owned applicability source-pin reconciliation. No commit before review.
+
+## Narrow repair ordinary validation (canonical still held)
+
+Applied only the authorized participation predicate; current src/session.ts SHA256 f8ce62cdc5c87557636cce62f0b15005bfa5f9cde42c708d67915b4c1ebcec39. Normal built dist/index.html SHA256 a34fd21258f80302593c584f5a9566f7511af49798c0b0cac6dacc1beb478bc1. Type56253 and build exit0 (`/tmp/down-to-duck-shared-pickup-repair-{type,build}.log`). Unchanged whole browser witness82694 exit0,1/1,2465ms (`...-ordinary.log`); wrapper restored four outputs and verified new normal dist unchanged. Current completed report and images are in `/tmp/down-to-duck-shared-pickup-ordinary-evidence/`; RED remains separately preserved in `/tmp/down-to-duck-shared-pickup-disconnect-red-evidence/`. Independently opened in-flight PNG shows two travelers and one reward; no continuous visual-motion claim.
+
+Boundary39925 exited1,43/44 (`...-boundaries.log`): session-world, Relay boundary and device lifecycle checks passed; Race lifecycle permutation equality at181 differs only in independent participant lifetime IDs12 versus13. Root notified; no unauthorized alteration of that suite. Guidance7/7 exit0 and conformance84456 exit0,5pass/0fail/5unmeasured (`...-guidance.log`, `...-conformance.log`). No hardware or missing conformance lifecycle credit. No canonical collection, source-pin update or commit performed by this worker.
+
+## Authorized Race permutation identity correction
+
+Root assigned the single stale assertion in tests/race-lifecycle.test.mjs after reviewing the43/44 result. The test now captures authoritative session/seat→participant IDs before lifecycle actions, verifies each ID belongs to its actual session and each frozen result retains that exact ID, and asserts session and per-seat IDs differ across the two independent lifetimes. Only verified result participantId values are normalized to seat tokens at the cross-lifetime comparison boundary. Every other result field and full append-only RaceLifecycleEvent remains compared; inspected event type contains seat/state/reason/tick/time and no participant ID. No production change accompanied this correction.
+
+Sequential strict runner82322 exit0: `node --test --test-concurrency=1 tests/session-world.test.mjs tests/relay-boundary.test.mjs tests/race-lifecycle.test.mjs tests/session-device-lifecycle.test.mjs`,44/44,19512ms; durable log `/tmp/down-to-duck-shared-pickup-repair-boundaries-2.log`. Serial slot released to root for applicability controls. Canonical remains pending explicit handoff, and no commit made by this worker.
+
+## Current terminal canonical evidence — repair accepted technically, floors open
+
+After root19/19 applicability controls, canonical51569 exited0: `node tools/release-coverage/run.mjs --suite shared-pickup-03 --report-only`, log `/tmp/down-to-duck-shared-pickup-canonical.log`; run **f6cdf906-bf4d-4980-8540-40e11f0dc4fc** under `artifacts/release-coverage/shared-pickup-03/`. Both whole jobs passed1/1 (production8185ms, DEV7987ms), ledger exit0 for both, exactly2independent browser payloads and no Node payload. Both archived reports are complete=true/errors=[]/external=[] and each archives all4declared outputs. The four ordinary paths returned to their pre-run absence; normal dist SHA remains a34fd21258f80302593c584f5a9566f7511af49798c0b0cac6dacc1beb478bc1.
+
+Actual artifact proofs: production cdf0a928477d5d35fb3f6aef586bb97f7ccb17be7c96dfc0b63e28f0c925d2f5 / script f65288211fa0e312a27c178603f40681832071a4cc3fe817238e461be5a2dcd3 / developmentTools=false; DEV9a07f6a477d4dd2ccc4c5b2d5825a93ca63690583a4ab44baf8a6247d036be83 / script3c554331341029648d5e234186c5d9cf4d4e7322bec8767bfc9fdfa443a6a4bb / developmentTools=true. Distinct job/build/artifact identities share only the intentional scenario name market-fixture-0.
+
+Focused DEV policy26-file raw/applicable metrics: **1157/2122lines,360/694functions,1054/2823branch arms**. The new participation conjunction adds two arms versus historical2821; no old-session union was made. Global all-source report remains3501/7988L,829/2241F,2784/9987B. Report-only explicitly does not evaluate thresholds and is not release acceptance.
+
+Mapped DEV exact-site evidence (current `strata/development/coverage-final.json` only):
+
+| Site | Counter evidence | Limit |
+| --- | --- | --- |
+| session.ts268 claimPickup /271 claimPickupPull | F13=3/F14=103 | Three actual rewards, multiple pull proposals |
+| session.ts274 resolvePickups | F15=222 | Actual app frame resolution |
+| session.ts284 pull ordering | F17=2; B11=[2,2,2] | Equal-time/distance seat tie exercised |
+| session.ts275 contact comparator | F16=0/B9=[0,0,0] | Contact-versus-pull is proven; two simultaneous contact comparator candidates are not |
+| session.ts302–304 inactive cleanup | F22=222,F23=444,F24=323; B17=[444,444],B18=[1,99] | Actual disconnect causes one deletion; binary-expression counts alone do not establish boolean outcomes, behavioral owner switch does |
+| game.ts688 collectSessionCoins | F110=323 | Real frame-driven shared collection |
+| game.ts698 ordinary contact | B273=[1,354] | One contact payout |
+| game.ts705 existing-owner rejection | B275=[51,303] | Other owner is rejected while claim is active |
+| game.ts706 retained/new pull | B277=[100,203] | Both pulled/unpulled paths |
+| game.ts714 completion | B281=[2,103] | Two completed magnet pulls |
+
+The ordinary GREEN report records P1disconnect→P2claim at tick105, P2single award at151 (wallet90/coins2/pickups2), and unchanged totals at222; P1remains device-lost wallet89/coins1/pickups1. Health, death, damage, hurt, cards, cosmetics and recovery resources remain unchanged; lastSafe is deliberately excluded from resource equality because real frames update the arranged safe position. Source/map/schema identities below bind this evidence; no historical session counters were merged.
+
+```json
+[
+  {
+    "path": "/Users/sandwich/Develop/crossy-road-clone/src/game.ts",
+    "sourceHash": "fb5d9224e46c19b3745099429f06bd141d9b738bb2d8786ed3266e1b6a7d95f6",
+    "mapHash": "74685cf919be7ef0d9572cda8cc41cb2ae1c191ca2c5be3ef26bf0739f3fdf83",
+    "schemaHash": "97d9b9dcee98ae322683debcc90896244c557c6874bb3977c63c3e4cedfc014c"
+  },
+  {
+    "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+    "sourceHash": "f8ce62cdc5c87557636cce62f0b15005bfa5f9cde42c708d67915b4c1ebcec39",
+    "mapHash": "a162249942d506d928c03a2dbb13e2be61284af301487ec7e12fbc17f334c137",
+    "schemaHash": "96eaca2a2357c67d04c57dd1d40522a758d884c836a67f59ff7a272e3121b908"
+  }
+]
+```
+
+No commit by this worker. Runtime slot returned to root; current work is evidence-only.
