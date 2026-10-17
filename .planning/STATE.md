@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Relay generation repair and actual Race mud movement green;current canonical16/48 and4/16 cohorts verified
-last_updated: "2026-10-17T19:26:11.186081+00:00"
+stopped_at: Real Race river-item proof20 cases76 intervals green;fresh full enforcing collection next
+last_updated: "2026-10-17T19:33:18.986106+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,23 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Paid Race Mud Splash now proven through actual victim hops,pause and expiry;55 nearby tests and4-lifetime canonical cohort pass. Full release remains open.
+last_activity_desc: Real river drops,pause,tied hops,fractional carry and slowest-traveler retention verified;63 nearby tests pass. Full release open.
 ---
 
 # Project State
 
 ## Current work
+
+Latest Race river-item proof:20 actual component cases/76 bounded intervals pass,
+canonical2bf5f891,one independent Node parent,current complete inventoryf46f. Both
+items,bases,legacy/varied platforms,opposite currents,real single/tied landing,
+pause/fractional carry and leader13/trailer1 retention are verified. Terrain/assets
+only are arranged;no item/charge/pose/clock/progress/effect injection. Nearest63
+passes. Full additive audit157 entries/164 closure/169 jobs/10 control paths.
+RACE-RIVER-ITEMS/PROOF bind exact provenance. All handles terminal0 at checkpoint.
+Next:fresh complete enforcing collection against frozen current sources,then
+remaining semantic/coverage repairs and07-04/05/06. No floor/PR acceptance yet.
+
 
 Latest added Race proof: four actual paid Mud Splash movement cases pass across
 both bases and attacking seats. Real victim landing,next-hop rejection,pause,

@@ -1822,3 +1822,14 @@ Three previously zero exact-source session.ts branches are covered relative to t
 historical union;changed Game excluded,no new full mode percentage or floor claim.
 See RACE-MUD-MOVEMENT/PROOF. Full original semantic review and final release gates
 remain required. Current additive execution audit156 entries/163 closure/168 jobs.
+
+
+### Actual Race river-item hops and slowest-traveler retention
+
+Twenty actual component cases/76 intervals (canonical2bf5f891) pass with63 nearest
+tests. Both real sampled items,bases,legacy/varied assets,tied hops,pause,fractional
+carry and leader13/trailer1 retention use real authority. Terrain/assets only are
+arranged;no pickup/charge/pose/clock/progress/effect injection. RACE-RIVER-ITEMS/PROOF
+bind exact sources and unchanged-source diagnostic new sites. No changed Game
+counters or mode-floor claim. Current dispatch157 entries/164 closure/169 jobs.
+Fresh complete enforcing collection and full semantic/final release gates remain.

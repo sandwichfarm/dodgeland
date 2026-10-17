@@ -1,0 +1,76 @@
+{
+  "status": "Twenty actual Race river-item component cases pass;no product source change or invented RED;full release remains open",
+  "utc": "2026-10-17T19:33:18.986106+00:00",
+  "sourcePins": {
+    "src/game.ts": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+    "src/session.ts": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+    "src/race.ts": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+    "src/race-items.ts": "2a43c05772c1f641595ca9bee7cc2bb486e3b2a922ebab412fc65e189708432b",
+    "src/consumable-drops.ts": "2fc4a1c55dc7f37dbcac2b7091661e3a284d3292eddf1460da423a39520dec4a",
+    "src/actors.ts": "8802f29be9e39003f6cdbf46c8ba08d61d2a01aaac91206ed6f236b8c65a1394"
+  },
+  "testSha256": "ab6246e8b29370460b8ef23ee19ec2117bdc991467cba3290b3d9d408878ead3",
+  "nearest": {
+    "passed": 63,
+    "failed": 0,
+    "skipped": 0,
+    "exit": 0
+  },
+  "canonical": {
+    "runId": "2bf5f891-1af0-4315-b0d2-c5714c4a264d",
+    "directory": "artifacts/release-coverage/race-river-items-03",
+    "inventoryByteSha256": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+    "tests": 20,
+    "componentLifetimes": 20,
+    "componentIntervals": 76,
+    "publicIntervals": 0,
+    "independentNodeParents": 1,
+    "thresholdsEvaluated": false
+  },
+  "behavior": [
+    "Real Race schema samples both items at seeded row one;no pickup or charge injection",
+    "Legacy and varied platform assets in both bases,opposite current directions",
+    "Public pickup positions track the same physical actor across actual ticks",
+    "Pause freezes item/world/race clocks and rejects hops",
+    "Actual primary/tied two-player landing awards exactly one owner;both dispatch orders covered",
+    "Continued carry and hop off preserve fractional grid",
+    "Real bypass leaves item unclaimed;leader13 versus trailer1 retains item;catch-up clears only outside trailer retention window",
+    "Frozen terminal results reject late movement"
+  ],
+  "componentArrangements": [
+    "Safe meadow terrain and row-one river platform assets before real factory acquisition"
+  ],
+  "fixtureCorrections": "Exploratory first log accessed intentionally hidden snapshot fields;corrected test observes public positions and physical actors. No product RED or source repair claimed.",
+  "dispatch": {
+    "entries": 157,
+    "closure": 164,
+    "jobs": 169,
+    "controlPaths": 10
+  },
+  "diagnosticOnly": {
+    "newPreviouslyUncoveredUnchangedSourceSites": 8,
+    "byFile": {
+      "session.ts": 8
+    },
+    "changedGameExcluded": true
+  },
+  "normalRawSha256": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
+  "rootLockRawSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "artifacts": {
+    "artifacts/release-coverage/race-river-items/ordinary-first.log": "7a7c34a54e2ae499f166ad3da682bb801fac4def46358b584f2b994f3bfa9695",
+    "artifacts/release-coverage/race-river-items/ordinary-final.log": "ebe632fe3a70f32ab2544a4b979b19ba1c022482f9315645535147d6f58029e5",
+    "artifacts/release-coverage/race-river-items/nearest.log": "9e0792c4792bb8c0b8d12db8ce2ecdb97fc406460121d0529ea48f7ac3fc7325",
+    "artifacts/release-coverage/race-river-items/canonical.log": "a269c3c62744a8abf364eed5a31a132386423e12d03e5add2c92875f1915c982",
+    "artifacts/release-coverage/race-river-items/row-one-seeds.json": "f1e1ecf3b3117f49fe7ae769c3825b417c8c8ef41a8b896c65a680ab5af8f947",
+    "artifacts/release-coverage/race-river-items/dispatch-audit.json": "4337c8824f0a7b51eef84cec793f1c23a144e3b0b07e6a4db59283b3ed0f0a20",
+    "artifacts/release-coverage/race-river-items/diagnostic-delta.json": "bfdbacdabf718982f66a2fd05715fc741765367d4d41848319a4fa895e53c20c",
+    "artifacts/release-coverage/race-river-items-03/manifest.json": "f9e3b4f6ebfdb9eaf20c6dc2cb788e5060a9f07262cab1ce9a65615e0d9c2a2b",
+    "artifacts/release-coverage/race-river-items-03/attribution.json": "8e7032934a31caa142049990fe326d1915c0543778817f0bdfc362d30356b42d"
+  },
+  "limits": [
+    "Component proof,not public-input browser flow",
+    "Not full mode/global/file floor acceptance",
+    "Historical changed-source Game counters are not merged",
+    "Full semantic review,fresh enforcing full collection,final conformance/visual/clause gates and PR still required"
+  ]
+}
