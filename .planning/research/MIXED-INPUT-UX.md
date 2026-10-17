@@ -12,6 +12,7 @@ solo player with a keyboard and controller into an unintended multiplayer party.
 
 | Situation | Proposed behavior |
 | --- | --- |
+| Nobody has started yet; first input deliberately used | Control P1 immediately. Keep the default keyboard profile available to P1 as an alias. |
 | A controller connects but remains idle | Update Controls; no interruption. |
 | One player established; unfamiliar input deliberately used | Ask **Control this duck** / **Join as another duck**, with the current portrait. |
 | Control this duck | Add the input to that traveler. Keyboard remains usable. Show a brief combined-input badge. |
@@ -62,6 +63,12 @@ Derive the reverse list for badges and availability rather than maintaining two
 independent mutable assignment systems. A solo owner can acquire another input
 without creating a multiplayer session; adoption into a LocalSession transfers
 those assignments with the existing traveler state.
+
+Establish a player when they deliberately start or confirm joining, rather than
+when the browser reports a device. Keep last-used input as presentation data;
+it must not change participant identity or authorize another traveler's actions.
+Validate the source's current binding before dispatching an owner-labelled game
+or market command. Existing owner/context checks still apply after that step.
 
 ```text
 Keyboard profiles / shell gamepads / touch controls
