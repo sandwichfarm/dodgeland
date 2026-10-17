@@ -240,7 +240,15 @@ for(const mode of ['arcade','stroll']){
    game.rows.set(200,{...module.generateLane(game.seed,200,game.home),index:200,kind:'road',actors:undefined,blocked:[],coin:0,coinActor:undefined,phase:10,speed:0,spacing:20,length:1.15});
    game.update(0);assert.equal(game.coins,before+2,'Road Toll adds exactly one to the touching ordinary coin');
    assert.equal(game.rows.get(200).coin,null);assert.equal(game.state,'playing');
-   return {streamCoins:streams.filter(row=>row.coin!==null).map(row=>row.index),coins:game.coins};
+   const deferred=streams.find(row=>row.coin!==null&&row.coinActor===null);assert.ok(deferred);
+   // Arrange the progressed frontier; bind the original authored future pickup
+   // through the normal ensureRows path without inventing a platform identity.
+   game.y=game.fromY=game.maxY=deferred.index;game.ensureRows();
+   assert.ok(Number.isInteger(deferred.coinActor),'the deferred pickup binds to an integer platform identity');
+   assert.ok(module.laneActors(deferred,game.time).some(actor=>actor.id===deferred.coinActor),'the binding names an actual platform in this original lane');
+   assert.ok(module.coinPosition(deferred,game.time));
+   assert.equal(game.coins,before+2,'binding a future reward never collects it');
+   return {streamCoins:streams.filter(row=>row.coin!==null).map(row=>row.index),coins:game.coins,bound:deferred.coinActor};
   }}]});
  }
 }
@@ -303,9 +311,63 @@ for(const mode of ['arcade','stroll']){
  }
 }
 
+const guardNames=[];
+for(const mode of ['arcade','stroll']){
+ const base={mode,home:'pond',characterId:'butter',seed:113};
+ {
+  const name=`${mode}-edge-and-fraction`;guardNames.push(name);
+  breadth.push({...base,name,setup:(game,module)=>{
+   for(const row of game.rows.keys())safeRow(game,module,row);game.state='playing';game.x=game.fromX=5;game.rows.get(1).blocked=[4];
+  },tape:[{kind:'fixture',apply:game=>{
+   assert.equal(game.move('right'),false);assert.equal(game.x,5);assert.equal(game.hop,0);
+   assert.equal(game.run.creditCoins(.125),0);assert.equal(game.run.wallet,0);
+   assert.equal(game.run.creditCoins(.875),1);assert.equal(game.run.wallet,1);return {wallet:game.run.wallet};
+  }},{kind:'move',direction:'left'},step(36),{kind:'fixture',apply:game=>{
+   assert.equal(game.x,4);assert.equal(game.move('forward'),false);assert.equal(game.y,0);assert.equal(game.hop,0);return {x:game.x,y:game.y};
+  }}]});
+ }
+ {
+  const name=`${mode}-full-health-milestone`;guardNames.push(name);
+  breadth.push({...base,name,setup:(game,module)=>{
+   game.state='playing';game.maxY=game.y=game.fromY=99;game.ensureRows();for(const row of game.rows.keys())safeRow(game,module,row);
+  },tape:[{kind:'move',direction:'forward'},step(36),{kind:'fixture',apply:game=>{
+   assert.equal(game.maxY,100);assert.equal(game.health,3);return {health:game.health};
+  }}]});
+ }
+ {
+  const name=`${mode}-landing-grace`;guardNames.push(name);
+  breadth.push({...base,name,setup:(game,module)=>{
+   for(const row of game.rows.keys())safeRow(game,module,row);game.state='playing';lane(game,module,'river',{phase:10,speed:0,length:2});
+  },tape:[step(65),{kind:'fixture',apply:game=>{
+   assert.equal(game.state,'playing');assert.equal(game.powerRescue,null);assert.equal(game.powerAvoidsMobs,true);
+   game.end('contact during landing grace','mob');assert.equal(game.state,'playing');return {grace:game.powerAvoidsMobs};
+  }},step(60),{kind:'fixture',apply:game=>{
+   assert.equal(game.powerAvoidsMobs,false);game.end('contact after landing grace','mob');assert.equal(game.state,'dead');assert.equal(game.deathCause,'mob');return {cause:game.deathCause};
+  }}]});
+ }
+}
+for(const shield of [false,true]){
+ const name=`arcade-catching-wave-${shield?'shield':'fatal'}`;guardNames.push(name);
+ breadth.push({name,mode:'arcade',home:'pond',characterId:'butter',seed:113,catalogIds:shield?['power-shield']:[],setup:(game,module)=>{
+  for(const row of game.rows.keys())safeRow(game,module,row);game.state='playing';
+  if(shield){game.run.advanceScore(100);game.run.creditCoins(100);assert.equal(game.openMarket(),true);paidOffer(game,'power-shield');game.closeMarket();}
+  game.time=20;game.waveRow=0;
+ },tape:[step(1),{kind:'fixture',apply:game=>{
+  assert.equal(game.state,shield?'playing':'dead');assert.equal(game.caughtByWave,!shield);if(!shield)assert.equal(game.deathCause,'wave');return {state:game.state,caught:game.caughtByWave};
+ }}]});
+}
+{
+ const name='arcade-wave-warning-suppresses-spawn';guardNames.push(name);
+ breadth.push({name,mode:'arcade',home:'pond',characterId:'butter',seed:207,setup:(game,module)=>{
+  game.state='playing';game.maxY=game.y=game.fromY=160;game.ensureRows();for(const row of game.rows.keys())safeRow(game,module,row);game.time=45;game.waveRow=159.5;
+ },tape:[{kind:'fixture',apply:game=>{
+  assert.equal(game.warning,true);game.update(0);assert.equal(game.state,'playing');assert.equal(game.mobs.length,0,'a catching wave does not add a new pursuer');return {warning:game.warning,mobs:game.mobs.length};
+ }}]});
+}
+
 test('bounded actual solo bases retain pinned movement, hazards, recovery, economy and terminal behavior',{timeout:120000},async()=>{
  const results=await runDifferentialMatrix([...scenarios,...breadth],{currentRecorderFactory:createSoloModelRecorder});
- assert.equal(results.length,52);
+ assert.equal(results.length,61);
  for(let index=0;index<16;index+=8){
   const [movement,traffic,river,hurt,market,terminal,actors,mobs]=results.slice(index,index+8);
   for(const result of results.slice(index,index+8)){assert.equal(result.baselineSha,PINNED_BASELINE_SHA);assert.ok(result.points>1);}
@@ -322,6 +384,6 @@ test('bounded actual solo bases retain pinned movement, hazards, recovery, econo
   if(scenario.name.includes('-schema-')){assert.equal(result.final.game.rows.length,39);assert.equal(result.final.game.rows[0].row,999990);assert.equal(result.final.game.rows.at(-1).row,1000028);assert.equal(result.final.game.runSeed.schema,scenario.seed.schema);}
   else if(scenario.name.endsWith('-paid-pickup-health-powers')){assert.deepEqual(result.final.callbacks.filter(e=>e.name==='onCoin').map(e=>e.payload.amount),[1,2,5,10,25]);assert.equal(result.final.callbacks.filter(e=>e.name==='onPower').length,7,'all seven authored traveler powers execute');assert.ok(result.final.callbacks.some(e=>e.name==='onHeal'&&e.payload.amount===.5));}
   else if(scenario.name.endsWith('-shop-boundaries')){assert.equal(result.final.game.state,'dead');assert.equal(result.final.game.inventory.visible.wallet,0);assert.deepEqual(result.final.game.inventory.visible.cards,[]);}
-  else assert.ok(hazardNames.includes(scenario.name)||continuityNames.includes(scenario.name),'each added scene has explicit in-tape assertions and pinned final comparison');
+  else assert.ok(hazardNames.includes(scenario.name)||continuityNames.includes(scenario.name)||guardNames.includes(scenario.name),'each added scene has explicit in-tape assertions and pinned final comparison');
  }
 });

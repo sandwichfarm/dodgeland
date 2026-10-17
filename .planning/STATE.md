@@ -12,7 +12,7 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Whole market12/12 and session16/16 ordinary/canonical pass; eight new branches each; enforcing aggregate pending.
+last_activity_desc: Reviewed61-scenario solo parity canonical passes; Flow diagnostic targets pass, Arcade two arms short; full enforcing release remains pending.
 ---
 
 # Project State
@@ -347,7 +347,23 @@ count claim. Normal build/root lock unchanged. Diagnostic full+newsolo reaches
 Arcade1160/1207L275/296F1202/1427B and Flow1026/1067L253/276F1062/1252B:
 15new branches/8lines per base; only11Arcade/3Flow arms needed for solo floors.
 See07-03-SOLO-CONTINUITY-PROOF.md/json. Full/focused metadata52/104, historical
-reports unchanged. No runtime is active; no source/policy/exclusion changes.
+reports unchanged. Solo guard tranche passed61-scenario ordinary and canonical,
+run `c03a94c6-6b6b-4f53-90b3-9942c1e3c78d`,45627terminal0.61actual current
+lifetimes/122intervals,32Arcade/29Flow, one parent. Original52cases retained;
+new edge/fraction/full-health/grace/wave cases and deferred platform binding use
+explicit component provenance and pinned comparisons. Review caught a weak
+!=null binding assertion; provisional4ff522f9 terminal0 is preserved separately
+with19hashed report files. Root strengthened to integer actor ID plus actual
+laneActors membership, independently accepted, then reran whole ordinary46105
+and canonical45627. No source/tool edits during live collection. Normal build/
+root lock remain unchanged. Helper calls are component observations; direct
+landing Game.end contacts are not moving-mob journeys.
+Exact-current diagnostic full+newsolo reachesArcade1162/1207L276/296F1211/1427B
+and Flow1028/1067L254/276F1069/1252B. Flow meets diagnostic targets; Arcade still
+needs two branch arms. No fresh enforcing full acceptance. See
+07-03-SOLO-GUARDS-PROOF.md/json. All current solo job copies expect61/122 without
+relabelling historical cohorts. No runtime is active; next scope is genuine
+remaining Arcade/Relay/Race/DEV/browser behavior, then enforcing collection.
 
 ## Next required work
 
