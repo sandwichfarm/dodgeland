@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Flare exact-anchor regression and both canonical builds pass;four branch-stratum gaps remain
-last_updated: "2026-10-17T21:34:00.898801+00:00"
+stopped_at: Seat closure controls/reprojection and whole PROD/DEV Relay suite pass;remaining diagnostic gaps28/75/46/108
+last_updated: "2026-10-17T21:52:21.865095+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,37 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: New Flare hazard/retry case passes6/6 ordinary and6/6 PROD plus6/6 DEV;five new witnesses per scope. Diagnostic gaps browser46 DEV127 Race87 Relay63;full enforcement still failed.
+last_activity_desc: All110 tool controls pass;1155 intervals revalidate with raw/numerators unchanged. Relay12 PROD+12 DEV pass,19 new DEV witnesses. Relay28 Race75 browser46 DEV108 gaps;full release still pending.
 ---
 
 # Project State
 
 ## Current work
+
+Latest seat/call closure:c0fccb2 retains tool-contract RED16 pass/two expected
+failures;3ba1327 passes18 focused/all110 controls. All1155 original complete-run
+intervals revalidate across38 independent parents(24 Node/14 browser). Common
+constructor fallback expressions/unused staged-admission wrapper and Relay-only
+Race composer/cooldown setter are source-proved unavailable;Race composer/setter,
+constructor/defaults/real acquisition/movement remain counted. Raw and every
+covered numerator stay unchanged. Separate projections:Relay2286/2722B(needs28),
+Race2492/3020B(needs75). SEAT-CALL-CLOSURE/AUDIT/PROOF retain exact evidence.
+
+Whole actual Relay runtime now passes12/12 PROD plus12/12 genuine DEV,canonical
+ad72aa70,28 browser realms/two independent Node parents. Every original test and
+all169 old jobs/manifest values remain;one additive DEV job makes170 full jobs.
+DEV snapshots cannot become production-mode intervals. Nineteen additional DEV
+branch witnesses beyond Flare yield2277/2805B(needs108). Browser8341/9867(needs46)
+and both turn counts above are unchanged. RELAY-DEVELOPMENT/PROOF bind facts.
+Full inventory audit157 entries/164 closure/170 jobs/ten control paths/96 Node
+realms and eight parent/collection controls pass. No app/dependency/oracle/floor
+change;normal e980/rootlock5ac/inventoryf46f remain. All handles terminal.
+
+These are diagnostic scope/witness advances,not a new enforcing full report or
+semantic completion. Next address remaining genuine gaps,complete the residual
+ledger,then fresh full enforcement and07-04/05/06/PR. Earlier checkpoints below
+retain historical source identities and measurements.
+
 
 Latest Flare anchor proof:ordinary6/6 and canonical fa5c17fe6/6 production plus
 6/6 genuine DEV pass(twelve browser realms). Unsupported water,car,train,resting

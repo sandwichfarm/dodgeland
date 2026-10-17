@@ -8681,6 +8681,49 @@
         }
       ],
       "provenance": "Twenty actual Race component lifetimes in both bases:seeded real tactical item spawning,legacy/varied river asset fixtures,physical tracking/pause/actual single or simultaneous hops/one owner/fractional carry/slowest-traveler cleanup/frozen results. Terrain fixture only;no pickup,pose,clock,progress,charge or effect injection."
+    },
+    "relay-development-03": {
+      "files": [
+        "tests/relay-runtime.mjs"
+      ],
+      "roles": {
+        "tests/relay-runtime.mjs": "mixed"
+      },
+      "browser": true,
+      "buildScopes": [
+        "production",
+        "development"
+      ],
+      "jobs": [
+        {
+          "id": "relay-runtime",
+          "file": "tests/relay-runtime.mjs",
+          "role": "mixed",
+          "requiredRealms": [
+            "node",
+            "browser"
+          ],
+          "defaultBuildScope": "production",
+          "artifactPatterns": []
+        },
+        {
+          "id": "relay-runtime-development",
+          "file": "tests/relay-runtime.mjs",
+          "role": "mixed",
+          "requiredRealms": [
+            "node",
+            "browser"
+          ],
+          "defaultBuildScope": "development",
+          "artifactPatterns": [],
+          "requiredBuildScopes": [
+            "development"
+          ],
+          "verifyArtifactScope": true,
+          "nodeRealmId": "tests/relay-runtime.mjs#relay-runtime-development"
+        }
+      ],
+      "provenance": "Whole original Relay runtime suite in normal production and verified genuine DEV artifacts: seeded49/50/51 fractional baton,owned market and lifecycle UI. DEV parent counters stay development-only;production mode intervals remain unchanged."
     }
   },
   "pendingAdapters": [
@@ -16497,6 +16540,22 @@
             ]
           }
         ]
+      },
+      {
+        "id": "relay-runtime-development",
+        "file": "tests/relay-runtime.mjs",
+        "role": "mixed",
+        "requiredRealms": [
+          "node",
+          "browser"
+        ],
+        "defaultBuildScope": "development",
+        "artifactPatterns": [],
+        "requiredBuildScopes": [
+          "development"
+        ],
+        "verifyArtifactScope": true,
+        "nodeRealmId": "tests/relay-runtime.mjs#relay-runtime-development"
       }
     ],
     "controls": [

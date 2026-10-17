@@ -2,6 +2,16 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Current real DEV Relay evidence
+
+RELAY-DEVELOPMENT/PROOF adds the whole actual Relay runtime suite to a verified
+DEV artifact,with a separate Node parent. PROD12/12 and DEV12/12 pass,28 browser
+realms,two Node parents. No original assertions/jobs disappear. DEV remains
+excluded from production-mode attribution. Nineteen new DEV-only witnesses beyond
+Flare yield2277/2805B(needs108);browser8341/9867(needs46),Relay2286/2722(needs28)
+and Race2492/3020(needs75) are unchanged. These are source/schema-identical
+diagnostics,not new initial/global-zero annotations or full acceptance.
+
 ## Current seat/call-closure review
 
 SEAT-CALL-CLOSURE/AUDIT/PROOF establish only common optional-placement fallbacks

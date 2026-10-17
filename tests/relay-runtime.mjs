@@ -237,7 +237,7 @@ test('paid Relay pack and sale remain with active owner while inactive inspectio
   if(await app.onGame(function(){return this.state==='paused';}))await app.key('pause');
   assert.deepEqual(await snapshot(),claimed,'closing the market retains both owners and the selected pack result');
   const afterInterval=await snapshotRealm(app.frame,await observe());
-  if(beforeInterval)recordInterval(beforeInterval,afterInterval,'relay-paid-pack-sale-owner');
+  if(beforeInterval?.buildScope==='production')recordInterval(beforeInterval,afterInterval,'relay-paid-pack-sale-owner');
  }finally{await app.close();}
 });
 
