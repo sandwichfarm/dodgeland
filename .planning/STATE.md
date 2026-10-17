@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-12 collection11460 terminal at Survive recovery matrix timeout
-last_updated: "2026-10-16T23:55:08.241833+00:00"
+stopped_at: 07-12 recovery focused and cancellation passed; suffix diagnostic next
+last_updated: "2026-10-17T00:18:27.674813+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,14 @@ progress:
   completed_plans: 40
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Collection11460 exited1 after119 production PASS; hand/menu repaired frontiers cleared, recovery matrix120s cancellation pending diagnosis.
+last_activity_desc: Recovery68c3f42 focused48811 and cancellation77687 passed; exact ordered127 retained, suffix diagnostic authorized, full report pending.
 ---
 
 # Project State
 
 Adjacent run-menu observation14480 confirms ready320×360 Options,320×560 home and390×844 home share the Travelers overflow; corresponding dead states fit because Local Play is absent. Temporary read-only diagnostic only, no replacement gate or source/test edits. No active process; repair scope must cover ready home as well as Options.
+
+Latest recovery repair68c3f42:48811 exit0 ordinary/canonical6tests with exactordered127cells and full requiredchecks; canonical6c5e9bc7-3a00-4a0b-92dc-332ed130785f.77687 negative wrapperexit0 expectedchild1 aftersetup,8partialframes/no dispatch or capture afterabort, browserclosed,134prefixfiles unchanged (canonical128scope). Evidence07-12-RECOVERY-LAYOUT-REPAIR.md. No active process at this checkpoint; rootauthorized exact12-job suffix diagnostic next, fullcollection held.
 
 CURRENT TERMINAL execution:11460 exited1 after119 production PASS records (controls separate), run`ed12cf45-d4d2-4fb1-a77a-89ede7a9ea78`, frozen source/tests/toolingf625b98. Log`/tmp/down-to-duck-07-12-full-collection-menu-verified.log`. Both repaired hand/menu frontiers passed; next survive-recovery-board-layout aggregate canceled at120000ms, suite127833.855ms with0assertion failures/1cancel. Archived report has127frames/PNGs through final empty-items wide state, errors/external empty, SHA256d067a7b4a286f7065c6dcb5e2294ff4d1ab12e653e13ebedf7d51ef197171711; completion of asynchronous body does not waive cancellation.128 ordinary files restored byte-for-byte, normaldistbc1bcc8f07aae95e7308f3c659157ee5f2cf31dd98dce77d393d2b070373f2fb unchanged. No active process or edits/rerun; precise timing and narrow same-app stage/cleanup repair require root authorization. Complete132-job report/floors still pending. Historical active statements below superseded.
 
