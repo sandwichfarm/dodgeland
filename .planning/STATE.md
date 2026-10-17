@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: 07-03 meaningful coverage closure; full enforcing report pending
-last_updated: "2026-10-17T03:14:02Z"
+last_updated: "2026-10-17T03:41:51Z"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,7 +12,7 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Development session replacement fixed; genuine development gameplay and broader solo/turn witnesses pass; full enforcing coverage remains open.
+last_activity_desc: Short-frame Dev obstruction fixed; fresh launch and genuine development evidence committed; full enforcing coverage remains open.
 ---
 
 # Project State
@@ -52,19 +52,21 @@ negative controls and canonical79259 (7b40ca7), run
 201 exact dispositions, no excluded positive hit. Global/per-file counters stay
 complete. Browser applicable denominator is9852 arms; full enforcement pending.
 
-Latest solo24-lifetime/48-interval run35534 passed (e4cc5d5),
-`b67390f4-35c5-4b68-a092-baacdd06c6e7`: Arcade926/1239L218/320F963/1730B,
-Flow790/1099L195/300F823/1590B. Exact Flow-only mob closure retains bootstrap,
-guard/cleanup and all raw counters. Separate genuine bootstrap run63850
-`90e9c476-0ce0-4e29-973b-18ea512a2624` (d2ba3c4) measures two fresh ESM lifetimes,
-four intervals, main's static Race schema/catalog initialization and real
-listenerless pickup/hurt/heal/rescue/death parity. No duplicated boot counters.
+Latest solo24-lifetime/48-interval run55841 passed (c17843b),
+`29b54a0b-97ff-4da0-b6d1-3b30fdaaf815`: Arcade926/1207L218/296F963/1459B,
+Flow790/1067L195/276F823/1284B. Exact source/caller pins and absent-else
+mapping controls retain reachable guards, initialization and all raw counters.
+Separate genuine bootstrap run `330e4c55-9d60-4443-a7b0-f6cba6924788` adds
+saved-profile validation and retains pinned solo parity: Arcade842/1207L,
+192/296F,723/1459B; Flow817/1067L,188/276F,706/1284B. Two actual fresh ESM
+lifetimes/four intervals; no duplicated boot counters.16projection controls pass.
 
-Latest turn run23173 passed (06b89b0),
-`a22c7560-4154-4c94-b34e-24947ee48541`: Relay1400/2226L489/752F1487/3010B,
-Race1449/2281L531/803F1688/3207B. Seven lifetimes/25 intervals retain closed
-rosters, dead-owner reclaim, unconfirmed-seat skip, pending-offer departure and
-all-dead Race timeout assertions. These mode floors remain open.
+Latest turn run70225 passed (c17843b),
+`63285d8e-4f41-4e85-a94b-78f6e7bf92ba`: Relay1630/2226L551/752F1663/3010B,
+Race1675/2281L584/803F1819/3207B. Nine lifetimes/29 intervals retain all seven
+earlier witnesses and add two fresh module/Game acquisitions, first-hop authority,
+pause/resume and immutable terminal results.15attribution controls and10ordinary
+fresh-launch cases pass. These mode floors remain open.
 
 Development replacement canonical44509 passed,
 `dc650cee-3b95-4b7f-9b31-48ac234e5926`: six actual DEV/PROD browser realms and
@@ -78,12 +80,24 @@ development browser realms with exact artifact hash/script and live-dev-tools
 proof. All26 development source files remain:1601/2122L486/694F1600/2821B.
 Existing production jobs remain. No full floor pass or Node-as-DEV credit.
 
-Current delegation: `relay_first_handoff` reviews further strict-solo
-projection/API call closures read-only. `survive_verifier_fallback` prepares a
-second genuine-development reuse tranche and exact alternate Node-parent binding
-for a repeated mixed job; its patch awaits root review. Root owns semantic
-ledger/state and orchestration. Check live messages before launching any
-tests/build/browser. Only one chain at a time.
+Second genuine DEV tranche98530 passed (c17843b), run
+`6e9dc057-f050-442f-b419-b64aeb05745b`: Survive1/1,health1/1,Race16/16,
+22actualDEV realms plus one independently bound Node parent (global-only).
+All26sources:1837/2122L573/694F1986/2821B. Repeated mixed-job identity has
+overwrite/duplicate/missing-parent controls;38bounded controls passed.
+
+Original240×240light health assertion exposed Dev covering Pause. A second
+candidate covered power status despite passing button checks; both findings are
+retained. Final98ad78c reserves space beside the power panel. Targeted34768
+passed24layout cells in both themes/hand states, clear status/track and actual
+open/close controls. Required23077 checks passed; normal production digest above
+is unchanged. Provisional three-job DEV run and final layout proof remain distinct.
+
+Current delegation: `survive_verifier_fallback` performs read-only DEV gap/whole
+suite selection using verified actual DEV counters. `relay_first_handoff` finished
+turn call-closure review76f818f; root reviews any narrowly mapped implementation.
+Root owns semantic ledger/state and orchestration. Check live messages before
+launching tests/build/browser. Only one chain at a time; currently idle.
 
 ## Next required work
 
