@@ -11,14 +11,21 @@ const root=resolve(new URL('../..',import.meta.url).pathname),directory=await mk
 const proof=JSON.parse(await readFile(join(root,'.planning/phases/07-release-evidence-pr/07-03-DEVELOPMENT-APP-CLOSURE-PROOF.json'),'utf8'));
 const authoritySources=await Promise.all(proof.map(async({path})=>({path,source:await readFile(join(root,path),'utf8')})));
 const configSources=await Promise.all(Object.keys(DEVELOPMENT_CONFIG_PINS).map(async path=>({path,source:await readFile(join(root,path),'utf8')})));
-const targets=['src/game.ts','src/session.ts','src/consumable-drops.ts'];
+const targets=['src/game.ts','src/session.ts','src/consumable-drops.ts','src/mode-rules.ts'];
 const inventory=instrumentSources(Object.fromEntries(authoritySources.filter(s=>targets.includes(s.path)).map(s=>[s.path,s.source])),root);
 const mapped=await reportCoverage(inventory,[Object.fromEntries(Object.values(inventory).map(r=>[r.path,r.zero]))],directory);
 // Synthetic mapped zeros calibrate evaluator behavior; no production hit credit.
 const sources=Object.values(inventory).map(r=>({path:r.path,source:r.source,map:r.map,coverage:mapped.map.fileCoverageFor(r.path).toJSON()}));
 const attributed=Object.fromEntries(sources.map(s=>[s.path,structuredClone(s.coverage)]));
-const args={mode:'development',sources,authoritySources,configSources};
+const args={mode:'development',sources,authoritySources,canonicalSources:authoritySources,configSources};
 const line=(s,fragment)=>{const n=s.source.indexOf(fragment);assert.ok(n>=0,fragment);return s.source.slice(0,n).split('\n').length;};
+test('DEV keeps successful built-in validation and rejects every excluded failure hit or stale compiled caller',()=>{
+ const rules=sources.find(s=>s.path.endsWith('/mode-rules.ts')),ds=dispositions(args),selected=ds.filter(d=>d.path===rules.path);
+ assert.ok(selected.length>20);assert.ok(selected.every(d=>d.authority.endsWith('07-03-APP-BUILTIN-RULE-CLOSURE.md')));
+ for(const[id,fn]of Object.entries(rules.coverage.fnMap))assert.equal(selected.some(d=>d.kind==='function'&&d.id===id),fn.name==='fail');
+ for(const d of selected){const hits=structuredClone(attributed);if(d.kind==='branch')hits[d.path].b[d.id][d.arm]=1;else hits[d.path][d.kind==='statement'?'s':'f'][d.id]=1;assert.throws(()=>reportApplicability({mode:'development',sources,attributed:hits,dispositions:ds}),/contradicted/);}
+ for(const canonicalSources of [undefined,authoritySources.slice(1),[...authoritySources,authoritySources[0]],authoritySources.map(s=>s.path==='src/audio.ts'?{...s,source:s.source+'\n// compiled authoring caller'}:s)])assert.throws(()=>dispositions({...args,canonicalSources}),/caller inventory/);
+});
 test('ten named callable bodies are projected; actual frame/initialization/default crossing sites stay',()=>{
  const original=structuredClone(sources),ds=dispositions(args);
  for(const[file,names]of Object.entries({'game.ts':['export function worldForRow(','export function actorPositions(','  syncSharedEffects('],'session.ts':['  selectMobTarget(','  view():','  sharedWorldEffectsSnapshot('],'consumable-drops.ts':['export function classifyConsumableBucket(','export function consumablePickupId(','export function classifyItemBucket(','export function sampleConsumableDrop(']})){

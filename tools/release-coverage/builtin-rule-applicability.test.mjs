@@ -15,7 +15,8 @@ const text=await readFile(join(root,'src/mode-rules.ts'),'utf8'),inventory=instr
 // Synthetic zero schema is only a tool calibration; it supplies no gameplay credit.
 const mapped=await reportCoverage(inventory,[Object.fromEntries(Object.values(inventory).map(r=>[r.path,r.zero]))],directory),record=Object.values(inventory)[0];
 const source={path:record.path,source:record.source,map:record.map,coverage:mapped.map.fileCoverageFor(record.path).toJSON()},sources=[source],attributed={[source.path]:structuredClone(source.coverage)};
-const input={source,closureSources:callers,canonicalSources:callers},modes=['solo-arcade','solo-flow','relay','race'];
+const appConfigSources=await Promise.all(['index.html','vite.config.ts','tsconfig.json'].map(async path=>({path,source:await readFile(join(root,path),'utf8')})));
+const input={source,closureSources:callers,canonicalSources:callers,appConfigSources},modes=['solo-arcade','solo-flow','relay','race','browser-presentation-owner-lifecycle','development'];
 const run=(mode,extra={})=>builtinRuleDispositions({...input,mode,...extra});
 const has=(rows,kind,id,arm)=>rows.some(d=>d.kind===kind&&d.id===id&&(arm===undefined||d.arm===arm));
 const tree=ts.createSourceFile(source.path,text,ts.ScriptTarget.Latest,true),point=o=>{const p=tree.getLineAndCharacterOfPosition(o);return{line:p.line+1,column:p.character};},range=n=>({start:point(n.getStart(tree)),end:point(n.end)}),guards=[];
@@ -48,7 +49,7 @@ test('both complete disk and canonical caller sets fail closed for new, missing,
  for(const mode of modes){
   for(const key of ['closureSources','canonicalSources'])for(const value of [undefined,callers.slice(1),[...callers,callers[0]],callers.slice(1).concat(callers[1]),[...callers,{path:'src/new-author.ts',source:'export const author = composeModeDefinition;'}],callers.map(r=>r.path==='src/audio.ts'?{...r,source:r.source+'\n// authoring caller'}:r),callers.map((r,i)=>i===0?{...r,path:'not-src.ts'}:r)])assert.throws(()=>run(mode,{[key]:value}),/caller inventory/);
  }
- assert.throws(()=>run('development'),/stratum/);assert.throws(()=>run('race',{source:undefined}),/required/);assert.throws(()=>run('race',{source:{...source,source:text+'\n'}}),/source changed/);
+ assert.throws(()=>run('unregistered-application'),/stratum/);assert.throws(()=>run('race',{source:undefined}),/required/);assert.throws(()=>run('race',{source:{...source,source:text+'\n'}}),/source changed/);
 });
 
 test('unknown malformed empty inverted and crossing branch/statement locations remain applicable',()=>{
@@ -62,4 +63,11 @@ test('unknown malformed empty inverted and crossing branch/statement locations r
 test('source-map or schema drift cannot reuse emitted identities',()=>{
  const mode='race',rows=run(mode),changed=structuredClone(source);changed.map.file='divergent.js';assert.throws(()=>reportApplicability({mode,sources:[changed],attributed,dispositions:rows}),/stale/);
  const schema=structuredClone(source),hits=structuredClone(attributed);schema.coverage.fnMap['0'].name='different';hits[schema.path].fnMap['0'].name='different';assert.throws(()=>reportApplicability({mode,sources:[schema],attributed:hits,dispositions:rows}),/stale/);
+});
+
+
+test('application scopes require exact independently read entry/build configuration',()=>{
+ for(const mode of ['browser-presentation-owner-lifecycle','development']){
+  for(const appConfigSources of [undefined,[],input.appConfigSources.slice(1),[...input.appConfigSources,input.appConfigSources[0]],input.appConfigSources.map(s=>s.path==='index.html'?{...s,source:s.source+'\n<!-- another entry -->'}:s)])assert.throws(()=>run(mode,{appConfigSources}),/config/);
+ }
 });
