@@ -1,0 +1,79 @@
+{
+  "status": "Narrow product repair and ordinary gates passed; source-profile refresh and final release still required",
+  "utc": "2026-10-17T19:17:46.923140+00:00",
+  "retainedRedCommit": "bcd79e7",
+  "sourceTransition": {
+    "comparisonCommit": "bcd79e7",
+    "executableCount": 158,
+    "changes": [
+      {
+        "path": "src/game.ts",
+        "before": "04d7556c96b37b03539f270c2ce2c8e2b620c301d729a1fd6238be8e66d9413b",
+        "after": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd"
+      }
+    ],
+    "executablePairDigest": "97f037fa041e738d931c54fb47f98d85632b8c0e4eaa7275f500e9c300787bd6",
+    "developmentAuthorityDigest": "d1b631456c6a698df30488f1a64f5fcb1c5d29346d499e40982dee3ba64b2b89",
+    "normalArtifactRawSha256": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
+    "rootLockRawSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+    "allTrackedSurfaceCount": 176,
+    "sourceCount": 159
+  },
+  "sourceAudit": {
+    "sources": 159,
+    "targets": 371,
+    "onlyChangedBody": "Game.move",
+    "resolvedReferenceDelta": "One added SharedWorld.sessionActive read/identifier in the new guard; other370 targets unchanged ignoring locations"
+  },
+  "focused": {
+    "tests": 16,
+    "pass": 16,
+    "fail": 0
+  },
+  "nearest": {
+    "tests": 185,
+    "pass": 185,
+    "fail": 0
+  },
+  "requiredGates": {
+    "type-check": 0,
+    "build": 0,
+    "test:guidance": 0,
+    "test:conformance": 0
+  },
+  "cliConformance": {
+    "passed": 5,
+    "failed": 0,
+    "unmeasured": 5
+  },
+  "artifacts": {
+    "artifacts/release-coverage/relay-generation-effects/red.log": "6655e19f5dacb22eeb80c0240f045e992adae518d18535bec6bc6902dff41827",
+    "artifacts/release-coverage/relay-generation-effects/green-first.log": "5b86e1e290a97ccbd1d7ac0eada9d6fc09ce1b4040d14b136b8a2677bb357cee",
+    "artifacts/release-coverage/relay-generation-effects/nearest-first.log": "c6f8c4ad92316163c9b3c6f4293979e8f1643c52b9014507ddf739a2e7661f50",
+    "artifacts/release-coverage/relay-generation-effects/type-check.log": "ae906a75cede16c54bcb5774b6d83bebe7359bda6c2c08c972a4cb11d201e2f5",
+    "artifacts/release-coverage/relay-generation-effects/build.log": "72ca9d4ef82c4a3d299793f831a999baaffd06118dc6ca4459a42ceda3377164",
+    "artifacts/release-coverage/relay-generation-effects/guidance.log": "c69b128f99997d213349091777884a2a1ab27b6c2c573013e945413862303dca",
+    "artifacts/release-coverage/relay-generation-effects/conformance.log": "4e57c50b2684972644e78ea3e533faf67f8a1ba3d582c6fae7636d1726d1d2a2",
+    "artifacts/release-coverage/relay-generation-effects/source-transition.json": "61936604fe009e32dc70a71a5c1c192f5a987012e6125fc15e9b580b2abcd3cb",
+    "artifacts/release-coverage/relay-generation-effects/ast-delta.mjs": "1fd47694a2a940f96cda0b75f8c7d750550be455df9687555a712887748cb1a1",
+    "artifacts/release-coverage/relay-generation-effects/ast-delta.json": "5fce5ef03f423d3b0c2467584fd06fa3ebe847623cfc24c060e86b8b4d614cfb",
+    "artifacts/release-coverage/relay-generation-effects/reference-audit.mjs": "5fe87f7b2f44cf3fb36d3ce3134ff94f983563459c627a562b64748e2f7b5a4d",
+    "artifacts/release-coverage/relay-generation-effects/reference-audit.json": "2aea5de39e364e2289001dd8e9dfd4731d918dadce806c06b72bc886a521f18e",
+    "artifacts/release-coverage/relay-generation-effects/compare-references.py": "89aa915dce4e4b4a0c13ab9d32095beffb23879b6761e168bc2bd0ece8f60657",
+    "artifacts/release-coverage/relay-generation-effects/reference-comparison.json": "fd88a805bd10f0f2bb4dabda4e6d7e6fd008e178f396377dd9915ede9401b442"
+  },
+  "testHash": "f0c7ce31f3fcd0a54d1f5ba587d7e3b36631db7589e8fd1513ad98b1c4049b17",
+  "dispatch": {
+    "fullJobs": 167,
+    "newJob": "relay-generation-effects-test",
+    "newGroup": "relay-generation-effects-03",
+    "expectedLifetimes": 16,
+    "expectedIntervals": 48,
+    "status": "Registered; canonical bounded attribution still needs execution"
+  },
+  "limits": [
+    "No new current-source mode or global floor claim",
+    "Previous Game04 counters cannot be merged with Game8836 counters",
+    "No PR opened;07-03/04/05/06 remain open"
+  ]
+}

@@ -458,7 +458,10 @@ export class Game {
       this.maxY = ny; this.idle = 0;
       if (this.scoringPlayer) this.scoringPlayer.earnedDistance++;
       this.world?.noteProgress(ny);
-      this.awardCoins(this.run.advanceScore(this.currentScore)); this.ensureRows(); this.regenerate(); this.lifecycle('progress');
+      this.awardCoins(this.run.advanceScore(this.currentScore));
+      // Sessions generate once per shared tick, after refreshing world effects.
+      if (!this.world?.sessionActive) this.ensureRows();
+      this.regenerate(); this.lifecycle('progress');
     }
     return true;
   }

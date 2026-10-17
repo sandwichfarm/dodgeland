@@ -81,7 +81,8 @@
     "test:turn-log-coins": "node tests/strict-node-tests.mjs tests/turn-log-coin-capture.test.mjs",
     "test:turn-platform-rewards": "node tests/strict-node-tests.mjs tests/turn-platform-rewards.test.mjs",
     "test:turn-recovery-terrain": "node tests/strict-node-tests.mjs tests/turn-recovery-terrain.test.mjs",
-    "test:relay-world-effects": "node tests/strict-node-tests.mjs tests/relay-world-effects.test.mjs"
+    "test:relay-world-effects": "node tests/strict-node-tests.mjs tests/relay-world-effects.test.mjs",
+    "test:relay-generation-effects": "node tests/strict-node-tests.mjs tests/relay-generation-effects.test.mjs"
   },
   "dependencies": {
     "@napplet/sdk": "^0.29.0"
