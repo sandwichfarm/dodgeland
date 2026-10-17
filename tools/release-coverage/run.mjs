@@ -57,7 +57,7 @@ export async function auditExecutionInventory(manifest){
  const paths=tracked.stdout.split('\0').filter(Boolean),pkg=JSON.parse(await readFile(join(repositoryRoot,'package.json'),'utf8'));
  const resolved=resolveCommandInventory(pkg.scripts,await readFile(join(repositoryRoot,'tests/phase6-gate.mjs'),'utf8'),paths);
  // This plan's new original-purpose suite is an explicit additive entry, never a replacement.
- resolved.entries.push({path:'tests/release-mode-coverage.mjs',origins:['plan07-12:mode-attribution']},{path:'tests/release-survive-mode-coverage.test.mjs',origins:['plan07-03:component-mode-attribution']},{path:'tests/release-solo-mode-coverage.test.mjs',origins:['plan07-03:solo-component-attribution']});resolved.entries.sort((a,b)=>a.path.localeCompare(b.path));
+ resolved.entries.push({path:'tests/release-mode-coverage.mjs',origins:['plan07-12:mode-attribution']},{path:'tests/release-survive-mode-coverage.test.mjs',origins:['plan07-03:component-mode-attribution']},{path:'tests/release-solo-mode-coverage.test.mjs',origins:['plan07-03:solo-component-attribution']},{path:'tests/release-turn-mode-coverage.test.mjs',origins:['plan07-03:turn-component-attribution']});resolved.entries.sort((a,b)=>a.path.localeCompare(b.path));
  const closure=new Map(),queue=resolved.entries.map(r=>r.path);
  while(queue.length){const path=queue.shift();if(closure.has(path))continue;const text=await readFile(join(repositoryRoot,path),'utf8'),source=ts.createSourceFile(path,text,ts.ScriptTarget.Latest,true,ts.ScriptKind.JS),imports=[],dynamic=[];
   function add(spec){if(!spec.startsWith('.'))return;const target=relative(repositoryRoot,resolve(repositoryRoot,dirname(path),spec));if(!paths.includes(target))throw Error(`Unresolved local import ${path}: ${spec}`);imports.push(target);if(target.startsWith('tests/'))queue.push(target);}
@@ -126,7 +126,10 @@ export function validateModelSidecar(inventory,row,parents,{runId,jobId,realmId,
    }
   }else{
    if(actual.length!==expected.phases.length||actual.some((i,n)=>i.observation.phase!==expected.phases[n][0]||i.endObservation.phase!==expected.phases[n][1]))throw Error('Incomplete model lifecycle intervals');
-   if(new Set(actual.map(i=>i.endObservation.sessionId)).size!==1)throw Error('Multiple model session lifetimes');
+   const lifetimes=expected.lifetimes??1;
+   if(!Number.isSafeInteger(lifetimes)||lifetimes<1||new Set(actual.map(i=>i.endObservation.sessionId)).size!==lifetimes||actual.filter(i=>i.observation.phase==='acquiring').length!==lifetimes)throw Error('Unexpected model session lifetimes');
+   const acquired=new Set();let activeSession;
+   for(const interval of actual){if(interval.observation.phase==='acquiring'){if(acquired.has(interval.endObservation.sessionId))throw Error('Repeated model session acquisition');acquired.add(interval.endObservation.sessionId);activeSession=interval.endObservation.sessionId;}else if(interval.observation.sessionId!==activeSession||interval.endObservation.sessionId!==activeSession)throw Error('Unbound model session lifetime');}
   }
  }
  return bound;
