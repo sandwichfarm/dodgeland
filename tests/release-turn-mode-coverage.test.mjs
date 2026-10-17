@@ -5,9 +5,10 @@ import { loadSources } from './source-loader.mjs';
 import { createTurnModelRecorder } from '../tools/release-coverage/turn-model-attribution.mjs';
 
 const sources=await loadSources(['game','relay','race','market/catalog']);after(()=>sources.dispose());
-const {Game,generateLane}=await sources.import('game');
+const {Game,generateLane,laneActors}=await sources.import('game');
 const {createRelaySession,RelayCoordinator}=await sources.import('relay');
 const {createRaceSession,RaceCoordinator}=await sources.import('race');
+const {generateSeedLane}=await sources.import('levels/index');
 const {ITEM_CATALOG}=await sources.import('market/catalog');
 const config=process.env.DOWN_TO_DUCK_COVERAGE_CONFIG?JSON.parse(await readFile(process.env.DOWN_TO_DUCK_COVERAGE_CONFIG,'utf8')):null;
 const model=config?.modelAttribution;if(config&&!model)throw Error('Missing turn-model attribution configuration');
@@ -173,6 +174,48 @@ function ownedWorld(run){
  const x=p.groundX;ticks(run,12);assert.notEqual(p.groundX,x);assert.equal(p.state,'playing');assert.equal(p.personalScore,before+1);
  course(run,p.y);assert.equal(river.kind,'river');
 }
+// Explicit component encounters, adapted from actor-integration, health and mobs tests.
+// Geometry observations never advance simulation; every contact/carry/AI transition uses LocalSession.update.
+function worldEncounters(run){
+ const {game,session}=run,[p,other]=session.players;
+ const otherBefore={health:other.health,deaths:other.statistics.deaths,wallet:other.run.wallet};
+ const place=(player,x,y)=>{player.x=player.fromX=x;player.y=player.fromY=y;player.hop=0;player.idle=0;};
+ place(other,4,0);place(p,0,0);
+ const fixture=kind=>{
+  for(let row=150;row<400;row++){
+   const candidate=generateSeedLane(game.runSeed,row);
+   if(!candidate.actors||(kind==='platform')!==(candidate.kind==='river'))continue;
+   for(let time=0;time<20;time+=.125){const actor=laneActors(candidate,time).find(a=>a.kind===kind&&Math.abs(a.x)<1&&(kind!=='sports'||a.accelerating));if(actor)return {lane:candidate,time,actor};}
+  }throw Error('Missing seeded progressive '+kind);
+ };
+ const platform=fixture('platform');
+ const river={...structuredClone(platform.lane),index:0,coin:null,coinActor:undefined,phase:platform.lane.phase+(platform.time-game.time)*platform.lane.speed};game.rows.set(0,river);
+ place(p,platform.actor.x,0);place(other,4,2);course(run,2);
+ const x=p.groundX,earned=p.earnedDistance;ticks(run,12);assert.notEqual(p.groundX,x);assert.equal(p.state,'playing');assert.equal(p.earnedDistance,earned);
+ const still=[game.time,p.groundX,other.groundX];game.pause();ticks(run,30);assert.deepEqual([game.time,p.groundX,other.groundX],still);game.resume();course(run,0);
+ // A real side contact hurts/recoils P1; leave the default hurt callback installed.
+ place(p,0,-1);p.health=p.maxHealth;p.hurtRemaining=0;course(run,-1);
+ course(run,0,{kind:'road',speed:0,phase:0,length:1.15});
+ assert.equal(session.dispatch({seat:p.seat,direction:'forward'}),true);
+ for(let n=0;n<120&&p.health===p.maxHealth;n++)ticks(run,1);
+ assert.equal(p.health,p.maxHealth-2);assert.ok(p.hop>0,'contact initiates safe recoil');assert.equal(p.state,'playing');
+ course(run,0);for(let n=0;n<120&&p.hop>0;n++)ticks(run,1);
+ // Earned milestone invokes the installed default heal callback, without wallet/position credit from placement.
+ p.scoreBaseline=game.rules.health.regenerationInterval-1-p.earnedDistance;const frontier=p.maxY;place(p,0,frontier);course(run,frontier);course(run,frontier+1);const healthBefore=p.health;settledMove(run,p,'forward');assert.equal(p.health,Math.min(p.maxHealth,healthBefore+game.rules.health.regenerationAmount));
+ // Progressive accelerating traffic is sampled by real collision resolution while its lane is occupied safely.
+ const sports=fixture('sports'),road={...structuredClone(sports.lane),index:0,coin:null,coinActor:undefined,phase:sports.lane.phase+(sports.time-game.time)*sports.lane.speed};game.rows.set(0,road);
+ place(p,5,0);p.hurtRemaining=10;const beforeActor=laneActors(road,game.time).find(a=>a.id===sports.actor.id);ticks(run,6);const afterActor=laneActors(road,game.time).find(a=>a.id===sports.actor.id);assert.ok(beforeActor&&afterActor);assert.notEqual(afterActor.x,beforeActor.x);assert.notEqual(afterActor.speed,beforeActor.speed);assert.equal(p.state,'playing');course(run,0);p.hurtRemaining=0;
+ for(const kind of ['slime','crab','wasp']){
+  place(p,0,0);place(other,4,2);for(let row=-2;row<4;row++)course(run,row);
+  const mob={id:700+['slime','crab','wasp'].indexOf(kind),kind,x:kind==='slime'?-3:-1,y:0,fromX:kind==='slime'?-3:-1,fromY:0,targetX:0,targetY:0,phase:'rest',phaseLeft:.001,phaseDuration:.001};game.mobs.push(mob);
+  ticks(run,1);
+  if(kind==='slime'){assert.equal(mob.phase,'walking');const old=mob.x;ticks(run,30);assert.ok(mob.x>old);}
+  else {assert.equal(mob.phase,'windup');const target=[mob.targetX,mob.targetY];settledMove(run,p,'forward');assert.deepEqual([mob.targetX,mob.targetY],target);for(let n=0;n<600&&mob.phase!=='moving';n++)ticks(run,1);assert.equal(mob.phase,'moving');for(let n=0;n<600&&mob.phase==='moving';n++)ticks(run,1);assert.equal(mob.phase,'rest');assert.equal(p.state,'playing');}
+  assert.equal(other.health,otherBefore.health);assert.equal(other.statistics.deaths,otherBefore.deaths);game.mobs.length=0;
+ }
+ place(p,0,0);place(other,4,0);p.hurtRemaining=0;for(let row=-2;row<4;row++)course(run,row);
+ assert.equal(other.run.wallet,otherBefore.wallet);assert.equal(p.statistics.deaths,0);assert.equal(other.statistics.deaths,otherBefore.deaths);
+}
 function rescueAndFinish(run,mode){
  const p=run.session.players[0];
  course(run,p.y+1,{kind:'river',phase:10,length:1});assert.equal(run.session.dispatch({seat:p.seat,direction:'forward'}),true);
@@ -190,7 +233,7 @@ function rescueAndFinish(run,mode){
 }
 test('Relay Arcade seeded world paid inventory magnet and personal rescue',()=>{
  const run=arcade('relay'),p=run.session.players[0];
- run.run('arcade-owned-world',()=>ownedWorld(run));
+ run.run('arcade-owned-world',()=>{ownedWorld(run);worldEncounters(run);});
  run.run('arcade-paid-market-pull',()=>{
   p.run.advanceScore(100);p.run.creditCoins(1000);assert.equal(p.run.open(),true);
   const before=p.run.wallet;assert.equal(stockBuy(run,p,'magnet').ok,true);assert.ok(p.run.wallet<before);assert.ok(p.run.cards.length);
@@ -204,7 +247,7 @@ test('Relay Arcade seeded world paid inventory magnet and personal rescue',()=>{
 });
 test('Race Arcade seeded world cosmetics reject gameplay stock and personal rescue',()=>{
  const run=arcade('race'),p=run.session.players[0];
- run.run('arcade-owned-world',()=>ownedWorld(run));
+ run.run('arcade-owned-world',()=>{ownedWorld(run);worldEncounters(run);});
  run.run('arcade-cosmetic-authority',()=>{
   p.run.advanceScore(100);p.run.creditCoins(1000);assert.equal(p.run.open(),true);
   const before=p.run.wallet;assert.equal(stockBuy(run,p,'look-hat-cap').ok,true);assert.ok(p.run.wallet<before);assert.equal(transact(run,p,'equip',{itemId:'look-hat-cap'}).ok,true);
