@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-03 safe recovery retry and blocked Relay rotation pass26 cases; branch gaps83 Relay109 Race
-last_updated: "2026-10-17T18:02:02.132008+00:00"
+stopped_at: 07-03 authoring setup passes4 expanded cases; branch gaps69 Relay98 Race
+last_updated: "2026-10-17T18:07:06.346996+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,14 +12,26 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Recovery terrain adds7 Relay3 Race branch witnesses and two initial annotations;188 reviewed863 pending;165 full jobs retained.
+last_activity_desc: Authoring validation adds14 Relay11 Race branch witnesses and two initial annotations;190 reviewed861 pending;165 full jobs retained.
 ---
 
 # Project State
 
 ## Current work
 
-Latest checkpoint: recovery-terrain proof b7c2a740 passes26/26 ordinary and
+Latest checkpoint: expanded authoring/setup proof3248a738 passes4/4 ordinary
+and canonical cases,one Node parent/12 actual mode intervals. Each acquisition
+rejects38 malformed real Game inputs,then adopts the corrected Game;original
+staging rollback,actual hop and frozen results remain. No source/scope/floor
+change or new full job. DiagnosticRelay2264/2744B(needs69),Race2480/3032B(needs98);
+line/functions pass diagnostically. Two unchanged market/run arms add semantic
+review:190 annotated(189 covered,one private default),861 pending. Complete
+inventory153 entries/160 closure/165 jobs retains earlier declarations. Required
+type/build/guidance/conformance exit0;CLI still5 pass/5 unmeasured. Normal903/
+rootlock5ac unchanged. TURN-AUTHORING/PROOF bind exact identities and limits.
+No test/build chain remains live and no PR is open.
+
+Previous checkpoint: recovery-terrain proof b7c2a740 passes26/26 ordinary and
 canonical cases,26 actual lifetimes/80 bounded intervals. Failed unsafe personal
 recovery preserves charge and exact state;corrected terrain permits retry.
 Spent-charge Relay death waits on blocked placement,then original-device reclaim
@@ -1057,8 +1069,8 @@ contradiction proof;do not prune from the zero count alone. No PR is open.
 
 1. Complete07-03: broad honest Solo/Relay/Race and development evidence,
    remaining per-file gaps, complete semantic ledger, then a fresh enforcing
-   full report. Keep all floors.188 initial zero arms have source-identical
-   semantic annotations(187 covered,one reviewed private default);863 still need completed semantic/behavioral proof,
+   full report. Keep all floors.190 initial zero arms have source-identical
+   semantic annotations(189 covered,one reviewed private default);861 still need completed semantic/behavioral proof,
    including remaining source-reviewed market candidates as listed in the ledger. Genuine fresh
    bootstrap proof now exists; all unions before full collection are diagnostic.
 2. Execute07-04 conformance proof,07-05 clause/visual evidence,07-06 exact final

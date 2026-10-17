@@ -315,3 +315,19 @@ body/funds and fatal damage are explicit;all positions,elapsed time,progress,
 charge and lifecycle use real input/session authority. Already-reviewed Relay/
 Race recovery guards are not counted twice.
 [Exact identities and limits](07-03-TURN-RECOVERY-TERRAIN-PROOF.json).
+
+## Turn-authoring
+
+**ARCH-01/03/04,RELAY-01,RACE-01,TEST-02/03.** Mode acquisition must reject
+invalid authored inventory metadata and nonpositive/nonfinite power duration
+without rewriting inputs or poisoning the current course. The real Game
+constructor receives frozen malformed catalogues;corrected definitions then
+construct the actual Game adopted by the mode. Original staging rollback,real
+first hop,owner isolation and frozen result assertions remain. Whole existing
+`tests/turn-setup-retry.test.mjs` passes4/4 canonical
+`3248a738-2f47-4a86-a2aa-e438ed3c7c1b`,one Node parent/12 actual intervals.
+Initial unchanged market/run16/0 at103 has32 hits;27/0 at111 has16. Initial,
+current disk and canonical source/map/full mapped schemas match exactly.
+There are38 additional rejected authoring inputs per lifetime,not additional
+standalone mode tests. Component authoring evidence is distinct from public UI.
+[Exact identities and limits](07-03-TURN-AUTHORING-PROOF.json).

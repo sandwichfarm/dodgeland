@@ -2,6 +2,19 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Current authoring/acquisition validation proof
+
+Expanded existing Relay/Race Arcade/Flow setup suite passes4/4 ordinary and
+canonical3248a738,one Node parent/12 intervals. Each actual acquisition rejects
+38 malformed Game/definition/catalogue inputs without mutation,then the real
+mode adopts the corrected Game with validated pack-boundary metadata. Original
+proposal/staging rollback,actual hop and frozen results remain. TURN-AUTHORING/
+PROOF retain exact identities and component limits. The union replaces the old
+setup cohort;no repeated lifetimes or new full job are added. Gains14 Relay/11
+Race witnesses leave69/98 branches required. Two unchanged initial market/run
+validation arms add review:190 annotated(189 covered,one private default),861
+pending. No source/scope/floor or complete release acceptance change.
+
 ## Current safe-recovery and blocked-handoff proof
 
 Whole actual Relay/Race Arcade/Flow recovery-terrain suite passes26/26 ordinary
@@ -1043,8 +1056,8 @@ Source `ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f`; schem
 |9|61|1|[7915680, 0]|pending|
 |10|89|0|[0, 426]|pending|
 |11|89|2|[426, 426, 0]|pending|
-|16|103|0|[0, 593119]|pending|
-|27|111|0|[0, 593107]|pending|
+|16|103|0|[0, 593119]|[covered arm 0](07-03-LEDGER-REVIEW.md#turn-authoring)|
+|27|111|0|[0, 593107]|[covered arm 0](07-03-LEDGER-REVIEW.md#turn-authoring)|
 |41|154|0|[0, 43]|pending|
 |45|168|0|[0, 137]|pending|
 |50|174|0|[0, 28]|pending|
