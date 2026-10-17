@@ -488,6 +488,17 @@ Game218/0@594, Mobs43/0@171 and48/0@179. No initial global-zero row relabelling;
 semantic ledger162/889 unchanged. See07-03-TURN-SPAWN-SAFETY-PROOF.md/json.
 Full enforcing and original release gates remain required; no release pass.
 
+Read-only ownership-closure investigation added07-03-TURN-OWNERSHIP-CLOSURE-FINDING
+and TURN-REFERENCE-AUDIT.json. Compiler resolved-symbol scan159src files finds
+Relay.confirm263→LocalSession.transferPosition, which graph inbound trace omitted;
+keep it in Relay. Main.frame1723 is also a real Game.update caller missed by graph.
+No new exclusion/denominator/counter changes. Standalone Game/updateMobs/coin-tail
+closures still require setup/reset/pagehide/terminal/re-entry ownership and
+canonical-definition/callback proof; current turn recorder base ID alone is not
+that proof. Main.closeMarket unconditional paths remain kept. Investigate full
+ownership before implementing any closure; preserve authored-mode composability.
+No runtime is active; full release gates still open.
+
 ## Next required work
 
 1. Complete07-03: broad honest Solo/Relay/Race and development evidence,
