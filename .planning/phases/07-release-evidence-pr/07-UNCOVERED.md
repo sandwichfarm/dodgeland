@@ -1362,3 +1362,12 @@ See `07-03-SOLO-APPLICABILITY.md` for exact source-pinned production disposition
 ## Actual Survive mode behavior gains
 
 `07-03-SURVIVE-GAPS.md` records ordinary2/2 and canonical2/2 run344fd116-4fb9-4e87-85ad-8c31a8bcd837: same two actual mode lifetimes and ten intervals, one Node parent, no source change. Real production progress/recovery/item/archival transactions increase each mode from80/89L50/65F102/165B to87/89L64/65F149/165B, with unchanged denominators and explicit arranged component-model provenance. Full enforcing collection still pending; historical baseline zero rows are retained, not relabeled as final failures or silently deleted.
+
+## Sound-settings UI restoration gains
+
+`07-03-SOUND-UI-GAPS.md` records ordinary and canonical chain89647 exit0,
+run8d6f387f-34c7-4985-995a-6036a9483f90,22 browser payloads and19 new source-mapped
+branch-arm hits in unchanged sound-settings.ts. Saved-pack hydration/cache,
+controlled deadline/retry, optional-domain fallback and invalid input are actual
+SDK/UI paths. Focused56/67; initial-full plus focused diagnostic union62/67 is
+not a final aggregate pass. Baseline rows remain intact; full enforcement pending.
