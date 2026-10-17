@@ -8,6 +8,7 @@ import { buildInventory, repositoryRoot } from './inventory.mjs';
 import { mergePayloads } from './collector.mjs';
 import { reportApplicability } from './applicability.mjs';
 import { soloApplicabilityDispositions } from './solo-applicability.mjs';
+import { turnApplicabilityDispositions, TURN_APPLICABILITY_SOURCES } from './turn-applicability.mjs';
 import { reportCoverage, hash } from './instrument.mjs';
 import { pathToFileURL } from 'node:url';
 import { validateIntervals, modes } from './attribution.mjs';
@@ -152,6 +153,27 @@ export function projectSoloApplicability(mode,inventory,mapped,paths,intervals){
  return reportApplicability({mode,sources,attributed,dispositions:soloApplicabilityDispositions({mode,sources})});
 }
 
+export function projectTurnApplicability(mode,inventory,mapped,paths,intervals){
+ if(!['relay','race'].includes(mode))throw Error('Turn applicability mode required');
+ const witnesses=intervals.filter(i=>i.mode===mode);
+ if(!witnesses.length)throw Error('Turn applicability requires actual mode witnesses');
+ validateIntervals(inventory,witnesses);
+ const sources=paths.map(path=>{
+  const absolute=resolve(repositoryRoot,path),record=Object.values(inventory).find(r=>r.path===absolute);
+  if(!record||!mapped[absolute])throw Error('Missing mapped applicability source');
+  return {path:absolute,source:record.source,map:record.map,coverage:mapped[absolute]};
+ });
+ const attributed=Object.fromEntries(sources.map(s=>[s.path,mapped[s.path]]));
+ const authoritySources=Object.keys(TURN_APPLICABILITY_SOURCES).filter(path=>!paths.includes(path)).map(path=>{
+  const absolute=resolve(repositoryRoot,path),record=Object.values(inventory).find(r=>r.path===absolute);
+  if(!record||!mapped[absolute])throw Error('Missing mapped turn authority source');
+  return {path:absolute,source:record.source,map:record.map,coverage:mapped[absolute]};
+ });
+ const dispositions=turnApplicabilityDispositions({mode,sources:[...sources,...authoritySources]});
+ if(dispositions.some(d=>!sources.some(source=>source.path===d.path)))throw Error('Turn authority outside stratum cannot carry dispositions');
+ return {...reportApplicability({mode,sources,attributed,dispositions}),authoritySources:authoritySources.map(source=>({path:source.path,sourceHash:hash(source.source)}))};
+}
+
 export function evaluatePolicy(policy,files,strata){
  const failures=[];
  const check=(name,summary,floors)=>{
@@ -247,8 +269,8 @@ async function main(){
    const raw=mergePayloads(data.inventory,selected,{runId,expectedRealms:selected.map(p=>p.realmId)}),stratumReport=await reportCoverage(data.inventory,[raw],join(output,'strata',name)),files=summaries(stratumReport.map);
    strata[name]=Object.fromEntries(['lines','functions','branches'].map(metric=>[metric,paths.reduce((sum,p)=>({covered:sum.covered+files[p][metric].covered,total:sum.total+files[p][metric].total}),{covered:0,total:0})]));
    rawStrata[name]=structuredClone(strata[name]);
-   if(name.startsWith('solo-')){
-    applicability[name]=projectSoloApplicability(name,data.inventory,stratumReport.map.toJSON(),paths,intervals);
+   if(name.startsWith('solo-')||['relay','race'].includes(name)){
+    applicability[name]=(name.startsWith('solo-')?projectSoloApplicability:projectTurnApplicability)(name,data.inventory,stratumReport.map.toJSON(),paths,intervals);
     strata[name]=Object.fromEntries(['lines','functions','branches'].map(metric=>[metric,applicability[name].applicable[metric]]));
    }
    if(modes.includes(name)){
@@ -262,7 +284,7 @@ async function main(){
    }
    strataProof[name]={sourcePaths:paths,realms:selected.map(p=>p.realmId),basis:modes.includes(name)?'verified exclusive interval delta':'actual complete source-bound realm snapshots'};
   }
-  policyResult=full?evaluatePolicy(policy,summaries(report.map),strata):{pass:false,failures:[],thresholdsEvaluated:false};policyResult.failures.sort((a,b)=>a.name.localeCompare(b.name)||a.metric.localeCompare(b.metric));attribution={strata,rawStrata,applicability,strataProof,provenanceStrata,policyBasis:'Solo mode strata use source-bound stable-solo applicability; raw/global/per-file maps unchanged; all other strata raw',intervals:intervals.map(({payload,...identity})=>identity),globalUses:'complete parent snapshots only; interval deltas never added globally'};
+  policyResult=full?evaluatePolicy(policy,summaries(report.map),strata):{pass:false,failures:[],thresholdsEvaluated:false};policyResult.failures.sort((a,b)=>a.name.localeCompare(b.name)||a.metric.localeCompare(b.metric));attribution={strata,rawStrata,applicability,strataProof,provenanceStrata,policyBasis:'Solo and turn mode strata use source-bound composition applicability; raw/global/per-file maps unchanged; Survive strata raw',intervals:intervals.map(({payload,...identity})=>identity),globalUses:'complete parent snapshots only; interval deltas never added globally'};
   await writeFile(join(output,'shortfalls.json'),JSON.stringify(policyResult,null,2));await writeFile(join(output,'attribution.json'),JSON.stringify(attribution,null,2));await writeFile(join(output,'shortfalls.txt'),policyResult.failures.map(f=>`${f.name} ${f.metric}: ${f.covered}/${f.total}; floor ${f.floor}%`).join('\n')+'\n');
  }
  await writeFile(join(output,'manifest.json'),JSON.stringify({status:reportOnly?'report-only':policyResult?.pass?'enforced-pass':'enforced-fail',thresholdsEvaluated:full,policyResult,runId,expectedRealms:allRealms,payloadCount:payloads.length,files:data.files,summary:report.summary,normalArtifactHash:normalHash,browserArtifactHash:group.browser?browserBuilds.production?.artifactHash:null,browserBuilds:group.browser?browserBuilds:null,jobs,workerRoles,separateScopes:manifest?.separateScopes,provenance:group.provenance??'existing assertions with actual/arranged distinctions retained',browserRows:browserRows.map(({identity,realmId})=>({identity,realmId}))},null,2));

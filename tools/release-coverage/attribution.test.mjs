@@ -127,3 +127,11 @@ test('solo component owner/staging evidence and turn base identity remain explic
   assert.throws(()=>deriveInterval(inventory,before,{...after,observation:{...after.observation,base:'stroll'}},'changed-base'));
  }
 });
+
+test('turn applicability refuses absent or invalid actual mode intervals before projection',async()=>{
+ const {projectTurnApplicability}=await import('./run.mjs');
+ assert.throws(()=>projectTurnApplicability('solo-arcade',{}, {},[],[]),/Turn applicability mode/);
+ assert.throws(()=>projectTurnApplicability('relay',{}, {},[],[]),/actual mode witnesses/);
+ assert.throws(()=>projectTurnApplicability('relay',{}, {},[],[{mode:'race'}]),/actual mode witnesses/);
+ assert.throws(()=>projectTurnApplicability('relay',{}, {},[],[{mode:'relay',provenance:'component-model',observation:{}}]));
+});
