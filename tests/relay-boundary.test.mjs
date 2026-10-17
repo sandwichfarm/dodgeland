@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {turnReuseAttribution} from './turn-reuse-attribution.mjs';
 import test, { after } from 'node:test';
 import { loadSources } from './source-loader.mjs';
 import { semanticValue, snapshotGame } from './solo-parity-snapshot.mjs';
@@ -8,13 +9,15 @@ after(() => sources.dispose());
 const gameModule = await sources.import('game');
 const { Game, generateLane, laneActors, coinPosition } = gameModule;
 const { ITEM_CATALOG } = await sources.import('market/catalog');
-const { createRelaySession } = await sources.import('relay');
+const { createRelaySession, RelayCoordinator } = await sources.import('relay');
+const reuse=await turnReuseAttribution({mode:'relay',factory:createRelaySession,Coordinator:RelayCoordinator,lifetimes:3});
+after(()=>reuse.finish());
 const STEP = 1 / 120;
 
-function setup(length = 50, mode = 'stroll', catalog = []) {
+function setup(length = 50, mode = 'stroll', catalog = [], witness) {
   const game = new Game(121, 'pond', mode, false, catalog, 'butter');
   for (const row of game.rows.keys()) courseLane(game, row);
-  const relay = createRelaySession(game, { seats: [
+  const relay = (witness? witness.acquire : createRelaySession)(game, { seats: [
     { seat: 'p1', characterId: 'butter', device: 'keyboard-a' },
     { seat: 'p2', characterId: 'pip', device: 'keyboard-b' },
   ], tilesPerLeg: length });
@@ -139,11 +142,13 @@ test('successful innate rescue settles before opening the already latched bounda
 });
 
 for (const hazard of ['traffic', 'wave', 'mob']) test(`fatal ${hazard} resolves before boundary transfer and retains one personal offer`, () => {
-  const run = setup(1, hazard === 'traffic' ? 'stroll' : 'arcade'), player = run.session.players[0];
+  const witness=reuse.lifetime();
+  const run = setup(1, hazard === 'traffic' ? 'stroll' : 'arcade', [], witness), player = run.session.players[0];
   player.powerReadyAt = 10000; player.health = .25;
   courseLane(run.game, 1, hazard === 'traffic' ? { kind: 'road', phase: 0, speed: 0, spacing: 20, length: 2 } : {});
   if (hazard === 'wave') run.session.world.waveRow = .5;
   if (hazard === 'mob') run.game.mobs.push({ id: 1, kind: 'slime', x: 0, y: 1, fromX: 0, fromY: 1, targetX: 0, targetY: 1, phase: 'rest', phaseLeft: 2, phaseDuration: 2 });
+  witness.interval('fatal-boundary',()=>{
   assert.equal(run.session.dispatch({ seat: 'p1', direction: 'forward' }), true);
   for (let tick = 0; tick < 120 && player.state !== 'dead'; tick++) run.session.update(STEP);
   assert.equal(player.state, 'dead'); assert.equal(player.deathCause, hazard);
@@ -152,6 +157,7 @@ for (const hazard of ['traffic', 'wave', 'mob']) test(`fatal ${hazard} resolves 
   assert.equal(player.statistics.deaths, 1); assert.equal(player.completedForwardTiles, 0); assert.ok(player.recovery.offer);
   const generation = player.recovery.deathGeneration; ticks(run.session, 10);
   assert.equal(player.recovery.deathGeneration, generation); assert.equal(player.statistics.deaths, 1);
+  });witness.finish();
 });
 
 test('fractional platform carry settles before the board freezes actor motion', () => {

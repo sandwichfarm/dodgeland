@@ -1,11 +1,15 @@
 import assert from 'node:assert/strict';
+import {turnReuseAttribution} from './turn-reuse-attribution.mjs';
 import test, { after } from 'node:test';
 import { loadSources } from './source-loader.mjs';
 
 const sources = await loadSources(['game', 'race', 'session', 'mode-rules', 'survive-together', 'consumables', 'consumable-drops', 'market/catalog', 'run-seed', 'levels/index', 'coin-denominations', 'death-spill', 'audio']);
 after(sources.dispose);
 const { Game } = await sources.import('game');
-const { createRaceSession } = await sources.import('race');
+const { createRaceSession, RaceCoordinator } = await sources.import('race');
+
+const reuse=await turnReuseAttribution({mode:'race',factory:createRaceSession,Coordinator:RaceCoordinator,lifetimes:1});
+after(()=>reuse.finish());
 
 test('common world dependency: installed capability must not grant legacy Revival capacity', async () => {
   const game = new Game(3338952125, 'pond', 'arcade', false, [], 'butter');
@@ -187,23 +191,29 @@ function marketRequest(run,seat,kind,itemId,patch={}){
   const p=run.session.players.find(p=>p.seat===seat),ctx=run.session.openCoOpMarket({seat,device:p.device,participantId:p.participantId});assert.ok(ctx);
   return {actionId:`market-${seat}-${ctx.runRevision}-${ctx.inventoryGeneration}-${kind}-${itemId}`,seat,device:p.device,participantId:p.participantId,expectedOwnerGeneration:ctx.ownerGeneration,expectedInventoryGeneration:ctx.inventoryGeneration,expectedRunRevision:ctx.runRevision,expectedContextGeneration:ctx.contextGeneration,kind,itemId,...patch};
 }
-async function catalogRun(){
+async function catalogRun(witness){
   const { ITEM_CATALOG }=await sources.import('market/catalog');
   const game=new Game(113,'pond','arcade',false,ITEM_CATALOG,'butter');
-  const race=createRaceSession(game,{seats:[{seat:'p1',device:'keyboard-a',characterId:'butter'},{seat:'p2',device:'keyboard-b',characterId:'pip'}]});
+  const race=(witness?witness.acquire:createRaceSession)(game,{seats:[{seat:'p1',device:'keyboard-a',characterId:'butter'},{seat:'p2',device:'keyboard-b',characterId:'pip'}]});
   return flat({game,race,session:race.session});
 }
 test('Race owner shop exact 30 price capacity stale wallet no-waste and explicit legacy catalogue denial',async()=>{
-  const run=await catalogRun(),[p1,p2]=run.session.players;p2.run.creditCoins(29);p2.run.advanceScore(100);
+  const witness=reuse.lifetime();
+  const run=await catalogRun(witness),[p1,p2]=run.session.players;p2.run.creditCoins(29);p2.run.advanceScore(100);
+  let request,before;
+  witness.interval('insufficient-wallet',()=>{
   assert.equal(run.session.actCoOpMarket(marketRequest(run,'p2','open')).ok,true);
-  let request=marketRequest(run,'p2','buy-consumable','mud-splash'),before=observation(run);
+  request=marketRequest(run,'p2','buy-consumable','mud-splash');before=observation(run);
   assert.equal(run.session.actCoOpMarket(request).ok,false);assert.equal(observation(run),before);
-  p2.run.creditCoins(1);request=marketRequest(run,'p2','buy-consumable','mud-splash');assert.equal(run.session.actCoOpMarket(request).ok,true);assert.equal(p2.run.wallet,0);assert.equal(p1.run.wallet,0);
-  p2.run.creditCoins(30);request=marketRequest(run,'p2','buy-consumable','mud-splash');before=observation(run);assert.equal(run.session.actCoOpMarket(request).ok,false);assert.equal(observation(run),before);
+  });p2.run.creditCoins(1);
+  witness.interval('exact-price',()=>{request=marketRequest(run,'p2','buy-consumable','mud-splash');assert.equal(run.session.actCoOpMarket(request).ok,true);assert.equal(p2.run.wallet,0);assert.equal(p1.run.wallet,0);
+  });p2.run.creditCoins(30);
+  witness.interval('capacity-owner-replay-legacy',()=>{request=marketRequest(run,'p2','buy-consumable','mud-splash');before=observation(run);assert.equal(run.session.actCoOpMarket(request).ok,false);assert.equal(observation(run),before);
   request=marketRequest(run,'p2','buy-consumable','fog-lantern');assert.equal(run.session.actCoOpMarket({...request,device:'keyboard-a'}).ok,false);assert.equal(run.session.actCoOpMarket(request).ok,true);
   before=observation(run);assert.equal(run.session.actCoOpMarket(request).ok,false);assert.equal(observation(run),before);
   for(const id of ['revival','flare']){request=marketRequest(run,'p2','buy-consumable',id);before=observation(run);assert.equal(run.session.actCoOpMarket(request).ok,false);assert.equal(observation(run),before);}
   const context=run.session.coOpMarketSnapshot();assert.deepEqual(context.offers.filter(o=>o.source==='consumable').map(o=>o.itemId),['mud-splash','fog-lantern']);
+  });
   for(const item of p2.run.catalog.values()){
     assert.equal(p2.run.itemEligible(item.id),item.kind==='cosmetic');
     if(item.kind==='cosmetic')continue;
@@ -211,6 +221,7 @@ test('Race owner shop exact 30 price capacity stale wallet no-waste and explicit
     const wallet=p2.run.wallet;assert.equal(p2.run.buy(offer.id).ok,false);assert.equal(p2.run.wallet,wallet);assert.equal(offer.sold,false);
   }
   const filtered=run.session.coOpMarketSnapshot();assert.ok(filtered.offers.every(o=>o.source==='consumable'||p2.run.catalog.get(o.itemId).kind==='cosmetic'));
+  witness.finish();
 });
 
 test('protected claims and purchases reject while ghost departure preserve and actual death clears only owner items',()=>{

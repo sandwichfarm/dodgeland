@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {turnReuseAttribution} from './turn-reuse-attribution.mjs';
 import test, { after } from 'node:test';
 import { loadSources } from './source-loader.mjs';
 import { createMarketGameFixture, sessionHudAction } from './market-game-fixture.mjs';
@@ -6,7 +7,9 @@ import { createMarketGameFixture, sessionHudAction } from './market-game-fixture
 const sources = await loadSources(['game', 'race', 'session-input']);
 after(sources.dispose);
 const { Game } = await sources.import('game');
-const { createRaceSession } = await sources.import('race');
+const { createRaceSession, RaceCoordinator } = await sources.import('race');
+const reuse=await turnReuseAttribution({mode:'race',factory:createRaceSession,Coordinator:RaceCoordinator,lifetimes:1});
+after(()=>reuse.finish());
 const { GamepadRouter } = await sources.import('session-input');
 for(const choice of ['accept','decline','expiry'])test(`built actual traffic death personal offer ${choice} through visible Race controls`,{timeout:40000},async()=>{
   const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{auditBoundary:true,initialIntent:{sender:'race-lifecycle-proof',archetype:'game',action:'open',convention:'napplet:game/open',payload:{seed:'ph3-00000071-pond-s-n'}}});
@@ -32,9 +35,9 @@ for(const choice of ['accept','decline','expiry'])test(`built actual traffic dea
 function ticks(session,n) { for(let i=0;i<n;i++) session.update(1/120); }
 function meadow(run){for(let y=-8;y<600;y++)run.game.rows.set(y,{...run.game.rows.get(0),index:y,kind:'meadow',blocked:[],decorations:[],coin:null});return run;}
 function hop(session,seat,direction='forward'){assert.equal(session.dispatch({seat,direction}),true);const p=session.players.find(p=>p.seat===seat);for(let i=0;i<120&&p.hop>0;i++)session.update(1/120);}
-function start() {
+function start(witness) {
   const game = new Game(113, 'pond', 'arcade', false, [], 'butter');
-  const race = createRaceSession(game, { seats: [
+  const race = (witness? witness.acquire : createRaceSession)(game, { seats: [
     { seat: 'p1', characterId: 'butter', device: 'gamepad-0' },
     { seat: 'p2', characterId: 'pip', device: 'gamepad-1' },
   ] });
@@ -126,8 +129,11 @@ test('dead replacement waiting preserves its offer and cannot invoke recovery be
   assert.equal(session.recover({kind:'personal',ownerSeat:'p1'}),true);assert.equal(p.recovery.charge,'spent');assert.equal(p.statistics.selfRevives,1);
 });
 test('personal recovery 249 250 251 uses real own earned hops without backtrack or placement credit',()=>{
-  const {game,session}=meadow(start()),p=session.players[0],other=session.players[1];other.run.creditCoins(31);
-  game.run.creditCoins(17);game.end('Actual fatal train','train');ticks(session,1);
+  const witness=reuse.lifetime();
+  const {game,session}=meadow(start(witness)),p=session.players[0],other=session.players[1];other.run.creditCoins(31);
+  game.run.creditCoins(17);
+  witness.interval('personal-earned-recharge',()=>{
+  game.end('Actual fatal train','train');ticks(session,1);
   assert.equal(p.run.wallet,0);assert.equal(other.run.wallet,31);assert.equal(p.statistics.deaths,1);
   assert.equal(session.recover({kind:'personal',ownerSeat:'p1'}),true);assert.equal(p.recovery.charge,'spent');
   for(let n=1;n<=251;n++){
@@ -136,6 +142,7 @@ test('personal recovery 249 250 251 uses real own earned hops without backtrack 
     if(n>=250){assert.equal(p.recovery.personalHighWater,n);assert.equal(p.recovery.charge,'available');}
   }
   assert.equal(p.completedForwardTiles,251);assert.equal(p.statistics.selfRevives,1);assert.equal(p.recovery.nextRecharge,500);
+  });witness.finish();
 });
 
 const pad=(index,pressed=[],id=`pad-${index}`)=>({index,id,mapping:'standard',connected:true,timestamp:1,axes:[0,0],buttons:Array.from({length:17},(_,i)=>({pressed:pressed.includes(i),value:pressed.includes(i)?1:0,touched:pressed.includes(i)}))});
