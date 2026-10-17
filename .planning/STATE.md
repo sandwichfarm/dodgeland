@@ -19,6 +19,15 @@ last_activity_desc: Actual Race leave/disconnect/current-device safe-reclaim4 ca
 
 ## Current work
 
+DEV remaining-path investigation:469 applicable zero arms,52 required to meet
+85%. All original production browser parents intersect only16 distinct missing
+DEV paths;repeating existing suites cannot close the gap. main.ts has no
+remaining selected zeros;inspector modules have nine. Largest groups are
+session170/game99/market51/mobs31. DEVELOPMENT-REMAINING-COVERAGE-NOTE records
+read-only exact sites and candidates. No new coverage/disposition credit. Next
+requires new actual integration cases and bounded source unavailability review.
+
+
 Latest Race reclaim transactions:four ordinary/four canonical cases across
 both bases pass,12 verified intervals/one independent Node parent/no browsers.
 Pending leave is cleared on controller loss;stale/cross-seat confirmations,
