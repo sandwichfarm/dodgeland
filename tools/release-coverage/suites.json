@@ -1344,6 +1344,37 @@
         }
       ],
       "provenance": "Existing complete hand and run-menu browser jobs, including focus, paging and confirmation"
+    },
+    "solo-bootstrap-03": {
+      "files": [
+        "tests/release-solo-bootstrap.test.mjs"
+      ],
+      "role": "node",
+      "jobs": [
+        {
+          "id": "release-solo-bootstrap",
+          "file": "tests/release-solo-bootstrap.test.mjs",
+          "role": "node",
+          "requiredRealms": [
+            "node"
+          ],
+          "modelAttribution": [
+            {
+              "mode": "solo-arcade",
+              "scenarios": [
+                "bootstrap-arcade"
+              ]
+            },
+            {
+              "mode": "solo-flow",
+              "scenarios": [
+                "bootstrap-stroll"
+              ]
+            }
+          ]
+        }
+      ],
+      "provenance": "Fresh current ESM graph per actual solo base; independent pinned uninstrumented oracle; disjoint import/construction and runtime intervals"
     }
   },
   "pendingAdapters": [
@@ -4618,6 +4649,28 @@
               ]
             ],
             "lifetimes": 4
+          }
+        ]
+      },
+      {
+        "id": "release-solo-bootstrap",
+        "file": "tests/release-solo-bootstrap.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "modelAttribution": [
+          {
+            "mode": "solo-arcade",
+            "scenarios": [
+              "bootstrap-arcade"
+            ]
+          },
+          {
+            "mode": "solo-flow",
+            "scenarios": [
+              "bootstrap-stroll"
+            ]
           }
         ]
       }
