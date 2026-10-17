@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Built-in application closure verified;diagnostic branch gaps Relay28 Race75 browser9 DEV71
-last_updated: "2026-10-17T22:28:00.764363+00:00"
+stopped_at: Real turn innate contact/cooldown proof passes;diagnostic branch gaps Relay26 Race72 browser9 DEV71
+last_updated: "2026-10-17T22:31:57.764080+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,26 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Application rule scope passes113 controls and4 PROD+4 DEV integration;raw/numerators unchanged. Remaining branch gaps9 browser/71 DEV/28 Relay/75 Race;full enforcement and07-04/05/06/PR remain.
+last_activity_desc: Turn powers12 cases/24 real intervals and8 collection controls pass;174 additive jobs. Remaining gaps Relay26 Race72 browser9 DEV71;semantic review/full enforcement/07-04/05/06/PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+Latest real turn power proof:Twelve cases cross Relay/Race,Arcade/Flow and
+Duck water/Chicken traffic/Robot train contacts. Actual dispatch and simulation
+rescue the owner once,retain health/other traveler state,then matching second
+contact kills while cooldown is active and offers independent personal revival.
+Terrain/hazard geometry only is arranged. Ordinary12/12 and final canonical
+12/12 pass,24 verified intervals/two independent Node parents/no browsers.
+Eight collection controls and complete174-job dispatch audit pass. All172 prior
+jobs remain. TURN-CHARACTER-POWERS/PROOF binds final run/hashes and retained
+fixture-only corrections. Two new Relay/three Race positive branch witnesses
+yield Relay2288/2722(needs26),Race2495/3020(needs72);browser9/DEV71 unchanged.
+No product source,dependency,oracle,rootlock,floor or initial-ledger changes.
+Original full report remains enforced-fail;semantic review,fresh full enforcing
+run,07-04/05/06 and PR remain. All processes terminal.
 
 Latest application built-in closure:dcf0150 retains tool-contract RED11pass/7fail;
 implementation passes18 focused/all113 controls. Actual a2b08c47 run exits0,

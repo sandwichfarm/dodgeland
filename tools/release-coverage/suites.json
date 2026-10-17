@@ -8773,6 +8773,152 @@
         }
       ],
       "provenance": "Actual built Relay/Race and Arcade/Flow input,legacy/varied moving river rewards,default gravity,fractional carry/bank landing and visible owner wallets. Terrain/reward assets only arranged;Node pattern factory is asset setup,not mode/DEV evidence."
+    },
+    "turn-character-powers-03": {
+      "files": [
+        "tests/relay-character-powers.test.mjs",
+        "tests/race-character-powers.test.mjs"
+      ],
+      "roles": {
+        "tests/relay-character-powers.test.mjs": "node",
+        "tests/race-character-powers.test.mjs": "node"
+      },
+      "jobs": [
+        {
+          "id": "relay-character-powers-test",
+          "file": "tests/relay-character-powers.test.mjs",
+          "role": "node",
+          "requiredRealms": [
+            "node"
+          ],
+          "defaultBuildScope": "modules",
+          "artifactPatterns": [],
+          "modelAttribution": [
+            {
+              "mode": "relay",
+              "lifetimes": 6,
+              "phases": [
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "pending"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "pending"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "pending"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "pending"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "pending"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "pending"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "race-character-powers-test",
+          "file": "tests/race-character-powers.test.mjs",
+          "role": "node",
+          "requiredRealms": [
+            "node"
+          ],
+          "defaultBuildScope": "modules",
+          "artifactPatterns": [],
+          "modelAttribution": [
+            {
+              "mode": "race",
+              "lifetimes": 6,
+              "phases": [
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      "browser": false,
+      "provenance": "Actual composed Relay/Race on Arcade/Flow;real water,front traffic and train contacts from dispatched hops trigger owner innate rescue,then cooldown death/personal offer. Only terrain and hazard geometry arranged;no pose,health,clock,cooldown or collision callback mutation."
     }
   },
   "pendingAdapters": [
@@ -16638,6 +16784,138 @@
         "verifyArtifactScope": true,
         "artifactPatterns": [],
         "nodeRealmId": "tests/river-rewards-runtime.mjs#river-rewards-runtime-development"
+      },
+      {
+        "id": "relay-character-powers-test",
+        "file": "tests/relay-character-powers.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": [],
+        "modelAttribution": [
+          {
+            "mode": "relay",
+            "lifetimes": 6,
+            "phases": [
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "pending"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "pending"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "pending"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "pending"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "pending"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "pending"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "race-character-powers-test",
+        "file": "tests/race-character-powers.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": [],
+        "modelAttribution": [
+          {
+            "mode": "race",
+            "lifetimes": 6,
+            "phases": [
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ]
+            ]
+          }
+        ]
       }
     ],
     "controls": [
@@ -16694,7 +16972,8 @@
       "tests/source-loader.mjs": "Canonical current-source compilation and explicit alternate-root separation",
       "tests/solo-baseline.mjs": "Immutable oracle extraction; no current-source hit contribution",
       "tests/solo-parity-snapshot.mjs": "Paired current/oracle semantic observation; current loader counters belong invoking Node worker",
-      "tests/turn-reuse-attribution.mjs": "Test-only opt-in recorder adapter; selected real factory lifetimes and action deltas, final whole-worker parent capture. No independent source-executing job."
+      "tests/turn-reuse-attribution.mjs": "Test-only opt-in recorder adapter; selected real factory lifetimes and action deltas, final whole-worker parent capture. No independent source-executing job.",
+      "tests/turn-character-powers-fixture.mjs": "Shared real Relay/Race terrain-contact scenarios registered by the two explicit mode workers; no independent worker or cross-mode attribution."
     }
   },
   "completenessMeaning": "Mechanically resolved dispatch is ready; only a successful actual full run establishes collected evidence, and policy floors remain separate."

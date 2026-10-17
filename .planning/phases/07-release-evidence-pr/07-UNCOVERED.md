@@ -2,6 +2,17 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Latest actual turn innate power evidence
+
+TURN-CHARACTER-POWERS/PROOF records12 real contact/cooldown cases,24 verified
+Relay/Race intervals and two independent parents. Duck water/Chicken front
+traffic/Robot train rescues preserve owner health and other traveler state.
+The same hazard kills after cooldown is spent and offers personal revival.
+Only terrain/hazard geometry arranged;no player state/callback replacement.
+New source-identical positive witnesses:two Relay,three Race. Diagnostic gaps
+Relay26/Race72/browser9/DEV71;original frozen rows/full report unchanged.
+No full or semantic completion claim.
+
 ## Latest source-proved application rule closure
 
 APP-BUILTIN-RULE-CLOSURE/PROOF records retained RED11pass/7fail,18 focused and
