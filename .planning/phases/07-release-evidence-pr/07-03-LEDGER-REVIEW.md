@@ -191,3 +191,45 @@ Opening the actual market permits the rejected identity with refreshed revision.
 `tests/release-coverage-gaps.test.mjs`; canonical
 `d67ff850-fe56-4d7d-9461-3ee6d9f067d4`,8 canonical cases with reused lifecycle
 tests. co-op-market44/0 changed0→1 with source/schema identity retained.
+
+## Saved-audio-fallback
+
+**SOLO-02, UI-06, TEST-02.** A saved custom pack with a whitespace-only address
+must fall back to Pond without changing the remaining validated preferences or
+funding the fresh run from lifetime coins. The existing whole
+`tests/release-solo-bootstrap.test.mjs` uses exactly that save in both Arcade and
+Flow, compares the parsed result to the independent immutable baseline, asserts
+`soundPack === 'pond'`, and checks the new run wallet remains zero. Canonical
+`3ba09d62-1abf-4451-9c64-c0060657cac8`, job `release-solo-bootstrap`, passed its
+whole case. Initial Game branch335/0 at796 changes0→2.
+
+Game source SHA256 is
+`fb5d9224e46c19b3745099429f06bd141d9b738bb2d8786ed3266e1b6a7d95f6`;
+source-map hash is
+`74685cf919be7ef0d9572cda8cc41cb2ae1c191ca2c5be3ef26bf0739f3fdf83`.
+Root compared current disk source, initial/focused inventory source/map pins and
+all statement/function/branch schemas. This annotation reuses completed proof;
+it does not overwrite initial counts, add a new test, merge a changed source or
+claim the live full cohort has passed.
+
+## Recovery-missing-target
+
+**COOP-04, ITEM-01, TEST-02.** A Revival request without a target must fail before
+payment and leave recovery, owned resources, world time and interactions exact.
+The existing whole `tests/release-survive-mode-coverage.test.mjs` sends
+`{kind:'revival'}` through the actual session recovery service with a debit
+callback. Both base cases assert false, zero debit calls and unchanged complete
+observable state. This is explicit component authority evidence, distinct from
+a public target-picker journey. Canonical
+`344fd116-4fb9-4e87-85ad-8c31a8bcd837`, job `release-survive-mode-coverage`, passed
+both whole cases. Initial session-recovery branch16/1 at48 changes0→2: missing
+`targetSeat` selects the empty target list before the real planner rejects.
+
+Session-recovery source SHA256 is
+`35119abd8ac6551d253ec0ada320c934fd5a9cf20c142444e3afdb4094093b9c`;
+source-map hash is
+`a33d6c9608854d850000e1eb7237b541f0b423655df8306b8e60914495dc14e8`.
+Current disk and initial/focused source/map/site schemas match exactly. This
+file is unchanged even though session.ts has a new identity; no old session.ts
+counter is relabelled. No product, test, policy or count changes accompany this
+annotation. Full enforcement remains pending.

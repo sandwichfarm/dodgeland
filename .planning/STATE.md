@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: 07-03 meaningful coverage closure; full enforcing report pending
-last_updated: "2026-10-17T05:31:17.467026+00:00"
+last_updated: "2026-10-17T07:03:22.932265+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,7 +12,7 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Both stale independent-session comparisons corrected and peer-reviewed; all66 registered Node-role jobs pass; fresh full collection next.
+last_activity_desc: Full51a4bea2 terminal0;160 ledger entries/439 payloads;12 floor shortfalls remain; freeze released.
 ---
 
 # Project State
@@ -33,8 +33,8 @@ passes, zero failures and five unmeasured checks. Normal build raw SHA256:
 `a34fd21258f80302593c584f5a9566f7511af49798c0b0cac6dacc1beb478bc1`.
 Current session source is `f8ce62cdc5c87557636cce62f0b15005bfa5f9cde42c708d67915b4c1ebcec39`;
 all older session measurements below retain their historical identities and
-cannot be merged into the current source. Focused canonical refresh passed;
-the complete enforcing report remains pending.
+cannot be merged into the current source. Focused canonical refresh passed; the current complete report-only collection
+is terminal as recorded below. Full enforcing release acceptance remains pending.
 
 Latest focused Survive run `344fd116-4fb9-4e87-85ad-8c31a8bcd837` (16412 exit0)
 measures both bases at 87/89 lines, 64/65 functions and 149/165 branch arms.
@@ -199,7 +199,30 @@ changed main/session files. The diagnostic is below main/session targets, but ol
 those ratios alone cannot establish which behavior gaps remain. A complete current-source refresh is now the next evidence step,
 while mode gaps and semantic review remain open.
 
-Current runtime: no active test/build/browser process. Ordinary Node-only
+Current runtime: none. Complete report-only current-source refresh session65988
+terminated0 at2026-10-17T06:56:47.309157Z. Run
+`51a4bea2-21e7-4b74-9eae-b185f6401911`, frozen head
+`114885d07fb04a13e459cbcf56349674d01047d5`:154whole registered jobs and six
+controls passed,160terminal ledger entries/439independent parent payloads.
+Source/schema/artifact/attribution checks passed. Exact floors were evaluated:
+global98.93%L/97.81%F/91.20%B passes,12shortfalls remain; policy is false.
+Main passes its critical floors; co-op-market needs one branch arm and session
+two. Browser needs40arms, DEV125, Arcade88, Flow82; Race6L/22F/475B and
+Relay43L/21F/496B remain. No release acceptance follows.
+
+Wrapper `/tmp/down-to-duck-07-03-current-full-after-identity.py`, log and
+terminal state of the same prefix retain exact provenance. All125 prior direct
+temporary outputs were restored, as were registered ordinary artifacts. Normal
+build/root lock remain at the recorded hashes. Backup:
+`/var/folders/g8/w4qrj6k57hx_3lg6ltc1k70w0000gn/T/down-to-duck-current-full-prior-yx29i0ex`.
+The full convenience report now belongs to51a4bea2. Its72-file immutable snapshot
+is under that run's `current-report`, with index hash
+`c4f4290182c585c6748819cf1ec08f10c1be89ce9154f48782e77c2a72f173e1`.
+See07-03-CURRENT-FULL-REPORT.md/json. The source/test/tool freeze is released;
+do not poll closed65988 or restart completed collection. Root owns the next
+serial ordinary/canonical market scope.
+
+Completed ordinary Node-only
 preflight27789 passed52/66jobs (boundary14/14 and immutable solo parity included),
 then exposed one obsolete literal-lifetime comparison in Survive admission17/18.
 Root's case-local correction validates own-session identity prefixes and retains
@@ -225,16 +248,62 @@ The failed log `/tmp/down-to-duck-07-03-current-full.log` and terminal state
 125 prior temporary outputs, normal dist and root lock unchanged. Backup:
 `/var/folders/g8/w4qrj6k57hx_3lg6ltc1k70w0000gn/T/down-to-duck-current-full-prior-_qikb8wj`.
 The original6802.../initial-report stays immutable. No current full report or
-floor acceptance follows from this partial run. Next run the whole corrected
-boundary suite, then an ordinary Node-only preflight before a fresh full cohort.
-Root owns the sole runtime; agents remain idle/read-only.
+floor acceptance follows from that partial run. Its corrective ordinary
+verification is complete as recorded above; the successful51a4bea2 cohort supersedes it. Do not repeat the completed
+preflight or relabel the failed partial collection.
+
+Completed preparation during the former full-cohort freeze: root/peer reviewed14
+remaining co-op-market initial candidate arms. Exactly14 ledger rows now link
+07-03-MARKET-GUARD-REVIEW.md as reviewed/evidence-pending, with unchanged original
+counts. Existing actual-session malformed request/paid-draft tests are the best
+next scopes if fresh counters still require them; optional-host defaults remain
+component compatibility evidence. The second pending-pack guard stays in the
+full denominator because exported custom callbacks prevent a universal
+unreachability proof. No source/test/tool edit or new runtime. The full run has now terminated and released the freeze.
+
+Retained canonical proof review closed two more initial candidates without new
+runtime or count changes: Game335/0 blank saved custom audio→Pond (3ba09d62) and
+session-recovery16/1 missing Revival target→no debit/nonmutation (344fd116).
+Current source hashes, source maps and all three mapped site schemas match the
+initial file identities. Exact assertions and pins are appended to
+07-03-LEDGER-REVIEW.md. Initial counters stay frozen;154 arms now have completed
+behavioral annotations,897 await completion. Two other scan candidates remain
+unclassified because positive counts alone do not establish behavioral proof.
+The pure read-only scan42903 terminated0; it was not another test/build chain.
+
+Turn evidence notes are reconciled with actual source/metadata: the original
+three reuse candidates are already implemented; personal249/250/251 is already
+attributed. Current three-job definitions expect Race-items23/70,
+Race-lifecycle1/2 and Relay-boundary3/6 (27/78), while the historical focused
+bb6517... remains5/12. The terminal51a4bea2 attribution verifies these27lifetimes/78intervals
+against three independent Node parents. The historical focused result stays5/12.
+
+Isolated scratch preparation (not applied or executed) for the already-reviewed
+market guard gap: `/var/folders/g8/w4qrj6k57hx_3lg6ltc1k70w0000gn/T/down-to-duck-market-guard-draft-1j6nkox2/survive-economy-boundaries.test.mjs`,
+patch `/var/folders/g8/w4qrj6k57hx_3lg6ltc1k70w0000gn/T/down-to-duck-market-guard-draft-1j6nkox2/market-guards.patch`,
+metadata `/tmp/down-to-duck-market-guard-draft-location.json`.
+Base file tests/survive-economy-boundaries.test.mjs SHA256
+`f19f0f3280cd37ef132c044412952c357dafd6c076c2ad550b0df28dd42d9645` remains unchanged in the tested checkout.
+Two appended cases cover malformed requests and paid-draft gating on both bases
+and either owner. Complete run/RNG/revision/charge/clock/interaction snapshots
+must remain exact, with motion/interpolation, health/immunity, progress and
+innate cooldown also observed; rejected IDs are reused for success, while committed IDs
+reject another valid trade with fresh versions. Small Pack's one-pick empty-hand
+fixture avoids conflating capacity/bonus selection with the gate. Existing Large
+Pack/full-hand proof is unchanged. Static `node --check` passed; no imports/tests
+executed. Full51a4bea2 terminated with successful restoration and confirms a remaining
+co-op-market gap. Independent read-only review accepted this exact draft for
+execution; snapshot JSON covers mutable inventory state, not Map entries or
+functions. Next: verify exact base/patch hashes, apply and run the whole
+ordinary/canonical scope before assigning new behavioral proof.
 
 ## Next required work
 
 1. Complete07-03: broad honest Solo/Relay/Race and development evidence,
    remaining per-file gaps, complete semantic ledger, then a fresh enforcing
-   full report. Keep all floors.152 initial zero arms have source-identical
-   behavioral annotations;899 remain pending semantic review. Genuine fresh
+   full report. Keep all floors.154 initial zero arms have source-identical
+   behavioral annotations;897 still need completed semantic/behavioral proof,
+   including14 source-reviewed market candidates awaiting evidence. Genuine fresh
    bootstrap proof now exists; all unions before full collection are diagnostic.
 2. Execute07-04 conformance proof,07-05 clause/visual evidence,07-06 exact final
    gate and PR. Preparations exist; none are claimed complete.

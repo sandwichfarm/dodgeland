@@ -1,14 +1,27 @@
 # Existing turn-test attribution integration
 
-Current status: ordinary50/50, controls17/17 and canonical three-job collection
+Historical focused result: ordinary50/50, controls17/17 and canonical three-job collection
 passed on88994. The implementation records five actual lifetimes/twelve intervals;
 full release floors remain open. Preparation notes below retain their scope.
+
+Current registration supersedes that historical five-lifetime snapshot. The
+later Race-item expansion (759c9a9) records23 actual Race lifetimes/70 intervals;
+its canonical proof is `eb412c10-945b-446c-92bc-923142857c05`, documented in
+[turn item evidence](07-03-TURN-ITEM-OWNERSHIP.md). The exact full and turn-reuse
+job definitions now expect Race-items23/70, Race-lifecycle1/2 and
+Relay-boundary3/6:27 component lifetimes/78 intervals across those three jobs.
+Terminal full51a4bea2 independently validates those27lifetimes/78intervals
+against three distinct Node parents:70Race-item,2Race-lifecycle and6Relay-boundary
+intervals. Each job has23,1and3distinct acquired session identities respectively.
+The retained focused bb6517... report remains five/twelve and is not relabelled. The separately measured public Relay market interval is not added
+to these component totals. No production, test or metadata edit accompanies
+this documentation reconciliation.
 
 Owned scope: `tests/relay-boundary.test.mjs`, `tests/race-items.test.mjs`, `tests/race-lifecycle.test.mjs`, new `tests/turn-reuse-attribution.mjs`, and selected job metadata in `tools/release-coverage/suites.json`. No production, policy, source pin, shared recorder API or runner change.
 
 The adapter uses the existing `createTurnModelRecorder.acquire` exactly at each selected test's real coordinator factory expression. It consumes the existing source-loader graph's factory/class exports. Game construction, imports and terrain arrangement remain outside acquisition. It captures complete parent counters in a final suite `after`, after later nonattributed tests have run; it never substitutes the last selected test's snapshot for the parent. Existing collector validation must establish exact equality with the independently captured Node parent. Only nonoverlapping recorded intervals receive mode credit. Missing or duplicate lifetime completion fails closed.
 
-## Exact selected scopes
+## Historical selected scopes in bb6517
 
 - Relay fatal traffic/wave/mob boundary cases: three lifetimes, each acquiring→playing then playing→pending. Existing health/cooldown, terrain, wave and mob arrangements remain outside action intervals. Original dispatch, fixed updates, death/offer/boundary/duplicate-generation assertions remain unchanged and inside the real action interval.
 - Race owner-shop case: one lifetime, acquiring→playing and three playing→playing intervals: insufficient wallet; exact price; capacity/wrong owner/replay/legacy consumable rejection. Existing wallet additions and market score setup remain between/outside intervals. The forged gameplay-stock loop and its assertions still run unchanged but remain global-only, because it interleaves fixture offer/wallet mutations. No seed sampler or generic catalogue helper tests receive mode credit.
@@ -18,11 +31,11 @@ Total planned attribution: five actual lifetimes / twelve intervals across three
 
 All other test cases continue to execute and contribute only their established global/other evidence. The mixed Race lifecycle worker still runs its original browser cases; its selected Node lifetime does not borrow browser counters. Canonical definition provenance is limited to inspected unchanged Game/coordinator factories; this patch does not claim a newly generalized canonical-definition validator for turn modes.
 
-## Preparation before verification
+## Historical preparation before verification
 
 The initial candidate was reviewed before the serial ordinary/control/canonical chain. Existing assertions were wrapped in place rather than copied or removed. Root owns STATE and uncovered ledger; those files are outside this executor's scope.
 
-## Reviewed execution
+## Historical reviewed execution
 
 Root accepted the candidate and required stale-wrapper hardening: completed lifetime acquire/interval calls now reject before dispatch, and duplicate finish still rejects. New tooling-only `tools/release-coverage/turn-reuse-attribution.test.mjs` proves missing completion, overlapping lifetimes, stale completed wrappers after another lifetime opens, and successful completion. No recorder API changes.
 

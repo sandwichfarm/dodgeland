@@ -146,21 +146,21 @@ Source `037a96c9f9436346f06306cac74808aab5e92e205ce2c42bebb1dbd16ca24c22`; schem
 
 | Branch | Source line | Zero arms | Baseline counts | Disposition |
 |---|---:|---|---|---|
-|3|81|1|[1662, 0]|pending|
-|9|100|0|[0, 1008]|pending|
-|20|131|1|[27, 0]|pending|
-|23|132|1|[65, 0]|pending|
-|25|133|1|[13, 0]|pending|
-|31|141|0|[0, 582]|pending|
-|33|145|1|[1594, 0, 1562, 1558, 1558]|pending|
-|35|149|0|[0, 414]|pending|
-|43|164|1|[13, 0]|pending|
+|3|81|1|[1662, 0]|[reviewed; evidence pending](07-03-MARKET-GUARD-REVIEW.md#reviewed-conditions)|
+|9|100|0|[0, 1008]|[reviewed; evidence pending](07-03-MARKET-GUARD-REVIEW.md#reviewed-conditions)|
+|20|131|1|[27, 0]|[reviewed; evidence pending](07-03-MARKET-GUARD-REVIEW.md#reviewed-conditions)|
+|23|132|1|[65, 0]|[reviewed; evidence pending](07-03-MARKET-GUARD-REVIEW.md#reviewed-conditions)|
+|25|133|1|[13, 0]|[reviewed; evidence pending](07-03-MARKET-GUARD-REVIEW.md#reviewed-conditions)|
+|31|141|0|[0, 582]|[reviewed; evidence pending](07-03-MARKET-GUARD-REVIEW.md#reviewed-conditions)|
+|33|145|1|[1594, 0, 1562, 1558, 1558]|[reviewed; evidence pending](07-03-MARKET-GUARD-REVIEW.md#reviewed-conditions)|
+|35|149|0|[0, 414]|[reviewed; evidence pending](07-03-MARKET-GUARD-REVIEW.md#reviewed-conditions)|
+|43|164|1|[13, 0]|[reviewed; evidence pending](07-03-MARKET-GUARD-REVIEW.md#reviewed-conditions)|
 |44|165|0|[0, 98]|[covered arms 0](07-03-LEDGER-REVIEW.md#market-authority)|
-|46|166|1|[5, 0]|pending|
-|49|168|0|[0, 90]|pending|
-|51|169|1|[27, 0]|pending|
-|53|170|1|[4, 0]|pending|
-|56|173|0|[0, 57]|pending|
+|46|166|1|[5, 0]|[reviewed; evidence pending](07-03-MARKET-GUARD-REVIEW.md#reviewed-conditions)|
+|49|168|0|[0, 90]|[reviewed; evidence pending](07-03-MARKET-GUARD-REVIEW.md#reviewed-conditions)|
+|51|169|1|[27, 0]|[reviewed; evidence pending](07-03-MARKET-GUARD-REVIEW.md#reviewed-conditions)|
+|53|170|1|[4, 0]|[reviewed; evidence pending](07-03-MARKET-GUARD-REVIEW.md#reviewed-conditions)|
+|56|173|0|[0, 57]|[reviewed; evidence pending](07-03-MARKET-GUARD-REVIEW.md#reviewed-conditions)|
 
 ### src/coin-denominations.ts
 
@@ -312,7 +312,7 @@ Source `fb5d9224e46c19b3745099429f06bd141d9b738bb2d8786ed3266e1b6a7d95f6`; schem
 |302|756|0|[0, 8961]|pending|
 |303|756|1|[8961, 0]|pending|
 |308|766|0|[0, 1256]|pending|
-|335|796|0|[0, 254]|pending|
+|335|796|0|[0, 254]|[covered arms 0](07-03-LEDGER-REVIEW.md#saved-audio-fallback)|
 
 ### src/gamepad.ts
 
@@ -1166,7 +1166,7 @@ Source `35119abd8ac6551d253ec0ada320c934fd5a9cf20c142444e3afdb4094093b9c`; schem
 |0|11|1|[415, 0]|pending|
 |4|25|0|[0, 243]|pending|
 |12|46|0|[0, 132]|[covered arms 0](07-03-LEDGER-REVIEW.md#reused-authority)|
-|16|48|1|[19, 0]|pending|
+|16|48|1|[19, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#recovery-missing-target)|
 |21|52|1|[29, 0]|pending|
 |26|61|0|[0, 145]|pending|
 

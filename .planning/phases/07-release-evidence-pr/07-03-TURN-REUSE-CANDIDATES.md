@@ -1,5 +1,13 @@
 # Additional turn-mode lifetime evidence candidates
 
+These original three candidates have since been implemented and verified.
+See [integration history](07-03-TURN-REUSE-INTEGRATION.md) and the later
+[Race-item expansion](07-03-TURN-ITEM-OWNERSHIP.md). The text below is retained
+as the original source/boundary review, not an instruction to duplicate those
+completed integrations. In particular, the real249/250/251 recharge case already
+has attribution in the current source. Current full-job metadata is27 component
+lifetimes/78 intervals; its fresh full measurement is still pending51a4bea2.
+
 Read-only review after canonical definition proof7b3d1d8. No new registrations,
 recorder changes, gameplay tests or mode counter gains are claimed here. Existing
 nine-lifetime/29-interval turn proof remains the measured source. Reuse existing
