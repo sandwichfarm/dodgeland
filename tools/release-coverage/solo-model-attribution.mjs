@@ -14,7 +14,7 @@ export async function createSoloModelRecorder({LocalSession},configPath=process.
  function observedStage(...args){stageCalls++;return original.apply(this,args);}
  LocalSession.stage=observedStage;
  const capture=observation=>({...identity,sequence:sequence++,observation,payload:capturePayload(inventory,globalThis.__coverage__,identity)});
- function add(before,after,id){const interval=deriveInterval(inventory,before,after,id);validateIntervals(inventory,[...intervals,interval]);intervals.push(interval);}
+ function add(before,after,id){const interval=deriveInterval(inventory,before,after,id);validateIntervals(inventory,[interval]);intervals.push(interval);}
  return {
   scenario(name,base){
    if(active||names.has(name)||!['arcade','stroll'].includes(base))throw Error('Concurrent/duplicate/unknown solo scenario');

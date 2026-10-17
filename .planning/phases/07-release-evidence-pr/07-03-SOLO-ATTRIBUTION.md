@@ -31,3 +31,21 @@ Acquisition has no Game and is explicitly labeled acquiring; its end binds to th
 All are component-model provenance. Raw and source/schema-bound disposition ledgers remain visible; no excluded site had positive hits. These are not summed with a separate public run. Floors remain unmet. Current Arcade unmeasured function groups after existing dispositions include session117, game61, market/run48, content20, consumables20, consumable-drops15 and recovery12. This is an uncovered-site inventory, not proof those sites are all reachable or all inapplicable. Next work must reconcile actual solo call/state ownership and add meaningful reachable scenarios; no automatic exclusions or generic direct-function relabeling follow from this list.
 
 Runner adds only the dedicated full/focused solo job and the requested `sound-settings-03` alias of the exact existing sound-runtime job. Other workers own sound and turn-mode fixtures; neither was executed by this proof.
+
+## Bounded breadth extension (24 lifetimes)
+
+The original16 scenarios remain. Eight added lifetimes cover schemas1/2/3 independently for each base, plus one longer same-owner tape per base. The latter arranges pickup terrain and traveler configuration, then exercises real magnet collection/cleanup for all five denominations, paid card purchase/sale and stale sale rejection, paid pack claim/skip with no second debit,100 real forward hops with health regeneration, and all seven innate rescue handlers. Both current and immutable oracle run the same tape and semantic comparison. Changing traveler configuration is arranged component evidence, not public character selection or seven separately constructed owners.
+
+Nested `roundtrip` Game construction is now rejected only under this attribution opt-in; the original parity matrix remains unchanged. Per-append schema validation is linear in interval count, while `finish()` still validates the complete interval set before writing. A retained synthetic negative appends a duplicate overlapping runtime interval and requires finish rejection with no output artifact. It is evaluator calibration, not production coverage.
+
+- Registration-only commit `a50bcf2` updates both full/focused copies to24 solo scenarios/48 intervals and the separately owned turn fixture to7 lifetimes/25 intervals.
+- Tooling session41498 exited0:4/4, `/tmp/down-to-duck-solo-breadth-unit.log`, including perturbed-current, staged/canceled ownership, nested Game and final overlap rejection.
+- Ordinary session75204 exited0:24 paired scenarios in6.75s, `/tmp/down-to-duck-solo-breadth-ordinary.log`.
+- Canonical session43692 exited0: `/tmp/down-to-duck-solo-breadth-canonical.log`; run `adb9a870-1152-493b-a43f-eefbcf46d9d1`,48 validated component intervals, one independent global parent,26.3s. No full matrix or release collection was launched.
+
+| Mode | Raw lines/functions/arms | Applicable lines/functions/arms |
+|---|---|---|
+| Solo Arcade |820/2039;191/656;834/2768|820/1465;191/391;834/2011|
+| Solo Flow |749/2039;176/656;758/2768|749/1465;176/391;758/2011|
+
+The current applicable denominators match the previously accepted expanded source-pinned dispositions. No new exclusions or production edits were made. Relative to that16-scenario run, Arcade adds162 lines/46 functions/201 arms and Flow adds155/42/198. These are within-run measured counters, not sums of separate reports. Floors remain open. Import-time initialization is still outside the component intervals; missing hits there do not establish inapplicability. Shared owner methods without positive session-only call proof remain applicable. No further blanket exclusion follows from this broader witness.

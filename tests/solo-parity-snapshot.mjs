@@ -227,6 +227,7 @@ async function runLoadedScenario(loaded, { name, seed, home = 'pond', mode = 'ar
   compare(-1, 0, undefined, undefined);
   for (let commandIndex = 0; commandIndex < tape.length; commandIndex += 1) {
     const command = tape[commandIndex], repetitions = command.kind === 'step' ? command.count : 1;
+    if(recorder&&command.kind==='roundtrip')throw Error('Mode attribution requires independent ownership for nested Game construction');
     for (let step = 0; step < repetitions; step += 1) {
       const baselineResult=invoke(baseline, baselineGame, command, fixedStep);
       recorder?.boundary();

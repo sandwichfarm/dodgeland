@@ -13,3 +13,27 @@ test('transparent stage observer catches staged then canceled current ownership 
  await assert.rejects(()=>runDifferentialMatrix([{name:'reject-staging',seed:1,tape:[],setup:game=>{if(game.world)currentSession.stage(game,{roster:[]}).cancel();}}],{currentRecorderFactory:async module=>{currentSession=module.LocalSession;original=currentSession.stage;return createSoloModelRecorder(module,null);}}),/ownership\/staging/);
  assert.equal(currentSession.stage,original);
 });
+
+test('opted-in parity refuses an unbound nested roundtrip Game',async()=>{
+ await assert.rejects(()=>runDifferentialMatrix([{name:'reject-nested-game',seed:1,tape:[{kind:'roundtrip'}]}],{currentRecorderFactory:module=>createSoloModelRecorder(module,null)}),/independent ownership for nested Game/);
+});
+
+test('finish rejects duplicate overlapping intervals after incremental validation',async()=>{
+ const {instrumentSources}=await import('./instrument.mjs');
+ const {mkdtemp,writeFile,rm,access}=await import('node:fs/promises');
+ const {tmpdir}=await import('node:os');const {join}=await import('node:path');
+ const directory=await mkdtemp(join(tmpdir(),'solo-finish-negative-'));
+ const inventory=instrumentSources({'proof.ts':'export function untouched(){ return 1; }'},'/solo-finish-negative');
+ const previous=globalThis.__coverage__;globalThis.__coverage__=Object.fromEntries(Object.values(inventory).map(r=>[r.path,structuredClone(r.zero)]));
+ let recorder;
+ try{
+  await writeFile(join(directory,'inventory.json'),JSON.stringify(inventory));
+  await writeFile(join(directory,'config.json'),JSON.stringify({runId:'synthetic',jobId:'synthetic',inventoryPath:join(directory,'inventory.json'),browserBuilds:{modules:{artifactHash:'synthetic'}},modelAttribution:{realmId:'synthetic',output:join(directory,'output.json')}}));
+  recorder=await createSoloModelRecorder({LocalSession:{stage(){throw Error('not called');}}},join(directory,'config.json'));
+  const witness=recorder.scenario('synthetic-owner','arcade');
+  witness.acquire(()=>{const game={definition:{id:'arcade'},state:'ready'};game.world={host:game,sessionActive:false};game.player={world:game.world,primary:true};return game;});
+  witness.begin();witness.end();witness.end();
+  await assert.rejects(()=>recorder.finish(),/Duplicate interval|Overlapping interval/);
+  await assert.rejects(()=>access(join(directory,'output.json')));
+ }finally{recorder?.dispose();if(previous===undefined)delete globalThis.__coverage__;else globalThis.__coverage__=previous;await rm(directory,{recursive:true,force:true});}
+});
