@@ -9,7 +9,7 @@ import { mergePayloads } from './collector.mjs';
 import { browserApplicabilityDispositions, BROWSER_STRATUM } from './browser-applicability.mjs';
 import { reportApplicability } from './applicability.mjs';
 import { soloApplicabilityDispositions, SOLO_AUTHORITY_PINS } from './solo-applicability.mjs';
-import { turnApplicabilityDispositions, TURN_APPLICABILITY_SOURCES } from './turn-applicability.mjs';
+import { turnApplicabilityDispositions, TURN_APPLICABILITY_SOURCES, TURN_AUTHORITY_PINS } from './turn-applicability.mjs';
 import { reportCoverage, hash } from './instrument.mjs';
 import { pathToFileURL } from 'node:url';
 import { validateIntervals, modes } from './attribution.mjs';
@@ -185,9 +185,10 @@ export function projectTurnApplicability(mode,inventory,mapped,paths,intervals){
   if(!record||!mapped[absolute])throw Error('Missing mapped turn authority source');
   return {path:absolute,source:record.source,map:record.map,coverage:mapped[absolute]};
  });
- const dispositions=turnApplicabilityDispositions({mode,sources:[...sources,...authoritySources]});
+ const callerSources=Object.keys(TURN_AUTHORITY_PINS).map(path=>{const record=Object.values(inventory).find(r=>r.path===resolve(repositoryRoot,path));if(!record)throw Error('Missing turn caller authority: '+path);return {path,source:record.source};});
+ const dispositions=turnApplicabilityDispositions({mode,sources:[...sources,...authoritySources],authoritySources:callerSources});
  if(dispositions.some(d=>!sources.some(source=>source.path===d.path)))throw Error('Turn authority outside stratum cannot carry dispositions');
- return {...reportApplicability({mode,sources,attributed,dispositions}),authoritySources:authoritySources.map(source=>({path:source.path,sourceHash:hash(source.source)}))};
+ return {...reportApplicability({mode,sources,attributed,dispositions}),authoritySources:[...authoritySources,...callerSources].map(source=>({path:source.path,sourceHash:hash(source.source)}))};
 }
 
 export function projectBrowserApplicability(inventory,mapped,paths,rows){

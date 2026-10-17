@@ -3,19 +3,23 @@ import assert from'node:assert/strict';
 import{readFile,mkdtemp,rm}from'node:fs/promises';
 import{tmpdir}from'node:os';
 import{join,resolve}from'node:path';
+import{createRequire}from'node:module';
 import{instrumentSources,reportCoverage}from'./instrument.mjs';
 import{reportApplicability}from'./applicability.mjs';
-import{TURN_APPLICABILITY_SOURCES,turnApplicabilityDispositions}from'./turn-applicability.mjs';
+import{TURN_APPLICABILITY_SOURCES,TURN_AUTHORITY_PINS,turnApplicabilityDispositions as generateTurnDispositions}from'./turn-applicability.mjs';
 const directory=await mkdtemp(join(tmpdir(),'turn-applicability-'));after(()=>rm(directory,{recursive:true,force:true}));
 const root=resolve(new URL('../..',import.meta.url).pathname);
-const texts=Object.fromEntries(await Promise.all([...Object.keys(TURN_APPLICABILITY_SOURCES),'src/game.ts','src/market/run.ts'].map(async path=>[path,await readFile(join(root,path),'utf8')])));
+const ts=createRequire(new URL('../../package.json',import.meta.url))('typescript');
+const authoritySources=await Promise.all(Object.keys(TURN_AUTHORITY_PINS).map(async path=>({path,source:await readFile(join(root,path),'utf8')})));
+const turnApplicabilityDispositions=input=>generateTurnDispositions({authoritySources,...input});
+const texts=Object.fromEntries(await Promise.all(Object.keys(TURN_APPLICABILITY_SOURCES).map(async path=>[path,await readFile(join(root,path),'utf8')])));
 const inventory=instrumentSources(texts,root);
 // A zero schema realm only, never gameplay evidence or mode coverage credit.
 const mapped=await reportCoverage(inventory,[Object.fromEntries(Object.values(inventory).map(row=>[row.path,row.zero]))],directory);
 const sources=Object.values(inventory).map(row=>({path:row.path,source:row.source,map:row.map,coverage:mapped.map.fileCoverageFor(row.path).toJSON()}));
 const attributed=Object.fromEntries(sources.map(row=>[row.path,structuredClone(row.coverage)]));
 const sourceFor=name=>sources.find(row=>row.path.endsWith('/'+name));
-const line=(source,fragment)=>{const index=source.source.indexOf(fragment);assert.notEqual(index,-1);return source.source.slice(0,index).split('\n').length;};
+const line=(source,fragment)=>{const index=source.source.indexOf(fragment);assert.notEqual(index,-1,fragment);return source.source.slice(0,index).split('\n').length;};
 function functionIds(source,fragment){const at=line(source,fragment),ids=Object.entries(source.coverage.fnMap).filter(([,site])=>site.decl.start.line===at).map(([id])=>id);assert.ok(ids.length,fragment);return ids;}
 function excluded(dispositions,source,id,kind='function'){return dispositions.some(d=>d.path===source.path&&d.kind===kind&&d.id===id);}
 
@@ -29,10 +33,91 @@ test('exact opt-in closures are excluded but guards, common world and acquisitio
   const guards=Object.entries(recovery.coverage.statementMap).filter(([,site])=>site.start.line===guardLine);assert.ok(guards.length);for(const[id]of guards)assert.equal(excluded(dispositions,recovery,id,'statement'),false);
   for(const id of functionIds(session,'constructor(private readonly session: LocalSession'))assert.equal(excluded(dispositions,session,id),mode==='relay');
   const shared=sourceFor('shared-world-effects.ts');for(const id of functionIds(shared,'export function resolveSharedWorldEffects'))assert.equal(excluded(dispositions,shared,id),true);
-  for(const key of['src/game.ts','src/market/run.ts','src/relay.ts','src/race.ts'])assert.equal(dispositions.some(d=>d.path.endsWith('/'+key)),false,'no broad '+key+' exclusions');
+  for(const key of['src/relay.ts','src/race.ts'])assert.equal(dispositions.some(d=>d.path.endsWith('/'+key)),false,'no broad '+key+' exclusions');
+  for(const[file,fragments]of Object.entries({'game.ts':['update(dt:','openMarket():','  closeMarket(','resetSharedWorldEffects():','syncSharedWorldEffects():','worldExtensionSnapshot<','updateSessionWorldExtension('],'market/run.ts':['constructor(seed:','buy(offerId:','previewPack(ids:','claimPack(ids:','skipPack():','sell(cardId:','tick(dt:','private capacityFor(']})){
+   const source=sourceFor(file);for(const fragment of fragments)for(const id of functionIds(source,fragment))assert.equal(excluded(dispositions,source,id),false,'kept '+fragment);
+  }
   const report=reportApplicability({mode,sources,attributed,dispositions});assert.ok(report.applicable.functions.total<report.raw.functions.total);assert.deepEqual(report.dispositions,dispositions);
  }
  assert.deepEqual(sources,before);
+});
+
+test('caller proof fails closed before counters and exact newly reviewed callable closures stay bounded',()=>{
+ for(const mode of['relay','race']){
+  assert.throws(()=>generateTurnDispositions({mode,sources}),/authority/);
+  assert.throws(()=>turnApplicabilityDispositions({mode,sources,authoritySources:authoritySources.slice(1)}),/authority/);
+  assert.throws(()=>turnApplicabilityDispositions({mode,sources,authoritySources:[...authoritySources,authoritySources[0]]}),/duplicate.*authority/);
+  for(const[key]of Object.entries(TURN_AUTHORITY_PINS)){
+   const changed=structuredClone(authoritySources);changed.find(s=>s.path===key).source+='\n// new caller';
+   assert.throws(()=>turnApplicabilityDispositions({mode,sources,authoritySources:changed}),/authority changed/);
+  }
+  const dispositions=turnApplicabilityDispositions({mode,sources});
+  const selection={'game.ts':['export function worldForRow(','export function actorPositions(','syncSharedEffects(player:','setSharedWorldEffects('],
+   'session.ts':['selectMobTarget(','view():','installSharedWorldEffects(','sharedWorldEffectsSnapshot()']};
+  if(mode==='relay'){
+   selection['session.ts'].push('function captureConsumablePolicy(','installConsumableWorld(');
+   selection['game.ts'].push('installWorldExtension(');
+   selection['consumable-drops.ts']=['export function sampleItemDrop(','export function sampleConsumableDrop(','export function classifyItemBucket('];
+   selection['market/run.ts']=['restrictItems(','spendCoins('];
+  }else selection['market/run.ts']=['private hold(','private cardPool('];
+  for(const[file,fragments]of Object.entries(selection)){
+   const source=sourceFor(file);for(const fragment of fragments)for(const id of functionIds(source,fragment))assert.ok(excluded(dispositions,source,id),'excluded '+fragment);
+   for(const kind of['statement','function','branch']){
+    const d=dispositions.find(d=>d.path===source.path&&d.kind===kind);assert.ok(d,file+' '+kind);
+    const hits=structuredClone(attributed);if(kind==='branch')hits[d.path].b[d.id][d.arm]=1;else hits[d.path][kind==='statement'?'s':'f'][d.id]=1;
+    assert.throws(()=>reportApplicability({mode,sources,attributed:hits,dispositions}),/contradicted/);
+   }
+  }
+  const drops=sourceFor('consumable-drops.ts');
+  for(const text of['export function registerConsumableSchema(','export function validateConsumableSchema(','export function consumableSchema('])for(const id of functionIds(drops,text))assert.equal(excluded(dispositions,drops,id),false,'schema bootstrap retained');
+ }
+});
+
+test('Race retains legacy action guards while excluding only their impossible success bodies',()=>{
+ const source=sourceFor('market/run.ts'),race=turnApplicabilityDispositions({mode:'race',sources}),relay=turnApplicabilityDispositions({mode:'relay',sources});
+ for(const fragment of["if (this.pendingPack) return this.fail", "if (!offer || !item || !this.itemEligible(item.id))", 'if (!this.alive || !this.isOpen || !this.market || this.market.remaining <= 0 || !draft', 'if (!preview.valid)', 'if (!this.alive || !this.isOpen || !this.market || this.market.remaining <= 0 || !this.pendingPack)', 'if (index < 0 ||']){
+  const at=line(source,fragment),statements=Object.entries(source.coverage.statementMap).filter(([,s])=>s.start.line===at);
+  assert.ok(statements.length);for(const[id]of statements)assert.equal(excluded(race,source,id,'statement'),false,'rejection '+fragment);
+ }
+ for(const fragment of['const capacity = this.capacityFor([...this.cards','const draft: PackDraft =','const existing = this.powers.find','const selected = ids.map','const cards = ids.map','const remaining = this.cards.filter']){
+  const at=line(source,fragment),statements=Object.entries(source.coverage.statementMap).filter(([,s])=>s.start.line===at);
+  assert.ok(statements.length);for(const[id]of statements){assert.ok(excluded(race,source,id,'statement'),'Race success '+fragment);assert.equal(excluded(relay,source,id,'statement'),false,'Relay purchase '+fragment);}
+ }
+ const session=sourceFor('session.ts');
+ for(const fragment of['if (this.policy) {','if (!this.policy.eligible(owner, action.itemId))','const plan = planConsumableDebit({ catalogue:this.policy!.catalogue']){
+  const at=line(session,fragment),statements=Object.entries(session.coverage.statementMap).filter(([,s])=>s.start.line===at);
+  assert.ok(statements.length);for(const[id]of statements)assert.equal(excluded(race,session,id,'statement'),false,'tactical policy '+fragment);
+ }
+});
+
+test('implicit absent-else arms need exact AST containment; malformed and reachable parents stay counted',()=>{
+ for(const mode of['relay','race']){
+  const dispositions=turnApplicabilityDispositions({mode,sources});
+  const source=sourceFor(mode==='relay'?'consumable-drops.ts':'market/run.ts');
+  const [id,branch]=Object.entries(source.coverage.branchMap).find(([id,b])=>b.type==='if'&&b.locations.length===2&&JSON.stringify(b.locations[1])==='{"start":{},"end":{}}'&&dispositions.some(d=>d.path===source.path&&d.kind==='branch'&&d.id===id&&d.arm===1))??[];
+  assert.ok(branch,'real mapped implicit else');
+  const hits=structuredClone(attributed);hits[source.path].b[id][1]=1;assert.throws(()=>reportApplicability({mode,sources,attributed:hits,dispositions}),/contradicted/);
+  for(const mutate of[b=>{b.type='unknown';},b=>{b.locations[1].start.line=b.loc.start.line;},b=>{b.locations[1].extra=true;},b=>{b.loc.start.column++;},b=>{b.loc.end.line++;},b=>{b.locations.push({start:{},end:{}});},b=>{b.loc={start:{line:1,column:0},end:{line:99999,column:0}};}]){
+   const changed=structuredClone(sources);mutate(changed.find(s=>s.path===source.path).coverage.branchMap[id]);
+   assert.equal(turnApplicabilityDispositions({mode,sources:changed}).some(d=>d.path===source.path&&d.kind==='branch'&&d.id===id&&d.arm===1),false);
+  }
+  const game=sourceFor('game.ts');for(const[id,b]of Object.entries(game.coverage.branchMap))if(b.type==='if'&&b.locations[1]&&JSON.stringify(b.locations[1])==='{"start":{},"end":{}}'&&!dispositions.some(d=>d.path===game.path&&d.kind==='branch'&&d.id===id&&d.arm===0))assert.equal(dispositions.some(d=>d.path===game.path&&d.kind==='branch'&&d.id===id&&d.arm===1),false,'reachable guard');
+ }
+});
+
+test('empty explicit else or arm zero cannot inherit parent proof',()=>{
+ for(const mode of['relay','race']){
+  const dispositions=turnApplicabilityDispositions({mode,sources});let selected;
+  for(const source of sources){
+   const tree=ts.createSourceFile(source.path,source.source,ts.ScriptTarget.Latest,true),explicit=[];
+   const point=o=>{const p=tree.getLineAndCharacterOfPosition(o);return {line:p.line+1,column:p.character};};
+   const visit=n=>{if(ts.isIfStatement(n)&&n.elseStatement)explicit.push({start:point(n.getStart(tree)),end:point(n.end)});ts.forEachChild(n,visit);};visit(tree);
+   for(const[id,b]of Object.entries(source.coverage.branchMap))if(b.type==='if'&&b.locations.length===2&&explicit.some(span=>JSON.stringify(span)===JSON.stringify(b.loc))&&dispositions.some(d=>d.path===source.path&&d.kind==='branch'&&d.id===id&&d.arm===1)){selected={source,id};break;}
+   if(selected)break;
+  }
+  assert.ok(selected,'actual explicit else in reviewed body');
+  for(const arm of[0,1]){const changed=structuredClone(sources),row=changed.find(s=>s.path===selected.source.path);row.coverage.branchMap[selected.id].locations[arm]={start:{},end:{}};assert.equal(turnApplicabilityDispositions({mode,sources:changed}).some(d=>d.path===row.path&&d.kind==='branch'&&d.id===selected.id&&d.arm===arm),false);}
+ }
 });
 
 test('reviewed turn identities fail closed on stale composition, source, missing and duplicate inventory',()=>{
