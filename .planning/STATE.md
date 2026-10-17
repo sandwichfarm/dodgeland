@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-03 pause repair fully refreshed; eleven controller guards now have canonical proof
-last_updated: "2026-10-17T16:01:42.633430+00:00"
+stopped_at: 07-03 moving-platform rewards pass16 ordinary/canonical cases; branch gaps90 Relay112 Race
+last_updated: "2026-10-17T17:44:54.009462+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,23 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: All12 pause-refresh cohorts pass;22 controller tests add11 verified initial arms;174 annotated877 pending; mode branch floors remain open.
+last_activity_desc: Moving-platform rewards add22 Relay20 Race branch witnesses;164 full jobs retained; full release verification still open.
 ---
 
 # Project State
 
 ## Current work
+
+Latest checkpoint: moving-platform reward proof77b03d95 passes16/16 ordinary
+and canonical cases,16 actual mode lifetimes/64 bounded intervals. Real binding,
+visibility,platform support,pause,landing payout and carry work in both bases,
+recipes and directions. No game source/rule/scope/floor changes. Diagnostic
+Relay2243/2744B(needs90),Race2466/3032B(needs112);line/functions pass. Initial
+semantic ledger remains186 annotated/865 pending. Complete execution inventory
+152 entries/159 closure/164 jobs retains all earlier declarations. Current
+required type/build/guidance/conformance checks exit0;CLI still5 pass/5
+unmeasured. Normal903/rootlock5ac unchanged. TURN-PLATFORM-REWARDS/PROOF bind
+identities and limits. No test/build chain is live and no PR is open.
 
 Latest source transition: Game04d7556c fixes paused secondary movement; Session399
 and all other src files are unchanged. Current-source verification87218

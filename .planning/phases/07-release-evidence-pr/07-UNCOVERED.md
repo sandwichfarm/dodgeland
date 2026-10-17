@@ -2,6 +2,19 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Current moving-platform reward proof
+
+Actual Relay/Race Arcade/Flow moving-platform suite passes16/16 ordinary and
+canonical77b03d95,16 lifetimes/64 bounded intervals. Both directions and legacy/
+varied platforms bind visible approach rewards,carry outside-field rewards into
+view,freeze under pause,and pay exactly1/25 coins once on actual landing.
+Subsequent carry/bank hop and frozen results preserve owner authority. Fixtures
+supply terrain/rewards only;no poses,clocks,progress,rules or transactions are
+replaced. TURN-PLATFORM-REWARDS/PROOF retain exact identities and limitations.
+Diagnostic gains22 Relay/20 Race witnesses leave90/112 branches required.
+Initial review remains186(185 covered,one private default),865 pending.
+No source/scope/floor change or full enforcing release pass is claimed.
+
 ## Current fractional log-grid coin capture
 
 Actual Arcade/Flow Relay/Race suite passes4/4 ordinary/canonical ee71c769,
