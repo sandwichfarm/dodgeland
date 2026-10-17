@@ -423,3 +423,53 @@ test('staging proof preserves unknown/crossing conditions and actual fallback re
   }
  }
 });
+
+test('Race empty inventories scope modifier and score loop bodies while retaining traversal and Relay behavior',()=>{
+ const source=sourceFor('market/run.ts'),tree=ts.createSourceFile('run.ts',source.source,ts.ScriptTarget.Latest,true),nodes=[];
+ function walk(n){nodes.push(n);ts.forEachChild(n,walk);}walk(tree);
+ const point=o=>{const p=tree.getLineAndCharacterOfPosition(o);return{line:p.line+1,column:p.character};};
+ const before=(a,b)=>a.line<b.line||a.line===b.line&&a.column<=b.column;
+ const contains=(a,b)=>b?.start&&b?.end&&before(a.start,b.start)&&before(b.end,a.end);
+ const span=n=>({start:point(n.getStart(tree)),end:point(n.end)});
+ const reducer=tree.statements.find(n=>ts.isFunctionDeclaration(n)&&n.name?.text==='reduceItems');
+ const cls=tree.statements.find(n=>ts.isClassDeclaration(n)&&n.name?.text==='RunInventory');
+ const score=cls.members.find(n=>n.name?.getText(tree)==='advanceScore');
+ const loops=nodes.filter(n=>ts.isForOfStatement(n)&&([reducer,score].some(owner=>n.pos>=owner.pos&&n.end<=owner.end)));
+ assert.equal(loops.length,5); // Includes the still-live reducer BOUNDS loop.
+ const empty=loops.filter(n=>n.expression.getText(tree)!=='Object.keys(BOUNDS) as (keyof RunModifiers)[]');assert.equal(empty.length,4);
+ const callbacks=nodes.filter(n=>ts.isArrowFunction(n)&&n.getText(tree)==='card => card.components');assert.equal(callbacks.length,3);
+ const ranges=[...empty.map(n=>span(n.statement)),...callbacks.map(span)];
+ for(const mode of ['relay','race']){
+  const ds=turnApplicabilityDispositions({mode,sources});
+  for(const [map,key,kind]of [['statementMap','s','statement'],['fnMap','f','function'],['branchMap','b','branch']]){
+   let checked=0;
+   for(const[id,site]of Object.entries(source.coverage[map])){
+    const locations=kind==='branch'?site.locations:[kind==='function'?site.loc:site];
+    for(const[arm,loc]of locations.entries())if(ranges.some(r=>contains(r,loc))){
+     assert.equal(ds.some(d=>d.path===source.path&&d.kind===kind&&d.id===id&&(kind!=='branch'||d.arm===arm)),mode==='race',`${mode}/${kind}/${id}/${arm}`);checked++;
+    }
+   }
+   assert.ok(checked>0,kind);
+  }
+  for(const fragment of ['export function reduceItems(','advanceScore(score:','private changed():','private capacityFor('])for(const id of functionIds(source,fragment)){
+   // changed/capacityFor have nested callbacks on the same line; only their
+   // multiline method roots are retained here.
+   if(source.coverage.fnMap[id].loc.end.line>line(source,fragment))assert.equal(excluded(ds,source,id),false,'live method entry '+fragment);
+  }
+  const boundLine=line(source,'result[key] = Number.isFinite(result[key])');
+  for(const[id,site]of Object.entries(source.coverage.branchMap).filter(([,b])=>b.loc.start.line===boundLine))for(let arm=0;arm<site.locations.length;arm++)assert.equal(ds.some(d=>d.path===source.path&&d.kind==='branch'&&d.id===id&&d.arm===arm),false,'bounds validation remains counted');
+ }
+});
+
+test('Race empty-inventory scope rejects positive sites and preserves actual expiry guard outcome',()=>{
+ const source=sourceFor('market/run.ts'),reference='07-03-RACE-EMPTY-INVENTORY-CLOSURE.md';
+ const ds=turnApplicabilityDispositions({mode:'race',sources}),added=ds.filter(d=>d.authority.endsWith(reference));assert.ok(added.length>20);
+ for(const kind of ['statement','function','branch'])assert.ok(added.some(d=>d.kind===kind),kind);
+ for(const d of added){const hits=structuredClone(attributed);if(d.kind==='branch')hits[d.path].b[d.id][d.arm]=1;else hits[d.path][d.kind==='statement'?'s':'f'][d.id]=1;assert.throws(()=>reportApplicability({mode:'race',sources,attributed:hits,dispositions:ds}),/contradicted/);}
+ const at=line(source,'if (retained.length !== this.powers.length)'),branch=Object.entries(source.coverage.branchMap).find(([,b])=>b.type==='if'&&b.loc.start.line===at);assert.ok(branch);
+ assert.ok(added.some(d=>d.kind==='branch'&&d.id===branch[0]&&d.arm===0));
+ assert.equal(ds.some(d=>d.path===source.path&&d.kind==='branch'&&d.id===branch[0]&&d.arm===1),false,'actual equal-length outcome remains counted');
+ const guard=Object.entries(source.coverage.statementMap).filter(([,s])=>s.start.line===at);assert.ok(guard.some(([id])=>!excluded(ds,source,id,'statement')),'evaluated expiry guard stays counted');
+ const positive=structuredClone(sources);for(const s of positive){for(const key of ['s','f'])for(const id of Object.keys(s.coverage[key]))s.coverage[key][id]=123;for(const id of Object.keys(s.coverage.b))s.coverage.b[id]=s.coverage.b[id].map(()=>123);}
+ assert.deepEqual(turnApplicabilityDispositions({mode:'race',sources:positive}),ds,'scope never derives from measured zeros');
+});
