@@ -2,6 +2,20 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Current safe-recovery and blocked-handoff proof
+
+Whole actual Relay/Race Arcade/Flow recovery-terrain suite passes26/26 ordinary
+and canonical b7c2a740,26 lifetimes/80 bounded intervals. Unsafe terrain never
+spends an offered personal revival;clearing a safe cell permits the same request.
+Spent-charge second death makes Relay wait when placement is blocked;original
+incoming-device reclaim and fresh confirmation resume without free progress.
+TURN-RECOVERY-TERRAIN/PROOF retain exact identities,fixtures and limits.
+Diagnostic gains7 Relay/3 Race witnesses leave83/109 branches required.
+Initial unchanged Relay69/1 and70/0 add two reviewed arms:188 annotated
+(187 covered,one private default),863 pending. Interrupted bcd914e7 is retained
+but supplies no passing evidence;only completed b7c2a740 is selected. No source,
+scope,floor or full enforcing release acceptance change.
+
 ## Current moving-platform reward proof
 
 Actual Relay/Race Arcade/Flow moving-platform suite passes16/16 ordinary and
@@ -1248,8 +1262,8 @@ Source `f5c1eea5b82e6e42d7b6bbc6a95f7f0d28aa7ad7468c4464e0217ab9f89e6c02`; schem
 |48|147|1|[350, 0]|pending|
 |62|171|0|[0, 95]|pending|
 |63|176|0|[0, 47]|pending|
-|69|192|1|[41, 0]|pending|
-|70|197|0|[0, 41]|pending|
+|69|192|1|[41, 0]|[covered arm 1](07-03-LEDGER-REVIEW.md#turn-recovery-terrain)|
+|70|197|0|[0, 41]|[covered arm 0](07-03-LEDGER-REVIEW.md#turn-recovery-terrain)|
 |72|200|1|[41, 0]|pending|
 |77|214|0|[0, 22]|pending|
 |78|223|0|[0, 8]|[covered arm 0](07-03-LEDGER-REVIEW.md#turn-authority)|

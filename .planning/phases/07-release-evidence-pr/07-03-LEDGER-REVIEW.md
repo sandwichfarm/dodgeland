@@ -297,3 +297,21 @@ Whole `tests/consumable-boundaries.test.mjs` passes8/8 canonical
 Source/map/full mapped schemas match initial,current disk and canonical data.
 Initial consumables10/0,21/0,28/0,30/0,34/0 have14,4,3,3,1 hits respectively.
 [Exact conditions and limits](07-03-CONSUMABLE-BOUNDARIES-PROOF.json).
+
+## Turn-recovery-terrain
+
+**ARCH-03,COOP-04,RELAY-04/05,TEST-02/03.** After an actual second fatal impact
+with spent personal charge,Relay must not transfer an incoming runner onto
+blocked retained terrain. It uses the outgoing player's retained safe anchor
+when the current cell is unsafe;when that anchor and all fallback cells are
+blocked,it waits without moving,debiting or advancing the world. Clearing a cell
+and original-device reclaim then require fresh incoming confirmation;stale or
+foreign fields reject without mutation. Whole actual
+`tests/turn-recovery-terrain.test.mjs` passes26/26 canonical
+`b7c2a740-6b20-40cd-b382-6e95c260597e`,one Node parent/80 bounded intervals.
+Initial unchanged Relay69/1 at192 has4 hits;70/0 at197 has2. Initial,current disk
+and canonical source/map/full mapped schemas match exactly. Component terrain,
+body/funds and fatal damage are explicit;all positions,elapsed time,progress,
+charge and lifecycle use real input/session authority. Already-reviewed Relay/
+Race recovery guards are not counted twice.
+[Exact identities and limits](07-03-TURN-RECOVERY-TERRAIN-PROOF.json).

@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-03 moving-platform rewards pass16 ordinary/canonical cases; branch gaps90 Relay112 Race
-last_updated: "2026-10-17T17:44:54.009462+00:00"
+stopped_at: 07-03 safe recovery retry and blocked Relay rotation pass26 cases; branch gaps83 Relay109 Race
+last_updated: "2026-10-17T18:02:02.132008+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,14 +12,27 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Moving-platform rewards add22 Relay20 Race branch witnesses;164 full jobs retained; full release verification still open.
+last_activity_desc: Recovery terrain adds7 Relay3 Race branch witnesses and two initial annotations;188 reviewed863 pending;165 full jobs retained.
 ---
 
 # Project State
 
 ## Current work
 
-Latest checkpoint: moving-platform reward proof77b03d95 passes16/16 ordinary
+Latest checkpoint: recovery-terrain proof b7c2a740 passes26/26 ordinary and
+canonical cases,26 actual lifetimes/80 bounded intervals. Failed unsafe personal
+recovery preserves charge and exact state;corrected terrain permits retry.
+Spent-charge Relay death waits on blocked placement,then original-device reclaim
+and fresh incoming confirmation resume without free progress. Source/rules/
+scope/floors unchanged. DiagnosticRelay2250/2744B(needs83),Race2469/3032B(needs109);
+line/functions pass diagnostically. Two exact initial Relay arms are reviewed:
+188 annotated(187 covered,one private default),863 pending. Inventory153 entries/
+160 closure/165 jobs retains all earlier declarations. Required type/build/
+guidance/conformance exit0;CLI still5 pass/5 unmeasured. Normal903/rootlock5ac
+unchanged. Interrupted bcd914e7 retains partial evidence only;completed b7c2a740
+alone contributes. No test/build chain remains live and no PR is open.
+
+Previous checkpoint: moving-platform reward proof77b03d95 passes16/16 ordinary
 and canonical cases,16 actual mode lifetimes/64 bounded intervals. Real binding,
 visibility,platform support,pause,landing payout and carry work in both bases,
 recipes and directions. No game source/rule/scope/floor changes. Diagnostic
@@ -1044,8 +1057,8 @@ contradiction proof;do not prune from the zero count alone. No PR is open.
 
 1. Complete07-03: broad honest Solo/Relay/Race and development evidence,
    remaining per-file gaps, complete semantic ledger, then a fresh enforcing
-   full report. Keep all floors.186 initial zero arms have source-identical
-   semantic annotations(185 covered,one reviewed private default);865 still need completed semantic/behavioral proof,
+   full report. Keep all floors.188 initial zero arms have source-identical
+   semantic annotations(187 covered,one reviewed private default);863 still need completed semantic/behavioral proof,
    including remaining source-reviewed market candidates as listed in the ledger. Genuine fresh
    bootstrap proof now exists; all unions before full collection are diagnostic.
 2. Execute07-04 conformance proof,07-05 clause/visual evidence,07-06 exact final
