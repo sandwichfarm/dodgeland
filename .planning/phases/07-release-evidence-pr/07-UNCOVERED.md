@@ -2,6 +2,17 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Current seat/call-closure review
+
+SEAT-CALL-CLOSURE/AUDIT/PROOF establish only common optional-placement fallbacks
+and unused staged-admission wrapper,plus Relay-only Race composer/cooldown
+setter. Race's actual composer call was found despite its absent graph edge and
+stays counted. Constructor/acquisition/validation/defaults/movement stay live.
+All110 controls pass;1155 original intervals/38 independent parents revalidate.
+All raw/covered numerators are unchanged. Relay2286/2722B(needs28),Race2492/3020B
+(needs75) are separate revised projections;original full report remains intact.
+Browser46/DEV127 diagnostic gaps persist. No new gameplay hits or full pass.
+
 ## Current exact-anchor behavioral review
 
 FLARE-ANCHOR/PROOF add actual public confirmation/retry for unsafe water,car,train,

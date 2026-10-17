@@ -77,3 +77,26 @@ contradictory hit,with raw counts and all covered numerators unchanged. Retain
 original reports and separate new projections. Constructor field/default sites,
 Race composer/setter and all real acquisition/reclaim/teardown remain counted.
 Full semantic review,fresh enforcing run,07-04/05/06 and PR are still required.
+
+## Executed bounded projection
+
+Tool-contract RED c0fccb2 retains16 passing/two expected failing controls,not a
+product RED. After constructor-AST lookup support was corrected,focused18/18
+and all coverage-tool110/110 controls pass. Eight additional collection/independent
+Node-identity controls pass after registering the separate DEV Relay job.
+SEAT-CALL-CLOSURE-PROOF binds scripts,logs and exact output hashes.
+
+All1155 original complete-run intervals were revalidated against their original
+independent parents:24 Node jobs/14 browser parents,38 parents total. Every
+consumed raw receipt SHA matches original recovery preparation. Source/config
+identities remain currentf46f;no source changes or new measured hits are borrowed.
+The original complete aggregate maps are reprojected separately;original report
+files stay byte-identical and their raw metrics/all covered numerators match.
+
+Relay adds68 dispositions(22 statements,five functions,41 branches),changing
+applicable totals by-14L/-22S/-5F/-41B. It remains2286/2722B(needs28 at85%).
+Race adds26 dispositions(nine statements,three functions,14 branches),changing
+applicable totals by-6L/-9S/-3F/-14B. It remains2492/3020B(needs75). Both retain
+passing line/function targets. Browser/DEV scope is unchanged. This is accounting
+for source-proved unavailable paths,not additional gameplay coverage. Full
+enforcement and complete semantic review remain required.

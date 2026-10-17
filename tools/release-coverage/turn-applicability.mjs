@@ -64,7 +64,7 @@ export function turnApplicabilityDispositions({mode,sources,authoritySources,clo
   const span=n=>({start:point(n.getStart(tree)),end:point(n.end)}),ranges=[],functions=[];
   const add=(node,reason,onlyFunction=false,reference)=>(onlyFunction?functions:ranges).push({span:span(node),reason,reference});
   const all=[];function walk(n){all.push(n);ts.forEachChild(n,walk);}walk(tree);
-  const member=(owner,name)=>{const c=tree.statements.find(n=>ts.isClassDeclaration(n)&&n.name?.text===owner),m=c?.members.find(n=>n.name?.getText(tree)===name);if(!m?.body)throw Error('Reviewed member absent: '+owner+'.'+name);return m;};
+  const member=(owner,name)=>{const c=tree.statements.find(n=>ts.isClassDeclaration(n)&&n.name?.text===owner),m=c?.members.find(n=>name==='constructor'?ts.isConstructorDeclaration(n):n.name?.getText(tree)===name);if(!m?.body)throw Error('Reviewed member absent: '+owner+'.'+name);return m;};
   const callable=(name,reason,reference)=>{
    const fn=tree.statements.find(n=>ts.isFunctionDeclaration(n)&&n.name?.text===name),variable=all.find(n=>ts.isVariableDeclaration(n)&&n.name.getText(tree)===name);
    const node=fn??variable?.initializer;if(!node||!(ts.isFunctionDeclaration(node)||ts.isArrowFunction(node))||!node.body)throw Error('Reviewed callable absent: '+name);
@@ -76,6 +76,20 @@ export function turnApplicabilityDispositions({mode,sources,authoritySources,clo
   const noItems='Relay installs consumables:false; no ConsumableWorld or captured item policy exists. Shared bootstrap registration and absent-extension guards remain applicable.';
   const appearance='Race restricts every closed-roster inventory to appearance-only before play. No successful card, pack or power acquisition can populate it; public rejection guards and cosmetic transactions remain applicable.';
   if(key==='src/session.ts'){
+   const seatReference='.planning/phases/07-release-evidence-pr/07-03-SEAT-CALL-CLOSURE.md';
+   const constructor=member('SessionPlayer','constructor');let placementFallbacks=0;
+   for(const node of all.filter(n=>n.pos>=constructor.body.pos&&n.end<=constructor.body.end)){
+    if(ts.isBinaryExpression(node)&&node.operatorToken.kind===ts.SyntaxKind.QuestionQuestionToken&&['placement?.x','placement?.y'].includes(node.left.getText(tree))){
+     add(node.right,'All three pinned application allocations either return through primary=true or receive the frozen safePlacement point through private admitPlan. Only the omitted-placement fallback operand is unavailable; constructor, placement reads and spawn guard remain applicable.',false,seatReference);
+     placementFallbacks++;
+    }
+   }
+   if(placementFallbacks!==2)throw Error('Reviewed seat placement fallbacks changed');
+   add(member('LocalSessionStage','commitAdmission'),'Complete pinned application reference/value-flow inventory has no call or extraction of this staged-admission wrapper. Shipped setup uses stage.commit/cancel and actual live admission uses session.admit directly.',false,seatReference);
+   if(mode==='relay'){
+    callable('composeSessionModeDefinition','The sole pinned application call is Race.composeRaceDefinition. Relay captures its own fixed handler object and never invokes this authoring composer; Race validation and module allocation remain applicable.',seatReference);
+    add(member('SessionPlayer','setHopCooldown'),'The sole pinned caller is RaceItems Mud Splash activation. Relay never installs the Race item policy; cooldown getters, noteHop, movement and field initialization remain applicable.',false,seatReference);
+   }
    const reference='.planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md';
    const cells=member('LocalSession','recoverySafeCells');let flareOperands=0,flareBodies=0;
    for(const node of all.filter(n=>n.pos>=cells.pos&&n.end<=cells.end)){
