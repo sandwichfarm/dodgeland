@@ -2,7 +2,26 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
-## Current-source shared pickup repair
+## Current pickup eligibility and arbitration
+
+The bench-retention assumption in the historical first repair below is superseded
+by ed7f19a: cleanup uses the already elected simulating players. Real Relay
+handoff and finished-Race regressions retain distinct prerepair failures and
+current passing proof in07-03-PICKUP-ELIGIBILITY-PROOF.json. Session is now
+bf1d7699; older session source counters retain their historical identities.
+
+ARCH-03/RELAY-05/RACE-01/04/TEST-02/03/05: current whole turn matrix15/15 proves
+real distance/time/seat-tie coin election in both roster orders, contact versus
+pull priority, one payout, pause continuity and paid Relay multi-coin/bench
+isolation. Source-identical canonical7ca61138 binds15 actual lifetimes/67
+intervals. Both mode strata newly hit sort functions16/17 and six operand arms
+of session9/11 at275/284. Race also newly hits Game275/0, Session10/0 and12/0.
+No new global-zero or initial-ledger annotation claim follows. Raw site identity,
+conditions and actual behavior are in07-03-TURN-PICKUP-PROOF.md/json. Applicable
+mode gaps remain Relay4F359B and Race10F334B; full enforcement/semantic review
+remains required. All original13 case bodies and all floors are preserved.
+
+## Historical first shared pickup repair
 
 INPUT-05/COOP-01/TEST-02: a living disconnected traveler must not permanently
 retain a coin pull that an active teammate can reach. Real-app RED0638b42 uses

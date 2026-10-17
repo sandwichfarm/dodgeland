@@ -1,0 +1,664 @@
+{
+  "status": "Added actual gameplay proof; focused collection passes; full release gates remain open",
+  "completedAt": "2026-10-17T13:56:25.131819+00:00",
+  "sourceChange": null,
+  "requirements": [
+    "ARCH-03",
+    "RELAY-05",
+    "RACE-01",
+    "RACE-04",
+    "TEST-02",
+    "TEST-03",
+    "TEST-05"
+  ],
+  "ordinary": {
+    "exitCode": 0,
+    "tests": 15,
+    "passed": 15,
+    "failed": 0,
+    "log": "/tmp/down-to-duck-turn-pickup-green.log"
+  },
+  "retainedFixtureFailure": {
+    "exitCode": 1,
+    "tests": 15,
+    "passed": 14,
+    "failed": 1,
+    "log": "/tmp/down-to-duck-turn-pickup-ordinary.log",
+    "cause": "New test wrongly expected a revisited earned row to grant another tile; product correctly withheld it. Corrected only the expected progress; no product RED."
+  },
+  "controls": {
+    "exitCode": 0,
+    "tests": 94,
+    "passed": 94,
+    "failed": 0,
+    "log": "/tmp/down-to-duck-turn-pickup-controls.log"
+  },
+  "canonical": {
+    "runId": "7ca61138-479a-47c0-bf16-ed494036e75e",
+    "exitCode": 0,
+    "tests": 15,
+    "passed": 15,
+    "payloads": 1,
+    "intervals": 67,
+    "models": {
+      "relay": {
+        "lifetimes": 7,
+        "intervals": 27
+      },
+      "race": {
+        "lifetimes": 8,
+        "intervals": 40
+      }
+    },
+    "executionObservations": {
+      "sharedCalls": 16968,
+      "standaloneCalls": 0,
+      "violations": [],
+      "worlds": 15
+    },
+    "manifestSha256": "383736d3c4d2b8ba46b904882cd17ed7636a0de08b35f0c7c1f5a3faa8964e63",
+    "directory": "artifacts/release-coverage/turn-pickup-arbitration-03",
+    "thresholdsEvaluated": false
+  },
+  "preservation": {
+    "status": "passed",
+    "started": "2026-10-17T13:49:34.642585+00:00",
+    "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/turn-pickup-arbitration-03",
+    "frozenFiles": {
+      "dist/index.html": "ff8ed4433a0e006bbf31d2f5843339930d00ed3ede5c694a4e03b269ad6cc7ee",
+      "pnpm-lock.yaml": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+      "src/game.ts": "fb5d9224e46c19b3745099429f06bd141d9b738bb2d8786ed3266e1b6a7d95f6",
+      "src/session.ts": "bf1d769947cd7e251d47957abdc4238f36ab4583fd5f5d32d3900e7f4c39f16c",
+      "src/main.ts": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "src/mobs.ts": "6077ac4fd884ef16f9fe8ab3f3db77a431b2d2853adbeddc1d0d843b595018d1",
+      "tests/release-turn-mode-coverage.test.mjs": "8756e919d2b9207fd5f72387293a55b4f4ee881d3799866d7a3126bc0685cb1b",
+      "tools/release-coverage/suites.json": "c1383c7dfe75c75b20ad15c86abc4927316bfeb89862ddcd4f665fd74cc1fdd6"
+    },
+    "pid": 34555,
+    "exitCode": 0,
+    "preserved": true,
+    "finished": "2026-10-17T13:50:40.938540+00:00"
+  },
+  "originalCaseProof": {
+    "originalThirteenCaseBodiesByteIdentical": true,
+    "onlyPrefixChanges": [
+      "observedWorlds size13 to15",
+      "recorder count13 to15"
+    ],
+    "beforeTestSha256": "72bae3e0da9a2a8df4ea62d0ff7632d36ad0ec49c4390e96b3c54a3375d45c02",
+    "afterTestSha256": "8756e919d2b9207fd5f72387293a55b4f4ee881d3799866d7a3126bc0685cb1b",
+    "metadataCopies": [
+      "turn-model-03",
+      "turn-director-03",
+      "turn-spawn-safety-03",
+      "full"
+    ]
+  },
+  "projectChecks": {
+    "commands": [
+      {
+        "name": "type-check",
+        "log": "/tmp/down-to-duck-turn-pickup-type-check.log",
+        "status": "passed",
+        "exitCode": 0
+      },
+      {
+        "name": "build",
+        "log": "/tmp/down-to-duck-turn-pickup-build.log",
+        "status": "passed",
+        "exitCode": 0
+      },
+      {
+        "name": "guidance",
+        "log": "/tmp/down-to-duck-turn-pickup-guidance.log",
+        "status": "passed",
+        "exitCode": 0
+      },
+      {
+        "name": "conformance",
+        "log": "/tmp/down-to-duck-turn-pickup-conformance.log",
+        "status": "passed",
+        "exitCode": 0
+      }
+    ],
+    "before": {
+      "pnpm-lock.yaml": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+      "dist/index.html": "ff8ed4433a0e006bbf31d2f5843339930d00ed3ede5c694a4e03b269ad6cc7ee"
+    },
+    "after": {
+      "pnpm-lock.yaml": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+      "dist/index.html": "ff8ed4433a0e006bbf31d2f5843339930d00ed3ede5c694a4e03b269ad6cc7ee"
+    },
+    "preserved": true,
+    "status": "passed"
+  },
+  "conformance": {
+    "passed": 5,
+    "failed": 0,
+    "unmeasured": 5,
+    "releaseAcceptance": false
+  },
+  "newPositiveModeSites": {
+    "purpose": "Exact unchanged-source/map/site-schema discovery of newly positive mode functions and arms; no enforcing acceptance",
+    "modes": {
+      "relay": {
+        "functions": [
+          {
+            "path": "src/session.ts",
+            "sourceHash": "bf1d769947cd7e251d47957abdc4238f36ab4583fd5f5d32d3900e7f4c39f16c",
+            "id": "16",
+            "line": 275,
+            "hits": 2
+          },
+          {
+            "path": "src/session.ts",
+            "sourceHash": "bf1d769947cd7e251d47957abdc4238f36ab4583fd5f5d32d3900e7f4c39f16c",
+            "id": "17",
+            "line": 284,
+            "hits": 148
+          }
+        ],
+        "branches": [
+          {
+            "path": "src/session.ts",
+            "sourceHash": "bf1d769947cd7e251d47957abdc4238f36ab4583fd5f5d32d3900e7f4c39f16c",
+            "id": "9",
+            "arm": 0,
+            "type": "binary-expr",
+            "line": 275,
+            "location": {
+              "start": {
+                "line": 275,
+                "column": 37
+              },
+              "end": {
+                "line": 275,
+                "column": 52
+              }
+            },
+            "hits": 2,
+            "code": "this.pickupClaims.sort((a, b) => a.time - b.time || a.distance - b.distance || a.player.seat.localeCompare(b.player.seat));"
+          },
+          {
+            "path": "src/session.ts",
+            "sourceHash": "bf1d769947cd7e251d47957abdc4238f36ab4583fd5f5d32d3900e7f4c39f16c",
+            "id": "9",
+            "arm": 1,
+            "type": "binary-expr",
+            "line": 275,
+            "location": {
+              "start": {
+                "line": 275,
+                "column": 56
+              },
+              "end": {
+                "line": 275,
+                "column": 79
+              }
+            },
+            "hits": 2,
+            "code": "this.pickupClaims.sort((a, b) => a.time - b.time || a.distance - b.distance || a.player.seat.localeCompare(b.player.seat));"
+          },
+          {
+            "path": "src/session.ts",
+            "sourceHash": "bf1d769947cd7e251d47957abdc4238f36ab4583fd5f5d32d3900e7f4c39f16c",
+            "id": "9",
+            "arm": 2,
+            "type": "binary-expr",
+            "line": 275,
+            "location": {
+              "start": {
+                "line": 275,
+                "column": 83
+              },
+              "end": {
+                "line": 275,
+                "column": 125
+              }
+            },
+            "hits": 2,
+            "code": "this.pickupClaims.sort((a, b) => a.time - b.time || a.distance - b.distance || a.player.seat.localeCompare(b.player.seat));"
+          },
+          {
+            "path": "src/session.ts",
+            "sourceHash": "bf1d769947cd7e251d47957abdc4238f36ab4583fd5f5d32d3900e7f4c39f16c",
+            "id": "11",
+            "arm": 0,
+            "type": "binary-expr",
+            "line": 284,
+            "location": {
+              "start": {
+                "line": 284,
+                "column": 41
+              },
+              "end": {
+                "line": 284,
+                "column": 56
+              }
+            },
+            "hits": 148,
+            "code": "this.pickupPullClaims.sort((a, b) => a.time - b.time || a.distance - b.distance || a.player.seat.localeCompare(b.player.seat));"
+          },
+          {
+            "path": "src/session.ts",
+            "sourceHash": "bf1d769947cd7e251d47957abdc4238f36ab4583fd5f5d32d3900e7f4c39f16c",
+            "id": "11",
+            "arm": 1,
+            "type": "binary-expr",
+            "line": 284,
+            "location": {
+              "start": {
+                "line": 284,
+                "column": 60
+              },
+              "end": {
+                "line": 284,
+                "column": 83
+              }
+            },
+            "hits": 136,
+            "code": "this.pickupPullClaims.sort((a, b) => a.time - b.time || a.distance - b.distance || a.player.seat.localeCompare(b.player.seat));"
+          },
+          {
+            "path": "src/session.ts",
+            "sourceHash": "bf1d769947cd7e251d47957abdc4238f36ab4583fd5f5d32d3900e7f4c39f16c",
+            "id": "11",
+            "arm": 2,
+            "type": "binary-expr",
+            "line": 284,
+            "location": {
+              "start": {
+                "line": 284,
+                "column": 87
+              },
+              "end": {
+                "line": 284,
+                "column": 129
+              }
+            },
+            "hits": 136,
+            "code": "this.pickupPullClaims.sort((a, b) => a.time - b.time || a.distance - b.distance || a.player.seat.localeCompare(b.player.seat));"
+          }
+        ]
+      },
+      "race": {
+        "functions": [
+          {
+            "path": "src/session.ts",
+            "sourceHash": "bf1d769947cd7e251d47957abdc4238f36ab4583fd5f5d32d3900e7f4c39f16c",
+            "id": "16",
+            "line": 275,
+            "hits": 6
+          },
+          {
+            "path": "src/session.ts",
+            "sourceHash": "bf1d769947cd7e251d47957abdc4238f36ab4583fd5f5d32d3900e7f4c39f16c",
+            "id": "17",
+            "line": 284,
+            "hits": 4
+          }
+        ],
+        "branches": [
+          {
+            "path": "src/game.ts",
+            "sourceHash": "fb5d9224e46c19b3745099429f06bd141d9b738bb2d8786ed3266e1b6a7d95f6",
+            "id": "275",
+            "arm": 0,
+            "type": "if",
+            "line": 705,
+            "location": {
+              "start": {
+                "line": 705,
+                "column": 6
+              },
+              "end": {
+                "line": 705,
+                "column": 51
+              }
+            },
+            "hits": 148,
+            "code": "if (owner && owner !== player.seat) continue;"
+          },
+          {
+            "path": "src/session.ts",
+            "sourceHash": "bf1d769947cd7e251d47957abdc4238f36ab4583fd5f5d32d3900e7f4c39f16c",
+            "id": "9",
+            "arm": 0,
+            "type": "binary-expr",
+            "line": 275,
+            "location": {
+              "start": {
+                "line": 275,
+                "column": 37
+              },
+              "end": {
+                "line": 275,
+                "column": 52
+              }
+            },
+            "hits": 6,
+            "code": "this.pickupClaims.sort((a, b) => a.time - b.time || a.distance - b.distance || a.player.seat.localeCompare(b.player.seat));"
+          },
+          {
+            "path": "src/session.ts",
+            "sourceHash": "bf1d769947cd7e251d47957abdc4238f36ab4583fd5f5d32d3900e7f4c39f16c",
+            "id": "9",
+            "arm": 1,
+            "type": "binary-expr",
+            "line": 275,
+            "location": {
+              "start": {
+                "line": 275,
+                "column": 56
+              },
+              "end": {
+                "line": 275,
+                "column": 79
+              }
+            },
+            "hits": 4,
+            "code": "this.pickupClaims.sort((a, b) => a.time - b.time || a.distance - b.distance || a.player.seat.localeCompare(b.player.seat));"
+          },
+          {
+            "path": "src/session.ts",
+            "sourceHash": "bf1d769947cd7e251d47957abdc4238f36ab4583fd5f5d32d3900e7f4c39f16c",
+            "id": "9",
+            "arm": 2,
+            "type": "binary-expr",
+            "line": 275,
+            "location": {
+              "start": {
+                "line": 275,
+                "column": 83
+              },
+              "end": {
+                "line": 275,
+                "column": 125
+              }
+            },
+            "hits": 2,
+            "code": "this.pickupClaims.sort((a, b) => a.time - b.time || a.distance - b.distance || a.player.seat.localeCompare(b.player.seat));"
+          },
+          {
+            "path": "src/session.ts",
+            "sourceHash": "bf1d769947cd7e251d47957abdc4238f36ab4583fd5f5d32d3900e7f4c39f16c",
+            "id": "10",
+            "arm": 0,
+            "type": "if",
+            "line": 277,
+            "location": {
+              "start": {
+                "line": 277,
+                "column": 6
+              },
+              "end": {
+                "line": 277,
+                "column": 45
+              }
+            },
+            "hits": 6,
+            "code": "if (claim.lane.coin === null) continue;"
+          },
+          {
+            "path": "src/session.ts",
+            "sourceHash": "bf1d769947cd7e251d47957abdc4238f36ab4583fd5f5d32d3900e7f4c39f16c",
+            "id": "11",
+            "arm": 0,
+            "type": "binary-expr",
+            "line": 284,
+            "location": {
+              "start": {
+                "line": 284,
+                "column": 41
+              },
+              "end": {
+                "line": 284,
+                "column": 56
+              }
+            },
+            "hits": 4,
+            "code": "this.pickupPullClaims.sort((a, b) => a.time - b.time || a.distance - b.distance || a.player.seat.localeCompare(b.player.seat));"
+          },
+          {
+            "path": "src/session.ts",
+            "sourceHash": "bf1d769947cd7e251d47957abdc4238f36ab4583fd5f5d32d3900e7f4c39f16c",
+            "id": "11",
+            "arm": 1,
+            "type": "binary-expr",
+            "line": 284,
+            "location": {
+              "start": {
+                "line": 284,
+                "column": 60
+              },
+              "end": {
+                "line": 284,
+                "column": 83
+              }
+            },
+            "hits": 4,
+            "code": "this.pickupPullClaims.sort((a, b) => a.time - b.time || a.distance - b.distance || a.player.seat.localeCompare(b.player.seat));"
+          },
+          {
+            "path": "src/session.ts",
+            "sourceHash": "bf1d769947cd7e251d47957abdc4238f36ab4583fd5f5d32d3900e7f4c39f16c",
+            "id": "11",
+            "arm": 2,
+            "type": "binary-expr",
+            "line": 284,
+            "location": {
+              "start": {
+                "line": 284,
+                "column": 87
+              },
+              "end": {
+                "line": 284,
+                "column": 129
+              }
+            },
+            "hits": 2,
+            "code": "this.pickupPullClaims.sort((a, b) => a.time - b.time || a.distance - b.distance || a.player.seat.localeCompare(b.player.seat));"
+          },
+          {
+            "path": "src/session.ts",
+            "sourceHash": "bf1d769947cd7e251d47957abdc4238f36ab4583fd5f5d32d3900e7f4c39f16c",
+            "id": "12",
+            "arm": 0,
+            "type": "if",
+            "line": 287,
+            "location": {
+              "start": {
+                "line": 287,
+                "column": 6
+              },
+              "end": {
+                "line": 287,
+                "column": 83
+              }
+            },
+            "hits": 6,
+            "code": "if (claim.lane.coin === null || electedPulls.has(claim.lane.index)) continue;"
+          }
+        ]
+      }
+    },
+    "runId": "7ca61138-479a-47c0-bf16-ed494036e75e"
+  },
+  "diagnostic": {
+    "purpose": "Current disk/canonical caller guard revalidation; fresh component/public diagnostic union, not an enforcing release report",
+    "groups": [
+      {
+        "group": "turn-pickup-arbitration-03",
+        "runId": "7ca61138-479a-47c0-bf16-ed494036e75e",
+        "payloads": 1,
+        "collectedIntervals": 67,
+        "selectedIntervals": 67,
+        "selection": "all",
+        "modes": [
+          "relay",
+          "race"
+        ]
+      },
+      {
+        "group": "pickup-reuse-03",
+        "runId": "19c63e9e-7d63-4753-b6f5-dac6f1c12fdc",
+        "payloads": 7,
+        "collectedIntervals": 107,
+        "selectedIntervals": 107,
+        "selection": "all",
+        "modes": [
+          "relay",
+          "race"
+        ]
+      },
+      {
+        "group": "pickup-relay-lifecycle-03",
+        "runId": "ceb80f7a-082b-40ab-88ac-004106f3bd24",
+        "payloads": 7,
+        "collectedIntervals": 30,
+        "selectedIntervals": 30,
+        "selection": "all",
+        "modes": [
+          "relay"
+        ]
+      },
+      {
+        "group": "pickup-race-results-03",
+        "runId": "ecf1b1ed-0640-4908-b8ce-3d43e2f6121f",
+        "payloads": 7,
+        "collectedIntervals": 40,
+        "selectedIntervals": 40,
+        "selection": "all",
+        "modes": [
+          "race"
+        ]
+      },
+      {
+        "group": "pickup-public-03",
+        "runId": "58e68d24-3b9e-4d2a-988e-b6f4e7d9966c",
+        "payloads": 6,
+        "collectedIntervals": 6,
+        "selectedIntervals": 6,
+        "selection": "all",
+        "modes": [
+          "relay",
+          "race"
+        ]
+      },
+      {
+        "group": "pickup-relay-public-03",
+        "runId": "af092101-f03e-4053-809f-ea4b9316f027",
+        "payloads": 16,
+        "collectedIntervals": 74,
+        "selectedIntervals": 1,
+        "selection": "Relay public interval only; repeated Race item model omitted",
+        "modes": [
+          "relay"
+        ]
+      }
+    ],
+    "modes": {
+      "relay": {
+        "componentLifetimes": 26,
+        "publicIntervals": 2,
+        "intervals": 67,
+        "raw": {
+          "lines": {
+            "covered": 1941,
+            "total": 2350
+          },
+          "statements": {
+            "covered": 2802,
+            "total": 3733
+          },
+          "functions": {
+            "covered": 641,
+            "total": 817
+          },
+          "branches": {
+            "covered": 2047,
+            "total": 3198
+          }
+        },
+        "applicable": {
+          "lines": {
+            "covered": 1941,
+            "total": 2114
+          },
+          "statements": {
+            "covered": 2802,
+            "total": 3343
+          },
+          "functions": {
+            "covered": 641,
+            "total": 716
+          },
+          "branches": {
+            "covered": 2047,
+            "total": 2830
+          }
+        },
+        "remaining": {
+          "lines": 0,
+          "functions": 4,
+          "branches": 359
+        }
+      },
+      "race": {
+        "componentLifetimes": 57,
+        "publicIntervals": 1,
+        "intervals": 180,
+        "raw": {
+          "lines": {
+            "covered": 2022,
+            "total": 2303
+          },
+          "statements": {
+            "covered": 2925,
+            "total": 3643
+          },
+          "functions": {
+            "covered": 681,
+            "total": 818
+          },
+          "branches": {
+            "covered": 2283,
+            "total": 3255
+          }
+        },
+        "applicable": {
+          "lines": {
+            "covered": 2022,
+            "total": 2177
+          },
+          "statements": {
+            "covered": 2925,
+            "total": 3446
+          },
+          "functions": {
+            "covered": 681,
+            "total": 767
+          },
+          "branches": {
+            "covered": 2283,
+            "total": 3078
+          }
+        },
+        "remaining": {
+          "lines": 0,
+          "functions": 10,
+          "branches": 334
+        }
+      }
+    },
+    "historicalChangedSessionCountersUsed": false
+  },
+  "provenance": "Actual canonical Flow Game/Relay/Race coordinator lifetimes. Poses, terrain, stock and starting funds arranged outside measured actions. Coin candidates, pulls, elections and payouts produced by LocalSession.update. Transparent observers forward each original production call exactly once; no claim, ownership map, private queue or RNG injection. Original thirteen case bodies unchanged; only aggregate witness counts advance. No public input journey claimed.",
+  "limitations": [
+    "No fresh full enforcing report",
+    "No threshold or applicability change",
+    "Initial semantic ledger annotations remain historical and require full reconciliation",
+    "Conformance wire/manifest/lifecycle still unmeasured",
+    "Normal visuals/clause evidence and final gate/PR remain open"
+  ]
+}

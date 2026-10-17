@@ -1,0 +1,505 @@
+{
+  "purpose": "Read-only TypeScript resolved reference audit; not a complete dynamic/value-flow closure or exclusion authorization",
+  "sources": 159,
+  "targets": [
+    {
+      "label": "Game.update",
+      "references": [
+        {
+          "path": "src/main.ts",
+          "line": 1723,
+          "column": 39,
+          "text": "game.update"
+        }
+      ],
+      "calls": [
+        {
+          "path": "src/main.ts",
+          "line": 1723,
+          "column": 39,
+          "text": "game.update(fixedStep)"
+        }
+      ],
+      "dynamicGameAccess": []
+    },
+    {
+      "label": "Game.updateSessionPlayer",
+      "references": [
+        {
+          "path": "src/session.ts",
+          "line": 442,
+          "column": 4,
+          "text": "this.world.host.updateSessionPlayer"
+        }
+      ],
+      "calls": [
+        {
+          "path": "src/session.ts",
+          "line": 442,
+          "column": 4,
+          "text": "this.world.host.updateSessionPlayer(this, dt, previousTime, drivesWorld)"
+        }
+      ],
+      "dynamicGameAccess": []
+    },
+    {
+      "label": "Game.finishPlayerUpdate",
+      "references": [
+        {
+          "path": "src/game.ts",
+          "line": 295,
+          "column": 6,
+          "text": "context.finishPlayerUpdate"
+        },
+        {
+          "path": "src/game.ts",
+          "line": 627,
+          "column": 4,
+          "text": "this.finishPlayerUpdate"
+        }
+      ],
+      "calls": [
+        {
+          "path": "src/game.ts",
+          "line": 295,
+          "column": 6,
+          "text": "context.finishPlayerUpdate(dt, previousTime, previousX, previousY, riding, drivesWorld)"
+        },
+        {
+          "path": "src/game.ts",
+          "line": 627,
+          "column": 4,
+          "text": "this.finishPlayerUpdate(dt, previousTime, previousX, previousY, riding, true)"
+        }
+      ],
+      "dynamicGameAccess": []
+    },
+    {
+      "label": "SessionPlayer.update",
+      "references": [
+        {
+          "path": "src/session.ts",
+          "line": 1046,
+          "column": 45,
+          "text": "player.update"
+        }
+      ],
+      "calls": [
+        {
+          "path": "src/session.ts",
+          "line": 1046,
+          "column": 45,
+          "text": "player.update(dt, previousTime, false)"
+        }
+      ],
+      "dynamicGameAccess": []
+    },
+    {
+      "label": "SharedWorld.resolvePlayer",
+      "references": [
+        {
+          "path": "src/session.ts",
+          "line": 1046,
+          "column": 6,
+          "text": "this.world.resolvePlayer"
+        }
+      ],
+      "calls": [
+        {
+          "path": "src/session.ts",
+          "line": 1046,
+          "column": 6,
+          "text": "this.world.resolvePlayer(player, () => player.update(dt, previousTime, false))"
+        }
+      ],
+      "dynamicGameAccess": []
+    },
+    {
+      "label": "SharedWorld.releaseInactivePickupClaims",
+      "references": [
+        {
+          "path": "src/session.ts",
+          "line": 1036,
+          "column": 4,
+          "text": "this.world.releaseInactivePickupClaims"
+        }
+      ],
+      "calls": [
+        {
+          "path": "src/session.ts",
+          "line": 1036,
+          "column": 4,
+          "text": "this.world.releaseInactivePickupClaims(activePlayers)"
+        }
+      ],
+      "dynamicGameAccess": []
+    },
+    {
+      "label": "Game.collectCoins",
+      "references": [
+        {
+          "path": "src/game.ts",
+          "line": 659,
+          "column": 24,
+          "text": "this.collectCoins"
+        },
+        {
+          "path": "src/game.ts",
+          "line": 669,
+          "column": 34,
+          "text": "this.collectCoins"
+        }
+      ],
+      "calls": [
+        {
+          "path": "src/game.ts",
+          "line": 659,
+          "column": 24,
+          "text": "this.collectCoins(this.time - previousTime, false)"
+        },
+        {
+          "path": "src/game.ts",
+          "line": 669,
+          "column": 34,
+          "text": "this.collectCoins(this.time - previousTime, true)"
+        }
+      ],
+      "dynamicGameAccess": []
+    },
+    {
+      "label": "Game.updateMobs",
+      "references": [
+        {
+          "path": "src/game.ts",
+          "line": 645,
+          "column": 23,
+          "text": "this.updateMobs"
+        },
+        {
+          "path": "src/game.ts",
+          "line": 659,
+          "column": 93,
+          "text": "this.updateMobs"
+        },
+        {
+          "path": "src/game.ts",
+          "line": 670,
+          "column": 49,
+          "text": "this.updateMobs"
+        }
+      ],
+      "calls": [
+        {
+          "path": "src/game.ts",
+          "line": 645,
+          "column": 23,
+          "text": "this.updateMobs(this.time - previousTime, previousX, previousY)"
+        },
+        {
+          "path": "src/game.ts",
+          "line": 659,
+          "column": 93,
+          "text": "this.updateMobs(this.time - previousTime, previousX, previousY)"
+        },
+        {
+          "path": "src/game.ts",
+          "line": 670,
+          "column": 49,
+          "text": "this.updateMobs(this.time - previousTime, previousX, previousY)"
+        }
+      ],
+      "dynamicGameAccess": []
+    },
+    {
+      "label": "LocalSession.transferPosition",
+      "references": [
+        {
+          "path": "src/relay.ts",
+          "line": 263,
+          "column": 363,
+          "text": "this.session.transferPosition"
+        }
+      ],
+      "calls": [
+        {
+          "path": "src/relay.ts",
+          "line": 263,
+          "column": 363,
+          "text": "this.session.transferPosition(this.activeSeat, this.incomingSeat)"
+        }
+      ],
+      "dynamicGameAccess": []
+    },
+    {
+      "label": "LocalSession.recoverySafeCells",
+      "references": [
+        {
+          "path": "src/session-recovery.ts",
+          "line": 52,
+          "column": 86,
+          "text": "session.recoverySafeCells"
+        },
+        {
+          "path": "src/relay.ts",
+          "line": 193,
+          "column": 34,
+          "text": "this.session.recoverySafeCells"
+        }
+      ],
+      "calls": [
+        {
+          "path": "src/session-recovery.ts",
+          "line": 52,
+          "column": 86,
+          "text": "session.recoverySafeCells(request.kind, owner, request.kind === 'flare' ? participants ?? [] : targets)"
+        },
+        {
+          "path": "src/relay.ts",
+          "line": 193,
+          "column": 34,
+          "text": "this.session.recoverySafeCells('personal', outgoing, [])"
+        }
+      ],
+      "dynamicGameAccess": []
+    },
+    {
+      "label": "SessionRecoveryController.recover",
+      "references": [
+        {
+          "path": "src/survive-together.ts",
+          "line": 23,
+          "column": 84,
+          "text": "this.recovery.recover"
+        },
+        {
+          "path": "src/relay.ts",
+          "line": 223,
+          "column": 123,
+          "text": "this.recovery.recover"
+        },
+        {
+          "path": "src/race.ts",
+          "line": 134,
+          "column": 13,
+          "text": "this.recovery.recover"
+        }
+      ],
+      "calls": [
+        {
+          "path": "src/survive-together.ts",
+          "line": 23,
+          "column": 84,
+          "text": "this.recovery.recover(session, request)"
+        },
+        {
+          "path": "src/relay.ts",
+          "line": 223,
+          "column": 123,
+          "text": "this.recovery.recover(session, request)"
+        },
+        {
+          "path": "src/race.ts",
+          "line": 134,
+          "column": 13,
+          "text": "this.recovery.recover(this.session,request)"
+        }
+      ],
+      "dynamicGameAccess": []
+    },
+    {
+      "label": "LocalSession.safePlacement",
+      "references": [
+        {
+          "path": "src/session.ts",
+          "line": 931,
+          "column": 22,
+          "text": "this.safePlacement"
+        },
+        {
+          "path": "src/session.ts",
+          "line": 978,
+          "column": 33,
+          "text": "this.safePlacement"
+        }
+      ],
+      "calls": [
+        {
+          "path": "src/session.ts",
+          "line": 931,
+          "column": 22,
+          "text": "this.safePlacement()"
+        },
+        {
+          "path": "src/session.ts",
+          "line": 978,
+          "column": 33,
+          "text": "this.safePlacement(player)"
+        }
+      ],
+      "dynamicGameAccess": []
+    }
+  ],
+  "sourceHashes": {
+    "src/duck-sample.ts": "9a6c2d707b1f09da287c4fc16e4ecfd8594ec91d90497d917aaa892dfe5d9506",
+    "src/harmony.ts": "3571b5700c43dbb32a1ebbc7b3698d0e70081061d22ab91aea6b479978178a6b",
+    "src/audio.ts": "f9d23f3e4f80f1414c854b93c4665cb49d185e34d1ebea901f4f795d81782102",
+    "src/content.ts": "56d4423a4d6c7bddd21be800353156487d46c5f5fe0a9ff4f550b4dadc14ea99",
+    "src/character-powers.ts": "d785823a0278b758edafc70e725e4cfa9c4ea32dd4e3e6d6be0a416c23042b8d",
+    "src/mode-rules.ts": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+    "src/market/types.ts": "d1e216d95749be95069851fe36b38009e9b86e86931fd4590330f794b2b4bb4c",
+    "src/mobs.ts": "6077ac4fd884ef16f9fe8ab3f3db77a431b2d2853adbeddc1d0d843b595018d1",
+    "src/market/run.ts": "ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f",
+    "src/coin-pull.ts": "449f260d15e6fb44a7ce997ca0ff91a05088593f9847877571440f8abf75bcfc",
+    "src/death-spill.ts": "f9c3977907418c17b08c9d6af705b339a720fa9a096cdf7694760a4a74e53e26",
+    "src/levels/v1-content.ts": "6999e23ef64b6289e1dd921556cf4d78f55d84a5a4160ad51f0045f11fb49536",
+    "src/levels/v1.ts": "2528a12bdc80d8da5579dccf04cd64509a2ceeb7f3ff229b9cb970207c4f5c56",
+    "src/coin-denominations.ts": "707895fc6de79ad2cd7b71d45077655cc8a6a9af0a1b1f778863f6ad42c8ac14",
+    "src/run-seed.ts": "fdd556d8e1daca5dd85602fa8f8bde29dbb495f3c267a9dac9cd4b375560a524",
+    "src/levels/v2.ts": "997099875df8a1e313c4d978de4dce3207375ead716ee4dc04e003a8e58e4f57",
+    "src/levels/v3.ts": "e2e87f0afb51b59b4fda24ee6a3a523fe29e3af22bcf5b00494c8a90382f061c",
+    "src/levels/index.ts": "6e8dd229e3369fc89cc5fbb5b51efeaa8ae139ea36461757e855f43a3a7b5ff6",
+    "src/vehicle-models.ts": "a873102d70e8d257c15b26d3c2dcf67935956012e88c3c16d9db2c9828d291bc",
+    "src/recovery.ts": "835df7ab867c3421e7d295778c864ceba83f0ea10e588c4c6f4d95cdc2c1702b",
+    "src/consumables.ts": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+    "src/consumable-drops.ts": "2fc4a1c55dc7f37dbcac2b7091661e3a284d3292eddf1460da423a39520dec4a",
+    "src/co-op-market.ts": "037a96c9f9436346f06306cac74808aab5e92e205ce2c42bebb1dbd16ca24c22",
+    "src/shared-world-effects.ts": "715dce9a98a83c398aa3a3d43531568008a9cefaa9be8df766a921dd2eb43a45",
+    "src/session.ts": "bf1d769947cd7e251d47957abdc4238f36ab4583fd5f5d32d3900e7f4c39f16c",
+    "src/game.ts": "fb5d9224e46c19b3745099429f06bd141d9b738bb2d8786ed3266e1b6a7d95f6",
+    "src/actors.ts": "8802f29be9e39003f6cdbf46c8ba08d61d2a01aaac91206ed6f236b8c65a1394",
+    "src/character-power-ui.ts": "3fa23675278d5782c16dc65c8358c7c5dd8ec28091a8021332cd1aa53d178945",
+    "src/coin-models.ts": "9c79f7c09255d5b18bf48c0679a37c18b38c7cbda70b06931e84306614d75c1d",
+    "src/soundscape.ts": "7dcfdb877477177f38fcc1b42add26be04961ed25b4133faf0ea0c696288c102",
+    "src/mob-models.ts": "fce5e37b1e834b31296ae66cdd4a7ba177d0b11c1c09de977de92083675b7008",
+    "src/market-scenery.ts": "c9f726c0d42e8fb47cf15ca40d4f6242099f1abfef3050b8faa46e13fd83feff",
+    "src/wearables.ts": "6ff040ceaed6a1fd4ff1dcf7e8b8bc9a773bcc4a3598fa6a83529a05d28b72e6",
+    "src/cosmetic-model.ts": "df65d557ad5999be6f14f6ad07d7ade4bbb23c0c8db4e46b2e78139f1a12a5ae",
+    "src/render.ts": "b6b5ae2ff1a4af8e3f6a0bf2c96bfcc3e83b11e95e38892ccaa6f33f3c2122c2",
+    "src/run-hand.ts": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+    "src/collection-ui.ts": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10",
+    "src/death-spill-audio.ts": "0c83ee2b3e172e4851e0bd6e959ec8f4c4c06fd20af2fdab9f1876526b80fdac",
+    "src/devtools-state.ts": "8ffff220d26c0a984f8159a18701b20d421a8d86708ee828f3d17634195c0e60",
+    "src/devtools.ts": "717ad3568ee1cd1139f3650e1785f7aa4867cb4113b5417053b8677dd83f9e87",
+    "src/domain-availability.ts": "053b7a9da9e523c0d35437ac5962229aa701da72462deeb56fcc2bc42d142cb9",
+    "src/env.d.ts": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5",
+    "src/game-intents.ts": "91b86898fd198f2d208c881233d35367726a372a8c962e87b5310e7921b7cf0c",
+    "src/gamepad.ts": "be02cdecae3683f9f0b8a5698d90eec393759ce91ea40b24bc18128e7da479e5",
+    "src/keyboard-input.ts": "8e0d6a152777a497ea35f0f9cb09428945909e9ff08573833178eeea6da7c5f8",
+    "src/solo-ui.ts": "b4266648eed0e2463f421fb10f0122de6035f9c6d3ccb6cf345c5683e6e31b52",
+    "src/session-recovery.ts": "35119abd8ac6551d253ec0ada320c934fd5a9cf20c142444e3afdb4094093b9c",
+    "src/survive-results.ts": "ddb87a075703bac459ecb91c6bf4e039affbfe69c7882ec64d45f65662909537",
+    "src/survive-together.ts": "dbc77f00e9c37ee845920c3b63da30f8f661582e37da4f30bb2d2f72c3c4b69b",
+    "src/seed-copy.ts": "aac727c112e31063fab0c3d2e9d841d703be3f7e9ecb9d9cd2b32421357d0f47",
+    "src/survive-results-ui.ts": "813b4b3414b19870e980ed6c1fc96ba028ae8e9e31a7e5b9d52d9d26c7b83d1b",
+    "src/session-ui.ts": "3f7144ef7840f9f6fe64829f37b0dd043367bb3c85875289a19604e2946dd280",
+    "src/relay-results.ts": "7b7295a4655082be30a81d590bb3e53db4f7b193b405509fb4944b3d7fb51a67",
+    "src/relay.ts": "f5c1eea5b82e6e42d7b6bbc6a95f7f0d28aa7ad7468c4464e0217ab9f89e6c02",
+    "src/race-results.ts": "217f6d1f97fca22a03a13586b1b7dfe5cf609d2eb83ebc0c16c540b7e0ae5d02",
+    "src/race-items.ts": "2a43c05772c1f641595ca9bee7cc2bb486e3b2a922ebab412fc65e189708432b",
+    "src/race.ts": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+    "src/race-ui.ts": "ffa44ebc604597faf01c872212cac97ea8ee5be4df913213776e05e27e2cc866",
+    "src/relay-ui.ts": "b775194505201a55cc8f4377051e508674ba965d8e6eabc23eb490f14a5267cd",
+    "src/sound-packs.ts": "8e670193500c2daef6afadf204100f0ab33fc143f6aa3e0bb3a52cf1c3ea9d8e",
+    "src/sound-loader.ts": "9f9b114ae820a3a5f59d172c907593fae8455aef0358eabfb020dfc062f6d921",
+    "src/sound-settings.ts": "82e413739bfe7bdc4f29dd555eddaa5849dbebed10d296a5a439041accddb352",
+    "src/session-input.ts": "e42c0af885310c699a275aa819c7d66d6902e20164db08cacacf5aee7017da9f",
+    "src/market/catalog.ts": "eb29b69dc1374e8b5e315ada8f8153f5964906729191883e8044958785e7ff20",
+    "src/market-preview.ts": "ef246b766e0421245bbd962b2119203ce20e22f0bcacdb6aa688600885864a3f",
+    "src/market-scene.ts": "d942e50e1eecd2685567eed8e58de49da3c648c91060362785e9875b5846c76e",
+    "src/market-ui.ts": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+    "src/seed-ui.ts": "d0cefc48fbaef0f72b037f7d7ac1af074f126eb0dbb272754f437259aea81451",
+    "src/pause-ui.ts": "e0f7d449c755077a98cf411b93fd209be8f8fbacbb21d005cd8e12c333d93dc2",
+    "src/run-menu.ts": "1d02c36c6d47645e86795810c5b5eb0d20ee85601bec3d4746de42b21920f676",
+    "src/main.ts": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+    "src/market/items/ballast.ts": "b2617dc397e247293fd849924a65b186aa50dcc421a6dc90f46e2cc986ff8b29",
+    "src/market/items/broad-deck.ts": "f7fe02d2ac3956f9ff7f65fc5ffeeaaa97fec2d46b406e467ebea346752f244d",
+    "src/market/items/coin-chance.ts": "5a282c671d7a1885e1a92741a91db54cd28bb495eeabce1efd463ede61316824",
+    "src/market/items/coin-multiplier.ts": "71d92ad11aba08fdfa8718726cbd11e7ae181b641c8b0f736048beca80ba1487",
+    "src/market/items/crossing-guard.ts": "4e9a99838dbd167ba18bde275e9eac2e9ec31c6b0954b589ca49dfc3cd72b6eb",
+    "src/market/items/decoy-trail.ts": "07bcec401e68988a9f00774f4f43df8b0d9e57db0623ff23b2771e374309c08a",
+    "src/market/items/dry-route.ts": "f8e283f82ebd828c70806c86eb31a706af69a9d5384f4241ccb2ca7ce9f1c3b1",
+    "src/market/items/extra-pocket.ts": "d1c0a1211b952f307e29953f26576ea7e04e443e59322134f2279dcf6a92549c",
+    "src/market/items/false-trail.ts": "103cba2e6d0d3e106b0076fefda6d97c35f3821a1d5058088f48e7bad543987f",
+    "src/market/items/ferry-ticket.ts": "cae461c8e2bf1b28d34f98ed5623c70d7bde3013fc24da611a6ed0cbfb4789cd",
+    "src/market/items/field-pack.ts": "28039575bb51b574161d4313835bcc39877a3b13a14463855798009fd6540362",
+    "src/market/items/first-aid.ts": "f7ba90b7d78f7402f39073703b2f12aecff1c8fc328262c800a6100a6fcf59e0",
+    "src/market/items/glass-purse.ts": "52d42c305335f5c501be82ad425e958c8fcd98fdefda30dfc28307e98469074a",
+    "src/market/items/hurt-recovery.ts": "0691767ee229e79bb22173bbd195338d5ff9cf3c6eb15fc723b11e16c8b390cf",
+    "src/market/items/long-haul.ts": "97befd988857e49a32855c57bb1b4b847e4865a3a3e866b8bae14a747ac4fd04",
+    "src/market/items/look-halo.ts": "4a59ac953eec4c11d9f450398a207d80cf9c0b963737db318c10684bf9671454",
+    "src/market/items/look-hat-aviator.ts": "5bf3af271fb8d3c3209464f8c0c94635e15788a30df64b34c2d838b4f4480f05",
+    "src/market/items/look-hat-beanie.ts": "95e7468a5f6aee1d962cbd66e7fd47bbacd29bd184c0f22e87732502cbb223ce",
+    "src/market/items/look-hat-boater.ts": "8f30c01eee1fcf60fb5c8304a32169cfcf46375fe3eb52db94d3dbbd2506de73",
+    "src/market/items/look-hat-cap.ts": "a3d77177d41d6c92dadc10b76ec1c3635bd3a34204a09ffbc3bbd47ee1ab47ef",
+    "src/market/items/look-hat-chef.ts": "6cdcd09d13cf3ebe79a74f71025fac041184149565e7e4a282929ef0c8558c93",
+    "src/market/items/look-hat-crown.ts": "c8a793dce9b1dfe5e7ae12f037294d53695ea7979c5bf8fe77af47ff0d41aa87",
+    "src/market/items/look-hat-firefighter.ts": "0516ad6450e35373ed310aa40ce12396a82a13591071fea0220b7066818c11e4",
+    "src/market/items/look-hat-garden.ts": "53fe63bff6dab19318355cb9bef96898ace7cc3f7dbcacb7d4fc416295fecdaf",
+    "src/market/items/look-hat-mushroom.ts": "ff10c17c6fef2655b0873697cf1879e39e0269ef31f28b806ea8403207cc5bd2",
+    "src/market/items/look-hat-pirate.ts": "7d88213c4b8ddc943a64610bdfc93fb64421562a948a8a347f4735692c2c440c",
+    "src/market/items/look-hat-propeller.ts": "9c28dda98245173c03e6cd65a1e16aecaf4d2be51a45c10c7ec46e91c1131887",
+    "src/market/items/look-hat-ranger.ts": "00f770e6ab209935c72c1563f6004b1b42cb15d7ae30331c337fb9c3902656d1",
+    "src/market/items/look-hat-tophat.ts": "30b1241119ca50965e8cc6fb5fb27f0ecab2617db7cc826e383132b7e7ab7381",
+    "src/market/items/look-hat-viking.ts": "7ad0e32b1249462a53c28db521d9615b182d8c9475b749c00bf0f92a1f813fff",
+    "src/market/items/look-hat-wizard.ts": "f09ec864013ad004458572935ba6ebc632d93ee0c1c1cb6f4dd9a91d3567198e",
+    "src/market/items/look-shirt-lifeguard.ts": "c640747bbb7f86c2add40eb00e6edc74df94cf41cbe339e20678691423dd081d",
+    "src/market/items/look-shirt-overalls.ts": "484175b5ec93599597a345ae97cfdd19ab388906719ae8a9c8a4005ce9ef6a83",
+    "src/market/items/look-shirt-patchwork.ts": "1ad53a58d1e9169fe3256f12e7568f8b8454362ca358f06282041976d7685cbe",
+    "src/market/items/look-shirt-poncho.ts": "ec6287d96d449d8ce705fda5a230c51a3759dfcd50b070c16f9b3eacc307293e",
+    "src/market/items/look-shirt-raincoat.ts": "239308dae153b62905dd7e3c8c20751853ecbc54d90729bd7ba1b7259b39b38e",
+    "src/market/items/look-shirt-rugby.ts": "c365d669c6c708e7a8add49a9621e091c496ef8ea5c42c302d6847eb2d8d4d93",
+    "src/market/items/look-shirt-sailor.ts": "010029b00d6830e1056048057a3c3e673e18bed7893e49e84cc32b509c68e2bb",
+    "src/market/items/look-shirt-space.ts": "7c04bbfd8dee8060954155a0312e37278c75e71c9e5ff748bdc9902e4160fe1c",
+    "src/market/items/look-shirt-tuxedo.ts": "844f86acfbed6797da3fd52cd6d2bf63a9ce50cdff2517316495dff850c9ce53",
+    "src/market/items/look-shirt-vest.ts": "a92e1c179e4ae495a1601cf81d44c75ece97769eeca76b6ac24e9be82f3f34ce",
+    "src/market/items/look-sparkles.ts": "04716bede599395653f386337dbc751cbfa4c864ec8975f1ac29628393589136",
+    "src/market/items/look-trail.ts": "2d0290ae52069d5a8eb09e0b794981766fd5008c502c2c639ecf0dc942cc51f7",
+    "src/market/items/magnet.ts": "b1edeb4a20a5115892ef949c00e5433ed57ab168166eaf2fa7029284f9001aa4",
+    "src/market/items/mob-recovery.ts": "69038876b7d147155d1ddf7faed099f7226e5c3d4481e172a15dec01c7626d41",
+    "src/market/items/mob-spawn-delay.ts": "8d716a6a62fc2be94a722f4a7e92fbd55fa0e883de2ad60bf03583d7589b6154",
+    "src/market/items/mob-speed.ts": "7df8051f776b9e25bfb018aa34849134e0753ec6cbe2a8f7cfba98abb8040c27",
+    "src/market/items/mob-windup.ts": "4376ff5f515b59772239b9a0ef71e80c89bd41d44d8b74f7971b201b382ce6e2",
+    "src/market/items/pack-pocket.ts": "533415e428f9f013d494cda816d569f9d36faf2daffaaf65b8ae973d916108b0",
+    "src/market/items/pack-satchel.ts": "391632e9f63074d53ead87abb5534d8dd362ceb08195baaab8ecf3445409a27f",
+    "src/market/items/padded-tail.ts": "adb347f723e0f01fbfbb098d1b2ddbfcbfc43455a83a9e5569a5f83d799ed206",
+    "src/market/items/patient-paws.ts": "2cd600d84c7b1b4159f1354fa69b802756631b24b4eed1fbd096f0aebc9c3304",
+    "src/market/items/platform-length.ts": "c5258566377b3e4e387cc7105a19a4dd8c447798cd162c60269deb18db7d793e",
+    "src/market/items/pocket-change.ts": "1fc84ec5c54fde27c55ec802ec3e4e0607f3812d46a0f5b58b6714b9650dc771",
+    "src/market/items/power-coin-rush.ts": "9df3d7726644696167b75eefbd75e11b711c8cdaf8133de39152147ee809ec53",
+    "src/market/items/power-freeze.ts": "1f5586d32b15da47dea28a7b8ceadc8a8f0d0d0e6c49b6d287a59074f760084b",
+    "src/market/items/power-shield.ts": "f40ce138fcdc2d96c12b86abee7c7c85293b3d4e1d4401029879438cea38a1e6",
+    "src/market/items/railway-pass.ts": "d422d54987a3351fa52b888ba9a816cee93bd524918b6d70eff72633600eb4f9",
+    "src/market/items/rear-resist.ts": "f27459c813991fd6b1c269d337a61a1e9dfe525da7376d03da5d5bba6486d6a9",
+    "src/market/items/reed-bed.ts": "291403ba1f8babf40bb6c804e8d53014ac7d5ba2f750e00bcdfb0b14c6b16244",
+    "src/market/items/regen-bonus.ts": "8cf622aed26374b7c7ead770555298f2707c47dcbe40374b22213ec7c6b596b4",
+    "src/market/items/rest-stop.ts": "494031b5d66871370bdf1ef2a932f25d31b6c6bf7ffd2e6d9cf1decb56392a79",
+    "src/market/items/river-coins.ts": "b08f0a967fcca797dce11d74d0bfb67ecd071fa09fc9fa84dabf5fe59999eb5f",
+    "src/market/items/river-dividend.ts": "b0b13e69995971387dfc4a8949bd58425e3d1e433fc703b1ed6bab49aa4c69ab",
+    "src/market/items/river-speed.ts": "bbba96cd6b18e98703cc7636e01ba37da3d5d8ba791c500c21ff8ca442400518",
+    "src/market/items/river-toll.ts": "5738dc6262db7e1b6a3e59b6b68c3a99b2ad42bc15b5fe6c451fd57f6db4c3e1",
+    "src/market/items/road-coins.ts": "8eb576d5bf2d1cc162a86fea0dbfca45d3ac144b69da072767e2706161d6e999",
+    "src/market/items/scenery-clear.ts": "9f3a136360c42412402ecae65e81f51d8cb29acb0db9ec7aaf8053fb33c0791e",
+    "src/market/items/score-income.ts": "d672e7b6c0aae6fbff32337174d5df69ee44ea78a81eb88a1c06592d9988d922",
+    "src/market/items/service-road.ts": "d4807b27d1f036158c3e8eb973c06fc930d53da1b04b6ce443a75049d4886c53",
+    "src/market/items/shoulder-check.ts": "8e3ef06c837abfd607ef4353822cdaeb0771bf6d0ec2c27ecac1fd9a82d10a09",
+    "src/market/items/side-resist.ts": "db9af98061558a7f35db7cf31f080e2341bafbc6ef78e070a3592a160d4161c6",
+    "src/market/items/signal-box.ts": "992c01faf744e0c80ec2b967e1475593fe7d7995ead1bfda918d99a55749fab3",
+    "src/market/items/slack-tide.ts": "ab4994af4ad7312744d3905a40ee7d962cd9060eafed839c14df5c395374918d",
+    "src/market/items/soft-landing.ts": "cebc973dbe1c0c5d663f361094cbd2e12549c9981fac1bf61d4f3ce84ea482ce",
+    "src/market/items/steady-steps.ts": "e4dae5839f76bfc9a71473518505298035acc619822777657309bc22ecab0210",
+    "src/market/items/stepping-stones.ts": "88cd1c60e0e50cd2c8fa863354c97d1d78daddd9c74f37880953510631df262d",
+    "src/market/items/toll-pouch.ts": "1de1719612f3f189fa727e5f5cc50b4af6b22daa5041cd40dfb9b321ffa00c74",
+    "src/market/items/tow-rope.ts": "585a97ca245c62809cb831832869761727caee8f032a7e7cc8420f68a60c3413",
+    "src/market/items/traffic-spacing.ts": "bba487a1d7a1faf40d92f7f06b6582f2ae2bf1d5b5cfc064bed1f8047f15479a",
+    "src/market/items/traffic-speed.ts": "6b489d3668cee255385b6b1d5a9e5830a540336bbd265294d8f2446dd6861124",
+    "src/market/items/train-period.ts": "ba0b52420ce193140296bb0e23aaebaae025c44bea4027c0208480103e1df179",
+    "src/market/items/train-warning.ts": "15bf2d4fb6df7fea4b087b76e4a694871835feb05ae328054199d37e1df2cc79",
+    "src/market/items/travel-light.ts": "0f084a4459a0f59adb4966f809b415505b78adfa356f00fac26d671e3e0896ac",
+    "src/market/items/treasure-map.ts": "85603dcdbfe7fd1dea45bf721aad18eeaad9b5011bd1869b6504f44584ee0829",
+    "src/market/items/watchful-eye.ts": "ee6076bad8cff3ef13bc1d82a3b82e949ec6b238d1890326f629bb9b24a0c752",
+    "src/market/items/wave-speed.ts": "073f764e6f539b0caa9e9b398465770e7073cfb717c8d8f997c60145371cee44",
+    "src/market/items/wave-trail.ts": "d33353b37df9a61d087022e12206ffa8fc9fe77c4200f451bc1e76b2948f24b0"
+  },
+  "scriptSha256": "90b08d31de657472f4e39e2349679edbd8f2893b6f8536823faf887dd2019999",
+  "rootLockSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d"
+}

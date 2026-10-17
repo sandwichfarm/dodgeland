@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-03 pickup repair verified; nine current-source cohorts pass
-last_updated: "2026-10-17T13:43:35.913170+00:00"
+stopped_at: 07-03 actual coin arbitration verified; mode floors still open
+last_updated: "2026-10-17T13:57:26.389826+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,7 +12,7 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Pickup repair and nine fresh cohorts pass; honest source-bound diagnostic retains open mode floors.
+last_activity_desc: Fifteen real turn lifetimes pass; coin arbitration adds actual mode proof; four Relay and ten Race functions still needed.
 ---
 
 # Project State
@@ -593,6 +593,37 @@ traffic/recovery scenes, then reviewed scope and fresh full enforcement.07-04
 conformance,07-05 normal visuals/clauses and07-06 final gate/PR remain open.
 Mixed-input aliases remain a proposal; latest choice and controller-first keyboard
 joining are documented. No physical native-controller measurement is claimed.
+
+Turn pickup tranche now passes ordinary15/15, controls94/94 and whole canonical
+7ca61138-479a-47c0-bf16-ed494036e75e:15 actual lifetimes/67 intervals, Relay7/27
+and Race8/40, one Node parent. Original13 case bodies byte-identical; only total
+witness counts and four whole-job metadata copies advance. Actual frames elect
+coin contact/pull winners in both roster orders, prove earlier swept contact,
+contact-over-pull priority, pause/no double payout, and paid Relay multi-coin
+payout28 to active p1 with benched p2 isolated. Transparent candidate observers
+forward original calls once; no claims/private queues/owners/RNG are injected.
+The initial14/15 failure was an incorrect repeated-row progress expectation,
+corrected without product changes. Shared-update observer16,968 calls/15 worlds,
+zero standalone calls/violations. See07-03-TURN-PICKUP-PROOF.md/json.
+
+Type/build/guidance pass, conformance remains5pass/0fail/5unmeasured; normal ff8
+and root lock5ac are unchanged. Canonical43519, project checks8912, diagnostic
+38305 and read-only audit98417 are terminal0. No runtime/source freeze remains.
+Do not poll closed handles. Complete source/map/site-checked diagnostic selects
+83 actual component lifetimes/244 intervals plus7 public intervals, repeated
+supplementary Race item model omitted. Relay1941/2114L641/716F2047/2830B still
+needs4F359B; Race2022/2177L681/767F2283/3078B still needs10F334B. No changed-source
+counter merge, new exclusion, floor reduction or enforcing acceptance follows.
+Initial semantic ledger remains162 annotated/889pending.
+
+Read-only PERSONAL-CALL-SCOPE-FINDING and PERSONAL-REFERENCE-AUDIT add concrete
+next review: Race-only transferPosition and personal-controller flare-only
+safe-cell subexpressions, pending complete dynamic/value-flow and bounded AST
+proof. Crucially, keep safePlacement: staged adoption calls prepareAdmission
+before active closed-roster guards. Actual hazardous-course adoption/reclaim
+and multi-vehicle contact/render journeys remain meaningful coverage targets.
+No new disposition is authorized by the read-only audit alone. All original
+07-03/04/05/06 release obligations and final PR remain open.
 
 ## Next required work
 

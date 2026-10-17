@@ -27,11 +27,11 @@ function observeUpdateRoute(GameType){
  restoreObservers.push(()=>{GameType.prototype.update=standalone;GameType.prototype.updateSessionPlayer=shared;});
 }
 observeUpdateRoute(Game);
-after(()=>{for(const restore of restoreObservers)restore();assert.equal(observedWorlds.size,13);assert.ok(executionObservations.sharedCalls>0);assert.equal(executionObservations.standaloneCalls,0);assert.deepEqual(executionObservations.violations,[]);});
+after(()=>{for(const restore of restoreObservers)restore();assert.equal(observedWorlds.size,15);assert.ok(executionObservations.sharedCalls>0);assert.equal(executionObservations.standaloneCalls,0);assert.deepEqual(executionObservations.violations,[]);});
 const config=process.env.DOWN_TO_DUCK_COVERAGE_CONFIG?JSON.parse(await readFile(process.env.DOWN_TO_DUCK_COVERAGE_CONFIG,'utf8')):null;
 const model=config?.modelAttribution;if(config&&!model)throw Error('Missing turn-model attribution configuration');
 const inventory=model?JSON.parse(await readFile(config.inventoryPath,'utf8')):null,records=[];
-after(async()=>{if(inventory){if(records.length!==13)throw Error('Incomplete turn-mode witnesses');await writeFile(model.output,JSON.stringify({...records.at(-1),executionObservations:{...executionObservations,worlds:observedWorlds.size},intervals:records.flatMap(r=>r.intervals)}));}});
+after(async()=>{if(inventory){if(records.length!==15)throw Error('Incomplete turn-mode witnesses');await writeFile(model.output,JSON.stringify({...records.at(-1),executionObservations:{...executionObservations,worlds:observedWorlds.size},intervals:records.flatMap(r=>r.intervals)}));}});
 const seats=[{seat:'p1',device:'gamepad-0',characterId:'butter'},{seat:'p2',device:'gamepad-1',characterId:'pip'},{seat:'p3',device:'gamepad-2',characterId:'sunny'}];
 const step=1/120;
 function lane(game,row){game.rows.set(row,{...generateLane(game.seed,row,game.home),kind:'meadow',blocked:[],decorations:[],actors:undefined,coin:null,coinActor:undefined});}
@@ -441,4 +441,102 @@ for(const mode of ['relay','race'])test(`${mode} actual director waits for safe 
   if(mode==='relay')run.owner.finish();else for(const p of session.players){assert.equal(run.owner.command(run.owner.actionToken(p.seat),'leave'),true);assert.equal(run.owner.command(run.owner.actionToken(p.seat),'confirm'),true);}
   assert.ok(run.owner.result);assert.ok(Object.isFrozen(run.owner.result));
  });run.finish();
+});
+
+// Transparent observers retain each real candidate without calling a claim or
+// resolver themselves. Production collection and the shared frame elect winners.
+function observeCoinClaims(world){
+ const contact=world.claimPickup,pull=world.claimPickupPull,events=[];
+ world.claimPickup=function(...args){events.push({kind:'contact',seat:args[0].seat,row:args[1].index,time:args[2],distance:args[3]});return Reflect.apply(contact,this,args);};
+ world.claimPickupPull=function(...args){events.push({kind:'pull',seat:args[0].seat,row:args[1].index,time:args[2],distance:args[3]});return Reflect.apply(pull,this,args);};
+ return {events,restore(){delete world.claimPickup;delete world.claimPickupPull;}};
+}
+function coinPositionFixture(player,x,y){player.x=player.fromX=x;player.y=player.fromY=y;player.hop=0;player.idle=0;}
+function coinReceipt(player){return {wallet:player.run.wallet,pickups:player.statistics.pickups,earned:player.completedForwardTiles,health:player.health,deaths:player.statistics.deaths};}
+function expectCoinReceipt(player,before,value,pickups=1,earned=0){
+ assert.deepEqual(coinReceipt(player),{...before,wallet:before.wallet+value,pickups:before.pickups+pickups,earned:before.earned+earned});
+}
+
+test('Race contact and pull elections ignore roster order and pay one real owner',()=>{
+ const run=start('race',{activeSeconds:180}),{session}=run,[p1,p2]=session.players,trace=observeCoinClaims(session.world);
+ try{
+  for(const reversed of [false,true]){
+   if(reversed)session.roster.reverse();
+   for(const scene of [
+    {id:'nearer-contact',positions:[.2,.1],winner:p2,denomination:'coin',value:1,kind:'contact'},
+    {id:'tied-contact',positions:[-.1,.1],winner:p1,denomination:'bar',value:2,kind:'contact'},
+    {id:'nearer-pull',positions:[-.55,.45],winner:p2,denomination:'coin',value:1,kind:'pull'},
+    {id:'tied-pull',positions:[-.5,.5],winner:p1,denomination:'coin',value:1,kind:'pull'},
+    {id:'contact-before-pull',positions:[.2,.55],winner:p1,denomination:'small-sack',value:5,kind:'mixed'},
+   ]){
+    // Component arrangements are outside the attributed action. No claim,
+    // pull, ownership map, queue, clock or random state is injected.
+    coinPositionFixture(p1,scene.positions[0],0);coinPositionFixture(p2,scene.positions[1],0);
+    const reward=course(run,0,{coin:0,coinDenomination:scene.denomination}),before=new Map([p1,p2].map(p=>[p,coinReceipt(p)]));trace.events.length=0;
+    run.run(`${scene.id}-${reversed?'reversed':'original'}`,()=>{
+     ticks(run,1);
+     const candidates=trace.events.filter(e=>e.row===0);
+     assert.equal(candidates.length,2);assert.deepEqual(new Set(candidates.map(e=>e.seat)),new Set(['p1','p2']));
+     if(scene.kind==='mixed')assert.deepEqual(new Set(candidates.map(e=>e.kind)),new Set(['contact','pull']));
+     else assert.ok(candidates.every(e=>e.kind===scene.kind));
+     if(scene.kind==='pull'){
+      assert.equal(session.world.pickupOwners.get(0),scene.winner.seat);assert.ok(reward.coinPull);assert.equal(reward.coin,0);
+      for(const p of [p1,p2])expectCoinReceipt(p,before.get(p),0,0);
+      const frozen={time:run.game.time,pull:{...reward.coinPull},owner:session.world.pickupOwners.get(0)};
+      run.game.pause();ticks(run,30);assert.deepEqual({time:run.game.time,pull:{...reward.coinPull},owner:session.world.pickupOwners.get(0)},frozen);run.game.resume();
+      for(let n=0;n<240&&reward.coin!==null;n++)ticks(run,1);
+     }
+     assert.equal(reward.coin,null);assert.equal(reward.coinPull,undefined);assert.equal(reward.coinDenomination,undefined);
+     assert.equal(session.world.pickupOwners.has(0),false);assert.equal(session.world.attractedCoins.has(0),false);
+     for(const p of [p1,p2])expectCoinReceipt(p,before.get(p),p===scene.winner?scene.value:0,p===scene.winner?1:0);
+     ticks(run,30);for(const p of [p1,p2])expectCoinReceipt(p,before.get(p),p===scene.winner?scene.value:0,p===scene.winner?1:0);
+    });
+   }
+   coinPositionFixture(p1,.1,0);coinPositionFixture(p2,0,0);
+   const reward=course(run,1,{coin:0,coinDenomination:'coin'}),before=new Map([p1,p2].map(p=>[p,coinReceipt(p)]));trace.events.length=0;
+   run.run(`earlier-hop-contact-${reversed?'reversed':'original'}`,()=>{
+    for(const p of [p1,p2])assert.equal(session.dispatch({seat:p.seat,direction:'forward'}),true);
+    for(let n=0;n<120&&[p1,p2].some(p=>p.hop>0);n++)ticks(run,1);
+    const candidates=trace.events.filter(e=>e.row===1&&e.kind==='contact');
+    assert.equal(candidates.length,2);const first=candidates.find(e=>e.seat==='p2'),second=candidates.find(e=>e.seat==='p1');
+    assert.ok(first.time<second.time,'the central hop enters the coin before the offset hop in the same shared frame');
+    // The reversed pass revisits row1: spatial placement cannot earn it again.
+    const earned=reversed?0:1;assert.equal(reward.coin,null);expectCoinReceipt(p1,before.get(p1),0,0,earned);expectCoinReceipt(p2,before.get(p2),1,1,earned);
+   });
+  }
+  run.run('coin-election-terminal',()=>{
+   for(const p of [p1,p2]){assert.equal(run.owner.command(run.owner.actionToken(p.seat),'leave'),true);assert.equal(run.owner.command(run.owner.actionToken(p.seat),'confirm'),true);}
+   assert.ok(Object.isFrozen(run.owner.result));
+  });run.finish();
+ }finally{trace.restore();}
+});
+
+test('Relay paid magnet settles multiple world coins without funding the benched traveler',()=>{
+ const run=start('relay',{tilesPerLeg:50}),{session}=run,[active,bench]=session.players,trace=observeCoinClaims(session.world);
+ try{
+  // Explicit economy/stock arrangements precede the actual purchase.
+  active.run.advanceScore(100);active.run.creditCoins(100);assert.equal(active.run.open(),true);
+  const magnet=ITEM_CATALOG.find(item=>item.id==='magnet'),offer={id:'relay-multi-coin-magnet',itemId:'magnet',price:magnet.price,sold:false};active.run.market.offers.push(offer);
+  run.run('multi-coin-paid-magnet',()=>{
+   const wallet=active.run.wallet;assert.equal(transact(run,active,'buy',{offerId:offer.id}).ok,true);assert.equal(active.run.wallet,wallet-magnet.price);assert.equal(active.run.cards.length,1);
+   assert.equal(transact(run,active,'close').ok,true);assert.equal(active.run.effects.coinRadius,.85);
+  });
+  coinPositionFixture(active,0,0);coinPositionFixture(bench,1,0);bench.run.creditCoins(7);
+  const rewards=[course(run,0,{coin:1,coinDenomination:'bar'}),course(run,1,{coin:0,coinDenomination:'huge-sack'}),course(run,-1,{coin:0,coinDenomination:'coin'})];
+  const before=coinReceipt(active),benched=coinReceipt(bench);trace.events.length=0;
+  run.run('multi-coin-real-pulls',()=>{
+   ticks(run,1);assert.equal(trace.events.length,3);assert.ok(trace.events.every(e=>e.kind==='pull'&&e.seat==='p1'));
+   for(const row of rewards){assert.ok(row.coinPull);assert.equal(session.world.pickupOwners.get(row.index),'p1');}
+   expectCoinReceipt(active,before,0,0);expectCoinReceipt(bench,benched,0,0);
+   for(let n=0;n<300&&rewards.some(row=>row.coin!==null);n++)ticks(run,1);
+   for(const row of rewards){assert.equal(row.coin,null);assert.equal(row.coinPull,undefined);assert.equal(session.world.pickupOwners.has(row.index),false);assert.equal(session.world.attractedCoins.has(row.index),false);}
+   expectCoinReceipt(active,before,28,3);expectCoinReceipt(bench,benched,0,0);
+   const contacts=trace.events.filter(e=>e.kind==='contact');assert.equal(contacts.length,3);assert.ok(contacts.every(e=>e.seat==='p1'));
+   ticks(run,60);expectCoinReceipt(active,before,28,3);expectCoinReceipt(bench,benched,0,0);
+  });
+  run.run('multi-coin-contributions',()=>{
+   const result=run.owner.finish();assert.ok(Object.isFrozen(result));
+   assert.equal(result.contributions.find(p=>p.seat==='p1').pickups,3);assert.equal(result.contributions.find(p=>p.seat==='p2').pickups,0);
+  });run.finish();
+ }finally{trace.restore();}
 });

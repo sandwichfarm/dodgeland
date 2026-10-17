@@ -1424,9 +1424,25 @@
                 [
                   "playing",
                   "settled"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
                 ]
               ],
-              "lifetimes": 6
+              "lifetimes": 7
             },
             {
               "mode": "race",
@@ -1534,14 +1550,70 @@
                 [
                   "playing",
                   "settled"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
                 ]
               ],
-              "lifetimes": 7
+              "lifetimes": 8
             }
           ]
         }
       ],
-      "provenance": "Actual Relay/Race coordinator component lifetimes; arranged terrain and clock; no public input credit"
+      "provenance": "Whole actual turn matrix: fifteen lifetimes/sixty-seven intervals, original thirteen cases retained. Actual contact/pull election, both roster orders, swept hop priority, paid Relay multi-coin collection, bench isolation and immutable terminal results. Explicit component fixtures; no injected claims or private queue/owner state."
     },
     "devtools-gaps-03": {
       "files": [
@@ -3886,9 +3958,25 @@
                 [
                   "playing",
                   "settled"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
                 ]
               ],
-              "lifetimes": 6
+              "lifetimes": 7
             },
             {
               "mode": "race",
@@ -3996,14 +4084,70 @@
                 [
                   "playing",
                   "settled"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
                 ]
               ],
-              "lifetimes": 7
+              "lifetimes": 8
             }
           ]
         }
       ],
-      "provenance": "Whole actual Relay/Race matrix; current director introductions and safe-spawn retries; arranged progress/time/terrain outside action intervals; actual world updates create and move every new mob; no browser or whole-worker credit"
+      "provenance": "Whole actual turn matrix: fifteen lifetimes/sixty-seven intervals, original thirteen cases retained. Actual contact/pull election, both roster orders, swept hop priority, paid Relay multi-coin collection, bench isolation and immutable terminal results. Explicit component fixtures; no injected claims or private queue/owner state."
     },
     "turn-spawn-safety-03": {
       "files": [
@@ -4113,9 +4257,25 @@
                 [
                   "playing",
                   "settled"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
                 ]
               ],
-              "lifetimes": 6
+              "lifetimes": 7
             },
             {
               "mode": "race",
@@ -4223,14 +4383,70 @@
                 [
                   "playing",
                   "settled"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
                 ]
               ],
-              "lifetimes": 7
+              "lifetimes": 8
             }
           ]
         }
       ],
-      "provenance": "Whole actual turn matrix, thirteen lifetimes/forty-nine intervals; original eleven cases retained; real no-exit/no-placement rejection, backoff and safe spawn after space opens; no private director state assignment or product timing change"
+      "provenance": "Whole actual turn matrix: fifteen lifetimes/sixty-seven intervals, original thirteen cases retained. Actual contact/pull election, both roster orders, swept hop priority, paid Relay multi-coin collection, bench isolation and immutable terminal results. Explicit component fixtures; no injected claims or private queue/owner state."
     },
     "pickup-eligibility-03": {
       "files": [
@@ -8649,9 +8865,25 @@
               [
                 "playing",
                 "settled"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "settled"
               ]
             ],
-            "lifetimes": 6
+            "lifetimes": 7
           },
           {
             "mode": "race",
@@ -8759,9 +8991,65 @@
               [
                 "playing",
                 "settled"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "settled"
               ]
             ],
-            "lifetimes": 7
+            "lifetimes": 8
           }
         ]
       },
