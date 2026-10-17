@@ -1,7 +1,8 @@
 # Relay lifecycle attribution attempt
 
-Status: ordinary22/22 pass; canonical collection unresolved. No new coverage
-union or floor claim is made from either failed whole job.
+Historical attempt record. Later canonical935ee706 passes after the documented
+test-host lifecycle/clock repair; see07-03-RELAY-LIFECYCLE-PROOF.md/json.
+Neither failed whole job below supplies accepted coverage or a floor claim.
 
 The existing suite now bounds15 actual Relay coordinator acquisitions and15
 production behavior intervals using the existing turn recorder. Original

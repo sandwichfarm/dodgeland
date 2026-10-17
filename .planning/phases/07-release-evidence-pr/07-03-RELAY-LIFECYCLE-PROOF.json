@@ -1,0 +1,360 @@
+{
+  "status": "passed focused whole job; report-only, not release acceptance",
+  "runId": "935ee706-5881-4f34-b3ff-b1f0c407ff29",
+  "session": 95046,
+  "exitCode": 0,
+  "ordinary": {
+    "cases": 22,
+    "pass": 22,
+    "fail": 0,
+    "cancelled": 0
+  },
+  "canonical": {
+    "cases": 22,
+    "pass": 22,
+    "fail": 0,
+    "cancelled": 0
+  },
+  "jobs": [
+    {
+      "id": "relay-lifecycle-test",
+      "file": "tests/relay-lifecycle.test.mjs",
+      "role": "mixed",
+      "requiredRealms": [
+        "node",
+        "browser"
+      ],
+      "defaultBuildScope": "production",
+      "artifactPatterns": [],
+      "modelAttribution": [
+        {
+          "mode": "relay",
+          "lifetimes": 15,
+          "phases": [
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "pending"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "pending"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "settled"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "pending"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "pending"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "settled"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "settled"
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "payloadCount": 7,
+  "independentNodeParents": 1,
+  "actualCurrentLifetimes": 15,
+  "intervals": 30,
+  "browserRealms": 6,
+  "phasePairs": [
+    [
+      "acquiring",
+      "playing"
+    ],
+    [
+      "playing",
+      "playing"
+    ],
+    [
+      "acquiring",
+      "playing"
+    ],
+    [
+      "playing",
+      "pending"
+    ],
+    [
+      "acquiring",
+      "playing"
+    ],
+    [
+      "playing",
+      "pending"
+    ],
+    [
+      "acquiring",
+      "playing"
+    ],
+    [
+      "playing",
+      "playing"
+    ],
+    [
+      "acquiring",
+      "playing"
+    ],
+    [
+      "playing",
+      "settled"
+    ],
+    [
+      "acquiring",
+      "playing"
+    ],
+    [
+      "playing",
+      "playing"
+    ],
+    [
+      "acquiring",
+      "playing"
+    ],
+    [
+      "playing",
+      "pending"
+    ],
+    [
+      "acquiring",
+      "playing"
+    ],
+    [
+      "playing",
+      "pending"
+    ],
+    [
+      "acquiring",
+      "playing"
+    ],
+    [
+      "playing",
+      "playing"
+    ],
+    [
+      "acquiring",
+      "playing"
+    ],
+    [
+      "playing",
+      "settled"
+    ],
+    [
+      "acquiring",
+      "playing"
+    ],
+    [
+      "playing",
+      "playing"
+    ],
+    [
+      "acquiring",
+      "playing"
+    ],
+    [
+      "playing",
+      "playing"
+    ],
+    [
+      "acquiring",
+      "playing"
+    ],
+    [
+      "playing",
+      "playing"
+    ],
+    [
+      "acquiring",
+      "playing"
+    ],
+    [
+      "playing",
+      "playing"
+    ],
+    [
+      "acquiring",
+      "playing"
+    ],
+    [
+      "playing",
+      "settled"
+    ]
+  ],
+  "testSha256": "3de5a514c9f303931983b06e0f05fe26b96e5002e96ece5e42351dfa75254e20",
+  "standalone": {
+    "lines": {
+      "covered": 930,
+      "total": 2159
+    },
+    "functions": {
+      "covered": 346,
+      "total": 718
+    },
+    "branches": {
+      "covered": 919,
+      "total": 2893
+    }
+  },
+  "normalSha256": "a34fd21258f80302593c584f5a9566f7511af49798c0b0cac6dacc1beb478bc1",
+  "lockSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "normalAndLockPreserved": true,
+  "originalArtifactsRestored": 74,
+  "capturedPngs": 74,
+  "rawJourneyMs": {
+    "0": 76777.891333,
+    "1": 27077.72745800001
+  },
+  "diagnostic": {
+    "purpose": "Exact disk/source/map/all-site-schema union, not enforcing acceptance",
+    "comparisonRun": "51a4bea2-21e7-4b74-9eae-b185f6401911",
+    "relay": {
+      "lines": {
+        "covered": 1912,
+        "total": 2159
+      },
+      "statements": {
+        "covered": 2750,
+        "total": 3406
+      },
+      "functions": {
+        "covered": 632,
+        "total": 718
+      },
+      "branches": {
+        "covered": 1994,
+        "total": 2893
+      }
+    },
+    "newLines": 11,
+    "newFunctions": 6,
+    "newBranches": 30,
+    "remainingToModeFloors": {
+      "lines": 32,
+      "functions": 15,
+      "branches": 466
+    }
+  },
+  "failedPriorRuns": [
+    "a3ed53e4-e198-4b36-8190-4c753c1a7497",
+    "b9d61585-9ed6-4ba8-bad2-f705b20c4e7a",
+    "3b71ed03-4f28-4f4f-b2ef-ae9a6c3794bc"
+  ],
+  "scope": "Existing actual Relay factories and bounded component intervals; arranged terrain/funds outside; six real opaque-iframe journeys stay separate. No new production behavior, mode exclusions, timeout increase, assertion or frame removal. No physical controller or protocol-conformance claim.",
+  "log": "/tmp/down-to-duck-07-03-relay-lifecycle-clock-chain.log",
+  "preservation": "/tmp/down-to-duck-07-03-relay-lifecycle-clock-state.json",
+  "componentBase": "Original Flow/stroll base, all fifteen component lifetimes",
+  "staticPreservationAudit": {
+    "method": "TypeScript AST printer comparison against e52015f test file",
+    "assertionCalls": 155,
+    "screenshotArgumentSites": 3,
+    "timeoutLiterals": [
+      "90_000",
+      "45_000",
+      "45_000"
+    ],
+    "identical": true
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "status": "ordinary passed; canonical unresolved, no coverage-union credit",
+  "status": "historical failed attempts; superseded by successful935ee706",
   "ordinary": {
     "cases": 22,
     "pass": 22,
@@ -54,5 +54,6 @@
     "Six original browser realms remain separate; no whole mixed-worker mode credit.",
     "Partial payloads from failed whole jobs are not accepted coverage evidence.",
     "Retry keyboard-skip case hit its actual45000ms timeout; its cause remains unresolved. Thermal sleep explains the later recovery delay, not every failure."
-  ]
+  ],
+  "resolution": "07-03-RELAY-LIFECYCLE-PROOF.json"
 }

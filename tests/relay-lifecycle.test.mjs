@@ -4,12 +4,12 @@ import { fileURLToPath } from 'node:url';
 const coverageArtifacts = artifactDirectoryForCoverage(new URL('file:///tmp/'), 'relay-lifecycle');
 mkdirSync(coverageArtifacts, { recursive: true });
 let coverageGeneration = 0;
-import test, { after } from 'node:test';
+import test, { after, afterEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { loadSources } from './source-loader.mjs';
 import { turnReuseAttribution } from './turn-reuse-attribution.mjs';
 import { semanticValue } from './solo-parity-snapshot.mjs';
-import { readFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { chromium } from 'playwright';
 import { createMarketGameFixture } from './market-game-fixture.mjs';
@@ -244,19 +244,63 @@ function installRuntime() {
     gamepad: { get available() { return true; }, get focused() { return true; }, getGamepads() { return pads; }, onChange(listener) { listeners.add(listener); return { close() { listeners.delete(listener); } }; } },
   };
 }
-async function browserRun(run) {
-  const built = await readFile(artifactForCoverage(new URL('../dist/index.html', import.meta.url)), 'utf8');
-  const harness = `<!doctype html><iframe sandbox="allow-scripts" style="border:0;width:900px;height:600px"></iframe><script>document.querySelector('iframe').srcdoc=${JSON.stringify(built.replace('<head>', `<head><script>(${installRuntime.toString()})();</script>`)).replaceAll('<', '\\u003c')};</script>`;
-  const server = createServer((_, response) => { response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); response.end(harness); });
-  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve)); const browser = await chromium.launch({ args: ['--mute-audio'] });
-  let frame;
+// A timed-out journey must settle its browser before Node starts another test.
+const rawBrowserJobs = new Set();
+afterEach(async () => { await Promise.allSettled([...rawBrowserJobs]); });
+function browserRun(t, run) {
+  const job = runBrowser(t, run); rawBrowserJobs.add(job);
+  return job.finally(() => rawBrowserJobs.delete(job));
+}
+async function runBrowser(t, run) {
+  const check = () => t.signal.throwIfAborted();
+  const journal = [], started = performance.now();
+  const journalPath = new URL(`relay-lifecycle-stages-${coverageGeneration}.json`, coverageArtifacts);
+  let journalWrite = Promise.resolve();
+  const note = (stage, status, extra = {}) => {
+    journal.push({ stage, status, elapsedMs: performance.now() - started, at: new Date().toISOString(), ...extra });
+    const text = JSON.stringify(journal, null, 2) + '\n';
+    journalWrite = journalWrite.then(() => writeFile(journalPath, text));
+    return journalWrite;
+  };
+  const stage = async (name, action) => {
+    check(); await note(name, 'started'); check();
+    try { const result = await action(); check(); await note(name, 'completed'); return result; }
+    catch (error) { await note(name, 'failed', { error: String(error).slice(0, 600) }); throw error; }
+  };
+  let server, browser, frame, closing;
+  const closeOnce = () => closing ??= (async () => {
+    try { if (browser) await browser.close(); }
+    finally { if (server?.listening) await new Promise(resolve => server.close(resolve)); }
+  })();
+  const abort = () => { void note('journey', 'aborted').catch(() => {}); void closeOnce().catch(() => {}); };
   const identity = { suite: process.argv[1], scenario: 'raw-relay-lifecycle', frame: 'opaque-app', generation: coverageGeneration++, scope: 'current' };
   try {
-    const page = await browser.newPage({ viewport: { width: 930, height: 630 }, reducedMotion: 'reduce' }); const errors = []; page.on('pageerror', error => errors.push(error.message));
+    check();
+    const built = await readFile(artifactForCoverage(new URL('../dist/index.html', import.meta.url)), 'utf8'); check();
+    const harness = `<!doctype html><iframe sandbox="allow-scripts" style="border:0;width:900px;height:600px"></iframe><script>document.querySelector('iframe').srcdoc=${JSON.stringify(built.replace('<head>', `<head><script>(${installRuntime.toString()})();</script>`)).replaceAll('<', '\\u003c')};</script>`;
+    server = createServer((_, response) => { response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); response.end(harness); });
+    await new Promise(resolve => server.listen(0, '127.0.0.1', resolve)); check();
+    browser = await chromium.launch({ args: ['--mute-audio'] }); check();
+    t.signal.addEventListener('abort', abort, { once: true });
+    const page = await browser.newPage({ viewport: { width: 930, height: 630 }, reducedMotion: 'reduce' }); check();
+    await page.clock.install(); check();
+    const errors = []; page.on('pageerror', error => errors.push(error.message));
     registerRealm(page, identity);
-    await page.goto(`http://127.0.0.1:${server.address().port}`); frame = await (await page.locator('iframe').elementHandle()).contentFrame();
-    await frame.locator('#play').waitFor(); await run({ page, frame, send: pads => frame.evaluate(pads => window.relayFixture.emit(pads), pads) }); assert.deepEqual(errors, []);
-  } finally { try { if (frame) await collectRealm(frame, identity); } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); } }
+    await page.goto(`http://127.0.0.1:${server.address().port}`); check();
+    frame = await (await page.locator('iframe').elementHandle()).contentFrame(); check();
+    await frame.locator('#play').waitFor(); check();
+    // Use the same real fixed-step loop under a controlled browser clock as
+    // the other built-game fixtures. Screenshot work cannot consume play time
+    // or run a continuous instrumented renderer between deliberate actions.
+    await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 1000); check();
+    const advance = async ms => { check(); await page.clock.runFor(ms); check(); };
+    await run({ page, frame, stage, advance, send: async pads => { check(); await frame.evaluate(pads => window.relayFixture.emit(pads), pads); await advance(40); } });
+    check(); assert.deepEqual(errors, []); await note('journey', 'completed');
+  } finally {
+    t.signal.removeEventListener('abort', abort);
+    try { if (frame && !t.signal.aborted) await collectRealm(frame, identity); }
+    finally { await closeOnce(); await journalWrite; }
+  }
 }
 async function assertBoardContrast(frame) {
   const failures = await frame.evaluate(() => {
@@ -277,16 +321,16 @@ async function assertBoardContrast(frame) {
   assert.deepEqual(failures, []);
 }
 
-test('built Relay routes original reclaim, fresh skip/cancel, deliberate leave and terminal UI', { timeout: 90_000 }, async () => browserRun(async ({ page, frame, send }) => {
+test('built Relay routes original reclaim, fresh skip/cancel, deliberate leave and terminal UI', { timeout: 90_000 }, async t => browserRun(t, async ({ page, frame, send, advance }) => {
   await frame.locator('#local-play').click(); await frame.locator('#session-roster [data-seat="p2"]').click();
   await frame.getByRole('button', { name: 'Leave this seat', exact: true }).click();
   await send([pad(0)]); await send([pad(0, [0])]); await send([pad(0)]);
   await frame.locator('#relay-play').click(); await frame.locator('#relay-tiles').fill('1'); await frame.locator('#local-session-start').click();
-  await send([]); await page.waitForTimeout(60); assert.equal(await frame.locator('#relay-handoff').count(), 0, 'inactive loss is not a modal');
+  await send([]); await advance(60); assert.equal(await frame.locator('#relay-handoff').count(), 0, 'inactive loss is not a modal');
   await send([pad(0, [0])]); assert.equal(await frame.locator('#survive-lifecycle-board').count(), 0, 'held reconnect cannot reclaim');
   await send([pad(0)]); await send([pad(0, [0])]); await frame.getByRole('heading', { name: /Continue as/ }).waitFor();
   await send([pad(0)]); await send([pad(0, [0])]); await frame.waitForFunction(() => !document.querySelector('#survive-lifecycle-board'));
-  await send([pad(0)]); await frame.locator('#scene').focus(); await page.keyboard.press('w');
+  await send([pad(0)]); await frame.locator('#scene').focus(); await page.keyboard.press('w'); await advance(400);
   await frame.getByRole('heading', { name: 'Leg 1 complete' }).waitFor(); await send([pad(0)]); await send([pad(0, [0])]);
   await frame.waitForFunction(() => !document.querySelector('#relay-handoff')); await send([]);
   await frame.getByRole('heading', { name: 'P2 controller disconnected.' }).waitFor();
@@ -294,7 +338,7 @@ test('built Relay routes original reclaim, fresh skip/cancel, deliberate leave a
     for (const light of [false, true]) for (const [width, height] of [[240,240],[320,560],[900,600],[1000,280],[2400,1200]]) {
       await page.setViewportSize({ width: width + 30, height: height + 30 });
       await page.locator('iframe').evaluate((node, [w,h]) => { node.style.width = `${w}px`; node.style.height = `${h}px`; }, [width,height]);
-      await frame.evaluate(light => window.relayFixture.theme(light), light); await page.waitForTimeout(30);
+      await frame.evaluate(light => window.relayFixture.theme(light), light); await advance(30);
       const invalid = await frame.evaluate(() => [...(document.querySelector('#survive-lifecycle-board') ?? document.querySelector('#relay-handoff')).querySelectorAll('button')].filter(node => node.getClientRects().length).filter(node => {
         const r = node.getBoundingClientRect();
         if (r.width < 44 || r.height < 44 || r.left < 0 || r.top < 0 || r.right > innerWidth + 1 || r.bottom > innerHeight + 1 || !node.contains(document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2))) return true;
@@ -305,7 +349,7 @@ test('built Relay routes original reclaim, fresh skip/cancel, deliberate leave a
       await assertBoardContrast(frame);
       await page.locator('iframe').screenshot({ path: fileURLToPath(new URL(`relay-lifecycle-${name}-${width}x${height}-${light ? 'light' : 'dark'}.png`, coverageArtifacts)) });
     }
-    await page.setViewportSize({ width: 930, height: 630 }); await page.locator('iframe').evaluate(node => { node.style.width = '900px'; node.style.height = '600px'; }); await page.waitForTimeout(30);
+    await page.setViewportSize({ width: 930, height: 630 }); await page.locator('iframe').evaluate(node => { node.style.width = '900px'; node.style.height = '600px'; }); await advance(30);
   }
   await capture('disconnected');
   await frame.getByRole('button', { name: 'Skip P2', exact: true }).click(); await frame.getByRole('heading', { name: 'Skip P2 this turn?' }).waitFor(); await capture('skip');
@@ -324,34 +368,46 @@ test('built Relay routes original reclaim, fresh skip/cancel, deliberate leave a
   await frame.locator('#relay-handoff').getByRole('button', { name: 'Leave Relay', exact: true }).click(); await frame.getByRole('heading', { name: 'Relay results' }).waitFor(); await capture('ended');
 }));
 
-test('built fresh keyboard skip leaves the original reserved seat waiting after the last connected departure', { timeout: 45_000 }, async () => browserRun(async ({ page, frame, send }) => {
-  await frame.locator('#local-play').click(); await frame.locator('#session-roster [data-seat="p2"]').click(); await frame.getByRole('button', { name: 'Leave this seat', exact: true }).click();
-  await send([pad(0)]); await send([pad(0, [0])]); await send([pad(0)]); await frame.locator('#relay-play').click(); await frame.locator('#relay-tiles').fill('1'); await frame.locator('#local-session-start').click();
-  await frame.locator('#scene').focus(); await page.keyboard.press('w'); await frame.getByRole('heading', { name: 'Leg 1 complete' }).waitFor();
-  await send([pad(0)]); await send([pad(0, [0])]); await frame.waitForFunction(() => !document.querySelector('#relay-handoff')); await send([]);
-  await frame.getByRole('heading', { name: 'P2 controller disconnected.' }).waitFor();
-  await page.keyboard.down('w'); await frame.getByRole('heading', { name: 'Skip P2 this turn?' }).waitFor();
-  await page.keyboard.down('w'); assert.equal(await frame.locator('#relay-handoff[data-phase="confirm-skip"]').count(), 1);
-  await page.keyboard.up('w'); await page.keyboard.press('d'); await page.keyboard.press('w');
-  await frame.getByRole('button', { name: "Start P1's leg", exact: true }).click();
-  await frame.waitForFunction(() => !document.querySelector('#relay-handoff'));
-  await frame.locator('[data-seat="p1"] .session-hud-identity').click();
-  for (let n=0;n<4 && await frame.locator('.session-hud-selected').getAttribute('data-session-hud-page')!=='3';n++) await frame.getByRole('button',{name:'Next details',exact:true}).click();
-  assert.equal(await frame.locator('.session-hud-selected').getAttribute('data-seat'),'p1');
-  await frame.locator('[data-seat="p1"] [data-session-hud="item"]').click(); await frame.locator('#relay-handoff').getByRole('button', { name: 'Leave Relay', exact: true }).click();
-  await frame.getByRole('heading', { name: 'Waiting for a player to reclaim.' }).waitFor();
+test('built fresh keyboard skip leaves the original reserved seat waiting after the last connected departure', { timeout: 45_000 }, async t => browserRun(t, async ({ page, frame, send, stage, advance }) => {
+  await stage('setup-and-start', async () => {
+    await frame.locator('#local-play').click(); await frame.locator('#session-roster [data-seat="p2"]').click(); await frame.getByRole('button', { name: 'Leave this seat', exact: true }).click();
+    await send([pad(0)]); await send([pad(0, [0])]); await send([pad(0)]); await frame.locator('#relay-play').click(); await frame.locator('#relay-tiles').fill('1'); await frame.locator('#local-session-start').click();
+  });
+  await stage('first-leg-and-disconnect', async () => {
+    await frame.locator('#scene').focus(); await page.keyboard.press('w'); await advance(400); await frame.getByRole('heading', { name: 'Leg 1 complete' }).waitFor();
+    await send([pad(0)]); await send([pad(0, [0])]); await frame.waitForFunction(() => !document.querySelector('#relay-handoff')); await send([]);
+    await frame.getByRole('heading', { name: 'P2 controller disconnected.' }).waitFor();
+  });
+  await stage('fresh-keyboard-skip', async () => {
+    await page.keyboard.down('w'); await frame.getByRole('heading', { name: 'Skip P2 this turn?' }).waitFor();
+    await page.keyboard.down('w'); assert.equal(await frame.locator('#relay-handoff[data-phase="confirm-skip"]').count(), 1);
+    await page.keyboard.up('w'); await page.keyboard.press('d'); await page.keyboard.press('w');
+  });
+  await stage('leave-last-connected-owner', async () => {
+    await frame.getByRole('button', { name: "Start P1's leg", exact: true }).click();
+    await frame.waitForFunction(() => !document.querySelector('#relay-handoff'));
+    await frame.locator('[data-seat="p1"] .session-hud-identity').click();
+    for (let n=0;n<4 && await frame.locator('.session-hud-selected').getAttribute('data-session-hud-page')!=='3';n++) await frame.getByRole('button',{name:'Next details',exact:true}).click();
+    assert.equal(await frame.locator('.session-hud-selected').getAttribute('data-seat'),'p1');
+    await frame.locator('[data-seat="p1"] [data-session-hud="item"]').click(); await frame.locator('#relay-handoff').getByRole('button', { name: 'Leave Relay', exact: true }).click();
+    await frame.getByRole('heading', { name: 'Waiting for a player to reclaim.' }).waitFor();
+  });
   for (const light of [false, true]) for (const [width,height] of [[200,160],[240,240],[320,560],[900,600],[1000,280],[2400,1200]]) {
-    await page.setViewportSize({ width: width + 30, height: height + 30 }); await page.locator('iframe').evaluate((node, [w,h]) => { node.style.width = `${w}px`; node.style.height = `${h}px`; }, [width,height]);
-    await frame.evaluate(light => window.relayFixture.theme(light), light); await page.waitForTimeout(30);
-    assert.equal(await frame.locator('#relay-handoff button').count(), 0);
-    if (width === 200) assert.equal(await frame.locator('#relay-handoff').isVisible(), false);
-    else assert.equal(await frame.getByRole('heading', { name: 'Waiting for a player to reclaim.' }).isVisible(), true);
-    await page.locator('iframe').screenshot({ path: fileURLToPath(new URL(`relay-lifecycle-waiting-${width}x${height}-${light ? 'light' : 'dark'}.png`, coverageArtifacts)) });
+    await stage(`waiting-layout-${width}x${height}-${light ? 'light' : 'dark'}`, async () => {
+      await page.setViewportSize({ width: width + 30, height: height + 30 }); await page.locator('iframe').evaluate((node, [w,h]) => { node.style.width = `${w}px`; node.style.height = `${h}px`; }, [width,height]);
+      await frame.evaluate(light => window.relayFixture.theme(light), light); await advance(30);
+      assert.equal(await frame.locator('#relay-handoff button').count(), 0);
+      if (width === 200) assert.equal(await frame.locator('#relay-handoff').isVisible(), false);
+      else assert.equal(await frame.getByRole('heading', { name: 'Waiting for a player to reclaim.' }).isVisible(), true);
+      await page.locator('iframe').screenshot({ path: fileURLToPath(new URL(`relay-lifecycle-waiting-${width}x${height}-${light ? 'light' : 'dark'}.png`, coverageArtifacts)) });
+    });
   }
-  await page.setViewportSize({ width: 930, height: 630 }); await page.locator('iframe').evaluate(node => { node.style.width = '900px'; node.style.height = '600px'; }); await page.waitForTimeout(40);
-  await send([pad(0, [0])]); assert.equal(await frame.locator('#survive-lifecycle-board').count(), 0);
-  await send([pad(0)]); await send([pad(0, [0])]); await frame.getByRole('heading', { name: /Continue as/ }).waitFor();
-  await send([pad(0)]); await send([pad(0, [0])]); await frame.getByRole('button', { name: "Start P2's leg", exact: true }).waitFor(); await send([pad(0)]); await send([pad(0, [0])]); await frame.waitForFunction(() => !document.querySelector('#relay-handoff') && !document.querySelector('#survive-lifecycle-board'));
+  await stage('reclaim-reserved-owner-and-start', async () => {
+    await page.setViewportSize({ width: 930, height: 630 }); await page.locator('iframe').evaluate(node => { node.style.width = '900px'; node.style.height = '600px'; }); await advance(40);
+    await send([pad(0, [0])]); assert.equal(await frame.locator('#survive-lifecycle-board').count(), 0);
+    await send([pad(0)]); await send([pad(0, [0])]); await frame.getByRole('heading', { name: /Continue as/ }).waitFor();
+    await send([pad(0)]); await send([pad(0, [0])]); await frame.getByRole('button', { name: "Start P2's leg", exact: true }).waitFor(); await send([pad(0)]); await send([pad(0, [0])]); await frame.waitForFunction(() => !document.querySelector('#relay-handoff') && !document.querySelector('#survive-lifecycle-board'));
+  });
 }));
 
 for (const choice of ['accept', 'decline', 'expire', 'leave']) test(`built personal recovery ${choice} uses the production death transaction and visible Relay board`, { timeout: 45_000 }, async () => {

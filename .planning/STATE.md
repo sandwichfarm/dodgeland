@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: 07-03 meaningful coverage closure; full enforcing report pending
-last_updated: "2026-10-17T08:49:19.821977+00:00"
+last_updated: "2026-10-17T09:04:43.600352+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,7 +12,7 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Solo diagnostic targets pass; Relay ordinary22/22, two canonical attempts failed amid UI timeout and forced sleep; no active runtime or new coverage credit.
+last_activity_desc: Relay22/22 ordinary and canonical935ee706 pass after harness abort/clock repair;15lifetimes30intervals; diagnostic gains11L6F30B; full release floors remain open.
 ---
 
 # Project State
@@ -395,6 +395,34 @@ Both failed payload sets/logs preserved, normal/root lock independently checked.
 No partial-mode coverage union credit, no release-pass claim. See
 07-03-RELAY-LIFECYCLE-REUSE.md/json. No runtime is active; next investigation is
 bounded stage/abort evidence for keyboard-skip before another whole collection.
+
+Relay timeout investigation now has a concrete harness finding: cancelled raw
+journey kept producing waiting screenshots after the next case started. Browser
+owner now receives test AbortSignal, closes once on abort, and afterEach drains
+its tracked job before the next test. Keyboard journey journals exact stages;
+original inputs/assertions and45s parent limit stay intact. Product unchanged.
+Staged chain30486 terminal1: ordinary22/22; canonical3b71ed03 had21pass/1cancel.
+The first raw visual journey timed out90s during its50th capture (49PNGcomplete),
+with no later capture after abort. Following keyboard journey completed all
+stages in33.54s (whole39.66s), including fresh skip/reclaim. Cleanup closed/drained
+before the next journey. No mode credit from this failed whole job;74original
+PNGs and normal/root lock restored, exact log/state under relay-lifecycle-staged.
+
+The next narrow harness candidate uses the same controlled browser clock as
+existing market-game fixtures. Original real keyboard/controller events, every
+size/theme/visual assertion and45/90s limits remain; real fixed-step loop advances
+400ms for the original hop,40ms per pad snapshot, and original30/40/60ms waits.
+Screenshot processing no longer advances unbounded game/render time. No product
+change or frame/assertion removal. Whole ordinary22/22 and canonical22/22 pass,
+clock chain95046 terminal0, run935ee706-5881-4f34-b3ff-b1f0c407ff29. Seven parents
+(one Node, six original browsers),15 actual lifetimes/30 expected intervals;
+74frames complete,74original artifacts restored, normal/root lock unchanged.
+First raw journey76.78s and keyboard27.08s, original90/45s limits retained.
+Logs/state use /tmp/down-to-duck-07-03-relay-lifecycle-clock. No runtime is active.
+Exact-current diagnostic full+newRelay is1912/2159L632/718F1994/2893B, gains
+11L/6F/30B. Still32L/15F/466B needed for Relay mode floors. No release acceptance.
+See07-03-RELAY-LIFECYCLE-PROOF.md/json and harness investigation; historical
+failed partial payloads never supply accepted counters. Semantic ledger unchanged.
 
 ## Next required work
 
