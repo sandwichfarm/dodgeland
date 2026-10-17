@@ -3,6 +3,7 @@ import { applicabilityIdentity } from './applicability.mjs';
 
 const ts = createRequire(new URL('../../package.json', import.meta.url))('typescript');
 const reviewed = Object.freeze({
+  'src/game.ts': { hash: 'fb5d9224e46c19b3745099429f06bd141d9b738bb2d8786ed3266e1b6a7d95f6', owner: 'Game', helpers: [], members: ['collectSessionCoins', 'sessionPickupContact'] },
   'src/session.ts': { hash: '5b9363b3d26641705d3a85d0e56fae0df9aed49ce1276f25fad918c1562887ed', owner: 'LocalSession', helpers: [] },
   'src/co-op-market.ts': { hash: '037a96c9f9436346f06306cac74808aab5e92e205ce2c42bebb1dbd16ca24c22', owner: 'CoOpMarketAdapter', helpers: ['actionId', 'isMarketWindowOpen', 'canBuyOrEquip'] },
 });
@@ -33,10 +34,12 @@ export function soloApplicabilityDispositions({ mode, sources }) {
     const owner = tree.statements.find(node => ts.isClassDeclaration(node) && node.name?.text === rule.owner);
     if (!owner) throw Error('Reviewed class absent');
     for (const member of owner.members) {
+      if (rule.members && !rule.members.includes(member.name?.getText(tree))) continue;
       if (member.modifiers?.some(m => m.kind === ts.SyntaxKind.StaticKeyword)) continue;
       // Instance field initializers execute only upon construction. Type-only fields have no sites.
-      if (member.body || member.initializer) addRange(member,`${rule.owner} instance execution requires LocalSession construction/attachment.`);
+      if (member.body || member.initializer) addRange(member,rule.members ? 'Game.collectCoins calls collectSessionCoins only with world.sessionActive and resolvingPlayer; sessionPickupContact is private and called only by that collector. Strict owned solo cannot enter either body.' : `${rule.owner} instance execution requires LocalSession construction/attachment.`);
     }
+    if(rule.members && rule.members.some(name=>!owner.members.some(member=>member.name?.getText(tree)===name&&member.body)))throw Error('Reviewed Game collector absent');
     for (const helper of rule.helpers) {
       const declaration = tree.statements.filter(ts.isVariableStatement).flatMap(s => [...s.declarationList.declarations]).find(d => d.name.getText(tree) === helper);
       if (!declaration?.initializer || !ts.isArrowFunction(declaration.initializer)) throw Error('Reviewed helper absent');

@@ -42,7 +42,37 @@ for(const mode of ['arcade','stroll']){
   assert.equal(game.run.claimPack([selected]).ok,true);assert.equal(game.run.wallet,paid,'claim never charges again');assert.equal(game.run.claimPack([selected]).ok,false);
   for(const owned of [...game.run.cards])assert.equal(game.run.sell(owned.id).ok,true);
   paidOffer(game,'pack-pocket');assert.equal(game.run.skipPack().ok,true);assert.equal(game.run.skipPack().ok,false);
-  game.closeMarket();return {coins,packClosed:game.run.pendingPack===null};
+  // A paid full hand must explicitly replace one owned card when claiming a paid pack.
+  while(game.run.cards.length<game.run.cardCapacity)paidOffer(game,'coin-multiplier');
+  paidOffer(game,'pack-pocket');const replacement=game.run.pendingPack.choices.find(card=>card.components.every(component=>!['extra-pocket','broad-deck'].includes(component.itemId))).id,discard=game.run.cards[0].id;
+  assert.equal(game.run.previewPack([replacement]).valid,false,'full hand cannot silently expand');
+  assert.equal(game.run.previewPack([replacement],[discard,discard]).valid,false,'duplicate discard rejected');
+  const replacementWallet=game.run.wallet;
+  assert.equal(game.run.claimPack([replacement],[discard]).ok,true);
+  assert.equal(game.run.wallet,replacementWallet);assert.equal(game.run.cards.some(card=>card.id===discard),false);
+  assert.equal(game.run.cards.length,game.run.cardCapacity);
+  for(const owned of [...game.run.cards])assert.equal(game.run.sell(owned.id).ok,true);
+  paidOffer(game,'look-hat-cap');paidOffer(game,'look-hat-aviator');
+  assert.equal(game.run.equippedCosmetics.find(item=>item.appearance.style==='hat').id,'look-hat-aviator');
+  assert.equal(game.run.equipCosmetic('look-hat-cap').ok,true);
+  assert.equal(game.run.equippedCosmetics.find(item=>item.appearance.style==='hat').id,'look-hat-cap');
+  const equippedRevision=game.run.revision;assert.equal(game.run.equipCosmetic('look-hat-cap').ok,true);assert.equal(game.run.revision,equippedRevision);
+  paidOffer(game,'score-income');assert.equal(game.run.advanceScore(125),1,'held score card earns on new threshold');assert.equal(game.run.advanceScore(125),0);
+  for(const owned of [...game.run.cards])assert.equal(game.run.sell(owned.id).ok,true);
+  paidOffer(game,'power-coin-rush');game.closeMarket();game.run.tick(2);
+  assert.equal(game.run.powers[0].remaining,6);assert.equal(game.openMarket(),true);
+  paidOffer(game,'power-coin-rush');assert.equal(game.run.powers.length,1);assert.equal(game.run.powers[0].remaining,8,'refresh does not duplicate active power');
+  game.closeMarket();game.run.tick(8);assert.equal(game.run.powers.length,0);assert.equal(game.run.effects.coinMultiplier,1,'expiry removes modifiers');
+  // Renew the real invitation after active time, then generate fresh rows with a held modifier.
+  game.run.advanceScore(200);assert.equal(game.openMarket(),true);paidOffer(game,'scenery-clear');game.closeMarket();
+  return {coins,packClosed:game.run.pendingPack===null};
+ }});
+ tape.push({kind:'fixture',apply:(game,module)=>{
+  game.rows.clear();game.ensureRows();let originalBlocked=0,retainedBlocked=0;
+  for(const [row,lane]of game.rows){originalBlocked+=module.generateLane(game.seed,row,game.home,game.gentle).blocked.length;retainedBlocked+=lane.blocked.length;}
+  assert.ok(originalBlocked>retainedBlocked,'held scenery card clears newly generated blockers');
+  assert.equal(game.openMarket(),true);for(const card of [...game.run.cards])assert.equal(game.run.sell(card.id).ok,true);game.closeMarket();
+  return {originalBlocked,retainedBlocked};
  }});
  tape.push({kind:'fixture',apply:(game,module)=>{game.health=1;game.hurtRemaining=0;game.maxY=game.y=game.fromY=0;game.hop=0;game.waveRow=-100;safeRow(game,module,0);}});
  for(let row=1;row<=100;row++)tape.push({kind:'fixture',apply:(game,module)=>safeRow(game,module,row)},{kind:'move',direction:'forward'},step(18));
@@ -51,7 +81,7 @@ for(const mode of ['arcade','stroll']){
   {kind:'fixture',apply:(game,module)=>{game.characterId=characterId;game.state='playing';game.health=game.maxHealth;game.hurtRemaining=0;game.powerReadyAt=0;game.powerRescue=null;game.powerLandingGrace=0;game.hop=0;game.caughtByWave=false;game.waveRow=-100;game.mobs.length=0;for(let row=game.y-3;row<=game.y+5;row++)safeRow(game,module,row);}},
   {kind:'call',method:'end',args:['bounded innate rescue',cause,characterId==='petal'?'rear':undefined]},step(12)
  );
- breadth.push({name:`${mode}-paid-pickup-health-powers`,seed:113,mode,catalogIds:['magnet','coin-multiplier','regen-bonus','extra-pocket','broad-deck','crossing-guard','pack-pocket'],setup:(game,module)=>{game.state='playing';safeRow(game,module,0);game.run.advanceScore(100);assert.equal(game.openMarket(),true);game.run.creditCoins(1000);paidOffer(game,'magnet');game.closeMarket();},tape});
+ breadth.push({name:`${mode}-paid-pickup-health-powers`,seed:113,mode,catalogIds:['magnet','coin-multiplier','regen-bonus','extra-pocket','broad-deck','crossing-guard','pack-pocket','look-hat-cap','look-hat-aviator','score-income','power-coin-rush','scenery-clear'],setup:(game,module)=>{game.state='playing';safeRow(game,module,0);game.run.advanceScore(100);assert.equal(game.openMarket(),true);game.run.creditCoins(1000);paidOffer(game,'magnet');game.closeMarket();},tape});
 }
 test('bounded actual solo bases retain pinned movement, hazards, recovery, economy and terminal behavior',{timeout:120000},async()=>{
  const results=await runDifferentialMatrix([...scenarios,...breadth],{currentRecorderFactory:createSoloModelRecorder});

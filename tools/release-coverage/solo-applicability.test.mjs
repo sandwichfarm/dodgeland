@@ -10,7 +10,7 @@ import { soloApplicabilityDispositions } from './solo-applicability.mjs';
 const directory = await mkdtemp(join(tmpdir(), 'solo-applicability-'));
 after(() => rm(directory, { recursive: true, force: true }));
 const root = resolve(new URL('../..', import.meta.url).pathname);
-const texts = Object.fromEntries(await Promise.all(['src/session.ts', 'src/co-op-market.ts'].map(async path => [path, await readFile(join(root, path), 'utf8')])));
+const texts = Object.fromEntries(await Promise.all(['src/session.ts', 'src/co-op-market.ts', 'src/game.ts'].map(async path => [path, await readFile(join(root, path), 'utf8')])));
 const inventory = instrumentSources(texts, root);
 // Explicit synthetic zero realm supplies schema only; this is not runtime credit.
 const mapped = await reportCoverage(inventory, [Object.fromEntries(Object.values(inventory).map(row => [row.path, row.zero]))], directory);
@@ -86,4 +86,24 @@ test('new stage and secondary callback exclusions reject hits while preserving i
  const alias=Object.entries(session.coverage.fnMap).find(([,site])=>site.decl.start.line===line('function alias('))[0];
  const sharedHits=structuredClone(attributed);sharedHits[session.path].f[alias]=1;
  assert.equal(reportApplicability({mode,sources,attributed:sharedHits,dispositions}).applicable.functions.covered,1);
+});
+
+
+test('Game collector closure excludes exact private bodies but retains solo collector and rejects positive hits',()=>{
+ const mode='solo-arcade',dispositions=soloApplicabilityDispositions({mode,sources});
+ const game=sources.find(row=>row.path.endsWith('/game.ts'));
+ const at=fragment=>game.source.slice(0,game.source.indexOf(fragment)).split('\n').length;
+ const functionId=fragment=>Object.entries(game.coverage.fnMap).find(([,site])=>site.decl.start.line===at(fragment))[0];
+ const excluded=dispositions.filter(d=>d.path===game.path&&d.kind==='function');
+ assert.deepEqual(new Set(excluded.map(d=>d.id)),new Set([functionId('private collectSessionCoins('),functionId('private sessionPickupContact(')]));
+ for(const kind of ['function','statement','branch']){
+  const d=dispositions.find(d=>d.path===game.path&&d.kind===kind);assert.ok(d);
+  const hits=structuredClone(attributed);if(kind==='branch')hits[d.path].b[d.id][d.arm]=1;else hits[d.path][kind==='function'?'f':'s'][d.id]=1;
+  assert.throws(()=>reportApplicability({mode,sources,attributed:hits,dispositions}),/contradicted/);
+ }
+ const solo=functionId('private collectCoins(');assert.ok(!excluded.some(d=>d.id===solo));
+ const hits=structuredClone(attributed);hits[game.path].f[solo]=1;
+ assert.equal(reportApplicability({mode,sources,attributed:hits,dispositions}).applicable.functions.covered,1);
+ const changed=structuredClone(sources);changed.find(s=>s.path===game.path).source+='\n';
+ assert.throws(()=>soloApplicabilityDispositions({mode,sources:changed}),/changed/);
 });
