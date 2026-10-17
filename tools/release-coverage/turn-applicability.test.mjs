@@ -473,3 +473,40 @@ test('Race empty-inventory scope rejects positive sites and preserves actual exp
  const positive=structuredClone(sources);for(const s of positive){for(const key of ['s','f'])for(const id of Object.keys(s.coverage[key]))s.coverage[key][id]=123;for(const id of Object.keys(s.coverage.b))s.coverage.b[id]=s.coverage.b[id].map(()=>123);}
  assert.deepEqual(turnApplicabilityDispositions({mode:'race',sources:positive}),ds,'scope never derives from measured zeros');
 });
+
+test('Race tactical target closure retains every validation guard and excludes only impossible outcomes',()=>{
+ const source=sourceFor('consumables.ts'),tree=ts.createSourceFile('consumables.ts',source.source,ts.ScriptTarget.Latest,true),nodes=[];
+ function walk(n){nodes.push(n);ts.forEachChild(n,walk);}walk(tree);
+ const fn=name=>tree.statements.find(n=>ts.isFunctionDeclaration(n)&&n.name?.text===name),targets=fn('targetsFor'),debit=fn('planConsumableDebit');
+ const inside=(n,owner)=>n.pos>=owner.pos&&n.end<=owner.end;
+ const conditions=nodes.filter(n=>ts.isIfStatement(n)&&inside(n,targets));assert.equal(conditions.length,11);
+ const guarded=nodes.filter(n=>ts.isIfStatement(n)&&inside(n,debit)&&["charges[item.id] < 1","'ok' in targets"].includes(n.expression.getText(tree)));assert.equal(guarded.length,2);
+ for(const mode of ['relay','race']){
+  const ds=turnApplicabilityDispositions({mode,sources});
+  if(mode==='relay')continue; // Existing no-debit callable proof is unchanged.
+  for(const condition of [...conditions,...guarded]){
+   const at=tree.getLineAndCharacterOfPosition(condition.getStart(tree)).line+1,branches=Object.entries(source.coverage.branchMap).filter(([,b])=>b.type==='if'&&b.loc.start.line===at);assert.equal(branches.length,1);
+   const[id]=branches[0];assert.ok(ds.some(d=>d.path===source.path&&d.kind==='branch'&&d.id===id&&d.arm===0),'unavailable true outcome '+at);
+   assert.equal(ds.some(d=>d.path===source.path&&d.kind==='branch'&&d.id===id&&d.arm===1),false,'actual false outcome '+at);
+   const statements=Object.entries(source.coverage.statementMap).filter(([,s])=>s.start.line===at);assert.ok(statements.some(([id])=>!excluded(ds,source,id,'statement')),'evaluated guard '+at);
+  }
+  for(const name of ['definition','chargesFor']){
+   const at=tree.getLineAndCharacterOfPosition(fn(name).getStart(tree)).line+1,defaults=Object.entries(source.coverage.branchMap).filter(([,b])=>b.type==='default-arg'&&b.loc.start.line===at);assert.equal(defaults.length,1);
+   assert.ok(ds.some(d=>d.path===source.path&&d.kind==='branch'&&d.id===defaults[0][0]&&d.arm===0),'captured Race catalogue supplied');
+  }
+  for(const name of ['targetsFor','planConsumableDebit','planConsumableCredit','validateBase','definition','chargesFor'])for(const id of functionIds(source,`function ${name}(`))assert.equal(excluded(ds,source,id),false,'live helper entry '+name);
+  const at=line(source,"if ('ok' in item) return item;"),credit=Object.entries(source.coverage.branchMap).find(([,b])=>b.type==='if'&&b.loc.start.line===at);assert.ok(credit);
+  for(const arm of [0,1])assert.equal(ds.some(d=>d.path===source.path&&d.kind==='branch'&&d.id===credit[0]&&d.arm===arm),false,'credit rejection remains counted');
+ }
+});
+
+test('Race tactical target scope rejects observed excluded sites and keeps generic validation accountable',()=>{
+ const source=sourceFor('consumables.ts'),ds=turnApplicabilityDispositions({mode:'race',sources}),added=ds.filter(d=>d.authority.endsWith('07-03-RACE-TARGET-POLICY-CLOSURE.md'));
+ assert.ok(added.length>20);assert.ok(added.some(d=>d.kind==='statement'));assert.ok(added.some(d=>d.kind==='branch'));
+ for(const d of added){const hits=structuredClone(attributed);if(d.kind==='branch')hits[d.path].b[d.id][d.arm]=1;else hits[d.path][d.kind==='statement'?'s':'f'][d.id]=1;assert.throws(()=>reportApplicability({mode:'race',sources,attributed:hits,dispositions:ds}),/contradicted/);}
+ const start=line(source,'function targetsFor('),end=line(source,'export function planConsumableCredit('),cross={start:{line:start,column:0},end:{line:end,column:0}},changed=structuredClone(sources),row=changed.find(s=>s.path===source.path);
+ row.coverage.statementMap['cross-target']=cross;row.coverage.s['cross-target']=0;row.coverage.branchMap['cross-target']={type:'cond-expr',loc:cross,locations:[cross,{start:{},end:{}}]};row.coverage.b['cross-target']=[0,0];
+ assert.equal(turnApplicabilityDispositions({mode:'race',sources:changed}).some(d=>d.path===source.path&&d.id==='cross-target'),false);
+ const positive=structuredClone(sources);for(const s of positive){for(const key of ['s','f'])for(const id of Object.keys(s.coverage[key]))s.coverage[key][id]=123;for(const id of Object.keys(s.coverage.b))s.coverage.b[id]=s.coverage.b[id].map(()=>123);}
+ assert.deepEqual(turnApplicabilityDispositions({mode:'race',sources:positive}),ds);
+});
