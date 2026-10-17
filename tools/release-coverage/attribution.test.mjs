@@ -365,3 +365,14 @@ test('release endpoints require canonical method/counter proof and reject all po
   assert.throws(()=>validateIntervals(f.inventory,[...row.intervals,late]),/release/i);
  }finally{await f.close();}
 });
+
+test('public turn observations accept both canonical bases and reject a mismatched definition',()=>{
+ for(const mode of ['relay','race'])for(const base of ['arcade','stroll']){
+  const {inventory,before,after}=fixture();
+  const observation={mode,kind:mode,base,state:'playing',participants:2,definitionEvidence:{sourceHash:SOLO_DEFINITION_SOURCE_HASH,snapshot:SOLO_DEFINITION_SNAPSHOTS[base],rulesIdentity:true,deepFrozen:true}};
+  before.observation=observation;after.observation=structuredClone(observation);
+  assert.equal(deriveInterval(inventory,before,after,'both-bases').mode,mode);
+  after.observation.definitionEvidence.snapshot=SOLO_DEFINITION_SNAPSHOTS[base==='arcade'?'stroll':'arcade'];
+  assert.throws(()=>deriveInterval(inventory,before,after,'wrong-base'),/definition|Mode changed/i);
+ }
+});

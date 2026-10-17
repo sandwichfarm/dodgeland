@@ -37,3 +37,12 @@ tools/release-coverage/attribution.mjs observation validation,
 src/session.ts LocalSession.stop and LocalSessionStage.cancel,
 src/main.ts reset/disposal and pagehide; current source Game8836,Sessione90,
 main33be. Existing resolved audit is in relay-generation-effects/reference-audit.json.
+
+## Implemented controlled release boundary
+
+TURN-RELEASE-CONTRACT/CLOSURE/PROOF now binds the actual canonical stop method
+and exactly one real function-entry delta, retains real ownership/results and
+seals attribution after release. Genuine8-case teardown run supplies24 intervals
+from one independent Node parent. Stop stays applicable; no post-stop getters
+or solo construction are counted. Diagnostic Relay2291/2695 meets85%; Race
+2497/2994 still needs48. Full release verification remains pending.

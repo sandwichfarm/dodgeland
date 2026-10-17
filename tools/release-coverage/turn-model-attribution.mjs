@@ -2,13 +2,14 @@ import { capturePayload } from './collector.mjs';
 import { deriveInterval, validateIntervals } from './attribution.mjs';
 import { definitionEvidence, validateSoloDefinition } from './solo-definition-evidence.mjs';
 import { bootstrapSnapshot } from './solo-bootstrap-attribution.mjs';
+import {turnStopEvidence,turnStopMethodHash} from './turn-release-evidence.mjs';
 
 let sequence = 0;
 
 /** Test-only recorder for one actual imported Relay/Race coordinator lifetime. */
 export function createTurnModelRecorder({ mode, inventory, identity, factory, Coordinator, authority, load }) {
  if (!['relay','race'].includes(mode) || (load===undefined ? typeof factory !== 'function' || typeof Coordinator !== 'function' : typeof load!=='function')) throw Error('Missing turn-mode factory');
- let game, owner, session, composition, sessionId, setup, expectedBase, world, player, roster, loading=false, failed=false;
+ let game, owner, session, composition, sessionId, setup, expectedBase, world, player, roster, loading=false, failed=false, released=false, canonicalStop, releaseProof, releaseResult, releaseResultJSON;
  const intervals = [];
  function canonical() {
   if(!authority||!['Game','LocalSession','SharedWorld','SessionPlayer'].every(key=>typeof authority[key]==='function')||!authority.SOLO_ARCADE_MODE||!authority.SOLO_STROLL_MODE)throw Error('Missing same-module turn authority');
@@ -23,10 +24,11 @@ export function createTurnModelRecorder({ mode, inventory, identity, factory, Co
   const evidence=game?canonical():undefined;
   if(!owner)return {...common,phase:'acquiring',sessionId:null,participants:0};
   const players=session.players;
-  if(!(owner instanceof Coordinator)||!(session instanceof authority.LocalSession)||owner.session!==session||game.world!==world||game.player!==player||session.world!==world||session.mode!==composition||composition.definition!==game.definition||session.definition!==game.definition||session.id!==sessionId||world.sessionActive!==true||Object.getOwnPropertyDescriptor(session,'active')?.value!==true||JSON.stringify(mode==='relay'?owner.setup:owner.descriptor)!==setup)throw Error('Changed turn-mode owner');
+  if(!(owner instanceof Coordinator)||!(session instanceof authority.LocalSession)||owner.session!==session||game.world!==world||game.player!==player||session.world!==world||session.mode!==composition||composition.definition!==game.definition||session.definition!==game.definition||session.id!==sessionId||world.sessionActive!==true||Object.getOwnPropertyDescriptor(session,'active')?.value!==!released||JSON.stringify(mode==='relay'?owner.setup:owner.descriptor)!==setup)throw Error('Changed turn-mode owner');
   if(players.length!==roster.size||players.length<2||players.length>4||new Set(players).size!==players.length||!players.includes(player)||players.some(p=>!(p instanceof authority.SessionPlayer)||p.world!==world||p.session!==session||!roster.has(p)||roster.get(p)!==JSON.stringify([p.seat,p.participantId,p.characterId,p.primary])))throw Error('Changed turn-mode roster ownership');
-  const phase=owner.result?'settled':game.state==='paused'?'paused':mode==='relay'?(owner.snapshot().phase==='running'?'playing':'pending'):owner.waiting?'pending':'playing';
-  return {...common,phase,sessionId,participants:players.length,definitionEvidence:evidence,ownership:{canonicalDefinition:true,canonicalRules:true,sameModule:true,sessionActive:true,sessionRunning:true,worldIsOwn:true,playerIsOwn:true,rosterStable:true}};
+  if(released&&(Object.getOwnPropertyDescriptor(session,'resultRecord')?.value!==releaseResult||JSON.stringify(releaseResult)!==releaseResultJSON))throw Error('Changed released turn result');
+  const phase=released?'released':owner.result?'settled':game.state==='paused'?'paused':mode==='relay'?(owner.snapshot().phase==='running'?'playing':'pending'):owner.waiting?'pending':'playing';
+  return {...common,phase,sessionId,participants:players.length,definitionEvidence:evidence,ownership:{canonicalDefinition:true,canonicalRules:true,sameModule:true,sessionActive:true,sessionRunning:!released,worldIsOwn:true,playerIsOwn:true,rosterStable:true},...(released?{releaseEvidence:releaseProof}:{})};
  }
  function adopt(proposal){
   canonical();owner=factory(game,proposal);session=owner.session;composition=session.mode;sessionId=session.id;world=game.world;player=game.player;
@@ -34,7 +36,7 @@ export function createTurnModelRecorder({ mode, inventory, identity, factory, Co
   const players=Object.getOwnPropertyDescriptor(session,'roster')?.value;
   if(!Array.isArray(players))throw Error('Missing actual turn roster ownership');
   roster=new Map(players.map(p=>[p,JSON.stringify([p.seat,p.participantId,p.characterId,p.primary])]));
-  setup=JSON.stringify(mode==='relay'?owner.setup:owner.descriptor);
+  setup=JSON.stringify(mode==='relay'?owner.setup:owner.descriptor);canonicalStop=authority.LocalSession.prototype.stop;
   if(!composition||mode==='race'&&owner.descriptor.schema!=='race-1'||mode==='relay'&&!Number.isInteger(owner.setup.tilesPerLeg))throw Error('Invalid actual composition');
  }
  function guarded(action){try{return action();}catch(error){failed=true;throw error;}}
@@ -65,7 +67,22 @@ export function createTurnModelRecorder({ mode, inventory, identity, factory, Co
     if(game.definition.id!==base)throw Error('Acquired unexpected actual base');
     adopt(proposal);record('acquisition',before);return {game,owner};});
   },
-  interval(id,action){if(!session||loading||failed)throw Error('Missing acquired owner');return guarded(()=>{const before=snapshot(),result=action(owner);if(result&&typeof result.then==='function')throw Error('Turn-mode interval must be synchronous');record(id,before);return result;});},
+  release(id='release'){
+   if(released)throw Error('Turn lifetime is released');
+   if(!session||loading||failed||typeof id!=='string'||!id)throw Error('Missing acquired owner');
+   return guarded(()=>{
+    const before=snapshot(),evidence=turnStopEvidence(inventory);
+    if(Object.hasOwn(session,'stop')||session.stop!==canonicalStop||turnStopMethodHash(canonicalStop)!==evidence.methodHash)throw Error('Changed canonical stop method');
+    const descriptor=Object.getOwnPropertyDescriptor(session,'resultRecord');if(!descriptor||!Object.hasOwn(descriptor,'value'))throw Error('Changed turn owner result field');
+    const result=descriptor.value,encoded=JSON.stringify(result);
+    if(result!==undefined&&(!result||typeof result!=='object'||!Object.isFrozen(result)))throw Error('Invalid turn release result');
+    Reflect.apply(canonicalStop,session,[]);
+    if(Object.getOwnPropertyDescriptor(session,'active')?.value!==false||Object.getOwnPropertyDescriptor(session,'resultRecord')?.value!==result||JSON.stringify(result)!==encoded)throw Error('Invalid canonical stop outcome');
+    released=true;releaseResult=result;releaseResultJSON=encoded;releaseProof={...evidence,kind:'LocalSession.stop',hadResult:result!==undefined,resultPreserved:true};
+    record(id,before);
+   });
+  },
+  interval(id,action){if(released)throw Error('Turn lifetime is released');if(!session||loading||failed)throw Error('Missing acquired owner');return guarded(()=>{const before=snapshot(),result=action(owner);if(result&&typeof result.then==='function')throw Error('Turn-mode interval must be synchronous');record(id,before);return result;});},
   finish(){if(!session||loading||failed)throw Error('Missing acquired owner');return guarded(()=>{validateIntervals(inventory,intervals);return {identity:{...identity,buildScope:'production',provenance:'component-model'},payload:snapshot().payload,intervals:structuredClone(intervals)};});},
  };
 }

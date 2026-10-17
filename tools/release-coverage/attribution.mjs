@@ -1,16 +1,17 @@
 import {validateSoloDefinition} from './solo-definition-evidence.mjs';
 import { mergePayloads } from './collector.mjs';
+import {validateTurnReleaseEvidence,validateTurnReleaseDelta} from './turn-release-evidence.mjs';
 
 export const modes = ['solo-arcade','solo-flow','survive-arcade','survive-flow','relay','race'];
 function checkObservation(o) {
  if(!o||!modes.includes(o.mode)||o.state!=='playing')throw Error('Missing live mode evidence');
  const kind=o.mode.startsWith('solo-')?'solo':o.mode.startsWith('survive-')?'survive':o.mode;
- const base=o.mode.endsWith('arcade')?'arcade':'stroll';
+ const base=['relay','race'].includes(kind)?o.base:o.mode.endsWith('arcade')?'arcade':'stroll';
  validateSoloDefinition(o.definitionEvidence,o.base);
  if(kind==='solo'&&Object.entries({canonicalDefinition:true,canonicalRules:true,worldIsOwn:true,playerIsOwn:true,sessionActive:false,playerSessionAbsent:true,sessionBindings:0,stageBindings:0}).some(([key,value])=>o.ownership?.[key]!==value))throw Error('Missing actual solo ownership evidence');
  if(o.kind!==kind||o.base!==base||!Number.isInteger(o.participants)||(kind==='solo'?o.participants!==1:o.participants<2||o.participants>4))throw Error('Invalid actual mode/base evidence');
 }
-function checkComponent(o) {
+function checkComponent(o,inventory) {
  const solo=o?.mode?.startsWith('solo-'),turn=['relay','race'].includes(o?.mode);
  if(!o || !['solo-arcade','solo-flow','survive-arcade','survive-flow','relay','race'].includes(o.mode) || o.kind!==(solo?'solo':turn?o.mode:'survive') || (turn?!['arcade','stroll'].includes(o.base):o.base!==(o.mode.endsWith('arcade')?'arcade':'stroll')))throw Error('Invalid component mode evidence');
  if(solo){
@@ -20,17 +21,20 @@ function checkComponent(o) {
   else if(o.participants!==1||Object.entries({canonicalDefinition:true,canonicalRules:true,worldIsOwn:true,playerIsOwn:true,sessionActive:false,playerSessionAbsent:true,stageCalls:0}).some(([key,value])=>o.ownership?.[key]!==value)||!Number.isSafeInteger(o.ownership.boundaryChecks)||o.ownership.boundaryChecks<1)throw Error('Invalid solo component ownership');
   return;
  }
- if(!['acquiring','playing','paused','pending','settled'].includes(o.phase))throw Error('Invalid component lifecycle phase');
+ if(!['acquiring','playing','paused','pending','settled',...(turn?['released']:[])].includes(o.phase))throw Error('Invalid component lifecycle phase');
  if(o.phase==='acquiring') { if(o.sessionId!==null || o.participants!==0)throw Error('Invalid acquisition evidence'); }
  else if(typeof o.sessionId!=='string'||!o.sessionId||!Number.isInteger(o.participants)||o.participants<1||o.participants>4)throw Error('Missing component session identity');
  if(turn&&o.phase!=='acquiring'){
   validateSoloDefinition(o.definitionEvidence,o.base);
-  if(o.participants<2||['canonicalDefinition','canonicalRules','sameModule','sessionActive','sessionRunning','worldIsOwn','playerIsOwn','rosterStable'].some(key=>o.ownership?.[key]!==true))throw Error('Missing actual turn ownership evidence');
+  if(o.participants<2||['canonicalDefinition','canonicalRules','sameModule','sessionActive','worldIsOwn','playerIsOwn','rosterStable'].some(key=>o.ownership?.[key]!==true)||o.ownership?.sessionRunning!==(o.phase!=='released'))throw Error('Missing actual turn ownership evidence');
+  if(o.phase==='released')validateTurnReleaseEvidence(inventory,o.releaseEvidence);
+  else if(o.releaseEvidence!==undefined)throw Error('Unexpected turn release evidence');
  }
 }
-function checkPair(before,after,provenance) {
+function checkPair(before,after,provenance,inventory) {
  if(provenance==='component-model') {
-  checkComponent(before);checkComponent(after);
+  checkComponent(before,inventory);checkComponent(after,inventory);
+  if(before.phase==='released'||after.phase==='released'&&(before.phase==='acquiring'||after.releaseEvidence.hadResult!==(before.phase==='settled')))throw Error('Invalid turn release transition');
   if(before.ownerId!==after.ownerId)throw Error('Solo owner changed during interval');
   if(before.mode!==after.mode||before.base!==after.base||after.phase==='acquiring'||(before.phase!=='acquiring'&&before.sessionId!==after.sessionId))throw Error('Component session changed during interval');
  } else {
@@ -41,7 +45,7 @@ function checkPair(before,after,provenance) {
 }
 export function deriveInterval(inventory,before,after,id) {
  if(typeof id!=='string'||!id)throw Error('Missing interval ID');
- checkPair(before?.observation,after?.observation,before?.provenance);
+ checkPair(before?.observation,after?.observation,before?.provenance,inventory);
  for(const key of ['jobId','buildScope','artifactHash','provenance'])if(!before[key]||before[key]!==after[key])throw Error('Interval identity mismatch');
  if(before.buildScope!=='production')throw Error('Invalid mode provenance');
  if(!Number.isSafeInteger(before.sequence)||before.sequence<0||!Number.isSafeInteger(after.sequence)||after.sequence<=before.sequence)throw Error('Invalid interval order');
@@ -56,15 +60,19 @@ export function deriveInterval(inventory,before,after,id) {
   const delta=end.map((n,i)=>{if(n<start[i])throw Error('Counter decreased');return n-start[i];});file[metric][key]=metric==='b'?delta:delta[0];
  }
  const payload={...structuredClone(b),realmId:`interval:${a.realmId}:${id}`,coverage};
- return {id,mode:before.observation.mode,parentRealm:a.realmId,runId:a.runId,jobId:before.jobId,buildScope:before.buildScope,artifactHash:before.artifactHash,provenance:before.provenance,start:before.sequence,end:after.sequence,observation:structuredClone(before.observation),...(before.provenance==='component-model'?{endObservation:structuredClone(after.observation)}:{}),payload};
+ const interval={id,mode:before.observation.mode,parentRealm:a.realmId,runId:a.runId,jobId:before.jobId,buildScope:before.buildScope,artifactHash:before.artifactHash,provenance:before.provenance,start:before.sequence,end:after.sequence,observation:structuredClone(before.observation),...(before.provenance==='component-model'?{endObservation:structuredClone(after.observation)}:{}),payload};
+ validateTurnReleaseDelta(inventory,interval);return interval;
 }
 export function validateIntervals(inventory,intervals) {
- const seen=new Set(),ends=new Map();
+ const seen=new Set(),ends=new Map(),released=new Set();
  const sorted=[...intervals].sort((a,b)=>a.parentRealm.localeCompare(b.parentRealm)||a.start-b.start||a.id.localeCompare(b.id));
  for(const interval of sorted){
   if(interval.provenance==='component-model'&&!interval.endObservation)throw Error('Missing component endpoint observation');
-  checkPair(interval.observation,interval.endObservation??interval.observation,interval.provenance);
+  checkPair(interval.observation,interval.endObservation??interval.observation,interval.provenance,inventory);
   const key=`${interval.runId}:${interval.parentRealm}:${interval.id}`,parent=`${interval.runId}:${interval.parentRealm}`;
+  for(const observation of [interval.observation,interval.endObservation])if(observation?.sessionId&&released.has(`${parent}:${observation.sessionId}`))throw Error('Interval after turn release');
+  validateTurnReleaseDelta(inventory,interval);
+  if(interval.endObservation?.phase==='released')released.add(`${parent}:${interval.endObservation.sessionId}`);
   if(seen.has(key))throw Error('Duplicate interval');seen.add(key);
   if(!Number.isSafeInteger(interval.start)||!Number.isSafeInteger(interval.end)||interval.start<0||interval.end<=interval.start||(ends.get(parent)??-1)>interval.start)throw Error('Overlapping interval');ends.set(parent,interval.end);
   if(interval.mode!==interval.observation.mode||!['public-input','component-model'].includes(interval.provenance)||interval.buildScope!=='production'||!interval.jobId||!interval.artifactHash||interval.payload.runId!==interval.runId||interval.payload.realmId!==`interval:${interval.parentRealm}:${interval.id}`)throw Error('Interval binding mismatch');

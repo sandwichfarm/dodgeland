@@ -9011,6 +9011,138 @@
         }
       ],
       "provenance": "Actual opaque built Relay setup,paid card purchases and100 real keyboard hops per case;three recipes across Arcade/Flow and legacy/current schemas. Immutable baseline supplies seeds/plain geometry;funds,eligibility,stock and safe next-row approach are explicit fixtures. No pose,earned progress,clock,effects or generator replacement. No Node/mode evidence borrowed."
+    },
+    "turn-release-03": {
+      "files": [
+        "tests/turn-release.test.mjs"
+      ],
+      "roles": {
+        "tests/turn-release.test.mjs": "node"
+      },
+      "browser": false,
+      "jobs": [
+        {
+          "id": "turn-release-test",
+          "file": "tests/turn-release.test.mjs",
+          "role": "node",
+          "requiredRealms": [
+            "node"
+          ],
+          "defaultBuildScope": "modules",
+          "artifactPatterns": [],
+          "modelAttribution": [
+            {
+              "mode": "relay",
+              "lifetimes": 4,
+              "phases": [
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "paused"
+                ],
+                [
+                  "paused",
+                  "released"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
+                ],
+                [
+                  "settled",
+                  "released"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "paused"
+                ],
+                [
+                  "paused",
+                  "released"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
+                ],
+                [
+                  "settled",
+                  "released"
+                ]
+              ]
+            },
+            {
+              "mode": "race",
+              "lifetimes": 4,
+              "phases": [
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "paused"
+                ],
+                [
+                  "paused",
+                  "released"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
+                ],
+                [
+                  "settled",
+                  "released"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "paused"
+                ],
+                [
+                  "paused",
+                  "released"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
+                ],
+                [
+                  "settled",
+                  "released"
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      "provenance": "Actual Relay/Race factories on Arcade/Flow,paid co-op card/item transaction,live paused or settled official leave flow,source-bound LocalSession.stop. Funds/eligibility/stock and one road are fixtures. Late input/update/market assertions stay global after sealed lifetime;no post-stop mode credit."
     }
   },
   "pendingAdapters": [
@@ -17068,6 +17200,126 @@
         ],
         "verifyArtifactScope": true,
         "artifactPatterns": []
+      },
+      {
+        "id": "turn-release-test",
+        "file": "tests/turn-release.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": [],
+        "modelAttribution": [
+          {
+            "mode": "relay",
+            "lifetimes": 4,
+            "phases": [
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "paused"
+              ],
+              [
+                "paused",
+                "released"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "settled"
+              ],
+              [
+                "settled",
+                "released"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "paused"
+              ],
+              [
+                "paused",
+                "released"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "settled"
+              ],
+              [
+                "settled",
+                "released"
+              ]
+            ]
+          },
+          {
+            "mode": "race",
+            "lifetimes": 4,
+            "phases": [
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "paused"
+              ],
+              [
+                "paused",
+                "released"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "settled"
+              ],
+              [
+                "settled",
+                "released"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "paused"
+              ],
+              [
+                "paused",
+                "released"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "settled"
+              ],
+              [
+                "settled",
+                "released"
+              ]
+            ]
+          }
+        ]
       }
     ],
     "controls": [

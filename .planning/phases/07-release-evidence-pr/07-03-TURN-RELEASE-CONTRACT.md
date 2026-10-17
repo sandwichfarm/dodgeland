@@ -36,3 +36,6 @@ substituted methods;zero/double entry;all late/replayed intervals. Calibration
 counters remain control-only. Genuine teardown tests/fresh runner coverage are
 a separate follow-up;adding a phase alone supplies no gameplay coverage credit.
 Full semantic review,enforcing full gate,07-04/05/06 and PR remain required.
+
+Executed implementation and evidence are recorded in TURN-RELEASE-CLOSURE.md
+and TURN-RELEASE-PROOF.json. The original contract above remains unchanged.

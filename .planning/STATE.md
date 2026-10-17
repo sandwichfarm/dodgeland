@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Validated staging source proof passes;remaining diagnostic branch gaps Relay3 Race50 DEV52
+stopped_at: Source-bound teardown passes; Relay diagnostic floor met; remaining Race48 DEV52
 last_updated: "2026-10-17T23:08:32.045298+00:00"
 progress:
   total_phases: 7
@@ -12,12 +12,24 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Staging contract20 focused/all117 controls,1179 independently revalidated intervals/40 parents and12 fresh cases pass. Diagnostic gaps Relay3 Race50 DEV52;real teardown boundary/full semantic review/fresh gates/PR remain.
+last_activity_desc: Source-bound release121 controls,8 genuine cases,24 fresh intervals/one parent and1179 prior intervals/40 parents pass. Relay2291/2695 meets diagnostic floor; Race48 DEV52 remain plus final verification/PR.
 ---
 
 # Project State
 
 ## Current work
+
+Latest source-bound teardown: TURN-RELEASE-CONTRACT/CLOSURE/PROOF binds the
+actual canonical stop method and exactly one function-entry delta, preserves
+world/roster/results and seals attribution. All121 controls,8 ordinary and8
+canonical cases pass;24 new intervals/one Node parent/no browser realms. The
+current validator also revalidates1179 prior intervals/40 independent parents.
+All178 prior jobs remain unchanged;registry179. Source/build/lock pins match.
+Diagnostic union Relay2291/2695 meets85%; Race2497/2994 needs48. DEV2315/2784
+needs52;browser8370/9817 passes. No full success claim: original report remains
+enforced-fail, initial ledger untouched. Remaining genuine witnesses,semantic
+review,fresh enforcing full collection,07-04/05/06 and PR remain.
+
 
 Latest validated turn staging proof:b6b4793 retains20-case RED18pass/2fail.
 Implementation passes20 focused/all117 controls,1179 revalidated original/source-

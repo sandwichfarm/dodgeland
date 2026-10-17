@@ -2,6 +2,17 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Latest actual source-bound teardown
+
+TURN-RELEASE-CONTRACT/CLOSURE/PROOF:121 controls,8 ordinary/8 canonical cases,
+24 new intervals/one independent Node parent and1179 revalidated old intervals/
+40 parents pass. No source/build/lock/floor change. Exact actual stop entry and
+retained owner/result identity are required; no post-release mode credit.
+Relay adds3 branches to2291/2695 and meets85%; Race adds2 to2497/2994 and needs48.
+DEV still needs52;browser passes. Registry179 preserves178 previous jobs. These
+are diagnostic unions, not a fresh enforcing full run or completed semantic
+ledger. Final full verification and PR remain pending.
+
 ## Latest validated turn staging source proof
 
 TURN-STAGING-CLOSURE/AUDIT/PROOF records fixed closed-roster factory/value
