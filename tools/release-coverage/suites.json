@@ -703,6 +703,195 @@
         }
       ],
       "provenance": "Whole unchanged-scenario menu matrix plus complete owned-hand and pause suites; additional read-only text/overlap evidence"
+    },
+    "recovery-layout-12": {
+      "files": [
+        "tests/survive-recovery-board-layout.mjs"
+      ],
+      "roles": {
+        "tests/survive-recovery-board-layout.mjs": "browser"
+      },
+      "browser": true,
+      "jobs": [
+        {
+          "id": "survive-recovery-board-layout",
+          "file": "tests/survive-recovery-board-layout.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "defaultBuildScope": "production",
+          "artifactPatterns": [
+            "artifacts/survive-recovery-*-*-*x*-*.png",
+            "artifacts/survive-recovery-board-layout.json"
+          ]
+        }
+      ],
+      "provenance": "Original one-app arranged recovery matrix; same actions and exact127pages, bounded120s stages"
+    },
+    "suffix-12": {
+      "files": [
+        "tests/survive-recovery-boundaries.test.mjs",
+        "tests/survive-recovery-outcomes-runtime.mjs",
+        "tests/survive-recovery-owner-runtime.mjs",
+        "tests/survive-recovery-terminal.test.mjs",
+        "tests/survive-results-seed-runtime.mjs",
+        "tests/survive-results-ui.test.mjs",
+        "tests/survive-together-layout.mjs",
+        "tests/survive-together-runtime.mjs",
+        "tests/survive-together-tracer.mjs",
+        "tests/survive-together.test.mjs",
+        "tests/wearables-render.test.mjs",
+        "tests/wearables.test.mjs"
+      ],
+      "roles": {
+        "tests/survive-recovery-boundaries.test.mjs": "node",
+        "tests/survive-recovery-outcomes-runtime.mjs": "browser",
+        "tests/survive-recovery-owner-runtime.mjs": "browser",
+        "tests/survive-recovery-terminal.test.mjs": "node",
+        "tests/survive-results-seed-runtime.mjs": "browser",
+        "tests/survive-results-ui.test.mjs": "browser",
+        "tests/survive-together-layout.mjs": "browser",
+        "tests/survive-together-runtime.mjs": "browser",
+        "tests/survive-together-tracer.mjs": "mixed",
+        "tests/survive-together.test.mjs": "node",
+        "tests/wearables-render.test.mjs": "browser",
+        "tests/wearables.test.mjs": "node"
+      },
+      "browser": true,
+      "jobs": [
+        {
+          "id": "survive-recovery-boundaries-test",
+          "file": "tests/survive-recovery-boundaries.test.mjs",
+          "role": "node",
+          "requiredRealms": [
+            "node"
+          ],
+          "defaultBuildScope": "modules",
+          "artifactPatterns": []
+        },
+        {
+          "id": "survive-recovery-outcomes-runtime",
+          "file": "tests/survive-recovery-outcomes-runtime.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "defaultBuildScope": "production",
+          "artifactPatterns": []
+        },
+        {
+          "id": "survive-recovery-owner-runtime",
+          "file": "tests/survive-recovery-owner-runtime.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "defaultBuildScope": "production",
+          "artifactPatterns": [
+            "artifacts/survive-recovery-owner-failure.png",
+            "artifacts/survive-recovery-owner-flare.png",
+            "artifacts/survive-recovery-owner.json"
+          ]
+        },
+        {
+          "id": "survive-recovery-terminal-test",
+          "file": "tests/survive-recovery-terminal.test.mjs",
+          "role": "node",
+          "requiredRealms": [
+            "node"
+          ],
+          "defaultBuildScope": "modules",
+          "artifactPatterns": []
+        },
+        {
+          "id": "survive-results-seed-runtime",
+          "file": "tests/survive-results-seed-runtime.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "defaultBuildScope": "production",
+          "artifactPatterns": []
+        },
+        {
+          "id": "survive-results-ui-test",
+          "file": "tests/survive-results-ui.test.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "defaultBuildScope": "modules",
+          "artifactPatterns": []
+        },
+        {
+          "id": "survive-together-layout",
+          "file": "tests/survive-together-layout.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "defaultBuildScope": "production",
+          "artifactPatterns": [
+            "artifacts/survive-together-layout.json",
+            "artifacts/survive-together-*-*x*.png"
+          ]
+        },
+        {
+          "id": "survive-together-runtime",
+          "file": "tests/survive-together-runtime.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "defaultBuildScope": "production",
+          "artifactPatterns": [
+            "artifacts/survive-market-wardrobe-240.png"
+          ]
+        },
+        {
+          "id": "survive-together-tracer",
+          "file": "tests/survive-together-tracer.mjs",
+          "role": "mixed",
+          "requiredRealms": [
+            "node",
+            "browser"
+          ],
+          "defaultBuildScope": "production",
+          "artifactPatterns": []
+        },
+        {
+          "id": "survive-together-test",
+          "file": "tests/survive-together.test.mjs",
+          "role": "node",
+          "requiredRealms": [
+            "node"
+          ],
+          "defaultBuildScope": "modules",
+          "artifactPatterns": []
+        },
+        {
+          "id": "wearables-render-test",
+          "file": "tests/wearables-render.test.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "defaultBuildScope": "modules",
+          "artifactPatterns": []
+        },
+        {
+          "id": "wearables-test",
+          "file": "tests/wearables.test.mjs",
+          "role": "node",
+          "requiredRealms": [
+            "node"
+          ],
+          "defaultBuildScope": "modules",
+          "artifactPatterns": []
+        }
+      ],
+      "provenance": "Unchanged complete remaining12 production jobs after recovery matrix; diagnostic suffix only, not full collection"
     }
   },
   "pendingAdapters": [
@@ -3627,7 +3816,8 @@
         ],
         "defaultBuildScope": "production",
         "artifactPatterns": [
-          "artifacts/survive-together-layout.json"
+          "artifacts/survive-together-layout.json",
+          "artifacts/survive-together-*-*x*.png"
         ]
       },
       {
