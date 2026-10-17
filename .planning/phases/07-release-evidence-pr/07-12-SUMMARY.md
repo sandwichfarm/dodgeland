@@ -85,6 +85,8 @@ Retained full failures: guidance10259, cross-mode51722, local-session23954, paus
 
 ## Exact sorted shortfalls
 
+Self-check passed: pinned report files/digests, exact terminal log, source/closure hashes, restored files and cited implementation commits verified; independent initial-report review/root acceptance received. No release-floor or skipped-conformance scope is represented as passed.
+
 ```text
 browser-presentation-owner-lifecycle branches: 8375/9930; floor 85%
 development branches: 763/2821; floor 85%

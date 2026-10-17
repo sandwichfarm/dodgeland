@@ -4,7 +4,7 @@ import { loadSources } from './source-loader.mjs';
 
 const sources = await loadSources(['game', 'session']);
 after(() => sources.dispose());
-const { Game } = await sources.import('game');
+const { Game, actorPositions } = await sources.import('game');
 const { LocalSession } = await sources.import('session');
 
 function setup() {
@@ -31,6 +31,10 @@ function state(session) {
 
 test('reclaim rejects cross-session and forged original-device tickets without mutating either traveler', () => {
   const { session } = setup(), other = setup().session;
+  assert.notEqual(session.id, other.id, 'same-seed sessions have distinct lifecycle identities');
+  assert.notEqual(session.players[1].participantId, other.players[1].participantId);
+  assert.deepEqual([...session.world.rows], [...other.world.rows], 'lifetime allocation preserves seeded terrain and actors');
+  assert.equal(session.world.time, other.world.time);
   assert.equal(session.deviceLost('p2'), true);
   assert.equal(other.deviceLost('p2'), true);
   const ticket = session.deviceReclaimToken('p2');
@@ -48,4 +52,22 @@ test('reclaim rejects cross-session and forged original-device tickets without m
   const settled = state(session);
   assert.equal(session.reclaim('p2', 'gamepad-8', ticket), false);
   assert.equal(state(session), settled, 'consumed ticket cannot rebind a second time');
+});
+
+test('lifetime allocation does not consume course generation or inventory randomness', () => {
+  const first = setup(), second = setup();
+  for (const { game, session } of [first, second]) {
+    session.world.noteProgress(120);
+    game.ensureRows();
+    for (const player of session.players) player.run.advanceScore(100);
+  }
+  assert.deepEqual([...first.session.world.rows], [...second.session.world.rows]);
+  const firstActors = [...first.session.world.rows.values()].map(lane => actorPositions(lane, 20));
+  const secondActors = [...second.session.world.rows.values()].map(lane => actorPositions(lane, 20));
+  assert.ok(firstActors.some(actors => actors.length > 0));
+  assert.deepEqual(firstActors, secondActors, 'future actors retain exact seeded positions');
+  for (let i = 0; i < 2; i++) {
+    assert.deepEqual(first.session.players[i].run.market, second.session.players[i].run.market);
+    assert.deepEqual(first.session.players[i].run.cards, second.session.players[i].run.cards);
+  }
 });

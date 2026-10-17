@@ -599,6 +599,9 @@ class ConsumableWorld implements GameWorldExtension {
   dispose(): void { this.pickups.clear(); this.charges.clear(); this.claims.clear(); this.actions.clear(); this.game = undefined; }
 }
 
+// Lifecycle identity is distinct from deterministic course identity. Never consume course RNG.
+let nextSessionLifetime = 1;
+
 export class LocalSession {
   readonly definition: ModeDefinition;
   readonly world: SharedWorld;
@@ -627,7 +630,7 @@ export class LocalSession {
     if (!Number.isInteger(this.config.capacity) || this.config.capacity < 1 || this.config.capacity > 4) throw new RangeError('Session capacity must be a validated integer from one through four.');
     if (players.length < 1 || players.length > this.config.capacity || new Set(players.map(player => player.seat)).size !== players.length || new Set(players.map(player => player.device)).size !== players.length || new Set(players.map(player => player.characterId)).size !== players.length) throw new TypeError('A local session needs unique stable seats, devices, and characters within its configured capacity.');
     if (options.mode && options.mode.definition !== world.definition) throw new TypeError('A session mode must compose the exact live world definition.');
-    this.world = world; this.roster = [...players].sort((a, b) => a.seat.localeCompare(b.seat)); this.definition = world.definition; this.mode = options.mode; this.id = `local-${world.seed.toString(36)}-${world.simulationTick}`; this.lifecycleHandler = options.onLifecycle ?? (() => {});
+    this.world = world; this.roster = [...players].sort((a, b) => a.seat.localeCompare(b.seat)); this.definition = world.definition; this.mode = options.mode; this.id = `local-${world.seed.toString(36)}-${world.simulationTick}-${nextSessionLifetime++}`; this.lifecycleHandler = options.onLifecycle ?? (() => {});
   }
 
   get players(): readonly SessionPlayer[] { return this.roster; }
