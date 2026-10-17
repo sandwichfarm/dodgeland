@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: 07-03 meaningful coverage closure; full enforcing report pending
-last_updated: "2026-10-17T05:02:12Z"
+last_updated: "2026-10-17T05:17:34Z"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,7 +12,7 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Genuine DEV artifact/applicability proof and authentic-hazard Revival verified in both builds; enforcing coverage remains open.
+last_activity_desc: Existing Race item and Relay ownership journeys now have verified mode attribution; complete current-source refresh next.
 ---
 
 # Project State
@@ -182,9 +182,26 @@ in each build. DEV raw1316/2122L421/694F1327/2823B, applicable
 1316/2104L421/679F1327/2794B. No excluded-hit contradiction or floor claim.
 See07-03-RECOVERY-HAZARD-JOURNEY.md for fixture failures and exact provenance.
 
-Current runtime: idle. Root and independent scoped review accept the DEV proof
-and recovery journey. Both workers released runtime; no further test chain is
-active. All remaining release obligations below remain open.
+Turn item chain91193 passed: whole ordinary Race18/18 +Relay12/12 and the same
+30 canonical cases, run `eb412c10-945b-446c-92bc-923142857c05`. It binds23 actual
+Race lifetimes/70 component intervals and one public Relay paid-pack/sale/owner
+interval; two Node parents and all14 original Relay browser realms remain.
+Independent review's non-unique Relay marker finding was corrected before runs.
+All43 prior temporary outputs and normal dist were preserved. No source/policy
+change or excluded-hit contradiction. See07-03-TURN-ITEM-OWNERSHIP.md.
+
+Current diagnostic mode union `/tmp/down-to-duck-mode-union-item-ownership.json`
+now has applicable Relay1901/2159L626/718F1964/2893B and
+Race1990/2222L667/769F2193/3141B. Gains are4L/7F/14B and38L/13F/52B respectively;
+solo counts stay as above. This remains a diagnostic, not enforced acceptance.
+A54-terminal-report global diagnostic matches source/map/schema and skips older
+changed main/session files. The diagnostic is below main/session targets, but older witnesses are omitted;
+those ratios alone cannot establish which behavior gaps remain. A complete current-source refresh is now the next evidence step,
+while mode gaps and semantic review remain open.
+
+Current runtime: idle. Scoped source review and all30 ordinary/canonical cases
+passed. Root recording evidence and preparing the complete refresh. All remaining
+release obligations below remain open.
 
 ## Next required work
 

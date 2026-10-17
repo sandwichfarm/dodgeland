@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createMarketGameFixture, sessionHudAction } from './market-game-fixture.mjs';
 import { loadSources } from './source-loader.mjs';
+import { snapshotRealm, recordInterval } from '../tools/release-coverage/browser.mjs';
 
 test('visible seeded 49/50/51 hops carry a fractional platform baton through the unchanged built world', {timeout:120000}, async()=>{
  const evidence={errors:[],external:[],checkpoints:[]};
@@ -203,9 +204,22 @@ test('mixed keyboard/controller Relay preserves per-seat calls, fresh boards, re
 test('paid Relay pack and sale remain with active owner while inactive inspection clears all draft selections', {timeout:45000}, async()=>{
  const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{auditBoundary:true});
  const settle=()=>app.advance(300), snapshot=()=>app.onSession(function(){return this.players.map(p=>({seat:p.seat,wallet:p.run.wallet,cards:p.run.cards,pending:p.run.pendingPack}));});
+ const observe=async()=>{
+  const game=await app.onGame(function(){return {base:this.definition.id,state:this.state};});
+  const actual=await app.onSession(function(){return {base:this.definition.id,kind:this.mode?.handlers.retainDeadDevice?'race':this.mode?.handlers.canAct?'relay':'other',participants:this.players.length,sessionId:this.id,active:this.active};});
+  const ownership=await app.sessionOwnership();
+  assert.equal(actual.base,'stroll');assert.equal(game.base,actual.base);assert.equal(game.state,'playing');assert.equal(actual.kind,'relay');assert.equal(actual.active,true);
+  assert.equal(ownership.sessionActive,true);assert.equal(ownership.playerSessionAbsent,false);assert.ok(ownership.sessionBindings>0);assert.equal(ownership.stageBindings,0);
+  assert.equal(await app.frame.locator('#app').getAttribute('data-run-state'),'playing');
+  return {mode:'relay',base:game.base,kind:actual.kind,state:game.state,participants:actual.participants,sessionId:actual.sessionId};
+ };
  async function inspect(source,id){if(await app.frame.locator('#market-inspect').isVisible()){await app.frame.locator('#market-inspect-back').click();await settle();}const tile=app.frame.locator(`[data-market-action="inspect"][data-id="${source}:${id}"]`);for(let i=0;i<10&&!await tile.isVisible();i++){await app.frame.locator('#market-next').click();await settle();}await tile.click();await app.frame.locator('#market-inspect-action').click();await settle();}
  try{
-  await start(app);await app.onSession(function(){for(const p of this.players){const r=p.run;r.advanceScore(100);r.creditCoins(600);r.open();for(const id of ['magnet','traffic-speed','platform-length']){const item=r.catalog.get(id);r.market.offers=[{id,itemId:id,price:item.price,sold:false,section:'cards'}];if(!r.buy(id).ok)throw Error('prior inventory');}const item=r.catalog.get('pack-satchel');r.market.offers=[{id:'paid-pack',itemId:item.id,price:item.price,sold:false,section:'extras'}];r.state=0;r.revision++;if(p.seat==='p2'&&!r.buy('paid-pack').ok)throw Error('prior paid draft');r.close();}});await settle();await app.frame.locator('#market-open').click();await settle();
+  await start(app);await app.onSession(function(){for(const p of this.players){const r=p.run;r.advanceScore(100);r.creditCoins(600);r.open();for(const id of ['magnet','traffic-speed','platform-length']){const item=r.catalog.get(id);r.market.offers=[{id,itemId:id,price:item.price,sold:false,section:'cards'}];if(!r.buy(id).ok)throw Error('prior inventory');}const item=r.catalog.get('pack-satchel');r.market.offers=[{id:'paid-pack',itemId:item.id,price:item.price,sold:false,section:'extras'}];r.state=0;r.revision++;if(p.seat==='p2'&&!r.buy('paid-pack').ok)throw Error('prior paid draft');r.close();}});await settle();
+  // Attribute actual owner UI actions only; the pre-owned hand, offers and
+  // funds above remain explicit arrangements outside the measured interval.
+  const beforeInterval=await snapshotRealm(app.frame,await observe());
+  await app.frame.locator('#market-open').click();await settle();
   const before=await snapshot();await inspect('offer','paid-pack');const paid=await snapshot();assert.ok(paid[0].pending);assert.ok(paid[0].wallet<before[0].wallet);assert.deepEqual(paid[1],before[1]);
   const choice=await app.onSession(function(){const r=this.players[0].run;return r.pendingPack.choices.find(c=>r.previewPack([c.id],[r.cards[0].id]).capacity===r.cardCapacity);});await captureOwnerSurface(app,'paid-pack');await inspect('choice',choice.id);await app.frame.locator('#market-claim').click();await settle();await inspect('discard',paid[0].cards[1].id);
   await app.frame.locator('#market-owner-strip [data-id="p2"]').click();await settle();assert.equal(await app.frame.locator('#market-inspect').isVisible(),false);assert.equal(await app.frame.locator('#run-hand-detail').isVisible(),false);assert.deepEqual(await snapshot(),paid);assert.equal(await app.frame.locator('#market-close').isVisible(),true);await captureOwnerSurface(app,'readonly');await app.frame.locator('#market-close').click();await settle();assert.equal(await app.frame.locator('#market').isVisible(),false);assert.deepEqual(await snapshot(),paid);await app.frame.locator('#market-open').click();await settle();
@@ -213,6 +227,11 @@ test('paid Relay pack and sale remain with active owner while inactive inspectio
   await app.frame.locator('#market-owner-strip [data-id="p1"]').click();await settle();assert.match(await app.frame.locator('#market-pick-count').innerText(),/0\s*\/\s*1/);assert.deepEqual(await snapshot(),paid);
   await inspect('choice',choice.id);await app.frame.locator(`[data-hand-card="${paid[0].cards[0].id}"]`).click();await settle();await app.frame.locator('#run-hand-sell').click();await settle();const sold=await snapshot();assert.equal(sold[0].wallet,paid[0].wallet+paid[0].cards[0].saleValue);assert.deepEqual(sold[0].pending,paid[0].pending);assert.deepEqual(sold[1],paid[1]);
   await app.frame.locator('#market-claim').click();await settle();const claimed=await snapshot();assert.equal(claimed[0].pending,null);assert.deepEqual(claimed[0].cards.map(c=>c.id),[...paid[0].cards.slice(1).map(c=>c.id),choice.id]);assert.deepEqual(claimed[1],paid[1]);await boundaryEvidence(app,evidence);
+  await app.frame.locator('#market-close').click();await app.advance(350);
+  if(await app.onGame(function(){return this.state==='paused';}))await app.key('pause');
+  assert.deepEqual(await snapshot(),claimed,'closing the market retains both owners and the selected pack result');
+  const afterInterval=await snapshotRealm(app.frame,await observe());
+  if(beforeInterval)recordInterval(beforeInterval,afterInterval,'relay-paid-pack-sale-owner');
  }finally{await app.close();}
 });
 

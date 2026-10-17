@@ -8,7 +8,7 @@ after(sources.dispose);
 const { Game } = await sources.import('game');
 const { createRaceSession, RaceCoordinator } = await sources.import('race');
 
-const reuse=await turnReuseAttribution({mode:'race',factory:createRaceSession,Coordinator:RaceCoordinator,lifetimes:1});
+const reuse=await turnReuseAttribution({mode:'race',factory:createRaceSession,Coordinator:RaceCoordinator,lifetimes:23});
 after(()=>reuse.finish());
 
 test('common world dependency: installed capability must not grant legacy Revival capacity', async () => {
@@ -84,20 +84,22 @@ test('Race captures race-item-schema-1 and installs only its common-system catal
 
 const { RACE_DROP_SCHEMA, RACE_ITEM_SCHEMA } = await sources.import('race-items');
 const { sampleItemDrop, classifyItemBucket, consumableSchema } = await sources.import('consumable-drops');
-function raceRun(seed=113, count=2) {
+function raceRun(seed=113, count=2, witness) {
   const game=new Game(seed,'pond','arcade',false,[],'butter');
   const seats=[['p1','butter','keyboard-a'],['p2','pip','keyboard-b'],['p3','sunny','gamepad-0'],['p4','petal','gamepad-1']].slice(0,count).map(([seat,characterId,device])=>({seat,characterId,device}));
-  const race=createRaceSession(game,{seats});
+  const race=(witness?witness.acquire:createRaceSession)(game,{seats});
   return {game,race,session:race.session};
 }
 function flat(run){for(const lane of run.game.rows.values())Object.assign(lane,{kind:'meadow',blocked:[],coin:null,decorations:[]});return run;}
 function locate(p,x,y){p.x=p.fromX=x;p.y=p.fromY=y;p.hop=0;}
 function step(run,n=1){for(let i=0;i<n;i++)run.session.update(1/120);}
 function seedFor(item){for(let seed=0;seed<100000;seed++)if(sampleItemDrop(RACE_DROP_SCHEMA,{courseSeed:seed,row:1,slot:0}).itemId===item)return seed;throw Error('bounded seed search exhausted');}
-function collected(item,seat='p1'){
-  const run=flat(raceRun(seedFor(item))),pickup=run.session.consumableSnapshot().pickups.find(p=>p.itemId===item&&p.row===1);
-  assert.ok(pickup);const p=run.session.players.find(p=>p.seat===seat);locate(p,pickup.x,pickup.y);step(run);
-  assert.equal(run.session.consumableSnapshot().charges.find(c=>c.seat===seat)[item],1);
+function measured(witness,id,action){return witness?witness.interval(id,action):action();}
+function collected(item,seat='p1',witness){
+  const run=flat(raceRun(seedFor(item),2,witness)),pickup=run.session.consumableSnapshot().pickups.find(p=>p.itemId===item&&p.row===1);
+  assert.ok(pickup);const p=run.session.players.find(p=>p.seat===seat);locate(p,pickup.x,pickup.y);
+  measured(witness,'collect-item',()=>{step(run);
+  assert.equal(run.session.consumableSnapshot().charges.find(c=>c.seat===seat)[item],1);});
   return run;
 }
 function observation(run){return JSON.stringify({world:run.session.consumableSnapshot(),players:run.session.players.map(p=>({seat:p.seat,wallet:p.run.wallet,stats:p.statistics,health:p.health,x:p.x,y:p.y,earned:p.earnedDistance,cooldown:p.hopCooldown})),fog:run.session.players.map(p=>run.race.fogState(p.seat))});}
@@ -115,22 +117,27 @@ test('schema exact 1:1250 distinct bucket counts and malformed unknown versions 
 
 test('default gravity magnet rejection and contested claim use one common world',()=>{
   for(const item of ['mud-splash','fog-lantern'])for(const reversed of [false,true]){
-    const run=flat(raceRun(seedFor(item))),pickup=run.session.consumableSnapshot().pickups.find(p=>p.row===1&&p.itemId===item);
+    const witness=reuse.lifetime();
+    const run=flat(raceRun(seedFor(item),2,witness)),pickup=run.session.consumableSnapshot().pickups.find(p=>p.row===1&&p.itemId===item);
     for(const p of run.session.players)locate(p,pickup.x,pickup.y);
-    if(reversed)run.session.roster.reverse();step(run);
+    if(reversed)run.session.roster.reverse();
+    witness.interval('contested-claim',()=>{step(run);
     assert.equal(run.session.consumableSnapshot().claims.find(c=>c.pickupId===pickup.id).seat,'p1');
-    step(run);assert.equal(run.session.players.find(p=>p.seat==='p1').statistics.itemsFound,1);
+    step(run);assert.equal(run.session.players.find(p=>p.seat==='p1').statistics.itemsFound,1);});witness.finish();
   }
   for(const magnet of [0,20]){
-    const run=flat(raceRun(seedFor('mud-splash'))),pickup=run.session.consumableSnapshot().pickups.find(p=>p.row===1&&p.itemId==='mud-splash');
+    const witness=reuse.lifetime();
+    const run=flat(raceRun(seedFor('mud-splash'),2,witness)),pickup=run.session.consumableSnapshot().pickups.find(p=>p.row===1&&p.itemId==='mud-splash');
     const p=run.session.players[0];locate(p,pickup.x+.7,pickup.y);p.run.effects.coinRadius=magnet;locate(run.session.players[1],4,0);
-    step(run);assert.deepEqual(run.session.consumableSnapshot().pickups.find(p=>p.id===pickup.id),pickup,'magnet cannot pull outside default reach');
-    locate(p,pickup.x+.5,pickup.y);step(run,60);assert.equal(run.session.consumableSnapshot().charges.find(c=>c.seat==='p1')['mud-splash'],1);
+    witness.interval('magnet-no-pull',()=>{step(run);assert.deepEqual(run.session.consumableSnapshot().pickups.find(p=>p.id===pickup.id),pickup,'magnet cannot pull outside default reach');});
+    locate(p,pickup.x+.5,pickup.y);witness.interval('default-gravity-claim',()=>{step(run,60);assert.equal(run.session.consumableSnapshot().charges.find(c=>c.seat==='p1')['mud-splash'],1);});witness.finish();
   }
 });
 
 test('Mud Splash atomic real use delays next hop only for two active seconds',()=>{
-  const run=collected('mud-splash'),[owner,target]=run.session.players;
+  const witness=reuse.lifetime();
+  const run=collected('mud-splash','p1',witness),[owner,target]=run.session.players;
+  witness.interval('mud-use-replay-expiry',()=>{
   const before={wallet:owner.run.wallet,health:target.health,x:target.x,y:target.y,earned:target.earnedDistance,boundary:run.race.fogBoundary};
   const plan=run.race.items.plan('p1','mud-splash','p2');assert.equal(plan.ok,true);
   const prior=observation(run);assert.equal(observation(run),prior);assert.equal(run.race.items.commit(plan),true);
@@ -138,16 +145,18 @@ test('Mud Splash atomic real use delays next hop only for two active seconds',()
   assert.equal(target.hopCooldown.multiplier,1.35);assert.equal(owner.statistics.itemsUsed,1);
   assert.equal(run.session.consumableSnapshot().uses.length,1);const committed=observation(run);
   assert.equal(run.race.items.commit(plan),false);assert.equal(observation(run),committed);
-  step(run,239);assert.equal(target.hopCooldown.multiplier,1.35);step(run,2);assert.equal(target.hopCooldown.multiplier,1);
+  step(run,239);assert.equal(target.hopCooldown.multiplier,1.35);step(run,2);assert.equal(target.hopCooldown.multiplier,1);});witness.finish();
 });
 
 test('Fog Lantern self-only resets exposure protects fog for three active seconds but not health damage',()=>{
-  const run=collected('fog-lantern'),owner=run.session.players[0];
+  const witness=reuse.lifetime();
+  const run=collected('fog-lantern','p1',witness),owner=run.session.players[0];
+  witness.interval('lantern-use-damage-pause-expiry',()=>{
   const plan=run.race.items.plan('p1','fog-lantern');assert.equal(plan.ok,true);assert.equal(run.race.items.commit(plan),true);
   assert.equal(run.race.fogState('p1').exposure,0);assert.equal(run.race.fogState('p1').protectionUntil,run.race.elapsed+3);
   const before=owner.health;assert.equal(run.session.damage('p1',{cause:'traffic',amount:1,reason:'ordinary traffic'}).landed,1);assert.equal(owner.health,before-1);
   run.game.pause();const clock=run.race.elapsed;step(run,360);assert.equal(run.race.elapsed,clock);run.game.resume();
-  step(run,361);assert.ok(run.race.fogState('p1').protectionUntil<run.race.elapsed);
+  step(run,361);assert.ok(run.race.fogState('p1').protectionUntil<run.race.elapsed);});witness.finish();
 });
 
 test('stale wrong protected ghost departed dead out-of-range item attempts are mutation-free',()=>{
@@ -157,13 +166,16 @@ test('stale wrong protected ghost departed dead out-of-range item attempts are m
     r=>r.session.deviceLost('p1'),r=>r.race.command(r.race.actionToken('p1'),'leave'),
     r=>{r.session.players[1].state='dead';r.session.players[1].participation='dead';},
   ]){
-    const run=collected('mud-splash'),plan=run.race.items.plan('p1','mud-splash','p2');assert.equal(plan.ok,true);change(run);
-    const before=observation(run);assert.equal(run.race.items.commit(plan),false);assert.equal(observation(run),before);
+    const witness=reuse.lifetime(),run=collected('mud-splash','p1',witness);
+    const plan=witness.interval('plan-before-invalidation',()=>{const plan=run.race.items.plan('p1','mud-splash','p2');assert.equal(plan.ok,true);return plan;});change(run);
+    witness.interval('reject-invalidated-plan',()=>{const before=observation(run);assert.equal(run.race.items.commit(plan),false);assert.equal(observation(run),before);});witness.finish();
   }
-  const run=collected('mud-splash'),plan=run.race.items.plan('p1','mud-splash','p2');
+  const witness=reuse.lifetime(),run=collected('mud-splash','p1',witness);
+  witness.interval('reject-forged-actions',()=>{const plan=run.race.items.plan('p1','mud-splash','p2');
   for(const patch of [{expectedDevice:'gamepad-99'},{expectedParticipantId:'wrong'},{expectedOwnerGeneration:999},{expectedInventoryGeneration:999},{targetSeat:'p1'},{itemId:'revival'}]){
     const before=observation(run);assert.equal(run.session.useConsumable({...plan.action,...patch}),false);assert.equal(observation(run),before);
   }
+  });witness.finish();
 });
 
 test('fractional log landing collects both items with default gravity on actual generated river actors',()=>{
@@ -226,16 +238,20 @@ test('Race owner shop exact 30 price capacity stale wallet no-waste and explicit
 
 test('protected claims and purchases reject while ghost departure preserve and actual death clears only owner items',()=>{
   for(const kind of ['protected','ghost','departed']){
-    const run=flat(raceRun(seedFor('mud-splash'))),p=run.session.players[0],pickup=run.session.consumableSnapshot().pickups.find(p=>p.row===1&&p.itemId==='mud-splash');locate(p,pickup.x,pickup.y);locate(run.session.players[1],4,0);
+    const witness=reuse.lifetime();
+    const run=flat(raceRun(seedFor('mud-splash'),2,witness)),p=run.session.players[0],pickup=run.session.consumableSnapshot().pickups.find(p=>p.row===1&&p.itemId==='mud-splash');locate(p,pickup.x,pickup.y);locate(run.session.players[1],4,0);
     if(kind==='protected')run.session.updateRecovery(p,v=>({...v,protectionUntil:run.session.world.time+10}));
+    witness.interval('ineligible-claim',()=>{
     if(kind==='ghost')run.session.deviceLost('p1');if(kind==='departed')run.session.depart('p1','confirmed-leave');step(run);
-    assert.equal(run.session.consumableSnapshot().charges.find(c=>c.seat==='p1')['mud-splash'],0);assert.ok(run.session.consumableSnapshot().pickups.some(c=>c.id===pickup.id));
+    assert.equal(run.session.consumableSnapshot().charges.find(c=>c.seat==='p1')['mud-splash'],0);assert.ok(run.session.consumableSnapshot().pickups.some(c=>c.id===pickup.id));});witness.finish();
   }
   for(const lifecycle of ['ghost','departed','death']){
-    const run=collected('mud-splash'),p=run.session.players[0];
-    if(lifecycle==='ghost')run.session.deviceLost('p1');else if(lifecycle==='departed')run.session.depart('p1','confirmed-leave');else{p.powerReadyAt=999;run.session.damage('p1',{cause:'fog',amount:99,reason:'fatal'});}
+    const witness=reuse.lifetime(),run=collected('mud-splash','p1',witness),p=run.session.players[0];
+    if(lifecycle==='death')p.powerReadyAt=999;
+    witness.interval('item-lifecycle',()=>{
+    if(lifecycle==='ghost')run.session.deviceLost('p1');else if(lifecycle==='departed')run.session.depart('p1','confirmed-leave');else{run.session.damage('p1',{cause:'fog',amount:99,reason:'fatal'});}
     assert.equal(run.session.consumableSnapshot().charges.find(c=>c.seat==='p1')['mud-splash'],lifecycle==='death'?0:1);
-    assert.equal(run.session.players[1].statistics.deaths,0);
+    assert.equal(run.session.players[1].statistics.deaths,0);});witness.finish();
   }
 });
 
