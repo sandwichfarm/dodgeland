@@ -1,0 +1,20 @@
+{
+  "status": "Retained real product RED;not release acceptance",
+  "cases": 2,
+  "passed": 0,
+  "failed": 2,
+  "command": "node tests/strict-node-tests.mjs tests/relay-world-effects.test.mjs",
+  "exit": 1,
+  "failure": "Paid School Zone leaves actual Relay traffic at its base speed in Arcade and Flow",
+  "sourcePins": {
+    "src/session.ts": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+    "src/relay.ts": "f5c1eea5b82e6e42d7b6bbc6a95f7f0d28aa7ad7468c4464e0217ab9f89e6c02",
+    "src/game.ts": "04d7556c96b37b03539f270c2ce2c8e2b620c301d729a1fd6238be8e66d9413b",
+    "src/shared-world-effects.ts": "715dce9a98a83c398aa3a3d43531568008a9cefaa9be8df766a921dd2eb43a45"
+  },
+  "testSourceSha256": "c16bc940220ce2a849d5167f978386d82069c3855199b3b9ea251a74935a7793",
+  "redLog": "artifacts/release-coverage/relay-effects-repair/red.log",
+  "redLogSha256": "8ba37bc96e100f484b62ef2e064a626d7e745b8fa15c245eea2478952ddce486",
+  "normalArtifactRawSha256": "9036d9a1f179b136569a3b400c412d954d783987c751832afbbbfda287c63539",
+  "rootLockRawSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d"
+}
