@@ -1055,7 +1055,11 @@
                 "arcade-market",
                 "arcade-terminal",
                 "arcade-actors",
-                "arcade-mobs"
+                "arcade-mobs",
+                "arcade-schema-1",
+                "arcade-schema-2",
+                "arcade-schema-3",
+                "arcade-paid-pickup-health-powers"
               ]
             },
             {
@@ -1068,7 +1072,11 @@
                 "stroll-market",
                 "stroll-terminal",
                 "stroll-actors",
-                "stroll-mobs"
+                "stroll-mobs",
+                "stroll-schema-1",
+                "stroll-schema-2",
+                "stroll-schema-3",
+                "stroll-paid-pickup-health-powers"
               ]
             }
           ]
@@ -1144,9 +1152,25 @@
                 [
                   "playing",
                   "settled"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
                 ]
               ],
-              "lifetimes": 2
+              "lifetimes": 3
             },
             {
               "mode": "race",
@@ -1190,9 +1214,25 @@
                 [
                   "playing",
                   "settled"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
                 ]
               ],
-              "lifetimes": 3
+              "lifetimes": 4
             }
           ]
         }
@@ -4370,7 +4410,11 @@
               "arcade-market",
               "arcade-terminal",
               "arcade-actors",
-              "arcade-mobs"
+              "arcade-mobs",
+              "arcade-schema-1",
+              "arcade-schema-2",
+              "arcade-schema-3",
+              "arcade-paid-pickup-health-powers"
             ]
           },
           {
@@ -4383,7 +4427,11 @@
               "stroll-market",
               "stroll-terminal",
               "stroll-actors",
-              "stroll-mobs"
+              "stroll-mobs",
+              "stroll-schema-1",
+              "stroll-schema-2",
+              "stroll-schema-3",
+              "stroll-paid-pickup-health-powers"
             ]
           }
         ]
@@ -4426,9 +4474,25 @@
               [
                 "playing",
                 "settled"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "settled"
               ]
             ],
-            "lifetimes": 2
+            "lifetimes": 3
           },
           {
             "mode": "race",
@@ -4472,9 +4536,25 @@
               [
                 "playing",
                 "settled"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "settled"
               ]
             ],
-            "lifetimes": 3
+            "lifetimes": 4
           }
         ]
       }
