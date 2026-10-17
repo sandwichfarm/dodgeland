@@ -5254,6 +5254,27 @@
         }
       ],
       "provenance": "Four actual composed Flow Relay/Race primary/secondary lifetimes; arranged starting damage and corridor,actual swept fatal contact,recovery,pause and settled249/250/251 hops. No direct progress,clock,cooldown or authority injection; no public-input claim."
+    },
+    "controller-guards-03": {
+      "files": [
+        "tests/session-input.test.mjs"
+      ],
+      "roles": {
+        "tests/session-input.test.mjs": "node"
+      },
+      "jobs": [
+        {
+          "id": "session-input-test",
+          "file": "tests/session-input.test.mjs",
+          "role": "node",
+          "requiredRealms": [
+            "node"
+          ],
+          "defaultBuildScope": "modules",
+          "artifactPatterns": []
+        }
+      ],
+      "provenance": "Whole original controller router suite plus five exported contract cases; injected snapshots/reentrant host callbacks,not physical device or public-UI evidence. No mode attribution or production changes."
     }
   },
   "pendingAdapters": [

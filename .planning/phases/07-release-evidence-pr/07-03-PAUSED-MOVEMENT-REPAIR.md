@@ -78,3 +78,25 @@ raw/global/per-file counters remain intact. The exact transition is:
 - inventoryAfter: `92a4572f0d38c4bfbf79d424e30d3dfca03b984fbb6c654cfaed5e390212da96`
 - developmentBefore: `935c3e5b6a253c0f1e0cf1ff3aef44d54de0bfc2ae9c98a9a8bcd766ec02d5e7`
 - developmentAfter: `f2c39da5fa89906882ab4af8cad11e3181ff18c1e1a90ad6325bbf805d6c8c17`
+
+## Terminal current-source verification
+
+Wrapper87218 completed0 at2026-10-17T15:56:21Z: eight project gates and all twelve
+fresh current-source cohorts pass. Source/test/tool/suite freeze is released.
+All83 prior temporary outputs,ordinary artifacts and rootlock5ac are preserved;
+normal raw artifact9036d9a1 is current. CLI conformance remains5pass/0fail/5
+unmeasured,not full supplemental protocol acceptance. Exact cohort IDs and
+frozen files are in PAUSED-MOVEMENT-PROOF.json.
+
+Four new actual Flow lifetimes bind28 intervals,spending real revival then earning
+249/250/251 through settled moves. Existing22-world/89-interval matrix and all
+whole reused/public/DEV jobs remain. A source/schema/disposition-identical fresh
+union binds Relay31 component lifetimes/88 component intervals+two public and
+Race63/206+eight public. Relay1943/2104L641/710F2063/2793B still needs312B;
+Race2022/2163L686/758F2316/3032B still needs262B. No old-Game counter is merged.
+
+Both Solo diagnostic strata exceed their configured floors: Arcade1168/1208L,
+276/295F,1216/1406B;Flow1030/1068L,254/275F,1069/1231B. These are diagnostic
+unions independently checked against each strict cohort's metrics,complete
+canonical inventory byte identity,mapped schemas and exact dispositions. Full
+current enforcing release and complete semantic review remain required.

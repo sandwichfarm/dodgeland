@@ -1,6 +1,6 @@
 # Controller guard semantics prepared during the paused-movement refresh
 
-Read-only source review; no new execution,source exclusion or counter claim.
+Initial source review preceded execution. The later executed evidence below is separate; no source exclusion or counter suppression is introduced.
 Source session-input.ts e42c0af8 is unchanged. Initial source-mapped schema
 69cb172abebe20a1faefadb8709e5b1346323153028f950056586ccfdb394455 and the
 full51a4bea2 remaining-zero counts identify these exact gaps. Requirements
@@ -62,3 +62,46 @@ paused-movement repair. All raw/global/file/mode counters and numeric floors sta
 intact. Initial semantic review now records163 annotated arms:162 covered plus
 one reviewed application-unreachable private default;888 still pending. Eleven
 prepared input witnesses above remain unexecuted and gain no covered annotation.
+
+## Executed controller guards
+
+The whole existing input suite now passes22/22 ordinary and22/22 canonical:
+7f0adde8-426b-45c8-95cb-18743e6ab45d,one Node parent,no browser/device or mode
+claim. All17 original cases remain a byte-identical prefix of the file; five
+exported component contract cases were appended. No production source changed.
+
+The cases retain the same sanitized identity across blank labels and directional
+changes,prevent held movement from crossing fresh/repeat context changes,forget
+only the explicitly released returning reservation,preserve other seats,and
+retain a newly observed lease across stale outer cleanup. A replacement hint
+without the corresponding reservation grants no input or reclaim authority.
+Repeated close delivers no second teardown. The reentrant case asserts current
+lease preservation only,not physical-shell reentry or universal callback safety.
+
+| Initial branch/arm | Source line | Canonical count | Meaning |
+| --- | --- | ---: | --- |
+|4/4|83|1|Right-held D-pad diagonal evaluates the existing right priority.|
+|14/3|90|2|Equal analog magnitudes preserve right priority until neutral.|
+|17/1|96|8|Blank/control-only names use the stable unknown-controller label.|
+|29/1|139|2|Assigning P3 does not erase absent P1's reservation.|
+|36/1|165|1|A returned unassigned lease has no current seat to clear.|
+|37/0|166|1|Release clears that lease's remembered reclaim seat.|
+|43/0|185|1|A repeat that opens a context seeds held state immediately.|
+|44/0|193|1|A second close is harmless.|
+|55/1|236|1|Stale cleanup leaves the replacement lease in its current slot.|
+|71/1|271|1|An unsupported reservation hint remains unassigned.|
+|82/0|308|1|A fresh direction that opens a context seeds held state.|
+
+Source e42c0af8,map83a4cfad,canonical initial schema69cb172a and mapped schema
+9b981f96 match current disk/initial identity. CONTROLLER-GUARD-PROOF.json retains
+full hashes,exact sites/counts,original prefix check,manifest identity and logs.
+Private52/0 remains zero with its separately proved application disposition and
+full raw denominator. All26 initial controller-router arms are now semantically
+reviewed:25 have source-identical behavioral evidence,one is the private default.
+Overall initial ledger totals become174 annotated(173 covered,one reviewed
+private default),877 pending. This is not a full enforcing release pass.
+
+Normal raw9036d9a1 and rootlock5ac remain intact. Full execution inventory still
+resolves143 entries/150 closure paths,155 production jobs and nine executable
+controls. The focused group reuses the whole existing session-input job; no
+original job,source,dependency,floor or stratum is removed.

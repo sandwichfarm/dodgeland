@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-03 paused secondary movement repaired; current-source verification live87218
-last_updated: "2026-10-17T15:51:11.640032+00:00"
+stopped_at: 07-03 pause repair fully refreshed; eleven controller guards now have canonical proof
+last_updated: "2026-10-17T16:01:42.633430+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,7 +12,7 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Actual249/250/251 journeys exposed paused secondary hop;62+14 gameplay and102 controls pass; twelve-cohort refresh live.
+last_activity_desc: All12 pause-refresh cohorts pass;22 controller tests add11 verified initial arms;174 annotated877 pending; mode branch floors remain open.
 ---
 
 # Project State
@@ -20,11 +20,11 @@ last_activity_desc: Actual249/250/251 journeys exposed paused secondary hop;62+1
 ## Current work
 
 Latest source transition: Game04d7556c fixes paused secondary movement; Session399
-and all other src files are unchanged. Normal rebuild/current-source verification
-is LIVE87218 as recorded at the latest checkpoint below. The earlier a05 normal
+and all other src files are unchanged. Current-source verification87218
+is terminal0 as recorded at the latest checkpoint below. The earlier a05 normal
 artifact and every f783 Game diagnostic remain historical; do not merge them with
-the repaired Game. Exact new artifact digest is in the live wrapper state after
-its build gate. No fresh full enforcing release result is claimed.
+the repaired Game. Exact current normal raw artifact is9036d9a1 as recorded in
+PAUSED-MOVEMENT-PROOF.json. No fresh full enforcing release result is claimed.
 
 
 07-12 is complete. Its immutable initial report is run
@@ -38,7 +38,7 @@ jump/load (71b5dc6), and a disconnected owner's retained coin claim (RED0638b42,
 repair7e71ab1). All have retained RED/GREEN evidence. Required
 type/build/guidance checks pass. Conformance remains five
 passes, zero failures and five unmeasured checks. Normal build raw SHA256:
-`a05e47ef1572fd544b5a0d10bc83f33d313effb925b3f4a8e1ef2bdd8f17cc4a`.
+`9036d9a1f179b136569a3b400c412d954d783987c751832afbbbfda287c63539`.
 Current session source is `399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9`;
 all older session measurements below retain their historical identities and
 cannot be merged into the current source. Focused canonical refresh passed; the current complete report-only collection
@@ -780,19 +780,44 @@ See CONTROLLER-GUARD-REVIEW/DEFAULT-AUDIT. Current normal raw artifact is9036d9a
 as produced by the already-passing build gate; oldera05 is historical.
 
 Repair808340b is committed. Wrapper87218 is still authoritatively live; all eight
-project gates and first ten cohorts pass. Production Race/public and final DEV
-lifecycle still run serially. All frozen bytes remain untouched. Once terminal,
+project gates and first eleven cohorts pass. Production Race/public is terminal0;
+only the final DEV lifecycle cohort remains running. All frozen bytes remain untouched. Once terminal,
 first finalize current-source proof/metrics and release freeze,then append/run
 five prepared controller cases and collect the existing whole input job. Read-only
 PLANNED-SEAT-SCOPE-FINDING documents constructor candidate boundaries only; it
 authorizes no new disposition and must not replace the executable follow-up.
 
+Authoritative terminal87218: all eight gates/twelve fresh cohorts pass at15:56:21Z,
+all frozen bytes and83 prior outputs preserved; freeze RELEASED,no chain remains.
+Normal9036d9a1 is current. Both Solo diagnostic floors now pass:Arcade1168/1208L
+276/295F1216/1406B;Flow1030/1068L254/275F1069/1231B. Fresh turn union:Relay
+1943/2104L641/710F2063/2793B needs312B;Race2022/2163L686/758F2316/3032B needs262B.
+These independently match strict cohort metrics,complete canonical inventory and
+mapped schemas; no changed-Game historical data. Full enforcing acceptance is
+still pending. Next run the five prepared controller guards,then bind actual
+source-identical witnesses before reducing semantic pending counts.
+
+Controller follow-up is terminal0,69483: whole suite22/22 ordinary and canonical
+7f0adde8;17 old cases are a byte-identical prefix,five real component cases added.
+Eleven source/map/schema-identical initial zeros now execute. Router initial26
+arms are all reviewed(25covered+one private default kept rawzero). Ledger totals
+now174 annotated(173covered+one private default),877 pending. No production,
+dependency,scope,denominator or floor change; normal903/rootlock5ac unchanged.
+Manifest still143 entries/150 closure paths,155 production jobs/nine controls.
+CONTROLLER-GUARD-REVIEW/PROOF retain exact conditions/counts. No chain/freeze remains.
+Next prioritize genuine Relay/Race behavioral gaps and full semantic review. A
+useful acquisition candidate is invalid roster/settings attempts followed by a
+valid start on the same unchanged Game,then actual play; inspect existing setup
+validators/factory suites before adding tests. Do not give pure helper-only or
+whole mixed-worker execution mode credit. Constructor scope remains read-only
+pending full value-flow/negative controls. No final enforcing release pass yet.
+
 ## Next required work
 
 1. Complete07-03: broad honest Solo/Relay/Race and development evidence,
    remaining per-file gaps, complete semantic ledger, then a fresh enforcing
-   full report. Keep all floors.163 initial zero arms have source-identical
-   semantic annotations(162 covered,one reviewed private default);888 still need completed semantic/behavioral proof,
+   full report. Keep all floors.174 initial zero arms have source-identical
+   semantic annotations(173 covered,one reviewed private default);877 still need completed semantic/behavioral proof,
    including six source-reviewed market candidates awaiting evidence. Genuine fresh
    bootstrap proof now exists; all unions before full collection are diagnostic.
 2. Execute07-04 conformance proof,07-05 clause/visual evidence,07-06 exact final

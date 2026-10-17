@@ -2,6 +2,17 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Current executed controller guards
+
+INPUT-01/02/04/05/06,TEST-02: all17 old router cases remain verbatim; five new
+component cases pass in22/22 ordinary and canonical7f0adde8. Eleven initial-zero
+arms now have source/map/schema-identical positive counts and explicit behavior
+in CONTROLLER-GUARD-REVIEW/PROOF. All26 initial router arms are reviewed:25
+covered,one private application-unreachable default retained as raw zero. No
+production/source-scope/floor change or mode/device/public-UI claim follows.
+Current overall totals:174 annotated(173 covered,one reviewed private default),
+877 pending. All earlier163/888 and162/889 totals below are historical.
+
 ## Current controller-default semantic review
 
 INPUT-04/TEST-02: unchanged session-input initial52/0 is a private default whose
@@ -1225,25 +1236,25 @@ Source `e42c0af885310c699a275aa819c7d66d6902e20164db08cacacf5aee7017da9f`; schem
 | Branch | Source line | Zero arms | Baseline counts | Disposition |
 |---|---:|---|---|---|
 |3|83|0|[0, 227]|[covered arms 0](07-03-LEDGER-REVIEW.md#controller-router)|
-|4|83|2,3,4|[227, 40, 0, 0, 0]|[covered arms 2,3](07-03-LEDGER-REVIEW.md#controller-router); pending arms 4|
+|4|83|2,3,4|[227, 40, 0, 0, 0]|[covered arms 2,3](07-03-LEDGER-REVIEW.md#controller-router); [covered arm 4](07-03-CONTROLLER-GUARD-REVIEW.md#executed-controller-guards)|
 |5|83|0,1|[0, 0]|[covered arms 0,1](07-03-LEDGER-REVIEW.md#controller-router)|
 |9|86|1|[3809, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#controller-router)|
 |10|87|1|[3809, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#controller-router)|
 |13|90|1|[2, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#controller-router)|
-|14|90|1,2,3|[2, 0, 0, 0]|[covered arms 1,2](07-03-LEDGER-REVIEW.md#controller-router); pending arms 3|
+|14|90|1,2,3|[2, 0, 0, 0]|[covered arms 1,2](07-03-LEDGER-REVIEW.md#controller-router); [covered arm 3](07-03-CONTROLLER-GUARD-REVIEW.md#executed-controller-guards)|
 |15|90|0|[0, 2]|[covered arms 0](07-03-LEDGER-REVIEW.md#controller-router)|
 |16|91|0,1|[0, 0]|[covered arms 0,1](07-03-LEDGER-REVIEW.md#controller-router)|
-|17|96|1|[2492, 0]|pending|
+|17|96|1|[2492, 0]|[covered arm 1](07-03-CONTROLLER-GUARD-REVIEW.md#executed-controller-guards)|
 |18|116|0|[0, 1674]|[covered arms 0](07-03-LEDGER-REVIEW.md#controller-router)|
-|29|139|1|[27, 0]|pending|
-|36|165|1|[23, 0]|pending|
-|37|166|0|[0, 23]|pending|
-|43|185|0|[0, 14]|pending|
-|44|193|0|[0, 16]|pending|
+|29|139|1|[27, 0]|[covered arm 1](07-03-CONTROLLER-GUARD-REVIEW.md#executed-controller-guards)|
+|36|165|1|[23, 0]|[covered arm 1](07-03-CONTROLLER-GUARD-REVIEW.md#executed-controller-guards)|
+|37|166|0|[0, 23]|[covered arm 0](07-03-CONTROLLER-GUARD-REVIEW.md#executed-controller-guards)|
+|43|185|0|[0, 14]|[covered arm 0](07-03-CONTROLLER-GUARD-REVIEW.md#executed-controller-guards)|
+|44|193|0|[0, 16]|[covered arm 0](07-03-CONTROLLER-GUARD-REVIEW.md#executed-controller-guards)|
 |52|223|0|[0]|[application-unreachable private default; raw zero retained](07-03-CONTROLLER-GUARD-REVIEW.md#private-default-review)|
-|55|236|1|[68, 0]|pending|
-|71|271|1|[8, 0]|pending|
-|82|308|0|[0, 162]|pending|
+|55|236|1|[68, 0]|[covered arm 1](07-03-CONTROLLER-GUARD-REVIEW.md#executed-controller-guards)|
+|71|271|1|[8, 0]|[covered arm 1](07-03-CONTROLLER-GUARD-REVIEW.md#executed-controller-guards)|
+|82|308|0|[0, 162]|[covered arm 0](07-03-CONTROLLER-GUARD-REVIEW.md#executed-controller-guards)|
 
 ### src/session-recovery.ts
 

@@ -338,3 +338,95 @@ test('release leaves another seat movement and repeat schedule independent', () 
   router.update(441);
   assert.deepEqual(actions.map(action => action.seat), ['p1', 'p2', 'p2', 'p2']);
 });
+
+// Exported router contracts; controlled snapshots and callbacks are component fixtures.
+test('blank controller names and right-biased diagonals preserve one lease and release safely', () => {
+  const actions = [];
+  const { router, events } = trackedRouter({ context: () => 'play', dispatch: action => { actions.push(action); return true; } });
+  const empty = options => pad(4, { id: '\u0000\t ', ...options });
+  router.receive(snapshot([empty({})]), 0);
+  const device = issued(events, 4);
+  assert.equal(device.id, 'unknown-controller');
+  assert.equal(router.assign(device, 'p1'), true);
+  router.receive(snapshot([empty({ pressed: [15] })]), 1);
+  router.receive(snapshot([empty({ pressed: [15, 12] })]), 2);
+  assert.deepEqual(actions.map(a => a.direction), ['right'], 'held right survives a D-pad diagonal without another move');
+  router.receive(snapshot([empty({})]), 3);
+  router.receive(snapshot([empty({ axes: [1, 0] })]), 4);
+  router.receive(snapshot([empty({ axes: [.8, -.8] })]), 5);
+  assert.deepEqual(actions.map(a => a.direction), ['right', 'right'], 'held analog right retains priority at equal magnitude');
+  router.receive(snapshot([empty({})]), 6);
+  router.receive(snapshot([empty({ axes: [.8, -.8] })]), 7);
+  assert.equal(actions.at(-1).direction, 'forward', 'neutral removes the old horizontal priority');
+  const before = actions.length;
+  router.close(); const disconnects = events.filter(e => e.type === 'disconnected').length;
+  router.close(); router.receive(snapshot([empty({ pressed: [12] })]), 8); router.update(10000);
+  assert.equal(actions.length, before); assert.equal(events.filter(e => e.type === 'disconnected').length, disconnects);
+});
+
+test('releasing a returned unassigned reservation forgets only its owner and permits a fresh join', () => {
+  const joins = [], reclaims = [], actions = [];
+  const { router, events } = trackedRouter({ context: () => 'play', dispatch: a => { actions.push(a); return true; },
+    requestLocalPlay: d => joins.push(d), requestReclaim: (d, seat) => reclaims.push({ d, seat }) });
+  router.receive(snapshot([pad(0), pad(1)]), 0);
+  assert.equal(router.assign(issued(events, 0), 'p1'), true);
+  assert.equal(router.assign(issued(events, 1), 'p2'), true);
+  router.receive(snapshot([pad(1)]), 1);
+  // A different seat can be assigned while P1's reservation remains intact.
+  router.receive(snapshot([pad(1), pad(2)]), 2);
+  assert.equal(router.assign(issued(events, 2), 'p3'), true);
+  router.receive(snapshot([pad(0), pad(1), pad(2)]), 3);
+  const returned = events.filter(e => e.type === 'seen' && e.device.index === 0).at(-1).device;
+  assert.equal(router.canReclaim(returned, 'p1'), true);
+  assert.equal(router.release('p1'), true);
+  assert.equal(router.canReclaim(returned, 'p1'), false); assert.equal(router.reclaim(returned), false);
+  router.receive(snapshot([pad(0, { pressed: [0] }), pad(1, { pressed: [15] }), pad(2)]), 4);
+  assert.deepEqual(joins.map(d => d.index), [0]); assert.deepEqual(reclaims, []);
+  assert.deepEqual(actions, [{ seat: 'p2', direction: 'right' }], 'another owner remains playable');
+});
+
+test('fresh and repeating direction edges seed a newly opened context before held input can act again', () => {
+  for (const trigger of ['fresh', 'repeat']) {
+    const actions = []; let context = 'play', changed = false;
+    const { router, events } = trackedRouter({ context: () => context,
+      dispatch: a => { actions.push(a); if (!changed && (trigger === 'fresh' || actions.length === 2)) { changed = true; context = 'market'; } return true; } });
+    router.receive(snapshot([pad(0)]), 0); assert.equal(router.assign(issued(events, 0), 'p1'), true);
+    router.receive(snapshot([pad(0, { pressed: [12] })]), 1);
+    if (trigger === 'repeat') router.update(281);
+    const opened = actions.length;
+    assert.equal(context, 'market'); router.update(10000); assert.equal(actions.length, opened);
+    context = 'play'; router.receive(snapshot([pad(0, { pressed: [12] })]), 10001); router.update(20000);
+    assert.equal(actions.length, opened, 'held direction cannot cross either context transition');
+    router.receive(snapshot([pad(0)]), 20001); router.receive(snapshot([pad(0, { pressed: [12] })]), 20002);
+    assert.equal(actions.length, opened + 1, 'neutral and a new edge restore the original owner');
+  }
+});
+
+test('a reentrant disconnect callback cannot erase a newly observed replacement lease', () => {
+  let router, reentered = false;
+  const events = [];
+  router = new GamepadRouter({ context: () => 'play', dispatch: () => true,
+    lifecycle: event => { events.push(event); if (event.type === 'disconnected' && event.device.index === 0 && !reentered) {
+      reentered = true; router.receive(snapshot([pad(2, { id: 'Replacement' })]), 2);
+    } } });
+  router.receive(snapshot([pad(0), pad(2, { id: 'Original' })]), 0);
+  assert.equal(router.assign(issued(events, 0), 'p1'), true); assert.equal(router.assign(issued(events, 2), 'p2'), true);
+  router.receive(snapshot([]), 1);
+  const replacement = events.filter(e => e.type === 'seen' && e.device.id === 'Replacement').at(-1).device;
+  assert.equal(router.assign(replacement, 'p2'), true, 'stale outer disconnect must retain the current lease');
+  router.receive(snapshot([pad(2, { id: 'Replacement' })]), 3);
+  assert.equal(events.filter(e => e.type === 'seen' && e.device.id === 'Replacement').length, 1, 'the preserved lease is not recreated');
+});
+
+test('a replacement hint without that seat reservation cannot grant reclaim or gameplay authority', () => {
+  const requests = [], actions = [];
+  const { router, events } = trackedRouter({ context: () => 'closed-roster', dispatch: a => { actions.push(a); return true; },
+    replacementSeat: () => 'p2', acceptsDevice: () => false,
+    requestReclaim: (_d, seat) => requests.push(seat), requestLocalPlay: () => requests.push('join') });
+  router.receive(snapshot([pad(0)]), 0); assert.equal(router.assign(issued(events, 0), 'p1'), true);
+  router.receive(snapshot([]), 1); router.receive(snapshot([pad(7)]), 2);
+  const stranger = issued(events, 7);
+  router.receive(snapshot([pad(7, { pressed: [0, 12] })]), 3); router.update(10000);
+  assert.equal(router.canReclaim(stranger, 'p1'), false); assert.equal(router.canReclaim(stranger, 'p2'), false);
+  assert.deepEqual(requests, []); assert.deepEqual(actions, []);
+});
