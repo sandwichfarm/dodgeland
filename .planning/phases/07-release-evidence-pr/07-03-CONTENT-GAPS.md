@@ -89,3 +89,19 @@ zero mapped arms gained evidence:1/0(line13)=1,2/0(15)=3,4/1(17)=1,5/0(22)=2,
 9/0(27)=3,9/1(27)=1,10/0(28)=2,11/0(28)=1,11/1(28)=1,12/0(39)=3,15/1(45)=1,
 16/0(48)=1. This is focused source-bound improvement, not aggregate release
 acceptance or real-browser audio playback proof.
+
+## Required source checks after session lifetime repair
+
+Root chain28389 exited0 after36495b1: `pnpm type-check`, `pnpm build`,
+`pnpm test:guidance`, `pnpm test:conformance`, then `git diff --check`.
+Logs are `/tmp/down-to-duck-07-03-required-{type,build,guidance,conformance}.log`.
+Guidance passed7/7. Conformance passed5 with0 failures and5 explicitly unmeasured
+checks; it is not a complete wire/lifecycle/manifest proof. The normal build's
+raw `dist/index.html` SHA256 is
+`ca774030d10eabe9dc9ed9780bf17422642874f7605bfdc26db6c116a6d86168`.
+Session source SHA remains
+`5b9363b3d26641705d3a85d0e56fae0df9aed49ce1276f25fad918c1562887ed`.
+Root `pnpm-lock.yaml` SHA256 is
+`5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d`;
+`git diff --quiet a310a81ed6c76df4b265c9012c23b8c83f4802e5 -- pnpm-lock.yaml`
+also exited0. Full enforcing coverage and the remaining release plans remain open.
