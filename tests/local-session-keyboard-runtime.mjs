@@ -196,6 +196,50 @@ test('opaque iframe receives native keyboard profiles only after overlapping own
     await frame.locator('.session-binding').filter({ hasText: 'W' }).click();
     await iframe.screenshot({ path: new URL('local-session-keyboard-capture-900-reduced-light.png', output).pathname });
     await frame.locator('.session-binding[aria-pressed="true"]').press('Escape');
+
+    // Unsupported keys keep capture active without persisting a new binding.
+    await frame.locator('.session-binding').filter({ hasText: 'W' }).click();
+    const unsupportedWrites = await frame.evaluate(() => window.keyboardRuntimeFixture.writes.length);
+    await frame.locator('.session-binding[aria-pressed="true"]').press('F1');
+    assert.match(await frame.locator('.session-controls-status').textContent(), /letter, arrow, or punctuation/);
+    assert.equal(await frame.locator('.session-binding[aria-pressed="true"]').count(), 1);
+    assert.equal(await frame.evaluate(() => window.keyboardRuntimeFixture.writes.length), unsupportedWrites);
+    await frame.locator('.session-binding[aria-pressed="true"]').press('Escape');
+
+    // Reset must validate the entire shared keyboard: another traveler can
+    // legitimately take a key after its original owner remaps it.
+    for (let index = 0; index < 4; index++) await frame.getByRole('button', { name: 'More' }).click();
+    await frame.locator('.session-binding').click();
+    await frame.locator('.session-binding[aria-pressed="true"]').press('e');
+    await frame.waitForFunction(() => document.querySelector('.session-binding')?.textContent === 'E');
+    await frame.getByRole('tab', { name: /P2/ }).click();
+    await frame.locator('.session-binding').click();
+    await frame.locator('.session-binding[aria-pressed="true"]').press('q');
+    await frame.waitForFunction(() => document.querySelector('.session-binding')?.textContent === 'Q');
+    const beforeResetConflict = await frame.evaluate(() => window.keyboardRuntimeFixture.writes);
+    await frame.getByRole('tab', { name: /P1/ }).click();
+    await frame.getByRole('button', { name: 'More' }).click();
+    await frame.getByRole('button', { name: 'Reset Keyboard A' }).click();
+    await frame.getByRole('button', { name: 'Reset controls', exact: true }).click();
+    await frame.waitForFunction(() => document.querySelector('.session-controls-status')?.textContent?.includes('already controls'));
+    assert.equal(await frame.getByRole('alertdialog').count(), 0, 'conflicting reset returns to the editor');
+    assert.deepEqual(await frame.evaluate(() => window.keyboardRuntimeFixture.writes), beforeResetConflict, 'conflicting defaults never reach storage');
+    await frame.getByRole('button', { name: 'Back', exact: true }).click();
+    assert.equal(await frame.locator('.session-binding').textContent(), 'E', 'failed reset preserves the original remap');
+    await frame.getByRole('tab', { name: /P2/ }).click();
+    assert.equal(await frame.locator('.session-binding').textContent(), 'Q', 'failed reset preserves the other traveler\'s key');
+    await frame.locator('.session-binding').click();
+    await frame.locator('.session-binding[aria-pressed="true"]').press('.');
+    await frame.waitForFunction(() => document.querySelector('.session-binding')?.textContent === '.');
+    await frame.getByRole('tab', { name: /P1/ }).click();
+    await frame.getByRole('button', { name: 'More' }).click();
+    await frame.getByRole('button', { name: 'Reset Keyboard A' }).click();
+    await frame.getByRole('button', { name: 'Reset controls', exact: true }).click();
+    await frame.waitForFunction(() => document.querySelector('.session-controls-status')?.textContent?.includes('defaults restored'));
+    assert.equal(await frame.evaluate(() => document.activeElement?.textContent), 'Reset Keyboard A', 'successful reset restores focus to a live action');
+    assert.equal(await frame.evaluate(() => window.keyboardRuntimeFixture.writes.length), beforeResetConflict.length + 2, 'releasing the conflicting key and successful reset each persist once');
+    await frame.getByRole('button', { name: 'Back', exact: true }).click();
+    assert.equal(await frame.locator('.session-binding').textContent(), 'Q', 'successful reset restores the default call key');
     assert.deepEqual(errors, [], 'the muted native-key iframe reports no page errors');
   } finally { try{if(identity)await collectRealm(frame,identity);}finally{await browser.close();} }
 });

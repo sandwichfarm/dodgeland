@@ -1281,6 +1281,69 @@
         }
       ],
       "provenance": "Exact existing devtools Node and browser jobs; production/development artifact scopes preserved"
+    },
+    "keyboard-ui-gaps-03": {
+      "files": [
+        "tests/local-session-keyboard-runtime.mjs"
+      ],
+      "role": "browser",
+      "browser": true,
+      "jobs": [
+        {
+          "id": "local-session-keyboard-runtime",
+          "file": "tests/local-session-keyboard-runtime.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "defaultBuildScope": "production",
+          "artifactPatterns": []
+        }
+      ],
+      "provenance": "Existing complete native keyboard opaque iframe job, including reset conflict and success"
+    },
+    "hand-menu-gaps-03": {
+      "files": [
+        "tests/run-hand-runtime.mjs",
+        "tests/run-menu-layout.mjs"
+      ],
+      "role": "browser",
+      "browser": true,
+      "jobs": [
+        {
+          "id": "run-hand-runtime",
+          "file": "tests/run-hand-runtime.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "defaultBuildScope": "production",
+          "artifactPatterns": [
+            "artifacts/run-hand-runtime.json",
+            "artifacts/run-hand-runtime-failure.png",
+            "artifacts/run-hand-offer-320x560.png",
+            "artifacts/run-hand-pause-240x240.png",
+            "artifacts/run-hand-market-900x600.png",
+            "artifacts/run-hand-market-2400x1200.png",
+            "artifacts/run-hand-pause-240x240-light.png"
+          ]
+        },
+        {
+          "id": "run-menu-layout",
+          "file": "tests/run-menu-layout.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "defaultBuildScope": "production",
+          "artifactPatterns": [
+            "artifacts/run-menu-*-*-*x*.png",
+            "artifacts/run-menu-failure.png",
+            "artifacts/run-menu-layout.json"
+          ]
+        }
+      ],
+      "provenance": "Existing complete hand and run-menu browser jobs, including focus, paging and confirmation"
     }
   },
   "pendingAdapters": [
