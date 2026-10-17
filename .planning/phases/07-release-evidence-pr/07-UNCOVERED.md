@@ -2,6 +2,21 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Current paid market/pack boundaries
+
+Actual Relay/Race Arcade/Flow market journeys pass ordinary/canonical4/4,
+54bfb542,four lifetimes/sixteen intervals. All transactions use the actual owner
+adapter over explicit safe-terrain/market/funds/stock component arrangements.
+Corrected identity succeeds after rejection;duplicates and already-owned looks
+cannot debit twice. Relay full-hand Large Pack replacement and Small Pack skip,
+capacity-dependent sales and real power expiry are proved;Race rejects gameplay
+stock while equipping cosmetics. Terminal saved requests cannot change results.
+TURN-MARKET/PROOF retain exact identities and the terminal-context fixture fix.
+Two new initial witnesses co-op-market31/0 and market/run77/0 each have4 hits.
+Current totals180 annotated(179 covered,one private default),871 pending.
+Diagnostic mode branches gain56/43,remaining221 Relay/192 Race. No full enforcing
+acceptance,source/floor/scope change;earlier checkpoints stay historical.
+
 ## Current turn authority boundaries
 
 Four actual Relay/Race Arcade/Flow journeys pass ordinary/canonical4/4,7d1f1826,
@@ -276,7 +291,7 @@ Source `037a96c9f9436346f06306cac74808aab5e92e205ce2c42bebb1dbd16ca24c22`; schem
 |20|131|1|[27, 0]|[covered arm 1](07-03-MARKET-GUARD-REVIEW.md#executed-market-guards)|
 |23|132|1|[65, 0]|[covered arm 1](07-03-MARKET-GUARD-REVIEW.md#executed-market-guards)|
 |25|133|1|[13, 0]|[covered arm 1](07-03-MARKET-GUARD-REVIEW.md#executed-market-guards)|
-|31|141|0|[0, 582]|[reviewed; evidence pending](07-03-MARKET-GUARD-REVIEW.md#reviewed-conditions)|
+|31|141|0|[0, 582]|[covered arm 0](07-03-LEDGER-REVIEW.md#turn-market)|
 |33|145|1|[1594, 0, 1562, 1558, 1558]|[reviewed; evidence pending](07-03-MARKET-GUARD-REVIEW.md#reviewed-conditions)|
 |35|149|0|[0, 414]|[reviewed; evidence pending](07-03-MARKET-GUARD-REVIEW.md#reviewed-conditions)|
 |43|164|1|[13, 0]|[covered arm 1](07-03-MARKET-GUARD-REVIEW.md#executed-market-guards)|
@@ -911,7 +926,7 @@ Source `ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f`; schem
 |45|168|0|[0, 137]|pending|
 |50|174|0|[0, 28]|pending|
 |53|176|0|[0, 28]|pending|
-|77|222|0|[0, 5033]|pending|
+|77|222|0|[0, 5033]|[covered arm 0](07-03-LEDGER-REVIEW.md#turn-market)|
 |107|307|0|[0, 124]|pending|
 
 ### src/mob-models.ts

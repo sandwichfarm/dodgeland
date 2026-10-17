@@ -259,3 +259,17 @@ passes4/4 canonical `7d1f1826-efda-43b7-b75b-42693d450d42`. Relay78/0 at223
 has10 hits and Race52/1 at134 has4. Initial/current disk sources,maps and full
 mapped schemas match. Explicit safe-terrain component fixture;teardown stays
 outside mode attribution. [Exact proof](07-03-TURN-AUTHORITY-PROOF.json).
+
+## Turn-market
+
+**UI-03,RELAY-05,RACE-04,TEST-02/03.** Actual terminal mode state disables market
+owner selection; a saved actual pre-terminal request cannot debit or change the
+result. A fresh unsold offer for an already-owned cosmetic also rejects with
+exact wallet,hands,equipped ownership,revision/RNG and interaction preservation.
+`tests/turn-market-boundaries.test.mjs`,canonical
+`54bfb542-2144-429d-8e82-7a4e67ea26dd`,whole4/4 component journeys. Unchanged
+co-op-market31/0 at141 and market/run77/0 at222 each gain4 initial-zero hits.
+Initial/current disk source,map and full mapped schemas match. Explicit terrain,
+market eligibility,funds and added stock remain component fixtures.
+[Exact identities and broader full-hand/paid-pack proof](07-03-TURN-MARKET-PROOF.json).
+Eight previously reviewed co-op-market guard witnesses are not counted twice.

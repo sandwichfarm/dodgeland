@@ -843,12 +843,29 @@ floor,normal903/rootlock5ac change. TURN-AUTHORITY/PROOF retain exact evidence.
 No chain remains. Next real market/pack boundary behavior,then remaining full
 coverage review/enforcement and07-04/05/06.
 
+## Latest turn-market execution
+
+54bfb542 passes4/4 ordinary/canonical,four actual Relay/Race Arcade/Flow
+lifetimes/sixteen intervals. All real owner-adapter transactions prove stale
+request/duplicate/sold/owned-look rejection;full-hand Large Pack replacement,
+Small Pack skip,capacity-safe sales,power renewal/real Flow expiry;Race accepts
+cosmetics and rejects gameplay stock. Explicit market/funds/stock/terrain fixtures
+remain component evidence. Terminal saved request test corrected its own context
+fixture;no product RED. Two new initial witnesses give180 annotated(179 covered,
+one private default),871 pending;no duplicate count of eight existing guards.
+Current identical-source diagnostic Relay2154/2793B needs221 andRace2386/3032B
+needs192;line/functions pass diagnostically. Valid complete execution inventory
+146 entries/153 closure/158 jobs,nine executable controls retained. No source,
+scope,floor,oracle ordependency change; normal903/rootlock5ac exact.
+TURN-MARKET/PROOF retain exact evidence. No chain remains. Next close remaining
+mode branch/semantic gaps,then full enforcement and07-04/05/06.
+
 ## Next required work
 
 1. Complete07-03: broad honest Solo/Relay/Race and development evidence,
    remaining per-file gaps, complete semantic ledger, then a fresh enforcing
-   full report. Keep all floors.178 initial zero arms have source-identical
-   semantic annotations(177 covered,one reviewed private default);873 still need completed semantic/behavioral proof,
+   full report. Keep all floors.180 initial zero arms have source-identical
+   semantic annotations(179 covered,one reviewed private default);871 still need completed semantic/behavioral proof,
    including six source-reviewed market candidates awaiting evidence. Genuine fresh
    bootstrap proof now exists; all unions before full collection are diagnostic.
 2. Execute07-04 conformance proof,07-05 clause/visual evidence,07-06 exact final
