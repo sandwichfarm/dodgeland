@@ -73,7 +73,8 @@
     "test:turn-recovery-progress": "node tests/strict-node-tests.mjs tests/turn-recovery-progress.test.mjs",
     "test:turn-setup-retry": "node tests/strict-node-tests.mjs tests/turn-setup-retry.test.mjs",
     "test:turn-authority-boundaries": "node tests/strict-node-tests.mjs tests/turn-authority-boundaries.test.mjs",
-    "test:turn-market-boundaries": "node tests/strict-node-tests.mjs tests/turn-market-boundaries.test.mjs"
+    "test:turn-market-boundaries": "node tests/strict-node-tests.mjs tests/turn-market-boundaries.test.mjs",
+    "test:turn-character-rescues": "node tests/strict-node-tests.mjs tests/turn-character-rescues.test.mjs"
   },
   "dependencies": {
     "@napplet/sdk": "^0.29.0"

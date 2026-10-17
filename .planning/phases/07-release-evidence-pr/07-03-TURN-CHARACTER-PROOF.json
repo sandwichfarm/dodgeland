@@ -1,0 +1,139 @@
+{
+  "status": "Nineteen ordinary/canonical actual encounter journeys pass;not full release acceptance",
+  "runId": "c58a8ef4-2668-4fb2-9370-01975186fd68",
+  "payloadCount": 1,
+  "lifetimes": 19,
+  "intervals": 57,
+  "thresholdsEvaluated": false,
+  "manifestSha256": "9ce14067ef2694b6462bb375b49f9c5ca39a8aa861c37dd4d34d84990b9a59d4",
+  "canonicalInventorySha256": "37f806f85a06a771ca5e1302b2e5aa996fd725c29e66175ef2d150a8c0f31404",
+  "actualCases": 19,
+  "modeCaseCounts": {
+    "relay": 10,
+    "race": 9
+  },
+  "currentDiagnosticModes": {
+    "relay": {
+      "raw": {
+        "statements": {
+          "covered": 2898,
+          "total": 3735
+        },
+        "functions": {
+          "covered": 653,
+          "total": 817
+        },
+        "branches": {
+          "covered": 2177,
+          "total": 3204
+        },
+        "lines": {
+          "covered": 1972,
+          "total": 2352
+        }
+      },
+      "applicable": {
+        "statements": {
+          "covered": 2898,
+          "total": 3310
+        },
+        "functions": {
+          "covered": 653,
+          "total": 710
+        },
+        "branches": {
+          "covered": 2177,
+          "total": 2793
+        },
+        "lines": {
+          "covered": 1972,
+          "total": 2104
+        }
+      },
+      "remaining": {
+        "lines": 0,
+        "functions": 0,
+        "branches": 198
+      },
+      "componentLifetimes": 47,
+      "componentIntervals": 142,
+      "publicIntervals": 2
+    },
+    "race": {
+      "raw": {
+        "statements": {
+          "covered": 2993,
+          "total": 3645
+        },
+        "functions": {
+          "covered": 696,
+          "total": 818
+        },
+        "branches": {
+          "covered": 2404,
+          "total": 3261
+        },
+        "lines": {
+          "covered": 2043,
+          "total": 2305
+        }
+      },
+      "applicable": {
+        "statements": {
+          "covered": 2993,
+          "total": 3406
+        },
+        "functions": {
+          "covered": 696,
+          "total": 758
+        },
+        "branches": {
+          "covered": 2404,
+          "total": 3032
+        },
+        "lines": {
+          "covered": 2043,
+          "total": 2163
+        }
+      },
+      "remaining": {
+        "lines": 0,
+        "functions": 0,
+        "branches": 174
+      },
+      "componentLifetimes": 78,
+      "componentIntervals": 257,
+      "publicIntervals": 8
+    }
+  },
+  "executionInventory": {
+    "valid": true,
+    "entries": 147,
+    "closure": 154,
+    "jobs": 159,
+    "controlPaths": 10
+  },
+  "normalArtifactRawSha256": "9036d9a1f179b136569a3b400c412d954d783987c751832afbbbfda287c63539",
+  "rootLockRawSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "logs": {
+    "ordinary": "/tmp/down-to-duck-turn-character-ordinary.log",
+    "canonical": "/tmp/down-to-duck-turn-character-canonical.log",
+    "retainedSeventeenCaseCollection": "/tmp/down-to-duck-turn-character-seventeen-canonical.log",
+    "retainedBenchAnchorFixtureCorrection": "/tmp/down-to-duck-turn-character-bench-anchor-fixture.log"
+  },
+  "initialLedger": {
+    "newAnnotations": 0,
+    "alreadyReviewedWitness": "Relay78/0 rejects unsupported/no-safe-cell recovery;current count1",
+    "reviewed": 180,
+    "covered": 179,
+    "privateDefault": 1,
+    "pending": 871
+  },
+  "limits": [
+    "Explicit contact poses,terrain,mob body and Petal starting health;all collision and innate transitions use actual LocalSession.update",
+    "All seven powers;Race has no wave fixture,matching suppressed pursuit",
+    "No-safe-bank Relay rejects personal recovery with no charge change;an explicitly restored bank permits retry. Race uses its actual living teammate log anchor",
+    "Bench-anchor initial failure was a test assumption,not product RED",
+    "No production source,oracle,dependency,applicability or numeric floor changes;no changed Game/Session initial relabel"
+  ]
+}

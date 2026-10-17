@@ -2,6 +2,31 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Latest bounded bonus-pack evidence
+
+Expanded whole market cohort d05cb058 passes4/4,including actual paid one/two-pick
+Large Pack reveals and full-hand replacement. Conditional82 has[2,4];no RNG/picks
+rewrites. Retained54bfb542 complete reports stay under its UUID;the current union
+replaces it rather than adding repeated counters. Including final19 character
+encounters,current diagnostic branch counts are Relay2180/2793(needs195),
+Race2404/3032(needs174),with passing line/function diagnostic floors. Initial
+review remains180(179 covered,one private default),871 pending. No numeric scope
+or production change;full enforcing/semantic release acceptance remains open.
+
+## Current actual character encounters
+
+Nineteen actual Arcade Relay/Race encounters pass ordinary/canonical19/19,
+c58a8ef4,nineteen lifetimes/fifty-seven intervals. All seven matching powers,
+Petal's front-hit rejection and Butter's no-safe-bank rejection preserve owned
+progress and distinguish innate100 from personal revival250. Contacts use real
+session ticks over labelled terrain/pose/health/mob fixtures. Relay's no-safe
+personal request consumes no charge;Race may anchor on the actual living log
+rider. TURN-CHARACTER/PROOF retain the bench-anchor fixture correction.
+Diagnostic mode gains23/18 branches leave198 Relay/174 Race;line/functions pass
+diagnostically. No new initial source-identical annotation:180 reviewed(179
+covered,one private default),871 pending. No source,scope,floor or full release
+acceptance change. Earlier current labels below are historical checkpoints.
+
 ## Current paid market/pack boundaries
 
 Actual Relay/Race Arcade/Flow market journeys pass ordinary/canonical4/4,

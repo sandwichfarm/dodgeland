@@ -210,5 +210,6 @@
     "All purchase/sell/equip/full-hand pack replacement/skip/rejected requests go through actual mode-owned market adapter",
     "Initial fixture requested a fresh context after terminal invalidation;corrected to retain the actual pre-terminal request,without production edit",
     "No source,dependency,oracle,floor or applicability change;initial rows and changed Game/Session identities retained"
-  ]
+  ],
+  "retainedCompletedReport": "artifacts/release-coverage/turn-market-boundaries-03/54bfb542-2144-429d-8e82-7a4e67ea26dd/retained-completed-report"
 }

@@ -860,6 +860,53 @@ scope,floor,oracle ordependency change; normal903/rootlock5ac exact.
 TURN-MARKET/PROOF retain exact evidence. No chain remains. Next close remaining
 mode branch/semantic gaps,then full enforcement and07-04/05/06.
 
+## Latest character encounter execution
+
+Final c58a8ef4 passes19/19 ordinary/canonical,nineteen actual Arcade Relay/Race
+lifetimes/fifty-seven intervals(ten Relay/nine Race). All seven powers use real
+water/car/train/mob/Relay-wave contacts;Petal front and Butter no-safe-bank deaths
+remain distinct from matching innate rescues. No escape mints progress/coins or
+personal revival charge. No-safe personal rejection preserves charge;Relay bench
+anchor fixture correction is retained. Earlier17-case run is superseded,not added
+twice. TURN-CHARACTER/PROOF bind exact source,intervals and normal903/rootlock5ac.
+Current diagnostic Relay2177/2793B needs198,Race2404/3032B needs174;line/function
+targets pass diagnostically. Initial ledger stays180 reviewed(179 covered,one
+private default),871 pending. Complete validated manifest147 entries/154 closure/
+159 production jobs,nine executable controls. No production,schema-scope,floor,
+or dependency change. Four new suites in this goal turn give31 final cases and
+105 bounded mode intervals;overall mode branch gains114 Relay/88 Race.
+Next close remaining mode/semantic branch gaps,then full enforcing collection
+and07-04/05/06. Filesystem-transparent compression completed after the checks below;
+all paths/readable bytes remain unchanged.
+
+## Latest bonus-pack and storage verification
+
+Expanded market d05cb058 passes4/4 ordinary/canonical,retaining all original
+assertions and using the actual paid seeded sequence to reveal the two-pick
+Large Pack bonus. Duplicate/overflow choices preserve the full hand/paid draft;
+valid two-card replacement succeeds. Conditional82 has[2,4] true/false counts.
+Old54bfb542 complete reports/manifests remain under their UUID with exact hashes.
+The current union replaces that older market run,never sums both. Latest
+diagnostic Relay2180/2793B needs195;Race2404/3032B needs174;line/functions pass
+diagnostically. Source-identical initial ledger stays180 reviewed/871 pending.
+Four added suites retain31 final cases/105 bounded intervals,overall branch
+gains117 Relay/88 Race in this goal turn.
+
+Type-check,build,guidance7/7 and CLI conformance all exit0 on current worktree;
+CLI reports5 pass/0 fail/5 unmeasured(manifest3,wire1,lifecycle1),not a substitute
+for07-04. Normal artifact903/rootlock5ac remain exact after rebuild. Transparent
+filesystem compression verified4621 generated files/27,854,540,807 readable bytes
+before atomic replacement,retaining every path,byte and independent inode. Free
+space observed4,979,871,744→21,163,360,256 bytes. Earlier632 APFS clones also retain
+read/write isolation. STORAGE-RECOVERY.json binds complete per-file SHA256 records
+under artifacts/release-coverage/storage-maintenance. No unique evidence was
+deleted. All test/build/storage chains are terminal;no freeze remains.
+
+Next prioritize genuine shared mob blocked-route/escape/same-frame authority
+gaps using existing actual mobs cases before duplicating tests. Preserve all
+current sources,mode floors and old identities. Then finish complete semantic
+review/fresh enforcing full report,07-04/05/06 and the PR. No PR is open.
+
 ## Next required work
 
 1. Complete07-03: broad honest Solo/Relay/Race and development evidence,

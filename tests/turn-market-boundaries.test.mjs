@@ -152,6 +152,31 @@ test(`${mode}/${base}: paid market requests preserve ownership through full hand
       assert.equal(p.run.pendingPack, null); assert.deepEqual(p.run.cards.map(c => c.id), ids);
       assert.equal(p.run.wallet, funds, 'replacing the hand neither refunds nor debits again');
       assert.equal(paid.sold, true);
+      // This actual seeded purchase sequence must also exercise the Large
+      // Pack's two-pick bonus,including full-hand replacement. No RNG or
+      // picks field is rewritten;all skipped reveals remain paid and sold.
+      while (p.run.cards.length < 3) buy('first-aid');
+      let bonusClaimed = false;
+      for (let attempt = 0; attempt < 32 && !bonusClaimed; attempt++) {
+        const candidate = buy('pack-satchel'), bonus = p.run.pendingPack;
+        if (bonus.picks === 1) {
+          const handBefore = structuredClone(p.run.cards), paidWallet = p.run.wallet;
+          assert.equal(transact('skip-pack').ok, true);
+          assert.deepEqual(p.run.cards, handBefore); assert.equal(p.run.wallet, paidWallet);
+          assert.equal(candidate.sold, true); continue;
+        }
+        assert.equal(bonus.picks, 2); assert.equal(bonus.bonus, true);
+        assert.equal(p.run.cards.length, 3);
+        const selected = bonus.choices.filter(c => c.components.every(v => !slotCards.has(v.itemId))).slice(0, 2);
+        assert.equal(selected.length, 2);
+        const chosenIds = selected.map(c => c.id), leave = p.run.cards.map(c => c.id), paidWallet = p.run.wallet;
+        rejected(request('claim-pack', { ids: [chosenIds[0], chosenIds[0]], discardIds: leave }));
+        rejected(request('claim-pack', { ids: chosenIds }));
+        assert.equal(transact('claim-pack', { ids: chosenIds, discardIds: leave }).ok, true);
+        assert.deepEqual(p.run.cards.map(c => c.id), chosenIds); assert.equal(p.run.wallet, paidWallet);
+        assert.equal(p.run.pendingPack, null); bonusClaimed = true;
+      }
+      assert.equal(bonusClaimed, true, 'actual seed reveals the two-pick bonus within the bounded paid sequence');
       const held = structuredClone(p.run.cards), skipped = buy('pack-pocket'), afterPayment = p.run.wallet;
       const paidChoices = structuredClone(p.run.pendingPack.choices);
       assert.equal(transact('skip-pack').ok, true); assert.equal(p.run.pendingPack, null);

@@ -50,3 +50,22 @@ hits(terminal mode disables market ownership),market/run77/0 at222 has4 hits
 were already reviewed and are not counted again. Initial review now totals180
 annotated(179 covered,one private default),871 pending. All initial counts and
 changed Game/Session source identities remain intact.
+
+## Expanded actual bonus reveal
+
+The whole four-case suite now also proves the actual Large Pack two-pick bonus
+with its unchanged seed and a bounded sequence of paid offers. Every ordinary
+reveal is skipped without refund or hand change. The actual bonus must occur
+within32 purchased reveals;no RNG,picks or bonus fields are replaced. With a full
+three-card hand,duplicate two-pick IDs and overflowing claims reject atomically,
+then selecting two actual draft cards and discarding the held hand succeeds
+without a second debit/refund. All original assertions remain.
+
+Ordinary4/4 and canonical4/4 d05cb058 pass;the source-mapped actual bonus-picks
+conditional82 now hascounts[2,4],so both one/two choices are observed. The initial
+54bfb542 complete report is retained under its UUID/retained-completed-report
+with verified original manifest hash. Current union selects d05cb058 once,not
+both repeated cohorts. Three more Relay branches gain evidence;including the
+completed character cohort,current diagnostics are Relay2180/2793B(needs195),
+Race2404/3032B(needs174). No new initial-zero annotations or scope/floor change.
+TURN-MARKET-BONUS-PROOF.json retains exact identities,counts,logs and limits.

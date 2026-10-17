@@ -1,0 +1,39 @@
+{
+  "status": "All retained generated report paths and readable bytes preserved;no source,oracle or dependency mutation",
+  "clone": {
+    "root": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage",
+    "method": "SHA256-identical independent-inode APFS copy-on-write clones",
+    "scanned": 2605,
+    "cloned": 632,
+    "logicalDuplicateBytes": 5149674002,
+    "freeBefore": 983695360,
+    "freeAfter": 5600452608
+  },
+  "compression": {
+    "method": "macOS transparent filesystem compression via ditto --hfsCompression; SHA256 and independent inode verified before atomic replacement",
+    "root": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage",
+    "freeBefore": 4979871744,
+    "files": 4621,
+    "logicalBytes": 27854540807,
+    "freeAfter": 21163360256
+  },
+  "records": [
+    {
+      "path": "artifacts/release-coverage/storage-maintenance/artifact-clones.json",
+      "sha256": "ed881df86762f9cf0cf21e5e8df2e5bd33842db08d9c907edce4498b3e4949c5"
+    },
+    {
+      "path": "artifacts/release-coverage/storage-maintenance/artifact-compression.json",
+      "sha256": "2906f5d3c65ae21397e7c3094ea1d0f366cd78f0957adbf375fea43bfbadd757"
+    }
+  ],
+  "disposableChecks": {
+    "APFSCloneIndependentInodeAndWrites": true,
+    "TransparentCompressionIdenticalReadAndIndependentWrites": true
+  },
+  "limits": [
+    "Filesystem storage maintenance of generated artifacts only;not behavioral test or new mode coverage",
+    "Available byte counts are observations at maintenance boundaries and can change with unrelated system activity",
+    "Compression changes physical filesystem encoding,not file formats or logical read bytes"
+  ]
+}

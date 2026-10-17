@@ -1,0 +1,160 @@
+{
+  "status": "Four expanded ordinary/canonical market cases pass;actual one-pick and bonus two-pick reveals replace full hand;not full release acceptance",
+  "runId": "d05cb058-e0aa-4a17-9cbf-1d86396b55fe",
+  "payloadCount": 1,
+  "lifetimes": 4,
+  "intervals": 16,
+  "manifestSha256": "426ad3bff83481bdb3f4d1fd2d1f9a588f9ede0082cee0b21227e09d61d9eacc",
+  "canonicalInventorySha256": "37f806f85a06a771ca5e1302b2e5aa996fd725c29e66175ef2d150a8c0f31404",
+  "actualBonusBranch": {
+    "path": "src/market/run.ts",
+    "id": "82",
+    "counts": [
+      2,
+      4
+    ],
+    "site": {
+      "loc": {
+        "start": {
+          "line": 229,
+          "column": 108
+        },
+        "end": {
+          "line": 229,
+          "column": 146
+        }
+      },
+      "type": "cond-expr",
+      "locations": [
+        {
+          "start": {
+            "line": 229,
+            "column": 116
+          },
+          "end": {
+            "line": 229,
+            "column": 133
+          }
+        },
+        {
+          "start": {
+            "line": 229,
+            "column": 136
+          },
+          "end": {
+            "line": 229,
+            "column": 146
+          }
+        }
+      ]
+    }
+  },
+  "currentDiagnosticModes": {
+    "relay": {
+      "raw": {
+        "statements": {
+          "covered": 2898,
+          "total": 3735
+        },
+        "functions": {
+          "covered": 653,
+          "total": 817
+        },
+        "branches": {
+          "covered": 2180,
+          "total": 3204
+        },
+        "lines": {
+          "covered": 1972,
+          "total": 2352
+        }
+      },
+      "applicable": {
+        "statements": {
+          "covered": 2898,
+          "total": 3310
+        },
+        "functions": {
+          "covered": 653,
+          "total": 710
+        },
+        "branches": {
+          "covered": 2180,
+          "total": 2793
+        },
+        "lines": {
+          "covered": 1972,
+          "total": 2104
+        }
+      },
+      "remaining": {
+        "lines": 0,
+        "functions": 0,
+        "branches": 195
+      },
+      "componentLifetimes": 47,
+      "componentIntervals": 142,
+      "publicIntervals": 2
+    },
+    "race": {
+      "raw": {
+        "statements": {
+          "covered": 2993,
+          "total": 3645
+        },
+        "functions": {
+          "covered": 696,
+          "total": 818
+        },
+        "branches": {
+          "covered": 2404,
+          "total": 3261
+        },
+        "lines": {
+          "covered": 2043,
+          "total": 2305
+        }
+      },
+      "applicable": {
+        "statements": {
+          "covered": 2993,
+          "total": 3406
+        },
+        "functions": {
+          "covered": 696,
+          "total": 758
+        },
+        "branches": {
+          "covered": 2404,
+          "total": 3032
+        },
+        "lines": {
+          "covered": 2043,
+          "total": 2163
+        }
+      },
+      "remaining": {
+        "lines": 0,
+        "functions": 0,
+        "branches": 174
+      },
+      "componentLifetimes": 78,
+      "componentIntervals": 257,
+      "publicIntervals": 8
+    }
+  },
+  "priorCompleteReport": "artifacts/release-coverage/turn-market-boundaries-03/54bfb542-2144-429d-8e82-7a4e67ea26dd/retained-completed-report",
+  "normalArtifactRawSha256": "9036d9a1f179b136569a3b400c412d954d783987c751832afbbbfda287c63539",
+  "rootLockRawSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "logs": {
+    "ordinary": "/tmp/down-to-duck-turn-market-bonus-ordinary.log",
+    "canonical": "/tmp/down-to-duck-turn-market-bonus-canonical.log"
+  },
+  "limits": [
+    "Same actual seed and paid stock sequence,no rewriting RNG,picks,bonus,hand or draft",
+    "Every skipped ordinary reveal remains paid/sold;bonus duplicate/overflow rejection preserves the paid draft and full hand before real replacement",
+    "Component market/funds/stock fixtures retained,no public UI or new initial ledger claim",
+    "Replaces prior market cohort in union;both repeated cohorts are never summed",
+    "No production,dependency,scope or numeric policy changes"
+  ]
+}
