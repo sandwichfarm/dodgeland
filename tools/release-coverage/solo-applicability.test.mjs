@@ -10,7 +10,7 @@ import { soloApplicabilityDispositions } from './solo-applicability.mjs';
 const directory = await mkdtemp(join(tmpdir(), 'solo-applicability-'));
 after(() => rm(directory, { recursive: true, force: true }));
 const root = resolve(new URL('../..', import.meta.url).pathname);
-const texts = Object.fromEntries(await Promise.all(['src/session.ts', 'src/co-op-market.ts', 'src/game.ts', 'src/recovery.ts', 'src/shared-world-effects.ts', 'src/consumables.ts', 'src/consumable-drops.ts'].map(async path => [path, await readFile(join(root, path), 'utf8')])));
+const texts = Object.fromEntries(await Promise.all(['src/session.ts', 'src/co-op-market.ts', 'src/game.ts', 'src/recovery.ts', 'src/shared-world-effects.ts', 'src/mobs.ts', 'src/mode-rules.ts', 'src/consumables.ts', 'src/consumable-drops.ts'].map(async path => [path, await readFile(join(root, path), 'utf8')])));
 const inventory = instrumentSources(texts, root);
 // Explicit synthetic zero realm supplies schema only; this is not runtime credit.
 const mapped = await reportCoverage(inventory, [Object.fromEntries(Object.values(inventory).map(row => [row.path, row.zero]))], directory);
@@ -132,4 +132,22 @@ test('session service closures retain bootstrap functions and ordinary Game disp
    assert.throws(()=>soloApplicabilityDispositions({mode,sources:sources.filter(s=>s.path!==source.path)}),/Missing/);
   }
  }
+});
+
+
+test('Flow excludes only post-disabled-guard mob execution and retains bootstrap plus Arcade',()=>{
+ const mob=sources.find(s=>s.path.endsWith('/mobs.ts')),game=sources.find(s=>s.path.endsWith('/game.ts'));
+ const at=(source,text)=>{const index=source.source.indexOf(text);assert.ok(index>=0,text);return source.source.slice(0,index).split('\n').length;};
+ const ids=(source,text)=>{const found=Object.entries(source.coverage.fnMap).filter(([,site])=>site.decl.start.line===at(source,text)).map(([id])=>id);assert.ok(found.length,text);return found;};
+ const flow=soloApplicabilityDispositions({mode:'solo-flow',sources}),arcade=soloApplicabilityDispositions({mode:'solo-arcade',sources});
+ assert.equal(arcade.some(d=>d.path===mob.path),false,'all mob behavior stays applicable in Arcade');
+ for(const text of['export function mobDefinition(', 'constructor(private rng:', 'update(game: Game,'])for(const id of ids(mob,text))assert.equal(flow.some(d=>d.path===mob.path&&d.kind==='function'&&d.id===id),false,text);
+ for(const text of['mobBlocked(x:', 'mobHazard(fromX:', 'private updateMobs('])for(const id of ids(game,text))assert.equal(flow.some(d=>d.path===game.path&&d.kind==='function'&&d.id===id),false,text);
+ for(const text of['private clearPath(','private plan(','private walkTarget(','private spawn(','export function mobPacing(','export function mobMotionProgress(','export function mobTuning(','function runTuning(','export function sweptMobContact('])for(const id of ids(mob,text))assert.ok(flow.some(d=>d.path===mob.path&&d.kind==='function'&&d.id===id),text);
+ const guard=at(mob,'if (!game.rules.pursuers.enabled)'),sites=Object.entries(mob.coverage.statementMap).filter(([,site])=>site.start.line===guard);assert.ok(sites.length);for(const[id]of sites)assert.equal(flow.some(d=>d.path===mob.path&&d.kind==='statement'&&d.id===id),false,'guard clear and return retained');
+ const hits=structuredClone(attributed);for(const id of ids(mob,'export function mobDefinition('))hits[mob.path].f[id]=1;
+ assert.ok(reportApplicability({mode:'solo-flow',sources,attributed:hits,dispositions:flow}).applicable.functions.covered>0,'real bootstrap calls remain accountable');
+ for(const kind of['statement','function','branch']){const d=flow.find(d=>d.path===mob.path&&d.kind===kind);assert.ok(d);const positive=structuredClone(attributed);if(kind==='branch')positive[d.path].b[d.id][d.arm]=1;else positive[d.path][kind==='function'?'f':'s'][d.id]=1;assert.throws(()=>reportApplicability({mode:'solo-flow',sources,attributed:positive,dispositions:flow}),/contradicted/);}
+ for(const file of['mobs.ts','mode-rules.ts','game.ts']){const source=sources.find(s=>s.path.endsWith('/'+file)),changed=structuredClone(sources);changed.find(s=>s.path===source.path).source+='\n';assert.throws(()=>soloApplicabilityDispositions({mode:'solo-flow',sources:changed}),/changed/);assert.throws(()=>soloApplicabilityDispositions({mode:'solo-flow',sources:sources.filter(s=>s.path!==source.path)}),/Missing/);}
+ const crossing=structuredClone(sources),m=crossing.find(s=>s.path===mob.path);m.coverage.branchMap.crossing={type:'cond-expr',line:guard,loc:{start:{line:guard,column:0},end:{line:guard+2,column:0}},locations:[{start:{line:guard,column:0},end:{line:guard+2,column:0}}]};m.coverage.b.crossing=[0];assert.equal(soloApplicabilityDispositions({mode:'solo-flow',sources:crossing}).some(d=>d.id==='crossing'),false);
 });

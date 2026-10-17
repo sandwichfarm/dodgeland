@@ -3,6 +3,8 @@ import { applicabilityIdentity } from './applicability.mjs';
 
 const ts = createRequire(new URL('../../package.json', import.meta.url))('typescript');
 const reviewed = Object.freeze({
+  'src/mobs.ts': { hash:'6077ac4fd884ef16f9fe8ab3f3db77a431b2d2853adbeddc1d0d843b595018d1' },
+  'src/mode-rules.ts': { hash:'cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2' },
   'src/game.ts': { hash: 'fb5d9224e46c19b3745099429f06bd141d9b738bb2d8786ed3266e1b6a7d95f6', owner: 'Game', helpers: [], members: ['collectSessionCoins', 'sessionPickupContact', 'operationFor', 'inPlayerOperation', 'startPlayer', 'movePlayer', 'updateSessionPlayer', 'damagePlayer', 'advancePlayerDeathVisuals', 'advanceSharedWorld', 'advanceSharedPursuit', 'awardSessionPickup', 'updateSessionMobs', 'setSharedWorldEffects', 'resetSharedWorldEffects', 'syncSharedWorldEffects', 'installWorldExtension', 'updateSessionWorldExtension'] },
   'src/recovery.ts': { hash:'835df7ab867c3421e7d295778c864ceba83f0ea10e588c4c6f4d95cdc2c1702b', callables:['reject','stable','isLivingRecoverySubject','planRecovery','commitRecoveryPlan'] },
   'src/shared-world-effects.ts': { hash:'715dce9a98a83c398aa3a3d43531568008a9cefaa9be8df766a921dd2eb43a45', callables:['resolveSharedWorldEffects'] },
@@ -83,12 +85,21 @@ export function soloApplicabilityDispositions({ mode, sources }) {
         addRange(field.initializer,'Primary constructor alias adopts existing Game callback before any invocation; this placeholder function is overwritten. Initialization statement remains applicable.',true);
       }
     }
+    if(key==='src/mobs.ts'&&mode==='solo-flow'){
+      const reason='Pinned SOLO_STROLL_MODE disables pursuers. Game.updateMobs still invokes MobDirector.update, whose first guard clears mobs and returns before this private AI closure. mobDefinition bootstrap stays applicable.';
+      const director=tree.statements.find(n=>ts.isClassDeclaration(n)&&n.name?.text==='MobDirector');if(!director)throw Error('Reviewed MobDirector absent');
+      const update=director.members.find(n=>n.name?.getText(tree)==='update');
+      if(!update?.body||update.body.statements[0].getText(tree)!=='if (!game.rules.pursuers.enabled) { this.mobs.length = 0; return; }')throw Error('Reviewed Flow mob guard changed');
+      for(const statement of [...update.body.statements].slice(1))addRange(statement,reason);
+      for(const name of ['clearPath','plan','walkTarget','spawn']){const member=director.members.find(n=>n.name?.getText(tree)===name);if(!member?.body)throw Error('Reviewed mob member absent: '+name);addRange(member,reason);}
+      for(const name of ['mobPacing','mobMotionProgress','mobTuning','runTuning','sweptMobContact']){const fn=tree.statements.find(n=>ts.isFunctionDeclaration(n)&&n.name?.text===name);if(!fn?.body)throw Error('Reviewed mob callable absent: '+name);addRange(fn.body,reason);addRange(fn,reason,true);}
+    }
     const eligible = site => ranges.some(range => contains(range, site));
     const add = (kind, id, arm, site) => dispositions.push({ mode, path: source.path, ...identity, kind, id,
       ...(arm === undefined ? {} : { arm }),
       callReason: reasons.find(({range})=>contains(range,site))?.reason ?? 'Reviewed session-only callable body.',
       stateReason: 'Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable.',
-      authority });
+      authority: key==='src/mobs.ts'?'.planning/phases/07-release-evidence-pr/07-03-FLOW-MOB-SCOPE.md':authority });
     for (const [id, site] of Object.entries(source.coverage.statementMap)) if (eligible(site)) add('statement', id, undefined, site);
     for (const [id, site] of Object.entries(source.coverage.fnMap)) if ([...ranges, ...functionRanges].some(range => contains(range, site.loc) && contains(range, site.decl))) add('function', id, undefined, site.loc);
     for (const [id, site] of Object.entries(source.coverage.branchMap)) for (const [arm, location] of site.locations.entries()) if (eligible(location)) add('branch', id, arm, location);
