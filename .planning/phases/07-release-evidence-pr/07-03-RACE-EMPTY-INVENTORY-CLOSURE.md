@@ -61,3 +61,23 @@ fresh actual Race/Relay integration must then be reprojected using unchanged raw
 maps/covered numerators. Final semantic review, enforcing full run,07-04/05/06
 and PR remain mandatory. Executed counts and source-bound artifacts will be
 recorded in RACE-EMPTY-INVENTORY-PROOF once verified.
+
+## Executed evidence
+
+abb4e5c retains22-control RED20 pass/two failures for missing scope behavior.
+Implementation passes22 focused/all123 controls. The current-source audit159
+files has zero computed typed-receiver accesses for the selected symbols and
+confirms the exact construction/write/call closure above. All158 executable
+source authorities remain pinned and unchanged.
+
+Diagnostic reprojection adds57 dispositions:23 statements,three functions and
+31 branch arms. Raw counters and every covered numerator stay unchanged. Relay
+is byte-equivalent. Race2502/2963 branches now needs17; applicable lines2076/2147,
+functions710/751 and statements3089/3367. No DEV/browser/global/per-file scope or
+hit credit changes. Fresh market integration810ec812-a81e-4bc2-ae36-ed69cfa3f477
+passesfour cases on both modes/bases,16 verified intervals (eight per mode),one
+independent Node parent/no browser realms. Actual cosmetic purchase/equip and
+Race's denied ordinary cards/packs/powers remain correct. Every new excluded
+site is zero in actual Race counters. RACE-EMPTY-INVENTORY-PROOF binds controls,
+audit,canonical parent/sidecar and source/build/lock/report hashes. This is
+report-only;original full enforcement stays failed and final release is pending.

@@ -2,6 +2,17 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Latest Race empty-inventory closure
+
+RACE-EMPTY-INVENTORY-CLOSURE/PROOF binds159-file constructor/write/call audit,
+22 focused/all123 controls andfour actual market cases/16 intervals. Race's
+appearance-only roster cannot populate cards/timed powers. Exact empty-loop/
+callback/expiry-then scopes add23S/3F/31B;evaluated guards,empty traversal,
+clamps,score/market/cosmetic operations retained. Raw/all covered numerators
+unchanged;Relay byte-equivalent. Race2502/2963 needs17;DEV52 remains. No app/
+floor/registry change or borrowed hit credit. Full semantic ledger and fresh
+release enforcement remain pending.
+
 ## Latest Race reclaim transactions
 
 RACE-RECLAIM-EVIDENCE/PROOF records4 ordinary/4 canonical cases,12 intervals

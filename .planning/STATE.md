@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Race reclaim transactions pass; Relay floor met; remaining Race43 DEV52
-last_updated: "2026-10-17T23:08:32.045298+00:00"
+stopped_at: Race empty-inventory scope passes; Relay unchanged; remaining Race17 DEV52
+last_updated: "2026-10-17T23:35:56.302919+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,24 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Actual Race leave/disconnect/current-device safe-reclaim4 cases and12 intervals pass;registry180 preserves179 jobs. Race2502/2994 needs43;DEV52 plus final verification/PR remain.
+last_activity_desc: Bounded Race empty-inventory source proof passes22 focused/all123 controls andfour fresh cases/16 intervals. Raw/numerators unchanged;Relay byte-equivalent. Race2502/2963 needs17;DEV52 and final gates/PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+Latest Race empty-inventory scope:abb4e5c retains22-control RED20 pass/two fail.
+Implementation passes22 focused/all123 controls,159-file fresh resolved audit
+andfour actual market cases/16 verified intervals/one independent Node parent.
+RACE-EMPTY-INVENTORY-CLOSURE/PROOF limits exclusion to unavailable component/
+power loop bodies,never-invoked flatMap callbacks and impossible unequal-length
+expiry then outcome. Actual guards/traversal/clamps/score/market/cosmetic behavior
+remain counted. Adds23S/3F/31B;raw and all covered numerators unchanged;Relay
+byte-equivalent. Race2502/2963 needs17;DEV52 remains. Source/build/lock/floors/
+registry180 unchanged. Original full report remains failed;semantic ledger,
+fresh enforcing full collection,07-04/05/06 and PR remain required.
+
 
 DEV remaining-path investigation:469 applicable zero arms,52 required to meet
 85%. All original production browser parents intersect only16 distinct missing

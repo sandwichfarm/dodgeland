@@ -162,6 +162,20 @@ export function turnApplicabilityDispositions({mode,sources,authoritySources,clo
     add(member('RunInventory','restrictItems'),'Only Race.attach restricts item access; Relay retains initialized standard access.');
     add(member('RunInventory','spendCoins'),'Relay has no consumable capabilities, so adapter dispatch rejects every consumable before its companion debit. Ordinary purchases remain applicable.');
    }else{
+    const emptyReference='.planning/phases/07-release-evidence-pr/07-03-RACE-EMPTY-INVENTORY-CLOSURE.md';
+    const empty='Complete pinned construction/write/call closure: Race cards and timed powers initialize empty and appearance-only access prevents every nonempty writer. Tactical charges and innate powers use separate state. Empty traversal, guards, score/milestone updates and cosmetic operations remain applicable.';
+    const reducer=tree.statements.find(n=>ts.isFunctionDeclaration(n)&&n.name?.text==='reduceItems'),score=member('RunInventory','advanceScore');
+    if(!reducer?.body)throw Error('Race inventory reducer changed');
+    const loops=all.filter(n=>ts.isForOfStatement(n)&&[reducer,score].some(owner=>n.pos>=owner.pos&&n.end<=owner.end)&&['components','powers','this.cards.flatMap(card => card.components)','this.powers'].includes(n.expression.getText(tree)));
+    if(loops.length!==4)throw Error('Race empty inventory loops changed');
+    for(const loop of loops)add(loop.statement,empty,false,emptyReference);
+    const callbacks=all.filter(n=>ts.isArrowFunction(n)&&n.getText(tree)==='card => card.components');
+    if(callbacks.length!==3)throw Error('Race empty component traversals changed');
+    for(const callback of callbacks)add(callback,empty,false,emptyReference);
+    const expiry=all.filter(n=>ts.isIfStatement(n)&&n.expression.getText(tree)==='retained.length !== this.powers.length');
+    if(expiry.length!==1||expiry[0].elseStatement)throw Error('Race empty power expiry changed');
+    add(expiry[0].thenStatement,empty,false,emptyReference);
+    falseOutcomes.push({span:span(expiry[0]),reason:empty,reference:emptyReference});
     for(const name of['hold','cardPool'])add(member('RunInventory',name),appearance);
     const buy=member('RunInventory','buy');
     for(const n of all.filter(n=>n.pos>=buy.pos&&n.end<=buy.end)){
