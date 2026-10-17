@@ -892,6 +892,14 @@
         }
       ],
       "provenance": "Unchanged complete remaining12 production jobs after recovery matrix; diagnostic suffix only, not full collection"
+    },
+    "release-gaps": {
+      "files": [
+        "tests/release-coverage-gaps.test.mjs",
+        "tests/session-device-lifecycle.test.mjs"
+      ],
+      "role": "node",
+      "provenance": "Arranged actual production LocalSession authority; reused dead-device lifecycle regressions plus cross-session/original-device ticket rejection, not public-input browser proof"
     }
   },
   "pendingAdapters": [
