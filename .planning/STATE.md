@@ -960,13 +960,28 @@ site/negative/positive-hit controls support it. Retain module initialization,
 credit/market guards,raw/global/file counts and all floors. No disposition is
 authorized by this preliminary graph observation alone.
 
+## Read-only Relay debit closure finding
+
+TURN-DEBIT-FINDING/REFERENCE-AUDIT resolve eight targets over159 disk/158
+canonical sources,all byte-identical to92a4572f. planConsumableDebit has exactly
+two direct app calls,both inside unallocated-in-Relay private ConsumableWorld;
+targetsFor has one direct call from debit. Identifier references include only
+declaration/import/direct calls,no escaped/computed target. Prior literal-false
+Relay market installation and existing complete reflection/value-flow review
+bound the instance absence. Credit has a real Relay market caller and stays
+applicable. Candidate scope is only debit/targets callable bodies/function sites
+in Relay;all initialization/shared helpers/guards,all Race and raw/global/file
+counts stay. No scope or denominator changed yet. Next add exact-site/negative/
+positive-hit controls before any projection change;do not treat graph-only
+in-degree as the proof. All gameplay/test/build chains remain terminal.
+
 ## Next required work
 
 1. Complete07-03: broad honest Solo/Relay/Race and development evidence,
    remaining per-file gaps, complete semantic ledger, then a fresh enforcing
    full report. Keep all floors.181 initial zero arms have source-identical
    semantic annotations(180 covered,one reviewed private default);870 still need completed semantic/behavioral proof,
-   including six source-reviewed market candidates awaiting evidence. Genuine fresh
+   including remaining source-reviewed market candidates as listed in the ledger. Genuine fresh
    bootstrap proof now exists; all unions before full collection are diagnostic.
 2. Execute07-04 conformance proof,07-05 clause/visual evidence,07-06 exact final
    gate and PR. Preparations exist; none are claimed complete.
