@@ -3,11 +3,15 @@ import { applicabilityIdentity } from './applicability.mjs';
 
 const ts = createRequire(new URL('../../package.json', import.meta.url))('typescript');
 const reviewed = Object.freeze({
-  'src/game.ts': { hash: 'fb5d9224e46c19b3745099429f06bd141d9b738bb2d8786ed3266e1b6a7d95f6', owner: 'Game', helpers: [], members: ['collectSessionCoins', 'sessionPickupContact'] },
+  'src/game.ts': { hash: 'fb5d9224e46c19b3745099429f06bd141d9b738bb2d8786ed3266e1b6a7d95f6', owner: 'Game', helpers: [], members: ['collectSessionCoins', 'sessionPickupContact', 'operationFor', 'inPlayerOperation', 'startPlayer', 'movePlayer', 'updateSessionPlayer', 'damagePlayer', 'advancePlayerDeathVisuals', 'advanceSharedWorld', 'advanceSharedPursuit', 'awardSessionPickup', 'updateSessionMobs', 'setSharedWorldEffects', 'resetSharedWorldEffects', 'syncSharedWorldEffects', 'installWorldExtension', 'updateSessionWorldExtension'] },
+  'src/recovery.ts': { hash:'835df7ab867c3421e7d295778c864ceba83f0ea10e588c4c6f4d95cdc2c1702b', callables:['reject','stable','isLivingRecoverySubject','planRecovery','commitRecoveryPlan'] },
+  'src/shared-world-effects.ts': { hash:'715dce9a98a83c398aa3a3d43531568008a9cefaa9be8df766a921dd2eb43a45', callables:['resolveSharedWorldEffects'] },
+  'src/consumables.ts': { hash:'6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12', callables:['reject','validGeneration','validId','definition','holdsCapability','sameOwner','chargesFor','validateBase','resulting','targetsFor','planConsumableCredit','planConsumableDebit'] },
+  'src/consumable-drops.ts': { hash:'2fc4a1c55dc7f37dbcac2b7091661e3a284d3292eddf1460da423a39520dec4a', callables:['freeze','signed','validate','mix32','draw','consumablePickupId','classifyConsumableBucket','classifyItemBucket','sampleConsumableDrop','sampleItemDrop'] },
   'src/session.ts': { hash: '5b9363b3d26641705d3a85d0e56fae0df9aed49ce1276f25fad918c1562887ed', owner: 'LocalSession', helpers: [] },
   'src/co-op-market.ts': { hash: '037a96c9f9436346f06306cac74808aab5e92e205ce2c42bebb1dbd16ca24c22', owner: 'CoOpMarketAdapter', helpers: ['actionId', 'isMarketWindowOpen', 'canBuyOrEquip'] },
 });
-const authority = '.planning/phases/07-release-evidence-pr/07-03-MODE-SCOPE-FINDING.md';
+const authority = '.planning/phases/07-release-evidence-pr/07-03-SOLO-CALL-CLOSURE.md';
 const before = (a, b) => a.line < b.line || a.line === b.line && a.column <= b.column;
 const contains = (outer, inner) => inner?.start && inner?.end && before(outer.start, inner.start) && before(inner.end, outer.end);
 
@@ -31,16 +35,24 @@ export function soloApplicabilityDispositions({ mode, sources }) {
     const ranges = [], functionRanges = [];
     const reasons = [];
     const addRange = (node, reason, functionsOnly = false) => { const range=span(node); (functionsOnly?functionRanges:ranges).push(range); reasons.push({range,reason}); };
+    for(const name of rule.callables??[]){
+      const fn=tree.statements.find(n=>ts.isFunctionDeclaration(n)&&n.name?.text===name);
+      const variable=tree.statements.filter(ts.isVariableStatement).flatMap(n=>[...n.declarationList.declarations]).find(n=>n.name.getText(tree)===name);
+      const callable=fn??variable?.initializer;
+      if(!callable||!(ts.isFunctionDeclaration(callable)||ts.isArrowFunction(callable))||!callable.body)throw Error('Reviewed callable absent: '+name);
+      const reason=`${name} belongs to the reviewed session service call closure; strict solo neither stages nor attaches session services. Import-time bootstrap validation remains applicable.`;
+      addRange(callable.body,reason);addRange(callable,reason,true);
+    }
     const owner = tree.statements.find(node => ts.isClassDeclaration(node) && node.name?.text === rule.owner);
-    if (!owner) throw Error('Reviewed class absent');
-    for (const member of owner.members) {
+    if (rule.owner && !owner) throw Error('Reviewed class absent');
+    for (const member of owner?.members??[]) {
       if (rule.members && !rule.members.includes(member.name?.getText(tree))) continue;
       if (member.modifiers?.some(m => m.kind === ts.SyntaxKind.StaticKeyword)) continue;
       // Instance field initializers execute only upon construction. Type-only fields have no sites.
-      if (member.body || member.initializer) addRange(member,rule.members ? 'Game.collectCoins calls collectSessionCoins only with world.sessionActive and resolvingPlayer; sessionPickupContact is private and called only by that collector. Strict owned solo cannot enter either body.' : `${rule.owner} instance execution requires LocalSession construction/attachment.`);
+      if (member.body || member.initializer) addRange(member,rule.members ? 'Reviewed Game session adapter: complete callers are session services or guarded by world.sessionActive. Strict owned solo rejects session attachment and staging; ordinary Game functions and dispatch guards remain applicable.' : `${rule.owner} instance execution requires LocalSession construction/attachment.`);
     }
     if(rule.members && rule.members.some(name=>!owner.members.some(member=>member.name?.getText(tree)===name&&member.body)))throw Error('Reviewed Game collector absent');
-    for (const helper of rule.helpers) {
+    for (const helper of rule.helpers??[]) {
       const declaration = tree.statements.filter(ts.isVariableStatement).flatMap(s => [...s.declarationList.declarations]).find(d => d.name.getText(tree) === helper);
       if (!declaration?.initializer || !ts.isArrowFunction(declaration.initializer)) throw Error('Reviewed helper absent');
       // Leave its module-level function-value initialization applicable; only calls are session-only.

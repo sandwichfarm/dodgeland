@@ -10,7 +10,7 @@ import { soloApplicabilityDispositions } from './solo-applicability.mjs';
 const directory = await mkdtemp(join(tmpdir(), 'solo-applicability-'));
 after(() => rm(directory, { recursive: true, force: true }));
 const root = resolve(new URL('../..', import.meta.url).pathname);
-const texts = Object.fromEntries(await Promise.all(['src/session.ts', 'src/co-op-market.ts', 'src/game.ts'].map(async path => [path, await readFile(join(root, path), 'utf8')])));
+const texts = Object.fromEntries(await Promise.all(['src/session.ts', 'src/co-op-market.ts', 'src/game.ts', 'src/recovery.ts', 'src/shared-world-effects.ts', 'src/consumables.ts', 'src/consumable-drops.ts'].map(async path => [path, await readFile(join(root, path), 'utf8')])));
 const inventory = instrumentSources(texts, root);
 // Explicit synthetic zero realm supplies schema only; this is not runtime credit.
 const mapped = await reportCoverage(inventory, [Object.fromEntries(Object.values(inventory).map(row => [row.path, row.zero]))], directory);
@@ -95,7 +95,7 @@ test('Game collector closure excludes exact private bodies but retains solo coll
  const at=fragment=>game.source.slice(0,game.source.indexOf(fragment)).split('\n').length;
  const functionId=fragment=>Object.entries(game.coverage.fnMap).find(([,site])=>site.decl.start.line===at(fragment))[0];
  const excluded=dispositions.filter(d=>d.path===game.path&&d.kind==='function');
- assert.deepEqual(new Set(excluded.map(d=>d.id)),new Set([functionId('private collectSessionCoins('),functionId('private sessionPickupContact(')]));
+ for(const id of [functionId('private collectSessionCoins('),functionId('private sessionPickupContact(')])assert.ok(excluded.some(d=>d.id===id));
  for(const kind of ['function','statement','branch']){
   const d=dispositions.find(d=>d.path===game.path&&d.kind===kind);assert.ok(d);
   const hits=structuredClone(attributed);if(kind==='branch')hits[d.path].b[d.id][d.arm]=1;else hits[d.path][kind==='function'?'f':'s'][d.id]=1;
@@ -106,4 +106,30 @@ test('Game collector closure excludes exact private bodies but retains solo coll
  assert.equal(reportApplicability({mode,sources,attributed:hits,dispositions}).applicable.functions.covered,1);
  const changed=structuredClone(sources);changed.find(s=>s.path===game.path).source+='\n';
  assert.throws(()=>soloApplicabilityDispositions({mode,sources:changed}),/changed/);
+});
+
+
+test('session service closures retain bootstrap functions and ordinary Game dispatch guards',()=>{
+ const selected={
+  'game.ts':['operationFor','inPlayerOperation','startPlayer','movePlayer','updateSessionPlayer','damagePlayer','advancePlayerDeathVisuals','advanceSharedWorld','advanceSharedPursuit','awardSessionPickup','updateSessionMobs','setSharedWorldEffects','resetSharedWorldEffects','syncSharedWorldEffects','installWorldExtension','updateSessionWorldExtension'],
+  'recovery.ts':['reject','stable','isLivingRecoverySubject','planRecovery','commitRecoveryPlan'],
+  'shared-world-effects.ts':['resolveSharedWorldEffects'],
+  'consumables.ts':['reject','validGeneration','validId','definition','holdsCapability','sameOwner','chargesFor','validateBase','resulting','targetsFor','planConsumableCredit','planConsumableDebit'],
+  'consumable-drops.ts':['freeze','signed','validate','mix32','draw','consumablePickupId','classifyConsumableBucket','classifyItemBucket','sampleConsumableDrop','sampleItemDrop'],
+ };
+ const kept={'game.ts':['syncSharedEffects','pursuitEnabled','sessionProtected','update','move','collectCoins','ensureRows'], 'consumables.ts':['freeze','validateConsumableCatalogue'], 'consumable-drops.ts':['unsigned','registerConsumableSchema','validateConsumableSchema','consumableSchema']};
+ function ids(source,name){
+  const rows=source.source.split('\n'),index=rows.findIndex(row=>new RegExp('^\\s*(?:(?:export|private|public|protected|async|get|function|const)\\s+)*'+name+'(?:\\s*[=(<]|\\s*\\()').test(row));assert.ok(index>=0,name);
+  const found=Object.entries(source.coverage.fnMap).filter(([,site])=>site.decl.start.line===index+1).map(([id])=>id);assert.ok(found.length,name);return found;
+ }
+ for(const mode of['solo-arcade','solo-flow']){
+  const dispositions=soloApplicabilityDispositions({mode,sources});
+  for(const [file,names]of Object.entries(selected)){const source=sources.find(s=>s.path.endsWith('/'+file));for(const name of names)for(const id of ids(source,name))assert.ok(dispositions.some(d=>d.path===source.path&&d.kind==='function'&&d.id===id),'excluded '+name);}
+  for(const [file,names]of Object.entries(kept)){const source=sources.find(s=>s.path.endsWith('/'+file));for(const name of names)for(const id of ids(source,name))assert.equal(dispositions.some(d=>d.path===source.path&&d.kind==='function'&&d.id===id),false,'kept '+name);}
+  for(const file of Object.keys(selected)){
+   const source=sources.find(s=>s.path.endsWith('/'+file)),d=dispositions.find(d=>d.path===source.path&&d.kind==='function'),hits=structuredClone(attributed);assert.ok(d);hits[d.path].f[d.id]=1;assert.throws(()=>reportApplicability({mode,sources,attributed:hits,dispositions}),/contradicted/);
+   const changed=structuredClone(sources);changed.find(s=>s.path===source.path).source+='\n';assert.throws(()=>soloApplicabilityDispositions({mode,sources:changed}),/changed/);
+   assert.throws(()=>soloApplicabilityDispositions({mode,sources:sources.filter(s=>s.path!==source.path)}),/Missing/);
+  }
+ }
 });
