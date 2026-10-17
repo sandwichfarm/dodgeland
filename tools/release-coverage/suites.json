@@ -1586,6 +1586,58 @@
         }
       ],
       "provenance": "Whole existing Survive owner and paid-pack journeys; exact genuine DEV artifact proof, original arranged/public assertions and output obligations retained"
+    },
+    "shared-pickup-03": {
+      "files": [
+        "tests/development-shared-pickup-runtime.mjs"
+      ],
+      "role": "browser",
+      "browser": true,
+      "buildScopes": [
+        "production",
+        "development"
+      ],
+      "jobs": [
+        {
+          "id": "shared-pickup-runtime",
+          "file": "tests/development-shared-pickup-runtime.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "defaultBuildScope": "production",
+          "artifactPatterns": [
+            "artifacts/shared-pickup-before.png",
+            "artifacts/shared-pickup-in-flight.png",
+            "artifacts/shared-pickup-after.png",
+            "artifacts/shared-pickup-runtime.json"
+          ],
+          "requiredBuildScopes": [
+            "production"
+          ],
+          "verifyArtifactScope": true
+        },
+        {
+          "id": "shared-pickup-runtime-development",
+          "file": "tests/development-shared-pickup-runtime.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "defaultBuildScope": "development",
+          "artifactPatterns": [
+            "artifacts/shared-pickup-before.png",
+            "artifacts/shared-pickup-in-flight.png",
+            "artifacts/shared-pickup-after.png",
+            "artifacts/shared-pickup-runtime.json"
+          ],
+          "requiredBuildScopes": [
+            "development"
+          ],
+          "verifyArtifactScope": true
+        }
+      ],
+      "provenance": "Actual built app controller admission/market purchase/disconnect and real RAF collection; explicitly arranged wallet/stock/market eligibility, meadow and initial coin/player positions. Production and genuine DEV artifacts independently proven."
     }
   },
   "pendingAdapters": [
@@ -5043,6 +5095,44 @@
         "artifactPatterns": [
           "artifacts/market-pack-replacement-failure.png",
           "artifacts/market-pack-replacement.json"
+        ],
+        "requiredBuildScopes": [
+          "development"
+        ],
+        "verifyArtifactScope": true
+      },
+      {
+        "id": "shared-pickup-runtime",
+        "file": "tests/development-shared-pickup-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "production",
+        "artifactPatterns": [
+          "artifacts/shared-pickup-before.png",
+          "artifacts/shared-pickup-in-flight.png",
+          "artifacts/shared-pickup-after.png",
+          "artifacts/shared-pickup-runtime.json"
+        ],
+        "requiredBuildScopes": [
+          "production"
+        ],
+        "verifyArtifactScope": true
+      },
+      {
+        "id": "shared-pickup-runtime-development",
+        "file": "tests/development-shared-pickup-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "development",
+        "artifactPatterns": [
+          "artifacts/shared-pickup-before.png",
+          "artifacts/shared-pickup-in-flight.png",
+          "artifacts/shared-pickup-after.png",
+          "artifacts/shared-pickup-runtime.json"
         ],
         "requiredBuildScopes": [
           "development"
