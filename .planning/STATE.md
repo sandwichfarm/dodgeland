@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: 07-03 meaningful coverage closure; full enforcing report pending
-last_updated: "2026-10-17T02:51:48Z"
+last_updated: "2026-10-17T03:14:02Z"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,7 +12,7 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Browser applicability verified; per-file UI proofs complete; solo call-closure and genuine bootstrap evidence in progress.
+last_activity_desc: Development session replacement fixed; genuine development gameplay and broader solo/turn witnesses pass; full enforcing coverage remains open.
 ---
 
 # Project State
@@ -24,9 +24,10 @@ last_activity_desc: Browser applicability verified; per-file UI proofs complete;
 368 payloads, all ordinary artifacts restored, 47 measured floor shortfalls.
 It is a successful collection, not release acceptance.
 
-07-03 is in progress. Meaningful authority tests exposed and fixed session
-lifetime identity reuse (36495b1); all other additions so far are test/tooling
-proof. Required type/build/guidance checks pass. Conformance remains five
+07-03 is in progress. Meaningful tests exposed and fixed session lifetime
+identity reuse (36495b1) and stale multiplayer ownership after development
+jump/load (71b5dc6). Both have retained RED/GREEN evidence. Required
+type/build/guidance checks pass. Conformance remains five
 passes, zero failures and five unmeasured checks. Normal build raw SHA256:
 `ca774030d10eabe9dc9ed9780bf17422642874f7605bfdc26db6c116a6d86168`.
 
@@ -51,26 +52,46 @@ negative controls and canonical79259 (7b40ca7), run
 201 exact dispositions, no excluded positive hit. Global/per-file counters stay
 complete. Browser applicable denominator is9852 arms; full enforcement pending.
 
-Solo24-lifetime/48-interval economy run65265 passed (f19d919); turn7-lifetime/
-25-interval applicability run79479 passed (ad4200d). Applicable solo Arcade
-839/1427L204/389F868/1960B, Flow768/1427L189/389F792/1960B; Relay
-1392/2226L482/752F1465/3010B, Race1440/2281L523/803F1670/3207B. These remain
-below floors. The development stratum also remains open; its small control
-fixture does not establish broad imported gameplay coverage.
+Latest solo24-lifetime/48-interval run35534 passed (e4cc5d5),
+`b67390f4-35c5-4b68-a092-baacdd06c6e7`: Arcade926/1239L218/320F963/1730B,
+Flow790/1099L195/300F823/1590B. Exact Flow-only mob closure retains bootstrap,
+guard/cleanup and all raw counters. Separate genuine bootstrap run63850
+`90e9c476-0ce0-4e29-973b-18ea512a2624` (d2ba3c4) measures two fresh ESM lifetimes,
+four intervals, main's static Race schema/catalog initialization and real
+listenerless pickup/hurt/heal/rescue/death parity. No duplicated boot counters.
 
-Current delegation: `relay_first_handoff` owns exact additional solo
-call-closure dispositions/negatives and the single runtime slot for their
-canonical projection. `survive_verifier_fallback` owns a separate genuine
-two-lifetime solo bootstrap witness and shared runner integration, preparing
-without execution until slot handoff. Root owns semantic ledger/state and
-orchestration. Check live messages before launching any tests/build/browser.
+Latest turn run23173 passed (06b89b0),
+`a22c7560-4154-4c94-b34e-24947ee48541`: Relay1400/2226L489/752F1487/3010B,
+Race1449/2281L531/803F1688/3207B. Seven lifetimes/25 intervals retain closed
+rosters, dead-owner reclaim, unconfirmed-seat skip, pending-offer departure and
+all-dead Race timeout assertions. These mode floors remain open.
+
+Development replacement canonical44509 passed,
+`dc650cee-3b95-4b7f-9b31-48ac234e5926`: six actual DEV/PROD browser realms and
+one Node parent. The new main source identity was independently reviewed for
+the browser-only compatibility exclusion;22 negative controls pass. Do not
+merge changed main counters into initial main's schema.
+
+Genuine development gameplay run85278 passed (4c38474),
+`fd368afa-33be-4988-84e3-576eef3713d3`: three reused whole suites,12 actual
+development browser realms with exact artifact hash/script and live-dev-tools
+proof. All26 development source files remain:1601/2122L486/694F1600/2821B.
+Existing production jobs remain. No full floor pass or Node-as-DEV credit.
+
+Current delegation: `relay_first_handoff` reviews further strict-solo
+projection/API call closures read-only. `survive_verifier_fallback` prepares a
+second genuine-development reuse tranche and exact alternate Node-parent binding
+for a repeated mixed job; its patch awaits root review. Root owns semantic
+ledger/state and orchestration. Check live messages before launching any
+tests/build/browser. Only one chain at a time.
 
 ## Next required work
 
 1. Complete07-03: broad honest Solo/Relay/Race and development evidence,
    remaining per-file gaps, complete semantic ledger, then a fresh enforcing
-   full report. Keep all floors. Current bootstrap intervals begin after imports;
-   measure real fresh module lifetimes instead of inventing initialization hits.
+   full report. Keep all floors.141 initial zero arms have source-identical
+   behavioral annotations;910 remain pending semantic review. Genuine fresh
+   bootstrap proof now exists; all unions before full collection are diagnostic.
 2. Execute07-04 conformance proof,07-05 clause/visual evidence,07-06 exact final
    gate and PR. Preparations exist; none are claimed complete.
 3. Open PR against main only after all gates; no merge, deployment or publish.
