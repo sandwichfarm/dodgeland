@@ -143,3 +143,18 @@ Root opened these current images under `suite-artifacts/survive-complete-run-run
 | survive-five-participant-paging.png |6aa17552e1c1e58630bfc8e51794f7b97c890fd65ddf252122e73ec653118b4b|The short result page identifies the departed P4 Petal as Left run, with Hops, page17/20, navigation, retry and seed controls. This single image shows one participant; the test's actual paging assertion covers all five stable participants including the replacement P4.|
 
 The scene test separately measures each actual traveler/body envelope against the paused market invitation with the inclusive8px condition. The image alone is not numerical clearance evidence. Result immutability, all-participant paging and unchanged ownership come from the named assertions, not from the screenshot or the suite name. Full collection and release acceptance remain pending.
+## Recovery matrix repair: ordinary-build observations
+
+Full collection11460 stopped after119 passing production jobs when the original recovery-board layout test exceeded its120s aggregate deadline. Its127 recorded frames do not waive the cancellation. Candidate `68c3f42` retains the single app/session and all original actions, with five sequential bounded stages and cancellation cleanup. These observations concern the subsequent ordinary-build test, not a completed full coverage collection.
+
+The ordinary strict test passed6/6 with zero failures/cancellations/skips in28190ms. Root independently compared the ordered `(state, theme, width, height, pageIndex)` tuples against the retained original archive: all127 match exactly. The report has `complete=true`, all five stages and empty errors/external arrays; SHA256 `87944c43bc59854d5825781f33439490d8e795613a72ec2dd61c93808ee08f90`. The ordinary wrapper restored its134-file `survive-recovery-*` set byte-for-byte, broader than the canonical job's128-file matrix set. Normal dist remains `bc1bcc8f07aae95e7308f3c659157ee5f2cf31dd98dce77d393d2b070373f2fb`.
+
+Root opened these actual images under `/tmp/down-to-duck-07-12-recovery-layout-ordinary-evidence/generated/`:
+
+| Image | SHA256 | Observation |
+| --- | --- | --- |
+| survive-recovery-revival-dark-240x240-0.png |71c014b38dce5498dc63dd800c0998ac054c1cbf0e9eaf5e83b3760a6092a093|The floor view identifies P1 Butter and selected P2 Sunny; Back, Revive P2 and People/page controls fit with readable labels. This page alone does not show all three possible targets.|
+| survive-recovery-kept-flare-light-320x560-0.png |815260fe348be2b97bac1fdf8ccc687fe95c2ca8d04bc5e82eb69682638c5b5e|The failed-safe-destination message explicitly says the Flare was kept. Back, Use Flare and People/page controls remain visible. Charge preservation is established by the separate before/after state assertion, not by this text alone.|
+| survive-recovery-empty-items-light-1000x280-0.png |e32990adfc90b7a2690950e4a26eaf8b62a7a011dc69be56e2e119b8135781fd|P2 Sunny's empty shelf shows both zero-charge actions disabled, with visible focus on Back and a separate Leave P2 run action.|
+
+Acquisition arranges terrain, admission, wallet/stock and deaths through production fixture APIs, then exercises the real board, selections, native Tab navigation, resize/paging and rejected recovery transactions. It is not an entirely public-input run. Canonical collection, actual cancellation-negative evidence, independent final review and durable07-05 release packaging remain separate obligations.
