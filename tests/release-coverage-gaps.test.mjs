@@ -2,12 +2,14 @@ import assert from 'node:assert/strict';
 import test, { after } from 'node:test';
 import { loadSources } from './source-loader.mjs';
 
-const sources = await loadSources(['game', 'session', 'survive-together', 'market/catalog']);
+const sources = await loadSources(['game', 'session', 'survive-together', 'market/catalog', 'relay-results', 'session-input']);
 after(() => sources.dispose());
 const { Game, actorPositions } = await sources.import('game');
 const { LocalSession } = await sources.import('session');
 const { createSurviveTogetherDefinition } = await sources.import('survive-together');
 const { ITEM_CATALOG } = await sources.import('market/catalog');
+const { createRelayLedger, finalizeRelayResult } = await sources.import('relay-results');
+const { GamepadRouter } = await sources.import('session-input');
 
 function setup() {
   const game = new Game(113, 'pond', 'arcade', false, [], 'butter');
@@ -146,4 +148,72 @@ test('Survive terminal result orders multiple released participants and retains 
   session.update(1);
   assert.equal(JSON.stringify(result), frozen);
   assert.equal(session.result, result);
+});
+
+test('Relay ledger rejects malformed and stale writes atomically without consuming corrected action IDs', () => {
+  const identity = { seat: 'p1', participantId: 'first-traveler', characterId: 'butter' };
+  const ledger = createRelayLedger([identity]);
+  const token = { seat: identity.seat, participantId: identity.participantId, leg: 1, generation: 0 };
+  const open = { ...token, id: 'open', frontier: 5, time: 10, position: { x: 0, y: 5 } };
+  const delta = { distance: 1, coins: 0, pickups: 0, selfRevives: 0, deaths: 0 };
+  function rejected(operation, reason) {
+    const before = JSON.stringify(ledger.snapshot());
+    assert.deepEqual(operation(), { ok: false, reason });
+    assert.equal(JSON.stringify(ledger.snapshot()), before);
+  }
+  rejected(() => ledger.open({ ...open, id: '' }), 'invalid');
+  rejected(() => ledger.open({ ...open, participantId: 'foreign' }), 'wrong-owner');
+  rejected(() => ledger.open({ ...open, position: { x: NaN, y: 5 } }), 'invalid');
+  rejected(() => ledger.credit({ ...token, id: 'early-credit', delta }), 'closed');
+  rejected(() => ledger.skip({ ...token, id: 'skip', participantId: 'foreign' }), 'wrong-owner');
+  rejected(() => ledger.skip({ ...token, id: 'skip' }), 'stale');
+  assert.equal(ledger.skip({ ...token, id: 'skip', leg: 0 }).ok, true);
+  rejected(() => ledger.skip({ ...token, id: 'skip', leg: 0 }), 'duplicate');
+  assert.equal(ledger.open(open).ok, true, 'invalid proposals did not consume open identity');
+  rejected(() => ledger.open(open), 'duplicate');
+  rejected(() => ledger.freeze(), 'invalid');
+  const common = { mode: 'relay', outcome: 'complete', distance: 1, elapsedSeconds: 12, seedCode: null };
+  const beforeFinalize = JSON.stringify(ledger.snapshot());
+  assert.throws(() => finalizeRelayResult(ledger, common), /Close the current/);
+  assert.equal(JSON.stringify(ledger.snapshot()), beforeFinalize);
+  assert.equal(ledger.credit({ ...token, id: 'early-credit', delta }).ok, true);
+  const close = { ...token, id: 'close', frontier: 6, time: 12, duration: 2, position: { x: 0, y: 6 }, outcome: 'complete' };
+  for (const patch of [{ time: 9 }, { frontier: 4 }, { position: { x: Infinity, y: 6 } }, { duration: -1 }, { duration: 3 }]) {
+    rejected(() => ledger.close({ ...close, ...patch }), 'invalid');
+  }
+  const lifecycle = { ...identity, id: 'lost', generation: 1, lifecycle: 'device-lost', connected: false };
+  rejected(() => ledger.lifecycle({ ...lifecycle, characterId: 'pip' }), 'wrong-owner');
+  rejected(() => ledger.lifecycle({ ...lifecycle, generation: 0 }), 'stale');
+  assert.equal(ledger.lifecycle(lifecycle).ok, true);
+  rejected(() => ledger.lifecycle(lifecycle), 'duplicate');
+  rejected(() => ledger.close(close), 'stale');
+  assert.equal(ledger.close({ ...close, generation: 1 }).ok, true);
+  assert.equal(ledger.snapshot().legs.length, 1);
+  assert.equal(ledger.snapshot().legs[0].distance, 1);
+  assert.equal(ledger.freeze().ok, true);
+  rejected(() => ledger.freeze(), 'terminal');
+  rejected(() => ledger.lifecycle({ ...lifecycle, id: 'late', generation: 2 }), 'terminal');
+});
+
+test('controller diagonal hysteresis and absent axes retain one assigned seat without phantom moves', () => {
+  const actions = [], devices = [];
+  const router = new GamepadRouter({ context: () => 'play', dispatch: action => { actions.push(action); return true; }, lifecycle: event => { if (event.type === 'seen') devices.push(event.device); } });
+  let time = 0;
+  const send = (pressed = [], axes = []) => router.receive({ available: true, focused: true, pads: [{
+    index: 0, id: 'diagonal-pad', mapping: 'standard', connected: true, timestamp: time,
+    axes, buttons: Array.from({ length: 17 }, (_, i) => ({ pressed: pressed.includes(i), touched: pressed.includes(i), value: pressed.includes(i) ? 1 : 0 })),
+  }] }, time++);
+  send(); assert.equal(router.assign(devices[0], 'p2'), true); send();
+  assert.deepEqual(actions, []);
+  send([14]); send([14, 12]); send([15, 12]);
+  assert.deepEqual(actions.map(a => a.direction), ['left', 'right'], 'D-pad diagonal preserves previous horizontal axis');
+  send(); send([15, 13]);
+  assert.equal(actions.at(-1).direction, 'back', 'neutral diagonal uses vertical priority');
+  send(); send([], [-.8, 0]); send([], [-.8, -.8]); send([], [.8, -.8]);
+  assert.deepEqual(actions.slice(-2).map(a => a.direction), ['left', 'right'], 'equal analog axes retain horizontal ownership');
+  send(); send([], [0, -.8]); send(); send([], [0, .8]); send();
+  assert.deepEqual(actions.slice(-2).map(a => a.direction), ['forward', 'back']);
+  assert.ok(actions.every(a => a.seat === 'p2'));
+  const count = actions.length; router.close(); send([12]);
+  assert.equal(actions.length, count, 'disposed device cannot dispatch');
 });
