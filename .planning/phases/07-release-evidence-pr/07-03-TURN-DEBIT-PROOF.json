@@ -1,0 +1,1531 @@
+{
+  "status": "Relay-only callable scope accepted by105 calibration controls and637 strict-revalidated original actual intervals;not enforcing full release",
+  "retainedControlRedCommit": "78194a0",
+  "controlRedCounts": {
+    "pass": 12,
+    "fail": 2,
+    "scopeContractMissing": true,
+    "productDefectClaim": false
+  },
+  "controlGreenCounts": {
+    "turnApplicability": 14,
+    "allToolControls": 105,
+    "fail": 0,
+    "skipped": 0
+  },
+  "logs": {
+    "red": "/tmp/down-to-duck-turn-debit-controls-red.log",
+    "focusedGreen": "/tmp/down-to-duck-turn-debit-controls-green.log",
+    "allControls": "/tmp/down-to-duck-turn-debit-all-controls.log",
+    "projection": "/tmp/down-to-duck-turn-debit-project.log",
+    "independentParents": "/tmp/down-to-duck-turn-debit-parents.log"
+  },
+  "actualIntervalParents": {
+    "purpose": "Original whole-job independent parent equality/model expectations and actual browser interval containment revalidated;source-identical diagnostic reuse,not fresh full collection",
+    "modelParents": 14,
+    "browserParents": 10,
+    "selectedIntervals": 637,
+    "groups": [
+      {
+        "group": "paused-turn-recovery-03",
+        "runId": "b410bc9e-7c44-4a69-b822-75fb22cf2e14",
+        "modelParents": 1,
+        "browserParents": 0,
+        "selectedIntervals": 28
+      },
+      {
+        "group": "paused-turn-model-03",
+        "runId": "5c9c1b71-c13c-40cd-b6db-61e6452569bc",
+        "modelParents": 1,
+        "browserParents": 0,
+        "selectedIntervals": 89
+      },
+      {
+        "group": "paused-turn-reuse-03",
+        "runId": "ddd03ae5-664f-4b68-8de4-a00b3c740900",
+        "modelParents": 3,
+        "browserParents": 0,
+        "selectedIntervals": 107
+      },
+      {
+        "group": "paused-relay-lifecycle-03",
+        "runId": "c35393b8-437a-4548-8c2f-ffde832db561",
+        "modelParents": 1,
+        "browserParents": 0,
+        "selectedIntervals": 30
+      },
+      {
+        "group": "paused-race-results-03",
+        "runId": "5dc985d4-7da0-4d32-aeb7-7b87c190951d",
+        "modelParents": 1,
+        "browserParents": 0,
+        "selectedIntervals": 40
+      },
+      {
+        "group": "paused-public-03",
+        "runId": "40c7d6c4-5c7d-462d-9c23-c2fade8d1cff",
+        "modelParents": 0,
+        "browserParents": 2,
+        "selectedIntervals": 2
+      },
+      {
+        "group": "paused-relay-public-03",
+        "runId": "aeb1e140-5ec0-4012-ac37-55a8ff5113e3",
+        "modelParents": 0,
+        "browserParents": 1,
+        "selectedIntervals": 1
+      },
+      {
+        "group": "paused-race-public-03",
+        "runId": "aaaa97df-3f13-46fd-a741-f88fe6cb52b5",
+        "modelParents": 0,
+        "browserParents": 7,
+        "selectedIntervals": 7
+      },
+      {
+        "group": "setup-retry-03",
+        "runId": "a4ca112f-4f4e-4028-a3c0-739c9f0782f6",
+        "modelParents": 1,
+        "browserParents": 0,
+        "selectedIntervals": 12
+      },
+      {
+        "group": "turn-authority-boundaries-03",
+        "runId": "7d1f1826-efda-43b7-b75b-42693d450d42",
+        "modelParents": 1,
+        "browserParents": 0,
+        "selectedIntervals": 20
+      },
+      {
+        "group": "turn-market-boundaries-03",
+        "runId": "d05cb058-e0aa-4a17-9cbf-1d86396b55fe",
+        "modelParents": 1,
+        "browserParents": 0,
+        "selectedIntervals": 16
+      },
+      {
+        "group": "turn-character-rescues-03",
+        "runId": "c58a8ef4-2668-4fb2-9370-01975186fd68",
+        "modelParents": 1,
+        "browserParents": 0,
+        "selectedIntervals": 57
+      },
+      {
+        "group": "turn-mob-boundaries-03",
+        "runId": "6b16b5d7-56bf-46f9-b12d-d567ceffa50b",
+        "modelParents": 1,
+        "browserParents": 0,
+        "selectedIntervals": 84
+      },
+      {
+        "group": "turn-seed-compatibility-03",
+        "runId": "2bf32d39-d85c-4242-a54e-e2e5e2a94948",
+        "modelParents": 1,
+        "browserParents": 0,
+        "selectedIntervals": 72
+      },
+      {
+        "group": "turn-saved-bootstrap-03",
+        "runId": "2bb34684-91a5-482e-bf54-d4022b4b4e49",
+        "modelParents": 1,
+        "browserParents": 0,
+        "selectedIntervals": 72
+      }
+    ]
+  },
+  "diagnosticModes": {
+    "relay": {
+      "raw": {
+        "lines": {
+          "covered": 1974,
+          "total": 2352
+        },
+        "statements": {
+          "covered": 2920,
+          "total": 3735
+        },
+        "functions": {
+          "covered": 656,
+          "total": 817
+        },
+        "branches": {
+          "covered": 2217,
+          "total": 3204
+        }
+      },
+      "previousApplicable": {
+        "lines": {
+          "covered": 1974,
+          "total": 2104
+        },
+        "statements": {
+          "covered": 2920,
+          "total": 3310
+        },
+        "functions": {
+          "covered": 656,
+          "total": 710
+        },
+        "branches": {
+          "covered": 2217,
+          "total": 2793
+        }
+      },
+      "applicable": {
+        "lines": {
+          "covered": 1974,
+          "total": 2079
+        },
+        "statements": {
+          "covered": 2920,
+          "total": 3271
+        },
+        "functions": {
+          "covered": 656,
+          "total": 708
+        },
+        "branches": {
+          "covered": 2217,
+          "total": 2744
+        }
+      },
+      "remaining": {
+        "lines": 0,
+        "functions": 0,
+        "branches": 116
+      }
+    },
+    "race": {
+      "raw": {
+        "lines": {
+          "covered": 2047,
+          "total": 2305
+        },
+        "statements": {
+          "covered": 3017,
+          "total": 3645
+        },
+        "functions": {
+          "covered": 699,
+          "total": 818
+        },
+        "branches": {
+          "covered": 2444,
+          "total": 3261
+        }
+      },
+      "previousApplicable": {
+        "lines": {
+          "covered": 2047,
+          "total": 2163
+        },
+        "statements": {
+          "covered": 3017,
+          "total": 3406
+        },
+        "functions": {
+          "covered": 699,
+          "total": 758
+        },
+        "branches": {
+          "covered": 2444,
+          "total": 3032
+        }
+      },
+      "applicable": {
+        "lines": {
+          "covered": 2047,
+          "total": 2163
+        },
+        "statements": {
+          "covered": 3017,
+          "total": 3406
+        },
+        "functions": {
+          "covered": 699,
+          "total": 758
+        },
+        "branches": {
+          "covered": 2444,
+          "total": 3032
+        }
+      },
+      "remaining": {
+        "lines": 0,
+        "functions": 0,
+        "branches": 134
+      }
+    }
+  },
+  "newDispositions": [
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "41",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "42",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "43",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "44",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "45",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "46",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "47",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "48",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "49",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "50",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "51",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "52",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "53",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "54",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "55",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "56",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "57",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "58",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "59",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "60",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "61",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "62",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "63",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "64",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "65",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "66",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "67",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "68",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "69",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "77",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "78",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "79",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "80",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "81",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "82",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "83",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "84",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "85",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "statement",
+      "id": "86",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "function",
+      "id": "17",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "function",
+      "id": "19",
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "21",
+      "arm": 0,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "21",
+      "arm": 1,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "22",
+      "arm": 0,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "22",
+      "arm": 1,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "23",
+      "arm": 0,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "23",
+      "arm": 1,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "23",
+      "arm": 2,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "24",
+      "arm": 0,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "24",
+      "arm": 1,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "25",
+      "arm": 0,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "25",
+      "arm": 1,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "26",
+      "arm": 0,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "26",
+      "arm": 1,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "27",
+      "arm": 0,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "27",
+      "arm": 1,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "28",
+      "arm": 0,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "28",
+      "arm": 1,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "29",
+      "arm": 0,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "29",
+      "arm": 1,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "29",
+      "arm": 2,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "29",
+      "arm": 3,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "30",
+      "arm": 0,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "30",
+      "arm": 1,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "31",
+      "arm": 0,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "31",
+      "arm": 1,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "31",
+      "arm": 2,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "32",
+      "arm": 0,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "32",
+      "arm": 1,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "33",
+      "arm": 0,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "33",
+      "arm": 1,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "34",
+      "arm": 0,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "34",
+      "arm": 1,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "35",
+      "arm": 0,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "35",
+      "arm": 1,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "36",
+      "arm": 0,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "36",
+      "arm": 1,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "37",
+      "arm": 0,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "37",
+      "arm": 1,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "37",
+      "arm": 2,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "38",
+      "arm": 0,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "38",
+      "arm": 1,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "39",
+      "arm": 0,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "39",
+      "arm": 1,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "42",
+      "arm": 0,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "42",
+      "arm": 1,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "43",
+      "arm": 0,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "43",
+      "arm": 1,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "44",
+      "arm": 0,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    },
+    {
+      "mode": "relay",
+      "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+      "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+      "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+      "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+      "kind": "branch",
+      "id": "44",
+      "arm": 1,
+      "callReason": "Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.",
+      "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+      "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md"
+    }
+  ],
+  "projectionArtifacts": [
+    {
+      "path": "artifacts/release-coverage/turn-debit-review/projections/combined.json",
+      "sha256": "42b33d5029c354f35ebceeed321fd9d86718334dfdb468ba56fdda4df06c0886"
+    },
+    {
+      "path": "artifacts/release-coverage/turn-debit-review/projections/parents.json",
+      "sha256": "700e2f1955620108346544608ecf3a2a46a33efa7224677c2a4f7735248e902e"
+    },
+    {
+      "path": "artifacts/release-coverage/turn-debit-review/projections/paused-public-03-race.json",
+      "sha256": "952be460a6bca19fd852c1780ee964855754b5a94174a57a0a5fe507407fad00"
+    },
+    {
+      "path": "artifacts/release-coverage/turn-debit-review/projections/paused-public-03-relay.json",
+      "sha256": "49491315abc3a4e72389a67c8cd88c332db5732a2eb13633b00553385de7e573"
+    },
+    {
+      "path": "artifacts/release-coverage/turn-debit-review/projections/paused-race-public-03-race.json",
+      "sha256": "e668969f8cd4f327de7c7d0915073f047fd122b2f509adccf711ffe94f11aceb"
+    },
+    {
+      "path": "artifacts/release-coverage/turn-debit-review/projections/paused-race-results-03-race.json",
+      "sha256": "5f83855b73b5737f3729fcaa5a564fa7379d617a7f3c515607a4271ca99068bf"
+    },
+    {
+      "path": "artifacts/release-coverage/turn-debit-review/projections/paused-relay-lifecycle-03-relay.json",
+      "sha256": "a8034d53b28ac79283f5b1753ea563153f452136020a5febaa5872e1a40979d2"
+    },
+    {
+      "path": "artifacts/release-coverage/turn-debit-review/projections/paused-relay-public-03-relay.json",
+      "sha256": "e5be4017c74625285dfa88628d14a5d8b8a61405c181642b2e5c3af126baa8b3"
+    },
+    {
+      "path": "artifacts/release-coverage/turn-debit-review/projections/paused-turn-model-03-race.json",
+      "sha256": "bb72828eeac304c37af11803852fda1d2db801310cc644b29a2761bfce18a801"
+    },
+    {
+      "path": "artifacts/release-coverage/turn-debit-review/projections/paused-turn-model-03-relay.json",
+      "sha256": "3994e553b20f2404e694b19fc9be27031a17b653577dbada64c32f55b65193e0"
+    },
+    {
+      "path": "artifacts/release-coverage/turn-debit-review/projections/paused-turn-recovery-03-race.json",
+      "sha256": "b25f2da8de70171d89ae27e1b59befb094696269889c9096cf51ced65ef39983"
+    },
+    {
+      "path": "artifacts/release-coverage/turn-debit-review/projections/paused-turn-recovery-03-relay.json",
+      "sha256": "adebb6224d48f36d340d851656adf5941ba1c04bfb3eaead1c396f4d72c26bc2"
+    },
+    {
+      "path": "artifacts/release-coverage/turn-debit-review/projections/paused-turn-reuse-03-race.json",
+      "sha256": "4fd18812189944441dc4d605285dce1b7c984471c9a55c849b6265d917deb6c6"
+    },
+    {
+      "path": "artifacts/release-coverage/turn-debit-review/projections/paused-turn-reuse-03-relay.json",
+      "sha256": "b1de63d947e853f17c2ee9fbeb4531f96d3a9b8ae3d26d3ed630a226e755b783"
+    },
+    {
+      "path": "artifacts/release-coverage/turn-debit-review/projections/setup-retry-03-race.json",
+      "sha256": "da5c812489c4a71a69f2aaf1d9f0b6b08deb54692e86116decab2da3469d857b"
+    },
+    {
+      "path": "artifacts/release-coverage/turn-debit-review/projections/setup-retry-03-relay.json",
+      "sha256": "acc257599eb87626a63cc465834973a4bf5119c1d2a7c6ed3860dad3cccddc1f"
+    },
+    {
+      "path": "artifacts/release-coverage/turn-debit-review/projections/turn-authority-boundaries-03-race.json",
+      "sha256": "3b6d392a68b3dc0f7badccc7a18164d54c07863682ae75a060924d5d71b3152e"
+    },
+    {
+      "path": "artifacts/release-coverage/turn-debit-review/projections/turn-authority-boundaries-03-relay.json",
+      "sha256": "799f274585a6fa3bbaef2a030e67d57d4f9cd650ae397728768f3affd7d2a678"
+    },
+    {
+      "path": "artifacts/release-coverage/turn-debit-review/projections/turn-character-rescues-03-race.json",
+      "sha256": "bf4664f5aae9f8c272278c1d66fabc565dc0102bf66f6c5fd210c09ef4384626"
+    },
+    {
+      "path": "artifacts/release-coverage/turn-debit-review/projections/turn-character-rescues-03-relay.json",
+      "sha256": "b319d354471bc4e627e8efcb0a84b63f5291d4ea5506bc36456069154a0aee5e"
+    },
+    {
+      "path": "artifacts/release-coverage/turn-debit-review/projections/turn-market-boundaries-03-race.json",
+      "sha256": "85ab3a9ae86e9b2b7ac6ea94d98ecfb34c1e749773c1d595097a5e09f3d52f9a"
+    },
+    {
+      "path": "artifacts/release-coverage/turn-debit-review/projections/turn-market-boundaries-03-relay.json",
+      "sha256": "aec85945c7b7b75027724ac1bc86356cd0aa7155345f42005e0410ec40c99f34"
+    },
+    {
+      "path": "artifacts/release-coverage/turn-debit-review/projections/turn-mob-boundaries-03-race.json",
+      "sha256": "ab07a12c9d75911fb7be600ea2b1e893538f988b174a8fdc40f9fb620557ad91"
+    },
+    {
+      "path": "artifacts/release-coverage/turn-debit-review/projections/turn-mob-boundaries-03-relay.json",
+      "sha256": "1acc561b738534fea7d4b2257689834e3af8cd00eb37dc375b5af5c51bae9f5f"
+    },
+    {
+      "path": "artifacts/release-coverage/turn-debit-review/projections/turn-saved-bootstrap-03-race.json",
+      "sha256": "87a5f8b045392df293cb92bdf81ad1c5a373ee4ad1674679592da9327fe2a0ea"
+    },
+    {
+      "path": "artifacts/release-coverage/turn-debit-review/projections/turn-saved-bootstrap-03-relay.json",
+      "sha256": "7bfeb614853eb376368ccf3d2509464d6a477012fa92d9d0feae72267767e7e0"
+    },
+    {
+      "path": "artifacts/release-coverage/turn-debit-review/projections/turn-seed-compatibility-03-race.json",
+      "sha256": "2333aae55a69184979d37532f94bce4c8a84bc16083b5733eafe6fe1f5fdd6fe"
+    },
+    {
+      "path": "artifacts/release-coverage/turn-debit-review/projections/turn-seed-compatibility-03-relay.json",
+      "sha256": "be5b34ae623115e1a3228cd874e1313c7d3d00a61d317791eea88a9cc00bad8e"
+    }
+  ],
+  "scriptArtifacts": [
+    {
+      "path": "artifacts/release-coverage/turn-debit-review/down-to-duck-turn-debit-parents.mjs",
+      "sha256": "adfda747f0bb6043d86373c7b92064f5dd48cf4713336e96798b080cf3e09841"
+    },
+    {
+      "path": "artifacts/release-coverage/turn-debit-review/down-to-duck-turn-debit-project.mjs",
+      "sha256": "2fb995e1542ed4dd298c658bc6223a9fd19af34d1cdc2e78fb0cde6c710e7bff"
+    },
+    {
+      "path": "artifacts/release-coverage/turn-debit-review/down-to-duck-turn-debit-reference-audit.mjs",
+      "sha256": "04ad7491c0bdd0fac13033ba43ee0dccb6fd7f2745fad1165db1413440594d50"
+    }
+  ],
+  "callerAudit": "07-03-TURN-DEBIT-REFERENCE-AUDIT.json",
+  "callerInventoryHash": "92a4572f0d38c4bfbf79d424e30d3dfca03b984fbb6c654cfaed5e390212da96",
+  "normalArtifactRawSha256": "9036d9a1f179b136569a3b400c412d954d783987c751832afbbbfda287c63539",
+  "rootLockRawSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "limits": [
+    "No production source or numeric threshold change",
+    "No covered numerator changes;Relay-only applicability removes25 lines/39 statements/2 functions/49 branch arms from two unreachable callables",
+    "Raw/global/per-file accounting and all Race applicability remain intact",
+    "Whole-job component tests are globally accountable and are never mode credit",
+    "Original cohort reports stay historical and untouched;new strict projections are separate files",
+    "Future enforcing full collection,complete semantic ledger,conformance/visual/final PR gates remain required"
+  ]
+}

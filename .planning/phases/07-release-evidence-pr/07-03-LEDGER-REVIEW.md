@@ -285,3 +285,15 @@ solo baseline. The same actual Game starts Relay/Race and settles a real hop.
 initial-zero hits;initial/current disk source,map and full mapped schemas match.
 No oracle code contributes current counters. Audio fields are parser component
 assertions,not speaker or UI proof. [Exact evidence](07-03-TURN-SAVED-PROOF.json).
+
+## Consumable-validation
+
+**ITEM-04,RACE-04,TEST-02.** Real policy planners reject malformed inventory,
+nonarray targets,empty Flare and invalid living self/opponent targets without
+mutating inputs. Corrected requests preserve the source charge and produce the
+matching one-charge plan. Actual cooperative/tactical catalogues are used.
+Whole `tests/consumable-boundaries.test.mjs` passes8/8 canonical
+`1973453c-a20c-4719-bd09-3913f50f56d0`,one Node parent,no mode/UI attribution.
+Source/map/full mapped schemas match initial,current disk and canonical data.
+Initial consumables10/0,21/0,28/0,30/0,34/0 have14,4,3,3,1 hits respectively.
+[Exact conditions and limits](07-03-CONSUMABLE-BOUNDARIES-PROOF.json).

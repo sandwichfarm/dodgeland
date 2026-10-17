@@ -1,0 +1,191 @@
+{
+  "status": "Whole existing suite passes eight ordinary/eight canonical component cases;no production change or mode/public UI claim",
+  "runId": "1973453c-a20c-4719-bd09-3913f50f56d0",
+  "payloadCount": 1,
+  "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+  "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+  "witnesses": [
+    {
+      "id": "10",
+      "arm": 0,
+      "count": 14,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 87,
+            "column": 2
+          },
+          "end": {
+            "line": 87,
+            "column": 147
+          }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": {
+              "line": 87,
+              "column": 2
+            },
+            "end": {
+              "line": 87,
+              "column": 147
+            }
+          },
+          {
+            "start": {},
+            "end": {}
+          }
+        ]
+      }
+    },
+    {
+      "id": "21",
+      "arm": 0,
+      "count": 4,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 106,
+            "column": 2
+          },
+          "end": {
+            "line": 106,
+            "column": 69
+          }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": {
+              "line": 106,
+              "column": 2
+            },
+            "end": {
+              "line": 106,
+              "column": 69
+            }
+          },
+          {
+            "start": {},
+            "end": {}
+          }
+        ]
+      }
+    },
+    {
+      "id": "28",
+      "arm": 0,
+      "count": 3,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 118,
+            "column": 2
+          },
+          "end": {
+            "line": 118,
+            "column": 167
+          }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": {
+              "line": 118,
+              "column": 2
+            },
+            "end": {
+              "line": 118,
+              "column": 167
+            }
+          },
+          {
+            "start": {},
+            "end": {}
+          }
+        ]
+      }
+    },
+    {
+      "id": "30",
+      "arm": 0,
+      "count": 3,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 119,
+            "column": 2
+          },
+          "end": {
+            "line": 119,
+            "column": 142
+          }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": {
+              "line": 119,
+              "column": 2
+            },
+            "end": {
+              "line": 119,
+              "column": 142
+            }
+          },
+          {
+            "start": {},
+            "end": {}
+          }
+        ]
+      }
+    },
+    {
+      "id": "34",
+      "arm": 0,
+      "count": 1,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 121,
+            "column": 2
+          },
+          "end": {
+            "line": 121,
+            "column": 119
+          }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": {
+              "line": 121,
+              "column": 2
+            },
+            "end": {
+              "line": 121,
+              "column": 119
+            }
+          },
+          {
+            "start": {},
+            "end": {}
+          }
+        ]
+      }
+    }
+  ],
+  "manifestSha256": "08c34053ad2cc19fff45d80fb1bce58546eb79c8c9680d6bed777ca2c82449f7",
+  "noModeAttributionDeclared": true,
+  "noAttributionReportProduced": true,
+  "nodeJobRealms": [
+    "tests/consumable-boundaries.test.mjs"
+  ],
+  "limits": [
+    "Actual generic credit/debit policy component fixtures with the real cooperative/tactical catalogues",
+    "Invalid requests preserve inputs;corrected targets retain original inventory and produce the expected one-charge plan",
+    "Three additive cases;all five original case bodies retained",
+    "No whole-worker mode attribution or source/scope/floor change from these tests"
+  ]
+}

@@ -18,6 +18,7 @@ export const TURN_APPLICABILITY_SOURCES=Object.freeze({
  'src/game.ts':'04d7556c96b37b03539f270c2ce2c8e2b620c301d729a1fd6238be8e66d9413b',
  'src/market/run.ts':'ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f',
  'src/consumable-drops.ts':'2fc4a1c55dc7f37dbcac2b7091661e3a284d3292eddf1460da423a39520dec4a',
+ 'src/consumables.ts':'6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12',
 });
 export const TURN_AUTHORITY_PINS=Object.freeze({
  'src/main.ts':'33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4',
@@ -63,10 +64,10 @@ export function turnApplicabilityDispositions({mode,sources,authoritySources,clo
   const add=(node,reason,onlyFunction=false,reference)=>(onlyFunction?functions:ranges).push({span:span(node),reason,reference});
   const all=[];function walk(n){all.push(n);ts.forEachChild(n,walk);}walk(tree);
   const member=(owner,name)=>{const c=tree.statements.find(n=>ts.isClassDeclaration(n)&&n.name?.text===owner),m=c?.members.find(n=>n.name?.getText(tree)===name);if(!m?.body)throw Error('Reviewed member absent: '+owner+'.'+name);return m;};
-  const callable=(name,reason)=>{
+  const callable=(name,reason,reference)=>{
    const fn=tree.statements.find(n=>ts.isFunctionDeclaration(n)&&n.name?.text===name),variable=all.find(n=>ts.isVariableDeclaration(n)&&n.name.getText(tree)===name);
    const node=fn??variable?.initializer;if(!node||!(ts.isFunctionDeclaration(node)||ts.isArrowFunction(node))||!node.body)throw Error('Reviewed callable absent: '+name);
-   add(node.body,reason);add(node,reason,true);
+   add(node.body,reason,false,reference);add(node,reason,true,reference);
   };
   const personal='Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.';
   const shared='Only Survive attaches shared-effect policy; pinned Relay/Race attachments do not. refreshSharedWorldEffects returns before resolver execution.';
@@ -115,6 +116,11 @@ export function turnApplicabilityDispositions({mode,sources,authoritySources,clo
   }
   if(key==='src/consumable-drops.ts'&&mode==='relay'){
    for(const name of['freeze','signed','validate','mix32','draw','consumablePickupId','classifyConsumableBucket','classifyItemBucket','sampleConsumableDrop','sampleItemDrop'])callable(name,noItems);
+  }
+  if(key==='src/consumables.ts'&&mode==='relay'){
+   const reference='.planning/phases/07-release-evidence-pr/07-03-TURN-DEBIT-FINDING.md';
+   const reason='Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.';
+   for(const name of ['planConsumableDebit','targetsFor'])callable(name,reason,reference);
   }
   if(key==='src/market/run.ts'){
    if(mode==='relay'){

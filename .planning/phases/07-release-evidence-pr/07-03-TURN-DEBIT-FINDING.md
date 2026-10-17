@@ -53,7 +53,7 @@ initialization,default constants,market rejection and absent-instance guards.
 Keep both debit/targets callables fully applicable to Race and all raw/global/
 per-file coverage. This finding supplies no broader validation/error exclusion.
 
-## Remaining acceptance work
+## Acceptance requirements at finding time
 
 Before implementing numeric mode projection,add exact source/map/site-bound
 callable rules under both complete reviewed disk/canonical inventories. Prove
@@ -65,3 +65,24 @@ numerator unchanged. Retain prior projections as historical rather than silently
 relabeling their dispositions. Full enforcing release and complete semantic
 ledger remain separate requirements. No scope code or numeric delta is applied
 by this read-only review.
+
+## Executed narrow projection
+
+The finding is now implemented only for Relay's two callable bodies/function
+sites. Retained tool-contract RED78194a0 has12 pass/two expected failures for the
+absent scope rule;this is not a product RED. Updated controls pass14/14,and all
+coverage-tool controls pass105/105. Every newly excluded statement/function/branch
+rejects a positive observed hit;source/map/schema/caller/unknown/crossing and
+counter-independent controls remain enforced. Credit/catalogue/shared helpers,
+public absent-instance guards and all Race execution stay applicable.
+
+TURN-DEBIT-PROOF.json records new strict projections of15 unchanged-source
+cohorts,637 actual intervals,14 independent Node parents and10 browser parents.
+Original reports remain untouched;new outputs live under turn-debit-review/
+projections. Whole-job payload identity,model lifetimes and browser interval
+containment were independently rechecked. Complete compiled/disk inventories
+remain92a4572f. Every raw metric and covered numerator is unchanged;Race's entire
+applicability result stays identical. Relay-only deltas are-25L/-39S/-2F/-49B
+from two unreachable callables. New diagnostics2217/2744B leave116 required
+Relay witnesses;Race2444/3032B still needs134. This is scope accounting,not new
+gameplay hits or an enforcing full-release pass.

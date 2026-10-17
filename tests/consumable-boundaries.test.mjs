@@ -2,10 +2,11 @@ import assert from 'node:assert/strict';
 import test, { after } from 'node:test';
 import { loadSources } from './source-loader.mjs';
 
-const source = await loadSources(['consumables', 'consumable-drops']);
+const source = await loadSources(['consumables', 'consumable-drops', 'race-items']);
 after(source.dispose);
 const { CONSUMABLES, planConsumableCredit, planConsumableDebit } = await source.import('consumables');
 const { sampleConsumableDrop } = await source.import('consumable-drops');
+const { RACE_ITEMS } = await source.import('race-items');
 
 const mode = { capabilities: ['survive-together'] };
 const owner = { id: 'p1', generation: 7 };
@@ -92,4 +93,55 @@ test('an omitted charge is empty under the sparse inventory contract', () => {
   assert.deepEqual(credit.resultingCharges, { revival: 1, flare: 0 });
   assert.equal(planConsumableDebit(input).ok, false, 'an omitted charge cannot be spent');
   assert.deepEqual(input, before);
+});
+
+test('missing or malformed inventory structure rejects before either charge transaction', () => {
+  for (const inventory of [undefined, null, {},
+    { owner: null, generation: 11, charges: {} },
+    { owner, generation: -1, charges: {} },
+    { owner, generation: 11 }, { owner, generation: 11, charges: null }]) {
+    const input = { ...request({ revival: 1 }, 'revival'), inventory, targets: [dead] };
+    const before = structuredClone(input);
+    for (const planner of [planConsumableCredit, planConsumableDebit]) {
+      const decision = planner(input);
+      assert.deepEqual(decision, { ok: false, reason: 'invalid-inventory' });
+      assert.ok(Object.isFrozen(decision)); assert.deepEqual(input, before);
+    }
+  }
+});
+
+test('invalid target collections and empty Flare requests cannot produce debit plans', () => {
+  for (const targets of [undefined, null, {}, 'p2']) {
+    const input = { ...request({ revival: 1 }, 'revival'), targets };
+    const before = structuredClone(input);
+    assert.deepEqual(planConsumableDebit(input), { ok: false, reason: 'invalid-target-count' });
+    assert.deepEqual(input, before);
+  }
+  const input = { ...request({ flare: 1 }, 'flare'), targets: [] }, before = structuredClone(input);
+  assert.deepEqual(planConsumableDebit(input), { ok: false, reason: 'no-dead-target' });
+  assert.deepEqual(input, before);
+  assert.equal(planConsumableDebit({ ...input, targets: [dead] }).ok, true,
+    'correcting targets does not require another charge');
+});
+
+test('the actual tactical catalogue enforces self and opponent target shape without spending', () => {
+  for (const itemId of ['fog-lantern', 'mud-splash']) {
+    const input = { ...request({ 'fog-lantern': 1, 'mud-splash': 1 }, itemId),
+      catalogue: RACE_ITEMS, mode: { capabilities: ['race-tactics'] } };
+    const invalidTargets = itemId === 'fog-lantern'
+      ? [[], [{ id: 'p2', lifecycle: 'living' }], [{ id: owner.id, lifecycle: 'dead' }]]
+      : [[], [{ id: 'p2', lifecycle: 'living' }, { id: 'p3', lifecycle: 'living' }], [dead]];
+    for (const targets of invalidTargets) {
+      const request = { ...input, targets }, before = structuredClone(request);
+      const decision = planConsumableDebit(request);
+      assert.deepEqual(decision, { ok: false, reason: 'ineligible-target' });
+      assert.ok(Object.isFrozen(decision)); assert.deepEqual(request, before);
+    }
+    const targets = [{ id: itemId === 'fog-lantern' ? owner.id : 'p2', lifecycle: 'living' }];
+    const corrected = { ...input, targets }, before = structuredClone(corrected);
+    const plan = planConsumableDebit(corrected);
+    assert.equal(plan.ok, true); assert.equal(plan.resultingCharges[itemId], 0);
+    assert.equal(plan.resultingCharges[itemId === 'fog-lantern' ? 'mud-splash' : 'fog-lantern'], 1);
+    assert.deepEqual(corrected, before); assert.deepEqual(plan.targets, targets);
+  }
 });

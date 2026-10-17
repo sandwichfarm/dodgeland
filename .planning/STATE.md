@@ -975,12 +975,38 @@ counts stay. No scope or denominator changed yet. Next add exact-site/negative/
 positive-hit controls before any projection change;do not treat graph-only
 in-degree as the proof. All gameplay/test/build chains remain terminal.
 
+## Latest accepted Relay debit scope and consumable validation
+
+Tool-contract RED78194a0 retained12 pass/two failures for an absent rule,not a
+product defect. Focused14/14 and all tool105/105 controls pass. Only Relay's
+planConsumableDebit/targetsFor bodies/function sites are scoped;credit,shared
+helpers,catalogue/module initialization and public absent-instance guards stay.
+TURN-DEBIT-PROOF binds15 strict-reprojected current-source cohorts,637 actual
+intervals,14 independent Node/10 browser parents. Original raw reports remain
+unchanged;new projections are separate. No covered numerator changes or Race
+changes. Relay-only denominator delta-25L/-39S/-2F/-49B gives2217/2744B(needs116);
+Race2444/3032B still needs134. This is accounting,not new gameplay coverage.
+Use /tmp/down-to-duck-turn-debit-mode-union.py/json for the current diagnostic
+projection;older saved/mob unions describe their historical scope.
+
+Separately,consumable-boundaries1973453c passes8/8 ordinary/canonical using the
+whole existing job. Three component cases retain all five old bodies and prove
+malformed inventory/target/actual tactical-catalogue rejection then corrected
+plan/no mutation. Five initial source/map/schema-identical zeros gain witnesses:
+initial ledger186 annotated(185 covered,one private default),865 pending.
+No mode/public-UI credit for that worker. No production source,rootlock,oracle
+or numeric floor changes;new focused group adds no full job. All current
+collection/control/projection/parent chains are terminal;no freeze remains.
+Next genuine gameplay gap:actual fractional platform carry and off-grid coin
+capture across Arcade/Flow Relay/Race with default gravity,then remaining mode/
+semantic gaps and fresh enforcing full report/07-04/05/06/PR.
+
 ## Next required work
 
 1. Complete07-03: broad honest Solo/Relay/Race and development evidence,
    remaining per-file gaps, complete semantic ledger, then a fresh enforcing
-   full report. Keep all floors.181 initial zero arms have source-identical
-   semantic annotations(180 covered,one reviewed private default);870 still need completed semantic/behavioral proof,
+   full report. Keep all floors.186 initial zero arms have source-identical
+   semantic annotations(185 covered,one reviewed private default);865 still need completed semantic/behavioral proof,
    including remaining source-reviewed market candidates as listed in the ledger. Genuine fresh
    bootstrap proof now exists; all unions before full collection are diagnostic.
 2. Execute07-04 conformance proof,07-05 clause/visual evidence,07-06 exact final

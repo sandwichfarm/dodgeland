@@ -2,6 +2,23 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Current Relay debit scope and global consumable validation
+
+Two Relay-unreachable callables are now precisely scoped under the complete
+caller/value proof. All105 tool controls pass;637 retained actual intervals
+are strict-reprojected across15 cohorts with14 independent Node/10 browser
+parents. Raw counts/covered numerators and all Race accounting stay unchanged.
+Relay denominators alone decrease25L/39S/2F/49B;diagnostic branch gaps are now
+116 Relay/134 Race. TURN-DEBIT-FINDING/PROOF retain exact sites,contradiction
+controls and separate historical reports. No new gameplay hit or full pass follows.
+
+Separately,the whole actual consumable policy suite passes8/8 canonical1973453c.
+Three added component cases cover all five initial validation zeros with exact
+source/map/schema identities and no mode/UI attribution. CONSUMABLE-BOUNDARIES/
+PROOF retain rejection/correction/no-mutation behavior. Initial review now186
+annotated(185 covered,one private default),865 pending. No production,floor or
+raw/global/file suppression;full enforcing/semantic release review remains open.
+
 ## Current persisted-preference acquisition
 
 Whole actual saved-bootstrap suite passes24/24 ordinary/canonical2bb34684,
@@ -434,11 +451,11 @@ Source `6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12`; schem
 
 | Branch | Source line | Zero arms | Baseline counts | Disposition |
 |---|---:|---|---|---|
-|10|87|0|[0, 153763]|pending|
-|21|106|0|[0, 58]|pending|
-|28|118|0|[0, 53]|pending|
-|30|119|0|[0, 53]|pending|
-|34|121|0|[0, 51]|pending|
+|10|87|0|[0, 153763]|[covered arm 0](07-03-LEDGER-REVIEW.md#consumable-validation)|
+|21|106|0|[0, 58]|[covered arm 0](07-03-LEDGER-REVIEW.md#consumable-validation)|
+|28|118|0|[0, 53]|[covered arm 0](07-03-LEDGER-REVIEW.md#consumable-validation)|
+|30|119|0|[0, 53]|[covered arm 0](07-03-LEDGER-REVIEW.md#consumable-validation)|
+|34|121|0|[0, 51]|[covered arm 0](07-03-LEDGER-REVIEW.md#consumable-validation)|
 
 ### src/content.ts
 
