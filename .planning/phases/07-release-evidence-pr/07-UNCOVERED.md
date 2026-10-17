@@ -2,7 +2,16 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
-## Current complete post-repair cohort refresh
+## Current full enforcing collection is live
+
+Source Game8836/inventoryf46f/normal rawe980 supersede the historical union below.
+Current complete169-job collection started19:33:54 UTC fromd661eb9 with397 frozen
+files and unchanged floors. Runner63419/collector63428/session18032 are verified
+live at2026-10-17T19:35:54.099507+00:00;11 jobs passed so far. No terminal floor result exists yet.
+See CURRENT-FULL-RUN and current-full-03 state/log. Do not reuse old changed Game
+counters or declare a release pass before the complete current report is reviewed.
+
+## Previous complete post-repair cohort refresh (superseded Game identity)
 
 All18 fresh cohorts pass,plus current Relay effect tracer c60a7982.19 selected
 current-source cohorts share complete inventory bytes5cf69c2c and mapped schemas.

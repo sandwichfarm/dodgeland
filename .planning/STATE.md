@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Real Race river-item proof20 cases76 intervals green;fresh full enforcing collection next
-last_updated: "2026-10-17T19:33:18.986106+00:00"
+stopped_at: Current full enforcing169-job collection live;session18032 runner63419 collector63428
+last_updated: "2026-10-17T19:35:54.099507+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,22 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Real river drops,pause,tied hops,fractional carry and slowest-traveler retention verified;63 nearby tests pass. Full release open.
+last_activity_desc: River proof committed d661eb9;current full collection running with397 frozen files and unchanged floors. Poll actual session18032.
 ---
 
 # Project State
 
 ## Current work
+
+LIVE full enforcing collection started19:33:54 UTC,commitd661eb9,session18032,
+runnerPID63419/collectorPID63428. Both verified live at2026-10-17T19:35:54.099507+00:00;
+11/169 production jobs passed so far.397 frozen file hashes still match.
+Normal rawe980/rootlock5ac/current inventoryf46f remain fixed;no parallel chain.
+CURRENT-FULL-RUN and artifacts/release-coverage/current-full-03 hold exact state,
+log,freeze and incremental per-run ledger. No terminal manifest/floor result yet.
+Poll the actual handle;do not restart on observation timeout or edit frozen files.
+Goal remains active;full semantic review,07-04/05/06 and PR are still required.
+
 
 Latest Race river-item proof:20 actual component cases/76 bounded intervals pass,
 canonical2bf5f891,one independent Node parent,current complete inventoryf46f. Both
