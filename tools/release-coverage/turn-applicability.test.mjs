@@ -333,3 +333,48 @@ test('Relay debit scope keeps unknown and crossing sites and never depends on me
  const positive=structuredClone(sources);for(const s of positive){for(const key of ['s','f'])for(const id of Object.keys(s.coverage[key]))s.coverage[key][id]=123;for(const id of Object.keys(s.coverage.b))s.coverage.b[id]=s.coverage.b[id].map(()=>123);}
  assert.deepEqual(turnApplicabilityDispositions({mode:'relay',sources:positive}),before,'source proof cannot infer applicability from a zero count');
 });
+
+test('reviewed seat fallback and unused stage wrapper scope keeps real acquisition and Race callbacks',()=>{
+ const source=sourceFor('session.ts');
+ for(const mode of ['relay','race']){
+  const dispositions=turnApplicabilityDispositions({mode,sources});
+  for(const fragment of ['commitAdmission(admission:'])for(const id of functionIds(source,fragment))
+   assert.equal(excluded(dispositions,source,id),true,fragment);
+  for(const fragment of ['export function composeSessionModeDefinition(','setHopCooldown('])
+   for(const id of functionIds(source,fragment))assert.equal(excluded(dispositions,source,id),mode==='relay',fragment);
+  for(const fragment of ['constructor(world: SharedWorld, seat:','prepareAdmission(admission:',
+   'private admitPlan(','private safePlacement(','static stage(','get hopCooldown()',
+   'noteHop():','stop():','  commit():','  cancel():'])for(const id of functionIds(source,fragment))
+   assert.equal(excluded(dispositions,source,id),false,'retained '+fragment);
+  for(const fragment of ['const anchorY = placement?.y ??','const spawn = placement?.x ??']){
+   const at=line(source,fragment),entries=Object.entries(source.coverage.branchMap).filter(([,site])=>site.loc.start.line===at&&site.type==='binary-expr');
+   assert.equal(entries.length,1,fragment);
+   const[id]=entries[0];
+   assert.equal(dispositions.some(d=>d.path===source.path&&d.kind==='branch'&&d.id===id&&d.arm===0),false,'placement read retained');
+   assert.equal(dispositions.some(d=>d.path===source.path&&d.kind==='branch'&&d.id===id&&d.arm===1),true,'unreachable fallback operand');
+  }
+  const guardAt=line(source,"if (spawn === undefined) throw new Error(");
+  for(const[id,site]of Object.entries(source.coverage.statementMap).filter(([,site])=>site.start.line===guardAt))
+   assert.equal(excluded(dispositions,source,id,'statement'),false,'spawn guard retained');
+ }
+});
+
+test('every additional seat-closure disposition rejects positive hits and leaves crossing sites counted',()=>{
+ const source=sourceFor('session.ts'),reference='07-03-SEAT-CALL-CLOSURE.md';
+ for(const mode of ['relay','race']){
+  const dispositions=turnApplicabilityDispositions({mode,sources}),selected=dispositions.filter(d=>d.authority.endsWith(reference));
+  assert.ok(selected.length>20,'nonempty exact site closure');
+  for(const kind of ['statement','function','branch'])assert.ok(selected.some(d=>d.kind===kind),kind);
+  for(const d of selected){
+   const hits=structuredClone(attributed);
+   if(d.kind==='branch')hits[d.path].b[d.id][d.arm]=1;else hits[d.path][d.kind==='statement'?'s':'f'][d.id]=1;
+   assert.throws(()=>reportApplicability({mode,sources,attributed:hits,dispositions}),/contradicted/);
+  }
+  const changed=structuredClone(sources),row=changed.find(s=>s.path===source.path),start=line(source,'constructor(world: SharedWorld, seat:'),end=line(source,'get label():');
+  const crossing={start:{line:start,column:0},end:{line:end,column:0}};
+  row.coverage.branchMap['cross-seat']={type:'cond-expr',line:start,loc:crossing,locations:[crossing,{start:{},end:{}}]};row.coverage.b['cross-seat']=[0,0];
+  assert.equal(turnApplicabilityDispositions({mode,sources:changed}).some(d=>d.id==='cross-seat'),false);
+  const positive=structuredClone(sources);for(const s of positive){for(const key of ['s','f'])for(const id of Object.keys(s.coverage[key]))s.coverage[key][id]=7;for(const id of Object.keys(s.coverage.b))s.coverage.b[id]=s.coverage.b[id].map(()=>7);}
+  assert.deepEqual(turnApplicabilityDispositions({mode,sources:positive}),dispositions,'counter-independent caller proof');
+ }
+});
