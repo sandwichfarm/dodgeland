@@ -3,6 +3,10 @@ const canonicalEvidence={sourceHash:SOLO_DEFINITION_SOURCE_HASH,snapshot:SOLO_DE
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
+import {mkdtemp,writeFile,rm} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {buildInventory} from './inventory.mjs';
 import { instrumentSources } from './instrument.mjs';
 import { capturePayload, mergePayloads } from './collector.mjs';
 import { deriveInterval, validateIntervals } from './attribution.mjs';
@@ -278,4 +282,86 @@ test('canonical expected definitions cannot be mutated by an importing caller',(
  assert.throws(()=>{SOLO_DEFINITION_SNAPSHOTS.arcade.rules.pursuit.speed=1.23;},TypeError);
  assert.throws(()=>{SOLO_DEFINITION_SNAPSHOTS.stroll.rules.pursuers.introductionThresholds.push(999);},TypeError);
  assert.equal(validateSoloDefinition(canonicalEvidence,'arcade'),true);
+});
+
+
+// Real instrumented module calibration,never release/gameplay coverage credit.
+let releaseInventory;
+async function releaseFixture(mode,base='arcade') {
+ const inventory=(releaseInventory??=await buildInventory()).inventory;
+ const directory=await mkdtemp(join(tmpdir(),'turn-release-control-'));
+ const oldEnv=process.env.DOWN_TO_DUCK_COVERAGE_CONFIG,oldCoverage=globalThis.__coverage__;
+ await writeFile(join(directory,'inventory.json'),JSON.stringify(inventory));
+ await writeFile(join(directory,'config.json'),JSON.stringify({inventoryPath:join(directory,'inventory.json')}));
+ process.env.DOWN_TO_DUCK_COVERAGE_CONFIG=join(directory,'config.json');delete globalThis.__coverage__;
+ let sources;
+ try {
+  sources=await loadSources(['game',mode,'session','mode-rules']);
+  const authority={...await sources.import('game'),...await sources.import('session'),...await sources.import('mode-rules')},module=await sources.import(mode);
+  const factory=mode==='relay'?module.createRelaySession:module.createRaceSession,Coordinator=mode==='relay'?module.RelayCoordinator:module.RaceCoordinator;
+  const identity={runId:'release-control',realmId:'release-control',jobId:'release-control',artifactHash:'release-control'};
+  const recorder=createTurnModelRecorder({mode,inventory,identity,factory,Coordinator,authority});
+  const game=new authority.Game(113,'pond',base,false,[],'butter');
+  const owner=recorder.acquire(game,{seats:[{seat:'p1',device:'keyboard-a',characterId:'butter'},{seat:'p2',device:'keyboard-b',characterId:'sunny'}]});
+  return {inventory,identity,recorder,game,owner,authority,async close(){await sources.dispose();if(oldEnv===undefined)delete process.env.DOWN_TO_DUCK_COVERAGE_CONFIG;else process.env.DOWN_TO_DUCK_COVERAGE_CONFIG=oldEnv;if(oldCoverage===undefined)delete globalThis.__coverage__;else globalThis.__coverage__=oldCoverage;await rm(directory,{recursive:true,force:true});}};
+ } catch(error){if(sources)await sources.dispose();if(oldEnv===undefined)delete process.env.DOWN_TO_DUCK_COVERAGE_CONFIG;else process.env.DOWN_TO_DUCK_COVERAGE_CONFIG=oldEnv;if(oldCoverage===undefined)delete globalThis.__coverage__;else globalThis.__coverage__=oldCoverage;await rm(directory,{recursive:true,force:true});throw error;}
+}
+function settleReleaseFixture(f,mode){
+ if(mode==='relay')f.owner.finish();
+ else {f.owner.session.depart('p1','release-control');f.owner.session.depart('p2','release-control');f.owner.session.update(1/120);}
+ assert.ok(f.owner.session.result);assert.ok(Object.isFrozen(f.owner.session.result));
+}
+test('controlled turn release calls actual source-bound stop once and seals ongoing/settled lifetimes',async()=>{
+ for(const mode of ['relay','race'])for(const base of ['arcade','stroll'])for(const settled of [false,true]){
+  const f=await releaseFixture(mode,base);try{
+   assert.equal(typeof f.recorder.release,'function');
+   if(settled)f.recorder.interval('settle',()=>settleReleaseFixture(f,mode));
+   const session=f.owner.session,world=session.world,players=[...session.players],result=session.result;
+   const intervalCount=settled?3:2;
+   f.recorder.release('actual-stop');
+   assert.equal(session.active,false);assert.equal(world.sessionActive,true,'never invent a reset of the retained world marker');
+   assert.equal(session.result,result);assert.equal(session.world,world);assert.deepEqual(session.players,players);
+   assert.throws(()=>f.recorder.interval('late',()=>{}),/released/i);assert.throws(()=>f.recorder.release('duplicate'),/released/i);
+   const row=f.recorder.finish();assert.equal(row.intervals.length,intervalCount);const last=row.intervals.at(-1);
+   assert.equal(last.endObservation.phase,'released');assert.equal(last.endObservation.ownership.sessionRunning,false);
+   const evidence=last.endObservation.releaseEvidence;assert.equal(evidence.kind,'LocalSession.stop');assert.equal(evidence.hadResult,settled);
+   assert.equal(last.payload.coverage[evidence.sourcePath].f[evidence.functionId],1,'actual canonical function entry delta');
+   const parent=capturePayload(f.inventory,globalThis.__coverage__,f.identity);assert.deepEqual(parent,row.payload);
+   assert.equal(validateModelSidecar(f.inventory,row,[parent],{...f.identity,expectations:[{mode,lifetimes:1,phases:[['acquiring','playing'],...(settled?[['playing','settled']]:[]),[settled?'settled':'playing','released']]}]}).intervals.length,intervalCount);
+  }finally{await f.close();}
+ }
+});
+test('controlled release rejects forged inactivity,detached owners and substituted stop methods',async()=>{
+ for(const mode of ['relay','race'])for(const mutation of ['inactive','world-inactive','own-method','prototype-method']){
+  const f=await releaseFixture(mode);let restore;try{
+   assert.equal(typeof f.recorder.release,'function');const session=f.owner.session;
+   if(mutation==='inactive')session.active=false;
+   if(mutation==='world-inactive')session.world.sessionActive=false;
+   if(mutation==='own-method')session.stop=()=>{session.active=false;};
+   if(mutation==='prototype-method'){const prototype=f.authority.LocalSession.prototype,old=prototype.stop;prototype.stop=()=>{session.active=false;};restore=()=>prototype.stop=old;}
+   assert.throws(()=>f.recorder.release('forged'),/owner|canonical|stop/i);
+   if(restore)restore();session.active=true;session.world.sessionActive=true;delete session.stop;
+   assert.throws(()=>f.recorder.finish(),/Missing acquired owner/,'failed release cannot be rehabilitated');
+  }finally{if(restore)restore();await f.close();}
+ }
+});
+test('release endpoints require canonical method/counter proof and reject all post-release attribution',async()=>{
+ const f=await releaseFixture('race');try{
+  assert.equal(typeof f.recorder.release,'function');f.recorder.release('stop');const row=f.recorder.finish(),last=row.intervals.at(-1);
+  for(const mutate of [
+   i=>delete i.endObservation.releaseEvidence,
+   i=>i.endObservation.ownership.sessionRunning=true,
+   i=>i.endObservation.ownership.sessionActive=false,
+   i=>i.endObservation.releaseEvidence.sourceHash='wrong',
+   i=>i.endObservation.releaseEvidence.methodHash='wrong',
+   i=>i.endObservation.releaseEvidence.functionId='wrong',
+   i=>i.endObservation.releaseEvidence.kind='manual-inactive',
+   i=>i.payload.coverage[i.endObservation.releaseEvidence.sourcePath].f[i.endObservation.releaseEvidence.functionId]=0,
+   i=>i.payload.coverage[i.endObservation.releaseEvidence.sourcePath].f[i.endObservation.releaseEvidence.functionId]=2,
+  ]){const changed=structuredClone(row.intervals);mutate(changed.at(-1));assert.throws(()=>validateIntervals(f.inventory,changed),/release|stop|turn ownership/i);}
+  const late=structuredClone(last);late.id='late';late.start=last.end+1;late.end=late.start+1;late.payload.realmId=`interval:${late.parentRealm}:late`;
+  late.observation=structuredClone(last.observation);late.endObservation=structuredClone(last.observation);
+  for(const c of Object.values(late.payload.coverage)){for(const k of ['s','f'])for(const id in c[k])c[k][id]=0;for(const id in c.b)c.b[id]=c.b[id].map(()=>0);}
+  assert.throws(()=>validateIntervals(f.inventory,[...row.intervals,late]),/release/i);
+ }finally{await f.close();}
 });
