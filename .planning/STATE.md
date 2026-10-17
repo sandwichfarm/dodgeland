@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-12 complete initial report accepted; 07-03 gap closure next
-last_updated: "2026-10-17T01:29:43.499945+00:00"
+stopped_at: 07-03 meaningful coverage closure; full enforcing report pending
+last_updated: "2026-10-17T02:04:30.724331+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,144 +12,81 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Full68162 exit0,132 production plus2 controls,368 payloads,47 exact shortfalls; independent report review/root acceptance received.07-12 complete.
+last_activity_desc: Survive focused lifecycle coverage exceeds mode floors; bounded solo attribution in progress; Relay/Race scope discovery.
 ---
 
 # Project State
 
-CURRENT TERMINAL:68162 exited0; run6802bfd4-2d88-4d8e-a091-9733e4423b91 completed132 production jobs plus2 controls,368 payloads,1308 ordinary backups restored. Initial JSON/text/LCOV and9strata pinned under run/initial-report with sha256.json.47 exact floor shortfalls remain; report-only is not release acceptance. Independent reviewer and root accepted complete initial report.07-12SUMMARY complete;6phases41/45plans. No active process.07-03 now authorized for meaningful gap closure; all prior ACTIVE/no-authority paragraphs below are historical snapshots.
+## Current work
 
-CURRENT ACTIVE 2026-10-17T00:23:33.165361+00:00: session68162, collectorPID42842/shell42560, run6802bfd4-2d88-4d8e-a091-9733e4423b91. Log `/tmp/down-to-duck-07-12-full-collection-recovery-verified.log`. Frozen implementation68c3f42, launch commit3ec1473 (docs only); exact fast collection/attribution/policy prefix then all132 production jobs plus2 controls, report-only, oracle/diff suffix. No concurrent chains or source/test/tool mutations. Initial complete report and coverage floors remain pending; all older active/held/no-active paragraphs are historical.
+07-12 is complete. Its immutable initial report is run
+`6802bfd4-2d88-4d8e-a091-9733e4423b91`: 132 production jobs plus two controls,
+368 payloads, all ordinary artifacts restored, 47 measured floor shortfalls.
+It is a successful collection, not release acceptance.
 
-Current checkpoint: suffix81659 exited0,12/12 jobs and24 payloads; all17 preserved files/dist unchanged. Independent recovery review clean and root authorized next full collection. All no-active/held statements below are historical snapshots. Full report/floors still pending.
+07-03 is in progress. Meaningful authority tests exposed and fixed session
+lifetime identity reuse (36495b1); all other additions so far are test/tooling
+proof. Required type/build/guidance checks pass. Conformance remains five
+passes, zero failures and five unmeasured checks. Normal build raw SHA256:
+`ca774030d10eabe9dc9ed9780bf17422642874f7605bfdc26db6c116a6d86168`.
 
-Adjacent run-menu observation14480 confirms ready320×360 Options,320×560 home and390×844 home share the Travelers overflow; corresponding dead states fit because Local Play is absent. Temporary read-only diagnostic only, no replacement gate or source/test edits. No active process; repair scope must cover ready home as well as Options.
+Latest focused Survive run `344fd116-4fb9-4e87-85ad-8c31a8bcd837` (16412 exit0)
+measures both bases at 87/89 lines, 64/65 functions and 149/165 branch arms.
+Those exceed the mode targets, but full release enforcement remains pending.
+Evidence: `07-03-SURVIVE-GAPS.md` and `07-03-SURVIVE-ATTRIBUTION.md`.
 
-Latest recovery repair68c3f42:48811 exit0 ordinary/canonical6tests with exactordered127cells and full requiredchecks; canonical6c5e9bc7-3a00-4a0b-92dc-332ed130785f.77687 negative wrapperexit0 expectedchild1 aftersetup,8partialframes/no dispatch or capture afterabort, browserclosed,134prefixfiles unchanged (canonical128scope). Evidence07-12-RECOVERY-LAYOUT-REPAIR.md. No active process at this checkpoint; rootauthorized exact12-job suffix diagnostic next, fullcollection held.
+Solo raw versus applicable counters are now separately reported. Exclusions
+require exact source/map/site identity and positive call/state proof; global
+coverage is unchanged. Public solo observations read actual Game/world/player
+ownership and detect staged sessions. Focused six-mode public run
+`ff13e4eb-99ff-447a-8183-9ef7d86bea69` (30556 exit0) has six bound parent payloads.
+Public journeys remain too short to meet full mode targets.
 
-CURRENT TERMINAL execution:11460 exited1 after119 production PASS records (controls separate), run`ed12cf45-d4d2-4fb1-a77a-89ede7a9ea78`, frozen source/tests/toolingf625b98. Log`/tmp/down-to-duck-07-12-full-collection-menu-verified.log`. Both repaired hand/menu frontiers passed; next survive-recovery-board-layout aggregate canceled at120000ms, suite127833.855ms with0assertion failures/1cancel. Archived report has127frames/PNGs through final empty-items wide state, errors/external empty, SHA256d067a7b4a286f7065c6dcb5e2294ff4d1ab12e653e13ebedf7d51ef197171711; completion of asynchronous body does not waive cancellation.128 ordinary files restored byte-for-byte, normaldistbc1bcc8f07aae95e7308f3c659157ee5f2cf31dd98dce77d393d2b070373f2fb unchanged. No active process or edits/rerun; precise timing and narrow same-app stage/cleanup repair require root authorization. Complete132-job report/floors still pending. Historical active statements below superseded.
+Current delegation: `survive_verifier_fallback` owns bounded solo component
+attribution and the single test/build runtime slot; `relay_first_handoff` is
+read-only, designing Relay/Race attribution. Root owns remaining per-file gap
+work and orchestration. Check live agent messages before launching commands.
 
-Latest focused run-menu repair:f625b98,78868 exit0; ordinary36frames/223observations plus canonical e3c0810e-4922-412d-b7ef-be9d72fa8a7a menu36/hand44/pause24, required checks all passed.34 ordinary artifacts restored exactly; ready compact home/Options full labels and existing dead layout preserved.51193 intermediate6px height overflow retained as superseded RED. See07-12-RUN-MENU-REPAIR.md. No active process; independent review/root acceptance before full collection. Counts remain6 phases40/45 plans, complete initial report pending.
+## Next required work
 
-Latest run-menu diagnostic: ordinary27306 exited1 reproducing ready/dark240 Options overflow; read-only62074 measured192px inner row allocating44px Travelers despite72.203px text. Fonts loaded, all34 artifacts/set/hashes restored, dist unchanged. Evidence07-12-RUN-MENU-REPAIR.md. No active process/source repair; narrow Options grid proposal awaiting root scope.
-
-CURRENT TERMINAL execution:14319 exited1, run`085c8764-1a31-41c9-9db9-d8aabfc7bde4`, frozen source/tests/tooling9e09aad (last implementation65ca494). Log`/tmp/down-to-duck-07-12-full-collection-hand-verified.log`.83 production jobs passed; repaired run-hand-runtime cleared with44frames/six scenarios in87.9s. Next unchanged run-menu-layout failed ready dark240×240 Options: Travelers outer44px/client38px versus scrollWidth77, with Local Play/Stroll competing in192px row. Actual overflow assertion, no cancellation. Archived failure PNG SHA19718246acab1c3538d32e38750663bc1744b387b088ea8c506408c03b949fd2 under suite-artifacts/run-menu-layout/artifacts. No active process or source/test/tool repair/rerun. Full initial report/floors remain incomplete. Historical active statements below superseded. Cross-mode final-artifact-report.json is inherited5ab22ab/19150 evidence, not current-run214capture proof; only current strict33/33 and newly emitted case reports establish this run's scope.
-
-Latest focused repair:65ca494,87963 exit0. Ordinary wholehand44frames/six scenarios and canonical c3e74067-922c-412a-a263-9894d7d3b511 hand44+pause24,38 added home/reader geometry checks, required type/build/guidance7/conformance5pass5unmeasured/oracle/diff passed. Both-theme240 heading/rivet clearance measured3.34375px and visually inspected. All ordinary outputs preserved, seven output paths registered. Independent review/root acceptance required before full collection; no active process. Counts remain6 phases40/45plans.
-
-CURRENT TERMINAL execution: collection30406 exited1 after82 timestamped production PASS records, run`f8000273-69e8-4ab1-a47e-d4d9b4c29907`, frozen source/tests/toolingf492377. Log`/tmp/down-to-duck-07-12-full-collection-results-verified.log`. Race layout10/10 (420 cells), Race results44/44 (six complete reports/46 cells), Relay layout5/5 (252 cells) and Relay results15/15 cleared prior frontiers. Failure: tests/run-hand-runtime.mjs:150, dark240×240 pause with six owned cards; Local Play intercepts Travelers click for6000ms. This is an assertion/action failure, not cancellation. Archived PNG/JSON under the run's suite-artifacts/run-hand-runtime/artifacts preserve the obscured control; existing three ordinary files restored byte-for-byte, normal dist SHA c67e3b6fee36829ebec67029d2a7053624a7c1ac9f895458d030fd5cc216e698 unchanged. No process remains active, no source/test/tool repair or rerun authorized yet. All historical active statements below are superseded. Complete initial report, floors and07-12 remain pending; counts remain6 phases40/45 plans.
-
-Current owned-hand diagnostic: ordinary59175 exited1 at identical Travelers interception; observation-only33376 measured91px inner row with0px/86.42px tracks and overlapping44px Travelers/86.42px Local Play. Fonts loaded, shelf stable. All six current hand artifacts restored, normal dist unchanged. See07-12-HAND-PAUSE-REPAIR.md. No active process or source repair; awaiting scoped implementation authorization.
-
-Latest terminal diagnostic: unchanged Relay-results66213 exited0,15/15, run83539c63-3217-4644-a63d-3346fb8b26a8, no overlap or assertions. Three browser cases32.262/12.392/12.303s;34 tmp captures restored with exact hashes/set, normal dist unchanged. See07-12-RELAY-RESULTS-DIAGNOSTIC.md for exact logs/timings/arranged provenance. Race focused/negative accepted with runtime review4df7c31. No active process; full collection awaits root authorization,07-12/full report/floors remain incomplete.
-
-Latest repair: Race-resultsdb0a596/6528a82 statically cleanb776c41; focused76544 exited0 with44/44, six complete scenarios/exact46cells, seven canonical payloads and required checks. Runtime negative83022 exited0 validating injected child1 after actual finish/dark paging, incomplete4cells/10captures, no checked ordered dispatch after abort, browser close before next acquisition, all later five cases complete. Artifact absence restored,89 historical temporary PNGs/dist unchanged. See07-12-RACE-RESULTS-REPAIR.md for exact logs/hashes/synthetic-delay limits. No active process; awaiting runtime review/root acceptance before separately scoped Relay-results diagnostic. Full report/floors and07-12 remain incomplete.
-
-Latest diagnostic: unchanged Race-results74790 exited1 (17pass/2cancel), run423a3c5f-b707-47df-bc76-f7287d552e7a. Main90s expires during real paging and continues until cleanup; time30s crosses deadline in coverage/close. Exact timing and overlap documented in07-12-RACE-RESULTS-DIAGNOSTIC.md.89 temporary PNGs restored with hashes, normal dist unchanged. No active process or test/production repair; bounded same-app stage/cancellation and explicit artifact preservation proposal awaits root authorization.
-
-LATEST TERMINAL execution: session93747 exit1, former collector PID46458/shell46266, run`59b261c8-5604-4c26-8b26-5d97f40d8e4a`, log`/tmp/down-to-duck-07-12-full-collection-layouts-verified.log`. Root accepted Relay focused/negative220cf6a and independent runtime reviewcb0e569; frozen source/tests/toolingcb0e569 (last implementation3920d11). All132 jobs remain required; no full report/floor/plan completion claim. This run terminated after69 timestamped production PASS records. Race matrix passed10/10 with420 exact cells. Race results had14pass/5cancel/0assertion failures:90s main results case,30s time/left cases,60s four-tied/four-distinct cases. All six browser realms captured, but timeout is authoritative failure.78 fresh result PNGs preserved with hashes in`/tmp/down-to-duck-07-12-race-results-failure-evidence/manifest.json`. Cleanup/collection timings need diagnosis before repair; no source edits or rerun. No process remains active; prior active statements below are historical.
-
-Latest accepted-scope work: Relay repair3920d11 statically reviewed5747c11; focused86745 exited0 with5/5,252 cells/21 states/four stages/three original canonical realms, complete=true and all required checks. Cancellation probe54679 exited0 validating expected child1, incomplete24-cell report, no later acquisition, browser teardown,256 restored ordinary files and unchanged dist. Evidence is in07-12-RELAY-LAYOUT-REPAIR.md. No active process; full rerun awaits root acceptance/runtime review. Prior diagnostic failures below remain historical evidence, not current unresolved layout assertions. Full report/floors and07-12 completion remain pending.
-
-Latest checkpoint: Race repair64b76e9 independently reviewed6e9d277; focused48452 exited0 with10/10,420 cells/35 states, complete=true, type/build/guidance7/conformance5pass5unmeasured and immutable lock check. Runtime first-stage cancellation negative proved incomplete24-cell report and browser exit before next test acquisition; see07-12-RACE-LAYOUT-REPAIR.md/fdf586d. Root-requested unchanged Relay diagnostic11826 exited1 at180000ms (total188832ms), runf5db4de1-ad5a-40ad-92a8-27dd239f220e, log`/tmp/down-to-duck-07-12-relay-layout-diagnostic.log`. Archived report has252 cells/21 states and zero geometry/errors/external, but cancellation remains failure. Proposed four bounded same-journey stages await Relay test ownership; no Relay edits or full rerun. No active process. Full report/floors and07-12 completion remain pending.
-
-Latest terminal execution: full collection **54934**, exit1, former PID33009, run `485614b7-02bb-4d5c-bed3-06c728767c94`, log `/tmp/down-to-duck-07-12-full-collection-pause-fixed.log`, frozen source/test/tooling `f84a7f9`. Final focused18395 exited0: unchanged ordinary and instrumented pause suites each cover24 frame/theme combinations, all rules/powers/input/frozen-clock assertions; guidance7/7 and conformance5pass/0fail/5unmeasured. Type-check passed27409 before CSS-only refinements. Final instrumented focused run66ef71ae-9381-4a5e-9b89-868c42e57c6d contains one canonical realm. Root inspected final240px dark/light and320×560/900×600/2400×1200 captures; independent review9ce407b closes PR-01. All27 prior ordinary artifacts restored byte-for-byte. Superseded27409 exposed320×360 wrapping;10510 passed before home-only selector correction and is not final proof. No full report, coverage-floor or plan-completion claim yet. Historical inactive-process statements below refer to their respective checkpoints.
-
-Terminal checkpoint:66 timestamped production PASS records (68 job-ledger entries include two controls), not68 production jobs. Race layout canceled its single aggregate test at180000ms; its asynchronous body continued through all35 states/420 captures and cleanup, suite terminal320225ms. Archived report has zero failures/errors/external requests, but cancellation is a failed gate, not acceptance. The unchanged announcement test passed. No process remains active. Proposed repair requires tests/race-layout.mjs ownership: bounded sequential stages at existing fresh-acquisition boundaries, preserving same-board transitions and all assertions; no source/test edits or rerun yet. Full report and07-12 completion remain blocked.
-
-Current full-run milestone: pause-game-layout passed at19:11:32Z (~55.3seconds) in run485614b7, clearing the previous production failure frontier. Its current archived report contains24 frame/theme rows, minimum-size notice, unchanged44px/no-scroll/rules/power/input/frozen-clock assertions, zero errors and zero external requests. Race balance and item checks subsequently passed; Race layout is active. This remains a partial collection, with full report and floor evaluation pending.
-
-Current continuation: layout repair ef3d1c6 retains one live board, five bounded120-second stages, all original24 frame/theme rows and active-input/resize assertions. Public pauses protect static measurements; each200→240 safety transition explicitly begins playing. Diagnostic51670 passed before LR-01 repair and is not final proof. Corrected focused16152 exited0 with6 strict tests,24 rows, one canonical realm, no errors/deficiencies (~84.7seconds); root and independent reviewer read its terminal log `/tmp/down-to-duck-07-12-layout-repair-verified.log`. Final metadata-only correction identifies viewport-suspended200px rows. Independent07-12-LAYOUT-REVIEW.md closes LR-01/LW-01 with no remaining findings.
-
-Full collection51274 exited1 after63 production jobs passed, frozen source/test/toolingef3d1c6, run `1d412486-f52d-4ef1-a2c9-6d8da5bdf813`, log `/tmp/down-to-duck-07-12-full-collection-final.log`. Cross-mode33/33 and corrected layout6/6 with24 rows passed; root inspected current-run complete layout evidence and accurate viewport-suspension labels. The next failure is real compact pause overflow: at dark240×240 Local Play wraps, leaving70px for81px of content. Ordinary fresh-build99263 also exited1 with identical geometry; fonts loaded. All27 ordinary artifacts were preserved/restored byte-for-byte. Root viewed the capture and authorized exact src/pause.css ownership in07-12-PAUSE-REPAIR.md. No test/build process remains active at this checkpoint. Complete report and floors remain pending; no phase/plan completion inferred from these partial runs.
-
-Current position: Phase07 plans01/02/07/08/09/10/11 complete.07-12 audio adapters and six-mode attribution are committed; a56b882 reconciles134 discovered entries/140 closure paths into132 execution jobs. First full run10259 exited1 at guidance from generated-artifact memory exhaustion, repaired99fc863. Second run51722 exited1 with cross-mode30 passes/1 cancelled compound compact case: its three real journeys completed in approximately67seconds against one60-second deadline, with no geometry errors. Both failed logs are preserved. Root's scoped addenda authorize the exact repairs; see07-12-GUIDANCE-REPAIR,07-12-REVIEW-REPAIR and07-12-COMPACT-REPAIR.
-
-Full collection23954 exited1 after40 production jobs passed, including cross-mode33/33. Frozen source/test/tooling06ce671; log `/tmp/down-to-duck-07-12-full-collection-verified.log`; run7ab0e995-dc59-4217-a5a5-e0231178247c. The local-session layout case hit its120-second aggregate timeout after19/24 rows. Its archived failure capture shows terminal results, and the report records an8-second resume wait: the game had ended during the long live matrix. Root inspected the capture and authorized07-12-LAYOUT-REPAIR.md: same live board, bounded stages, real public pauses for static measurements, original active input/resize/theme checks intact. No full collection remains running at this checkpoint. Both prior collector review findings are repaired in a200da9/9c390db with15/15 and actual-manifest8/8 focused checks; b561bf2/06ce671 compact cases passed in this run. Independent prior re-review is clean in07-12-REVIEW.md. Original render captures remain preserved; failed runs did not reach their job. Full report, exact shortfalls and07-12 closure remain pending; no full coverage/floor compliance claim.
-
-Actual tracking: **6 completed phases,40/45 plans complete**. User explicitly tested and accepted Survive/Relay/Race presentation on2026-10-16; UAT5eb3c46 and verification addenda ba9540c. Security40f42bd has zero open threats (Race30/30,presentation7/7); validation3496365 maps every task/requirement to existing evidence. Both canonical UAT/verification predicates and phase.complete passed with no warnings. Technical05 verification40/40 and06 verification47/47 retain their original source/provenance limits. Root corrected CLI counting of checkpoint summaries and historical plan artifacts; roadmap totals are authoritative.
-
-07-01 exact Node/opaque-browser calibration10/10 passed32469exit0 onf04d332. Audited standalone dependencies/own lock are installed: historical Node HTTPS EBADF resolved through installed Bun running pinned pnpm, followed by ordinary frozen reinstall. Root lock/oracle unchanged. Production shared-tracer data is partial; no full coverage or floor-compliance claim.07-12 must account for all audited/transitive realms before07-03 uses the initial report.
-
-Branchfeat/local-multiplayer; immutable solo oraclea310a81ed6c76df4b265c9012c23b8c83f4802e5. Remaining goal: complete meaningful release coverage, durable visual/clause/conformance evidence and authorized open PR againstmain. No merge/deploy/publish. Historical evidence below is superseded for current status by the position above and accepted final VERIFICATION/SUMMARY records.
-
-## Accepted Relay Entry Evidence
-
-Source6017f9f fixes the independent Phase03 verifier's sole ghost-duration gap. Full canonical `pnpm test:phase3` session73933 exit0, `/tmp/down-to-duck-ghost-duration-final-gate.log`: exact Phase02 prefix, solo parity21/regressions271, all session/runtime/layout checks, all Phase03 groups, recovery44/44 and final browser34/34. Type-check/build/guidance/lockfile pass. Independent re-verification reports42/42 passed with no residual gap in03-VERIFICATION.md.03-07 and03-08 summaries map evidence. No source changes since that gate; docs-only phase completion follows it. Use this unchanged pre-edit gate as Relay entry evidence, do not rerun it gratuitously.
-
-Relay04-01 is complete on source `e16211f`. Final canonical `pnpm test:phase3 && node --test tests/relay-tracer.mjs` session90748 exit0, `/tmp/down-to-duck-04-01-final-gate.log`: all inherited Phase02/03 checks plus Relay12/12. Two-to-four stable seats configure a default50 or1–999-tile ordered closed roster; one active runner makes a safe settled handoff on the retained world through fresh participant/lifecycle-bound confirmation. Model tests preserve private world future state and personal credit. Built opaque iframe tests cover2/3/4 seats, controller freshness, invalid-field persistence, cross-mode cancellation and40 responsive/theme captures with clipping/contrast assertions. Physical controllers remain unmeasured.
-
-Root's generic participant-score repair `fdad9f0` resolved the historical primary cooldown/economy checkpoint. It captures adopted solo score once and uses personal earned movement for session economy, healing, power and contributions; spatial maxY remains placement state. Both original RED Relay assertions now pass unchanged. See04-DEPENDENCY-REPAIR and04-01SUMMARY for exact pre-entry gates and API reconciliation.
-
-Relay04-02 is complete on source `31d992c`. Canonical session37530 exit0, `/tmp/down-to-duck-04-02-final-gate.log`, runs exact Task2 verification, full phase3 and strict Relay/recovery34/34. It proves lengths1/7/50/999,49/50/51, backtracking, fatal traffic/water/wave/mob priority, successful innate rescue, fractional platform carry, future world/RNG/claim continuity and actual99/100 innate plus249/250 revival credit. Authorized shared `SessionRecoveryController` extraction preserves Survive44/44 and explicit Arcade/Flow lifecycle parity6/6; inactive turn-mode seats no longer anchor recovery. See04-02SUMMARY andRECOVERY-EXTRACTION for API decisions and RED/GREEN logs.
-
-Relay04-03 is complete on source `f673e4f`. Canonical session37049 exit0, `/tmp/down-to-duck-04-03-final-complete-gate.log`, runs both exact task gates (50/50; lifecycle22/22 and Survive7/7), full phase3 and strict Relay/recovery56/56. Original-seat lease/token reclaim, active/inactive loss, two-step skip/leave, personal recovery priority, explicit waiting and terminal idempotence are implemented. Built UI proves fresh keyboard/controller actions, actual death accept/decline/expiry/leave, 74 responsive/theme captures, clipping/contrast/overlay checks. Nested skip/reclaim and leave/disconnect races have retained RED/GREEN regressions. Source review superseded canceled29568 (exit143); only37049 is final evidence. See04-03SUMMARY for generic API seams and the shared paused-death resume fix.
-
-Relay04-04 is complete on source `2ce6edf`. Canonical session93254 exit0, `/tmp/down-to-duck-04-04-final-gate.log`, runs exact Task1 53/53 and Task2 15/15 with type-check, full phase3, and strict Relay/recovery71/71. Append-only pre-clear credit, same-leg personal revival, fresh incoming confirmation after resolved dropout, participant-only unconfirmed skip credit, immutable common results and competition ties are implemented. Built result navigation uses frozen records, retains the scene, preserves prior results through Hop again, and passes34 result captures plus existing lifecycle coverage. See04-04SUMMARY for actual APIs, authorized reconciliations and RED/GREEN evidence. Historical WINDOWS1 remains open for later evidence audit; verified observation-seam WINDOWS3 is fixed.
-
-Relay04-05 is complete on source `eb0e72a`. Canonical session5643 exit0, `/tmp/down-to-duck-04-05-final-verified-gate.log`, runs both exact task gates (runtime8/8 each, economy/consumables15/15, build/type), full phase3 including Survive browser34/34, and strict Relay/recovery/runtime79/79. One owner-labelled market/hand uses optional generic capability and paused-transaction policy; only the active runner can mutate, all stale contexts reject, and Relay installs no consumable world. Built mixed keyboard/controller/audio, pointer inspection, paid pack/sale, lifecycle/recovery/results/retry and36 responsive/theme captures pass. Initial canonical92119 exposed a read-only paid-pack Close obstruction; retained Survive and Relay regressions pass after eb0e72a. Superseded59647 was canceled exit143 for a command filename error. See04-05SUMMARY for actual APIs and logs. Historical WINDOWS1 remains open; verified shared-policy WINDOWS4 is fixed.
-
-Relay04-06 is complete on source `2506ee6`. Exact Gate6 session13852 exit0, `/tmp/down-to-duck-04-06-final-verified-gate.log`: full nested Phase2/3, Relay65/65, runtime9/9, layout1/1 with252 captures, type/build/guidance, conformance5pass/0fail/5unmeasured and immutable-oracle lockfile diff. Actual public-seed keyboard travel proves49/50/51 fractional-platform continuity; browser RNG identity is distinguished from production-object future-state proof. Both theme contact sheets and targeted captures were inspected. Frozen-board minimum-size suspension preserves authority and fresh confirmation; wide setup Roster remains bounded. Superseded84045 failed a retained roster-clipping check before repair. See04-06SUMMARY for exact API reconciliation and all evidence. Historical WINDOWS1 was subsequently closed by independent review and04-REVIEW-REPAIR evidence. Phase04 awaits independent verification; no milestone completion claim.
-
-RELAY-01 and RELAY-05 are completed. RELAY-02/03/04 retain partial status pending remaining integration and independent full-phase verification. Independently verify Phase04, then execute every reviewed Race/presentation/audit/release requirement. No phase or milestone completion claim. All executor build/browser commands are terminal; source ownership returns to root.
-
-Review repair CR-01 is complete on `52f8e0d`: focused keyboard/controller handoff actions preserve incoming Start authority, read-only navigation and no-hop freshness. Exact Gate6 session89260 exit0, `/tmp/down-to-duck-04-review-repair-final-gate.log`: inherited Phase2/3, Relay65/65, runtime12/12, layout252 captures and all required final checks. WINDOWS1 is fixed based on stable receiver code and independent1/1 reentrancy proof, not waived. See04-REVIEW-REPAIR.md. Independent review/phase verification remains next.
-
-## Execution Runtime
-
-Typed gsd-verifier stayed pending_init across multiple turns and was explicitly canceled. Generic fallback applying full local gsd-verifier instructions completed independent review and re-review. Reports honestly label this fallback. A late-starting canceled worker must do nothing. Prefer working default-agent fallback with the relevant full role instructions when typed dispatch cannot initialize; never imply typed guarantees.
+1. Complete07-03: broad honest Solo/Relay/Race evidence, remaining per-file gaps,
+   complete semantic ledger, then a fresh enforcing full report. Keep all floors.
+2. Execute07-04 conformance proof,07-05 clause/visual evidence,07-06 exact final
+   gate and PR. Preparations exist; none are claimed complete.
+3. Open PR against main only after all gates; no merge, deployment or publish.
 
 ## Invariants
 
-- One session owns world/RNG/clocks/claims; players own movement, health, inventory, innate power and contributions.
-- Live solo cancel preserves actual owners and future state; commit adopts them. Relay/Race start fresh.
-- Innate100-block powers are separate from personal250-new-tile revival. Forced movement, backtracking, reclaim/rejoin and aliases cannot farm charges.
-- Death spills/clears only the dead owner's run inventory; ghosts/departure retain it. Recovery does not restore lost purchases.
-- Four seats and Race500tiles/180active seconds remain validated provisional defaults; Relay default50tiles.
-- Graph-first code discovery; SDK boundaries only. Paja pointer/keyboard smoke isolates native hardware, dedicated controller tests use shell snapshots. Native resize delivery barrier preserves actual app focus assertions.
+- Branch `feat/local-multiplayer`; immutable solo oracle and root dependency lock
+  `a310a81ed6c76df4b265c9012c23b8c83f4802e5`.
+- One test/build/browser chain at a time. Browser audio muted. Preserve unrelated
+  preview5175/Paja5197 processes and ordinary artifacts.
+- Numeric floors: global/ordinary/modes90/90/85; critical95/95/90.
+- Actual public input, arranged component evidence and baseline oracle remain
+  distinct. No whole mixed-worker mode credit, fabricated RED or skipped gates.
+- One session owns world/RNG/clocks/claims; players own health, inventory,
+  innate power and contributions. Innate100 differs from personal250 revival.
+- User accepted multiplayer presentation as clear and usable. Physical native
+  controllers remain unmeasured. Do not repeat acceptance questions.
+- Graph-first code discovery and SDK/shell boundaries remain in force.
 
-## Remaining Evidence and Presentation
+## Latest user steering
 
-- Race/presentation technical verification and user visual/play-feel acceptance are received; formal closure/security audit completed by root. Phase07 full audit and PR remain required.
-- Phase06 presentation repair is technically verified; preserve its real actor-envelope and lifecycle evidence.
-- Conformance5pass/0fail/5unmeasured (manifest3,wire1,lifecycle1), not10passes. Physical controllers unmeasured. See research/CONFORMANCE-EVIDENCE.md.
-- Coverage calibration is proven07-01; full production collection/floors remain pending07-12/03.
-- Detailed Phase03 intermediate history is archived in phases/03-survive-together-consumables/03-EXECUTION-HISTORY.md. Accepted summaries and final VERIFICATION are authoritative.
+Mixed input exploration is saved in `.planning/research/MIXED-INPUT-UX.md`
+(ecceafb): a traveler can retain keyboard and controller simultaneously and
+switch freely. First deliberate unfamiliar input offers control/join; established
+player count drives later join defaults. This is a proposal, not implementation.
 
-## Performance Metrics
+## Durable evidence
 
-| Plan | Duration | Tasks | Files |
-|------|----------|-------|-------|
-| Phase 04 P02 | 28 min | 2 tasks | 6 files |
-| Phase 04 P03 | 31 min | 2 tasks | 8 files |
-| Phase 04 P04 | 31 min | 2 tasks | 9 files |
-| Phase 04 P05 | 32 min | 2 tasks | 9 files |
-| Phase 04 P06 | 100 min | 2 tasks | 7 files |
-| Phase 05 P01 | 35 min | 3 tasks | 8 files |
-| Phase 05 P02 | 52 min | 3 tasks | 8 files |
-| Phase 05 P03 | 33 min | 2 tasks | 9 files |
-| Phase 05 P04 | 30 min | 2 tasks | 13 files |
+- `07-UNCOVERED.md`: complete initial branch ledger and focused amendments.
+- `07-03-CONTENT-GAPS.md`: content, keyboard, loader, mode-validation checks.
+- `07-03-APPLICABILITY.md`, `07-03-SOLO-APPLICABILITY.md`,
+  `07-03-SOLO-OBSERVER.md`: exact attribution policy and ownership proof.
+- `.planning/research/CONFORMANCE-EVIDENCE.md`:07-04 preparation.
+- `07-CLAUSE-PREPARATION.json`, `07-CLAUSE-OBLIGATIONS.md`:07-05 preparation.
+- Accepted phase summaries and verification reports remain authoritative.
 
-## Session
-
-**Last session:** 2026-10-16T18:30:51Z
-**Stopped at:** 07-12 compact pause CSS repair authorized after identical instrumented/ordinary RED; complete report pending.
-**Resume file:** None
-
-## Decisions
-
-- [Phase 05]: Race tactics extend the existing common consumable catalogue/schema/world/transaction policy. Timed hop readiness changes cooldown only, not hop interpolation; all effect durations use active world time. Legacy economy uses typed appearance-only restriction in Race.
-
-- [Phase 05]: Fog uses personal accepted movement for monotonic boundary and settled movement for finish/revival credit; actual ground controls exposure. Generic optional pursuit suppression and seat-bound named health damage preserve legacy defaults. Timeout closes offers before immutable results; default500/180 pressure remains versioned and measured.
-
-- [Phase 05]: Race reuses one LocalSession world and generic settled-tick handlers; first finishers stop acting while remaining racers continue. The exact documented practice factory executes all lifecycle callbacks without core input/renderer changes. Full Race lifecycle, fog, items and ranking remain subsequent plans.
-
-- [Phase 04]: Relay recovery offers precede skip; explicit owner departure is separately confirmed, and reclaim invalidates stale skip prompts.
-- [Phase 04]: Relay captures pre-clear death credit while personal recovery retains the same leg; dropout selects immediately but fresh confirmation opens the next leg, and unconfirmed skips remain participant events.
-- [Phase 04]: Relay reuses the owner adapter with opt-in capabilities and paused transaction authority; pointer inspection remains shared/read-only, while actual turn/lifecycle changes invalidate all contexts.
-
-- [Phase 04]: Already-frozen Relay boards retain participant authority during resize; public-seed input proof and opaque RNG identity remain distinct from model semantic-future evidence.
-
-## Root post-wave check — 07-02
-
-SUMMARY0caad7e and owned RED/GREEN commits spot-checked after terminal gates. No redundant test rerun. The installed loop registry exposes ui.safety-gate, but this installed CLI rejects both `query ui.safety-gate 07` and `ui safety-gate 07` (exit1; help lists no ui command). Recorded tooling limitation, not a fabricated hook pass. This bounded plan changes test/coverage tooling only, with no product frontend edits; required build/guidance/conformance and original cross-mode assertions passed as recorded. Continue independently approved07-07 component adapters.
+Prior chronological checkpoints are archived verbatim in
+`phases/07-release-evidence-pr/07-EXECUTION-HISTORY-before-gap-closure.md`.
+Historical active/held statements there are superseded by this checkpoint.
