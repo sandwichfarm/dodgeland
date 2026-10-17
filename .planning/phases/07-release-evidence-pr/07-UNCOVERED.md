@@ -1358,3 +1358,7 @@ Total retained zero branch arms: 1051. No automatic dismissals.
 ## Reviewed solo applicability preparation
 
 See `07-03-SOLO-APPLICABILITY.md` for exact source-pinned production dispositions and call/state evidence. Only LocalSession instance execution and the unavailable CoOpMarketAdapter call closure are mapped; static staging, module initialization, SharedWorld and SessionPlayer remain applicable. The generator emits exact source/map/schema-bound sites and never reads counter values. Raw baseline rows above are unchanged. Bounded evaluator/generator proof passed8/8 in `/tmp/down-to-duck-07-03-solo-applicability-final.log`; this is synthetic schema/negative-control evidence, not additional gameplay coverage. Runner integration, independently observed solo interval validity, final applicable metrics and all unchanged floor gates remain pending.
+
+## Actual Survive mode behavior gains
+
+`07-03-SURVIVE-GAPS.md` records ordinary2/2 and canonical2/2 run344fd116-4fb9-4e87-85ad-8c31a8bcd837: same two actual mode lifetimes and ten intervals, one Node parent, no source change. Real production progress/recovery/item/archival transactions increase each mode from80/89L50/65F102/165B to87/89L64/65F149/165B, with unchanged denominators and explicit arranged component-model provenance. Full enforcing collection still pending; historical baseline zero rows are retained, not relabeled as final failures or silently deleted.
