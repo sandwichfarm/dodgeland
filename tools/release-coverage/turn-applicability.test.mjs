@@ -11,7 +11,7 @@ const directory=await mkdtemp(join(tmpdir(),'turn-applicability-'));after(()=>rm
 const root=resolve(new URL('../..',import.meta.url).pathname);
 const ts=createRequire(new URL('../../package.json',import.meta.url))('typescript');
 const authoritySources=await Promise.all(Object.keys(TURN_AUTHORITY_PINS).map(async path=>({path,source:await readFile(join(root,path),'utf8')})));
-const audit=JSON.parse(await readFile(join(root,'.planning/phases/07-release-evidence-pr/07-03-RELAY-PULL-REFERENCE-AUDIT.json'),'utf8'));
+const audit=JSON.parse(await readFile(join(root,'.planning/phases/07-release-evidence-pr/07-03-SAFE-ADOPTION-REFERENCE-AUDIT.json'),'utf8'));
 const closureSources=await Promise.all(Object.keys(audit.sourceHashes).filter(path=>!path.endsWith('.d.ts')).map(async path=>({path,source:await readFile(join(root,path),'utf8')})));
 const turnApplicabilityDispositions=input=>generateTurnDispositions({authoritySources,closureSources,canonicalSources:closureSources,...input});
 const texts=Object.fromEntries(await Promise.all(Object.keys(TURN_APPLICABILITY_SOURCES).map(async path=>[path,await readFile(join(root,path),'utf8')])));
@@ -185,5 +185,25 @@ test('branch arms crossing a proved range stay applicable and module initializat
   const recovery=sourceFor('recovery.ts'),at=line(recovery,'const stable =');
   const allocation=Object.entries(recovery.coverage.statementMap).filter(([,site])=>site.start.line===at&&site.start.column<recovery.source.split('\n')[at-1].indexOf('=>'));
   assert.ok(allocation.length);for(const[id]of allocation)assert.equal(excluded(dispositions,recovery,id,'statement'),false);
+ }
+});
+
+test('personal-only turn recovery excludes precise Flare paths while safe acquisition remains live',()=>{
+ const session=sourceFor('session.ts'),reference='07-03-PERSONAL-CALL-CLOSURE.md';
+ for(const mode of ['relay','race']){
+  const dispositions=turnApplicabilityDispositions({mode,sources});
+  for(const fragment of ['recoverySafeCells(kind:','private safePlacement(','prepareAdmission(admission:','static stage('])for(const id of functionIds(session,fragment))assert.equal(excluded(dispositions,session,id),false,'kept '+fragment);
+  for(const id of functionIds(session,'transferPosition(outgoingSeat:'))assert.equal(excluded(dispositions,session,id),mode==='race','Relay transfer is retained; Race has no caller');
+  for(const fragment of ['const remaining = cells.filter','const ordered = [...targets].sort','return Object.freeze(ordered.map'])for(const id of functionIds(session,fragment))assert.equal(excluded(dispositions,session,id),true,'Flare-only callback '+fragment);
+  for(const fragment of ["const returning = new Set(kind === 'flare'", "      : kind === 'flare'"]){
+   const at=line(session,fragment),branches=Object.entries(session.coverage.branchMap).filter(([,site])=>site.loc.start.line===at);assert.ok(branches.length,fragment);
+   assert.ok(branches.some(([id])=>dispositions.some(d=>d.path===session.path&&d.kind==='branch'&&d.id===id&&d.arm===0&&d.authority.endsWith(reference))),'exact Flare true operand '+fragment);
+  }
+  const guardAt=line(session,"    if (kind === 'flare') {"),guards=Object.entries(session.coverage.statementMap).filter(([,site])=>site.start.line===guardAt);assert.ok(guards.length);for(const[id]of guards)assert.equal(excluded(dispositions,session,id,'statement'),false,'outer kind guard remains');
+  const selected=dispositions.filter(d=>d.authority.endsWith(reference));assert.ok(selected.length);
+  for(const d of selected){
+   const hits=structuredClone(attributed);if(d.kind==='branch')hits[d.path].b[d.id][d.arm]=1;else hits[d.path][d.kind==='statement'?'s':'f'][d.id]=1;
+   assert.throws(()=>reportApplicability({mode,sources,attributed:hits,dispositions}),/contradicted/,'every new excluded '+d.kind+' rejects positive hits');
+  }
  }
 });

@@ -2,6 +2,24 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Current safe admission and recovery scope
+
+ARCH-03/INPUT-02/TEST-02/03: two real river adoption failures in2b64cdd prove
+that a valid-3 platform plan was rejected by the constructor's narrower neighbor
+search. The repair passes that plan into construction without grid/RNG/lifecycle
+changes. Current session399fb31a is distinct from all historical source schemas.
+Ordinary55/55, controls95/95 and nine fresh whole cohorts pass; actual matrix
+1d4cdd05 covers21 worlds/85 intervals, including safe river/road/rail setup and
+continued hops. See SAFE-ADOPTION-PROOF.json and SAFE-ADOPTION-REPAIR.md.
+
+Complete caller/policy review adds precise Flare-only safe-cell dispositions
+and Race-only transferPosition; safePlacement stays counted during acquisition.
+Same current raw/site comparison changes no numerator; all raw/global/file
+counters and numeric floors remain complete. Current diagnostics still need
+Relay338B and Race3F307B. No fresh enforcing/full-branch acceptance is claimed;
+initial source-bound annotations remain historical. Rule-authoring candidates
+remain read-only pending complete proof, never automatic exclusions.
+
 ## Current pickup eligibility and arbitration
 
 The bench-retention assumption in the historical first repair below is superseded

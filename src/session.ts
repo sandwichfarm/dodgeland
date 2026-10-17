@@ -383,7 +383,7 @@ export class SessionPlayer {
     this.interactionRecords.push(Object.freeze({ ...event, ...(event.kind === 'market' ? {items:Object.freeze(event.items.map(item=>Object.freeze({...item})))} : {}), ...(event.kind === 'item-use' ? {targets:Object.freeze(event.targets.map(target=>Object.freeze({...target})))} : {}), id: `${this.participantId}:${this.interactionRecords.length + 1}`, seat: this.seat, participantId: this.participantId, characterId: this.characterId, generation: this.recovery?.deathGeneration ?? 0, tick: this.world.simulationTick, time: this.world.time, activeTime: this.world.time / this.world.rules.simulation.worldTimeScale }));
   }
 
-  constructor(world: SharedWorld, seat: SeatId, device: DeviceId, characterId: string, primary = false) {
+  constructor(world: SharedWorld, seat: SeatId, device: DeviceId, characterId: string, primary = false, placement?: Readonly<{ x: number; y: number }>) {
     this.world = world; this.seat = seat; this.device = device; this.marker = seat.toUpperCase();
     this.primary = primary;
     const character = characterById(characterId);
@@ -394,8 +394,8 @@ export class SessionPlayer {
     // Each seat has a run inventory. Course generation, actors, and rewards
     // remain on SharedWorld; no second Game is constructed for this inventory.
     this.run = new RunInventory(world.host.seed ^ 0x5f3759df, [...world.host.run.catalog.values()], world.rules.economy);
-    const anchorY = world.host.y;
-    const spawn = [-1, 1, -2, 2].map(offset => world.host.x + offset).find(x => {
+    const anchorY = placement?.y ?? world.host.y;
+    const spawn = placement?.x ?? [-1, 1, -2, 2].map(offset => world.host.x + offset).find(x => {
       const lane = world.rows.get(anchorY);
       return x >= -5 && x <= 5 && !!lane && !lane.blocked.includes(Math.round(x)) && (lane.kind !== 'river' || platformSupports(lane, x, world.time));
     });
@@ -933,7 +933,7 @@ export class LocalSession {
   }
   private admitPlan(plan: SessionAdmissionPlan, start = true, emit = true): boolean {
     const { admission, seat, placement } = plan;
-    const player = new SessionPlayer(this.world, seat, admission.device, admission.characterId);
+    const player = new SessionPlayer(this.world, seat, admission.device, admission.characterId, false, placement);
     player.x = player.fromX = placement.x; player.y = player.fromY = placement.y; player.maxY = placement.y;
     if (start && !player.start()) return false;
     this.bindRecovery(player, admission); this.consumableWorld?.initialize(player);

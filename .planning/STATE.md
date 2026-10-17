@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-03 actual coin arbitration verified; mode floors still open
-last_updated: "2026-10-17T13:57:26.389826+00:00"
+stopped_at: 07-03 safe admission repair verified; nine fresh cohorts pass
+last_updated: "2026-10-17T14:28:39.662950+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,7 +12,7 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Fifteen real turn lifetimes pass; coin arbitration adds actual mode proof; four Relay and ten Race functions still needed.
+last_activity_desc: Valid river admission fixed;21 real worlds and nine fresh cohorts pass; Relay functions pass, branch gates remain.
 ---
 
 # Project State
@@ -30,8 +30,8 @@ jump/load (71b5dc6), and a disconnected owner's retained coin claim (RED0638b42,
 repair7e71ab1). All have retained RED/GREEN evidence. Required
 type/build/guidance checks pass. Conformance remains five
 passes, zero failures and five unmeasured checks. Normal build raw SHA256:
-`ff8ed4433a0e006bbf31d2f5843339930d00ed3ede5c694a4e03b269ad6cc7ee`.
-Current session source is `bf1d769947cd7e251d47957abdc4238f36ab4583fd5f5d32d3900e7f4c39f16c`;
+`c66d9f9bacd9881f3a6306e6c015e2e9b0a6d507bc316303a61c521a251f7d76`.
+Current session source is `399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9`;
 all older session measurements below retain their historical identities and
 cannot be merged into the current source. Focused canonical refresh passed; the current complete report-only collection
 is terminal as recorded below. Full enforcing release acceptance remains pending.
@@ -624,6 +624,56 @@ before active closed-roster guards. Actual hazardous-course adoption/reclaim
 and multi-vehicle contact/render journeys remain meaningful coverage targets.
 No new disposition is authorized by the read-only audit alone. All original
 07-03/04/05/06 release obligations and final PR remain open.
+
+Safe-admission tranche is verified after a genuine product RED. Commit2b64cdd
+retains two river factory failures: safePlacement planned-3 but secondary
+construction independently searched only±1/±2 and threw. The generic repair passes
+the validated plan position into construction, preserving direct fallback and
+primary facade behavior. Nearby55/55, controls95/95 and all21 matrix cases pass.
+Original15 case bodies unchanged; six actual river/road/rail setup lifetimes
+verify unsafe vehicle/scenery/mob/occupied/unsupported cells are avoided, pause,
+supported fractional carry, first actual hops and frozen results. No planner,
+claims or RNG injected. Source399fb31a; all158 other source hashes unchanged.
+Reviewed caller fingerprintb550759a, DEV52f2d4b8. See SAFE-ADOPTION-REPAIR,
+SAFE-ADOPTION-PROOF.json and SAFE-ADOPTION-REFERENCE-AUDIT(18 targets).
+
+Personal controller/reflection/value-flow review is complete in
+PERSONAL-CALL-CLOSURE with16-target policy audit and admission addendum. Exact
+new scope disposes only safeCells Flare true operands/body in both modes, and
+transferPosition in Race only. Personal hazards, safePlacement/acquisition,
+outer guards, module allocations and Relay transfer remain counted. Positive-hit
+controls cover every new disposition. Same current-source/raw/site comparison
+has zero numerator change: Relay denominator11L17S5F22B and Race15L24S8F31B
+are disposed. Raw/global/per-file accounting and all floors stay complete.
+Constructor fallback and generic authoring failures have no new exclusion.
+
+Verification83582 is terminal0 at2026-10-17T14:24:55Z. All seven project gates
+and nine whole canonical cohorts pass: matrix1d4cdd05 has21 actual lifetimes/
+85 intervals (Relay10/36,Race11/49), one Node parent,21 worlds and17,166 shared
+updates with zero standalone/ownership violations. Reuse, Relay lifecycle, Race
+results,62-scenario solo matrix, bootstrap, six public modes, Relay paid inventory
+and actual PROD/DEV shared pickup all pass. Solo matrix56.122s under unchanged
+120s deadline. CLI conformance still5pass/0fail/5unmeasured. Normal c66d9f9b,
+root lock5ac, all56 prior temporary Race/Relay outputs and ordinary artifacts
+are preserved. No runtime or freeze remains; do not poll closed83582/81646.
+
+Fresh399-source diagnostic revalidates complete disk/canonical source/code/map/
+site identities and lifetime authority. It selects89 component lifetimes/262
+intervals plus7 public intervals, supplementary repeated Race model omitted.
+Relay29lifetimes/74component+2public intervals:1941/2103L641/711F2053/2812B;
+line/function floors pass, still338branch arms needed. Race60lifetimes/
+188component+1public:2020/2162L681/759F2287/3051B; line floor passes, still3F307B.
+No changed-session counter merge or fresh enforcing release acceptance follows.
+Original semantic ledger remains162 annotated/889pending.
+
+Next read-only finding RULE-AUTHORING-SCOPE-FINDING/REFERENCE-AUDIT proves only
+two direct fixed built-in composer calls among159 current source files. Invalid
+authoring paths need complete source/value-flow and bounded-guard review before
+any new mode disposition. Keep initialization and valid checks; isModeDefinition
+is outside that candidate. Actual secondary innate powers and richer bound
+public Race journeys remain behavior targets. Do not attribute planner/oracle
+helper calls or whole mixed workers to modes. Full enforcing07-03/04/05/06/PR
+obligations remain open; mixed input aliases remain design-only.
 
 ## Next required work
 

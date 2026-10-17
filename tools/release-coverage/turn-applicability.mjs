@@ -2,14 +2,14 @@ import { createHash } from 'node:crypto';
 import { createRequire } from 'node:module';
 import { applicabilityIdentity } from './applicability.mjs';
 const ts=createRequire(new URL('../../package.json',import.meta.url))('typescript');
-// Complete executable src inventory reviewed in RELAY-PULL-REFERENCE-AUDIT.json.
+// Complete executable src inventory reviewed in SAFE-ADOPTION-REFERENCE-AUDIT.json.
 // A new/changed caller anywhere invalidates this closure, even outside the stratum.
-const callerInventoryHash='153de8d17a4715b118bdcbf5d813406b35dd44133a0572dc73a37a5e6e9fe7a1';
+const callerInventoryHash='b550759a82d954b9d3572690179ebb0071a182843381dc23a84e697e6bc62583';
 // Deliberately reviewed pins: never regenerate automatically when production changes.
 export const TURN_APPLICABILITY_SOURCES=Object.freeze({
  'src/relay.ts':'f5c1eea5b82e6e42d7b6bbc6a95f7f0d28aa7ad7468c4464e0217ab9f89e6c02',
  'src/race.ts':'d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da',
- 'src/session.ts':'bf1d769947cd7e251d47957abdc4238f36ab4583fd5f5d32d3900e7f4c39f16c',
+ 'src/session.ts':'399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9',
  'src/session-recovery.ts':'35119abd8ac6551d253ec0ada320c934fd5a9cf20c142444e3afdb4094093b9c',
  'src/recovery.ts':'835df7ab867c3421e7d295778c864ceba83f0ea10e588c4c6f4d95cdc2c1702b',
  'src/shared-world-effects.ts':'715dce9a98a83c398aa3a3d43531568008a9cefaa9be8df766a921dd2eb43a45',
@@ -71,6 +71,14 @@ export function turnApplicabilityDispositions({mode,sources,authoritySources,clo
   const noItems='Relay installs consumables:false; no ConsumableWorld or captured item policy exists. Shared bootstrap registration and absent-extension guards remain applicable.';
   const appearance='Race restricts every closed-roster inventory to appearance-only before play. No successful card, pack or power acquisition can populate it; public rejection guards and cosmetic transactions remain applicable.';
   if(key==='src/session.ts'){
+   const reference='.planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md';
+   const cells=member('LocalSession','recoverySafeCells');let flareOperands=0,flareBodies=0;
+   for(const node of all.filter(n=>n.pos>=cells.pos&&n.end<=cells.end)){
+    if(ts.isConditionalExpression(node)&&node.condition.getText(tree)==="kind === 'flare'"){add(node.whenTrue,personal,false,reference);flareOperands++;}
+    if(ts.isIfStatement(node)&&node.expression.getText(tree)==="kind === 'flare'"){add(node.thenStatement,personal,false,reference);flareBodies++;}
+   }
+   if(flareOperands!==2||flareBodies!==1)throw Error('Reviewed personal-only safe-cell flow changed');
+   if(mode==='race')add(member('LocalSession','transferPosition'),'Complete pinned caller inventory resolves this method only from Relay.confirm. Canonical Race never transfers a Relay baton; acquisition and personal/reclaim placement remain applicable.',false,reference);
    for(const name of['selectMobTarget','view'])add(member('SharedWorld',name),unused);
    for(const name of['installSharedWorldEffects','sharedWorldEffectsSnapshot'])add(member('LocalSession',name),shared);
    if(mode==='relay'){
