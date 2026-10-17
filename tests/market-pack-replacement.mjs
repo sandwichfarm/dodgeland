@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { createMarketGameFixture } from './market-game-fixture.mjs';
 
-const evidence = { artifact: 'Production build in opaque allow-scripts iframe', fixture: 'CDP stages coins, named stock and seeded pack RNG only. Purchases, picks, discards, skips and confirmations use visible UI controls.', scenarios: [], frames: [], errors: [], external: [] };
+const evidence = { artifact: 'Built application in opaque allow-scripts iframe', fixture: 'CDP stages coins, named stock and seeded pack RNG only. Purchases, picks, discards, skips and confirmations use visible UI controls.', scenarios: [], frames: [], errors: [], external: [] };
 const app = await createMarketGameFixture(evidence);
 const { page, frame, iframe, advance, onGame, resize, open, stageMarket, stageOffers } = app;
 const output = new URL('../artifacts/', import.meta.url);

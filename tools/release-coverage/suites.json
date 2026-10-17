@@ -1520,6 +1520,72 @@
         }
       ],
       "provenance": "Unchanged Survive complete-run, health and Race assertions on byte-proven genuine development realms; mixed Node parent remains global only"
+    },
+    "development-market-03": {
+      "files": [
+        "tests/survive-together-runtime.mjs",
+        "tests/survive-market-pack-owner-runtime.mjs",
+        "tests/market-pack-replacement.mjs"
+      ],
+      "role": "browser",
+      "browser": true,
+      "buildScopes": [
+        "development"
+      ],
+      "jobs": [
+        {
+          "id": "survive-together-runtime-development",
+          "file": "tests/survive-together-runtime.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "defaultBuildScope": "development",
+          "artifactPatterns": [
+            "artifacts/survive-market-wardrobe-240.png"
+          ],
+          "requiredBuildScopes": [
+            "development"
+          ],
+          "verifyArtifactScope": true
+        },
+        {
+          "id": "survive-market-pack-owner-runtime-development",
+          "file": "tests/survive-market-pack-owner-runtime.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "defaultBuildScope": "development",
+          "artifactPatterns": [
+            "artifacts/survive-market-pack-owner-failure.png",
+            "artifacts/survive-market-pack-owner-runtime.json",
+            "artifacts/survive-market-pack-owner-sale.png"
+          ],
+          "requiredBuildScopes": [
+            "development"
+          ],
+          "verifyArtifactScope": true
+        },
+        {
+          "id": "market-pack-replacement-development",
+          "file": "tests/market-pack-replacement.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "defaultBuildScope": "development",
+          "artifactPatterns": [
+            "artifacts/market-pack-replacement-failure.png",
+            "artifacts/market-pack-replacement.json"
+          ],
+          "requiredBuildScopes": [
+            "development"
+          ],
+          "verifyArtifactScope": true
+        }
+      ],
+      "provenance": "Whole existing Survive owner and paid-pack journeys; exact genuine DEV artifact proof, original arranged/public assertions and output obligations retained"
     }
   },
   "pendingAdapters": [
@@ -4931,6 +4997,57 @@
         ],
         "verifyArtifactScope": true,
         "nodeRealmId": "tests/race-runtime.mjs#race-runtime-development"
+      },
+      {
+        "id": "survive-together-runtime-development",
+        "file": "tests/survive-together-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "development",
+        "artifactPatterns": [
+          "artifacts/survive-market-wardrobe-240.png"
+        ],
+        "requiredBuildScopes": [
+          "development"
+        ],
+        "verifyArtifactScope": true
+      },
+      {
+        "id": "survive-market-pack-owner-runtime-development",
+        "file": "tests/survive-market-pack-owner-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "development",
+        "artifactPatterns": [
+          "artifacts/survive-market-pack-owner-failure.png",
+          "artifacts/survive-market-pack-owner-runtime.json",
+          "artifacts/survive-market-pack-owner-sale.png"
+        ],
+        "requiredBuildScopes": [
+          "development"
+        ],
+        "verifyArtifactScope": true
+      },
+      {
+        "id": "market-pack-replacement-development",
+        "file": "tests/market-pack-replacement.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "development",
+        "artifactPatterns": [
+          "artifacts/market-pack-replacement-failure.png",
+          "artifacts/market-pack-replacement.json"
+        ],
+        "requiredBuildScopes": [
+          "development"
+        ],
+        "verifyArtifactScope": true
       }
     ],
     "controls": [
