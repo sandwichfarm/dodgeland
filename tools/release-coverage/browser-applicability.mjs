@@ -1,17 +1,19 @@
 import { createRequire } from 'node:module';
 import { applicabilityIdentity } from './applicability.mjs';
+import { builtinRuleDispositions } from './builtin-rule-applicability.mjs';
 const ts=createRequire(new URL('../../package.json',import.meta.url))('typescript');
 export const BROWSER_STRATUM='browser-presentation-owner-lifecycle';
 export const BROWSER_APPLICABILITY_SOURCES=Object.freeze({
  'src/main.ts':'33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4',
  'src/gamepad.ts':'be02cdecae3683f9f0b8a5698d90eec393759ce91ea40b24bc18128e7da479e5',
  'src/session-input.ts':'e42c0af885310c699a275aa819c7d66d6902e20164db08cacacf5aee7017da9f',
+ 'src/mode-rules.ts':'cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2',
 });
 const authority='.planning/phases/07-release-evidence-pr/07-03-BROWSER-SCOPE-FINDING.md';
 const before=(a,b)=>a.line<b.line||a.line===b.line&&a.column<=b.column;
 const contains=(a,b)=>b?.start&&b?.end&&before(a.start,b.start)&&before(b.end,a.end);
 /** Browser application projection only. Node compatibility API remains globally applicable. */
-export function browserApplicabilityDispositions({mode,sources}){
+export function browserApplicabilityDispositions({mode,sources,closureSources,canonicalSources,configSources}){
  if(mode!==BROWSER_STRATUM)throw Error('Exact browser application stratum required');
  if(!Array.isArray(sources))throw Error('Source inventory required');
  const selected=new Map();
@@ -30,5 +32,5 @@ export function browserApplicabilityDispositions({mode,sources}){
  for(const[id,site]of Object.entries(source.coverage.statementMap))if(ranges.some(r=>contains(r,site)))emit('statement',id);
  for(const[id,site]of Object.entries(source.coverage.fnMap))if([...ranges,...functions].some(r=>contains(r,site.loc)&&contains(r,site.decl)))emit('function',id);
  for(const[id,site]of Object.entries(source.coverage.branchMap))for(const[arm,loc]of site.locations.entries())if(ranges.some(r=>contains(r,loc)))emit('branch',id,arm);
- return output;
+ return [...output,...builtinRuleDispositions({mode,source:selected.get('src/mode-rules.ts').source,closureSources,canonicalSources,appConfigSources:configSources})];
 }

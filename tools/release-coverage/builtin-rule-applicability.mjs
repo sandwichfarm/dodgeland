@@ -6,6 +6,12 @@ const ts=createRequire(new URL('../../package.json',import.meta.url))('typescrip
 const callerDigest='97f037fa041e738d931c54fb47f98d85632b8c0e4eaa7275f500e9c300787bd6';
 const sourceHash='cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2';
 const authority='.planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md';
+const appAuthority='.planning/phases/07-release-evidence-pr/07-03-APP-BUILTIN-RULE-CLOSURE.md';
+export const BUILTIN_APPLICATION_CONFIG_PINS=Object.freeze({
+ 'index.html':'cb9773abc32939bdf61664b7e850eb044aa3f37aef79f61d50e9b69346ce7c0b',
+ 'vite.config.ts':'cc82c2ed6058718e3fe09ff1e6b55f8504b14bd60ebf59ef3a4488da510b5e30',
+ 'tsconfig.json':'b58c33dad9bf85858576fa3cf6fd491a57f472d712813ee6211f59856eb0acc4',
+});
 const hash=value=>createHash('sha256').update(value).digest('hex');
 function checkCallers(rows){
  if(!Array.isArray(rows)||rows.length!==158)throw Error('Complete built-in caller inventory required');
@@ -18,9 +24,17 @@ const before=(a,b)=>a.line<b.line||a.line===b.line&&a.column<=b.column;
 const contains=(a,b)=>span(a)&&span(b)&&before(b.start,b.end)&&before(a.start,b.start)&&before(b.end,a.end);
 const same=(a,b)=>span(a)&&span(b)&&a.start.line===b.start.line&&a.start.column===b.start.column&&a.end.line===b.end.line&&a.end.column===b.end.column;
 /** Exact failure-path dispositions for the two source-pinned built-in composers. */
-export function builtinRuleDispositions({mode,source,closureSources,canonicalSources}){
- if(!['solo-arcade','solo-flow','relay','race'].includes(mode))throw Error('Built-in mode stratum required');
+export function builtinRuleDispositions({mode,source,closureSources,canonicalSources,appConfigSources}){
+ const application=['browser-presentation-owner-lifecycle','development'].includes(mode);
+ if(!application&&!['solo-arcade','solo-flow','relay','race'].includes(mode))throw Error('Built-in mode stratum required');
  checkCallers(closureSources);checkCallers(canonicalSources);
+ if(application){
+  if(!Array.isArray(appConfigSources)||appConfigSources.length!==3)throw Error('Built-in application config authority required');
+  for(const[path,pin]of Object.entries(BUILTIN_APPLICATION_CONFIG_PINS)){
+   const rows=appConfigSources.filter(row=>row?.path===path);
+   if(rows.length!==1||typeof rows[0].source!=='string'||hash(rows[0].source)!==pin)throw Error('Reviewed built-in application config changed: '+path);
+  }
+ }
  if(typeof source?.path!=='string'||!/(?:^|\/)src\/mode-rules\.ts$/.test(source.path.replaceAll('\\','/')))throw Error('Mapped mode-rules source required');
  const identity=applicabilityIdentity(source);if(identity.sourceHash!==sourceHash)throw Error('Reviewed built-in rule source changed');
  const tree=ts.createSourceFile(source.path,source.source,ts.ScriptTarget.Latest,true);if(tree.parseDiagnostics.length)throw Error('Invalid built-in rule source');
@@ -30,7 +44,7 @@ export function builtinRuleDispositions({mode,source,closureSources,canonicalSou
  const visit=n=>{if(ts.isIfStatement(n)&&!n.elseStatement&&ts.isExpressionStatement(n.thenStatement)&&ts.isCallExpression(n.thenStatement.expression)&&ts.isIdentifier(n.thenStatement.expression.expression)&&n.thenStatement.expression.expression.text==='fail'){guards.push(n);ranges.push(range(n.thenStatement));}if(ts.isConditionalExpression(n))conditionals.push(n);ts.forEachChild(n,visit);};visit(tree);
  if(guards.length!==17)throw Error('Reviewed built-in validation guards changed');
  const output=[],eligible=site=>ranges.some(r=>contains(r,site));
- const emit=(kind,id,arm)=>output.push({mode,path:source.path,...identity,kind,id,...(arm===undefined?{}:{arm}),callReason:'Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.',stateReason:'Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.',authority});
+ const emit=(kind,id,arm)=>output.push({mode,path:source.path,...identity,kind,id,...(arm===undefined?{}:{arm}),callReason:'Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.',stateReason:application?'Verified built application realms with complete independent disk/canonical caller and entry/build configuration authority. Generic authoring remains global/per-file evidence; no application counters are borrowed from Node.':'Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.',authority:application?appAuthority:authority});
  for(const[id,site]of Object.entries(source.coverage.statementMap))if(eligible(site))emit('statement',id);
  for(const[id,site]of Object.entries(source.coverage.fnMap))if(contains(range(fail),site.loc)&&contains(range(fail),site.decl))emit('function',id);
  for(const[id,site]of Object.entries(source.coverage.branchMap)){

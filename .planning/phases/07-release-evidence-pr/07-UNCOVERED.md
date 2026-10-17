@@ -2,6 +2,16 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Latest source-proved application rule closure
+
+APP-BUILTIN-RULE-CLOSURE/PROOF records retained RED11pass/7fail,18 focused and
+all113 controls passing,plus actual4 PROD/4 DEV integration. Exact fixed-preset
+validation failure sites add18 statement/one function/21 branch dispositions
+per app scope. Raw metrics and all covered numerators are unchanged;previous
+four mode selections are byte-equivalent. Original baseline rows/full report
+are preserved. Current diagnostic gaps:browser9,DEV71,Relay28,Race75. No full
+acceptance or new gameplay credit for the repeated cohort.
+
 ## Current actual river reward and fractional landing evidence
 
 RIVER-REWARDS/PROOF adds four actual built Relay/Race Arcade/Flow cases in both

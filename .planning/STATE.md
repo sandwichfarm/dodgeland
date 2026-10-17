@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Built moving-river/off-grid bank collection passes both scopes;diagnostic branch gaps Relay28 Race75 browser26 DEV89
-last_updated: "2026-10-17T22:10:54.263529+00:00"
+stopped_at: Built-in application closure verified;diagnostic branch gaps Relay28 Race75 browser9 DEV71
+last_updated: "2026-10-17T22:28:00.764363+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,25 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: River rewards4 ordinary+4 PROD+4 DEV pass;20 browser/19 DEV/one source-identical global witness. All prior170 jobs retained;full registry172. Release gaps and07-04/05/06/PR remain.
+last_activity_desc: Application rule scope passes113 controls and4 PROD+4 DEV integration;raw/numerators unchanged. Remaining branch gaps9 browser/71 DEV/28 Relay/75 Race;full enforcement and07-04/05/06/PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+Latest application built-in closure:dcf0150 retains tool-contract RED11pass/7fail;
+implementation passes18 focused/all113 controls. Actual a2b08c47 run exits0,
+four PROD plusfour genuine DEV cases,eight browser realms/two Node parents,
+no mode intervals. Complete158-source inventory,entry/build pins,normal e980
+and rootlock5ac verified. Old four mode selections stay byte-equivalent.
+Only source-proved fixed-preset validation failure sites are removed from app
+denominators;raw maps/every covered numerator remain unchanged. Separate
+cohort and diagnostic unions bind exact facts in APP-BUILTIN-RULE-PROOF.
+Current diagnostic branches:browser8361/9846(needs9),DEV2296/2784(needs71),
+Relay2286/2722(needs28),Race2492/3020(needs75). No new gameplay credit for
+repeated river tests. Original full report remains enforced-fail.07-03 semantic
+review,fresh full enforcement,07-04/05/06 and PR remain. All handles terminal.
 
 Latest actual river reward proof:ordinary04 four cases and canonical6ae1161c-8403-4ac1-b204-3ad39230807e
 four PROD plusfour genuine DEV pass,eight browser realms/two Node parents.

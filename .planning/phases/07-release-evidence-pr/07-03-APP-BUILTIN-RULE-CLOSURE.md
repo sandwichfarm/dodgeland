@@ -61,3 +61,28 @@ numerator must remain unchanged. Then execute a real PROD/DEV cohort through
 the integrated runner. Preserve old full reports;report denominator changes
 explicitly. Remaining runtime/semantic gaps and fresh enforcing full collection
 are still obligations,as are07-04/05/06 and the PR.
+
+## Executed evidence
+
+dcf0150 retains the tool-contract RED:18 cases,11 pass/seven expected failures.
+The integrated implementation passes18 focused and all113 controls. The fresh
+TypeScript reference audit,full158-source disk/canonical inventory and three
+entry/build pins remain unchanged. All four previous mode selections are
+byte-equivalent to the prior mapper. Each original/newer cohort is separately
+reprojected,followed by a source/schema-identical max-positive diagnostic union.
+Raw metrics and every covered numerator are unchanged. Each added app scope
+removes exactly18 statements,one function and21 branch outcomes.
+
+Actual runner a2b08c47-2220-4f45-98f4-684d1a0fd6a3 terminates0:four PROD andfour
+genuine DEV river cases pass,eight independently attributed browser realms and
+two Node parents,no production-mode intervals. All excluded sites have zero
+actual hits;complete canonical inventory f46f,normal raw e980 and rootlock5ac
+are independently checked. APP-BUILTIN-RULE-PROOF.json binds the scripts,logs,
+raw payloads,reports,source/tool hashes and exact scope metrics. This focused
+run is report-only. Repeating the river cases adds no claimed gameplay credit.
+
+Current diagnostic branch counts are browser8361/9846(needs9),DEV2296/2784
+(needs71),Relay2286/2722(needs28),Race2492/3020(needs75). Original full report
+remains enforced-fail. No product source,floor,dependency,oracle or rootlock
+change. Remaining semantic review,fresh full enforcement,07-04/05/06 and PR
+remain required;07-03 is incomplete.

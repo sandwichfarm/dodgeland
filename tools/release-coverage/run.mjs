@@ -10,6 +10,7 @@ import { mergePayloads } from './collector.mjs';
 import { developmentApplicabilityDispositions, DEVELOPMENT_CONFIG_PINS } from './development-applicability.mjs';
 import { browserApplicabilityDispositions, BROWSER_STRATUM } from './browser-applicability.mjs';
 import { reportApplicability } from './applicability.mjs';
+import { BUILTIN_APPLICATION_CONFIG_PINS } from './builtin-rule-applicability.mjs';
 import { soloApplicabilityDispositions, SOLO_AUTHORITY_PINS } from './solo-applicability.mjs';
 import { turnApplicabilityDispositions, TURN_APPLICABILITY_SOURCES, TURN_AUTHORITY_PINS } from './turn-applicability.mjs';
 import { reportCoverage, hash } from './instrument.mjs';
@@ -209,7 +210,11 @@ export function projectBrowserApplicability(inventory,mapped,paths,rows){
   return {path:absolute,source:record.source,map:record.map,coverage:mapped[absolute]};
  });
  const attributed=Object.fromEntries(sources.map(s=>[s.path,mapped[s.path]]));
- return reportApplicability({mode:BROWSER_STRATUM,sources,attributed,dispositions:browserApplicabilityDispositions({mode:BROWSER_STRATUM,sources})});
+ const names=readdirSync(join(repositoryRoot,'src'),{recursive:true}).filter(path=>/\.(ts|tsx|js|mjs)$/.test(path)&&!path.endsWith('.d.ts')).sort();
+ const closureSources=names.map(path=>({path:'src/'+path.replaceAll('\\','/'),source:readFileSync(join(repositoryRoot,'src',path),'utf8')}));
+ const canonicalSources=Object.values(inventory).map(record=>({path:record.path,source:record.source}));
+ const configSources=Object.keys(BUILTIN_APPLICATION_CONFIG_PINS).map(path=>({path,source:readFileSync(join(repositoryRoot,path),'utf8')}));
+ return reportApplicability({mode:BROWSER_STRATUM,sources,attributed,dispositions:browserApplicabilityDispositions({mode:BROWSER_STRATUM,sources,closureSources,canonicalSources,configSources})});
 }
 
 /** DEV projection requires the real collected application's artifact proof, never a Node scope label. */
@@ -239,7 +244,7 @@ export async function projectDevelopmentApplicability(inventory,mapped,paths,row
  const actual=new Map();for(const source of canonicalSources){if(actual.has(source.path))throw Error('Duplicate canonical development source');actual.set(source.path,source.source);}
  if(actual.size!==authoritySources.length||authoritySources.some(s=>actual.get(s.path)!==s.source))throw Error('Canonical development source inventory differs from reviewed authority');
  const attributed=Object.fromEntries(sources.map(s=>[s.path,mapped[s.path]]));
- const dispositions=developmentApplicabilityDispositions({mode:'development',sources,authoritySources,configSources});
+ const dispositions=developmentApplicabilityDispositions({mode:'development',sources,authoritySources,canonicalSources,configSources});
  return {...reportApplicability({mode:'development',sources,attributed,dispositions}),authoritySources:authoritySources.map(s=>({path:s.path,sourceHash:hash(s.source)})),configSources:configSources.map(s=>({path:s.path,sourceHash:hash(s.source)}))};
 }
 

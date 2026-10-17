@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { createRequire } from 'node:module';
 import { applicabilityIdentity } from './applicability.mjs';
+import { builtinRuleDispositions } from './builtin-rule-applicability.mjs';
 const ts=createRequire(new URL('../../package.json',import.meta.url))('typescript');
 export const DEVELOPMENT_STRATUM='development';
 // Exact Game.move transition reviewed in 07-03-RELAY-GENERATION-CLOSURE.md.
@@ -21,7 +22,7 @@ const valid=p=>Number.isSafeInteger(p?.line)&&p.line>0&&Number.isSafeInteger(p?.
 const before=(a,b)=>a.line<b.line||a.line===b.line&&a.column<=b.column;
 const contains=(a,b)=>valid(b?.start)&&valid(b?.end)&&before(b.start,b.end)&&before(a.start,b.start)&&before(b.end,a.end);
 /** Pure source-bound dispositions. Caller must separately establish genuine DEV app provenance. */
-export function developmentApplicabilityDispositions({mode,sources,authoritySources,configSources}){
+export function developmentApplicabilityDispositions({mode,sources,authoritySources,canonicalSources,configSources}){
  if(mode!==DEVELOPMENT_STRATUM)throw Error('Exact development application stratum required');
  if(!Array.isArray(authoritySources)||authoritySources.length!==158)throw Error('Complete reviewed development authority required');
  const entries=authoritySources.map(s=>{if(!/^src\/.+\.(ts|tsx|js|mjs)$/.test(s.path)||s.path.endsWith('.d.ts')||typeof s.source!=='string')throw Error('Invalid development authority');return{path:s.path,sha256:sha(s.source)};}).sort((a,b)=>a.path<b.path?-1:a.path>b.path?1:0);
@@ -64,5 +65,7 @@ export function developmentApplicabilityDispositions({mode,sources,authoritySour
    }
   }
  }
- return output;
+ const rules=sources.filter(s=>s.path==='src/mode-rules.ts'||s.path.endsWith('/src/mode-rules.ts'));
+ if(rules.length!==1)throw Error('Missing or duplicate mapped development built-in rules');
+ return [...output,...builtinRuleDispositions({mode,source:rules[0],closureSources:authoritySources,canonicalSources,appConfigSources:configSources})];
 }
