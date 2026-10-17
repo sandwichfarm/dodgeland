@@ -30,3 +30,15 @@ Keep module initialization, exported constants, factory guards and any source
 span crossing the proved instance/helper boundaries. Do not infer scope from
 zero counts. No policy change, generated disposition, tests, or denominator
 change has been performed for this finding.
+
+## Independent implementation review
+
+Graph `search_graph` returned no matching nodes; the independent executor therefore repeated source/literal discovery. `src/main.ts` contains the sole production `createGamepadControls` call, with an unconditional fifth arrow argument forwarding to `router.receive`. The factory's `onSnapshot ? null : new GamepadInput(actions)` makes the legacy instance impossible on that shipped caller path. `pressed` is referenced only from `directionOf` and `GamepadInput`; `directionOf` only from the class. Standalone Node compatibility tests construct that class and omit the callback deliberately, so those scopes remain applicable. All three recorded source SHA256 values independently matched.
+
+The new `browser-applicability.mjs` pins all three source identities and additionally checks the exact single main call/fifth callback AST. It emits only wholly contained `GamepadInput` instance execution and private `pressed`/`directionOf` body/callable sites. Module initialization and exported constants, factory/transport/parser functions and guards, main callbacks and session router are retained. Crossing spans remain applicable. The API accepts only `browser-presentation-owner-lifecycle`; it does not accept a game mode, development or shared-input alias. No threshold changes or raw/global/per-file mutation is introduced.
+
+The focused test proposal uses a synthetic zero schema realm solely to exercise mapping/validation. It checks retained factory/parser/transport/constants, other-stratum compatibility accounting, exact source/stratum pins, missing/duplicate sources, excluded-positive rejection for all counter kinds, stale map/schema rejection and crossing spans. Runtime proof and integration are pending; shared evaluator acceptance of the exact browser stratum belongs to the single shared-integration writer. No test or coverage success is claimed in this implementation note.
+
+### Focused negative verification
+
+After the shared integration owner added only the exact browser stratum and production-collected-payload guard, the bounded command `node --test tools/release-coverage/browser-applicability.test.mjs tools/release-coverage/applicability.test.mjs tools/release-coverage/attribution.test.mjs` passed22/22 (zero failed/canceled/skipped), 1,301.835375ms; handle15390 exit0, `/tmp/down-to-duck-07-03-browser-applicability.log`. This includes all four new source-mapped browser tests plus existing applicability/attribution checks and the integration owner's exact-stratum/nonproduction negatives. Raw input immutability and positive-hit contradictions remain enforced. These synthetic schema/validation tests are not a browser gameplay or floor claim. The serial slot was explicitly returned to the integration owner for the one canonical browser proof; no active process remains from this unit command.
