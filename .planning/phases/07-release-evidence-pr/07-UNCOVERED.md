@@ -2,6 +2,17 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Current actual river reward and fractional landing evidence
+
+RIVER-REWARDS/PROOF adds four actual built Relay/Race Arcade/Flow cases in both
+PROD and DEV,eight browser realms/two Node parents. Terrain/reward assets only
+are arranged;real hops/default gravity collect a moving log reward and bank
+coin from±0.49 without grid normalization,other-owner payout or repeat awards.
+Both balances are checked through visible owned wallet pages. New witnesses:
+20 browser,19 DEV,one global. Original render84/0 is exactly source/map/schema
+identical and is now linked above without changing its baseline counts.
+Diagnostics:browser26/DEV89/Relay28/Race75 branches still required. No full pass.
+
 ## Current real DEV Relay evidence
 
 RELAY-DEVELOPMENT/PROOF adds the whole actual Relay runtime suite to a verified
@@ -1382,7 +1393,7 @@ Source `b6b5ae2ff1a4af8e3f6a0bf2c96bfcc3e83b11e95e38892ccaa6f33f3c2122c2`; schem
 |41|170|0|[0, 246]|pending|
 |57|229|0|[0, 70434]|pending|
 |71|264|1|[11101964, 0]|pending|
-|84|298|0|[0, 812948]|pending|
+|84|298|0|[0, 812948]|[covered arm 0](07-03-RIVER-REWARDS.md)|
 |129|467|0|[0, 179089]|pending|
 |130|468|0,1|[0, 0]|pending|
 |133|476|1|[364, 0]|pending|

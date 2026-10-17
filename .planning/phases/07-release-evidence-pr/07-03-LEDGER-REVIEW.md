@@ -331,3 +331,15 @@ current disk and canonical source/map/full mapped schemas match exactly.
 There are38 additional rejected authoring inputs per lifetime,not additional
 standalone mode tests. Component authoring evidence is distinct from public UI.
 [Exact identities and limits](07-03-TURN-AUTHORING-PROOF.json).
+
+## River reward rendering
+
+COOP-01,RELAY-02,RACE-01,UI-02,TEST-02/03. Actual built input/default gravity
+collect a moving river reward and a bank coin from a physically carried±0.49
+grid,once,for one owner. Normal frames and visible wallet pages corroborate
+the shipped renderer. Source render b6b5ae2f,map6a08518d and every mapped schema
+match the frozen initial report. Initial branch84/0 at298(platformSurface for
+an unpulled river reward) gains3113 focused hits from zero. The new eight-browser
+cohort is run-scoped in RIVER-REWARDS/PROOF;no old counters are merged or source
+identity relabelled. This is one additional reviewed original candidate,not
+complete semantic or release acceptance.

@@ -8724,6 +8724,55 @@
         }
       ],
       "provenance": "Whole original Relay runtime suite in normal production and verified genuine DEV artifacts: seeded49/50/51 fractional baton,owned market and lifecycle UI. DEV parent counters stay development-only;production mode intervals remain unchanged."
+    },
+    "river-rewards-03": {
+      "files": [
+        "tests/river-rewards-runtime.mjs"
+      ],
+      "roles": {
+        "tests/river-rewards-runtime.mjs": "mixed"
+      },
+      "browser": true,
+      "buildScopes": [
+        "production",
+        "development"
+      ],
+      "jobs": [
+        {
+          "id": "river-rewards-runtime",
+          "file": "tests/river-rewards-runtime.mjs",
+          "role": "mixed",
+          "requiredRealms": [
+            "node",
+            "browser"
+          ],
+          "minimumBrowserRealms": 4,
+          "defaultBuildScope": "production",
+          "requiredBuildScopes": [
+            "production"
+          ],
+          "verifyArtifactScope": true,
+          "artifactPatterns": []
+        },
+        {
+          "id": "river-rewards-runtime-development",
+          "file": "tests/river-rewards-runtime.mjs",
+          "role": "mixed",
+          "requiredRealms": [
+            "node",
+            "browser"
+          ],
+          "minimumBrowserRealms": 4,
+          "defaultBuildScope": "development",
+          "requiredBuildScopes": [
+            "development"
+          ],
+          "verifyArtifactScope": true,
+          "artifactPatterns": [],
+          "nodeRealmId": "tests/river-rewards-runtime.mjs#river-rewards-runtime-development"
+        }
+      ],
+      "provenance": "Actual built Relay/Race and Arcade/Flow input,legacy/varied moving river rewards,default gravity,fractional carry/bank landing and visible owner wallets. Terrain/reward assets only arranged;Node pattern factory is asset setup,not mode/DEV evidence."
     }
   },
   "pendingAdapters": [
@@ -16556,6 +16605,39 @@
         ],
         "verifyArtifactScope": true,
         "nodeRealmId": "tests/relay-runtime.mjs#relay-runtime-development"
+      },
+      {
+        "id": "river-rewards-runtime",
+        "file": "tests/river-rewards-runtime.mjs",
+        "role": "mixed",
+        "requiredRealms": [
+          "node",
+          "browser"
+        ],
+        "minimumBrowserRealms": 4,
+        "defaultBuildScope": "production",
+        "requiredBuildScopes": [
+          "production"
+        ],
+        "verifyArtifactScope": true,
+        "artifactPatterns": []
+      },
+      {
+        "id": "river-rewards-runtime-development",
+        "file": "tests/river-rewards-runtime.mjs",
+        "role": "mixed",
+        "requiredRealms": [
+          "node",
+          "browser"
+        ],
+        "minimumBrowserRealms": 4,
+        "defaultBuildScope": "development",
+        "requiredBuildScopes": [
+          "development"
+        ],
+        "verifyArtifactScope": true,
+        "artifactPatterns": [],
+        "nodeRealmId": "tests/river-rewards-runtime.mjs#river-rewards-runtime-development"
       }
     ],
     "controls": [

@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Seat closure controls/reprojection and whole PROD/DEV Relay suite pass;remaining diagnostic gaps28/75/46/108
-last_updated: "2026-10-17T21:52:21.865095+00:00"
+stopped_at: Built moving-river/off-grid bank collection passes both scopes;diagnostic branch gaps Relay28 Race75 browser26 DEV89
+last_updated: "2026-10-17T22:10:54.263529+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,33 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: All110 tool controls pass;1155 intervals revalidate with raw/numerators unchanged. Relay12 PROD+12 DEV pass,19 new DEV witnesses. Relay28 Race75 browser46 DEV108 gaps;full release still pending.
+last_activity_desc: River rewards4 ordinary+4 PROD+4 DEV pass;20 browser/19 DEV/one source-identical global witness. All prior170 jobs retained;full registry172. Release gaps and07-04/05/06/PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+Latest actual river reward proof:ordinary04 four cases and canonical6ae1161c-8403-4ac1-b204-3ad39230807e
+four PROD plusfour genuine DEV pass,eight browser realms/two Node parents.
+Actual keyboard hops/pause/default positive gravity collect1/25 river reward
+and1 bank coin after real platform carry to±0.49,preserving the personal grid
+and paying only P1 once. Visible wallet pages show2/26 for P1 and0 for P2.
+Only lane/reward geometry is arranged;no pose/clock/inventory/policy/callback
+replacement. Fixture-only failures01/03 are retained;no product RED.
+
+RIVER-REWARDS/PROOF binds currentf46f/schema/normal e980/rootlock5ac and24 hashed
+canonical pictures. Three actual normal frames were inspected,not a complete
+07-05 matrix. New unique witnesses beyond prior cohorts:20 browser,19 DEV,one
+global renderer. Original render84/0 at298 is exactly source/map/schema-identical
+and now linked in the frozen ledger. Current diagnostics:browser8361/9867B
+(needs26),DEV2296/2805B(needs89),Relay2286/2722B(needs28),Race2492/3020B(needs75).
+Every170 prior job/value remains;two additive jobs make172. Full mechanical
+audit158 entries/165 closure/172 jobs/ten control paths/98 Node realms and eight
+parent/collection controls pass. No production/dependency/oracle/floor changes.
+All processes terminal. Remaining genuine gaps,full semantic review,fresh
+enforcement,07-04/05/06 and PR remain required.
+
 
 Latest seat/call closure:c0fccb2 retains tool-contract RED16 pass/two expected
 failures;3ba1327 passes18 focused/all110 controls. All1155 original complete-run

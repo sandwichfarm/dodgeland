@@ -84,7 +84,8 @@
     "test:relay-world-effects": "node tests/strict-node-tests.mjs tests/relay-world-effects.test.mjs",
     "test:relay-generation-effects": "node tests/strict-node-tests.mjs tests/relay-generation-effects.test.mjs",
     "test:race-mud-movement": "node tests/strict-node-tests.mjs tests/race-mud-movement.test.mjs",
-    "test:race-river-items": "node tests/strict-node-tests.mjs tests/race-river-items.test.mjs"
+    "test:race-river-items": "node tests/strict-node-tests.mjs tests/race-river-items.test.mjs",
+    "test:river-rewards-runtime": "pnpm build && node tests/strict-node-tests.mjs tests/river-rewards-runtime.mjs"
   },
   "dependencies": {
     "@napplet/sdk": "^0.29.0"
