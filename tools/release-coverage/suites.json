@@ -916,6 +916,13 @@
       ],
       "role": "node",
       "provenance": "Existing unchanged arranged production damage/recovery and retained pickup assertions; no public-input claim"
+    },
+    "keyboard-input-gaps": {
+      "files": [
+        "tests/keyboard-input.test.mjs"
+      ],
+      "role": "node",
+      "provenance": "Existing keyboard authority/storage lifecycle production tests, including malformed and ignored-key behavior"
     }
   },
   "pendingAdapters": [
