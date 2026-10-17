@@ -8,6 +8,12 @@ INPUT-04/INPUT-05/TEST-02: a stale or foreign device-reclaim ticket must not bin
 
 ## Applicability checkpoint
 
+### Task1 actual RED — session lifetime collision
+
+Retained regression commit2fed84a; ordinary strict command exited1 at the first foreign-session ticket in `/tmp/down-to-duck-07-03-authority-tracer.log`. Canonical command was correctly skipped by `&&`. Two independent actual Game/LocalSession objects with seed113 and simulationTick0 derive identical session ID `local-35-0` (`src/session.ts:630`), matching participant ID/device/lifecycle generation. The other session's actual issued token passes reclaim at969 and mutates P2's device to gamepad-9. This is a real authority counterexample, not fabricated coverage RED. Existing dead-device tests are reused unchanged; the newly added cross-session test exposes the missing lifetime distinction.
+
+No product repair has been made. Root notified of narrow dependency: generic session-lifetime identity or token nonce, independent of gameplay RNG and without mode-specific branching. Preserve deterministic world/results semantics and all other ticket fields. Source ownership must be reconciled before editing session.ts; no full collection or policy change launched. No active test process.
+
 Root3023b50 `07-03-MODE-SCOPE-FINDING.md` proves existing solo denominator includes132 LocalSession functions impossible under strict no-session solo, upper bound524/656<90%. Preserve floors and whole-source global/file accounting. Exact schema-bound per-mode applicability needs reviewed reconciliation before tooling edits; never execute multiplayer objects in a solo-labelled interval.
 
 ## Complete baseline candidate inventory
