@@ -148,18 +148,18 @@ Source `037a96c9f9436346f06306cac74808aab5e92e205ce2c42bebb1dbd16ca24c22`; schem
 |---|---:|---|---|---|
 |3|81|1|[1662, 0]|[reviewed; evidence pending](07-03-MARKET-GUARD-REVIEW.md#reviewed-conditions)|
 |9|100|0|[0, 1008]|[reviewed; evidence pending](07-03-MARKET-GUARD-REVIEW.md#reviewed-conditions)|
-|20|131|1|[27, 0]|[reviewed; evidence pending](07-03-MARKET-GUARD-REVIEW.md#reviewed-conditions)|
-|23|132|1|[65, 0]|[reviewed; evidence pending](07-03-MARKET-GUARD-REVIEW.md#reviewed-conditions)|
-|25|133|1|[13, 0]|[reviewed; evidence pending](07-03-MARKET-GUARD-REVIEW.md#reviewed-conditions)|
+|20|131|1|[27, 0]|[covered arm 1](07-03-MARKET-GUARD-REVIEW.md#executed-market-guards)|
+|23|132|1|[65, 0]|[covered arm 1](07-03-MARKET-GUARD-REVIEW.md#executed-market-guards)|
+|25|133|1|[13, 0]|[covered arm 1](07-03-MARKET-GUARD-REVIEW.md#executed-market-guards)|
 |31|141|0|[0, 582]|[reviewed; evidence pending](07-03-MARKET-GUARD-REVIEW.md#reviewed-conditions)|
 |33|145|1|[1594, 0, 1562, 1558, 1558]|[reviewed; evidence pending](07-03-MARKET-GUARD-REVIEW.md#reviewed-conditions)|
 |35|149|0|[0, 414]|[reviewed; evidence pending](07-03-MARKET-GUARD-REVIEW.md#reviewed-conditions)|
-|43|164|1|[13, 0]|[reviewed; evidence pending](07-03-MARKET-GUARD-REVIEW.md#reviewed-conditions)|
+|43|164|1|[13, 0]|[covered arm 1](07-03-MARKET-GUARD-REVIEW.md#executed-market-guards)|
 |44|165|0|[0, 98]|[covered arms 0](07-03-LEDGER-REVIEW.md#market-authority)|
-|46|166|1|[5, 0]|[reviewed; evidence pending](07-03-MARKET-GUARD-REVIEW.md#reviewed-conditions)|
-|49|168|0|[0, 90]|[reviewed; evidence pending](07-03-MARKET-GUARD-REVIEW.md#reviewed-conditions)|
-|51|169|1|[27, 0]|[reviewed; evidence pending](07-03-MARKET-GUARD-REVIEW.md#reviewed-conditions)|
-|53|170|1|[4, 0]|[reviewed; evidence pending](07-03-MARKET-GUARD-REVIEW.md#reviewed-conditions)|
+|46|166|1|[5, 0]|[covered arm 1](07-03-MARKET-GUARD-REVIEW.md#executed-market-guards)|
+|49|168|0|[0, 90]|[covered arm 0](07-03-MARKET-GUARD-REVIEW.md#executed-market-guards)|
+|51|169|1|[27, 0]|[covered arm 1](07-03-MARKET-GUARD-REVIEW.md#executed-market-guards)|
+|53|170|1|[4, 0]|[covered arm 1](07-03-MARKET-GUARD-REVIEW.md#executed-market-guards)|
 |56|173|0|[0, 57]|[reviewed; evidence pending](07-03-MARKET-GUARD-REVIEW.md#reviewed-conditions)|
 
 ### src/coin-denominations.ts

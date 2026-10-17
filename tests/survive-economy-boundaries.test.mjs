@@ -333,3 +333,106 @@ test('power and wearable purchases plus re-equipping mutate only the selected li
     assert.equal(ownerSnapshot(other, session), otherBefore);
   }
 });
+
+
+// Component authority checks: real sessions and inventories, arranged opening funds.
+// Include mutable inventory state so draft, revision and private RNG/fractional
+// state cannot change behind an unchanged visible wallet.
+function marketGuardSnapshot(session) {
+  return JSON.stringify({
+    time: session.world.time, tick: session.world.simulationTick,
+    lifecycle: session.lifecycle, items: session.consumableSnapshot(),
+    players: session.players.map(player => ({
+      seat: player.seat, participantId: player.participantId, device: player.device,
+      state: player.state, participation: player.participation,
+      position: [player.x, player.y, player.fromX, player.fromY, player.hop],
+      health: player.health, hurtRemaining: player.hurtRemaining, coins: player.coins,
+      progress: [player.maxY, player.earnedDistance, player.personalScore, player.completedForwardTiles],
+      innate: [player.powerReadyAt, player.powerRemaining],
+      recovery: player.recovery, run: player.run,
+      statistics: player.statistics, interactions: player.interactions,
+    })),
+  });
+}
+
+test('malformed owner requests preserve both runs and leave their action identity reusable', () => {
+  for (const mode of ['arcade', 'stroll']) for (const seat of ['p1', 'p2']) {
+    const { session } = fixture(mode);
+    const owner = session.players.find(player => player.seat === seat);
+    const other = session.players.find(player => player !== owner);
+    buy(owner.run, 'coin-multiplier');
+    owner.run.creditCoins(10000.375); other.run.creditCoins(19.375);
+    assert.equal(owner.run.open(), true);
+    const actionId = `malformed-${mode}-${seat}`;
+    for (const [kind, payload] of [
+      ['buy', {}], ['buy', { offerId: 'not-an-offer' }],
+      ['equip', {}], ['buy-consumable', {}],
+      ['sell', {}], ['sell', { cardId: 'not-an-owned-card' }],
+    ]) {
+      const context = contextFor(session, owner), before = marketGuardSnapshot(session);
+      assert.equal(session.actCoOpMarket(request(owner, context, kind, { ...payload, actionId })).ok, false,
+        `${mode}/${seat}/${kind}: malformed input must be refused`);
+      assert.equal(marketGuardSnapshot(session), before,
+        `${mode}/${seat}/${kind}: a rejected request cannot mutate either owner or advance the clocks`);
+    }
+    const card = owner.run.cards[0], wallet = owner.run.wallet;
+    const otherBefore = ownerSnapshot(other, session);
+    const sale = request(owner, contextFor(session, owner), 'sell', { cardId: card.id, actionId });
+    assert.equal(session.actCoOpMarket(sale).ok, true, 'no rejected request consumed the action identity');
+    assert.equal(owner.run.wallet, wallet + card.saleValue);
+    assert.equal(owner.run.cards.length, 0);
+    assert.equal(ownerSnapshot(other, session), otherBefore);
+    const settled = marketGuardSnapshot(session);
+    assert.equal(session.actCoOpMarket(sale).ok, false, 'replaying the successful sale is inert');
+    assert.equal(marketGuardSnapshot(session), settled);
+    const reusedSale = request(owner, contextFor(session, owner), 'buy-consumable', { itemId: 'revival', actionId });
+    assert.equal(session.actCoOpMarket(reusedSale).ok, false, 'a committed identity cannot authorize another trade with fresh versions');
+    assert.equal(marketGuardSnapshot(session), settled);
+  }
+});
+
+test('a paid draft blocks other valid purchases and incomplete claims without losing its choice', () => {
+  for (const mode of ['arcade', 'stroll']) for (const seat of ['p1', 'p2']) {
+    const { session } = fixture(mode);
+    const owner = session.players.find(player => player.seat === seat);
+    const other = session.players.find(player => player !== owner);
+    const look = ITEM_CATALOG.find(item => item.kind === 'cosmetic');
+    assert.ok(look); buy(owner.run, look.id);
+    owner.run.creditCoins(10000.375); other.run.creditCoins(19.375);
+    assert.equal(owner.run.open(), true);
+    const pack = owner.run.catalog.get('pack-pocket'), card = owner.run.catalog.get('traffic-speed');
+    assert.ok(pack); assert.ok(card);
+    const packOffer = { id: 'guard-paid-pack', itemId: pack.id, price: pack.price, sold: false };
+    const cardOffer = { id: 'guard-next-card', itemId: card.id, price: card.price, sold: false };
+    owner.run.market.offers.push(packOffer, cardOffer);
+    assert.equal(session.actCoOpMarket(request(owner, contextFor(session, owner), 'buy', { offerId: packOffer.id })).ok, true);
+    assert.ok(owner.run.pendingPack);
+    const draft = owner.run.pendingPack, wallet = owner.run.wallet;
+    assert.equal(draft.picks, 1, 'the small-pack fixture has one choice and no bonus branch');
+    assert.equal(owner.run.cards.length, 0);
+    const untouched = ownerSnapshot(other, session), actionId = `paid-draft-${mode}-${seat}`;
+    for (const [kind, payload] of [
+      ['buy', { offerId: cardOffer.id }], ['equip', { itemId: look.id }],
+      ['buy-consumable', { itemId: 'revival' }], ['claim-pack', {}],
+    ]) {
+      const context = contextFor(session, owner), before = marketGuardSnapshot(session);
+      assert.equal(session.actCoOpMarket(request(owner, context, kind, { ...payload, actionId })).ok, false,
+        `${mode}/${seat}/${kind}: finish the paid choice first`);
+      assert.equal(marketGuardSnapshot(session), before, 'rejection preserves draft, funds, RNG and teammate');
+    }
+    const ids = draft.choices.slice(0, draft.picks).map(card => card.id);
+    const claim = request(owner, contextFor(session, owner), 'claim-pack', { ids, actionId });
+    assert.equal(session.actCoOpMarket(claim).ok, true, 'the original paid choice remains usable with the rejected identity');
+    assert.equal(owner.run.pendingPack, null);
+    assert.ok(ids.every(id => owner.run.cards.some(card => card.id === id)));
+    assert.equal(owner.run.wallet, wallet, 'claiming never charges a second time');
+    assert.equal(cardOffer.sold, false);
+    assert.equal(ownerSnapshot(other, session), untouched);
+    const settled = marketGuardSnapshot(session);
+    assert.equal(session.actCoOpMarket(claim).ok, false);
+    assert.equal(marketGuardSnapshot(session), settled, 'claim replay cannot duplicate cards');
+    const reusedClaim = request(owner, contextFor(session, owner), 'buy-consumable', { itemId: 'revival', actionId });
+    assert.equal(session.actCoOpMarket(reusedClaim).ok, false, 'a completed claim identity cannot authorize another trade');
+    assert.equal(marketGuardSnapshot(session), settled);
+  }
+});

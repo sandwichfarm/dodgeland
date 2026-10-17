@@ -1,0 +1,83 @@
+{
+  "runId": "d67d7db4-06f4-40dc-95bb-64c066a13ca6",
+  "job": {
+    "id": "survive-economy-boundaries-test",
+    "file": "tests/survive-economy-boundaries.test.mjs",
+    "role": "node",
+    "requiredRealms": [
+      "node"
+    ],
+    "defaultBuildScope": "modules",
+    "artifactPatterns": []
+  },
+  "payloadCount": 1,
+  "sourceHash": "037a96c9f9436346f06306cac74808aab5e92e205ce2c42bebb1dbd16ca24c22",
+  "mapHash": "059f2c4a97a7a2b1d22f66d5b34ebec99e624f01557f299b63f045b102788d3c",
+  "siteSchemasIdentical": [
+    "statementMap",
+    "fnMap",
+    "branchMap"
+  ],
+  "arms": [
+    {
+      "id": "20",
+      "arm": 1,
+      "line": 131,
+      "initial": 0,
+      "count": 8
+    },
+    {
+      "id": "23",
+      "arm": 1,
+      "line": 132,
+      "initial": 0,
+      "count": 8
+    },
+    {
+      "id": "25",
+      "arm": 1,
+      "line": 133,
+      "initial": 0,
+      "count": 8
+    },
+    {
+      "id": "43",
+      "arm": 1,
+      "line": 164,
+      "initial": 0,
+      "count": 4
+    },
+    {
+      "id": "46",
+      "arm": 1,
+      "line": 166,
+      "initial": 0,
+      "count": 4
+    },
+    {
+      "id": "49",
+      "arm": 0,
+      "line": 168,
+      "initial": 0,
+      "count": 12
+    },
+    {
+      "id": "51",
+      "arm": 1,
+      "line": 169,
+      "initial": 0,
+      "count": 4
+    },
+    {
+      "id": "53",
+      "arm": 1,
+      "line": 170,
+      "initial": 0,
+      "count": 4
+    }
+  ],
+  "ordinary": "12/12",
+  "canonical": "12/12",
+  "provenance": "actual LocalSession component boundary; no mode attribution",
+  "normalAndLockPreserved": true
+}

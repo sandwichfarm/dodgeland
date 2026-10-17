@@ -278,32 +278,28 @@ Race-lifecycle1/2 and Relay-boundary3/6 (27/78), while the historical focused
 bb6517... remains5/12. The terminal51a4bea2 attribution verifies these27lifetimes/78intervals
 against three independent Node parents. The historical focused result stays5/12.
 
-Isolated scratch preparation (not applied or executed) for the already-reviewed
-market guard gap: `/var/folders/g8/w4qrj6k57hx_3lg6ltc1k70w0000gn/T/down-to-duck-market-guard-draft-1j6nkox2/survive-economy-boundaries.test.mjs`,
-patch `/var/folders/g8/w4qrj6k57hx_3lg6ltc1k70w0000gn/T/down-to-duck-market-guard-draft-1j6nkox2/market-guards.patch`,
-metadata `/tmp/down-to-duck-market-guard-draft-location.json`.
-Base file tests/survive-economy-boundaries.test.mjs SHA256
-`f19f0f3280cd37ef132c044412952c357dafd6c076c2ad550b0df28dd42d9645` remains unchanged in the tested checkout.
-Two appended cases cover malformed requests and paid-draft gating on both bases
-and either owner. Complete run/RNG/revision/charge/clock/interaction snapshots
-must remain exact, with motion/interpolation, health/immunity, progress and
-innate cooldown also observed; rejected IDs are reused for success, while committed IDs
-reject another valid trade with fresh versions. Small Pack's one-pick empty-hand
-fixture avoids conflating capacity/bonus selection with the gate. Existing Large
-Pack/full-hand proof is unchanged. Static `node --check` passed; no imports/tests
-executed. Full51a4bea2 terminated with successful restoration and confirms a remaining
-co-op-market gap. Independent read-only review accepted this exact draft for
-execution; snapshot JSON covers mutable inventory state, not Map entries or
-functions. Next: verify exact base/patch hashes, apply and run the whole
-ordinary/canonical scope before assigning new behavioral proof.
+Market guard execution is complete: whole ordinary12/12 then canonical
+`d67d7db4-06f4-40dc-95bb-64c066a13ca6`12/12, session25863 terminal0.
+Two appended cases use actual sessions, both bases/either owner, malformed
+requests and a paid single-pick Small Pack. Rejected actions preserve mutable
+run/RNG/revision, charges, positions, health, progress, cooldown, clocks and
+interactions; corrected actions reuse rejected IDs, committed IDs cannot buy a
+different valid trade with fresh context. One independently captured Node parent,
+no mode credit. Eight exact initial-zero market branches have matching source,
+map and all three site schemas; the ledger now annotates162covered arms and
+889pending. Six reviewed exported-host/defensive market arms remain pending.
+Source/policy unchanged; normal build/root lock preserved. See
+07-03-MARKET-GUARD-REVIEW.md and07-03-MARKET-GUARD-PROOF.json. Focused118/135
+market branches are not a combined floor pass; fresh enforcing full remains
+required. No runtime is active.
 
 ## Next required work
 
 1. Complete07-03: broad honest Solo/Relay/Race and development evidence,
    remaining per-file gaps, complete semantic ledger, then a fresh enforcing
-   full report. Keep all floors.154 initial zero arms have source-identical
-   behavioral annotations;897 still need completed semantic/behavioral proof,
-   including14 source-reviewed market candidates awaiting evidence. Genuine fresh
+   full report. Keep all floors.162 initial zero arms have source-identical
+   behavioral annotations;889 still need completed semantic/behavioral proof,
+   including six source-reviewed market candidates awaiting evidence. Genuine fresh
    bootstrap proof now exists; all unions before full collection are diagnostic.
 2. Execute07-04 conformance proof,07-05 clause/visual evidence,07-06 exact final
    gate and PR. Preparations exist; none are claimed complete.

@@ -2,8 +2,9 @@
 
 This is source/contract review of fourteen still-unmeasured initial candidate
 arms. It is not new execution evidence, a coverage adjustment or a release pass.
-The full current-source collection51a4bea2 remains live and source/tests/tooling
-are frozen. No new test is authored or run by this review.
+This opening review was prepared while full51a4bea2 was live. That collection
+subsequently terminated; the execution section below records the separate
+ordinary and canonical market proof. No source exclusion follows.
 
 Source `src/co-op-market.ts` SHA256:
 `037a96c9f9436346f06306cac74808aab5e92e205ce2c42bebb1dbd16ca24c22`.
@@ -21,9 +22,9 @@ compatibility is distinct from a real LocalSession gameplay journey.
 
 ## Reviewed conditions
 
-All rows remain **evidence pending** until a passing named job and exact
-source/map/schema match supply behavioral proof. Current full counters may
-already resolve some; inspect them before adding tests.
+Rows require a passing named job and exact source/map/schema match before
+classification as covered. Eight rows now have that proof in the execution
+section; the six exported-host/defensive candidates remain evidence pending.
 
 | Branch/arm, line | Condition and consequence | Scope and smallest genuine proof opportunity |
 | --- | --- | --- |
@@ -75,5 +76,49 @@ callbacks, weaken floors or invoke private methods just to hit a zero arm.
 
 Independent read-only review agreed with this separation and the branch56
 limitation. Root checked actual source and initial mapped sites. This review
-changes no counters and marks none of these fourteen arms covered. Only docs and
-ledger annotations change while collection51a4bea2 owns the sole runtime.
+initially changed no counters and marked none of these fourteen arms covered.
+That preparation is distinct from the later execution below.
+
+## Executed market guards
+
+Whole ordinary `tests/survive-economy-boundaries.test.mjs` passed12/12, followed
+serially by the exact registered whole job in canonical `market-guards-03`,
+run `d67d7db4-06f4-40dc-95bb-64c066a13ca6`, also12/12. One independent Node
+parent; no mode attribution, browser or live-device claim. Both new cases cover
+Arcade and Flow and either owner using real LocalSession/RunInventory authority.
+Initial funds and valid offers are component fixtures.
+
+Malformed missing/unknown purchase, equip, consumable and sale requests leave
+both runs, fractional income, RNG/revision, charges, appearance, positions,
+health/immunity, progress, innate cooldown, clocks and interactions unchanged.
+Rejected action IDs remain reusable for a valid sale; committed IDs reject a
+different valid trade even with fresh context versions. The paid Small Pack
+fixture has one pick, no bonus choice and an empty hand, avoiding capacity
+confounds. During its paid draft, valid buy/equip/consumable requests and an
+omitted-ID claim fail without losing the draft; the original choice then
+succeeds once without a second charge or teammate mutation. The preexisting
+Large Pack/full-hand case remains intact.
+
+The following exact initial-zero arms now have positive counts and explicit
+behavioral assertions. Source SHA remains037a96c9...; map SHA is
+`059f2c4a97a7a2b1d22f66d5b34ebec99e624f01557f299b63f045b102788d3c`.
+Initial and current statementMap/fnMap/branchMap are byte-for-byte JSON-equal;
+the current disk source matches both inventories. No initial counts changed.
+
+| Branch/arm | Line | Canonical count | Assertion |
+| --- | --- | --- | --- |
+|20/1|131|8|Unknown offer refuses without any owned-state mutation.|
+|23/1|132|8|Omitted item leaves appearance, consumables and resources unchanged.|
+|25/1|133|8|Unknown sale card cannot credit wallet or consume action identity.|
+|43/1|164|4|Omitted sale ID preserves the full owned card before corrected sale.|
+|46/1|166|4|Omitted paid selection preserves draft for the later valid choice.|
+|49/0|168|12|Paid draft blocks three otherwise valid purchase/equip paths.|
+|51/1|169|4|Omitted offer cannot debit or consume action identity.|
+|53/1|170|4|Omitted look cannot change the owned appearance.|
+
+The focused suite alone covers118/135 market arms; that is not the combined
+release result. It adds eight branches absent from full51a4bea2, with no new
+session branch witness. A fresh enforcing aggregate remains required. Normal
+build and root lock raw hashes remained unchanged. Log:
+`/tmp/down-to-duck-07-03-market-guards-canonical.log`; exact proof:
+`07-03-MARKET-GUARD-PROOF.json`. No production, dependency or policy change.
