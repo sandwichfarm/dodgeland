@@ -8,6 +8,17 @@ import { buildInventory } from './inventory.mjs';
 import { instrumentSources } from './instrument.mjs';
 import vm from 'node:vm';
 
+test('named browser groups declare every required job artifact scope before collection',async()=>{
+ const manifest=JSON.parse(await readFile(new URL('./suites.json',import.meta.url),'utf8'));
+ for(const[name,group]of Object.entries(manifest.groups)){
+  const scopes=group.buildScopes??['production'];
+  for(const job of group.jobs??[]){
+   if(!job.requiredRealms?.includes('browser')||!['production','development'].includes(job.defaultBuildScope))continue;
+   for(const scope of job.requiredBuildScopes??[job.defaultBuildScope])assert.ok(scopes.includes(scope),`${name}/${job.id}: required ${scope} artifact scope is not declared`);
+  }
+ }
+});
+
 test('browser realm registration fails closed before missing duplicate or mismatched capture',async()=>{
  const {createBrowserCollector}=await import('./browser.mjs');
  const inventory=instrumentSources({'fixture.ts':'export const answer = 42;'},'/coverage-browser');

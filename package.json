@@ -90,7 +90,8 @@
     "test:preference-hydration-runtime": "node --test tests/preference-hydration-runtime.mjs",
     "test:relay-generation-runtime": "node --test tests/relay-generation-runtime.mjs",
     "test:turn-release": "node --test tests/turn-release.test.mjs",
-    "test:race-reclaim-transactions": "node --test tests/race-reclaim-transactions.test.mjs"
+    "test:race-reclaim-transactions": "node --test tests/race-reclaim-transactions.test.mjs",
+    "test:solo-reward-journey-runtime": "pnpm build && node tests/strict-node-tests.mjs tests/solo-reward-journey-runtime.mjs"
   },
   "dependencies": {
     "@napplet/sdk": "^0.29.0"
