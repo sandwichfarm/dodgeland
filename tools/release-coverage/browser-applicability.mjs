@@ -3,7 +3,7 @@ import { applicabilityIdentity } from './applicability.mjs';
 const ts=createRequire(new URL('../../package.json',import.meta.url))('typescript');
 export const BROWSER_STRATUM='browser-presentation-owner-lifecycle';
 export const BROWSER_APPLICABILITY_SOURCES=Object.freeze({
- 'src/main.ts':'c27c8693453514eddf3b56a29e4ef49e02d2bc5134ac59dcb739d0ae58d6b8c9',
+ 'src/main.ts':'33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4',
  'src/gamepad.ts':'be02cdecae3683f9f0b8a5698d90eec393759ce91ea40b24bc18128e7da479e5',
  'src/session-input.ts':'e42c0af885310c699a275aa819c7d66d6902e20164db08cacacf5aee7017da9f',
 });

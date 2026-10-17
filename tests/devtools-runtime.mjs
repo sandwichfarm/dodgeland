@@ -257,6 +257,12 @@ try {
     assert.match(await state(), new RegExp(`score ${score} · position 1.00, ${score}.00`), 'restored solo input moves the inspected world');
     await frame.locator('#development-coins').click();
     assert.match(await state(), /wallet 25/);
+    if (replacement === 'jump') {
+      await frame.locator('#development-resume').click(); await advance(11000);
+      assert.equal(await frame.locator('#result-content').isVisible(), true, 'the replacement reaches its own terminal board');
+      assert.equal(await frame.locator('#result-kicker').innerText(), 'DEVELOPMENT RUN', 'death uses fresh sandbox callbacks, not the retired participant');
+      assert.equal(await frame.locator('#result-score').innerText(), '100');
+    }
     assert.equal(await frame.evaluate(() => window.developmentFixture.writes.length), writesBefore, 'replacing a session and manipulating its sandbox cannot persist lifetime records');
     evidence.scenarios.push(`public local-play → development ${replacement} retires session owners, restores solo input and preserves sandbox record isolation`);
   }

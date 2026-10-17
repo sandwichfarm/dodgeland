@@ -1766,7 +1766,13 @@ async function boot(): Promise<void> {
       getGame: () => game,
       getCatalog: () => ITEM_CATALOG,
       replaceGame: next => {
-        audio.stop(); soundscape.reset(); spillAudio.reset(); game = next;
+        // A sandbox replacement starts a fresh solo run. Retire any live
+        // session and use fresh callbacks rather than copying its old owners.
+        reset({ seed: next.runSeed ?? undefined, mode: next.mode });
+        next.onCoin = game.onCoin; next.onEnd = game.onEnd;
+        next.onMobSpawn = game.onMobSpawn; next.onMobAttack = game.onMobAttack;
+        next.onHurt = game.onHurt; next.onHeal = game.onHeal; next.onPower = game.onPower;
+        game = next; sandboxRun = true;
         rebuildPluckHud();
         renderer.camera = next.maxY; chapter = Math.floor(next.maxY / 32); previousState = ''; accumulator = 0;
       },
