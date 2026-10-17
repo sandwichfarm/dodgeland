@@ -5081,6 +5081,32 @@
         }
       ],
       "provenance": "Whole Race item and Relay boundary suites; actual finished/benched claim release, natural pull and exactly one incoming payout; arrangements explicit; no standalone or duplicate whole-worker mode credit"
+    },
+    "race-public-03": {
+      "files": [
+        "tests/race-runtime.mjs"
+      ],
+      "roles": {
+        "tests/race-runtime.mjs": "mixed"
+      },
+      "browser": true,
+      "buildScopes": [
+        "production"
+      ],
+      "jobs": [
+        {
+          "id": "race-runtime",
+          "file": "tests/race-runtime.mjs",
+          "role": "mixed",
+          "requiredRealms": [
+            "node",
+            "browser"
+          ],
+          "defaultBuildScope": "production",
+          "artifactPatterns": []
+        }
+      ],
+      "provenance": "Whole existing Race runtime suite; only seven bounded live public UI intervals receive Race attribution. Private route planners, separate Node oracle, setup and other browser snapshots stay global-only."
     }
   },
   "pendingAdapters": [

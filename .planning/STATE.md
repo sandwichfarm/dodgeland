@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-03 interrupted innate hop repaired; nine fresh cohorts pass
-last_updated: "2026-10-17T15:05:00.608446+00:00"
+stopped_at: 07-03 bounded public Race journeys and genuine development verification pass
+last_updated: "2026-10-17T15:20:08.708218+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,7 +12,7 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Interrupted innate hop repaired;58+24 gameplay,102 controls, seven gates and nine fresh cohorts pass; release branch floors remain open.
+last_activity_desc: Seven public Race intervals add24 real branch arms;16 ordinary16 production18 development cases pass; release gates remain open.
 ---
 
 # Project State
@@ -711,6 +711,26 @@ Race2022/2163L684/758F2290/3030B needs286B. Both line/function floors pass only
 diagnostically. Complete source/map/caller inventories revalidated; no historical
 changed-Game counter merging. Fresh full enforcement, semantic ledger,07-04/05/06
 and final PR remain open; mixed-input aliases remain design-only.
+
+Latest Race public attribution tranche is terminal0,89408. Whole existing suite
+passes16/16 ordinary and16/16 canonical production,run de8cbf4a; seven bounded
+actual input intervals are separate from private route planners/Node oracle and
+other mixed-worker counters. All127 old assertions remain; ten ownership checks
+are added. Exact frozen canonical definition/live session endpoints and parent
+binding pass normal strict projection. No production source or floor changes.
+Independent source/map/disposition-identical union adds24B/two functions:
+Race2022/2163L686/758F2314/3030B needs262B. Relay remains320B short. Initial
+semantic review stays162 annotated/889 pending; no new global-zero claim.
+
+Verified development cohort 29a823d0-b987-4645-b89b-426653f6fee0 passes Survive1/1,health1/1,
+Race16/16:22 genuine DEV browser realms plus one Node parent,all exact artifact/
+live-tools proofs and zero production-mode intervals. Normala05/rootlock5ac and
+27 prior temporary screenshots preserved; no live chain/freeze. Mechanical full
+inventory remains142 entries/149 closure paths,154 production jobs/nine executable
+controls(ten paths),unchanged ownership. RACE-PUBLIC-PROOF/INTERVALS retain exact
+results; all enforcing/semantic/conformance/visual/PR obligations remain open.
+Mixed-input proposal26528f6 now names concrete registry/router/command migration
+seams; keyboard/controller aliases are still proposed, not implemented.
 
 ## Next required work
 

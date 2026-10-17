@@ -2,6 +2,23 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Current bounded public Race evidence
+
+TEST-02/03/INPUT-04/05: whole existing Race browser suite passes16/16 ordinary
+and16/16 canonical production,de8cbf4a. Seven exclusive input intervals prove
+actual items,stale/disconnected/owner rejection,second Lantern charge,protected
+revived target and out-of-range/departed target. Private hazard planners and the
+Node oracle remain outside these intervals. All127 original assertions remain;
+no whole mixed-worker mode credit. Genuine DEV cohort also passes18/18 with22
+verified browser realms and no production-mode intervals. RACE-PUBLIC-PROOF and
+INTERVALS retain source/site/parent/artifact identities and exact constraints.
+
+Current source-identical diagnostic adds24 Race arms/two functions,now
+2022/2163L686/758F2314/3030B,needing262B. Relay still needs320B. Initial ledger
+annotations stay162/889 because these are newly attributed mode witnesses,not
+new global-zero evidence. Full enforcing release/complete semantic review remain
+open. All previous source-bound counters and projections retain their identities.
+
 ## Current interrupted innate hop and built-in rule scope
 
 ARCH-03/COOP-04/RACE-04/TEST-02/03: RED e146fb5 proves a real secondary Sunny

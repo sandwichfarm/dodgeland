@@ -1,0 +1,610 @@
+{
+  "production": {
+    "runId": "de8cbf4a-5a01-43b2-8ded-1a6ab3457d1d",
+    "payloadCount": 18,
+    "browserRealms": 17,
+    "intervals": [
+      {
+        "id": "race-camera-forward-back",
+        "parentRealm": "browser:[\"/Users/sandwich/Develop/crossy-road-clone/tests/race-runtime.mjs\",\"market-fixture-0\",\"opaque-app\",0,\"current\",\"race-runtime\",\"production\",\"80264d606ea063c02720690737d5aa65ef6ac926a3553814c3ec112ee0a45a27\"]",
+        "artifactHash": "80264d606ea063c02720690737d5aa65ef6ac926a3553814c3ec112ee0a45a27",
+        "sessionId": "local-35-0-2"
+      },
+      {
+        "id": "race-lantern-second-collected-charge",
+        "parentRealm": "browser:[\"/Users/sandwich/Develop/crossy-road-clone/tests/race-runtime.mjs\",\"market-fixture-10\",\"opaque-app\",0,\"current\",\"race-runtime\",\"production\",\"80264d606ea063c02720690737d5aa65ef6ac926a3553814c3ec112ee0a45a27\"]",
+        "artifactHash": "80264d606ea063c02720690737d5aa65ef6ac926a3553814c3ec112ee0a45a27",
+        "sessionId": "local-18t4j-0-2"
+      },
+      {
+        "id": "race-protected-revived-target",
+        "parentRealm": "browser:[\"/Users/sandwich/Develop/crossy-road-clone/tests/race-runtime.mjs\",\"market-fixture-11\",\"opaque-app\",0,\"current\",\"race-runtime\",\"production\",\"80264d606ea063c02720690737d5aa65ef6ac926a3553814c3ec112ee0a45a27\"]",
+        "artifactHash": "80264d606ea063c02720690737d5aa65ef6ac926a3553814c3ec112ee0a45a27",
+        "sessionId": "local-kc-0-2"
+      },
+      {
+        "id": "race-out-of-range-departed-target",
+        "parentRealm": "browser:[\"/Users/sandwich/Develop/crossy-road-clone/tests/race-runtime.mjs\",\"market-fixture-12\",\"opaque-app\",0,\"current\",\"race-runtime\",\"production\",\"80264d606ea063c02720690737d5aa65ef6ac926a3553814c3ec112ee0a45a27\"]",
+        "artifactHash": "80264d606ea063c02720690737d5aa65ef6ac926a3553814c3ec112ee0a45a27",
+        "sessionId": "local-kc-0-2"
+      },
+      {
+        "id": "race-collect-use-mud-splash",
+        "parentRealm": "browser:[\"/Users/sandwich/Develop/crossy-road-clone/tests/race-runtime.mjs\",\"market-fixture-2\",\"opaque-app\",0,\"current\",\"race-runtime\",\"production\",\"80264d606ea063c02720690737d5aa65ef6ac926a3553814c3ec112ee0a45a27\"]",
+        "artifactHash": "80264d606ea063c02720690737d5aa65ef6ac926a3553814c3ec112ee0a45a27",
+        "sessionId": "local-kc-0-2"
+      },
+      {
+        "id": "race-collect-use-fog-lantern",
+        "parentRealm": "browser:[\"/Users/sandwich/Develop/crossy-road-clone/tests/race-runtime.mjs\",\"market-fixture-3\",\"opaque-app\",0,\"current\",\"race-runtime\",\"production\",\"80264d606ea063c02720690737d5aa65ef6ac926a3553814c3ec112ee0a45a27\"]",
+        "artifactHash": "80264d606ea063c02720690737d5aa65ef6ac926a3553814c3ec112ee0a45a27",
+        "sessionId": "local-194-0-2"
+      },
+      {
+        "id": "race-stale-target-disconnect-reclaim-owner",
+        "parentRealm": "browser:[\"/Users/sandwich/Develop/crossy-road-clone/tests/race-runtime.mjs\",\"market-fixture-8\",\"opaque-app\",0,\"current\",\"race-runtime\",\"production\",\"80264d606ea063c02720690737d5aa65ef6ac926a3553814c3ec112ee0a45a27\"]",
+        "artifactHash": "80264d606ea063c02720690737d5aa65ef6ac926a3553814c3ec112ee0a45a27",
+        "sessionId": "local-kc-0-2"
+      }
+    ],
+    "raw": {
+      "lines": {
+        "covered": 952,
+        "total": 2305
+      },
+      "statements": {
+        "covered": 1392,
+        "total": 3645
+      },
+      "functions": {
+        "covered": 383,
+        "total": 818
+      },
+      "branches": {
+        "covered": 1207,
+        "total": 3259
+      }
+    },
+    "applicable": {
+      "lines": {
+        "covered": 952,
+        "total": 2163
+      },
+      "statements": {
+        "covered": 1392,
+        "total": 3406
+      },
+      "functions": {
+        "covered": 383,
+        "total": 758
+      },
+      "branches": {
+        "covered": 1207,
+        "total": 3030
+      }
+    },
+    "normalArtifactHash": "92092065f554f6d4c73a3ae514fd57a39a61db3e72d84955319386f0962267ec",
+    "manifestSha256": "8af35f8f974dd71cca9d1eca7f250c5bdc8d52a6b2a17e19a67e0b7cb2f49ca1"
+  },
+  "inventory": {
+    "valid": true,
+    "entries": 142,
+    "closure": 149,
+    "jobs": 154,
+    "controls": 10
+  },
+  "ordinary": {
+    "status": "passed",
+    "started": "2026-10-17T15:07:01.253898+00:00",
+    "normal": "a05e47ef1572fd544b5a0d10bc83f33d313effb925b3f4a8e1ef2bdd8f17cc4a",
+    "lock": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+    "originalCount": 27,
+    "backup": "/var/folders/g8/w4qrj6k57hx_3lg6ltc1k70w0000gn/T/race-public-originals-e3p6awx_",
+    "exitCode": 0,
+    "finished": "2026-10-17T15:09:04.144525+00:00",
+    "preserved": true
+  },
+  "limitations": [
+    "No full enforcing release acceptance",
+    "Private planner and Node oracle calls are outside all new public intervals",
+    "Initial semantic ledger review totals unchanged"
+  ],
+  "diagnostic": {
+    "purpose": "Independent diagnostic marginal union; not full enforcing acceptance",
+    "canonicalInventoryByteSha256": "dfeb676c0151d8caf3a5e1fa6a7d6d77f0ecb4c1a03424281a12576c08f03211",
+    "newRunId": "de8cbf4a-5a01-43b2-8ded-1a6ab3457d1d",
+    "groups": [
+      "innate-turn-model-03",
+      "innate-turn-reuse-03",
+      "innate-race-results-03",
+      "innate-public-03",
+      "race-public-03"
+    ],
+    "before": {
+      "statements": {
+        "covered": 2930,
+        "total": 3406
+      },
+      "functions": {
+        "covered": 684,
+        "total": 758
+      },
+      "branches": {
+        "covered": 2290,
+        "total": 3030
+      },
+      "lines": {
+        "covered": 2022,
+        "total": 2163
+      }
+    },
+    "after": {
+      "statements": {
+        "covered": 2934,
+        "total": 3406
+      },
+      "functions": {
+        "covered": 686,
+        "total": 758
+      },
+      "branches": {
+        "covered": 2314,
+        "total": 3030
+      },
+      "lines": {
+        "covered": 2022,
+        "total": 2163
+      }
+    },
+    "newlyHitBranches": [
+      {
+        "path": "src/game.ts",
+        "branch": "35",
+        "arm": 1,
+        "sourceLocation": {
+          "start": {
+            "line": 136,
+            "column": 34
+          },
+          "end": {
+            "line": 136,
+            "column": 89
+          }
+        }
+      },
+      {
+        "path": "src/game.ts",
+        "branch": "36",
+        "arm": 0,
+        "sourceLocation": {
+          "start": {
+            "line": 136,
+            "column": 73
+          },
+          "end": {
+            "line": 136,
+            "column": 80
+          }
+        }
+      },
+      {
+        "path": "src/game.ts",
+        "branch": "37",
+        "arm": 0,
+        "sourceLocation": {
+          "start": {
+            "line": 136,
+            "column": 63
+          },
+          "end": {
+            "line": 136,
+            "column": 65
+          }
+        }
+      },
+      {
+        "path": "src/game.ts",
+        "branch": "39",
+        "arm": 1,
+        "sourceLocation": {
+          "start": {
+            "line": 142,
+            "column": 56
+          },
+          "end": {
+            "line": 142,
+            "column": 68
+          }
+        }
+      },
+      {
+        "path": "src/game.ts",
+        "branch": "42",
+        "arm": 1,
+        "sourceLocation": {
+          "start": {
+            "line": 144,
+            "column": 34
+          },
+          "end": {
+            "line": 144,
+            "column": 45
+          }
+        }
+      },
+      {
+        "path": "src/game.ts",
+        "branch": "155",
+        "arm": 0,
+        "sourceLocation": {
+          "start": {
+            "line": 451,
+            "column": 4
+          },
+          "end": {
+            "line": 451,
+            "column": 135
+          }
+        }
+      },
+      {
+        "path": "src/game.ts",
+        "branch": "177",
+        "arm": 0,
+        "sourceLocation": {
+          "start": {
+            "line": 499,
+            "column": 4
+          },
+          "end": {
+            "line": 499,
+            "column": 143
+          }
+        }
+      },
+      {
+        "path": "src/game.ts",
+        "branch": "178",
+        "arm": 1,
+        "sourceLocation": {
+          "start": {
+            "line": 499,
+            "column": 33
+          },
+          "end": {
+            "line": 499,
+            "column": 48
+          }
+        }
+      },
+      {
+        "path": "src/game.ts",
+        "branch": "178",
+        "arm": 2,
+        "sourceLocation": {
+          "start": {
+            "line": 499,
+            "column": 52
+          },
+          "end": {
+            "line": 499,
+            "column": 71
+          }
+        }
+      },
+      {
+        "path": "src/game.ts",
+        "branch": "178",
+        "arm": 3,
+        "sourceLocation": {
+          "start": {
+            "line": 499,
+            "column": 75
+          },
+          "end": {
+            "line": 499,
+            "column": 81
+          }
+        }
+      },
+      {
+        "path": "src/game.ts",
+        "branch": "214",
+        "arm": 1,
+        "sourceLocation": {
+          "start": {
+            "line": 585,
+            "column": 217
+          },
+          "end": {
+            "line": 585,
+            "column": 246
+          }
+        }
+      },
+      {
+        "path": "src/game.ts",
+        "branch": "215",
+        "arm": 0,
+        "sourceLocation": {
+          "start": {
+            "line": 586,
+            "column": 98
+          },
+          "end": {
+            "line": 586,
+            "column": 148
+          }
+        }
+      },
+      {
+        "path": "src/game.ts",
+        "branch": "269",
+        "arm": 2,
+        "sourceLocation": {
+          "start": {
+            "line": 696,
+            "column": 62
+          },
+          "end": {
+            "line": 696,
+            "column": 83
+          }
+        }
+      },
+      {
+        "path": "src/game.ts",
+        "branch": "271",
+        "arm": 0,
+        "sourceLocation": {
+          "start": {
+            "line": 699,
+            "column": 43
+          },
+          "end": {
+            "line": 699,
+            "column": 73
+          }
+        }
+      },
+      {
+        "path": "src/game.ts",
+        "branch": "272",
+        "arm": 0,
+        "sourceLocation": {
+          "start": {
+            "line": 699,
+            "column": 100
+          },
+          "end": {
+            "line": 699,
+            "column": 131
+          }
+        }
+      },
+      {
+        "path": "src/race-items.ts",
+        "branch": "0",
+        "arm": 4,
+        "sourceLocation": {
+          "start": {
+            "line": 23,
+            "column": 36
+          },
+          "end": {
+            "line": 23,
+            "column": 59
+          }
+        }
+      },
+      {
+        "path": "src/race-items.ts",
+        "branch": "9",
+        "arm": 1,
+        "sourceLocation": {
+          "start": {},
+          "end": {}
+        }
+      },
+      {
+        "path": "src/race-items.ts",
+        "branch": "14",
+        "arm": 1,
+        "sourceLocation": {
+          "start": {
+            "line": 42,
+            "column": 62
+          },
+          "end": {
+            "line": 42,
+            "column": 122
+          }
+        }
+      },
+      {
+        "path": "src/race.ts",
+        "branch": "55",
+        "arm": 7,
+        "sourceLocation": {
+          "start": {
+            "line": 145,
+            "column": 163
+          },
+          "end": {
+            "line": 145,
+            "column": 188
+          }
+        }
+      },
+      {
+        "path": "src/race.ts",
+        "branch": "98",
+        "arm": 4,
+        "sourceLocation": {
+          "start": {
+            "line": 218,
+            "column": 158
+          },
+          "end": {
+            "line": 218,
+            "column": 176
+          }
+        }
+      },
+      {
+        "path": "src/recovery.ts",
+        "branch": "0",
+        "arm": 2,
+        "sourceLocation": {
+          "start": {
+            "line": 46,
+            "column": 181
+          },
+          "end": {
+            "line": 46,
+            "column": 207
+          }
+        }
+      },
+      {
+        "path": "src/session.ts",
+        "branch": "49",
+        "arm": 0,
+        "sourceLocation": {
+          "start": {
+            "line": 426,
+            "column": 66
+          },
+          "end": {
+            "line": 426,
+            "column": 94
+          }
+        }
+      },
+      {
+        "path": "src/session.ts",
+        "branch": "82",
+        "arm": 0,
+        "sourceLocation": {
+          "start": {
+            "line": 520,
+            "column": 71
+          },
+          "end": {
+            "line": 520,
+            "column": 111
+          }
+        }
+      },
+      {
+        "path": "src/session.ts",
+        "branch": "83",
+        "arm": 1,
+        "sourceLocation": {
+          "start": {
+            "line": 520,
+            "column": 51
+          },
+          "end": {
+            "line": 520,
+            "column": 68
+          }
+        }
+      }
+    ],
+    "gains": {
+      "statements": 4,
+      "functions": 2,
+      "branches": 24,
+      "lines": 0
+    },
+    "remaining": {
+      "lines": 0,
+      "functions": 0,
+      "branches": 262
+    },
+    "constraints": [
+      "Entire current canonical inventory byte-identical across every root",
+      "Exact reviewed dispositions byte-for-byte JSON-equal across every root",
+      "Every source-mapped site schema identical",
+      "All excluded counters remain zero",
+      "Independent prior union matches all four current strict-projection metrics",
+      "No changed-source historical counters used"
+    ]
+  },
+  "diagnosticMethod": "Exact canonical inventory bytes, mapped schemas and existing reviewed dispositions; independently reconstructed prior union matches strict projection; new production group independently passed the normal strict projector.",
+  "normalArtifactRawSha256": "a05e47ef1572fd544b5a0d10bc83f33d313effb925b3f4a8e1ef2bdd8f17cc4a",
+  "status": "Ordinary16/16, canonical production16/16 and genuine development18/18 pass; release gates remain open",
+  "completedAt": "2026-10-17T15:19:10.630981+00:00",
+  "collection": {
+    "status": "passed",
+    "started": "2026-10-17T15:09:19.218444+00:00",
+    "frozen": {
+      "pnpm-lock.yaml": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+      "dist/index.html": "a05e47ef1572fd544b5a0d10bc83f33d313effb925b3f4a8e1ef2bdd8f17cc4a",
+      "src/game.ts": "f783839e0a6bfc98eb2a0a4e35e381e9002daafb0ced9832dcbfe1b4a2794396",
+      "src/session.ts": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+      "tests/race-runtime.mjs": "97326c18c9e7c2291d1c428bd26f2f07ac8eb222d21c10ea328e9d83acb3a94e",
+      "tools/release-coverage/suites.json": "647d2a40d7544c9284ade6cc23c69923a5352d31139bbb10868819793c59d8bb",
+      "tools/release-coverage/run.mjs": "9d6e285d1bbe54d25aa5bae19a48470bc49ca2700195db5da700ac90f5682deb"
+    },
+    "originalCount": 27,
+    "backup": "/var/folders/g8/w4qrj6k57hx_3lg6ltc1k70w0000gn/T/race-public-collection-originals-uh_gxqt9",
+    "jobs": [
+      {
+        "suite": "race-public-03",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/race-public-03",
+        "log": "/tmp/down-to-duck-race-public-03-canonical.log",
+        "started": "2026-10-17T15:09:19.221401+00:00",
+        "status": "passed",
+        "pid": 94291,
+        "exitCode": 0,
+        "finished": "2026-10-17T15:13:31.957265+00:00"
+      },
+      {
+        "suite": "development-lifecycle-03",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/race-public-development-03",
+        "log": "/tmp/down-to-duck-race-public-development-03-canonical.log",
+        "started": "2026-10-17T15:13:31.957795+00:00",
+        "status": "passed",
+        "pid": 2049,
+        "exitCode": 0,
+        "finished": "2026-10-17T15:19:10.606292+00:00"
+      }
+    ],
+    "finished": "2026-10-17T15:19:10.630981+00:00",
+    "preserved": true
+  },
+  "assertions": {
+    "originalAssertions": 127,
+    "allOriginalAssertionsRetained": true,
+    "newOwnershipAssertions": 10
+  },
+  "development": {
+    "runId": "29a823d0-b987-4645-b89b-426653f6fee0",
+    "payloadCount": 23,
+    "browserRealms": 22,
+    "productionModeIntervals": 0,
+    "allActualDevelopmentArtifactProofs": true,
+    "stratum": {
+      "lines": {
+        "covered": 1846,
+        "total": 2106
+      },
+      "functions": {
+        "covered": 575,
+        "total": 679
+      },
+      "branches": {
+        "covered": 2000,
+        "total": 2798
+      }
+    },
+    "manifestSha256": "c8bef6bc44fa4bb27c2f83b0775015ab9a6269aacd562f30702dbbd1a2eff66f",
+    "caseCounts": [
+      1,
+      1,
+      16
+    ]
+  }
+}
