@@ -5,7 +5,7 @@ import { builtinRuleDispositions } from './builtin-rule-applicability.mjs';
 const ts=createRequire(new URL('../../package.json',import.meta.url))('typescript');
 // Complete src transition reviewed in 07-03-RELAY-EFFECTS-CLOSURE.md.
 // A new/changed caller anywhere invalidates this closure, even outside the stratum.
-const callerInventoryHash='1e5fb4e2867c625954f071288a00d89c3fa1d51dc53424fb69d063f3783f3853';
+const callerInventoryHash='97f037fa041e738d931c54fb47f98d85632b8c0e4eaa7275f500e9c300787bd6';
 // Deliberately reviewed pins: never regenerate automatically when production changes.
 export const TURN_APPLICABILITY_SOURCES=Object.freeze({
  'src/mode-rules.ts':'cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2',
@@ -15,7 +15,7 @@ export const TURN_APPLICABILITY_SOURCES=Object.freeze({
  'src/session-recovery.ts':'35119abd8ac6551d253ec0ada320c934fd5a9cf20c142444e3afdb4094093b9c',
  'src/recovery.ts':'835df7ab867c3421e7d295778c864ceba83f0ea10e588c4c6f4d95cdc2c1702b',
  'src/shared-world-effects.ts':'715dce9a98a83c398aa3a3d43531568008a9cefaa9be8df766a921dd2eb43a45',
- 'src/game.ts':'04d7556c96b37b03539f270c2ce2c8e2b620c301d729a1fd6238be8e66d9413b',
+ 'src/game.ts':'8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd',
  'src/market/run.ts':'ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f',
  'src/consumable-drops.ts':'2fc4a1c55dc7f37dbcac2b7091661e3a284d3292eddf1460da423a39520dec4a',
  'src/consumables.ts':'6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12',

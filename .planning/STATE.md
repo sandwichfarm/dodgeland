@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: All18 current-source cohorts pass;official diagnostic union needs74 Relay98 Race branches
-last_updated: "2026-10-17T19:02:04.860680+00:00"
+stopped_at: Relay first-hop generation repair green;current profiles108 controls and16-lifetime canonical tracer pass
+last_updated: "2026-10-17T19:21:07.591940+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,35 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Post-repair18-cohort refresh green;19 current cohorts,74 independent parents,873 selected intervals;mode branch targets and final release still open.
+last_activity_desc: Real first-hop card bug repaired;185 nearby tests and required gates pass;current Game8836 profiles and48-interval Relay attribution verified. Full release remains open.
 ---
 
 # Project State
 
 ## Current work
+
+Actual first-hop generation RED bcd79e7 has10 product failures/16 cases. Narrow
+repair b2ce1e8 leaves active-session generation to the existing shared tick after
+policy refresh; solo immediate timing remains exact. Focused16/16,nearest185/185
+and required type/build/guidance/conformance all pass. CLI still5 pass/5 unmeasured.
+Fresh159-source/371-target resolved audit and110-body Game AST comparison prove
+one changed body,Game.move,with only the new sessionActive guard read added.
+
+Current Game8836f978,executable pair97f037fa,DEVobjectd1b63145 and normal rawe980
+supersede Game04/inventory1e5/normal6bd. Rootlock5ac and immutable oracle remain
+exact. All108 profile controls pass;all new generation guard sites stay counted.
+Fresh canonical Relay e99b8e37 passes16/16,one independent Node parent,16 actual
+component lifetimes/48 intervals,complete inventory byte SHA f46f696b. Additive
+full dispatch155 entries/162 closure/167 jobs/10 control paths is verified.
+RELAY-GENERATION/{RED,OWNERSHIP,PROOF,CLOSURE,PROFILES-PROOF} bind exact evidence.
+
+All current handles are terminal0. No PR is open. Previous19-cohort union and
+74/98 gaps below are historical after the Game source repair;do not relabel or
+merge changed-source counts. Next:close remaining behavior/semantic gaps,refresh
+current full source-bound coverage and enforce unchanged global/file/mode floors;
+then complete07-04 conformance,07-05 visual/clause proof and07-06 final gate/PR.
+
+## Previous complete refresh (superseded Game source identity)
 
 Latest complete refresh: all18 current-source cohorts pass;separate c60a7982
 Relay tracer makes19 selected cohorts. Complete source inventory bytes5cf69c2c

@@ -25,6 +25,29 @@ const attributed = Object.fromEntries(sources.map(row => [row.path, structuredCl
 const session = sources.find(row => row.path.endsWith('/session.ts'));
 const line = fragment => session.source.slice(0, session.source.indexOf(fragment)).split('\n').length;
 
+test('solo generation timing guard and call remain counted in both solo profiles', () => {
+  // Synthetic site probes calibrate scope only; no gameplay coverage credit.
+  const game=sources.find(row=>row.path.endsWith('/game.ts'));
+  const offset=game.source.indexOf('if (!this.world?.sessionActive) this.ensureRows();');assert.notEqual(offset,-1);
+  const at=game.source.slice(0,offset).split('\n').length;
+  const statements=Object.entries(game.coverage.statementMap).filter(([,site])=>site.start.line===at);
+  const branches=Object.entries(game.coverage.branchMap).filter(([,site])=>site.loc.start.line===at);
+  assert.ok(statements.length>=2);assert.ok(branches.length>=1);
+  for(const mode of ['solo-arcade','solo-flow']){
+    const dispositions=soloApplicabilityDispositions({mode,sources});
+    for(const[id]of statements){
+      assert.equal(dispositions.some(d=>d.path===game.path&&d.kind==='statement'&&d.id===id),false);
+      const hits=structuredClone(attributed);hits[game.path].s[id]=1;
+      assert.equal(reportApplicability({mode,sources,attributed:hits,dispositions}).applicable.statements.covered,1);
+    }
+    for(const[id]of branches)for(let arm=0;arm<game.coverage.b[id].length;arm++){
+      assert.equal(dispositions.some(d=>d.path===game.path&&d.kind==='branch'&&d.id===id&&d.arm===arm),false);
+      const hits=structuredClone(attributed);hits[game.path].b[id][arm]=1;
+      assert.equal(reportApplicability({mode,sources,attributed:hits,dispositions}).applicable.branches.covered,1);
+    }
+  }
+});
+
 test('actual mapped source excludes only reviewed solo-inapplicable execution and keeps shared owners', () => {
   const before = structuredClone(sources);
   for (const mode of ['solo-arcade', 'solo-flow']) {

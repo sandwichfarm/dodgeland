@@ -25,6 +25,27 @@ const line=(source,fragment)=>{const index=source.source.indexOf(fragment);asser
 function functionIds(source,fragment){const at=line(source,fragment),ids=Object.entries(source.coverage.fnMap).filter(([,site])=>site.decl.start.line===at).map(([id])=>id);assert.ok(ids.length,fragment);return ids;}
 function excluded(dispositions,source,id,kind='function'){return dispositions.some(d=>d.path===source.path&&d.kind===kind&&d.id===id);}
 
+test('session generation timing guard and call remain counted in both turn profiles',()=>{
+ // Synthetic site probes calibrate scope only; no gameplay coverage credit.
+ const game=sourceFor('game.ts'),at=line(game,'if (!this.world?.sessionActive) this.ensureRows();');
+ const statements=Object.entries(game.coverage.statementMap).filter(([,site])=>site.start.line===at);
+ const branches=Object.entries(game.coverage.branchMap).filter(([,site])=>site.loc.start.line===at);
+ assert.ok(statements.length>=2);assert.ok(branches.length>=1);
+ for(const mode of ['relay','race']){
+  const dispositions=turnApplicabilityDispositions({mode,sources});
+  for(const[id]of statements){
+   assert.equal(excluded(dispositions,game,id,'statement'),false);
+   const hits=structuredClone(attributed);hits[game.path].s[id]=1;
+   assert.equal(reportApplicability({mode,sources,attributed:hits,dispositions}).applicable.statements.covered,1);
+  }
+  for(const[id]of branches)for(let arm=0;arm<game.coverage.b[id].length;arm++){
+   assert.equal(dispositions.some(d=>d.path===game.path&&d.kind==='branch'&&d.id===id&&d.arm===arm),false);
+   const hits=structuredClone(attributed);hits[game.path].b[id][arm]=1;
+   assert.equal(reportApplicability({mode,sources,attributed:hits,dispositions}).applicable.branches.covered,1);
+  }
+ }
+});
+
 test('Relay world-effect opt-in stays accountable while Race remains opt-out',()=>{
  // Synthetic mapped counters calibrate scope,never gameplay or mode credit.
  const relay=turnApplicabilityDispositions({mode:'relay',sources});

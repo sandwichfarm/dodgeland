@@ -1794,3 +1794,19 @@ the repeated supplemental Race model is omitted. Relay still needs7 functions/
 367 arms and Race14 functions/363 arms. Initial ledger annotations remain162
 covered/889 pending. This mode-only disposition does not relabel historical
 rows or establish release-floor acceptance. All original gates remain required.
+
+
+### Relay first-hop generation repair: current identity transition
+
+Actual paid first-hop counterexample bcd79e7 fails10/16. Repair b2ce1e8 changes
+only Game.move to defer active-session row generation to the shared tick after
+policy refresh;solo timing remains exact. Focused16/16,nearest185/185 and required
+gates pass. Source/AST/resolved reference review,108 profile controls and fresh
+canonical e99b8e37 (16 Relay lifetimes/48 intervals/one Node parent) bind new
+Game8836,executable97f,inventory bytef46f and normale980. All new guard sites stay
+counted;no exclusions or numeric floors change. See RELAY-GENERATION-CLOSURE and
+PROFILES-PROOF for exact pins and provenance. Earlier Game04 19-cohort union and
+74/98 gaps are historical after the repair and cannot prove current floors.
+Frozen initial semantic rows keep their original source identities;no historical
+counter relabeling or Game04→8836 merge. Full semantic/global/file/mode enforcement,
+final conformance,visual/clause proof and PR remain open.

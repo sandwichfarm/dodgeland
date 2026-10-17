@@ -3,7 +3,7 @@ import {createRequire} from 'node:module';
 import {applicabilityIdentity} from './applicability.mjs';
 const ts=createRequire(new URL('../../package.json',import.meta.url))('typescript');
 // Deliberate caller transition: 07-03-RELAY-EFFECTS-CLOSURE.md; composer unchanged.
-const callerDigest='1e5fb4e2867c625954f071288a00d89c3fa1d51dc53424fb69d063f3783f3853';
+const callerDigest='97f037fa041e738d931c54fb47f98d85632b8c0e4eaa7275f500e9c300787bd6';
 const sourceHash='cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2';
 const authority='.planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md';
 const hash=value=>createHash('sha256').update(value).digest('hex');
