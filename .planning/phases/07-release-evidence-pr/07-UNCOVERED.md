@@ -2,6 +2,15 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Latest Race reclaim transactions
+
+RACE-RECLAIM-EVIDENCE/PROOF records4 ordinary/4 canonical cases,12 intervals
+and one independent Node parent. Actual leave/disconnect/current-device lease
+and blocked/safe-return behavior is asserted on both bases. No state hooks or
+source change. Five new statements/five branches yield Race2502/2994(needs43).
+Relay2291/2695 meets85%;DEV52 remains. All179 previous jobs preserved;registry180.
+No browser/hardware/full-release credit or initial-ledger relabelling.
+
 ## Latest actual source-bound teardown
 
 TURN-RELEASE-CONTRACT/CLOSURE/PROOF:121 controls,8 ordinary/8 canonical cases,

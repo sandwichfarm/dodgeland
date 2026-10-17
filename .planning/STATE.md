@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Source-bound teardown passes; Relay diagnostic floor met; remaining Race48 DEV52
+stopped_at: Race reclaim transactions pass; Relay floor met; remaining Race43 DEV52
 last_updated: "2026-10-17T23:08:32.045298+00:00"
 progress:
   total_phases: 7
@@ -12,12 +12,25 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Source-bound release121 controls,8 genuine cases,24 fresh intervals/one parent and1179 prior intervals/40 parents pass. Relay2291/2695 meets diagnostic floor; Race48 DEV52 remain plus final verification/PR.
+last_activity_desc: Actual Race leave/disconnect/current-device safe-reclaim4 cases and12 intervals pass;registry180 preserves179 jobs. Race2502/2994 needs43;DEV52 plus final verification/PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+Latest Race reclaim transactions:four ordinary/four canonical cases across
+both bases pass,12 verified intervals/one independent Node parent/no browsers.
+Pending leave is cleared on controller loss;stale/cross-seat confirmations,
+stale device tokens,unauthorized replacements and occupied devices reject.
+Blocked safe-return candidates wait without moving or charging the player;
+after clearing terrain,the current transaction restores control and a real hop.
+Only the new device alias changes recovery provenance. RACE-RECLAIM-EVIDENCE/
+PROOF binds actual APIs and explicit terrain fixture/no state setters. Five new
+statements/five branches yield diagnostic Race2502/2994(needs43). Relay floor
+met;DEV52 remains. Registry180 preserves179 jobs,source/build/lock unchanged.
+Original full report failed;semantic review,fresh full gates,07-04/05/06,PR remain.
+
 
 Latest source-bound teardown: TURN-RELEASE-CONTRACT/CLOSURE/PROOF binds the
 actual canonical stop method and exactly one function-entry delta, preserves

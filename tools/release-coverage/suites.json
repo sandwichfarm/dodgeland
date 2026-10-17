@@ -9143,6 +9143,84 @@
         }
       ],
       "provenance": "Actual Relay/Race factories on Arcade/Flow,paid co-op card/item transaction,live paused or settled official leave flow,source-bound LocalSession.stop. Funds/eligibility/stock and one road are fixtures. Late input/update/market assertions stay global after sealed lifetime;no post-stop mode credit."
+    },
+    "race-reclaim-03": {
+      "files": [
+        "tests/race-reclaim-transactions.test.mjs"
+      ],
+      "roles": {
+        "tests/race-reclaim-transactions.test.mjs": "node"
+      },
+      "browser": false,
+      "jobs": [
+        {
+          "id": "race-reclaim-transactions-test",
+          "file": "tests/race-reclaim-transactions.test.mjs",
+          "role": "node",
+          "requiredRealms": [
+            "node"
+          ],
+          "defaultBuildScope": "modules",
+          "artifactPatterns": [],
+          "modelAttribution": [
+            {
+              "mode": "race",
+              "lifetimes": 4,
+              "phases": [
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      "provenance": "Actual Race factories,leave commands,disconnect,reclaim transactions and movement on both bases. Safe meadow approach and bounded obstacle changes are terrain fixtures; no ownership/recovery/position/clock mutation."
     }
   },
   "pendingAdapters": [
@@ -17316,6 +17394,72 @@
               [
                 "settled",
                 "released"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "race-reclaim-transactions-test",
+        "file": "tests/race-reclaim-transactions.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": [],
+        "modelAttribution": [
+          {
+            "mode": "race",
+            "lifetimes": 4,
+            "phases": [
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
               ]
             ]
           }
