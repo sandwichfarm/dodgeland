@@ -104,9 +104,76 @@ for(const mode of ['arcade','stroll']){
  tape.push({kind:'fixture',apply:game=>{assert.ok(game.run.cosmetics.length>=2);game.powerReadyAt=game.maxY+100;game.powerRescue=null;game.powerLandingGrace=0;game.hurtRemaining=0;game.state='playing';game.end('owned cosmetics fatal spill','train');assert.equal(game.state,'dead');assert.equal(game.run.cosmetics.length,0);assert.ok(game.deathSpill.cosmetics.length>=2);return {spilled:game.deathSpill.cosmetics};}});
  breadth.push({name:`${mode}-paid-pickup-health-powers`,seed:113,mode,catalogIds:['magnet','coin-multiplier','regen-bonus','extra-pocket','broad-deck','crossing-guard','pack-pocket','look-hat-cap','look-hat-aviator','score-income','power-coin-rush','scenery-clear'],setup:(game,module)=>{game.state='playing';safeRow(game,module,0);game.run.advanceScore(100);assert.equal(game.openMarket(),true);game.run.creditCoins(1000);paidOffer(game,'magnet');game.closeMarket();},tape});
 }
+// A rejected trade must leave the current run usable, including a paid draft.
+// Use actual authored items and compare every observation to the pinned game.
+for(const mode of ['arcade','stroll'])breadth.push({
+ name:`${mode}-shop-boundaries`,seed:113,mode,
+ catalogIds:['coin-multiplier','magnet','regen-bonus','extra-pocket','score-income','broad-deck','scenery-clear','pack-pocket','pack-satchel','look-shirt-sailor','look-halo','power-shield','power-freeze'],
+ setup:(game,module)=>{game.state='playing';safeRow(game,module,0);game.run.advanceScore(100);game.run.creditCoins(2.375);},
+ tape:[{kind:'fixture',apply:game=>{
+  const run=game.run;
+  const snapshot=()=>JSON.stringify({run,state:game.state,x:game.x,y:game.y,hop:game.hop,time:game.time,coins:game.coins,health:game.health});
+  const reject=action=>{const before=snapshot(),result=action();assert.equal(result.ok,false,result.message);assert.equal(snapshot(),before,'rejection cannot debit, advance RNG, discard assets or move the duck');};
+  const offerFor=id=>{const item=run.catalog.get(id);assert.ok(item);const offer={id:`guard-${id}-${run.market.offers.length}`,itemId:id,price:item.price,sold:false};run.market.offers.push(offer);return offer;};
+  reject(()=>run.buy('missing'));
+  reject(()=>run.equipCosmetic('look-shirt-sailor'));
+  reject(()=>run.claimPack([]));reject(()=>run.sell('missing'));
+  assert.equal(game.openMarket(),true);
+  assert.equal(game.move('forward'),false,'shopping cannot move the duck');
+  reject(()=>run.buy('missing'));reject(()=>run.equipCosmetic('look-shirt-sailor'));
+  const unaffordable=offerFor('coin-multiplier');reject(()=>run.buy(unaffordable.id));
+  assert.equal(unaffordable.sold,false);
+  run.creditCoins(2000);
+  assert.equal(run.buy(unaffordable.id).ok,true);reject(()=>run.buy(unaffordable.id));
+  for(const card of [...run.cards])assert.equal(run.sell(card.id).ok,true);
+  const pocket=paidOffer(game,'extra-pocket').cards[0];
+  for(let n=0;n<4;n++)paidOffer(game,'coin-multiplier');
+  assert.equal(run.cards.length,5);assert.equal(run.cardCapacity,5);
+  reject(()=>run.sell(pocket.id));
+  const overflow=offerFor('magnet');reject(()=>run.buy(overflow.id));assert.equal(overflow.sold,false);
+  assert.equal(run.sell(run.cards.find(card=>card.id!==pocket.id).id).ok,true);
+  assert.equal(run.sell(pocket.id).ok,true);assert.equal(run.cards.length,3);assert.equal(run.cardCapacity,3);
+
+  paidOffer(game,'pack-pocket');
+  const draft=run.pendingPack,paid=run.wallet;
+  reject(()=>run.buy(overflow.id));reject(()=>run.claimPack([]));reject(()=>run.claimPack(['outside-draft']));
+  const choice=draft.choices.find(card=>card.components.every(c=>c.itemId!=='extra-pocket')).id;
+  reject(()=>run.claimPack([choice]));
+  reject(()=>run.claimPack([choice],['outside-hand']));
+  const discard=run.cards[0].id;
+  assert.equal(run.claimPack([choice],[discard]).ok,true);
+  assert.equal(run.cards.length,3);assert.equal(run.cards.some(card=>card.id===discard),false);
+  assert.equal(run.wallet,paid);reject(()=>run.claimPack([choice]));
+  for(const card of [...run.cards])assert.equal(run.sell(card.id).ok,true);
+
+  let bonus=0;
+  for(let n=0;n<8;n++){
+   paidOffer(game,'pack-satchel');const draft=run.pendingPack,wallet=run.wallet;
+   assert.equal(draft.choices.length,5);assert.equal(new Set(draft.choices.map(card=>card.id)).size,5);
+   assert.equal(draft.picks,draft.bonus?2:1);
+   if(draft.bonus){bonus++;reject(()=>run.claimPack([draft.choices[0].id,draft.choices[0].id]));}
+   assert.equal(run.skipPack().ok,true);assert.equal(run.wallet,wallet);assert.equal(run.cards.length,0);
+  }
+  assert.ok(bonus>0,'fixed paid-pack sequence exercises an actual two-pick bonus');
+  paidOffer(game,'look-shirt-sailor');paidOffer(game,'look-halo');
+  assert.deepEqual(run.equippedCosmetics.map(item=>item.id).sort(),['look-halo','look-shirt-sailor']);
+  const duplicateLook=offerFor('look-shirt-sailor');reject(()=>run.buy(duplicateLook.id));
+  paidOffer(game,'power-shield');paidOffer(game,'power-freeze');game.closeMarket();
+  assert.ok(run.effects.shield>0);assert.equal(run.advanceScore(125),0,'temporary protection earns no score income');
+  game.end('shielded traffic contact','traffic');assert.equal(game.state,'playing');
+  const remaining=Math.max(...run.powers.map(power=>power.remaining));run.tick(remaining);
+  assert.equal(run.powers.length,0);assert.equal(run.effects.shield,0);
+  game.end('unshielded train contact','train');assert.equal(game.state,'dead');
+  assert.equal(run.wallet,0);assert.equal(run.cosmetics.length,0);assert.equal(run.cards.length,0);
+  reject(()=>run.sell('missing'));reject(()=>run.buy(overflow.id));reject(()=>run.claimPack([]));
+  assert.equal(game.openMarket(),false);
+  return {bonus,capacity:run.cardCapacity,dead:game.state};
+ }}],
+});
+
 test('bounded actual solo bases retain pinned movement, hazards, recovery, economy and terminal behavior',{timeout:120000},async()=>{
  const results=await runDifferentialMatrix([...scenarios,...breadth],{currentRecorderFactory:createSoloModelRecorder});
- assert.equal(results.length,24);
+ assert.equal(results.length,26);
  for(let index=0;index<16;index+=8){
   const [movement,traffic,river,hurt,market,terminal,actors,mobs]=results.slice(index,index+8);
   for(const result of results.slice(index,index+8)){assert.equal(result.baselineSha,PINNED_BASELINE_SHA);assert.ok(result.points>1);}
@@ -121,6 +188,7 @@ test('bounded actual solo bases retain pinned movement, hazards, recovery, econo
  for(const [index,scenario]of breadth.entries()){
   const result=results[16+index];assert.equal(result.baselineSha,PINNED_BASELINE_SHA);
   if(scenario.name.includes('-schema-')){assert.equal(result.final.game.rows.length,39);assert.equal(result.final.game.rows[0].row,999990);assert.equal(result.final.game.rows.at(-1).row,1000028);assert.equal(result.final.game.runSeed.schema,scenario.seed.schema);}
-  else{assert.deepEqual(result.final.callbacks.filter(e=>e.name==='onCoin').map(e=>e.payload.amount),[1,2,5,10,25]);assert.equal(result.final.callbacks.filter(e=>e.name==='onPower').length,7,'all seven authored traveler powers execute');assert.ok(result.final.callbacks.some(e=>e.name==='onHeal'&&e.payload.amount===.5));}
+  else if(!scenario.name.endsWith('-shop-boundaries')){assert.deepEqual(result.final.callbacks.filter(e=>e.name==='onCoin').map(e=>e.payload.amount),[1,2,5,10,25]);assert.equal(result.final.callbacks.filter(e=>e.name==='onPower').length,7,'all seven authored traveler powers execute');assert.ok(result.final.callbacks.some(e=>e.name==='onHeal'&&e.payload.amount===.5));}
+  else{assert.equal(result.final.game.state,'dead');assert.equal(result.final.game.inventory.visible.wallet,0);assert.deepEqual(result.final.game.inventory.visible.cards,[]);}
  }
 });

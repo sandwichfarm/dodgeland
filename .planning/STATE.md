@@ -313,8 +313,20 @@ full+new lifecycle shows1994/2222L671/769F2219/3141B,24new branches and no new
 lines/functions. Floors remain open. See07-03-RACE-LIFECYCLE-PROOF.json/md.
 All full/focused metadata copies now expect Race-lifecycle13/26; three reused
 jobs total39lifetimes/102intervals, superseding measured historical27/78 from
-full51a4bea2 without relabelling it. No runtime is active. Next: genuine remaining
-mode and DEV/solo/browser behavior gaps, then fresh enforcing collection.
+full51a4bea2 without relabelling it. Solo shop parity passes whole1/1 ordinary (26scenarios,66825terminal0) and
+canonical `a37b874f-fc3b-418e-9290-2dc050ea1a7b` (14181terminal0),26actual
+current lifetimes/52intervals, one independent parent. Initial607fixture failed
+solely because eight packs had no bonus; fixed113fixture passes with an explicit
+actual bonus assertion. Logs retain that fixture-only finding. Independent
+review found no blocker, with compound-fixture oracle comparison boundaries and
+intermediate local assertions kept explicit. No baseline or product changes.
+Normal build/root lock preserved. Exact-current diagnostic full+newshop reaches
+Arcade1150/1207L275/296F1161/1427B and Flow1016/1067L253/276F1019/1252B:
+36new branches/7lines per base, no new functions. Branch floors still need52/46
+arms; no enforcing acceptance. See07-03-SOLO-SHOP-PROOF.md/json.
+Current full/focused solo metadata expects26/52 without relabelling older24/48
+reports. No runtime is active. Next: genuine remaining hazard/actor behavior and
+turn-mode/DEV/browser gaps, then fresh enforcing collection.
 
 ## Next required work
 
