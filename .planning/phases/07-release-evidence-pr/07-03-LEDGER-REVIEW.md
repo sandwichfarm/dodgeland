@@ -247,3 +247,15 @@ invalid proposals and blocked-row staging rollback precede corrected acquisition
 on the same Game; these are explicit component fixtures,not public setup input.
 [Full identities and provenance](07-03-SETUP-RETRY-PROOF.json). No source or scope
 change; no historical changed Game/Session counter is relabelled.
+
+## Turn-authority
+
+**ARCH-03,INPUT-05,COOP-04,RELAY-04,RACE-04,TEST-02/03.** The real mode recovery
+entry rejects unavailable owners/offers and disallowed Revival/Flare kinds with
+zero debit calls and exact state preservation. An actual fatal train impact
+first creates the valid offer; a subsequent actual personal revival succeeds
+and protects only that owner. Whole `tests/turn-authority-boundaries.test.mjs`
+passes4/4 canonical `7d1f1826-efda-43b7-b75b-42693d450d42`. Relay78/0 at223
+has10 hits and Race52/1 at134 has4. Initial/current disk sources,maps and full
+mapped schemas match. Explicit safe-terrain component fixture;teardown stays
+outside mode attribution. [Exact proof](07-03-TURN-AUTHORITY-PROOF.json).

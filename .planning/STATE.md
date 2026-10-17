@@ -828,12 +828,27 @@ about4.3GiB. SETUP-RETRY/PROOF retain exact identities and storage/error limits.
 No chain is live. Next close real mode branch gaps,then full enforcement and
 remaining07-04/05/06.
 
+## Latest turn-authority execution
+
+7d1f1826 passes4/4 ordinary/canonical,four actual Relay/Race Arcade/Flow
+lifetimes/twenty intervals. Valid and rejected damage,reconnect,closed-roster
+admission,real fatal/personal revival and terminal authority preserve each owner.
+Teardown checks are outside mode attribution. Retained initial sidecar mismatch
+was corrected by whole-job final capture; gameplay had already passed. Two new
+source-identical initial arm annotations give178 reviewed(177 covered,one private
+default),873 pending. Exact current diagnostic branches2098/2793 Relay needs277,
+2343/3032 Race needs235; line/functions pass diagnostically. Manifest is additive:
+145 entries/152 closure,157 production jobs/nine controls. No production,scope,
+floor,normal903/rootlock5ac change. TURN-AUTHORITY/PROOF retain exact evidence.
+No chain remains. Next real market/pack boundary behavior,then remaining full
+coverage review/enforcement and07-04/05/06.
+
 ## Next required work
 
 1. Complete07-03: broad honest Solo/Relay/Race and development evidence,
    remaining per-file gaps, complete semantic ledger, then a fresh enforcing
-   full report. Keep all floors.176 initial zero arms have source-identical
-   semantic annotations(175 covered,one reviewed private default);875 still need completed semantic/behavioral proof,
+   full report. Keep all floors.178 initial zero arms have source-identical
+   semantic annotations(177 covered,one reviewed private default);873 still need completed semantic/behavioral proof,
    including six source-reviewed market candidates awaiting evidence. Genuine fresh
    bootstrap proof now exists; all unions before full collection are diagnostic.
 2. Execute07-04 conformance proof,07-05 clause/visual evidence,07-06 exact final

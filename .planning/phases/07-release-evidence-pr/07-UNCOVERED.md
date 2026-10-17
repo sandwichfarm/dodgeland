@@ -2,6 +2,18 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Current turn authority boundaries
+
+Four actual Relay/Race Arcade/Flow journeys pass ordinary/canonical4/4,7d1f1826,
+with twenty bounded component intervals. Invalid damage,stale reconnect identity,
+closed admission,unsupported recovery and terminal requests preserve owners and
+resources; valid hurt,reclaim,death and personal revival succeed. Teardown is
+whole-job component evidence outside canonical mode ownership. TURN-AUTHORITY/PROOF
+retain the independent-parent sidecar correction and exact source/site identity.
+Two newly reviewed initial-zero arms:Relay78/0(10),Race52/1(4). Current total
+178 annotated(177 covered,one private default),873 pending. Diagnostic branch
+gaps are277 Relay/235 Race; no full enforcement,scope or source change.
+
 ## Current setup rejection and corrected acquisition
 
 Four actual Arcade/Flow Relay/Race journeys pass ordinary/canonical4/4,
@@ -1025,7 +1037,7 @@ Source `d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da`; schem
 |39|113|0|[0, 14]|pending|
 |44|114|0|[0, 13]|[covered arm 0](07-03-LEDGER-REVIEW.md#race-safe-reclaim)|
 |49|127|0|[0, 197]|pending|
-|52|134|1|[48, 0]|pending|
+|52|134|1|[48, 0]|[covered arm 1](07-03-LEDGER-REVIEW.md#turn-authority)|
 |54|145|0|[0, 9]|pending|
 |56|151|0|[0, 11373416]|pending|
 |60|156|0|[0, 305808]|pending|
@@ -1116,7 +1128,7 @@ Source `f5c1eea5b82e6e42d7b6bbc6a95f7f0d28aa7ad7468c4464e0217ab9f89e6c02`; schem
 |70|197|0|[0, 41]|pending|
 |72|200|1|[41, 0]|pending|
 |77|214|0|[0, 22]|pending|
-|78|223|0|[0, 8]|pending|
+|78|223|0|[0, 8]|[covered arm 0](07-03-LEDGER-REVIEW.md#turn-authority)|
 |90|245|1|[41181, 0]|pending|
 |98|293|0|[0, 95]|[covered arm 0](07-03-LEDGER-REVIEW.md#setup-retry)|
 

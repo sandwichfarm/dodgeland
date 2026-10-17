@@ -1,0 +1,197 @@
+{
+  "status": "Four ordinary/canonical actual mode component journeys pass;not full release acceptance",
+  "runId": "7d1f1826-efda-43b7-b75b-42693d450d42",
+  "payloadCount": 1,
+  "lifetimes": 4,
+  "intervals": 20,
+  "thresholdsEvaluated": false,
+  "manifestSha256": "90ce1974107894918f8ec333ae91d36477f6f8126840bf3702b2a18ea1afbbe8",
+  "canonicalInventorySha256": "37f806f85a06a771ca5e1302b2e5aa996fd725c29e66175ef2d150a8c0f31404",
+  "witnesses": [
+    {
+      "path": "src/relay.ts",
+      "sourceHash": "f5c1eea5b82e6e42d7b6bbc6a95f7f0d28aa7ad7468c4464e0217ab9f89e6c02",
+      "mapHash": "f20ca8a0dcea141035a8a302915ac67da56d9be55a470a4655e1a01e4bf78fa7",
+      "id": "78",
+      "arm": 0,
+      "initialCount": 0,
+      "count": 10,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 223,
+            "column": 4
+          },
+          "end": {
+            "line": 223,
+            "column": 177
+          }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": {
+              "line": 223,
+              "column": 4
+            },
+            "end": {
+              "line": 223,
+              "column": 177
+            }
+          },
+          {
+            "start": {},
+            "end": {}
+          }
+        ]
+      },
+      "meaning": "Wrong owner,unavailable offer or forbidden Revival/Flare kind rejects before recovery mutation"
+    },
+    {
+      "path": "src/race.ts",
+      "sourceHash": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+      "mapHash": "359d1befb5381d2a2df7d84e71de36101ec61193601e694e8af77ddd2f617fb8",
+      "id": "52",
+      "arm": 1,
+      "initialCount": 0,
+      "count": 4,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 134,
+            "column": 57
+          },
+          "end": {
+            "line": 134,
+            "column": 103
+          }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": {
+              "line": 134,
+              "column": 57
+            },
+            "end": {
+              "line": 134,
+              "column": 103
+            }
+          },
+          {
+            "start": {},
+            "end": {}
+          }
+        ]
+      },
+      "meaning": "A real offer with an unsupported recovery kind leaves ok false and records no successful personal-recovery event"
+    }
+  ],
+  "currentDiagnosticModes": {
+    "relay": {
+      "raw": {
+        "statements": {
+          "covered": 2836,
+          "total": 3735
+        },
+        "functions": {
+          "covered": 644,
+          "total": 817
+        },
+        "branches": {
+          "covered": 2098,
+          "total": 3204
+        },
+        "lines": {
+          "covered": 1952,
+          "total": 2352
+        }
+      },
+      "applicable": {
+        "statements": {
+          "covered": 2836,
+          "total": 3310
+        },
+        "functions": {
+          "covered": 644,
+          "total": 710
+        },
+        "branches": {
+          "covered": 2098,
+          "total": 2793
+        },
+        "lines": {
+          "covered": 1952,
+          "total": 2104
+        }
+      },
+      "remaining": {
+        "lines": 0,
+        "functions": 0,
+        "branches": 277
+      },
+      "componentLifetimes": 35,
+      "componentIntervals": 104,
+      "publicIntervals": 2
+    },
+    "race": {
+      "raw": {
+        "statements": {
+          "covered": 2957,
+          "total": 3645
+        },
+        "functions": {
+          "covered": 689,
+          "total": 818
+        },
+        "branches": {
+          "covered": 2343,
+          "total": 3261
+        },
+        "lines": {
+          "covered": 2031,
+          "total": 2305
+        }
+      },
+      "applicable": {
+        "statements": {
+          "covered": 2957,
+          "total": 3406
+        },
+        "functions": {
+          "covered": 689,
+          "total": 758
+        },
+        "branches": {
+          "covered": 2343,
+          "total": 3032
+        },
+        "lines": {
+          "covered": 2031,
+          "total": 2163
+        }
+      },
+      "remaining": {
+        "lines": 0,
+        "functions": 0,
+        "branches": 235
+      },
+      "componentLifetimes": 67,
+      "componentIntervals": 222,
+      "publicIntervals": 8
+    }
+  },
+  "normalArtifactRawSha256": "9036d9a1f179b136569a3b400c412d954d783987c751832afbbbfda287c63539",
+  "rootLockRawSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "logs": {
+    "ordinary": "/tmp/down-to-duck-turn-authority-ordinary.log",
+    "retainedSidecarFailure": "/tmp/down-to-duck-turn-authority-canonical-before-sidecar-fix.log",
+    "canonical": "/tmp/down-to-duck-turn-authority-canonical.log"
+  },
+  "limits": [
+    "Explicit component safe terrain and public authority APIs,not user-facing input/device evidence",
+    "Stopped-session teardown is outside canonical mode intervals and retained only as whole-job/global component evidence",
+    "Initial four gameplay cases passed but independent collector rejected a stale whole-job sidecar snapshot;corrected final capture preserves interval boundaries",
+    "No production,oracle,dependencies,numeric floors or applicability changes"
+  ]
+}
