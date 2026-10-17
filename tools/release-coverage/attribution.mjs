@@ -7,12 +7,27 @@ function checkObservation(o) {
  const base=o.mode.endsWith('arcade')?'arcade':'stroll';
  if(o.kind!==kind||o.base!==base||!Number.isInteger(o.participants)||(kind==='solo'?o.participants!==1:o.participants<2||o.participants>4))throw Error('Invalid actual mode/base evidence');
 }
+function checkComponent(o) {
+ if(!o || !['survive-arcade','survive-flow'].includes(o.mode) || o.kind!=='survive' || o.base!==(o.mode==='survive-arcade'?'arcade':'stroll'))throw Error('Invalid component mode evidence');
+ if(!['acquiring','playing','paused','pending','settled'].includes(o.phase))throw Error('Invalid component lifecycle phase');
+ if(o.phase==='acquiring') { if(o.sessionId!==null || o.participants!==0)throw Error('Invalid acquisition evidence'); }
+ else if(typeof o.sessionId!=='string'||!o.sessionId||!Number.isInteger(o.participants)||o.participants<1||o.participants>4)throw Error('Missing component session identity');
+}
+function checkPair(before,after,provenance) {
+ if(provenance==='component-model') {
+  checkComponent(before);checkComponent(after);
+  if(before.mode!==after.mode||before.base!==after.base||after.phase==='acquiring'||(before.phase!=='acquiring'&&before.sessionId!==after.sessionId))throw Error('Component session changed during interval');
+ } else {
+  if(provenance!=='public-input')throw Error('Invalid mode provenance');
+  checkObservation(before);checkObservation(after);
+  if(JSON.stringify(before)!==JSON.stringify(after))throw Error('Mode changed during interval');
+ }
+}
 export function deriveInterval(inventory,before,after,id) {
  if(typeof id!=='string'||!id)throw Error('Missing interval ID');
- checkObservation(before?.observation);checkObservation(after?.observation);
- if(JSON.stringify(before.observation)!==JSON.stringify(after.observation))throw Error('Mode changed during interval');
+ checkPair(before?.observation,after?.observation,before?.provenance);
  for(const key of ['jobId','buildScope','artifactHash','provenance'])if(!before[key]||before[key]!==after[key])throw Error('Interval identity mismatch');
- if(before.provenance!=='public-input'||before.buildScope!=='production')throw Error('Invalid mode provenance');
+ if(before.buildScope!=='production')throw Error('Invalid mode provenance');
  if(!Number.isSafeInteger(before.sequence)||before.sequence<0||!Number.isSafeInteger(after.sequence)||after.sequence<=before.sequence)throw Error('Invalid interval order');
  const a=before.payload,b=after.payload;
  if(a.runId!==b.runId||a.realmId!==b.realmId)throw Error('Cross run/realm interval');
@@ -25,17 +40,18 @@ export function deriveInterval(inventory,before,after,id) {
   const delta=end.map((n,i)=>{if(n<start[i])throw Error('Counter decreased');return n-start[i];});file[metric][key]=metric==='b'?delta:delta[0];
  }
  const payload={...structuredClone(b),realmId:`interval:${a.realmId}:${id}`,coverage};
- return {id,mode:before.observation.mode,parentRealm:a.realmId,runId:a.runId,jobId:before.jobId,buildScope:before.buildScope,artifactHash:before.artifactHash,provenance:before.provenance,start:before.sequence,end:after.sequence,observation:structuredClone(before.observation),payload};
+ return {id,mode:before.observation.mode,parentRealm:a.realmId,runId:a.runId,jobId:before.jobId,buildScope:before.buildScope,artifactHash:before.artifactHash,provenance:before.provenance,start:before.sequence,end:after.sequence,observation:structuredClone(before.observation),...(before.provenance==='component-model'?{endObservation:structuredClone(after.observation)}:{}),payload};
 }
 export function validateIntervals(inventory,intervals) {
  const seen=new Set(),ends=new Map();
  const sorted=[...intervals].sort((a,b)=>a.parentRealm.localeCompare(b.parentRealm)||a.start-b.start||a.id.localeCompare(b.id));
  for(const interval of sorted){
-  checkObservation(interval.observation);
+  if(interval.provenance==='component-model'&&!interval.endObservation)throw Error('Missing component endpoint observation');
+  checkPair(interval.observation,interval.endObservation??interval.observation,interval.provenance);
   const key=`${interval.runId}:${interval.parentRealm}:${interval.id}`,parent=`${interval.runId}:${interval.parentRealm}`;
   if(seen.has(key))throw Error('Duplicate interval');seen.add(key);
   if(!Number.isSafeInteger(interval.start)||!Number.isSafeInteger(interval.end)||interval.start<0||interval.end<=interval.start||(ends.get(parent)??-1)>interval.start)throw Error('Overlapping interval');ends.set(parent,interval.end);
-  if(interval.mode!==interval.observation.mode||interval.provenance!=='public-input'||interval.buildScope!=='production'||!interval.jobId||!interval.artifactHash||interval.payload.runId!==interval.runId||interval.payload.realmId!==`interval:${interval.parentRealm}:${interval.id}`)throw Error('Interval binding mismatch');
+  if(interval.mode!==interval.observation.mode||!['public-input','component-model'].includes(interval.provenance)||interval.buildScope!=='production'||!interval.jobId||!interval.artifactHash||interval.payload.runId!==interval.runId||interval.payload.realmId!==`interval:${interval.parentRealm}:${interval.id}`)throw Error('Interval binding mismatch');
   mergePayloads(inventory,[interval.payload],{runId:interval.runId,expectedRealms:[interval.payload.realmId]});
  }
  return sorted;

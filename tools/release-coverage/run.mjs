@@ -81,8 +81,26 @@ export async function preserveJobArtifacts(job,directory,action){
 
 export function validateModeRows(inventory,rows,required=modes){
  const intervals=validateIntervals(inventory,rows.flatMap(r=>r.intervals??[]));
- for(const interval of intervals){const parent=rows.find(r=>r.realmId===interval.parentRealm);if(!parent?.payload||parent.payload.runId!==interval.runId||interval.artifactHash!==(parent.identity.artifactHash??parent.artifactHash)||interval.jobId!==(parent.identity.jobId??parent.identity.suite))throw Error('Missing/mismatched interval parent');
-  for(const [path,file]of Object.entries(interval.payload.coverage))for(const metric of ['s','f','b'])for(const key of Object.keys(file[metric])){const counts=metric==='b'?file[metric][key]:[file[metric][key]],whole=metric==='b'?parent.payload.coverage[path]?.[metric][key]:[parent.payload.coverage[path]?.[metric][key]];if(!whole||counts.some((n,i)=>n>whole[i]))throw Error('Interval exceeds parent counters');}
+ const totals=new Map();
+ for(const interval of intervals){
+  const parents=rows.filter(r=>r.realmId===interval.parentRealm&&r.payload?.runId===interval.runId);
+  const parent=parents[0];
+  if(parents.length!==1||!parent?.payload||interval.artifactHash!==(parent.identity?.artifactHash??parent.artifactHash)||interval.jobId!==(parent.identity?.jobId??parent.identity?.suite))throw Error('Missing/mismatched interval parent');
+  const parentKey=JSON.stringify([interval.runId,interval.parentRealm]);
+  if(!totals.has(parentKey)){
+   mergePayloads(inventory,[parent.payload],{runId:interval.runId,expectedRealms:[interval.parentRealm]});
+   totals.set(parentKey,new Map());
+  }
+  const sums=totals.get(parentKey);
+  for(const [path,file]of Object.entries(interval.payload.coverage))for(const metric of ['s','f','b'])for(const key of Object.keys(file[metric])){
+   const counts=metric==='b'?file[metric][key]:[file[metric][key]],whole=metric==='b'?parent.payload.coverage[path]?.[metric][key]:[parent.payload.coverage[path]?.[metric][key]];
+   for(const [arm,n]of counts.entries()){
+    const site=JSON.stringify([path,metric,key,arm]),sum=(sums.get(site)??0)+n;
+    if(!Number.isSafeInteger(sum))throw Error('Unsafe aggregate interval counter');
+    if(!whole||!Number.isSafeInteger(whole[arm])||sum>whole[arm])throw Error('Interval aggregate exceeds parent counters');
+    sums.set(site,sum);
+   }
+  }
  }
  for(const mode of required)if(!intervals.some(i=>i.mode===mode))throw Error(`Missing exclusive mode ${mode}`);
  return intervals;
