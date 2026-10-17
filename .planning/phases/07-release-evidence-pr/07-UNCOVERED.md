@@ -1354,3 +1354,7 @@ Source `6ff040ceaed6a1fd4ff1dcf7e8b8bc9a773bcc4a3598fa6a83529a05d28b72e6`; schem
 |5|34|0|[0, 18778]|pending|
 
 Total retained zero branch arms: 1051. No automatic dismissals.
+
+## Reviewed solo applicability preparation
+
+See `07-03-SOLO-APPLICABILITY.md` for exact source-pinned production dispositions and call/state evidence. Only LocalSession instance execution and the unavailable CoOpMarketAdapter call closure are mapped; static staging, module initialization, SharedWorld and SessionPlayer remain applicable. The generator emits exact source/map/schema-bound sites and never reads counter values. Raw baseline rows above are unchanged. Bounded evaluator/generator proof passed8/8 in `/tmp/down-to-duck-07-03-solo-applicability-final.log`; this is synthetic schema/negative-control evidence, not additional gameplay coverage. Runner integration, independently observed solo interval validity, final applicable metrics and all unchanged floor gates remain pending.
