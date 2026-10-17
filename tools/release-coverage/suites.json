@@ -444,7 +444,19 @@
       ],
       "role": "browser",
       "browser": true,
-      "provenance": "Six fresh opaque app realms acquired by visible controls and public seed intent; readonly production mode/base observation; exclusive live counter intervals"
+      "provenance": "Six fresh opaque app realms acquired by visible controls and public seed intent; readonly production mode/base observation; exclusive live counter intervals",
+      "jobs": [
+        {
+          "id": "release-mode-coverage",
+          "file": "tests/release-mode-coverage.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "defaultBuildScope": "production",
+          "artifactPatterns": []
+        }
+      ]
     },
     "layout-12": {
       "files": [

@@ -108,3 +108,8 @@ test('model sidecar requires independent parent, exact phases and actual config 
  assert.throws(()=>validateModelSidecar(inventory,{...row,intervals:[]},[after.payload],options),/Missing exclusive/);
  assert.throws(()=>validateModelSidecar(inventory,row,[after.payload],{...options,expectations:[{mode:'survive-flow',phases:[['playing','settled']]}]}),/Incomplete/);
 });
+
+test('solo applicability projection refuses absent or nonpublic ownership evidence before dispositions',async()=>{
+ const {projectSoloApplicability}=await import('./run.mjs');
+ for(const intervals of [[],[{mode:'solo-arcade',provenance:'component-model',observation:{}}],[{mode:'solo-arcade',provenance:'public-input',observation:{ownership:{worldIsOwn:true}}}]])assert.throws(()=>projectSoloApplicability('solo-arcade',{}, {},[],intervals),/stable ownership/);
+});

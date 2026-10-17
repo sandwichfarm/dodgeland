@@ -57,3 +57,22 @@ Canonical integration proof22846 exited0: tooling tests9/9 (`/tmp/down-to-duck-s
 At unchanged90/90/85 floors the current component observation still needs at least1 additional line,9 functions and39 arms. Actionable next witnesses: actual composed Revival/Flare requests and success/rejection debit paths (`session-recovery.ts:47–55`, `recovery.ts:53–61,83–84`); multiple current participants and multiple archived participants at settlement to exercise genuine sorting callbacks (`survive-results.ts:47–48`); real forward personal progress and pending-policy queries (`survive-together.ts:30–31`). Invalid-clock/malformed duplicate-participant defenses in the generic planner must not be called directly and relabeled Survive merely to fill a mode denominator. Reconcile each remaining miss against genuine owner reachability before adding cases or proposing explicit applicability; no automatic exclusion is made.
 
 `git diff --check` passed. Slot released to root after terminal evidence. Full collection, refreshed public-input observation, mode-floor enforcement and release acceptance remain separate pending work.
+
+## Stable-solo applicability integration
+
+Following root's independently exercised ownership observer, the runner now emits attribution for focused public intervals as well as model/full collections. For solo only, `projectSoloApplicability` requires public-input provenance and the exact stable ownership observation, uses current source text/maps and the actual remapped site schema, then invokes the reviewed source-pinned `soloApplicabilityDispositions` and pure `reportApplicability` validator. Positive attributed hits on omitted sites, stale source/schema identities, absent ownership and unknown sites fail rather than silently altering policy.
+
+`attribution.json` retains `rawStrata` and raw provenance-separated reports, adds the full `applicability` ledger (raw/applicable metrics, per-file hashes and every statement/function/branch-arm disposition with call/state reasons), and exposes `strata` as the actual policy input. Only solo mode strata use the applicable projection. Global/per-file summaries, source inventory, raw coverage maps and numerical floors remain unchanged. Unclassified sites stay applicable. Focused runs continue to mark thresholdsEvaluatedfalse; no release pass follows from an improved denominator.
+
+First integrated public run32212 retained a real failure after6/6 browser assertions: the historical `modes-12` focused group had no job records, so its browser collector did not enrich the parent with job/artifact identity. Newly enabled interval reporting correctly rejected this at parent binding. The correction uses the **exact existing full public-mode job** in the focused group; no legacy identity is invented and no validation is weakened. Failed log: `/tmp/down-to-duck-solo-applicability-integration-public.log`. Tooling tests17/17 passed separately in `/tmp/down-to-duck-solo-applicability-integration-unit.log`.
+
+Earlier focused public evidence exercised browser interval pair/schema validation and actual ownership observations. It did **not** exercise the runner's independent parent job/artifact binding because focused attribution reporting was absent. This distinction does not invalidate its behavioral assertions, but those historical rows are not reused as newly bound canonical mode attribution.
+
+Corrected canonical public command30556 exited0, six browser witnesses/six bound parent payloads, run `ff13e4eb-99ff-447a-8183-9ef7d86bea69`. Log `/tmp/down-to-duck-solo-applicability-integration-public-green.log`. Focused report at `artifacts/release-coverage/modes-12/attribution.json` retains these raw → applicable solo metrics:
+
+| Mode | Lines | Functions | Branch arms |
+|---|---|---|---|
+| Solo Arcade |168/2039 →168/1674|65/656 →65/492|182/2768 →182/2271|
+| Solo Flow |145/2039 →145/1674|61/656 →61/492|167/2768 →167/2271|
+
+Each mode exposes1282 individual omitted-site dispositions. No covered sites were removed. Other modes remain raw; this public-only run's Survive modes each measure8/89 lines,5/65 functions,12/165 arms, distinct from the earlier component-only80/89,50/65,102/165. Neither report fabricates a cross-run union. Full mode coverage remains substantially incomplete; applicability corrects unreachable ownership denominators, not missing execution. Global/per-file all-source totals and policy files are untouched. `git diff --check` passed and the serial execution slot was handed to the Survive fixture owner after terminal confirmation.
