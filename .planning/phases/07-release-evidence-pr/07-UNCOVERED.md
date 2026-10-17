@@ -1464,3 +1464,19 @@ mapped schemas. Existing captures and normal dist are preserved. No full pass.
 ### Turn Arcade extension
 
 Seven real Relay/Race coordinator lifetimes /25 disjoint intervals passed ordinary7/7 and canonical7/7 (71873 exit0; run3ac5861e-2c3e-4a9a-abc8-9582168b50a2). Versioned actual Arcade acquisition, owned denominations/movement/fractional drift, Relay paid pack/card/sale/pull, Race appearance-only buy/rejection and real innate-water/fatal-personal recovery are now covered with explicit component arrangements. Raw/applicable Relay1392/2350L482/817F1465/3196B; Race1440/2303L523/818F1670/3253B. No mode exclusions or floor changes; remaining misses stay visible. Exact provenance/logs in07-03-TURN-MODE-COVERAGE.md.
+
+
+### Canonical turn update closure and fresh caller evidence
+
+See07-03-TURN-UPDATE-CLOSURE and07-03-TURN-UPDATE-PROOF.md/json. Complete disk
+and compiled158-source caller inventories, full frozen canonical definitions,
+actual owner/resolving-stack observations and contradiction controls bound the
+standalone/shared dispatch split. Raw counters and all site schemas remain
+unchanged;63 branch arms/two functions per mode have exact caller/state scope
+proof. Guards, acquisition, market closing and real shared paths remain counted.
+All reused jobs and public journeys are refreshed. The selected source-identical
+union has79 component lifetimes/221 component intervals plus7 public intervals;
+the repeated supplemental Race model is omitted. Relay still needs7 functions/
+367 arms and Race14 functions/363 arms. Initial ledger annotations remain162
+covered/889 pending. This mode-only disposition does not relabel historical
+rows or establish release-floor acceptance. All original gates remain required.

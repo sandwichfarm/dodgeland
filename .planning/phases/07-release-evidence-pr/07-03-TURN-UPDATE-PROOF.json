@@ -1,0 +1,1658 @@
+{
+  "status": "Focused closure and reused/public refresh verified; full release gates remain open",
+  "baseCommit": "1a4920ad85ddc55aafd1e4ec76eb9a726d89c305",
+  "runId": "d4f8f258-f8fb-4377-a07d-828ae7a77299",
+  "canonicalSession": 8583,
+  "canonicalExitCode": 0,
+  "actualLifetimes": 13,
+  "intervals": 49,
+  "independentParents": 1,
+  "executionObservations": {
+    "sharedCalls": 15852,
+    "standaloneCalls": 0,
+    "violations": [],
+    "worlds": 13
+  },
+  "controlsAndOrdinaryTests": 106,
+  "focusedFinalTests": 39,
+  "productionChecks": {
+    "typeCheck": 0,
+    "build": 0,
+    "guidance": 0,
+    "conformance": {
+      "exitCode": 0,
+      "passes": 5,
+      "failures": 0,
+      "unmeasured": 5
+    }
+  },
+  "preserved": {
+    "dist/index.html": "a34fd21258f80302593c584f5a9566f7511af49798c0b0cac6dacc1beb478bc1",
+    "pnpm-lock.yaml": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+    "tools/release-coverage/suites.json": "40542f5f5b41fdc059d323077b8235da33c3c8e4062e4a72f1fdb1f7b8975c98",
+    "src/game.ts": "fb5d9224e46c19b3745099429f06bd141d9b738bb2d8786ed3266e1b6a7d95f6",
+    "src/session.ts": "f8ce62cdc5c87557636cce62f0b15005bfa5f9cde42c708d67915b4c1ebcec39",
+    "src/main.ts": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+    "src/mobs.ts": "6077ac4fd884ef16f9fe8ab3f3db77a431b2d2853adbeddc1d0d843b595018d1"
+  },
+  "assertionPreservation": {
+    "baseCommit": "1a4920ad85ddc55aafd1e4ec76eb9a726d89c305",
+    "files": {
+      "tests/release-turn-mode-coverage.test.mjs": {
+        "originalAssertions": 323,
+        "originalArgumentsByteIdentical": true
+      },
+      "tests/release-mode-coverage.mjs": {
+        "originalAssertions": 22,
+        "originalArgumentsByteIdentical": true
+      },
+      "tests/relay-runtime.mjs": {
+        "originalAssertions": 165,
+        "originalArgumentsByteIdentical": true
+      }
+    }
+  },
+  "modes": {
+    "relay": {
+      "raw": {
+        "lines": {
+          "covered": 1910,
+          "total": 2350
+        },
+        "statements": {
+          "covered": 2730,
+          "total": 3733
+        },
+        "functions": {
+          "covered": 614,
+          "total": 817
+        },
+        "branches": {
+          "covered": 1971,
+          "total": 3198
+        }
+      },
+      "oldApplicable": {
+        "lines": {
+          "covered": 1910,
+          "total": 2159
+        },
+        "statements": {
+          "covered": 2730,
+          "total": 3406
+        },
+        "functions": {
+          "covered": 614,
+          "total": 718
+        },
+        "branches": {
+          "covered": 1971,
+          "total": 2893
+        }
+      },
+      "applicable": {
+        "lines": {
+          "covered": 1910,
+          "total": 2114
+        },
+        "statements": {
+          "covered": 2730,
+          "total": 3343
+        },
+        "functions": {
+          "covered": 614,
+          "total": 716
+        },
+        "branches": {
+          "covered": 1971,
+          "total": 2830
+        }
+      },
+      "rawCountersAndAllSiteSchemasEqualPrior": true,
+      "addedExclusionCounts": {
+        "statement": 63,
+        "function": 2,
+        "branch": 63
+      },
+      "addedExclusions": [
+        {
+          "kind": "statement",
+          "id": "566"
+        },
+        {
+          "kind": "statement",
+          "id": "567"
+        },
+        {
+          "kind": "statement",
+          "id": "568"
+        },
+        {
+          "kind": "statement",
+          "id": "569"
+        },
+        {
+          "kind": "statement",
+          "id": "570"
+        },
+        {
+          "kind": "statement",
+          "id": "571"
+        },
+        {
+          "kind": "statement",
+          "id": "572"
+        },
+        {
+          "kind": "statement",
+          "id": "573"
+        },
+        {
+          "kind": "statement",
+          "id": "574"
+        },
+        {
+          "kind": "statement",
+          "id": "575"
+        },
+        {
+          "kind": "statement",
+          "id": "585"
+        },
+        {
+          "kind": "statement",
+          "id": "586"
+        },
+        {
+          "kind": "statement",
+          "id": "589"
+        },
+        {
+          "kind": "statement",
+          "id": "596"
+        },
+        {
+          "kind": "statement",
+          "id": "597"
+        },
+        {
+          "kind": "statement",
+          "id": "611"
+        },
+        {
+          "kind": "statement",
+          "id": "627"
+        },
+        {
+          "kind": "statement",
+          "id": "685"
+        },
+        {
+          "kind": "statement",
+          "id": "686"
+        },
+        {
+          "kind": "statement",
+          "id": "687"
+        },
+        {
+          "kind": "statement",
+          "id": "688"
+        },
+        {
+          "kind": "statement",
+          "id": "689"
+        },
+        {
+          "kind": "statement",
+          "id": "690"
+        },
+        {
+          "kind": "statement",
+          "id": "691"
+        },
+        {
+          "kind": "statement",
+          "id": "692"
+        },
+        {
+          "kind": "statement",
+          "id": "693"
+        },
+        {
+          "kind": "statement",
+          "id": "694"
+        },
+        {
+          "kind": "statement",
+          "id": "695"
+        },
+        {
+          "kind": "statement",
+          "id": "696"
+        },
+        {
+          "kind": "statement",
+          "id": "697"
+        },
+        {
+          "kind": "statement",
+          "id": "698"
+        },
+        {
+          "kind": "statement",
+          "id": "699"
+        },
+        {
+          "kind": "statement",
+          "id": "700"
+        },
+        {
+          "kind": "statement",
+          "id": "701"
+        },
+        {
+          "kind": "statement",
+          "id": "702"
+        },
+        {
+          "kind": "statement",
+          "id": "703"
+        },
+        {
+          "kind": "statement",
+          "id": "704"
+        },
+        {
+          "kind": "statement",
+          "id": "705"
+        },
+        {
+          "kind": "statement",
+          "id": "706"
+        },
+        {
+          "kind": "statement",
+          "id": "707"
+        },
+        {
+          "kind": "statement",
+          "id": "708"
+        },
+        {
+          "kind": "statement",
+          "id": "709"
+        },
+        {
+          "kind": "statement",
+          "id": "710"
+        },
+        {
+          "kind": "statement",
+          "id": "711"
+        },
+        {
+          "kind": "statement",
+          "id": "712"
+        },
+        {
+          "kind": "statement",
+          "id": "713"
+        },
+        {
+          "kind": "statement",
+          "id": "714"
+        },
+        {
+          "kind": "statement",
+          "id": "715"
+        },
+        {
+          "kind": "statement",
+          "id": "716"
+        },
+        {
+          "kind": "statement",
+          "id": "717"
+        },
+        {
+          "kind": "statement",
+          "id": "718"
+        },
+        {
+          "kind": "statement",
+          "id": "719"
+        },
+        {
+          "kind": "statement",
+          "id": "720"
+        },
+        {
+          "kind": "statement",
+          "id": "721"
+        },
+        {
+          "kind": "statement",
+          "id": "722"
+        },
+        {
+          "kind": "statement",
+          "id": "723"
+        },
+        {
+          "kind": "statement",
+          "id": "724"
+        },
+        {
+          "kind": "statement",
+          "id": "725"
+        },
+        {
+          "kind": "statement",
+          "id": "726"
+        },
+        {
+          "kind": "statement",
+          "id": "727"
+        },
+        {
+          "kind": "statement",
+          "id": "728"
+        },
+        {
+          "kind": "statement",
+          "id": "729"
+        },
+        {
+          "kind": "statement",
+          "id": "730"
+        },
+        {
+          "kind": "function",
+          "id": "107"
+        },
+        {
+          "kind": "function",
+          "id": "112"
+        },
+        {
+          "kind": "branch",
+          "id": "227",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "227",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "228",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "228",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "228",
+          "arm": 2
+        },
+        {
+          "kind": "branch",
+          "id": "229",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "229",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "285",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "285",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "286",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "286",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "287",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "287",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "288",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "288",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "289",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "289",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "290",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "290",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "291",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "291",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "292",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "292",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "293",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "293",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "294",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "294",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "294",
+          "arm": 2
+        },
+        {
+          "kind": "branch",
+          "id": "294",
+          "arm": 3
+        },
+        {
+          "kind": "branch",
+          "id": "295",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "295",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "295",
+          "arm": 2
+        },
+        {
+          "kind": "branch",
+          "id": "295",
+          "arm": 3
+        },
+        {
+          "kind": "branch",
+          "id": "296",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "296",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "297",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "297",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "298",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "298",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "299",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "299",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "300",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "300",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "301",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "301",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "302",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "302",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "303",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "303",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "304",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "304",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "305",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "305",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "306",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "306",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "307",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "307",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "308",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "308",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "309",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "309",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "310",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "310",
+          "arm": 1
+        }
+      ]
+    },
+    "race": {
+      "raw": {
+        "lines": {
+          "covered": 1937,
+          "total": 2303
+        },
+        "statements": {
+          "covered": 2752,
+          "total": 3643
+        },
+        "functions": {
+          "covered": 640,
+          "total": 818
+        },
+        "branches": {
+          "covered": 2111,
+          "total": 3255
+        }
+      },
+      "oldApplicable": {
+        "lines": {
+          "covered": 1937,
+          "total": 2222
+        },
+        "statements": {
+          "covered": 2752,
+          "total": 3509
+        },
+        "functions": {
+          "covered": 640,
+          "total": 769
+        },
+        "branches": {
+          "covered": 2111,
+          "total": 3141
+        }
+      },
+      "applicable": {
+        "lines": {
+          "covered": 1937,
+          "total": 2177
+        },
+        "statements": {
+          "covered": 2752,
+          "total": 3446
+        },
+        "functions": {
+          "covered": 640,
+          "total": 767
+        },
+        "branches": {
+          "covered": 2111,
+          "total": 3078
+        }
+      },
+      "rawCountersAndAllSiteSchemasEqualPrior": true,
+      "addedExclusionCounts": {
+        "statement": 63,
+        "function": 2,
+        "branch": 63
+      },
+      "addedExclusions": [
+        {
+          "kind": "statement",
+          "id": "566"
+        },
+        {
+          "kind": "statement",
+          "id": "567"
+        },
+        {
+          "kind": "statement",
+          "id": "568"
+        },
+        {
+          "kind": "statement",
+          "id": "569"
+        },
+        {
+          "kind": "statement",
+          "id": "570"
+        },
+        {
+          "kind": "statement",
+          "id": "571"
+        },
+        {
+          "kind": "statement",
+          "id": "572"
+        },
+        {
+          "kind": "statement",
+          "id": "573"
+        },
+        {
+          "kind": "statement",
+          "id": "574"
+        },
+        {
+          "kind": "statement",
+          "id": "575"
+        },
+        {
+          "kind": "statement",
+          "id": "585"
+        },
+        {
+          "kind": "statement",
+          "id": "586"
+        },
+        {
+          "kind": "statement",
+          "id": "589"
+        },
+        {
+          "kind": "statement",
+          "id": "596"
+        },
+        {
+          "kind": "statement",
+          "id": "597"
+        },
+        {
+          "kind": "statement",
+          "id": "611"
+        },
+        {
+          "kind": "statement",
+          "id": "627"
+        },
+        {
+          "kind": "statement",
+          "id": "685"
+        },
+        {
+          "kind": "statement",
+          "id": "686"
+        },
+        {
+          "kind": "statement",
+          "id": "687"
+        },
+        {
+          "kind": "statement",
+          "id": "688"
+        },
+        {
+          "kind": "statement",
+          "id": "689"
+        },
+        {
+          "kind": "statement",
+          "id": "690"
+        },
+        {
+          "kind": "statement",
+          "id": "691"
+        },
+        {
+          "kind": "statement",
+          "id": "692"
+        },
+        {
+          "kind": "statement",
+          "id": "693"
+        },
+        {
+          "kind": "statement",
+          "id": "694"
+        },
+        {
+          "kind": "statement",
+          "id": "695"
+        },
+        {
+          "kind": "statement",
+          "id": "696"
+        },
+        {
+          "kind": "statement",
+          "id": "697"
+        },
+        {
+          "kind": "statement",
+          "id": "698"
+        },
+        {
+          "kind": "statement",
+          "id": "699"
+        },
+        {
+          "kind": "statement",
+          "id": "700"
+        },
+        {
+          "kind": "statement",
+          "id": "701"
+        },
+        {
+          "kind": "statement",
+          "id": "702"
+        },
+        {
+          "kind": "statement",
+          "id": "703"
+        },
+        {
+          "kind": "statement",
+          "id": "704"
+        },
+        {
+          "kind": "statement",
+          "id": "705"
+        },
+        {
+          "kind": "statement",
+          "id": "706"
+        },
+        {
+          "kind": "statement",
+          "id": "707"
+        },
+        {
+          "kind": "statement",
+          "id": "708"
+        },
+        {
+          "kind": "statement",
+          "id": "709"
+        },
+        {
+          "kind": "statement",
+          "id": "710"
+        },
+        {
+          "kind": "statement",
+          "id": "711"
+        },
+        {
+          "kind": "statement",
+          "id": "712"
+        },
+        {
+          "kind": "statement",
+          "id": "713"
+        },
+        {
+          "kind": "statement",
+          "id": "714"
+        },
+        {
+          "kind": "statement",
+          "id": "715"
+        },
+        {
+          "kind": "statement",
+          "id": "716"
+        },
+        {
+          "kind": "statement",
+          "id": "717"
+        },
+        {
+          "kind": "statement",
+          "id": "718"
+        },
+        {
+          "kind": "statement",
+          "id": "719"
+        },
+        {
+          "kind": "statement",
+          "id": "720"
+        },
+        {
+          "kind": "statement",
+          "id": "721"
+        },
+        {
+          "kind": "statement",
+          "id": "722"
+        },
+        {
+          "kind": "statement",
+          "id": "723"
+        },
+        {
+          "kind": "statement",
+          "id": "724"
+        },
+        {
+          "kind": "statement",
+          "id": "725"
+        },
+        {
+          "kind": "statement",
+          "id": "726"
+        },
+        {
+          "kind": "statement",
+          "id": "727"
+        },
+        {
+          "kind": "statement",
+          "id": "728"
+        },
+        {
+          "kind": "statement",
+          "id": "729"
+        },
+        {
+          "kind": "statement",
+          "id": "730"
+        },
+        {
+          "kind": "function",
+          "id": "107"
+        },
+        {
+          "kind": "function",
+          "id": "112"
+        },
+        {
+          "kind": "branch",
+          "id": "227",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "227",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "228",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "228",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "228",
+          "arm": 2
+        },
+        {
+          "kind": "branch",
+          "id": "229",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "229",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "285",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "285",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "286",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "286",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "287",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "287",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "288",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "288",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "289",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "289",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "290",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "290",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "291",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "291",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "292",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "292",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "293",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "293",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "294",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "294",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "294",
+          "arm": 2
+        },
+        {
+          "kind": "branch",
+          "id": "294",
+          "arm": 3
+        },
+        {
+          "kind": "branch",
+          "id": "295",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "295",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "295",
+          "arm": 2
+        },
+        {
+          "kind": "branch",
+          "id": "295",
+          "arm": 3
+        },
+        {
+          "kind": "branch",
+          "id": "296",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "296",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "297",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "297",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "298",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "298",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "299",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "299",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "300",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "300",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "301",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "301",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "302",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "302",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "303",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "303",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "304",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "304",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "305",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "305",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "306",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "306",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "307",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "307",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "308",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "308",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "309",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "309",
+          "arm": 1
+        },
+        {
+          "kind": "branch",
+          "id": "310",
+          "arm": 0
+        },
+        {
+          "kind": "branch",
+          "id": "310",
+          "arm": 1
+        }
+      ]
+    }
+  },
+  "logs": [
+    "/tmp/down-to-duck-turn-call-closure-red.log",
+    "/tmp/down-to-duck-turn-update-closure-final-controls.log",
+    "/tmp/down-to-duck-turn-update-closure-canonical.log",
+    "/tmp/down-to-duck-turn-update-closure-project-checks.log",
+    "/tmp/down-to-duck-turn-update-disk-controls.log",
+    "/tmp/down-to-duck-turn-update-public-rule-controls.log",
+    "/tmp/down-to-duck-turn-update-reproject-final.log",
+    "/tmp/down-to-duck-turn-update-final-project-checks.log"
+  ],
+  "refreshState": "/tmp/down-to-duck-turn-update-refresh.json",
+  "limitations": [
+    "No fresh enforcing full report",
+    "Historical initial ledger annotations unchanged:162 covered/889 pending",
+    "Conformance has five unmeasured checks",
+    "Full source/pin invalidation and positive-hit rejection are required for every projection"
+  ],
+  "finalToolingTests": 94,
+  "publicRuleNegativeControl": "/tmp/down-to-duck-turn-update-public-rule-red.log",
+  "freshDiagnostic": {
+    "purpose": "Current disk/canonical caller guard revalidation; fresh component/public diagnostic union, not an enforcing release report",
+    "groups": [
+      {
+        "group": "turn-update-closure-03",
+        "runId": "d4f8f258-f8fb-4377-a07d-828ae7a77299",
+        "payloads": 1,
+        "collectedIntervals": 49,
+        "selectedIntervals": 49,
+        "selection": "all",
+        "modes": [
+          "relay",
+          "race"
+        ]
+      },
+      {
+        "group": "turn-update-reuse-03",
+        "runId": "862d8686-f188-4d8c-8b2d-3d3a2c19ea12",
+        "payloads": 7,
+        "collectedIntervals": 102,
+        "selectedIntervals": 102,
+        "selection": "all",
+        "modes": [
+          "relay",
+          "race"
+        ]
+      },
+      {
+        "group": "turn-update-relay-lifecycle-03",
+        "runId": "366aaeb0-d36b-49a4-8a13-d0faf41a805b",
+        "payloads": 7,
+        "collectedIntervals": 30,
+        "selectedIntervals": 30,
+        "selection": "all",
+        "modes": [
+          "relay"
+        ]
+      },
+      {
+        "group": "turn-update-race-results-03",
+        "runId": "71c97b62-d7af-4806-aad3-4c04fa42be7f",
+        "payloads": 7,
+        "collectedIntervals": 40,
+        "selectedIntervals": 40,
+        "selection": "all",
+        "modes": [
+          "race"
+        ]
+      },
+      {
+        "group": "turn-update-public-03",
+        "runId": "5b658051-b352-444d-a77c-ebef393f2f29",
+        "payloads": 6,
+        "collectedIntervals": 6,
+        "selectedIntervals": 6,
+        "selection": "all",
+        "modes": [
+          "relay",
+          "race"
+        ]
+      },
+      {
+        "group": "turn-update-relay-public-03",
+        "runId": "e481f80a-6f59-4bd5-baca-26330dd94b5f",
+        "payloads": 16,
+        "collectedIntervals": 71,
+        "selectedIntervals": 1,
+        "selection": "Relay public interval only; repeated Race item model omitted",
+        "modes": [
+          "relay"
+        ]
+      }
+    ],
+    "modes": {
+      "relay": {
+        "componentLifetimes": 24,
+        "publicIntervals": 2,
+        "intervals": 61,
+        "raw": {
+          "lines": {
+            "covered": 1941,
+            "total": 2350
+          },
+          "statements": {
+            "covered": 2799,
+            "total": 3733
+          },
+          "functions": {
+            "covered": 638,
+            "total": 817
+          },
+          "branches": {
+            "covered": 2039,
+            "total": 3198
+          }
+        },
+        "applicable": {
+          "lines": {
+            "covered": 1941,
+            "total": 2114
+          },
+          "statements": {
+            "covered": 2799,
+            "total": 3343
+          },
+          "functions": {
+            "covered": 638,
+            "total": 716
+          },
+          "branches": {
+            "covered": 2039,
+            "total": 2830
+          }
+        },
+        "remaining": {
+          "lines": 0,
+          "functions": 7,
+          "branches": 367
+        }
+      },
+      "race": {
+        "componentLifetimes": 55,
+        "publicIntervals": 1,
+        "intervals": 163,
+        "raw": {
+          "lines": {
+            "covered": 2010,
+            "total": 2303
+          },
+          "statements": {
+            "covered": 2904,
+            "total": 3643
+          },
+          "functions": {
+            "covered": 677,
+            "total": 818
+          },
+          "branches": {
+            "covered": 2254,
+            "total": 3255
+          }
+        },
+        "applicable": {
+          "lines": {
+            "covered": 2010,
+            "total": 2177
+          },
+          "statements": {
+            "covered": 2904,
+            "total": 3446
+          },
+          "functions": {
+            "covered": 677,
+            "total": 767
+          },
+          "branches": {
+            "covered": 2254,
+            "total": 3078
+          }
+        },
+        "remaining": {
+          "lines": 0,
+          "functions": 14,
+          "branches": 363
+        }
+      }
+    },
+    "matrixWholeParentCountersAndSchemasUnchanged": true
+  },
+  "refresh": {
+    "status": "passed",
+    "groups": [
+      {
+        "suite": "turn-reuse-03",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/turn-update-reuse-03",
+        "log": "/tmp/down-to-duck-turn-update-reuse-03.log",
+        "status": "passed",
+        "started": "2026-10-17T11:15:25.374369+00:00",
+        "pid": 31708,
+        "exitCode": 0,
+        "finished": "2026-10-17T11:17:30.112533+00:00"
+      },
+      {
+        "suite": "relay-lifecycle-03",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/turn-update-relay-lifecycle-03",
+        "log": "/tmp/down-to-duck-turn-update-relay-lifecycle-03.log",
+        "status": "passed",
+        "started": "2026-10-17T11:17:30.113111+00:00",
+        "pid": 35777,
+        "exitCode": 0,
+        "finished": "2026-10-17T11:19:18.820492+00:00"
+      },
+      {
+        "suite": "race-results-03",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/turn-update-race-results-03",
+        "log": "/tmp/down-to-duck-turn-update-race-results-03.log",
+        "status": "passed",
+        "started": "2026-10-17T11:19:18.820888+00:00",
+        "pid": 38762,
+        "exitCode": 0,
+        "finished": "2026-10-17T11:21:52.980461+00:00"
+      }
+    ],
+    "started": "2026-10-17T11:15:25.361996+00:00",
+    "temporaryOriginals": [
+      "race-05-03-reclaim-900x600-dark.png",
+      "race-05-03-recovery-decline.png",
+      "race-05-03-departed-result.png",
+      "race-05-03-reclaim-900x600-light.png",
+      "race-05-03-reclaim-320x560-dark.png",
+      "race-05-03-reclaim-1000x280-dark.png",
+      "race-05-03-reclaim-240x240-dark.png",
+      "race-05-03-reclaim-320x560-light.png",
+      "race-05-03-recovery-expiry.png",
+      "race-05-03-reclaim-240x240-light.png",
+      "race-05-03-reclaim-1000x280-light.png",
+      "race-05-03-waiting.png",
+      "race-05-03-recovery-accept.png"
+    ],
+    "backup": "/var/folders/g8/w4qrj6k57hx_3lg6ltc1k70w0000gn/T/down-to-duck-turn-update-preserved-31qziyf8",
+    "frozenFiles": {
+      "dist/index.html": "a34fd21258f80302593c584f5a9566f7511af49798c0b0cac6dacc1beb478bc1",
+      "pnpm-lock.yaml": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+      "src/game.ts": "fb5d9224e46c19b3745099429f06bd141d9b738bb2d8786ed3266e1b6a7d95f6",
+      "src/session.ts": "f8ce62cdc5c87557636cce62f0b15005bfa5f9cde42c708d67915b4c1ebcec39",
+      "src/main.ts": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "tools/release-coverage/suites.json": "40542f5f5b41fdc059d323077b8235da33c3c8e4062e4a72f1fdb1f7b8975c98"
+    },
+    "preserved": true,
+    "temporaryPreserved": true,
+    "finished": "2026-10-17T11:21:53.027360+00:00"
+  },
+  "relayPublicRefresh": {
+    "status": "passed",
+    "started": "2026-10-17T11:35:10.553447+00:00",
+    "backup": "/var/folders/g8/w4qrj6k57hx_3lg6ltc1k70w0000gn/T/down-to-duck-relay-public-preserved-1eer080x",
+    "originals": [
+      "relay-runtime-controller-market.png",
+      "relay-runtime-readonly-240x240-dark.png",
+      "relay-runtime-empty-900x600-dark.png",
+      "relay-runtime-empty-2400x1200-dark.png",
+      "relay-runtime-readonly-200x160-light.png",
+      "relay-runtime-readonly-320x560-dark.png",
+      "relay-runtime-readonly-2400x1200-light.png",
+      "relay-runtime-empty-200x160-light.png",
+      "relay-runtime-empty-200x160-dark.png",
+      "relay-runtime-contact.png",
+      "relay-runtime-paid-pack-320x560-light.png",
+      "relay-runtime-paid-pack-1000x280-dark.png",
+      "relay-runtime-readonly-1000x280-light.png",
+      "relay-runtime-paid-pack-2400x1200-light.png",
+      "relay-runtime-empty-320x560-dark.png",
+      "relay-runtime-readonly-200x160-dark.png",
+      "relay-runtime-empty-240x240-dark.png",
+      "relay-runtime-empty-240x240-light.png",
+      "relay-runtime-paid-pack-900x600-light.png",
+      "relay-runtime-readonly-900x600-dark.png",
+      "relay-runtime-readonly-240x240-light.png",
+      "relay-runtime-paid-pack-1000x280-light.png",
+      "relay-runtime-readonly-1000x280-dark.png",
+      "relay-runtime-empty-320x560-light.png",
+      "relay-runtime-paid-pack-200x160-dark.png",
+      "relay-runtime-readonly-320x560-light.png",
+      "relay-runtime-empty-1000x280-light.png",
+      "relay-runtime-empty-1000x280-dark.png",
+      "relay-runtime-empty-contact.png",
+      "relay-runtime-paid-pack-900x600-dark.png",
+      "relay-runtime-empty-2400x1200-light.png",
+      "relay-runtime-paid-pack-240x240-light.png",
+      "relay-runtime-readonly-900x600-light.png",
+      "relay-runtime-earned-51.png",
+      "relay-runtime-empty-900x600-light.png",
+      "relay-runtime-earned-continuity.json",
+      "relay-runtime-readonly-2400x1200-dark.png",
+      "relay-runtime-paid-pack-200x160-light.png",
+      "relay-runtime-final-contact.png",
+      "relay-runtime-paid-pack-240x240-dark.png",
+      "relay-runtime-paid-pack-clip.png",
+      "relay-runtime-paid-pack-320x560-dark.png",
+      "relay-runtime-paid-pack-2400x1200-dark.png"
+    ],
+    "frozenFiles": {
+      "dist/index.html": "a34fd21258f80302593c584f5a9566f7511af49798c0b0cac6dacc1beb478bc1",
+      "pnpm-lock.yaml": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+      "src/game.ts": "fb5d9224e46c19b3745099429f06bd141d9b738bb2d8786ed3266e1b6a7d95f6",
+      "src/session.ts": "f8ce62cdc5c87557636cce62f0b15005bfa5f9cde42c708d67915b4c1ebcec39",
+      "src/main.ts": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "tools/release-coverage/suites.json": "40542f5f5b41fdc059d323077b8235da33c3c8e4062e4a72f1fdb1f7b8975c98"
+    },
+    "pid": 69887,
+    "exitCode": 0,
+    "preserved": true,
+    "temporaryPreserved": true,
+    "finished": "2026-10-17T11:38:03.122777+00:00"
+  },
+  "diskAndCanonicalInventory": {
+    "files": 158,
+    "sourceHash": "f741bb29520d4edb84def73c4c0e18a477903c028637675af647c81518655bfa",
+    "independentDiskEnumeration": true,
+    "allSelectedProjectionsRevalidated": true
+  },
+  "finalProjectChecksSession": 57163,
+  "finalProjectChecksExitCode": 0,
+  "currentProductionSourceUnchanged": true
+}

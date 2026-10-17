@@ -20,7 +20,7 @@ for(const mode of ['solo-arcade','solo-flow','survive-arcade','survive-flow','re
   const observe=async()=>{
    const game=await app.onGame(function(){return {base:this.definition.id,state:this.state};});
    let kind='solo',participants=1,definitionEvidence;
-   if(mode.startsWith('solo-')){
+   {
     definitionEvidence=await app.onGame(function(){
      const normalize=v=>v===undefined?{__undefined:true}:typeof v==='function'?{__function:true}:Array.isArray(v)?v.map(normalize):v&&typeof v==='object'?Object.fromEntries(Object.keys(v).sort().map(k=>[k,normalize(v[k])])):v;
      const frozen=v=>!v||typeof v!=='object'||Object.isFrozen(v)&&Object.values(v).every(frozen);

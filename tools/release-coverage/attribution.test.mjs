@@ -70,6 +70,18 @@ function fixture() {
  const before=snapshot(0);vm.runInContext('step(true);step(false);',context);const after=snapshot(1);
  return {inventory,context,snapshot,before,after};
 }
+test('public multiplayer intervals require complete canonical base evidence',()=>{
+ for(const mode of ['relay','race','survive-arcade','survive-flow']){
+  const {inventory,before,after}=fixture(),base=mode==='survive-arcade'?'arcade':'stroll';
+  const observation={mode,base,kind:mode.startsWith('survive-')?'survive':mode,state:'playing',participants:2,definitionEvidence:{...canonicalEvidence,snapshot:SOLO_DEFINITION_SNAPSHOTS[base]}};
+  before.observation=after.observation=observation;
+  assert.equal(deriveInterval(inventory,before,after,'valid-public-base').mode,mode);
+  for(const evidence of [undefined,{...observation.definitionEvidence,deepFrozen:false},{...observation.definitionEvidence,snapshot:SOLO_DEFINITION_SNAPSHOTS[base==='arcade'?'stroll':'arcade']}]){
+   const start=structuredClone(before),end=structuredClone(after);start.observation.definitionEvidence=end.observation.definitionEvidence=evidence;
+   assert.throws(()=>deriveInterval(inventory,start,end,'invalid-public-base'),/definition evidence/);
+  }
+ }
+});
 test('exclusive interval exact function/branch counts retain zeros and never duplicate global totals',()=>{
  const {inventory,before,after}=fixture();const interval=deriveInterval(inventory,before,after,'first');
  const file=interval.payload.coverage['/attribution/counter.ts'];assert.deepEqual(Object.values(file.s),[2,1,1]);assert.deepEqual(Object.values(file.f),[2]);assert.deepEqual(Object.values(file.b),[[1,1]]);

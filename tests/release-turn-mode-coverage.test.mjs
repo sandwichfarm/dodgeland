@@ -11,10 +11,27 @@ const {createRaceSession,RaceCoordinator}=await sources.import('race');
 const {generateSeedLane}=await sources.import('levels/index');
 const {ITEM_CATALOG}=await sources.import('market/catalog');
 const authority={Game,...await sources.import('session'),...await sources.import('mode-rules')};
+const watchedClasses=new Set(),restoreObservers=[],observedWorlds=new Set(),executionObservations={sharedCalls:0,standaloneCalls:0,violations:[]};
+function observeUpdateRoute(GameType){
+ if(watchedClasses.has(GameType))return;watchedClasses.add(GameType);
+ const standalone=GameType.prototype.update,shared=GameType.prototype.updateSessionPlayer;
+ GameType.prototype.update=function(...args){executionObservations.standaloneCalls++;return Reflect.apply(standalone,this,args);};
+ GameType.prototype.updateSessionPlayer=function(player,dt,previousTime,drivesWorld){
+  executionObservations.sharedCalls++;observedWorlds.add(this.world);
+  // Read the existing stack data: do not call a production getter just to
+  // generate evidence. Delegate the real call once with unchanged arguments.
+  const resolving=Object.getOwnPropertyDescriptor(this.world,'resolvingPlayers')?.value;
+  if(drivesWorld!==false||this.world.host!==this||!this.world.sessionActive||player.world!==this.world||resolving?.at(-1)!==player||Object.getOwnPropertyDescriptor(player.session??{},'active')?.value!==true)executionObservations.violations.push({drivesWorld,seat:player.seat});
+  return Reflect.apply(shared,this,[player,dt,previousTime,drivesWorld]);
+ };
+ restoreObservers.push(()=>{GameType.prototype.update=standalone;GameType.prototype.updateSessionPlayer=shared;});
+}
+observeUpdateRoute(Game);
+after(()=>{for(const restore of restoreObservers)restore();assert.equal(observedWorlds.size,13);assert.ok(executionObservations.sharedCalls>0);assert.equal(executionObservations.standaloneCalls,0);assert.deepEqual(executionObservations.violations,[]);});
 const config=process.env.DOWN_TO_DUCK_COVERAGE_CONFIG?JSON.parse(await readFile(process.env.DOWN_TO_DUCK_COVERAGE_CONFIG,'utf8')):null;
 const model=config?.modelAttribution;if(config&&!model)throw Error('Missing turn-model attribution configuration');
 const inventory=model?JSON.parse(await readFile(config.inventoryPath,'utf8')):null,records=[];
-after(async()=>{if(inventory){if(records.length!==13)throw Error('Incomplete turn-mode witnesses');await writeFile(model.output,JSON.stringify({...records.at(-1),intervals:records.flatMap(r=>r.intervals)}));}});
+after(async()=>{if(inventory){if(records.length!==13)throw Error('Incomplete turn-mode witnesses');await writeFile(model.output,JSON.stringify({...records.at(-1),executionObservations:{...executionObservations,worlds:observedWorlds.size},intervals:records.flatMap(r=>r.intervals)}));}});
 const seats=[{seat:'p1',device:'gamepad-0',characterId:'butter'},{seat:'p2',device:'gamepad-1',characterId:'pip'},{seat:'p3',device:'gamepad-2',characterId:'sunny'}];
 const step=1/120;
 function lane(game,row){game.rows.set(row,{...generateLane(game.seed,row,game.home),kind:'meadow',blocked:[],decorations:[],actors:undefined,coin:null,coinActor:undefined});}
@@ -274,6 +291,7 @@ for(const [index,mode]of ['relay','race'].entries())test(`${mode} fresh bootstra
  assert.notEqual(fresh.directory,sources.directory);
  const load=async()=>{
   const gameModule=await fresh.import('game'),catalog=await fresh.import('market/catalog');
+  observeUpdateRoute(gameModule.Game);
   await fresh.import('actors');await fresh.import('race');
   const composition=await fresh.import(mode);
   assert.notEqual(gameModule.Game,Game);

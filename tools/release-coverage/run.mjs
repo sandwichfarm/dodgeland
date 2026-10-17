@@ -4,7 +4,7 @@ import { resolve, join, dirname, relative, matchesGlob } from 'node:path';
 import { createRequire } from 'node:module';
 import { spawnSync } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
-import { globSync } from 'node:fs';
+import { globSync, readFileSync, readdirSync } from 'node:fs';
 import { buildInventory, repositoryRoot, nodeWorkerBinding } from './inventory.mjs';
 import { mergePayloads } from './collector.mjs';
 import { developmentApplicabilityDispositions, DEVELOPMENT_CONFIG_PINS } from './development-applicability.mjs';
@@ -189,7 +189,11 @@ export function projectTurnApplicability(mode,inventory,mapped,paths,intervals){
   return {path:absolute,source:record.source,map:record.map,coverage:mapped[absolute]};
  });
  const callerSources=Object.keys(TURN_AUTHORITY_PINS).map(path=>{const record=Object.values(inventory).find(r=>r.path===resolve(repositoryRoot,path));if(!record)throw Error('Missing turn caller authority: '+path);return {path,source:record.source};});
- const dispositions=turnApplicabilityDispositions({mode,sources:[...sources,...authoritySources],authoritySources:callerSources});
+ // Check disk independently: tracked-only inventory must not hide a new caller.
+ const names=readdirSync(join(repositoryRoot,'src'),{recursive:true}).filter(path=>/\.(ts|tsx|js|mjs)$/.test(path)&&!path.endsWith('.d.ts')).sort();
+ const closureSources=names.map(path=>({path:'src/'+path.replaceAll('\\','/'),source:readFileSync(join(repositoryRoot,'src',path),'utf8')}));
+ const canonicalSources=Object.values(inventory).map(record=>({path:record.path,source:record.source}));
+ const dispositions=turnApplicabilityDispositions({mode,sources:[...sources,...authoritySources],authoritySources:callerSources,closureSources,canonicalSources});
  if(dispositions.some(d=>!sources.some(source=>source.path===d.path)))throw Error('Turn authority outside stratum cannot carry dispositions');
  return {...reportApplicability({mode,sources,attributed,dispositions}),authoritySources:[...authoritySources,...callerSources].map(source=>({path:source.path,sourceHash:hash(source.source)}))};
 }

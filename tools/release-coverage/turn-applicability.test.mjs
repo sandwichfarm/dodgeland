@@ -11,7 +11,9 @@ const directory=await mkdtemp(join(tmpdir(),'turn-applicability-'));after(()=>rm
 const root=resolve(new URL('../..',import.meta.url).pathname);
 const ts=createRequire(new URL('../../package.json',import.meta.url))('typescript');
 const authoritySources=await Promise.all(Object.keys(TURN_AUTHORITY_PINS).map(async path=>({path,source:await readFile(join(root,path),'utf8')})));
-const turnApplicabilityDispositions=input=>generateTurnDispositions({authoritySources,...input});
+const audit=JSON.parse(await readFile(join(root,'.planning/phases/07-release-evidence-pr/07-03-TURN-REFERENCE-AUDIT.json'),'utf8'));
+const closureSources=await Promise.all(Object.keys(audit.sourceHashes).filter(path=>!path.endsWith('.d.ts')).map(async path=>({path,source:await readFile(join(root,path),'utf8')})));
+const turnApplicabilityDispositions=input=>generateTurnDispositions({authoritySources,closureSources,canonicalSources:closureSources,...input});
 const texts=Object.fromEntries(await Promise.all(Object.keys(TURN_APPLICABILITY_SOURCES).map(async path=>[path,await readFile(join(root,path),'utf8')])));
 const inventory=instrumentSources(texts,root);
 // A zero schema realm only, never gameplay evidence or mode coverage credit.
@@ -22,6 +24,29 @@ const sourceFor=name=>sources.find(row=>row.path.endsWith('/'+name));
 const line=(source,fragment)=>{const index=source.source.indexOf(fragment);assert.notEqual(index,-1,fragment);return source.source.slice(0,index).split('\n').length;};
 function functionIds(source,fragment){const at=line(source,fragment),ids=Object.entries(source.coverage.fnMap).filter(([,site])=>site.decl.start.line===at).map(([id])=>id);assert.ok(ids.length,fragment);return ids;}
 function excluded(dispositions,source,id,kind='function'){return dispositions.some(d=>d.path===source.path&&d.kind===kind&&d.id===id);}
+
+test('standalone update closure requires the complete reviewed caller inventory',()=>{
+ for(const mode of ['relay','race']){
+  assert.throws(()=>generateTurnDispositions({mode,sources,authoritySources}),/caller inventory/);
+  assert.throws(()=>generateTurnDispositions({mode,sources,authoritySources,closureSources}),/caller inventory/);
+  for(const canonicalSources of [closureSources.slice(1),closureSources.slice(1).concat(closureSources[1]),closureSources.map(s=>s.path==='src/audio.ts'?{...s,source:s.source+'\n// divergent compiled source'}:s)])assert.throws(()=>turnApplicabilityDispositions({mode,sources,canonicalSources}),/caller inventory/);
+  for(const changed of [closureSources.slice(1),[...closureSources,closureSources[0]],[...closureSources,{path:'src/new-caller.ts',source:'export const invoke = game => game.update(1);'}],closureSources.map(s=>s.path==='src/audio.ts'?{...s,source:s.source+'\n// new call edge'}:s)])assert.throws(()=>turnApplicabilityDispositions({mode,sources,closureSources:changed}),/caller inventory/);
+  const dispositions=turnApplicabilityDispositions({mode,sources}),game=sourceFor('game.ts');
+  for(const fragment of ['  update(dt: number): void {','private updateMobs('])for(const id of functionIds(game,fragment))assert.equal(excluded(dispositions,game,id),true,fragment);
+  for(const fragment of ['const sessionSeat = undefined;','const chaseTime = Math.max(0, this.time - this.rules.pursuit.grace)']){
+   const lines=game.source.split('\n').flatMap((text,i)=>text.includes(fragment)?[i+1]:[]);
+   for(const at of lines.filter(at=>at>=630))for(const [id,site]of Object.entries(game.coverage.statementMap).filter(([,s])=>s.start.line===at))assert.equal(excluded(dispositions,game,id,'statement'),true,fragment+' '+at);
+  }
+  for(const fragment of ['private finishPlayerUpdate(','private collectCoins(','private collectSessionCoins(','  closeMarket('])for(const id of functionIds(game,fragment))assert.equal(excluded(dispositions,game,id),false,'retained '+fragment);
+  const ifLine=line(game,'if (sessionPlayer) { this.collectSessionCoins');
+  for(const [id,site]of Object.entries(game.coverage.statementMap).filter(([,s])=>s.start.line===ifLine))assert.equal(excluded(dispositions,game,id,'statement'),false,'shared dispatch retained');
+  for(const kind of ['statement','function','branch']){
+   const site=dispositions.find(d=>d.kind===kind&&d.authority.endsWith('07-03-TURN-UPDATE-CLOSURE.md'));assert.ok(site,kind);
+   const hits=structuredClone(attributed);if(kind==='branch')hits[site.path].b[site.id][site.arm]=1;else hits[site.path][kind==='statement'?'s':'f'][site.id]=1;
+   assert.throws(()=>reportApplicability({mode,sources,attributed:hits,dispositions}),/contradicted/,'new closure rejects actual '+kind+' hits');
+  }
+ }
+});
 
 test('exact opt-in closures are excluded but guards, common world and acquisition remain applicable',()=>{
  const before=structuredClone(sources),session=sourceFor('session.ts'),recovery=sourceFor('session-recovery.ts');
@@ -40,7 +65,7 @@ test('exact opt-in closures are excluded but guards, common world and acquisitio
   for(const id of functionIds(session,'constructor(private readonly session: LocalSession'))assert.equal(excluded(dispositions,session,id),mode==='relay');
   const shared=sourceFor('shared-world-effects.ts');for(const id of functionIds(shared,'export function resolveSharedWorldEffects'))assert.equal(excluded(dispositions,shared,id),true);
   for(const key of['src/relay.ts','src/race.ts'])assert.equal(dispositions.some(d=>d.path.endsWith('/'+key)),false,'no broad '+key+' exclusions');
-  for(const[file,fragments]of Object.entries({'game.ts':['update(dt:','openMarket():','  closeMarket(','resetSharedWorldEffects():','syncSharedWorldEffects():','worldExtensionSnapshot<','updateSessionWorldExtension('],'market/run.ts':['constructor(seed:','buy(offerId:','previewPack(ids:','claimPack(ids:','skipPack():','sell(cardId:','tick(dt:','private capacityFor(']})){
+  for(const[file,fragments]of Object.entries({'game.ts':['openMarket():','  closeMarket(','resetSharedWorldEffects():','syncSharedWorldEffects():','worldExtensionSnapshot<','updateSessionWorldExtension('],'market/run.ts':['constructor(seed:','buy(offerId:','previewPack(ids:','claimPack(ids:','skipPack():','sell(cardId:','tick(dt:','private capacityFor(']})){
    const source=sourceFor(file);for(const fragment of fragments)for(const id of functionIds(source,fragment))assert.equal(excluded(dispositions,source,id),false,'kept '+fragment);
   }
   const report=reportApplicability({mode,sources,attributed,dispositions});assert.ok(report.applicable.functions.total<report.raw.functions.total);assert.deepEqual(report.dispositions,dispositions);

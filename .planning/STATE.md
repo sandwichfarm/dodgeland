@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: 07-03 meaningful coverage closure; full enforcing report pending
-last_updated: "2026-10-17T11:04:57.207530+00:00"
+last_updated: "2026-10-17T11:47:26.162345+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,7 +12,7 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Turn ownership105 controls/ordinary plus13 canonical pass; full canonical definitions and live session provenance; release gates open.
+last_activity_desc: Shared turn closure proven; five reused suites and seven public intervals refreshed; exact mode gaps remain; full release open.
 ---
 
 # Project State
@@ -515,6 +515,34 @@ cohorts' mixed browser jobs are not yet recollected. Main setup/reset/pagehide,
 terminal/re-entry and receiver/value-flow closure remain necessary before any
 new applicability disposition. Mixed-input aliases remain proposal-only.
 No runtime is active; full release gates remain open.
+
+Shared turn update closure is now source-bound and integrated; see
+07-03-TURN-UPDATE-CLOSURE, -PROOF.md/json and -REFERENCE-AUDIT.json. Both disk
+(including untracked code) and canonical compiled158-source inventories must
+match reviewed fingerprint f741bb29. New/changed/missing/duplicate callers reject.
+Only standalone Game.update/updateMobs, drivesWorld-only then-bodies and the
+post-shared-dispatch solo coin remainder are disposed:45 lines/63 statements/
+2 functions/63 arms per mode. Public guards, initialization and market closing
+remain counted. Raw whole-parent/mode counters and all schemas are unchanged.
+Actual matrix d4f8f258 passes13/13:15,852 shared calls,0 standalone/violations.
+
+Whole reused jobs all pass:862d8686 Race items18/Race lifecycle16/Relay boundary16;
+366aaeb0 Relay lifecycle22;71c97b62 Race results44. Public snapshots now require
+full frozen canonical bases in the validator:5b658051 six public modes6/6 and
+e481f80a Relay runtime12/12 (plus repeated Race items18/18) pass. Final tooling
+94/94 and final type/build/guidance pass. Conformance remains5 pass/0 fail/5
+unmeasured; normal build/lock/suite manifest/source hashes and temporary captures
+are preserved. Original assertions323/22/165 remain byte-identical; four observer
+assertions are added. No gameplay changes, floor changes or false new-hit claims.
+
+Current-source revalidated diagnostic selects79 component lifetimes/221 intervals
+plus7 public intervals. The supplementary repeated Race model is omitted. Relay
+1941/2114L638/716F2039/2830B needs7F367B; Race2010/2177L677/767F2254/3078B needs14F363B.
+This is not full release enforcement. Initial semantic ledger remains162 covered/
+889 pending. Next substantive tests: actual contested shared coin/pull ownership
+and traffic/recovery scenes; then further reviewed closure and fresh full report.
+07-04 conformance,07-05 normal visuals/clauses and07-06 final gate/PR remain open.
+No runtime is active. Mixed-input aliases remain a design proposal.
 
 ## Next required work
 

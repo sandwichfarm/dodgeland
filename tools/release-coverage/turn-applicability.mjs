@@ -2,6 +2,9 @@ import { createHash } from 'node:crypto';
 import { createRequire } from 'node:module';
 import { applicabilityIdentity } from './applicability.mjs';
 const ts=createRequire(new URL('../../package.json',import.meta.url))('typescript');
+// Complete executable src inventory reviewed in TURN-REFERENCE-AUDIT.json.
+// A new/changed caller anywhere invalidates this closure, even outside the stratum.
+const callerInventoryHash='f741bb29520d4edb84def73c4c0e18a477903c028637675af647c81518655bfa';
 // Deliberately reviewed pins: never regenerate automatically when production changes.
 export const TURN_APPLICABILITY_SOURCES=Object.freeze({
  'src/relay.ts':'f5c1eea5b82e6e42d7b6bbc6a95f7f0d28aa7ad7468c4464e0217ab9f89e6c02',
@@ -27,10 +30,20 @@ const authority='.planning/phases/07-release-evidence-pr/07-03-TURN-SCOPE-FINDIN
 const closureAuthority='.planning/phases/07-release-evidence-pr/07-03-TURN-CALL-CLOSURE-REVIEW.md';
 const before=(a,b)=>a.line<b.line||a.line===b.line&&a.column<=b.column;
 const contains=(a,b)=>b?.start&&b?.end&&before(a.start,b.start)&&before(b.end,a.end);
-export function turnApplicabilityDispositions({mode,sources,authoritySources}){
+function checkCallerInventory(inventory){
+ if(!Array.isArray(inventory)||inventory.length!==158)throw Error('Missing reviewed turn caller inventory');
+ const callerRows=inventory.map(row=>{
+  const match=row.path?.replaceAll('\\','/').match(/(?:^|\/)src\/(.+\.ts)$/);
+  if(!match||typeof row.source!=='string')throw Error('Invalid reviewed turn caller inventory');
+  return ['src/'+match[1],createHash('sha256').update(row.source).digest('hex')];
+ }).sort(([a],[b])=>a<b?-1:a>b?1:0);
+ if(new Set(callerRows.map(([path])=>path)).size!==158||createHash('sha256').update(JSON.stringify(callerRows)).digest('hex')!==callerInventoryHash)throw Error('Reviewed turn caller inventory changed');
+}
+export function turnApplicabilityDispositions({mode,sources,authoritySources,closureSources,canonicalSources}){
  if(!['relay','race'].includes(mode))throw Error('Turn mode required');
  if(!Array.isArray(sources))throw Error('Source inventory required');
  if(!Array.isArray(authoritySources))throw Error('Missing turn caller authority');
+ checkCallerInventory(closureSources);checkCallerInventory(canonicalSources);
  for(const[path,pin]of Object.entries(TURN_AUTHORITY_PINS)){
   const rows=authoritySources.filter(s=>s.path.replaceAll('\\','/')===path||s.path.replaceAll('\\','/').endsWith('/'+path));
   if(rows.length!==1)throw Error('Missing or duplicate turn caller authority: '+path);
@@ -44,7 +57,7 @@ export function turnApplicabilityDispositions({mode,sources,authoritySources}){
   const tree=ts.createSourceFile(key,source.source,ts.ScriptTarget.Latest,true);if(tree.parseDiagnostics.length)throw Error('Invalid reviewed source');
   const point=o=>{const p=tree.getLineAndCharacterOfPosition(o);return{line:p.line+1,column:p.character};};
   const span=n=>({start:point(n.getStart(tree)),end:point(n.end)}),ranges=[],functions=[];
-  const add=(node,reason,onlyFunction=false)=>(onlyFunction?functions:ranges).push({span:span(node),reason});
+  const add=(node,reason,onlyFunction=false,reference)=>(onlyFunction?functions:ranges).push({span:span(node),reason,reference});
   const all=[];function walk(n){all.push(n);ts.forEachChild(n,walk);}walk(tree);
   const member=(owner,name)=>{const c=tree.statements.find(n=>ts.isClassDeclaration(n)&&n.name?.text===owner),m=c?.members.find(n=>n.name?.getText(tree)===name);if(!m?.body)throw Error('Reviewed member absent: '+owner+'.'+name);return m;};
   const callable=(name,reason)=>{
@@ -76,6 +89,14 @@ export function turnApplicabilityDispositions({mode,sources,authoritySources}){
    for(const statement of [...refresh.body.statements].slice(1))add(statement,shared);
   }
   if(key==='src/game.ts'){
+   const reference='.planning/phases/07-release-evidence-pr/07-03-TURN-UPDATE-CLOSURE.md';
+   const standalone='Complete pinned caller inventory: main.frame selects LocalSession.update for a running owner; reset replaces that owner synchronously and pagehide cancels RAF. Canonical turn lifetimes never invoke standalone Game.update. Shared player updates use drivesWorld:false inside SharedWorld.resolvePlayer.';
+   for(const name of ['update','updateMobs'])add(member('Game',name),standalone,false,reference);
+   const tail=member('Game','finishPlayerUpdate');
+   for(const node of all.filter(n=>n.pos>=tail.pos&&n.end<=tail.end))if(ts.isIfStatement(node)&&['drivesWorld',"drivesWorld && this.pursuitEnabled && this.rules.pursuit.strategy === 'wave'","this.state === 'playing' && drivesWorld"].includes(node.expression.getText(tree)))add(node.thenStatement,standalone,false,reference);
+   const collect=member('Game','collectCoins'),statements=[...collect.body.statements],dispatch=statements.findIndex(n=>ts.isIfStatement(n)&&n.expression.getText(tree)==='sessionPlayer');
+   if(dispatch<0||!ts.isBlock(statements[dispatch].thenStatement)||statements[dispatch].thenStatement.statements.at(-1)?.getText(tree)!=='return;')throw Error('Shared coin dispatch changed');
+   for(const statement of statements.slice(dispatch+1))add(statement,'All pinned collectCoins calls occur inside finishPlayerUpdate during resolvePlayer with the same active world. collectSessionCoins returns before this solo-only remainder. Shared dispatch and every shared contact/claim guard remain accountable.',false,reference);
    for(const name of['worldForRow','actorPositions'])callable(name,unused);
    add(member('Game','syncSharedEffects'),unused);
    add(member('Game','setSharedWorldEffects'),shared);
@@ -141,7 +162,7 @@ export function turnApplicabilityDispositions({mode,sources,authoritySources}){
   const sameSpan=(a,b)=>samePoint(a?.start,b?.start)&&samePoint(a?.end,b?.end);
   const emptyPoint=p=>p&&typeof p==='object'&&!Array.isArray(p)&&(Object.keys(p).length===0||(Object.keys(p).length===2&&Object.hasOwn(p,'line')&&Object.hasOwn(p,'column')&&p.line===undefined&&p.column===undefined));
   const implicitRule=(site,arm,loc)=>arm===1&&site.type==='if'&&site.locations.length===2&&loc&&Object.keys(loc).length===2&&emptyPoint(loc.start)&&emptyPoint(loc.end)&&implicit.map(span).filter(s=>sameSpan(s,site.loc)).map(eligible)[0];
-  const emit=(kind,id,arm,rule)=>output.push({mode,path:source.path,...identity,kind,id,...(arm===undefined?{}:{arm}),callReason:rule.reason,stateReason:'Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.',authority:['src/session.ts','src/game.ts','src/market/run.ts','src/consumable-drops.ts'].includes(key)?closureAuthority:authority});
+  const emit=(kind,id,arm,rule)=>output.push({mode,path:source.path,...identity,kind,id,...(arm===undefined?{}:{arm}),callReason:rule.reason,stateReason:'Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.',authority:rule.reference??(['src/session.ts','src/game.ts','src/market/run.ts','src/consumable-drops.ts'].includes(key)?closureAuthority:authority)});
   for(const[id,site]of Object.entries(source.coverage.statementMap)){const r=eligible(site);if(r)emit('statement',id,undefined,r);}
   for(const[id,site]of Object.entries(source.coverage.fnMap)){const r=[...ranges,...functions].find(r=>contains(r.span,site.loc)&&contains(r.span,site.decl));if(r)emit('function',id,undefined,r);}
   for(const[id,site]of Object.entries(source.coverage.branchMap))for(const[arm,loc]of site.locations.entries()){const r=eligible(loc)||implicitRule(site,arm,loc);if(r)emit('branch',id,arm,r);}

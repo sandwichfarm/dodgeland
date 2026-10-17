@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { createMarketGameFixture, sessionHudAction } from './market-game-fixture.mjs';
 import { loadSources } from './source-loader.mjs';
 import { snapshotRealm, recordInterval } from '../tools/release-coverage/browser.mjs';
+import { SOLO_DEFINITION_SOURCE_HASH, validateSoloDefinition } from '../tools/release-coverage/solo-definition-evidence.mjs';
 
 test('visible seeded 49/50/51 hops carry a fractional platform baton through the unchanged built world', {timeout:120000}, async()=>{
  const evidence={errors:[],external:[],checkpoints:[]};
@@ -205,13 +206,18 @@ test('paid Relay pack and sale remain with active owner while inactive inspectio
  const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{auditBoundary:true});
  const settle=()=>app.advance(300), snapshot=()=>app.onSession(function(){return this.players.map(p=>({seat:p.seat,wallet:p.run.wallet,cards:p.run.cards,pending:p.run.pendingPack}));});
  const observe=async()=>{
-  const game=await app.onGame(function(){return {base:this.definition.id,state:this.state};});
+  const game=await app.onGame(function(){
+   const normalize=v=>v===undefined?{__undefined:true}:typeof v==='function'?{__function:true}:Array.isArray(v)?v.map(normalize):v&&typeof v==='object'?Object.fromEntries(Object.keys(v).sort().map(k=>[k,normalize(v[k])])):v;
+   const frozen=v=>!v||typeof v!=='object'||Object.isFrozen(v)&&Object.values(v).every(frozen);
+   return {base:this.definition.id,state:this.state,definitionEvidence:{snapshot:normalize(this.definition),rulesIdentity:this.rules===this.definition.rules&&this.world.definition===this.definition&&this.world.rules===this.rules,deepFrozen:frozen(this.definition)}};
+  });
+  const definitionEvidence={...game.definitionEvidence,sourceHash:SOLO_DEFINITION_SOURCE_HASH};validateSoloDefinition(definitionEvidence,game.base);
   const actual=await app.onSession(function(){return {base:this.definition.id,kind:this.mode?.handlers.retainDeadDevice?'race':this.mode?.handlers.canAct?'relay':'other',participants:this.players.length,sessionId:this.id,active:this.active};});
   const ownership=await app.sessionOwnership();
   assert.equal(actual.base,'stroll');assert.equal(game.base,actual.base);assert.equal(game.state,'playing');assert.equal(actual.kind,'relay');assert.equal(actual.active,true);
   assert.equal(ownership.sessionActive,true);assert.equal(ownership.playerSessionAbsent,false);assert.ok(ownership.sessionBindings>0);assert.equal(ownership.stageBindings,0);
   assert.equal(await app.frame.locator('#app').getAttribute('data-run-state'),'playing');
-  return {mode:'relay',base:game.base,kind:actual.kind,state:game.state,participants:actual.participants,sessionId:actual.sessionId};
+  return {mode:'relay',base:game.base,kind:actual.kind,state:game.state,participants:actual.participants,sessionId:actual.sessionId,definitionEvidence};
  };
  async function inspect(source,id){if(await app.frame.locator('#market-inspect').isVisible()){await app.frame.locator('#market-inspect-back').click();await settle();}const tile=app.frame.locator(`[data-market-action="inspect"][data-id="${source}:${id}"]`);for(let i=0;i<10&&!await tile.isVisible();i++){await app.frame.locator('#market-next').click();await settle();}await tile.click();await app.frame.locator('#market-inspect-action').click();await settle();}
  try{
