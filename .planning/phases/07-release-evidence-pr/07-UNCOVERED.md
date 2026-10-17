@@ -8,6 +8,14 @@ INPUT-04/INPUT-05/TEST-02: a stale or foreign device-reclaim ticket must not bin
 
 ## Applicability checkpoint
 
+## Reused and independent proof expansion
+
+Root component evidence `07-03-CONTENT-GAPS.md` (aae4a51): ordinary5/5 and canonical73164/28ea102b exit0. Nine previously zero source/schema-identical branch arms in coin-models/harmony/wearables/levels-v3 and two wearables functions now execute with real component assertions. No production repair/fabricated RED; retain remaining defensive guards and fresh final enforcing obligation. Baseline rows below are historical candidate counts, not overwritten by focused evidence.
+
+Existing session-damage/session-recovery/magnet-pruning tests were outside package/canonical roots; register whole unchanged semantic scopes in additive release-reused-authority and full inventory. First ordinary attempt `/tmp/down-to-duck-07-03-reused-authority.log` exited1 (6pass/6fail): all six recovery parity cases differed only distinct new lifetime prefixes in aliases/grant/participant IDs. Root authorizes narrow tests/session-recovery.test.mjs normalization of each fixture's own exact lifetime identity, preserving namespace/suffix and every other field; assert session IDs differ. Foreign IDs/arbitrary embedded strings remain unchanged. No product rollback, skipped case or weakened recovery/economy/deadline assertion.
+
+Corrected reuse62880 exited0, `/tmp/down-to-duck-07-03-reused-authority-final.log`:12/12 ordinary and12/12 canonical, three payloads, runb377e0b3-64f2-4e62-b62c-d77a54072301. Source-mapped schemas unchanged versus initial baseline for game.ts/session-recovery.ts: previously zero game branches288/0 and290/1 plus recovery12/0 now execute. Session.ts has a changed lifetime source identity and is not falsely merged with initial counters. All original assertions remain; only explicitly namespaced own-lifetime IDs normalize for semantic parity. Focused report-only is not full acceptance.
+
 ### Task1 actual RED — session lifetime collision
 
 Retained regression commit2fed84a; ordinary strict command exited1 at the first foreign-session ticket in `/tmp/down-to-duck-07-03-authority-tracer.log`. Canonical command was correctly skipped by `&&`. Two independent actual Game/LocalSession objects with seed113 and simulationTick0 derive identical session ID `local-35-0` (`src/session.ts:630`), matching participant ID/device/lifecycle generation. The other session's actual issued token passes reclaim at969 and mutates P2's device to gamepad-9. This is a real authority counterexample, not fabricated coverage RED. Existing dead-device tests are reused unchanged; the newly added cross-session test exposes the missing lifetime distinction.

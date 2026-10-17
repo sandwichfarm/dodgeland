@@ -24,6 +24,18 @@ function setup(mode, generic) {
 function advance(session, seconds) { for (let elapsed = 0; elapsed < seconds - 1e-10; elapsed += STEP) session.update(Math.min(STEP, seconds - elapsed)); }
 function snapshot(player) { return semanticValue({ state: player.state, participation: player.participation, recovery: player.recovery, run: player.run, health: player.health, statistics: player.statistics, x: player.x, y: player.y, maxY: player.maxY, completed: player.completedForwardTiles, score: player.personalScore }); }
 
+function lifetimeIndependent(value, sessionId) {
+  if (typeof value === 'string') {
+    if (value === sessionId || value.startsWith(`${sessionId}:`)) return `<session>${value.slice(sessionId.length)}`;
+    // Recovery aliases encode an identity namespace, not arbitrary embedded text.
+    if (value.startsWith(`participant:${sessionId}:`)) return `participant:<session>${value.slice(`participant:${sessionId}`.length)}`;
+    return value;
+  }
+  if (Array.isArray(value)) return value.map(item => lifetimeIndependent(item, sessionId));
+  if (value && typeof value === 'object') return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, lifetimeIndependent(item, sessionId)]));
+  return value;
+}
+
 for (const mode of ['arcade', 'stroll']) for (const outcome of ['accept', 'decline', 'expire']) test(`${mode}: extracted personal recovery preserves Survive ${outcome} lifecycle`, () => {
   const states = [setup(mode, false), setup(mode, true)];
   for (const { game, session, player } of states) {
@@ -38,7 +50,8 @@ for (const mode of ['arcade', 'stroll']) for (const outcome of ['accept', 'decli
     if (outcome === 'decline') { assert.equal(session.declineRecovery('p2'), true); assert.equal(session.recover({ kind: 'personal', ownerSeat: 'p2' }), false); }
     if (outcome === 'expire') { advance(session, 8.1); assert.equal(player.recovery.offer, undefined); assert.equal(session.recover({ kind: 'personal', ownerSeat: 'p2' }), false); }
   }
-  assert.deepEqual(snapshot(states[1].player), snapshot(states[0].player));
+  assert.notEqual(states[1].session.id, states[0].session.id);
+  assert.deepEqual(lifetimeIndependent(snapshot(states[1].player), states[1].session.id), lifetimeIndependent(snapshot(states[0].player), states[0].session.id));
   const generic = states[1].session;
   let debits = 0;
   for (const kind of ['revival', 'flare']) assert.equal(generic.recover({ kind, ownerSeat: 'p1', targetSeat: 'p2', debit: () => { debits++; return true; } }), false);

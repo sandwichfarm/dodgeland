@@ -907,6 +907,15 @@
       ],
       "role": "node",
       "provenance": "Actual production coin/harmony/traveler/v3 callbacks; arranged component inputs, not public-input browser proof"
+    },
+    "release-reused-authority": {
+      "files": [
+        "tests/session-damage.test.mjs",
+        "tests/session-recovery.test.mjs",
+        "tests/magnet-pruning.test.mjs"
+      ],
+      "role": "node",
+      "provenance": "Existing unchanged arranged production damage/recovery and retained pickup assertions; no public-input claim"
     }
   },
   "pendingAdapters": [
@@ -2914,6 +2923,16 @@
         "artifactPatterns": []
       },
       {
+        "id": "magnet-pruning-test",
+        "file": "tests/magnet-pruning.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
         "id": "magnet-render-test",
         "file": "tests/magnet-render.test.mjs",
         "role": "browser",
@@ -3420,6 +3439,16 @@
         "artifactPatterns": []
       },
       {
+        "id": "session-damage-test",
+        "file": "tests/session-damage.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
         "id": "session-device-lifecycle-test",
         "file": "tests/session-device-lifecycle.test.mjs",
         "role": "node",
@@ -3464,6 +3493,16 @@
       {
         "id": "session-player-test",
         "file": "tests/session-player.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "session-recovery-test",
+        "file": "tests/session-recovery.test.mjs",
         "role": "node",
         "requiredRealms": [
           "node"
