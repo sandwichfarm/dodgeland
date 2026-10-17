@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: 07-03 meaningful coverage closure; full enforcing report pending
-last_updated: "2026-10-17T10:43:45.874395+00:00"
+last_updated: "2026-10-17T10:48:52.718935+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,7 +12,7 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Actual director11/11 normal/canonicalce1b01ba;11lifetimes39intervals; Relay gains29L5F42B, Race6L1F8B; release gates open.
+last_activity_desc: Spawn safety13/13 normal/canonical4277edaf;13lifetimes49intervals; one function/three branches gained per mode; full release gates open.
 ---
 
 # Project State
@@ -474,6 +474,19 @@ and Race2010/2222L676/769F2251/3141B: gains29L/5F/42B and6L/1F/8B respectively.
 Remaining Relay3L/10F/424B, Race17F/419B; no fresh enforcing release acceptance.
 See07-03-TURN-DIRECTOR-PROOF.md/json. Logs/preservation use turn-director prefix.
 Semantic ledger162 initial arms annotated/889pending remains unchanged.
+
+Spawn safety tranche passes13/13 ordinary49153 and canonical89855terminal0,
+run4277edaf-e60c-4ede-8ad9-f3b4050fa6a3. Thirteen actual lifetimes49 expected
+intervals, Relay6/23 and Race7/26 bind one Node parent. All eight frozen hashes
+match; no runtime active. Original eleven case bodies unchanged; actual director
+rejects sealed exits, then blocked distant cells, then respects retry delay before
+one safe spawn. Only scene geometry/progress/time is arranged outside intervals;
+no director state/mob/phase/timer is assigned. Both modes gain1F/3B, no lines.
+Exact-current diagnostics: Relay1941/2159L638/718F2039/2893B; Race2010/2222L677/769F
+2254/3141B. Remaining Relay3L9F421B, Race16F416B. Three exact new mode arms are
+Game218/0@594, Mobs43/0@171 and48/0@179. No initial global-zero row relabelling;
+semantic ledger162/889 unchanged. See07-03-TURN-SPAWN-SAFETY-PROOF.md/json.
+Full enforcing and original release gates remain required; no release pass.
 
 ## Next required work
 

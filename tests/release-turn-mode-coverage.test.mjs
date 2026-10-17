@@ -13,7 +13,7 @@ const {ITEM_CATALOG}=await sources.import('market/catalog');
 const config=process.env.DOWN_TO_DUCK_COVERAGE_CONFIG?JSON.parse(await readFile(process.env.DOWN_TO_DUCK_COVERAGE_CONFIG,'utf8')):null;
 const model=config?.modelAttribution;if(config&&!model)throw Error('Missing turn-model attribution configuration');
 const inventory=model?JSON.parse(await readFile(config.inventoryPath,'utf8')):null,records=[];
-after(async()=>{if(inventory){if(records.length!==11)throw Error('Incomplete turn-mode witnesses');await writeFile(model.output,JSON.stringify({...records.at(-1),intervals:records.flatMap(r=>r.intervals)}));}});
+after(async()=>{if(inventory){if(records.length!==13)throw Error('Incomplete turn-mode witnesses');await writeFile(model.output,JSON.stringify({...records.at(-1),intervals:records.flatMap(r=>r.intervals)}));}});
 const seats=[{seat:'p1',device:'gamepad-0',characterId:'butter'},{seat:'p2',device:'gamepad-1',characterId:'pip'},{seat:'p3',device:'gamepad-2',characterId:'sunny'}];
 const step=1/120;
 function lane(game,row){game.rows.set(row,{...generateLane(game.seed,row,game.home),kind:'meadow',blocked:[],decorations:[],actors:undefined,coin:null,coinActor:undefined});}
@@ -381,6 +381,44 @@ for(const mode of ['relay','race'])test(`${mode} actual director introduces walk
  }
  run.run('actual-director-terminal',()=>{
   assert.deepEqual(spawned.map(mob=>mob.kind),['slime','crab','wasp']);
+  if(mode==='relay')run.owner.finish();else for(const p of session.players){assert.equal(run.owner.command(run.owner.actionToken(p.seat),'leave'),true);assert.equal(run.owner.command(run.owner.actionToken(p.seat),'confirm'),true);}
+  assert.ok(run.owner.result);assert.ok(Object.isFrozen(run.owner.result));
+ });run.finish();
+});
+
+
+for(const mode of ['relay','race'])test(`${mode} actual director waits for safe exits and placement space before retrying`,()=>{
+ const run=arcade(mode,mode==='relay'?{tilesPerLeg:999}:{}),{game,session}=run;
+ arrangeDirectorScene(run,160,45);
+ const columns=Array.from({length:11},(_,index)=>index-5).filter(x=>Math.abs(x)>=2&&x!==4);
+ for(const y of [158,159,160])game.rows.get(y).blocked=[...columns];
+ game.rows.get(160).blocked.push(-1,1);game.rows.get(159).blocked.push(0);game.rows.get(161).blocked=[0];
+ const before=session.players.map(p=>({seat:p.seat,wallet:p.run.wallet,health:p.health,deaths:p.statistics.deaths,innate:p.statistics.innateUses}));
+ const spawned=[],original=game.onMobSpawn;
+ game.onMobSpawn=function(mob){original.call(this,mob);spawned.push(mob);};
+ run.run('director-rejects-sealed-exits',()=>{
+  ticks(run,1);assert.equal(game.mobs.length,0);assert.equal(spawned.length,0);
+  assert.ok(session.players.every(p=>p.state==='playing'));
+ });
+ // Reopen all four neighboring exits while retaining walls at every eligible
+ // distant spawn cell. The other traveler remains on its unblocked column.
+ game.rows.get(160).blocked=[...columns];game.rows.get(159).blocked=[...columns];game.rows.get(161).blocked=[];
+ const openedAt=game.time;
+ run.run('director-rejects-missing-placement-space',()=>{
+  ticks(run,62);assert.ok(game.time>openedAt+.5);
+  assert.equal(game.mobs.length,0);assert.equal(spawned.length,0);
+ });
+ for(const y of [158,159,160])game.rows.get(y).blocked=[];
+ run.run('director-delays-and-recovers-after-space-opens',()=>{
+  ticks(run,1);assert.equal(game.mobs.length,0,'opening space does not bypass the existing retry delay');
+  ticks(run,20);assert.equal(game.mobs.length,0);assert.equal(spawned.length,0);
+  ticks(run,50);assert.equal(game.mobs.length,1);assert.equal(spawned.length,1);
+  const mob=spawned[0];assert.strictEqual(game.mobs[0],mob);assert.equal(mob.kind,'slime');assert.equal(mob.phase,'spawning');
+  const distance=Math.hypot(mob.x-session.players[0].groundX,mob.y-session.players[0].groundY);
+  assert.ok(distance>=2.5&&distance<=3.5,'the director chooses its real distant grace spawn');
+  for(const expected of before){const p=session.players.find(p=>p.seat===expected.seat);assert.equal(p.state,'playing');assert.deepEqual({seat:p.seat,wallet:p.run.wallet,health:p.health,deaths:p.statistics.deaths,innate:p.statistics.innateUses},expected);}
+ });
+ run.run('director-safe-spawn-terminal',()=>{
   if(mode==='relay')run.owner.finish();else for(const p of session.players){assert.equal(run.owner.command(run.owner.actionToken(p.seat),'leave'),true);assert.equal(run.owner.command(run.owner.actionToken(p.seat),'confirm'),true);}
   assert.ok(run.owner.result);assert.ok(Object.isFrozen(run.owner.result));
  });run.finish();
