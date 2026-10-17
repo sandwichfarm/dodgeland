@@ -149,3 +149,62 @@ test('zero-target, stale-target, and unsafe Flare UI outcomes retain charges and
     assert.deepEqual(evidence.errors, []); assert.deepEqual(evidence.external, []);
   } finally { await app.close(); }
 });
+
+test('public Revival selects a safe return beyond occupied river traffic rail and mob cells', { timeout: 60_000 }, async () => {
+  // Component-world arrangement only: market eligibility/wallet, initial poses,
+  // spent innate cooldown and hazard geometry. Purchase/death/revival use the app.
+  const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{gamepads:true});
+  try {
+    await fourPlayers(app);
+    await app.onSession(function(){const owner=this.players[0];owner.run.advanceScore(100);owner.run.creditCoins(24);});
+    await app.advance(80);await app.frame.locator('#market-open').click();
+    await app.frame.locator('#market-owner-strip [data-id="p1"]').click();
+    const offer=app.frame.locator('[data-market-action="inspect"][data-id="consumable:consumable:revival"]');
+    for(let page=0;page<10&&!await offer.isVisible();page++){
+      assert.equal(await app.frame.locator('#market-next').isEnabled(),true,'Revival remains reachable in the owned market');
+      await app.frame.locator('#market-next').click();
+    }
+    await offer.click();await app.frame.locator('#market-inspect-action').click();
+    let state=await observe(app);assert.equal(state.charges.find(c=>c.seat==='p1').revival,1);assert.equal(state.players[0].wallet,0);
+    if(await app.frame.locator('#market-inspect').isVisible())await app.frame.locator('#market-inspect-back').click();
+    await app.frame.locator('#market-close').click();await app.advance(350);
+    const resume=app.frame.getByRole('button',{name:'Resume game',exact:true});if(await resume.isVisible()){await resume.click();await app.advance(80);}
+    assert.equal(await app.frame.locator('#market').isVisible(),false);
+    assert.equal(await app.frame.locator('#app').getAttribute('data-run-state'),'playing');
+    await app.onSession(function(){
+      const poses=[[0,5],[4,3],[0,7],[5,3]];
+      for(const[p,pose]of this.players.map((p,i)=>[p,poses[i]])){p.x=p.fromX=pose[0];p.y=p.fromY=p.maxY=pose[1];p.hop=0;}
+      const target=this.players[2];target.powerReadyAt=10000;target.run.creditCoins(17);
+      const lane=this.world.rows.get(8);Object.assign(lane,{kind:'river',blocked:[],decorations:[],coin:null,coinActor:undefined,actors:undefined,phase:10,speed:0,spacing:20,length:1,variant:0});
+    });
+    await app.sendPads([0,1,2,3].map(i=>pad(i)));
+    await app.sendPads([0,1,2,3].map(i=>pad(i,i===2?[12]:[])));
+    await app.sendPads([0,1,2,3].map(i=>pad(i)));await app.advance(300);
+    const death=await app.onSession(function(){const p=this.players[2];return{state:p.state,cause:p.deathCause,deaths:p.statistics.deaths,wallet:p.run.wallet};});
+    assert.deepEqual(death,{state:'dead',cause:'water',deaths:1,wallet:0},'real unsupported forward landing produces one owner death');
+    const board=await openItem(app,'p1','Revival');
+    assert.equal(await app.onGame(function(){return this.state;}),'paused');
+    await app.onSession(function(){
+      // Only (2,3) is available: row5 platform belongs to P1; row4 has
+      // a car at0 and a resting mob at2; row3 has a full-length train centered -5.5 and P2/P4 at4/5.
+      const set=(row,kind,extra)=>Object.assign(this.world.rows.get(row),{kind,coin:null,coinActor:undefined,actors:undefined,decorations:[],blocked:[],phase:0,speed:0,spacing:20,length:1.15,variant:0,...extra});
+      set(5,'river',{});
+      set(4,'road',{length:2,blocked:[-5,-4,-3,-2,-1,1,3,4,5]});
+      set(3,'rail',{direction:1,period:20,warning:2,phase:2+13.5/38*1.75-this.world.time,length:12.6,blocked:[-5,-4,-3,-2,-1,1,3]});
+      this.world.mobs.length=0;this.world.mobs.push({id:9001,kind:'slime',x:2,y:4,fromX:2,fromY:4,targetX:2,targetY:4,phase:'rest',phaseLeft:10,phaseDuration:10});
+    });
+    const before=await observe(app);
+    await board.getByRole('button',{name:'Revive P3',exact:true}).click();
+    await board.getByRole('button',{name:'Use Revival',exact:true}).click();
+    assert.equal(await board.count(),0);
+    state=await observe(app);const returned=state.players.find(p=>p.seat==='p3');
+    assert.deepEqual([returned.x,returned.y],[2,3],'safe fallback avoids occupied cells, unsupported water, car, train and mob');
+    assert.equal(returned.participation,'active');assert.ok(returned.protection>state.time);assert.equal(returned.wallet,0);assert.equal(returned.cards.length,0);
+    assert.equal(state.charges.find(c=>c.seat==='p1').revival,0);
+    assert.deepEqual(state.players.filter(p=>p.seat!=='p3'),before.players.filter(p=>p.seat!=='p3'));
+    assert.equal(new Set(state.players.map(p=>`${p.x}:${p.y}`)).size,4);
+    assert.equal(state.time,before.time);assert.equal(await app.onGame(function(){return this.state;}),'paused');
+    await app.advance(3000);assert.deepEqual(await observe(app),state,'menu pause freezes the successful return and its protection');
+    assert.deepEqual(evidence.errors,[]);assert.deepEqual(evidence.external,[]);
+  }finally{await app.close();}
+});

@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: 07-03 meaningful coverage closure; full enforcing report pending
-last_updated: "2026-10-17T04:37:04Z"
+last_updated: "2026-10-17T05:02:12Z"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,7 +12,7 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Coin repair and existing turn journey attribution verified; genuine DEV applicability preparation in progress; full enforcing coverage remains open.
+last_activity_desc: Genuine DEV artifact/applicability proof and authentic-hazard Revival verified in both builds; enforcing coverage remains open.
 ---
 
 # Project State
@@ -109,8 +109,8 @@ artifact proofs; six ordinary artifacts restored and normal dist preserved.
 Owner/paid-pack/replace/skip journeys produce1486/2122L474/694F1477/2821B
 standalone. The four-run49-realm diagnostic union is2020/2122L628/694F2214/2821B;
 184branch arms remain needed for the DEV floor. This is diagnostic only, not a
-fresh enforcing aggregate. Narrow API-only DEV closure review413682d is saved
-but not implemented; no denominator or floor claim follows from it.
+fresh enforcing aggregate. The earlier API-only DEV closure review413682d was preliminary. The implemented
+complete-source proof is recorded below; this old union makes no floor claim.
 
 Original240×240light health assertion exposed Dev covering Pause. A second
 candidate covered power status despite passing button checks; both findings are
@@ -153,12 +153,38 @@ realms remain distinct. Original assertions/setup retained;13 screenshots and
 normal dist restored. Focused applicable Relay749/2159L253/718F684/2893B,
 Race1041/2222L388/769F1131/3141B; these are standalone, not marginal gains.
 
-Current runtime: idle. `survive_verifier_fallback` authors narrow DEV application
-applicability from the complete158-file source proof (digest10e47f7622ef7f755e41eff71ff68ee0bf488b0c8e8d62ea8232a11e2e01e034).
-Only ten proved unused API bodies qualify; raw/global/per-file/floors unchanged.
-`relay_first_handoff` authored existing generic live-artifact verification at both
-devtools-runtime collection paths and all four job aliases, awaiting coordinated
-testing. Root owns semantic ledger/state and reviews before any runtime.
+DEV application applicability now passes43focused controls and canonical
+`98fb2ed7-3937-46c5-8be6-dab52b29724e` (devtools21657) plus
+`9c403fc0-d9ce-4c29-a7bd-cf4c34f9846e` (shared-pickup10507). Only the ten
+reviewed unused API bodies qualify under the complete158-file authority digest.
+The69explicit dispositions remove25statements/15functions/29arms from DEV
+applicability; raw/global/per-file reporting and all numerators remain unchanged.
+Actual artifact bytes, inline scripts, live DEV-tools presence, complete built
+source inventory and current filesystem authority are checked. Devtools verifies
+six live realms before teardown and collects afterward; its initial teardown
+verification failure is retained. Canonical raw/applicable counts and43controls
+are in07-03-DEVELOPMENT-APPLICABILITY-INTEGRATION.md. No floor acceptance follows.
+
+Root's source/map/schema-checked diagnostic union (not an enforcing report),
+`/tmp/down-to-duck-mode-union-repaired-session.json`, includes current turn-reuse
+and skips historical changed-session records. Applicable L/F/B:
+Arcade1143/1207;275/296;1125/1427, Flow1009/1067;253/276;983/1252,
+Relay1897/2159;619/718;1950/2893, Race1952/2222;654/769;2141/3141.
+These show remaining measured mode gaps, not acceptance or fresh full results.
+
+Recovery-hazards42336 passed, run `2578b66c-c6fe-4b3c-abc7-4f5b136642cc`:
+whole PROD5/5 and DEV5/5, ten actual browser realms, following ordinary90331's5/5.
+Actual purchase/controller river death/Revival controls use arranged initial
+resources/positions/hazards, including the full12.6-tile train. Safe return(2,3),
+owner-only mutation, one charge, protection and continued pause are asserted.
+Current session hazard rejections217/219/221 record[20,240]/[4,236]/[2,234]
+in each build. DEV raw1316/2122L421/694F1327/2823B, applicable
+1316/2104L421/679F1327/2794B. No excluded-hit contradiction or floor claim.
+See07-03-RECOVERY-HAZARD-JOURNEY.md for fixture failures and exact provenance.
+
+Current runtime: idle. Root and independent scoped review accept the DEV proof
+and recovery journey. Both workers released runtime; no further test chain is
+active. All remaining release obligations below remain open.
 
 ## Next required work
 

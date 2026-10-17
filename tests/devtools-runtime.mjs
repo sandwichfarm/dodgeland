@@ -1,4 +1,4 @@
-import { artifactForCoverage, artifactDirectoryForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
+import { artifactForCoverage, artifactDirectoryForCoverage, registerRealm, collectRealm, verifyRealmArtifact } from '../tools/release-coverage/browser.mjs';
 // Verify the real development and production artifacts, each in an opaque frame.
 import assert from 'node:assert/strict';
 import { readFile, writeFile, mkdir, readdir } from 'node:fs/promises';
@@ -50,8 +50,12 @@ await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const evidence = { artifacts: ['dist-dev/index.html', 'dist/index.html'], scenarios: [], frames: [], errors: [], external: [] };
 await mkdir(output, { recursive: true });
 let browser, frame, identity, generation = 0;
+async function collectCurrentRealm() {
+  if (!frame) return;
+  await collectRealm(frame, identity);
+}
 async function beginRealm(page, scenario, buildScope) {
-  if (frame) await collectRealm(frame, identity);
+  await collectCurrentRealm();
   frame = undefined;
   identity = { suite: process.argv[1], scenario, frame: 'opaque-app', generation: generation++, scope: 'current', buildScope };
   if (process.env.DOWN_TO_DUCK_COVERAGE_CONFIG) {
@@ -70,6 +74,8 @@ try {
   await page.goto(`http://127.0.0.1:${server.address().port}/?dev=1&debug=1`);
   frame = await (await page.locator('iframe').elementHandle()).contentFrame();
   await frame.waitForFunction(() => !!window.developmentFixture?.handlers['puddlehop.market'] && !!document.querySelector('#development-toggle'));
+  // Bind the live artifact before lifecycle tests intentionally remove its UI.
+  await verifyRealmArtifact(frame, identity);
   await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 100);
   const advance = ms => page.clock.runFor(ms);
   const state = () => frame.locator('#development-state').innerText();
@@ -215,6 +221,7 @@ try {
   await page.evaluate(() => window.mount('development', true, true));
   frame = await (await page.locator('iframe').elementHandle()).contentFrame();
   await frame.waitForFunction(() => !!window.developmentFixture?.resolveStorage && !!document.querySelector('#development-toggle'));
+  await verifyRealmArtifact(frame, identity);
   await frame.locator('#development-toggle').click(); await frame.locator('#development-coins').click(); await advance(30);
   assert.match(await state(), /SANDBOX · records disabled · ready/);
   const pendingSeed = (await state()).match(/seed (\d+)/)[1];
@@ -235,6 +242,7 @@ try {
     await page.evaluate(() => window.mount('development'));
     frame = await (await page.locator('iframe').elementHandle()).contentFrame();
     await frame.waitForFunction(() => !!window.developmentFixture?.handlers['puddlehop.market'] && !!document.querySelector('#development-toggle'));
+    await verifyRealmArtifact(frame, identity);
     await frame.locator('#local-play').click();
     await frame.locator('#local-session-start').click();
     assert.equal(await frame.locator('#session-seats [data-seat]').count(), 2);
@@ -271,6 +279,7 @@ try {
   await page.evaluate(() => window.mount('production'));
   frame = await (await page.locator('iframe').elementHandle()).contentFrame();
   await frame.waitForFunction(() => !!window.developmentFixture?.handlers['puddlehop.market']);
+  await verifyRealmArtifact(frame, identity);
   assert.equal(await frame.locator('#development-tools').count(), 0, 'production has no controls or diagnostic text even with dev/debug URL flags');
   assert.equal(await frame.evaluate(() => Object.keys(window).some(key => /devtools|jumpDevelopment|developmentScore/i.test(key))), false, 'no public debug mutation API');
   await frame.locator('#play').click(); await advance(30);
@@ -280,9 +289,10 @@ try {
   await page.evaluate(() => window.mount('development', false));
   frame = await (await page.locator('iframe').elementHandle()).contentFrame();
   await frame.locator('#development-toggle').click(); await frame.locator('[data-development-score="99"]').click(); await advance(30);
+  await verifyRealmArtifact(frame, identity);
   assert.match(await state(), /score 99/); assert.match(await state(), /market none/);
   evidence.scenarios.push('development inspector works without optional SDK domains');
   assert.deepEqual(evidence.errors, []); assert.deepEqual(evidence.external, []);
   await writeFile(new URL('development-runtime.json', output), JSON.stringify(evidence, null, 2));
   console.log(JSON.stringify(evidence, null, 2));
-} finally { try { if (frame) await collectRealm(frame, identity); } finally { await browser?.close(); await new Promise(resolve => server.close(resolve)); } }
+} finally { try { await collectCurrentRealm(); } finally { await browser?.close(); await new Promise(resolve => server.close(resolve)); } }

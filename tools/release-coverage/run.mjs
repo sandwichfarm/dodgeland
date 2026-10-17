@@ -7,6 +7,7 @@ import { randomUUID } from 'node:crypto';
 import { globSync } from 'node:fs';
 import { buildInventory, repositoryRoot, nodeWorkerBinding } from './inventory.mjs';
 import { mergePayloads } from './collector.mjs';
+import { developmentApplicabilityDispositions, DEVELOPMENT_CONFIG_PINS } from './development-applicability.mjs';
 import { browserApplicabilityDispositions, BROWSER_STRATUM } from './browser-applicability.mjs';
 import { reportApplicability } from './applicability.mjs';
 import { soloApplicabilityDispositions, SOLO_AUTHORITY_PINS } from './solo-applicability.mjs';
@@ -75,7 +76,7 @@ export async function auditExecutionInventory(manifest){
  const paths=tracked.stdout.split('\0').filter(Boolean),pkg=JSON.parse(await readFile(join(repositoryRoot,'package.json'),'utf8'));
  const resolved=resolveCommandInventory(pkg.scripts,await readFile(join(repositoryRoot,'tests/phase6-gate.mjs'),'utf8'),paths);
  // This plan's new original-purpose suite is an explicit additive entry, never a replacement.
- resolved.entries.push({path:'tools/release-coverage/node-job-identity.test.mjs',origins:['plan07-03:repeated-mixed-parent-calibration']},{path:'tools/release-coverage/development-artifact.test.mjs',origins:['plan07-03:development-artifact-calibration']},{path:'tests/release-solo-bootstrap.test.mjs',origins:['plan07-03:solo-bootstrap-attribution']},{path:'tests/release-mode-coverage.mjs',origins:['plan07-12:mode-attribution']},{path:'tests/release-survive-mode-coverage.test.mjs',origins:['plan07-03:component-mode-attribution']},{path:'tests/release-solo-mode-coverage.test.mjs',origins:['plan07-03:solo-component-attribution']},{path:'tests/release-turn-mode-coverage.test.mjs',origins:['plan07-03:turn-component-attribution']});resolved.entries.sort((a,b)=>a.path.localeCompare(b.path));
+ resolved.entries.push({path:'tools/release-coverage/turn-reuse-attribution.test.mjs',origins:['plan07-03:turn-reuse-attribution-calibration']},{path:'tools/release-coverage/development-applicability.test.mjs',origins:['plan07-03:development-applicability-calibration']},{path:'tools/release-coverage/node-job-identity.test.mjs',origins:['plan07-03:repeated-mixed-parent-calibration']},{path:'tools/release-coverage/development-artifact.test.mjs',origins:['plan07-03:development-artifact-calibration']},{path:'tests/release-solo-bootstrap.test.mjs',origins:['plan07-03:solo-bootstrap-attribution']},{path:'tests/release-mode-coverage.mjs',origins:['plan07-12:mode-attribution']},{path:'tests/release-survive-mode-coverage.test.mjs',origins:['plan07-03:component-mode-attribution']},{path:'tests/release-solo-mode-coverage.test.mjs',origins:['plan07-03:solo-component-attribution']},{path:'tests/release-turn-mode-coverage.test.mjs',origins:['plan07-03:turn-component-attribution']});resolved.entries.sort((a,b)=>a.path.localeCompare(b.path));
  const closure=new Map(),queue=resolved.entries.map(r=>r.path);
  while(queue.length){const path=queue.shift();if(closure.has(path))continue;const text=await readFile(join(repositoryRoot,path),'utf8'),source=ts.createSourceFile(path,text,ts.ScriptTarget.Latest,true,ts.ScriptKind.JS),imports=[],dynamic=[];
   function add(spec){if(!spec.startsWith('.'))return;const target=relative(repositoryRoot,resolve(repositoryRoot,dirname(path),spec));if(!paths.includes(target))throw Error(`Unresolved local import ${path}: ${spec}`);imports.push(target);if(target.startsWith('tests/'))queue.push(target);}
@@ -204,6 +205,37 @@ export function projectBrowserApplicability(inventory,mapped,paths,rows){
  return reportApplicability({mode:BROWSER_STRATUM,sources,attributed,dispositions:browserApplicabilityDispositions({mode:BROWSER_STRATUM,sources})});
 }
 
+/** DEV projection requires the real collected application's artifact proof, never a Node scope label. */
+export async function projectDevelopmentApplicability(inventory,mapped,paths,rows,build){
+ if(!rows.length||!build?.artifactHash||rows.some(row=>row.status!=='collected'||row.identity?.scope!=='current'||row.identity?.buildScope!=='development'||!row.identity?.jobId||!row.realmId?.startsWith('browser:')||row.payload?.realmId!==row.realmId||row.identity.artifactHash!==build.artifactHash||row.artifactProof?.buildScope!=='development'||row.artifactProof?.artifactHash!==build.artifactHash||row.artifactProof?.developmentTools!==true||!Array.isArray(row.artifactProof?.scriptHashes)||!row.artifactProof.scriptHashes.length||row.artifactProof.scriptHashes.some(h=>!(/^[a-f0-9]{64}$/).test(h))))throw Error('Development applicability requires verified collected current DEV application realms');
+ if(typeof build.artifact!=='string'||!build.artifact)throw Error('Missing development artifact path');
+ let bytes;try{bytes=await readFile(build.artifact);}catch{throw Error('Missing or unreadable development artifact');}
+ if(hash(bytes)!==build.artifactHash)throw Error('Development artifact bytes/hash mismatch');
+ // Match browser.verifyArtifactScope: nonempty inline scripts, source order,
+ // and JSON-string digest for each script (Buffer hash for the HTML artifact).
+ const scripts=[...bytes.toString('utf8').matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)].map(match=>match[1]).filter(text=>text.trim());
+ const expectedScripts=scripts.map(script=>hash(JSON.stringify(script)));
+ if(!expectedScripts.length||rows.some(row=>JSON.stringify(row.artifactProof.scriptHashes)!==JSON.stringify(expectedScripts)))throw Error('Development executed inline script proof mismatch');
+ const sources=paths.map(path=>{
+  const absolute=resolve(repositoryRoot,path),record=Object.values(inventory).find(r=>r.path===absolute);
+  if(!record||!mapped[absolute])throw Error('Missing mapped development applicability source');
+  return {path:absolute,source:record.source,map:record.map,coverage:mapped[absolute]};
+ });
+ // Inspect the complete current source inventory, including newly added files;
+ // tracked-only instrumentation inventory cannot hide an untracked new caller.
+ const names=(await readdir(join(repositoryRoot,'src'),{recursive:true})).filter(p=>/\.(ts|tsx|js|mjs)$/.test(p)&&!p.endsWith('.d.ts')).sort();
+ const authoritySources=await Promise.all(names.map(async p=>({path:'src/'+p.replaceAll('\\','/'),source:await readFile(join(repositoryRoot,'src',p),'utf8')})));
+ const configSources=await Promise.all(Object.keys(DEVELOPMENT_CONFIG_PINS).map(async path=>({path,source:await readFile(join(repositoryRoot,path),'utf8')})));
+ // The built canonical graph must agree with reviewed disk authority in full,
+ // not just the three files whose callable bodies receive dispositions.
+ const canonicalSources=Object.values(inventory).map(record=>({path:relative(repositoryRoot,record.path).replaceAll('\\','/'),source:record.source})).filter(s=>/\.(ts|tsx|js|mjs)$/.test(s.path)&&!s.path.endsWith('.d.ts'));
+ const actual=new Map();for(const source of canonicalSources){if(actual.has(source.path))throw Error('Duplicate canonical development source');actual.set(source.path,source.source);}
+ if(actual.size!==authoritySources.length||authoritySources.some(s=>actual.get(s.path)!==s.source))throw Error('Canonical development source inventory differs from reviewed authority');
+ const attributed=Object.fromEntries(sources.map(s=>[s.path,mapped[s.path]]));
+ const dispositions=developmentApplicabilityDispositions({mode:'development',sources,authoritySources,configSources});
+ return {...reportApplicability({mode:'development',sources,attributed,dispositions}),authoritySources:authoritySources.map(s=>({path:s.path,sourceHash:hash(s.source)})),configSources:configSources.map(s=>({path:s.path,sourceHash:hash(s.source)}))};
+}
+
 export function evaluatePolicy(policy,files,strata){
  const failures=[];
  const check=(name,summary,floors)=>{
@@ -307,6 +339,10 @@ async function main(){
     applicability[name]=projectBrowserApplicability(data.inventory,stratumReport.map.toJSON(),paths,browserRows.filter(r=>r.identity.buildScope==='production'));
     strata[name]=Object.fromEntries(['lines','functions','branches'].map(metric=>[metric,applicability[name].applicable[metric]]));
    }
+   if(name==='development'){
+    applicability[name]=await projectDevelopmentApplicability(data.inventory,stratumReport.map.toJSON(),paths,browserRows.filter(r=>r.identity.buildScope==='development'),browserBuilds.development);
+    strata[name]=Object.fromEntries(['lines','functions','branches'].map(metric=>[metric,applicability[name].applicable[metric]]));
+   }
    if(modes.includes(name)){
     provenanceStrata[name]={};
     for(const provenance of [...new Set(intervals.filter(i=>i.mode===name).map(i=>i.provenance))]){
@@ -318,7 +354,7 @@ async function main(){
    }
    strataProof[name]={sourcePaths:paths,realms:selected.map(p=>p.realmId),basis:modes.includes(name)?'verified exclusive interval delta':'actual complete source-bound realm snapshots'};
   }
-  policyResult=full?evaluatePolicy(policy,summaries(report.map),strata):{pass:false,failures:[],thresholdsEvaluated:false};policyResult.failures.sort((a,b)=>a.name.localeCompare(b.name)||a.metric.localeCompare(b.metric));attribution={strata,rawStrata,applicability,strataProof,provenanceStrata,policyBasis:'Solo, turn and browser application strata use source-bound applicability; raw/global/per-file maps unchanged; Survive strata raw',intervals:intervals.map(({payload,...identity})=>identity),globalUses:'complete parent snapshots only; interval deltas never added globally'};
+  policyResult=full?evaluatePolicy(policy,summaries(report.map),strata):{pass:false,failures:[],thresholdsEvaluated:false};policyResult.failures.sort((a,b)=>a.name.localeCompare(b.name)||a.metric.localeCompare(b.metric));attribution={strata,rawStrata,applicability,strataProof,provenanceStrata,policyBasis:'Solo, turn, production browser and verified DEV application strata use source-bound applicability; raw/global/per-file maps unchanged; Survive strata raw',intervals:intervals.map(({payload,...identity})=>identity),globalUses:'complete parent snapshots only; interval deltas never added globally'};
   await writeFile(join(output,'shortfalls.json'),JSON.stringify(policyResult,null,2));await writeFile(join(output,'attribution.json'),JSON.stringify(attribution,null,2));await writeFile(join(output,'shortfalls.txt'),policyResult.failures.map(f=>`${f.name} ${f.metric}: ${f.covered}/${f.total}; floor ${f.floor}%`).join('\n')+'\n');
  }
  await writeFile(join(output,'manifest.json'),JSON.stringify({status:reportOnly?'report-only':policyResult?.pass?'enforced-pass':'enforced-fail',thresholdsEvaluated:full,policyResult,runId,expectedRealms:allRealms,payloadCount:payloads.length,files:data.files,summary:report.summary,normalArtifactHash:normalHash,browserArtifactHash:group.browser?browserBuilds.production?.artifactHash:null,browserBuilds:group.browser?browserBuilds:null,jobs,workerRoles,separateScopes:manifest?.separateScopes,provenance:group.provenance??'existing assertions with actual/arranged distinctions retained',browserRows:browserRows.map(({identity,realmId})=>({identity,realmId}))},null,2));

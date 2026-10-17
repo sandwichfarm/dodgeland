@@ -60,8 +60,9 @@ test('missing sources, schema drift, invalid counters and empty applicability fa
 });
 
 
-test('only the exact browser application stratum is added to applicability',()=>{
+test('only the exact browser and development application strata are added to applicability',()=>{
  const {input}=fixture();
  assert.deepEqual(reportApplicability({...input,mode:'browser-presentation-owner-lifecycle'}).raw,reportApplicability(input).raw);
- for(const mode of ['browser','browser-presentation','development','shared-input','browser-presentation-owner-lifecycle-extra'])assert.throws(()=>reportApplicability({...input,mode}),/Unknown mode/);
+ assert.deepEqual(reportApplicability({...input,mode:'development'}).raw,reportApplicability(input).raw);
+ for(const mode of ['browser','browser-presentation','development-extra','shared-input','browser-presentation-owner-lifecycle-extra'])assert.throws(()=>reportApplicability({...input,mode}),/Unknown mode/);
 });

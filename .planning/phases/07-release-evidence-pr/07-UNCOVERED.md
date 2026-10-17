@@ -22,6 +22,30 @@ No initial session counter is relabelled or merged with this new schema. Initial
 branch annotations below remain historical; a fresh enforcing report and full
 semantic review are still required.
 
+## Current-source recovery hazard proof
+
+COOP-04/TEST-02/TEST-03: Revival must return only the selected teammate to a
+currently safe unoccupied cell, spend one charge, retain cleared run resources,
+and preserve the menu pause. The added whole-app case buys the item through the
+visible owner market, causes P3's water death through a real controller hop, and
+confirms Revival through the target controls. Initial economy, poses, spent
+innate cooldown and hazard geometry are explicitly arranged. The train uses its
+actual12.6-tile footprint; no direct death/planner/recovery call supplies proof.
+
+Whole ordinary90331 passes5/5. Canonical42336, run
+`2578b66c-c6fe-4b3c-abc7-4f5b136642cc`, passes5/5 in each of PROD and DEV,
+with ten actual browser realms. Current session source remains
+`f8ce62cdc5c87557636cce62f0b15005bfa5f9cde42c708d67915b4c1ebcec39`.
+Mapped DEV hazard rejection branches217 at809,219 at810 and221 at811 record
+`[20,240]`, `[4,236]` and `[2,234]`; PROD records the same outcomes. These are
+current-source witnesses, not relabelled initial-session counters. The three
+conditions reject unsupported water, occupied traffic/rail and a non-spawning
+mob before selecting(2,3). Source-bound details and retained fixture failures:
+[recovery hazard evidence](07-03-RECOVERY-HAZARD-JOURNEY.md).
+
+This does not alter the frozen baseline's pending-arm count or claim an
+enforcing aggregate. Complete semantic review and coverage floors remain open.
+
 ## Task1 authority tracer
 
 INPUT-04/INPUT-05/TEST-02: a stale or foreign device-reclaim ticket must not bind a traveler, alter either owner resources/recovery/world time, or append lifecycle history. Current source `src/session.ts:969`, branch299 true arm has0baselinehits. Existing `tests/session-device-lifecycle.test.mjs` already proves dead-seat stale/wrong/occupied cases but is absent from package/canonical execution roots; reuse it unchanged via release-gaps group. Add only cross-session, original-device and seat mismatch tickets plus consumed-ticket replay to `tests/release-coverage-gaps.test.mjs`. Arranged production objects, not public-input proof. No product defect or invented RED assumed; ordinary/canonical results and actual counter delta pending. No source change.
