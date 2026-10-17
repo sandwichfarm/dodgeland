@@ -122,6 +122,29 @@ consume the shared assignment registry. Recovery provenance aliases are not a
 substitute for concurrent live input bindings. Preserve participant/transaction
 authority while replacing these single-device assumptions.
 
+The registry should identify an input by its keyboard profile or current
+controller lease, and bind it to a participant ID plus an assignment generation.
+The seat remains the participant's game position. A command carries the source
+and generation until ownership is validated; only then does it become the
+existing seat action. Menu ownership remains tied to that participant through
+keyboard/controller switches.
+
+| Current seam | Proposed responsibility |
+| --- | --- |
+| `keyboardSeatForProfile` compares one `player.device` | Resolve the profile through the shared registry. |
+| `GamepadRouter.assign` allows only one controller per seat | Retain device epochs and edge detection; let the registry own assignments. |
+| `requestFirstPlayer` immediately claims P1 | Claim immediately only before a player is established; otherwise enter control/join choice. |
+| Each device schedules movement repeats | Arbitrate and repeat once per traveler, preserving single-input timing. |
+| Device loss reaches a mode handler | Recalculate usable assigned sources first; invoke the handler only when none remain. |
+| Market requests contain device and owner versions | Validate the current source binding as well as existing owner/context versions; last-used hints grant no authority. |
+
+Do not merely overwrite `SessionPlayer.device` whenever an alias is used. That
+would make an ordinary keyboard/controller switch look like reassignment to
+existing market and recovery checks. Preserve those checks during the change,
+with explicit binding validation at the input boundary. Prove pending pack,
+sale, recovery and Relay confirmation behavior before removing the old
+single-device representation.
+
 Ordinary browser keyboard events do not provide physical-keyboard identity; use
 named key profiles such as WASD and arrows on a shared keyboard. This follows
 from the fields exposed by the [UI Events KeyboardEvent interface](https://www.w3.org/TR/uievents/#interface-keyboardevent).
