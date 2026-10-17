@@ -67,6 +67,35 @@ Node parents. Six initial zero arms have exact matching source/map/site schemas.
 The empty-retiring-set arm256/0 stays pending; only256/1 gained proof.
 [Exact conditions and counts](07-03-AUDIO-LIFECYCLE-GAPS.md).
 
+## Shared-pickup
+
+**INPUT-05, COOP-01, TEST-02.** Public paid magnets and controlled actual app RAF
+preserve an in-flight coin across frames, skip new-pull initialization for that
+coin, and award it once on arrival. Contact priority, equal-distance ownership
+and disconnect reassignment retain exact per-owner wallet/coin/pickup assertions.
+`tests/development-shared-pickup-runtime.mjs`, canonical
+`f6cdf906-bf4d-4980-8540-40e11f0dc4fc`, two whole PROD/DEV browser jobs each1/1.
+Initial `src/game.ts` source/map/site schemas are identical: branch277/0 at706
+gains100 hits (existing pull copied),278/1 at707 gains100 (new-pull initialization
+skipped),281/0 at714 gains2 (arrival awards). The session cleanup repair has a
+new source identity and is not merged into historical session rows.
+[Behavior, limits and pins](07-03-DEVELOPMENT-GAMEPLAY-EVIDENCE.md#current-terminal-canonical-evidence--repair-accepted-technically-floors-open).
+
+## Race-safe-reclaim
+
+**INPUT-05, RACE-04, TEST-02.** A disconnected racer cannot reclaim into an
+unsafe or occupied cell, or move ahead of its earned ground. The existing
+`fog-personal-recovery-reclaim` interval in
+`tests/release-turn-mode-coverage.test.mjs` preserves resources when no valid
+return cell is available, then arranges one safe cell at the earned bound and
+accepts the same current owner without adding progress. Current canonical
+`3e5abf72-d174-4c30-b2af-a25a111506e7` passes all9 whole-suite cases.
+Source `d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da`, map
+`359d1befb5381d2a2df7d84e71de36101ec61193601e694e8af77ddd2f617fb8`, and mapped
+branch schema match initial Race evidence. Formerly-zero33/1 at106 has27 hits
+(candidate skipped),44/0 at114 has1 (reclaim rejected without a safe cell).
+Arranged terrain/component execution is not a public course traversal claim.
+
 ## Sound-settings
 
 **SOLO-02, UI-06, TEST-03.** User-selected custom audio wins delayed hydration;

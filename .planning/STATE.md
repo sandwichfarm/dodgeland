@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: 07-03 meaningful coverage closure; full enforcing report pending
-last_updated: "2026-10-17T03:41:51Z"
+last_updated: "2026-10-17T04:37:04Z"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,7 +12,7 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Short-frame Dev obstruction fixed; fresh launch and genuine development evidence committed; full enforcing coverage remains open.
+last_activity_desc: Coin repair and existing turn journey attribution verified; genuine DEV applicability preparation in progress; full enforcing coverage remains open.
 ---
 
 # Project State
@@ -25,11 +25,16 @@ last_activity_desc: Short-frame Dev obstruction fixed; fresh launch and genuine 
 It is a successful collection, not release acceptance.
 
 07-03 is in progress. Meaningful tests exposed and fixed session lifetime
-identity reuse (36495b1) and stale multiplayer ownership after development
-jump/load (71b5dc6). Both have retained RED/GREEN evidence. Required
+identity reuse (36495b1), stale multiplayer ownership after development
+jump/load (71b5dc6), and a disconnected owner's retained coin claim (RED0638b42,
+repair7e71ab1). All have retained RED/GREEN evidence. Required
 type/build/guidance checks pass. Conformance remains five
 passes, zero failures and five unmeasured checks. Normal build raw SHA256:
-`ca774030d10eabe9dc9ed9780bf17422642874f7605bfdc26db6c116a6d86168`.
+`a34fd21258f80302593c584f5a9566f7511af49798c0b0cac6dacc1beb478bc1`.
+Current session source is `f8ce62cdc5c87557636cce62f0b15005bfa5f9cde42c708d67915b4c1ebcec39`;
+all older session measurements below retain their historical identities and
+cannot be merged into the current source. Focused canonical refresh passed;
+the complete enforcing report remains pending.
 
 Latest focused Survive run `344fd116-4fb9-4e87-85ad-8c31a8bcd837` (16412 exit0)
 measures both bases at 87/89 lines, 64/65 functions and 149/165 branch arms.
@@ -52,21 +57,33 @@ negative controls and canonical79259 (7b40ca7), run
 201 exact dispositions, no excluded positive hit. Global/per-file counters stay
 complete. Browser applicable denominator is9852 arms; full enforcement pending.
 
-Latest solo24-lifetime/48-interval run55841 passed (c17843b),
-`29b54a0b-97ff-4da0-b6d1-3b30fdaaf815`: Arcade926/1207L218/296F963/1459B,
-Flow790/1067L195/276F823/1284B. Exact source/caller pins and absent-else
-mapping controls retain reachable guards, initialization and all raw counters.
-Separate genuine bootstrap run `330e4c55-9d60-4443-a7b0-f6cba6924788` adds
-saved-profile validation and retains pinned solo parity: Arcade842/1207L,
-192/296F,723/1459B; Flow817/1067L,188/276F,706/1284B. Two actual fresh ESM
-lifetimes/four intervals; no duplicated boot counters.16projection controls pass.
+Committed solo dispatch run90156 passed (590b751), model
+`2fa5cd30-9d0e-485a-a4eb-6472eb08eda0`:24lifetimes/48intervals,
+Arcade926/1207L218/296F963/1427B, Flow790/1067L195/276F823/1252B.
+Bootstrap `2ff6f172-2292-4116-8217-38902e3583d0` retains two fresh lifetimes/four
+intervals and saved-profile parity: Arcade842/1207L192/296F723/1427B,
+Flow817/1067L188/276F706/1252B. Eleven focused projection controls pass;
+exact predicates and reachable fallback remain. No new wave/trail exclusions.
+Canonical definition evidence is now strengthened in7b3d1d8. Raw counters
+and all numerators remain unchanged by the32-arm dispatch projection.
+Final definition-proof chain98003 passed: model
+`c57ad62e-0066-44dc-b64f-c20f9d5c2b37`, bootstrap
+`55f04122-f079-4f21-941b-591ccffb58c3`, public
+`3d0f9db0-b00f-4e5e-8be4-1010b3caab95`. Model/bootstrap counts are unchanged.
+Twenty-four controls58496 pass; exact same-module exported definition/rules
+identity and a complete frozen canonical snapshot are checked at observation,
+without calling a production resolver to manufacture observer hits.
 
-Latest turn run70225 passed (c17843b),
-`63285d8e-4f41-4e85-a94b-78f6e7bf92ba`: Relay1630/2226L551/752F1663/3010B,
-Race1675/2281L584/803F1819/3207B. Nine lifetimes/29 intervals retain all seven
-earlier witnesses and add two fresh module/Game acquisitions, first-hop authority,
-pause/resume and immutable terminal results.15attribution controls and10ordinary
-fresh-launch cases pass. These mode floors remain open.
+Latest turn run34838 passed (ed9b85c),
+`e0068a49-7787-42e4-851e-92546f6615d7`: Relay1881/2159L608/718F1924/2891B,
+Race1911/2222L634/769F2067/3139B. Nine lifetimes/29intervals retain previous
+acquisition, recovery, market and terminal proof. Extended actual frame journeys
+add fractional platform carry, side-hit damage/recoil, earned milestone healing,
+sports-car acceleration and slime/crab/wasp behavior with other-owner resource
+isolation. Nine ordinary cases pass. Fixtures corrected an unused damage counter
+expectation and a revisited-row healing expectation; neither was a product RED.
+Call-closure projection73665d5 passed21controls and prior canonical90026 with
+no numerator changes. These mode floors remain open.
 
 Development replacement canonical44509 passed,
 `dc650cee-3b95-4b7f-9b31-48ac234e5926`: six actual DEV/PROD browser realms and
@@ -86,25 +103,69 @@ Second genuine DEV tranche98530 passed (c17843b), run
 All26sources:1837/2122L573/694F1986/2821B. Repeated mixed-job identity has
 overwrite/duplicate/missing-parent controls;38bounded controls passed.
 
+Third DEV tranche10623 passed (b5e4b78), run
+`28183dab-144e-458d-8fd1-f754efc4534d`:10cases/10genuineDEV realms with exact
+artifact proofs; six ordinary artifacts restored and normal dist preserved.
+Owner/paid-pack/replace/skip journeys produce1486/2122L474/694F1477/2821B
+standalone. The four-run49-realm diagnostic union is2020/2122L628/694F2214/2821B;
+184branch arms remain needed for the DEV floor. This is diagnostic only, not a
+fresh enforcing aggregate. Narrow API-only DEV closure review413682d is saved
+but not implemented; no denominator or floor claim follows from it.
+
 Original240×240light health assertion exposed Dev covering Pause. A second
 candidate covered power status despite passing button checks; both findings are
 retained. Final98ad78c reserves space beside the power panel. Targeted34768
 passed24layout cells in both themes/hand states, clear status/track and actual
-open/close controls. Required23077 checks passed; normal production digest above
-is unchanged. Provisional three-job DEV run and final layout proof remain distinct.
+open/close controls. Required23077 checks passed with the then-current normal
+digest ca774030; the later coin repair changes that digest as recorded above.
+Provisional three-job DEV run and final layout proof remain distinct.
 
-Current delegation: `survive_verifier_fallback` performs read-only DEV gap/whole
-suite selection using verified actual DEV counters. `relay_first_handoff` finished
-turn call-closure review76f818f; root reviews any narrowly mapped implementation.
-Root owns semantic ledger/state and orchestration. Check live messages before
-launching tests/build/browser. Only one chain at a time; currently idle.
+Audio lifecycle8e91de5: final canonical23814 passed44/44, run
+`c6e37e9d-4a3f-4473-a600-e9f5e0bb756c`, two Node parents and20 existing browser
+component realms. Missing audio context, asynchronous decode disposal and
+ambience retirement/re-entry add six source-identical initial zero-arm witnesses.
+Initial sentinel fixture failure is retained; no audio product defect claimed.
+
+Shared coin RED0638b42: public two-controller paid magnets prove contact/tie/
+single-payout behavior, then actual disconnect leaves P1's pull claim stuck.
+The one-expression repair requires playing AND active participation while
+retaining the complete player list for Relay bench continuity. Unchanged ordinary
+82694 passes. Boundary82322 passes44/44 after one Race assertion correction:
+verify real independent participant IDs before normalizing only those IDs for
+semantic permutation comparison. Guidance7/7, conformance5pass/5unmeasured.
+Root/independent review preserve existing applicability;19controls59297 pass.
+See07-03-PICKUP-CLAIM-SOURCE-REVIEW.md and gameplay evidence for retained logs.
+Canonical51569 passes, run `f6cdf906-bf4d-4980-8540-40e11f0dc4fc`, one actual PROD
+and one actual DEV realm. Current DEV26-source counts1157/2122L360/694F1054/2823B
+are focused only; normal dist/four ordinary artifacts are preserved. New-source
+cleanup executes a real inactive claim deletion before P2's unique payout.
+
+Refresh8318 passed against the repaired source: solo-model
+`ea5d9d3d-1fa5-4d4d-8726-d6f55dc800ec`, solo-bootstrap
+`3ba09d62-1abf-4451-9c64-c0060657cac8` retain prior applicable counts; turn-model
+`3e5abf72-d174-4c30-b2af-a25a111506e7` has Relay1881/2159L608/718F1926/2893B
+and Race1911/2222L634/769F2069/3141B. New conjunction arms are counted and hit.
+
+Turn reuse9880a2b passed chain88994: original50/50 cases,17controls and canonical
+`bb6517fe-4359-47ed-9d42-7f291fb8604f`. Five actual existing-test lifetimes/twelve
+intervals bind three independently captured Node parents; four original browser
+realms remain distinct. Original assertions/setup retained;13 screenshots and
+normal dist restored. Focused applicable Relay749/2159L253/718F684/2893B,
+Race1041/2222L388/769F1131/3141B; these are standalone, not marginal gains.
+
+Current runtime: idle. `survive_verifier_fallback` authors narrow DEV application
+applicability from the complete158-file source proof (digest10e47f7622ef7f755e41eff71ff68ee0bf488b0c8e8d62ea8232a11e2e01e034).
+Only ten proved unused API bodies qualify; raw/global/per-file/floors unchanged.
+`relay_first_handoff` authored existing generic live-artifact verification at both
+devtools-runtime collection paths and all four job aliases, awaiting coordinated
+testing. Root owns semantic ledger/state and reviews before any runtime.
 
 ## Next required work
 
 1. Complete07-03: broad honest Solo/Relay/Race and development evidence,
    remaining per-file gaps, complete semantic ledger, then a fresh enforcing
-   full report. Keep all floors.141 initial zero arms have source-identical
-   behavioral annotations;910 remain pending semantic review. Genuine fresh
+   full report. Keep all floors.152 initial zero arms have source-identical
+   behavioral annotations;899 remain pending semantic review. Genuine fresh
    bootstrap proof now exists; all unions before full collection are diagnostic.
 2. Execute07-04 conformance proof,07-05 clause/visual evidence,07-06 exact final
    gate and PR. Preparations exist; none are claimed complete.

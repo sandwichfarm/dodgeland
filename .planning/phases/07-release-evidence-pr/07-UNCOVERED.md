@@ -275,9 +275,9 @@ Source `fb5d9224e46c19b3745099429f06bd141d9b738bb2d8786ed3266e1b6a7d95f6`; schem
 |259|676|1|[710, 0]|pending|
 |266|691|0|[0, 54734784]|pending|
 |274|703|0|[0, 7008364]|pending|
-|277|706|0|[0, 7008262]|pending|
-|278|707|1|[7008262, 0]|pending|
-|281|714|0|[0, 4]|pending|
+|277|706|0|[0, 7008262]|[covered arm 0](07-03-LEDGER-REVIEW.md#shared-pickup)|
+|278|707|1|[7008262, 0]|[covered arm 1](07-03-LEDGER-REVIEW.md#shared-pickup)|
+|281|714|0|[0, 4]|[covered arm 0](07-03-LEDGER-REVIEW.md#shared-pickup)|
 |285|725|0|[0, 15645654]|pending|
 |286|726|0|[0, 15645654]|pending|
 |287|726|1|[15645654, 0]|pending|
@@ -884,9 +884,9 @@ Source `d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da`; schem
 |26|89|0|[0, 22]|pending|
 |28|94|1|[12, 0]|pending|
 |31|101|0|[0, 13]|pending|
-|33|106|1|[13, 0]|pending|
+|33|106|1|[13, 0]|[covered arm 1](07-03-LEDGER-REVIEW.md#race-safe-reclaim)|
 |39|113|0|[0, 14]|pending|
-|44|114|0|[0, 13]|pending|
+|44|114|0|[0, 13]|[covered arm 0](07-03-LEDGER-REVIEW.md#race-safe-reclaim)|
 |49|127|0|[0, 197]|pending|
 |52|134|1|[48, 0]|pending|
 |54|145|0|[0, 9]|pending|
@@ -1375,8 +1375,8 @@ Source `6ff040ceaed6a1fd4ff1dcf7e8b8bc9a773bcc4a3598fa6a83529a05d28b72e6`; schem
 
 Total retained zero branch arms: 1051. No automatic dismissals.
 
-Focused semantic review now binds147 of those historical arms to named passing
-behavioral evidence in `07-03-LEDGER-REVIEW.md`. The other904 remain pending;
+Focused semantic review now binds152 of those historical arms to named passing
+behavioral evidence in `07-03-LEDGER-REVIEW.md`. The other899 remain pending;
 all1051 initial rows/counts and source hashes stay visible. This is not a new
 aggregate coverage report or acceptance of the residual branches.
 
