@@ -900,6 +900,13 @@
       ],
       "role": "node",
       "provenance": "Arranged actual production LocalSession authority; reused dead-device lifecycle regressions plus cross-session/original-device ticket rejection, not public-input browser proof"
+    },
+    "release-content-gaps": {
+      "files": [
+        "tests/release-content-gaps.test.mjs"
+      ],
+      "role": "node",
+      "provenance": "Actual production coin/harmony/traveler/v3 callbacks; arranged component inputs, not public-input browser proof"
     }
   },
   "pendingAdapters": [
@@ -2876,6 +2883,16 @@
         "artifactPatterns": []
       },
       {
+        "id": "local-session-test",
+        "file": "tests/local-session.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
         "id": "local-session-tracer",
         "file": "tests/local-session-tracer.mjs",
         "role": "mixed",
@@ -2884,16 +2901,6 @@
           "browser"
         ],
         "defaultBuildScope": "production",
-        "artifactPatterns": []
-      },
-      {
-        "id": "local-session-test",
-        "file": "tests/local-session.test.mjs",
-        "role": "node",
-        "requiredRealms": [
-          "node"
-        ],
-        "defaultBuildScope": "modules",
         "artifactPatterns": []
       },
       {
@@ -3014,6 +3021,16 @@
         "artifactPatterns": []
       },
       {
+        "id": "market-test",
+        "file": "tests/market.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
         "id": "market-tiny-focus-runtime",
         "file": "tests/market-tiny-focus-runtime.mjs",
         "role": "browser",
@@ -3027,16 +3044,6 @@
           "artifacts/market-tiny-owner-*x*.png",
           "artifacts/market-tiny-owner-runtime.json"
         ]
-      },
-      {
-        "id": "market-test",
-        "file": "tests/market.test.mjs",
-        "role": "node",
-        "requiredRealms": [
-          "node"
-        ],
-        "defaultBuildScope": "modules",
-        "artifactPatterns": []
       },
       {
         "id": "mob-render-test",
@@ -3286,6 +3293,26 @@
         "artifactPatterns": []
       },
       {
+        "id": "release-content-gaps-test",
+        "file": "tests/release-content-gaps.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "release-coverage-gaps-test",
+        "file": "tests/release-coverage-gaps.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
         "id": "release-mode-coverage",
         "file": "tests/release-mode-coverage.mjs",
         "role": "browser",
@@ -3388,6 +3415,16 @@
         "role": "browser",
         "requiredRealms": [
           "browser"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
+        "id": "session-device-lifecycle-test",
+        "file": "tests/session-device-lifecycle.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
         ],
         "defaultBuildScope": "modules",
         "artifactPatterns": []
@@ -3841,6 +3878,16 @@
         ]
       },
       {
+        "id": "survive-together-test",
+        "file": "tests/survive-together.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": []
+      },
+      {
         "id": "survive-together-tracer",
         "file": "tests/survive-together-tracer.mjs",
         "role": "mixed",
@@ -3849,16 +3896,6 @@
           "browser"
         ],
         "defaultBuildScope": "production",
-        "artifactPatterns": []
-      },
-      {
-        "id": "survive-together-test",
-        "file": "tests/survive-together.test.mjs",
-        "role": "node",
-        "requiredRealms": [
-          "node"
-        ],
-        "defaultBuildScope": "modules",
         "artifactPatterns": []
       },
       {
