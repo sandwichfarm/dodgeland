@@ -22,3 +22,37 @@ A transparent stage observer is installed as soon as the imported session class 
 | Solo Flow |543/2039;119/656;420/2768|543/1239;119/320;420/1730|
 
 Applicable denominators reflect the peer's independently accepted current call-closure generator, not any new bootstrap exclusions. These standalone counters are not added arithmetically to previous reports. A later canonical collection can merge actual separate deltas under unchanged source identity. Floors remain open.
+
+## Shipped module initialization and default callbacks
+
+The current witness additionally imports `race.ts` in each genuinely fresh
+current ESM directory. This follows the unconditional import in `main.ts:29`:
+`race.ts:4` imports `race-items.ts`, whose module-level catalogue validation and
+schema registration run even when the eventual game is solo. No Race coordinator,
+RaceItems instance or LocalSession is constructed. The strict ownership and
+positive excluded-hit checks remain in force. This is component bootstrap proof,
+not a claim to execute the DOM application bootstrap. The immutable pre-multiplayer
+oracle remains separately loaded and uninstrumented; complete Game semantics
+still match after the additional current initialization.
+
+The same two owned Games now exercise pickup, rear contact,100-row regeneration,
+duck water rescue and fatal train/spill through the production default callbacks.
+No UI listener is attached. Actual wallet/health/cooldown/death outcomes are
+asserted, and full hidden state is compared to the oracle after every scenario.
+Explicit terrain/position arrangements are component fixtures. No callback is
+invoked directly and no new Game is constructed inside either runtime interval.
+
+Command63850 exited0: ordinary strict1/1 (630.773ms), then canonical strict1/1
+(2602.006ms). Logs `/tmp/down-to-duck-solo-bootstrap-breadth-ordinary.log` and
+`/tmp/down-to-duck-solo-bootstrap-breadth-canonical.log`. Canonical run
+`90e9c476-0ce0-4e29-973b-18ea512a2624` retains two fresh lifetimes, four disjoint
+intervals and one independent parent, with no excluded-positive contradiction.
+
+| Mode | Applicable lines/functions/arms |
+| --- | --- |
+| Solo Arcade |828/1239;189/320;694/1730|
+| Solo Flow |803/1099;185/300;678/1590|
+
+Flow's smaller denominator comes from the separately reviewed `e4cc5d5` mob
+call-closure proof. This witness changes no applicability rules or floors.
+These remain focused measurements, not a new enforcing release aggregate.
