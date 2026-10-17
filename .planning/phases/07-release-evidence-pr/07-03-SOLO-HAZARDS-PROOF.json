@@ -1,0 +1,155 @@
+{
+  "runId": "86732b3a-90b8-4698-ab87-c6e342168415",
+  "jobs": [
+    {
+      "id": "release-solo-mode-coverage",
+      "file": "tests/release-solo-mode-coverage.test.mjs",
+      "role": "node",
+      "requiredRealms": [
+        "node"
+      ],
+      "modelAttribution": [
+        {
+          "mode": "solo-arcade",
+          "scenarios": [
+            "arcade-movement",
+            "arcade-traffic",
+            "arcade-river",
+            "arcade-pause-hurt",
+            "arcade-market",
+            "arcade-terminal",
+            "arcade-actors",
+            "arcade-mobs",
+            "arcade-schema-1",
+            "arcade-schema-2",
+            "arcade-schema-3",
+            "arcade-paid-pickup-health-powers",
+            "arcade-shop-boundaries",
+            "arcade-side-contact--1-clear",
+            "arcade-side-contact--1-boxed",
+            "arcade-side-contact-1-clear",
+            "arcade-side-contact-1-boxed",
+            "arcade-unsafe-water",
+            "arcade-river-edge-bounce",
+            "arcade-train-fatal",
+            "arcade-train-shield",
+            "arcade-generated-coin-modifiers"
+          ]
+        },
+        {
+          "mode": "solo-flow",
+          "scenarios": [
+            "stroll-movement",
+            "stroll-traffic",
+            "stroll-river",
+            "stroll-pause-hurt",
+            "stroll-market",
+            "stroll-terminal",
+            "stroll-actors",
+            "stroll-mobs",
+            "stroll-schema-1",
+            "stroll-schema-2",
+            "stroll-schema-3",
+            "stroll-paid-pickup-health-powers",
+            "stroll-shop-boundaries",
+            "stroll-side-contact--1-clear",
+            "stroll-side-contact--1-boxed",
+            "stroll-side-contact-1-clear",
+            "stroll-side-contact-1-boxed",
+            "stroll-unsafe-water",
+            "stroll-river-edge-bounce",
+            "stroll-train-fatal",
+            "stroll-train-shield",
+            "stroll-generated-coin-modifiers"
+          ]
+        }
+      ]
+    }
+  ],
+  "independentParents": 1,
+  "actualCurrentLifetimes": 44,
+  "intervals": 88,
+  "ordinary": "1/1 whole case,44 independently compared scenarios",
+  "canonical": "1/1 whole case,44 independently compared scenarios",
+  "baseline": "a310a81ed6c76df4b265c9012c23b8c83f4802e5",
+  "strata": {
+    "solo-arcade": {
+      "lines": {
+        "covered": 935,
+        "total": 1207
+      },
+      "functions": {
+        "covered": 218,
+        "total": 296
+      },
+      "branches": {
+        "covered": 1033,
+        "total": 1427
+      }
+    },
+    "solo-flow": {
+      "lines": {
+        "covered": 799,
+        "total": 1067
+      },
+      "functions": {
+        "covered": 195,
+        "total": 276
+      },
+      "branches": {
+        "covered": 894,
+        "total": 1252
+      }
+    }
+  },
+  "normalSha256": "a34fd21258f80302593c584f5a9566f7511af49798c0b0cac6dacc1beb478bc1",
+  "lockSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "normalAndLockPreserved": true,
+  "independentReview": "No blocker; stationary/boxed/rail scenes are arranged component fixtures, generated-row claims are with held modifiers rather than isolated per-card A/B causality",
+  "diagnostic": {
+    "purpose": "Source/map/site-schema-checked, not enforcing full acceptance",
+    "comparisonRun": "51a4bea2-21e7-4b74-9eae-b185f6401911",
+    "solo-arcade": {
+      "lines": {
+        "covered": 1152,
+        "total": 1207
+      },
+      "statements": {
+        "covered": 1592,
+        "total": 1758
+      },
+      "functions": {
+        "covered": 275,
+        "total": 296
+      },
+      "branches": {
+        "covered": 1187,
+        "total": 1427
+      }
+    },
+    "solo-flow": {
+      "lines": {
+        "covered": 1018,
+        "total": 1067
+      },
+      "statements": {
+        "covered": 1409,
+        "total": 1545
+      },
+      "functions": {
+        "covered": 253,
+        "total": 276
+      },
+      "branches": {
+        "covered": 1047,
+        "total": 1252
+      }
+    },
+    "newBranchesRelativeShop": {
+      "solo-arcade": 26,
+      "solo-flow": 28
+    },
+    "newLinesPerBase": 2,
+    "newFunctions": 0
+  }
+}

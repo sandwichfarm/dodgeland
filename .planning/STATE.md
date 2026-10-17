@@ -325,8 +325,17 @@ Arcade1150/1207L275/296F1161/1427B and Flow1016/1067L253/276F1019/1252B:
 36new branches/7lines per base, no new functions. Branch floors still need52/46
 arms; no enforcing acceptance. See07-03-SOLO-SHOP-PROOF.md/json.
 Current full/focused solo metadata expects26/52 without relabelling older24/48
-reports. No runtime is active. Next: genuine remaining hazard/actor behavior and
-turn-mode/DEV/browser gaps, then fresh enforcing collection.
+reports. Solo hazard tranche passed whole1/1 ordinary and canonical (44scenarios each),
+run `86732b3a-90b8-4698-ab87-c6e342168415`,4324terminal0.44current actual
+lifetimes/88intervals bind one independent parent. Original26cases retained;
+18added side/recoil/water/edge/train/coin fixtures have explicit assertions and
+pinned comparisons. Independent review accepted component provenance limits.
+Normal build/root lock unchanged. Exact-current diagnostic full+newsolo is now
+Arcade1152/1207L275/296F1187/1427B and Flow1018/1067L253/276F1047/1252B:
+26/28new branches beyond the shop tranche,2new lines each, no new functions.
+Solo floors still need26Arcade/18Flow arms. See07-03-SOLO-HAZARDS-PROOF.md/json.
+All full/focused solo job copies expect44/88 without relabelling historical
+reports. No runtime is active; no source/policy/exclusion change.
 
 ## Next required work
 
