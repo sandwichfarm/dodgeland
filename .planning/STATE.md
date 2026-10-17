@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Race empty-inventory scope passes; Relay unchanged; remaining Race17 DEV52
-last_updated: "2026-10-17T23:35:56.302919+00:00"
+stopped_at: All gameplay diagnostic floors met; remaining DEV52 and release gates
+last_updated: "2026-10-17T23:41:44.203628+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,25 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Bounded Race empty-inventory source proof passes22 focused/all123 controls andfour fresh cases/16 intervals. Raw/numerators unchanged;Relay byte-equivalent. Race2502/2963 needs17;DEV52 and final gates/PR remain.
+last_activity_desc: Race target-policy scope passes24 focused/all125 controls and36 fresh tests/81 intervals. Race2502/2943 and Relay2291/2695 meet diagnostic floors;DEV52,semantic review,full enforcing collection and07-04/05/06/PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+Latest Race target-policy closure:a264561 retains24-control RED22 pass/two fail;
+implementation passes24 focused/all125 controls,159-file resolved audit and
+36 actual tests/81 verified intervals/two independent Node parents. Exact
+captured-catalogue/one-living-target synchronous prevalidation proves only
+unavailable then outcomes/cooperative RHS/default initializers;all evaluated
+helper guards and earlier public request rejections remain counted. Adds13S/
+20B,raw/all covered numerators unchanged;Relay byte-equivalent. Race2502/2943
+meets85%;all gameplay-mode diagnostic floors now met. DEV52 remains. Source/
+build/lock/registry180/floors unchanged. RACE-TARGET-POLICY-CLOSURE/PROOF records
+source-bound facts;original full report still failed. Full semantic ledger,
+fresh enforcing full collection,07-04/05/06 and PR remain.
+
 
 Latest Race empty-inventory scope:abb4e5c retains22-control RED20 pass/two fail.
 Implementation passes22 focused/all123 controls,159-file fresh resolved audit

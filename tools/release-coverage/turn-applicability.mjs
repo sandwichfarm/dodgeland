@@ -157,6 +157,20 @@ export function turnApplicabilityDispositions({mode,sources,authoritySources,clo
    const reason='Complete pinned caller/value-flow proof resolves both debit calls inside private ConsumableWorld.use; Relay never allocates that instance. targetsFor has only the debit caller. Credit, shared helpers, module initialization and public absent-instance guards remain applicable.';
    for(const name of ['planConsumableDebit','targetsFor'])callable(name,reason,reference);
   }
+  if(key==='src/consumables.ts'&&mode==='race'){
+   const reference='.planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md';
+   const reason='Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.';
+   const fn=name=>tree.statements.find(n=>ts.isFunctionDeclaration(n)&&n.name?.text===name),targets=fn('targetsFor'),debit=fn('planConsumableDebit');
+   if(!targets?.body||!debit?.body)throw Error('Race tactical helpers changed');
+   const inside=(n,owner)=>n.pos>=owner.pos&&n.end<=owner.end;
+   const conditions=all.filter(n=>ts.isIfStatement(n)&&inside(n,targets)),guarded=all.filter(n=>ts.isIfStatement(n)&&inside(n,debit)&&['charges[item.id] < 1',"'ok' in targets"].includes(n.expression.getText(tree)));
+   if(conditions.length!==11||guarded.length!==2||[...conditions,...guarded].some(n=>n.elseStatement))throw Error('Race tactical validation guards changed');
+   for(const condition of [...conditions,...guarded]){add(condition.thenStatement,reason,false,reference);falseOutcomes.push({span:span(condition),reason,reference});}
+   const cooperative=conditions.filter(n=>ts.isBinaryExpression(n.expression)&&n.expression.operatorToken.kind===ts.SyntaxKind.AmpersandAmpersandToken&&["item.targetPolicy === 'dead-teammate'","item.targetPolicy === 'dead-teammates-and-active-regroup'"].includes(n.expression.left.getText(tree)));
+   if(cooperative.length!==4)throw Error('Race cooperative-only target operands changed');
+   for(const condition of cooperative)add(condition.expression.right,reason,false,reference);
+   for(const name of ['definition','chargesFor']){const param=fn(name)?.parameters.find(p=>p.name.getText(tree)==='catalogue');if(param?.initializer?.getText(tree)!=='CONSUMABLES')throw Error('Race supplied catalogue default changed');add(param.initializer,reason,false,reference);}
+  }
   if(key==='src/market/run.ts'){
    if(mode==='relay'){
     add(member('RunInventory','restrictItems'),'Only Race.attach restricts item access; Relay retains initialized standard access.');

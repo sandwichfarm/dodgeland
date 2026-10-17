@@ -2,6 +2,17 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Latest Race tactical target-policy closure
+
+RACE-TARGET-POLICY-CLOSURE/PROOF binds159-file caller/value audit,24 focused/
+all125 controls and36 fresh tests/81 verified intervals/two Node parents.
+Captured catalogue and one prevalidated living target prove exact unavailable
+then outcomes,cooperative RHS and catalogue defaults. All evaluated guards and
+public request rejection stay counted. Adds13S/20B;raw/covered numerators
+unchanged;Relay byte-equivalent. Race2502/2943 meets85%;all gameplay diagnostic
+floors now met. DEV52 remains,with full semantic ledger/fresh release gates/PR.
+No normal source/registry/floor change or borrowed coverage credit.
+
 ## Latest Race empty-inventory closure
 
 RACE-EMPTY-INVENTORY-CLOSURE/PROOF binds159-file constructor/write/call audit,
