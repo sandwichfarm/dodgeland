@@ -2,6 +2,16 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Current exact-anchor behavioral review
+
+FLARE-ANCHOR/PROOF add actual public confirmation/retry for unsafe water,car,train,
+mob and inadequate distinct cells. All rejections are atomic;clearance succeeds
+with the same charge and preserves pause/economy/identity. Six original-plus-new
+cases pass ordinary and both canonical builds,twelve browser realms,currentf46f.
+Session e90/map5e39 arms227/5,227/8,228/0,228/1,231/0 gain current source-identical
+witnesses. No original changed-Session arm is relabelled. Diagnostic gaps shrink
+to browser46/DEV127;Relay63/Race87 are unchanged. No full acceptance or scope edit.
+
 ## Current complete enforcing result:four branch shortfalls
 
 All169 jobs/nine controls passed,current complete inventoryf46f/Game8836/normal

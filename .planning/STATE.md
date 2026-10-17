@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Current full169 jobs pass;recovered enforcement terminal1 with four branch-stratum shortfalls
-last_updated: "2026-10-17T21:29:49.902760+00:00"
+stopped_at: Flare exact-anchor regression and both canonical builds pass;four branch-stratum gaps remain
+last_updated: "2026-10-17T21:34:00.898801+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,24 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Recovery02 terminal1;all global/per-file/line/function floors pass;browser51 DEV132 Race87 Relay63 more branch witnesses required at unchanged85%.
+last_activity_desc: New Flare hazard/retry case passes6/6 ordinary and6/6 PROD plus6/6 DEV;five new witnesses per scope. Diagnostic gaps browser46 DEV127 Race87 Relay63;full enforcement still failed.
 ---
 
 # Project State
 
 ## Current work
+
+Latest Flare anchor proof:ordinary6/6 and canonical fa5c17fe6/6 production plus
+6/6 genuine DEV pass(twelve browser realms). Unsupported water,car,train,resting
+mob and too-few-cells each preserve all players/charge;clearance plus a spawning
+mob permits the same actual public confirmation. All five original cases remain.
+No product source changed;current inventoryf46f and all mapped schemas match the
+complete run. Five new previously-zero Session arms gain witnesses in global/
+browser/DEV. Diagnostic gaps:browser46,DEV127,Race87,Relay63. FLARE-ANCHOR/PROOF
+retain exact provenance. This is not a new full enforcement pass. The test file
+is intentionally newer than the original397-input freeze;its unchanged src
+identities permit the labelled diagnostic comparison only. All handles terminal.
+
 
 Current authoritative checkpoint: recovery02/session15271 is terminal1. All169
 production jobs and9 controls passed;454 parent payloads(359 browser),1155 verified

@@ -208,3 +208,67 @@ test('public Revival selects a safe return beyond occupied river traffic rail an
     assert.deepEqual(evidence.errors,[]);assert.deepEqual(evidence.external,[]);
   }finally{await app.close();}
 });
+
+test('Flare refuses an unsafe exact owner anchor atomically and the same charge works after clearance', { timeout: 60_000 }, async () => {
+  const evidence = { errors: [], external: [] }, app = await createMarketGameFixture(evidence, { gamepads: true });
+  try {
+    await fourPlayers(app); await purchase(app, 'p1', 'flare'); await die(app, ['p3']);
+    const board = await openItem(app, 'p1', 'Flare');
+    const original = await observe(app);
+    assert.equal(original.charges.find(charge => charge.seat === 'p1').flare, 1);
+    for (const hazard of ['water', 'car', 'train', 'resting-mob', 'too-few-cells']) {
+      // Hazard geometry is the only arrangement. The paused owner's exact
+      // pose, recovery identity, charge and public confirmation stay intact.
+      await app.onSession(function (hazard) {
+        const owner = this.players[0], row = Math.round(owner.groundY);
+        for (const lane of this.world.rows.values()) Object.assign(lane, {
+          kind: 'meadow', blocked: [], decorations: [], coin: null,
+          coinActor: undefined, actors: undefined, phase: 0, speed: 0, spacing: 20, length: 1.15,
+        });
+        this.world.mobs.length = 0;
+        const lane = this.world.rows.get(row);
+        if (hazard === 'water') Object.assign(lane, { kind: 'river', phase: 10, length: 1 });
+        if (hazard === 'car') Object.assign(lane, { kind: 'road', phase: owner.groundX, length: 2 });
+        if (hazard === 'train') Object.assign(lane, { kind: 'rail', direction: 1, period: 20,
+          warning: 2, phase: 2 + (owner.groundX + 13.5) / 38 * 1.75 - this.world.time, length: 12.6 });
+        if (hazard === 'resting-mob') this.world.mobs.push({ id: 9002, kind: 'slime',
+          x: owner.groundX, y: row, fromX: owner.groundX, fromY: row,
+          targetX: owner.groundX, targetY: row, phase: 'rest', phaseLeft: 10, phaseDuration: 10 });
+        if (hazard === 'too-few-cells') for (const candidate of [row, row - 1, row - 2]) {
+          this.world.rows.get(candidate).blocked = Array.from({ length: 11 }, (_, index) => index - 5)
+            .filter(x => candidate !== row || x !== Math.round(owner.groundX));
+        }
+      }, hazard);
+      const before = await observe(app);
+      await board.getByRole('button', { name: 'Use Flare', exact: true }).click();
+      assert.equal(await board.getByText('The flock can’t regroup safely yet. Flare kept.', { exact: true }).isVisible(), true, hazard);
+      assert.deepEqual(await observe(app), before, `${hazard}: no partial movement, healing, debit or protection`);
+      assert.deepEqual(before, original, `${hazard}: geometry arrangement changes no participant state`);
+    }
+    await app.onSession(function () {
+      for (const lane of this.world.rows.values()) Object.assign(lane, { kind: 'meadow', blocked: [] });
+      // Spawning mobs have no contact hitbox yet and must not veto the anchor.
+      this.world.mobs.length = 0;
+      const owner = this.players[0];
+      this.world.mobs.push({ id: 9003, kind: 'slime', x: owner.groundX, y: owner.groundY,
+        fromX: owner.groundX, fromY: owner.groundY, targetX: owner.groundX, targetY: owner.groundY,
+        phase: 'spawning', phaseLeft: 10, phaseDuration: 10 });
+    });
+    await board.getByRole('button', { name: 'Use Flare', exact: true }).click();
+    assert.equal(await board.count(), 0, 'the unchanged charge remains usable after hazards clear');
+    const after = await observe(app), anchor = original.players[0];
+    assert.equal(after.charges.find(charge => charge.seat === 'p1').flare, 0);
+    assert.equal(new Set(after.players.map(player => `${player.x}:${player.y}`)).size, 4);
+    assert.deepEqual([after.players[0].x, after.players[0].y], [anchor.x, anchor.y]);
+    for (const player of after.players) {
+      assert.equal(player.participation, 'active'); assert.ok(player.protection > after.time);
+      const previous = original.players.find(value => value.seat === player.seat);
+      assert.equal(player.participantId, previous.participantId);
+      assert.equal(player.wallet, previous.wallet); assert.deepEqual(player.cards, previous.cards);
+      if (previous.participation === 'active') assert.equal(player.health, previous.health);
+    }
+    assert.equal(after.time, original.time);
+    await app.advance(3000); assert.deepEqual(await observe(app), after, 'the retry preserves the menu pause');
+    assert.deepEqual(evidence.errors, []); assert.deepEqual(evidence.external, []);
+  } finally { await app.close(); }
+});
