@@ -2,15 +2,19 @@ import assert from 'node:assert/strict';
 import test, { after } from 'node:test';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { loadSources } from './source-loader.mjs';
+import { turnReuseAttribution } from './turn-reuse-attribution.mjs';
 
 const sources = await loadSources(['game', 'race', 'session', 'market/catalog']);
 after(sources.dispose);
 const { Game } = await sources.import('game');
-const { createRaceSession } = await sources.import('race');
+const { createRaceSession, RaceCoordinator } = await sources.import('race');
+const reuse = await turnReuseAttribution({ mode: 'race', factory: createRaceSession, Coordinator: RaceCoordinator, lifetimes: 12 });
+after(() => reuse.finish());
 
 test('statistics dependency: successful market interaction survives death clear exactly once', () => {
+  const witness = reuse.lifetime();
   const game = new Game(113, 'pond', 'arcade', false, [], 'butter');
-  const race = createRaceSession(game, { seats: [
+  const race = witness.acquire(game, { seats: [
     { seat: 'p1', device: 'keyboard-a', characterId: 'butter' },
     { seat: 'p2', device: 'keyboard-b', characterId: 'pip' },
   ] });
@@ -18,133 +22,174 @@ test('statistics dependency: successful market interaction survives death clear 
   // Arrange a real market window and funds, then exercise its authoritative
   // owner/context transaction. No result or statistic is fabricated.
   owner.run.advanceScore(100); owner.run.creditCoins(30);
-  function request(kind, itemId) {
-    const context = session.openCoOpMarket(owner);
-    assert.ok(context);
-    return { actionId: `result-${kind}`, kind, itemId, seat: owner.seat,
-      device: owner.device, participantId: owner.participantId,
-      expectedOwnerGeneration: context.ownerGeneration,
-      expectedInventoryGeneration: context.inventoryGeneration,
-      expectedRunRevision: context.runRevision,
-      expectedContextGeneration: context.contextGeneration };
-  }
-  assert.equal(session.actCoOpMarket(request('open')).ok, true);
-  const purchase = request('buy-consumable', 'mud-splash');
-  assert.equal(session.actCoOpMarket(purchase).ok, true);
-  assert.equal(session.actCoOpMarket(purchase).ok, false);
-  assert.equal(owner.run.wallet, 0);
-  assert.equal(session.consumableSnapshot().charges.find(p => p.seat === owner.seat)['mud-splash'], 1);
+  let purchase;
+  witness.interval('accepted-market-statistics', () => {
+    function request(kind, itemId) {
+      const context = session.openCoOpMarket(owner);
+      assert.ok(context);
+      return { actionId: `result-${kind}`, kind, itemId, seat: owner.seat,
+        device: owner.device, participantId: owner.participantId,
+        expectedOwnerGeneration: context.ownerGeneration,
+        expectedInventoryGeneration: context.inventoryGeneration,
+        expectedRunRevision: context.runRevision,
+        expectedContextGeneration: context.contextGeneration };
+    }
+    assert.equal(session.actCoOpMarket(request('open')).ok, true);
+    purchase = request('buy-consumable', 'mud-splash');
+    assert.equal(session.actCoOpMarket(purchase).ok, true);
+    assert.equal(session.actCoOpMarket(purchase).ok, false);
+    assert.equal(owner.run.wallet, 0);
+    assert.equal(session.consumableSnapshot().charges.find(p => p.seat === owner.seat)['mud-splash'], 1);
+  });
   owner.powerReadyAt = 999;
-  session.damage(owner.seat, { cause: 'fog', amount: 99, reason: 'result history reproduction' });
-  assert.equal(owner.state, 'dead');
-  assert.equal(owner.run.market, null);
-  assert.equal(session.consumableSnapshot().charges.find(p => p.seat === owner.seat)['mud-splash'], 0);
-  // Proposed shared contribution field: the authoritative successful purchase
-  // must remain observable after clear, independently of Race's result view.
-  assert.equal(owner.statistics.marketPurchases, 1,
-    'common participant statistics must retain the accepted purchase, excluding its rejected replay');
-  assert.equal(owner.statistics.marketInteractions, 2);
-  assert.equal(owner.statistics.coinsSpent, 30);
-  assert.equal(owner.statistics.itemsFound, 0, 'purchase is not world collection');
-  const history = owner.interactions;
-  assert.equal(history.length, 2);
-  assert.deepEqual(history.map(e => [e.kind, e.action, e.walletDelta]), [['market', 'open', 0], ['market', 'buy-consumable', -30]]);
-  assert.equal(history[1].participantId, owner.participantId);
-  assert.equal(history[1].itemId, 'mud-splash');
-  assert.equal(history[1].itemKind, 'consumable');
-  assert.equal(history[1].ownerGeneration, purchase.expectedOwnerGeneration);
-  assert.ok(Object.isFrozen(history) && Object.isFrozen(history[1]));
-  assert.equal(session.players[1].interactions.length, 0);
-  session.declineRecovery('p1');session.depart('p2','confirmed-leave');race.tick(session);
-  assert.equal(race.result.players[0].marketPurchases,1);assert.equal(race.result.players[0].coinsSpent,30);
-  assert.deepEqual(race.result.players[0].interactions,history);
+  witness.interval('death-clears-inventory-retains-history', () => {
+    session.damage(owner.seat, { cause: 'fog', amount: 99, reason: 'result history reproduction' });
+    assert.equal(owner.state, 'dead');
+    assert.equal(owner.run.market, null);
+    assert.equal(session.consumableSnapshot().charges.find(p => p.seat === owner.seat)['mud-splash'], 0);
+    // Proposed shared contribution field: the authoritative successful purchase
+    // must remain observable after clear, independently of Race's result view.
+    assert.equal(owner.statistics.marketPurchases, 1,
+      'common participant statistics must retain the accepted purchase, excluding its rejected replay');
+    assert.equal(owner.statistics.marketInteractions, 2);
+    assert.equal(owner.statistics.coinsSpent, 30);
+    assert.equal(owner.statistics.itemsFound, 0, 'purchase is not world collection');
+    const history = owner.interactions;
+    assert.equal(history.length, 2);
+    assert.deepEqual(history.map(e => [e.kind, e.action, e.walletDelta]), [['market', 'open', 0], ['market', 'buy-consumable', -30]]);
+    assert.equal(history[1].participantId, owner.participantId);
+    assert.equal(history[1].itemId, 'mud-splash');
+    assert.equal(history[1].itemKind, 'consumable');
+    assert.equal(history[1].ownerGeneration, purchase.expectedOwnerGeneration);
+    assert.ok(Object.isFrozen(history) && Object.isFrozen(history[1]));
+    assert.equal(session.players[1].interactions.length, 0);
+    session.declineRecovery('p1');session.depart('p2','confirmed-leave');race.tick(session);
+    assert.equal(race.result.players[0].marketPurchases,1);assert.equal(race.result.players[0].coinsSpent,30);
+    assert.deepEqual(race.result.players[0].interactions,history);
+  }); witness.finish();
 });
 
 test('statistics innate commit belongs to stable receiver before presentation callback and survives death', () => {
+  const witness = reuse.lifetime();
   const game = new Game(113, 'pond', 'arcade', false, [], 'butter');
-  const race = createRaceSession(game, { seats: [
+  const race = witness.acquire(game, { seats: [
     { seat:'p1',device:'keyboard-a',characterId:'butter' },
     { seat:'p2',device:'keyboard-b',characterId:'pip' },
   ] });
   const [primary, secondary] = race.session.players;
   let calls = 0;
   secondary.onPower = () => { calls++; assert.equal(secondary.statistics.innateUses, 1); assert.equal(primary.statistics.innateUses, 0); };
-  race.session.damage('p2', {cause:'mob',amount:99,reason:'innate success'});
-  assert.equal(calls, 1);
-  assert.equal(secondary.interactions.filter(e=>e.kind==='innate').length, 1);
-  race.session.damage('p2', {cause:'mob',amount:99,reason:'protected replay'});
-  assert.equal(calls, 1);
-  assert.equal(primary.interactions.length, 0);
+  witness.interval('receiver-innate-before-callback-and-protected-replay', () => {
+    race.session.damage('p2', {cause:'mob',amount:99,reason:'innate success'});
+    assert.equal(calls, 1);
+    assert.equal(secondary.interactions.filter(e=>e.kind==='innate').length, 1);
+    race.session.damage('p2', {cause:'mob',amount:99,reason:'protected replay'});
+    assert.equal(calls, 1);
+    assert.equal(primary.interactions.length, 0);
+  }); witness.finish();
 });
 
-function arena(count=2, finishTiles=500) {
+function arena(count=2, finishTiles=500, witness) {
   const game=new Game(113,'pond','arcade',false,[],'butter');
   const seats=[['p1','butter','keyboard-a'],['p2','pip','keyboard-b'],['p3','sunny','gamepad-0'],['p4','petal','gamepad-1']].slice(0,count).map(([seat,characterId,device])=>({seat,characterId,device}));
-  const race=createRaceSession(game,{seats,finishTiles,activeSeconds:30});
+  const race=(witness ? witness.acquire : createRaceSession)(game,{seats,finishTiles,activeSeconds:30});
   for(let row=-8;row<100;row++)game.rows.set(row,{...game.rows.get(0),index:row,kind:'meadow',blocked:[],decorations:[],coin:null});
   return {game,race,session:race.session};
 }
+function trackedArena(count=2, finishTiles=500) {
+  const witness = reuse.lifetime();
+  return { ...arena(count, finishTiles, witness), witness };
+}
 function step(run,n=1){for(let i=0;i<n;i++)run.session.update(1/120);}
 function hop(run,seats){for(const seat of seats)assert.equal(run.session.dispatch({seat,direction:'forward'}),true);for(let i=0;i<120&&run.session.players.some(p=>p.hop>0);i++)step(run);}
-function kill(run,seat){run.session.players.find(p=>p.seat===seat).powerReadyAt=999;run.session.damage(seat,{cause:'fog',amount:99,reason:'result fatal'});}
+function kill(run,seat){
+  // Fixture cooldown stays outside the actual fatal-contact interval.
+  run.session.players.find(p=>p.seat===seat).powerReadyAt=999;
+  const contact=()=>run.session.damage(seat,{cause:'fog',amount:99,reason:'result fatal'});
+  return run.witness ? run.witness.interval(`fatal-contact-${seat}`,contact) : contact();
+}
 function endByLeave(run){for(const p of run.session.players)run.session.depart(p.seat,'confirmed-leave');run.race.tick(run.session);return run.race.result;}
 
 test('captured settings ledger and true same-tick finish ranks retain complete stable participants',()=>{
-  const run=arena(3,1);hop(run,['p1','p2']);hop(run,['p3']);
-  const result=run.race.result;assert.deepEqual(result.players.map(p=>p.rankLabel),['=1','=1','3']);
-  assert.equal(result.reason,'finish');assert.equal(result.tick,run.game.world.simulationTick);
-  assert.equal(result.descriptor.itemVersion,'race-item-schema-1');assert.equal(result.course.level,'pond');
-  assert.equal(result.leaderFrontier,1);assert.equal(result.fogBoundary,-11);
-  for(const p of result.players){assert.ok(p.participantId);assert.equal(p.marker,p.seat.toUpperCase());assert.equal(p.status,'finished');assert.ok(p.finishTick>0);assert.ok(p.finishTime>0);assert.equal(p.innateUses,0);assert.ok(Object.isFrozen(p));}
-  assert.ok(result.events.length>0);
+  const run=trackedArena(3,1);
+  run.witness.interval('same-tick-finish-and-frozen-participants',()=>{
+    hop(run,['p1','p2']);hop(run,['p3']);
+    const result=run.race.result;assert.deepEqual(result.players.map(p=>p.rankLabel),['=1','=1','3']);
+    assert.equal(result.reason,'finish');assert.equal(result.tick,run.game.world.simulationTick);
+    assert.equal(result.descriptor.itemVersion,'race-item-schema-1');assert.equal(result.course.level,'pond');
+    assert.equal(result.leaderFrontier,1);assert.equal(result.fogBoundary,-11);
+    for(const p of result.players){assert.ok(p.participantId);assert.equal(p.marker,p.seat.toUpperCase());assert.equal(p.status,'finished');assert.ok(p.finishTick>0);assert.ok(p.finishTime>0);assert.equal(p.innateUses,0);assert.ok(Object.isFrozen(p));}
+    assert.ok(result.events.length>0);
+  });run.witness.finish();
 });
 
 test('timeout ranking mixed finishers and distances uses competition positions without DNF bias',()=>{
-  const run=arena(4,3);hop(run,['p1','p2','p3']);hop(run,['p1','p2','p3']);hop(run,['p1']);hop(run,['p4']);step(run,3700);
-  assert.equal(run.race.result.outcome,'time');assert.deepEqual(run.race.result.players.map(p=>p.rankLabel),['1','=2','=2','4']);
-  const equal=arena(4);step(equal,3700);assert.deepEqual(equal.race.result.players.map(p=>p.rankLabel),['=1','=1','=1','=1']);
+  const run=trackedArena(4,3);
+  run.witness.interval('mixed-finishers-timeout-ranks',()=>{
+    hop(run,['p1','p2','p3']);hop(run,['p1','p2','p3']);hop(run,['p1']);hop(run,['p4']);step(run,3700);
+    assert.equal(run.race.result.outcome,'time');assert.deepEqual(run.race.result.players.map(p=>p.rankLabel),['1','=2','=2','4']);
+  });run.witness.finish();
+  const equal=trackedArena(4);
+  equal.witness.interval('equal-distance-timeout-ranks',()=>{
+    step(equal,3700);assert.deepEqual(equal.race.result.players.map(p=>p.rankLabel),['=1','=1','=1','=1']);
+  });equal.witness.finish();
 });
 
 for(const reason of ['leave','forfeit','decline','expiry'])test(`ledger ${reason} preserves death clear and explicit unranked DNF`,()=>{
-  const run=arena();hop(run,['p1']);const p=run.session.players[0];
-  const lane=run.game.rows.get(Math.round(p.y));lane.coin=0;run.session.world.claimPickup(p,lane,run.game.time,0,5);run.session.world.resolvePickups();
+  const run=trackedArena();
+  run.witness.interval('earned-hop-before-dnf',()=>hop(run,['p1']));const p=run.session.players[0];
+  const lane=run.game.rows.get(Math.round(p.y));lane.coin=0;
+  run.witness.interval('collected-credit-before-dnf',()=>{run.session.world.claimPickup(p,lane,run.game.time,0,5);run.session.world.resolvePickups();});
   const coins=p.coins;
-  if(reason==='leave')run.session.depart('p1','confirmed-leave');
-  else if(reason==='forfeit'){run.session.deviceLost('p1');step(run,1441);}
-  else {kill(run,'p1');if(reason==='decline')run.session.declineRecovery('p1');else step(run,970);}
-  run.session.depart('p2','confirmed-leave');run.race.tick(run.session);
-  const result=run.race.result,record=result.players.find(p=>p.seat==='p1');
-  assert.equal(record.rank,null);assert.equal(record.rankLabel,'DNF');assert.equal(record.coins,coins);assert.equal(record.pickups,1);
-  assert.equal(record.dnf,reason==='leave'?'Left':reason==='forfeit'?'Forfeited':'Down');
-  assert.equal(record.deaths,['decline','expiry'].includes(reason)?1:0);assert.equal(result.winners.length,0);
-  if(record.deaths)assert.equal(result.events.filter(e=>e.kind==='death'&&e.seat==='p1').length,1);
-  const json=JSON.stringify(result);run.race.tick(run.session);run.session.declineRecovery('p1');run.session.dispatch({seat:'p1',direction:'forward'});assert.equal(JSON.stringify(result),json);
+  if(reason==='decline'||reason==='expiry')kill(run,'p1');
+  run.witness.interval(`dnf-result-${reason}`,()=>{
+    if(reason==='leave')run.session.depart('p1','confirmed-leave');
+    else if(reason==='forfeit'){run.session.deviceLost('p1');step(run,1441);}
+    else {if(reason==='decline')run.session.declineRecovery('p1');else step(run,970);}
+    run.session.depart('p2','confirmed-leave');run.race.tick(run.session);
+    const result=run.race.result,record=result.players.find(p=>p.seat==='p1');
+    assert.equal(record.rank,null);assert.equal(record.rankLabel,'DNF');assert.equal(record.coins,coins);assert.equal(record.pickups,1);
+    assert.equal(record.dnf,reason==='leave'?'Left':reason==='forfeit'?'Forfeited':'Down');
+    assert.equal(record.deaths,['decline','expiry'].includes(reason)?1:0);assert.equal(result.winners.length,0);
+    if(record.deaths)assert.equal(result.events.filter(e=>e.kind==='death'&&e.seat==='p1').length,1);
+    const json=JSON.stringify(result);run.race.tick(run.session);run.session.declineRecovery('p1');run.session.dispatch({seat:'p1',direction:'forward'});assert.equal(JSON.stringify(result),json);
+  });run.witness.finish();
 });
 
 test('ledger personal recovery and fog attempted versus landed retain pre-clear contribution',()=>{
-  const run=arena();kill(run,'p2');assert.equal(run.session.recover({kind:'personal',ownerSeat:'p2'}),true);
-  for(let i=0;i<14;i++)hop(run,['p1']);step(run,180);
-  endByLeave(run);const record=run.race.result.players[1];assert.equal(record.selfRevives,1);assert.equal(record.deaths,1);
-  assert.ok(record.fogAttempted>=1);assert.ok(record.fogLanded>=1);assert.equal(record.distance,0);
-  assert.ok(run.race.result.events.some(e=>e.kind==='death'&&e.seat==='p2'));
+  const run=trackedArena();kill(run,'p2');
+  run.witness.interval('personal-recovery-fog-and-retained-results',()=>{
+    assert.equal(run.session.recover({kind:'personal',ownerSeat:'p2'}),true);
+    for(let i=0;i<14;i++)hop(run,['p1']);step(run,180);
+    endByLeave(run);const record=run.race.result.players[1];assert.equal(record.selfRevives,1);assert.equal(record.deaths,1);
+    assert.ok(record.fogAttempted>=1);assert.ok(record.fogLanded>=1);assert.equal(record.distance,0);
+    assert.ok(run.race.result.events.some(e=>e.kind==='death'&&e.seat==='p2'));
+  });run.witness.finish();
 });
 
 test('item statistics preserve each world collection use target generation and death clear', async()=>{
   const {sampleItemDrop}=await sources.import('consumable-drops');const {RACE_DROP_SCHEMA}=await sources.import('race-items');
   for(const item of ['mud-splash','fog-lantern']){
     let seed=0;while(sampleItemDrop(RACE_DROP_SCHEMA,{courseSeed:seed,row:1,slot:0}).itemId!==item)seed++;
+    const witness=reuse.lifetime();
     const game=new Game(seed,'pond','arcade',false,[],'butter');
-    const race=createRaceSession(game,{seats:[{seat:'p1',characterId:'butter',device:'keyboard-a'},{seat:'p2',characterId:'pip',device:'keyboard-b'}]});
-    const run={game,race,session:race.session},p=run.session.players[0];
+    const race=witness.acquire(game,{seats:[{seat:'p1',characterId:'butter',device:'keyboard-a'},{seat:'p2',characterId:'pip',device:'keyboard-b'}]});
+    const run={game,race,session:race.session,witness},p=run.session.players[0];
     for(const row of game.rows.values())Object.assign(row,{kind:'meadow',blocked:[],coin:null});
     const pickup=run.session.consumableSnapshot().pickups.find(p=>p.itemId===item&&p.row===1);assert.ok(pickup);
-    p.x=p.fromX=pickup.x;p.y=p.fromY=pickup.y;p.hop=0;step(run);
-    const plan=race.items.plan('p1',item,'p2');assert.equal(plan.ok,true);assert.equal(race.items.commit(plan),true);assert.equal(race.items.commit(plan),false);
-    const old=p.interactions.find(e=>e.kind==='item-use');assert.equal(old.targets[0].participantId,run.session.players[item==='mud-splash'?1:0].participantId);
-    kill(run,'p1');run.session.declineRecovery('p1');run.session.depart('p2','confirmed-leave');race.tick(run.session);
-    const own=race.result.players[0],other=race.result.players[1];assert.equal(own[item==='mud-splash'?'mudCollected':'lanternCollected'],1);assert.equal(own[item==='mud-splash'?'mudUsed':'lanternUsed'],1);
-    assert.equal(other.mudReceived,item==='mud-splash'?1:0);assert.ok(Object.isFrozen(own.interactions));
-    assert.deepEqual(own.interactions.find(e=>e.kind==='item-use'),old);
+    p.x=p.fromX=pickup.x;p.y=p.fromY=pickup.y;p.hop=0;let old;
+    witness.interval(`seeded-${item}-pickup-and-authoritative-use`,()=>{
+      step(run);
+      const plan=race.items.plan('p1',item,'p2');assert.equal(plan.ok,true);assert.equal(race.items.commit(plan),true);assert.equal(race.items.commit(plan),false);
+      old=p.interactions.find(e=>e.kind==='item-use');assert.equal(old.targets[0].participantId,run.session.players[item==='mud-splash'?1:0].participantId);
+    });
+    kill(run,'p1');
+    witness.interval(`seeded-${item}-frozen-result-history`,()=>{
+      run.session.declineRecovery('p1');run.session.depart('p2','confirmed-leave');race.tick(run.session);
+      const own=race.result.players[0],other=race.result.players[1];assert.equal(own[item==='mud-splash'?'mudCollected':'lanternCollected'],1);assert.equal(own[item==='mud-splash'?'mudUsed':'lanternUsed'],1);
+      assert.equal(other.mudReceived,item==='mud-splash'?1:0);assert.ok(Object.isFrozen(own.interactions));
+      assert.deepEqual(own.interactions.find(e=>e.kind==='item-use'),old);
+    });witness.finish();
   }
 });
 
@@ -179,11 +224,22 @@ const resultOutput=new URL('../artifacts/race-results/',import.meta.url);
 async function resultJourney(t,id,timeout,expectedCells,expectedStages,action){
   const evidence={errors:[],external:[],stages:[],cells:[],captures:[],complete:false};
   let app,activeSignal,originalFailure,passed=false;
-  const closes=new WeakMap();
+  const closes=new WeakMap(),cleanup=[];
+  let cleanupWrite=Promise.resolve();
+  const noteCleanup=status=>{
+    cleanup.push({status,at:new Date().toISOString(),elapsedMs:performance.now()});
+    const text=JSON.stringify(cleanup,null,2)+'\n';
+    cleanupWrite=cleanupWrite.then(()=>writeFile(new URL(`${id}-cleanup.json`,resultOutput),text));
+    return cleanupWrite;
+  };
   const check=()=>{t.signal.throwIfAborted();activeSignal?.throwIfAborted();};
   const closeOnce=()=>{
     if(!app)return Promise.resolve();
-    if(!closes.has(app))closes.set(app,app.close());
+    if(!closes.has(app)){
+      void noteCleanup('close-started');
+      app.browser.once('disconnected',()=>{void noteCleanup('browser-disconnected');});
+      closes.set(app,(async()=>{try{await app.close();await noteCleanup('close-completed');}catch(error){await noteCleanup('close-failed');throw error;}finally{await cleanupWrite;}})());
+    }
     return closes.get(app);
   };
   const open=async(options)=>{

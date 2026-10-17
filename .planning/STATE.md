@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: 07-03 meaningful coverage closure; full enforcing report pending
-last_updated: "2026-10-17T09:04:43.600352+00:00"
+last_updated: "2026-10-17T10:12:32.797227+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,7 +12,7 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Relay22/22 ordinary and canonical935ee706 pass after harness abort/clock repair;15lifetimes30intervals; diagnostic gains11L6F30B; full release floors remain open.
+last_activity_desc: Race results44/44 normal/canonical494cd687;12 actual lifetimes40intervals; diagnostic gains10L4F24B and Race line target met; remaining release gates open.
 ---
 
 # Project State
@@ -423,6 +423,37 @@ Exact-current diagnostic full+newRelay is1912/2159L632/718F1994/2893B, gains
 11L/6F/30B. Still32L/15F/466B needed for Relay mode floors. No release acceptance.
 See07-03-RELAY-LIFECYCLE-PROOF.md/json and harness investigation; historical
 failed partial payloads never supply accepted counters. Semantic ledger unchanged.
+
+Race results reuse candidate now bounds12 actual Race acquisitions and40
+expected action/acquisition intervals. All component scenes retain original
+Arcade base. Terrain/funds/cooldown/position fixtures remain outside action
+intervals; fatal helper tracks only actual damage after arranged cooldown.
+Pure independent ledger/rank and generic LocalSession market tests stay global-only.
+All136 original assertion calls and five screenshot argument sites are AST-equal;
+entire browser/generic-market tail is byte-identical. Current full/focused job
+copies retain whole mixed job with six original browser realms; no whole-worker
+mode credit. Initial chain45229 terminal1 at ordinary:42pass/1fail/1cancel of44 tests.
+Only failed subtest was timed-results cleanup30s, after terminal and both layout
+cells completed; parent records AbortError. Five other browser journeys completed.
+No canonical collection was launched. Output originally absent is restored absent;
+all eight frozen normal/root-lock/test/config/authority files unchanged. Evidence
+and generated reports preserved under race-results-reuse wrapper directory.
+
+Observer-only cleanup timestamps record app-close start, browser disconnect and
+completion; no closing/action/assertion/timeout change. Whole ordinary44/44 and
+canonical44/44 pass, run494cd687-8a7e-4d88-986f-40adac3a0510,91151terminal0.
+Twelve actual Arcade Race lifetimes/40 expected intervals bind one Node parent;
+six original browsers separately collected, seven parent payloads. All six
+reports complete,46 cells/78PNG. Original directory absence restored; all eight
+frozen normal/root-lock/test/config/authority files unchanged.136 assertions and
+five screenshot sites AST-equal; six browser bodies/generic market tail unchanged.
+Timed cleanup30ms normal/4.11s canonical; earlier isolated delay cause remains
+unproven, retained with its failed ordinary log. No product RED or invented fix.
+Exact-current full+turn-lifecycle+new-results diagnostic is Race2004/2222L675/769F
+2243/3141B, gains10L/4F/24B. Race line target now passes; still18F/427B needed.
+Full enforcing collection and semantic ledger remain pending; no release pass.
+See07-03-RACE-RESULTS-PROOF.md/json, logs/state under race-results-close.
+No runtime is active. Source/test/tool freeze is released after preservation.
 
 ## Next required work
 
