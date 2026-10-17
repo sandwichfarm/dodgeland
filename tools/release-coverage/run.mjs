@@ -4,11 +4,11 @@ import { createRequire } from 'node:module';
 import { spawnSync } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
 import { globSync } from 'node:fs';
-import { buildInventory, repositoryRoot } from './inventory.mjs';
+import { buildInventory, repositoryRoot, nodeWorkerBinding } from './inventory.mjs';
 import { mergePayloads } from './collector.mjs';
 import { browserApplicabilityDispositions, BROWSER_STRATUM } from './browser-applicability.mjs';
 import { reportApplicability } from './applicability.mjs';
-import { soloApplicabilityDispositions } from './solo-applicability.mjs';
+import { soloApplicabilityDispositions, SOLO_AUTHORITY_PINS } from './solo-applicability.mjs';
 import { turnApplicabilityDispositions, TURN_APPLICABILITY_SOURCES } from './turn-applicability.mjs';
 import { reportCoverage, hash } from './instrument.mjs';
 import { pathToFileURL } from 'node:url';
@@ -44,11 +44,26 @@ export function resolveCommandInventory(scripts,canonicalSource,tracked){
  return {entries:[...entries.values()].sort((a,b)=>a.path.localeCompare(b.path)),commands};
 }
 
+export function expectedNodeRealms(jobs,workerRoles){
+ const realms=[],filenames=new Set();
+ for(const job of jobs){
+  const role=workerRoles[job.file];
+  if(job.nodeRealmId!==undefined&&(role!=='mixed'||job.modelAttribution||job.nodeRealmId!==`${job.file}#${job.id}`))throw Error('Invalid alternate Node job identity');
+  if(!['node','mixed'].includes(role))continue;
+  const realmId=job.nodeRealmId??job.file;
+  const binding=nodeWorkerBinding({jobId:job.id,nodeRealmId:job.nodeRealmId,workerRoles,expectedWorkers:[job.file],expectedRealms:[realmId]},job.file);
+  if(realms.includes(realmId)||filenames.has(binding.filename))throw Error('Duplicate Node parent or output');
+  realms.push(realmId);filenames.add(binding.filename);
+ }
+ return realms;
+}
+
 export function validateFullManifest(manifest,inventory){
  if(!manifest.complete||!manifest.execution)throw Error('Full collection incomplete');
  const {jobs,controls}=manifest.execution;if(!jobs?.length||!Array.isArray(controls))throw Error('Missing execution jobs/controls');
  const ids=new Set();for(const job of jobs){if(ids.has(job.id))throw Error('Duplicate job');ids.add(job.id);if(!['node','browser','mixed'].includes(job.role)||!job.requiredRealms?.length||JSON.stringify(job.requiredRealms)!==JSON.stringify(job.role==='mixed'?['node','browser']:[job.role]))throw Error('Missing declared realm requirements');}
  for(const entry of inventory.entries)if(!jobs.some(j=>j.file===entry.path)&&!controls.includes(entry.path))throw Error(`Missing owner ${entry.path}`);
+ expectedNodeRealms(jobs,Object.fromEntries(jobs.map(job=>[job.file,job.role])));
  const variantFiles=new Set(inventory.commands.filter(c=>c.env.DOWN_TO_DUCK_AUDIO_BROWSER).flatMap(c=>c.args.filter(p=>p.endsWith('.mjs'))));
  for(const c of inventory.commands)for(const file of c.args.filter(p=>variantFiles.has(p))){const browser=c.env.DOWN_TO_DUCK_AUDIO_BROWSER??'chromium';if(!jobs.some(j=>j.file===file&&(j.env?.DOWN_TO_DUCK_AUDIO_BROWSER??'chromium')===browser))throw Error(`Missing browser variant ${file}: ${browser}`);}
  return true;
@@ -59,7 +74,7 @@ export async function auditExecutionInventory(manifest){
  const paths=tracked.stdout.split('\0').filter(Boolean),pkg=JSON.parse(await readFile(join(repositoryRoot,'package.json'),'utf8'));
  const resolved=resolveCommandInventory(pkg.scripts,await readFile(join(repositoryRoot,'tests/phase6-gate.mjs'),'utf8'),paths);
  // This plan's new original-purpose suite is an explicit additive entry, never a replacement.
- resolved.entries.push({path:'tools/release-coverage/development-artifact.test.mjs',origins:['plan07-03:development-artifact-calibration']},{path:'tests/release-solo-bootstrap.test.mjs',origins:['plan07-03:solo-bootstrap-attribution']},{path:'tests/release-mode-coverage.mjs',origins:['plan07-12:mode-attribution']},{path:'tests/release-survive-mode-coverage.test.mjs',origins:['plan07-03:component-mode-attribution']},{path:'tests/release-solo-mode-coverage.test.mjs',origins:['plan07-03:solo-component-attribution']},{path:'tests/release-turn-mode-coverage.test.mjs',origins:['plan07-03:turn-component-attribution']});resolved.entries.sort((a,b)=>a.path.localeCompare(b.path));
+ resolved.entries.push({path:'tools/release-coverage/node-job-identity.test.mjs',origins:['plan07-03:repeated-mixed-parent-calibration']},{path:'tools/release-coverage/development-artifact.test.mjs',origins:['plan07-03:development-artifact-calibration']},{path:'tests/release-solo-bootstrap.test.mjs',origins:['plan07-03:solo-bootstrap-attribution']},{path:'tests/release-mode-coverage.mjs',origins:['plan07-12:mode-attribution']},{path:'tests/release-survive-mode-coverage.test.mjs',origins:['plan07-03:component-mode-attribution']},{path:'tests/release-solo-mode-coverage.test.mjs',origins:['plan07-03:solo-component-attribution']},{path:'tests/release-turn-mode-coverage.test.mjs',origins:['plan07-03:turn-component-attribution']});resolved.entries.sort((a,b)=>a.path.localeCompare(b.path));
  const closure=new Map(),queue=resolved.entries.map(r=>r.path);
  while(queue.length){const path=queue.shift();if(closure.has(path))continue;const text=await readFile(join(repositoryRoot,path),'utf8'),source=ts.createSourceFile(path,text,ts.ScriptTarget.Latest,true,ts.ScriptKind.JS),imports=[],dynamic=[];
   function add(spec){if(!spec.startsWith('.'))return;const target=relative(repositoryRoot,resolve(repositoryRoot,dirname(path),spec));if(!paths.includes(target))throw Error(`Unresolved local import ${path}: ${spec}`);imports.push(target);if(target.startsWith('tests/'))queue.push(target);}
@@ -151,7 +166,7 @@ export function projectSoloApplicability(mode,inventory,mapped,paths,intervals){
   return {path:absolute,source:record.source,map:record.map,coverage:mapped[absolute]};
  });
  const attributed=Object.fromEntries(sources.map(s=>[s.path,mapped[s.path]]));
- return reportApplicability({mode,sources,attributed,dispositions:soloApplicabilityDispositions({mode,sources})});
+ return reportApplicability({mode,sources,attributed,dispositions:soloApplicabilityDispositions({mode,sources,authoritySources:Object.keys(SOLO_AUTHORITY_PINS).map(path=>{const record=Object.values(inventory).find(r=>r.path===resolve(repositoryRoot,path));if(!record)throw Error("Missing solo caller authority: "+path);return {path,source:record.source};})})});
 }
 
 export function projectTurnApplicability(mode,inventory,mapped,paths,intervals){
@@ -226,8 +241,8 @@ async function main(){
  if(!full&&!reportOnly)throw Error('Named foundation suites require explicit report-only');
  output??=resolve(repositoryRoot,'artifacts/release-coverage',suite??'full');
  const workerRoles=Object.fromEntries(group.files.map(file=>[file,group.roles?.[file]??group.role]));
- const expectedRealms=group.files.filter(file=>['node','mixed'].includes(workerRoles[file]));
  const jobs=group.jobs??null;
+ const expectedRealms=jobs?expectedNodeRealms(jobs,workerRoles):group.files.filter(file=>['node','mixed'].includes(workerRoles[file]));
  if(jobs){
   if(!jobs.length||new Set(jobs.map(j=>j.id)).size!==jobs.length)throw Error('Empty/duplicate browser jobs');
   for(const job of jobs)if(!/^[a-z0-9-]+$/.test(job.id)||!group.files.includes(job.file)||!['node','browser','mixed'].includes(workerRoles[job.file])||Object.entries(job.env??{}).some(([k,v])=>k!=='DOWN_TO_DUCK_AUDIO_BROWSER'||!['chromium','firefox'].includes(v)))throw Error('Invalid browser job');
@@ -250,7 +265,7 @@ async function main(){
   }
   for(const path of group.artifactDirectories??[]){const original=resolve(repositoryRoot,path),backup=join(payloadDirectory,'prior-artifacts',path),present=!!await stat(original).catch(()=>null);if(present)await cp(original,backup,{recursive:true});preserved.push({original,backup,path,present});}
   if(full){await writeFile(join(payloadDirectory,'execution-inventory.json'),JSON.stringify(executionInventory,null,2));const controlEnv={...process.env};delete controlEnv.DOWN_TO_DUCK_COVERAGE_CONFIG;delete controlEnv.NODE_TEST_CONTEXT;for(const file of manifest.execution.controls.filter(p=>p.endsWith('.test.mjs'))){console.log(`CONTROL ${file}`);run(process.execPath,['tests/strict-node-tests.mjs',file],controlEnv);jobLedger.push({file,role:'control',exitCode:0});}}
-  if(jobs){for(const job of jobs){const jobConfig=join(payloadDirectory,'job-'+job.id+'.json');await writeFile(jobConfig,JSON.stringify({...config,jobId:job.id,verifyArtifactScope:job.verifyArtifactScope===true,defaultBuildScope:job.defaultBuildScope??'production',expectedWorkers:[job.file],...(job.modelAttribution?{modelAttribution:{realmId:job.file,output:join(payloadDirectory,`model-${job.id}.json`)}}:{})}));console.log(`${new Date().toISOString()} BEGIN ${job.id}`);await preserveJobArtifacts(job,payloadDirectory,async()=>run(process.execPath,['tests/strict-node-tests.mjs',job.file],{...env,...job.env,DOWN_TO_DUCK_COVERAGE_CONFIG:jobConfig}));jobLedger.push({id:job.id,file:job.file,role:workerRoles[job.file],exitCode:0});await writeFile(join(payloadDirectory,'job-ledger.json'),JSON.stringify(jobLedger,null,2));console.log(`${new Date().toISOString()} PASS ${job.id}`);}}
+  if(jobs){for(const job of jobs){const jobConfig=join(payloadDirectory,'job-'+job.id+'.json');await writeFile(jobConfig,JSON.stringify({...config,jobId:job.id,...(job.nodeRealmId?{nodeRealmId:job.nodeRealmId}:{}),verifyArtifactScope:job.verifyArtifactScope===true,defaultBuildScope:job.defaultBuildScope??'production',expectedWorkers:[job.file],...(job.modelAttribution?{modelAttribution:{realmId:job.file,output:join(payloadDirectory,`model-${job.id}.json`)}}:{})}));console.log(`${new Date().toISOString()} BEGIN ${job.id}`);await preserveJobArtifacts(job,payloadDirectory,async()=>run(process.execPath,['tests/strict-node-tests.mjs',job.file],{...env,...job.env,DOWN_TO_DUCK_COVERAGE_CONFIG:jobConfig}));jobLedger.push({id:job.id,file:job.file,role:workerRoles[job.file],exitCode:0});await writeFile(join(payloadDirectory,'job-ledger.json'),JSON.stringify(jobLedger,null,2));console.log(`${new Date().toISOString()} PASS ${job.id}`);}}
   else run(process.execPath,['tests/strict-node-tests.mjs',...group.files],env);
  }finally{
   for(const {original,backup,path,present}of preserved){if(await stat(original).catch(()=>null))await cp(original,join(payloadDirectory,'suite-artifacts',path),{recursive:true});await rm(original,{recursive:true,force:true});if(present)await cp(backup,original,{recursive:true});}

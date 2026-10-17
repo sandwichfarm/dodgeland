@@ -1,3 +1,4 @@
+import { createRequire } from 'node:module';
 import test, { after } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile, mkdtemp, rm } from 'node:fs/promises';
@@ -5,12 +6,15 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { instrumentSources, reportCoverage } from './instrument.mjs';
 import { reportApplicability } from './applicability.mjs';
-import { soloApplicabilityDispositions } from './solo-applicability.mjs';
+import { soloApplicabilityDispositions as generateSoloDispositions, SOLO_AUTHORITY_PINS } from './solo-applicability.mjs';
 
+const ts=createRequire(new URL('../../package.json',import.meta.url))('typescript');
 const directory = await mkdtemp(join(tmpdir(), 'solo-applicability-'));
 after(() => rm(directory, { recursive: true, force: true }));
 const root = resolve(new URL('../..', import.meta.url).pathname);
-const texts = Object.fromEntries(await Promise.all(['src/session.ts', 'src/co-op-market.ts', 'src/game.ts', 'src/recovery.ts', 'src/shared-world-effects.ts', 'src/mobs.ts', 'src/mode-rules.ts', 'src/consumables.ts', 'src/consumable-drops.ts'].map(async path => [path, await readFile(join(root, path), 'utf8')])));
+const authoritySources=await Promise.all(Object.keys(SOLO_AUTHORITY_PINS).map(async path=>({path,source:await readFile(join(root,path),'utf8')})));
+const soloApplicabilityDispositions=input=>generateSoloDispositions({authoritySources,...input});
+const texts = Object.fromEntries(await Promise.all(['src/market/run.ts','src/market/types.ts','src/session.ts', 'src/co-op-market.ts', 'src/game.ts', 'src/recovery.ts', 'src/shared-world-effects.ts', 'src/mobs.ts', 'src/mode-rules.ts', 'src/consumables.ts', 'src/consumable-drops.ts'].map(async path => [path, await readFile(join(root, path), 'utf8')])));
 const inventory = instrumentSources(texts, root);
 // Explicit synthetic zero realm supplies schema only; this is not runtime credit.
 const mapped = await reportCoverage(inventory, [Object.fromEntries(Object.values(inventory).map(row => [row.path, row.zero]))], directory);
@@ -24,13 +28,13 @@ test('actual mapped source excludes only reviewed solo-inapplicable execution an
   for (const mode of ['solo-arcade', 'solo-flow']) {
     const dispositions = soloApplicabilityDispositions({ mode, sources });
     const excluded = new Set(dispositions.filter(d => d.path === session.path && d.kind === 'function').map(d => d.id));
-    const retainedLines=[line('function alias('),line('constructor(game: Game)'),line('noteProgress(row:'),line('constructor(world: SharedWorld'),line('get label()'),line('private get rescueFraction()'),line('get groundX()'),line('get groundY()'),line('get personalScore()'),line('selectMobTarget('),line('view(): SharedWorld')];
+    const retainedLines=[line('function alias('),line('constructor(game: Game)'),line('noteProgress(row:'),line('constructor(world: SharedWorld')];
     for(const at of retainedLines){
       const ids=Object.entries(session.coverage.fnMap).filter(([,site])=>site.decl.start.line===at).map(([id])=>id);
       assert.ok(ids.length,`retained source line ${at} has a mapped function`);
       for(const id of ids)assert.equal(excluded.has(id),false,`retained shared/uncertain function ${id}`);
     }
-    for(const fragment of ['static stage(', 'captureConsumablePolicy(', 'beginFrame(', 'resolvePickups()', 'recordInteraction(event:', 'setHopCooldown(', 'constructor(readonly game: Game', 'constructor(private readonly session: LocalSession']){
+    for(const fragment of ['get label()', 'private get rescueFraction()', 'get groundX()', 'get groundY()', 'get personalScore()', 'selectMobTarget(', 'view(): SharedWorld', 'static stage(', 'captureConsumablePolicy(', 'beginFrame(', 'resolvePickups()', 'recordInteraction(event:', 'setHopCooldown(', 'constructor(readonly game: Game', 'constructor(private readonly session: LocalSession']){
       const at=line(fragment),ids=Object.entries(session.coverage.fnMap).filter(([,site])=>site.decl.start.line===at).map(([id])=>id);
       assert.ok(ids.length,`reviewed source line ${at} has a mapped function`);
       for(const id of ids)assert.equal(excluded.has(id),true,`reviewed session-only function ${id}`);
@@ -117,7 +121,7 @@ test('session service closures retain bootstrap functions and ordinary Game disp
   'consumables.ts':['reject','validGeneration','validId','definition','holdsCapability','sameOwner','chargesFor','validateBase','resulting','targetsFor','planConsumableCredit','planConsumableDebit'],
   'consumable-drops.ts':['freeze','signed','validate','mix32','draw','consumablePickupId','classifyConsumableBucket','classifyItemBucket','sampleConsumableDrop','sampleItemDrop'],
  };
- const kept={'game.ts':['syncSharedEffects','pursuitEnabled','sessionProtected','update','move','collectCoins','ensureRows'], 'consumables.ts':['freeze','validateConsumableCatalogue'], 'consumable-drops.ts':['unsigned','registerConsumableSchema','validateConsumableSchema','consumableSchema']};
+ const kept={'game.ts':['pursuitEnabled','sessionProtected','update','move','collectCoins','ensureRows'], 'consumables.ts':['freeze','validateConsumableCatalogue'], 'consumable-drops.ts':['unsigned','registerConsumableSchema','validateConsumableSchema','consumableSchema']};
  function ids(source,name){
   const rows=source.source.split('\n'),index=rows.findIndex(row=>new RegExp('^\\s*(?:(?:export|private|public|protected|async|get|function|const)\\s+)*'+name+'(?:\\s*[=(<]|\\s*\\()').test(row));assert.ok(index>=0,name);
   const found=Object.entries(source.coverage.fnMap).filter(([,site])=>site.decl.start.line===index+1).map(([id])=>id);assert.ok(found.length,name);return found;
@@ -150,4 +154,62 @@ test('Flow excludes only post-disabled-guard mob execution and retains bootstrap
  for(const kind of['statement','function','branch']){const d=flow.find(d=>d.path===mob.path&&d.kind===kind);assert.ok(d);const positive=structuredClone(attributed);if(kind==='branch')positive[d.path].b[d.id][d.arm]=1;else positive[d.path][kind==='function'?'f':'s'][d.id]=1;assert.throws(()=>reportApplicability({mode:'solo-flow',sources,attributed:positive,dispositions:flow}),/contradicted/);}
  for(const file of['mobs.ts','mode-rules.ts','game.ts']){const source=sources.find(s=>s.path.endsWith('/'+file)),changed=structuredClone(sources);changed.find(s=>s.path===source.path).source+='\n';assert.throws(()=>soloApplicabilityDispositions({mode:'solo-flow',sources:changed}),/changed/);assert.throws(()=>soloApplicabilityDispositions({mode:'solo-flow',sources:sources.filter(s=>s.path!==source.path)}),/Missing/);}
  const crossing=structuredClone(sources),m=crossing.find(s=>s.path===mob.path);m.coverage.branchMap.crossing={type:'cond-expr',line:guard,loc:{start:{line:guard,column:0},end:{line:guard+2,column:0}},locations:[{start:{line:guard,column:0},end:{line:guard+2,column:0}}]};m.coverage.b.crossing=[0];assert.equal(soloApplicabilityDispositions({mode:'solo-flow',sources:crossing}).some(d=>d.id==='crossing'),false);
+});
+
+
+test('caller authority is mandatory and stale new callers fail before any counters',()=>{
+ assert.throws(()=>generateSoloDispositions({mode:'solo-arcade',sources}),/authority/);
+ assert.throws(()=>soloApplicabilityDispositions({mode:'solo-arcade',sources,authoritySources:authoritySources.slice(1)}),/authority/);
+ assert.throws(()=>soloApplicabilityDispositions({mode:'solo-arcade',sources,authoritySources:[...authoritySources,authoritySources[0]]}),/duplicate.*authority/);
+ const changed=structuredClone(authoritySources);changed[0].source+='\n// new caller';
+ assert.throws(()=>soloApplicabilityDispositions({mode:'solo-arcade',sources,authoritySources:changed}),/authority changed/);
+ const d=soloApplicabilityDispositions({mode:'solo-arcade',sources});
+ for(const suffix of ['/market/run.ts','/market/types.ts']){
+  const hit=d.find(x=>x.path.endsWith(suffix)&&x.kind==='function');assert.ok(hit);
+  const counts=structuredClone(attributed);counts[hit.path].f[hit.id]=1;
+  assert.throws(()=>reportApplicability({mode:'solo-arcade',sources,attributed:counts,dispositions:d}),/contradicted/);
+ }
+ const types=sources.find(x=>x.path.endsWith('/market/types.ts'));
+ const at=types.source.slice(0,types.source.indexOf('export function itemAllowed')).split('\n').length;
+ for(const [id,site]of Object.entries(types.coverage.fnMap))if(site.decl.start.line===at)assert.equal(d.some(x=>x.path===types.path&&x.kind==='function'&&x.id===id),false);
+});
+
+test('only AST-bound unavailable implicit else arms receive parent proof',()=>{
+ const mode='solo-arcade',dispositions=soloApplicabilityDispositions({mode,sources});
+ const targets=[];
+ for(const suffix of ['/co-op-market.ts','/recovery.ts','/shared-world-effects.ts']){
+  const source=sources.find(s=>s.path.endsWith(suffix));
+  const entry=Object.entries(source.coverage.branchMap).find(([id,b])=>b.type==='if'&&b.locations.length===2&&JSON.stringify(b.locations[1])==='{"start":{},"end":{}}'&&dispositions.some(d=>d.path===source.path&&d.kind==='branch'&&d.id===id&&d.arm===1));
+  assert.ok(entry,'real mapped unavailable implicit else '+suffix+' '+JSON.stringify(Object.entries(source.coverage.branchMap).filter(([,b])=>b.type==='if').slice(0,1).map(([id,b])=>({id,b,keys:Object.keys(b.locations[1].start)}))));const[id,branch]=entry;targets.push({source,id,branch});
+  const positive=structuredClone(attributed);positive[source.path].b[id][1]=1;
+  assert.throws(()=>reportApplicability({mode,sources,attributed:positive,dispositions}),/contradicted/);
+ }
+ const {source,id,branch}=targets[0];
+ for(const mutate of [b=>{b.type='unknown';},b=>{b.locations[1].start.line=b.loc.start.line;},b=>{b.locations[1].extra=true;},b=>{b.loc.start.column++;},b=>{b.loc.end.line++;},b=>{b.locations.push({start:{},end:{}});}]){
+  const altered=structuredClone(sources),row=altered.find(s=>s.path===source.path);mutate(row.coverage.branchMap[id]);
+  assert.equal(soloApplicabilityDispositions({mode,sources:altered}).some(d=>d.path===source.path&&d.kind==='branch'&&d.id===id&&d.arm===1),false,'malformed/unknown/nonmatching parent remains applicable');
+ }
+ const altered=structuredClone(sources),row=altered.find(s=>s.path===source.path);
+ row.coverage.branchMap.unmatched={...structuredClone(branch),loc:{start:{line:1,column:0},end:{line:99999,column:0}},locations:[branch.locations[0],{start:{},end:{}}]};row.coverage.b.unmatched=[0,0];
+ assert.equal(soloApplicabilityDispositions({mode,sources:altered}).some(d=>d.id==='unmatched'&&d.arm===1),false,'crossing parent cannot prove unavailable else');
+ const game=sources.find(s=>s.path.endsWith('/game.ts'));
+ for(const[id,b]of Object.entries(game.coverage.branchMap))if(b.type==='if'&&b.locations[1]&&JSON.stringify(b.locations[1])==='{"start":{},"end":{}}'&&!dispositions.some(d=>d.path===game.path&&d.kind==='branch'&&d.id===id&&d.arm===0))assert.equal(dispositions.some(d=>d.path===game.path&&d.kind==='branch'&&d.id===id&&d.arm===1),false,'reachable guard implicit else retained');
+});
+
+
+test('actual explicit else and empty arm zero cannot inherit implicit-else proof',()=>{
+ const mode='solo-arcade',dispositions=soloApplicabilityDispositions({mode,sources});
+ let selected;
+ for(const source of sources){
+  const tree=ts.createSourceFile(source.path,source.source,ts.ScriptTarget.Latest,true);
+  const explicit=[];const point=offset=>{const p=tree.getLineAndCharacterOfPosition(offset);return {line:p.line+1,column:p.character};};
+  const visit=node=>{if(ts.isIfStatement(node)&&node.elseStatement)explicit.push({start:point(node.getStart(tree)),end:point(node.end)});ts.forEachChild(node,visit);};visit(tree);
+  for(const[id,b]of Object.entries(source.coverage.branchMap))if(b.type==='if'&&b.locations.length===2&&explicit.some(span=>JSON.stringify(span)===JSON.stringify(b.loc))&&dispositions.some(d=>d.path===source.path&&d.kind==='branch'&&d.id===id&&d.arm===1)){selected={source,id};break;}
+  if(selected)break;
+ }
+ assert.ok(selected,'actual mapped explicit else inside reviewed unavailable range');
+ for(const arm of[0,1]){
+  const altered=structuredClone(sources),row=altered.find(s=>s.path===selected.source.path);row.coverage.branchMap[selected.id].locations[arm]={start:{},end:{}};
+  assert.equal(soloApplicabilityDispositions({mode,sources:altered}).some(d=>d.path===row.path&&d.kind==='branch'&&d.id===selected.id&&d.arm===arm),false,'empty explicit-else/arm-zero remains applicable');
+ }
 });

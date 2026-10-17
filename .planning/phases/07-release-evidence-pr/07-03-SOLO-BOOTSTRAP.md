@@ -56,3 +56,28 @@ intervals and one independent parent, with no excluded-positive contradiction.
 Flow's smaller denominator comes from the separately reviewed `e4cc5d5` mob
 call-closure proof. This witness changes no applicability rules or floors.
 These remain focused measurements, not a new enforcing release aggregate.
+
+## Saved preferences during fresh acquisition
+
+The same two lifetimes now parse actual legacy saved preferences inside the
+acquisition interval and construct their Game from the validated result.
+The immutable oracle independently parses the same save. Both bases preserve
+the implicit old Pip-to-duck migration, blank custom sound fallback and clamped
+volume levels. Saved lifetime coins remain records; each actual run wallet
+starts empty. Existing movement, listenerless contacts/healing/rescue/death and
+complete hidden-state parity assertions remain.
+
+Ordinary84376 passed the combined bootstrap/turn suite10/10 and bounded
+attribution/bootstrap controls15/15. The solo canonical job in53481 passed1/1,
+run `330e4c55-9d60-4443-a7b0-f6cba6924788`, two fresh lifetimes/four intervals.
+Log `/tmp/down-to-duck-solo-profile-bootstrap-canonical.log`. The later turn
+job in that shell chain failed its stale lifetime manifest, separately retained
+and corrected in `07-03-TURN-BOOTSTRAP.md`; it does not change this completed
+solo collection's result.
+
+With the separately verified projection/implicit-else correction, applicable
+Arcade is842/1207L,192/296F,723/1459B; Flow817/1067L,188/276F,706/1284B.
+The preference path adds14 lines/3 functions in each base and29/28 branch arms
+respectively. No raw counters are duplicated, and no excluded-positive
+contradiction occurred. These focused witnesses still do not meet every mode
+floor or replace the final full enforcing report.

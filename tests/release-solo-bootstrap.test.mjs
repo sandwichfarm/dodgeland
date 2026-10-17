@@ -16,14 +16,23 @@ test('fresh actual solo bootstraps retain pinned acquisition and movement',{time
    // and schema initializers execute, but no Race/LocalSession is constructed.
    const modules=await loadSources(['game','market/catalog','actors','race']);current.push(modules);
    assert.notEqual(modules.directory,baseline.directory);if(current.length===2)assert.notEqual(current[0].directory,modules.directory);
-   const expected=new baselineGame.Game(113,'pond',base,false,baselineCatalog.ITEM_CATALOG,'butter');
+   const saved=JSON.stringify({mode:base,world:'pond',selected:'pip',best:1000,coins:1000,runs:7,reduced:true,muted:true,
+    musicVolume:-2,ambienceVolume:.4,effectsVolume:3,soundPack:'custom',soundAddress:'   '});
+   const expectedProgress=baselineGame.parseProgress(saved);
+   const expected=new baselineGame.Game(113,expectedProgress.world,expectedProgress.mode,false,baselineCatalog.ITEM_CATALOG,expectedProgress.selected);
    await recorder.witness(`bootstrap-${base}`,base,async()=>{
     const game=await modules.import('game'),catalog=await modules.import('market/catalog'),actors=await modules.import('actors'),session=await modules.import('session');
     await modules.import('race');
-    assert.notEqual(game.Game,baselineGame.Game);return {game,catalog,actors,session};
-   },loaded=>new loaded.game.Game(113,'pond',base,false,loaded.catalog.ITEM_CATALOG,'butter'),async(actual,loaded,boundary)=>{
+    const progress=game.parseProgress(saved);
+    assert.deepEqual(progress,expectedProgress,'legacy saved preferences retain pinned migration and validation');
+    assert.equal(progress.selected,'butter','the old implicit Pip default migrates to the duck');
+    assert.equal(progress.mode,base);assert.equal(progress.soundPack,'pond');
+    assert.deepEqual([progress.musicVolume,progress.ambienceVolume,progress.effectsVolume],[0,.4,1]);
+    assert.notEqual(game.Game,baselineGame.Game);return {game,catalog,actors,session,progress};
+   },loaded=>new loaded.game.Game(113,loaded.progress.world,loaded.progress.mode,false,loaded.catalog.ITEM_CATALOG,loaded.progress.selected),async(actual,loaded,boundary)=>{
     const compare=command=>compareTracePoint({scenario:`bootstrap-${base}`,command,step:0,baseline:snapshotGame(expected,baselineGame),current:snapshotGame(actual,loaded.game)});
     compare('acquired');
+    assert.equal(actual.run.wallet,0,'lifetime coins from the save never become the new run wallet');
     for(const direction of ['forward','left','right']){
      assert.equal(actual.move(direction),expected.move(direction));boundary();
      for(let step=0;step<18;step++){expected.update(1/120);actual.update(1/120);boundary();}

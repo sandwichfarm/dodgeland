@@ -1168,9 +1168,17 @@
                 [
                   "playing",
                   "settled"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
                 ]
               ],
-              "lifetimes": 3
+              "lifetimes": 4
             },
             {
               "mode": "race",
@@ -1230,9 +1238,17 @@
                 [
                   "playing",
                   "settled"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
                 ]
               ],
-              "lifetimes": 4
+              "lifetimes": 5
             }
           ]
         }
@@ -1434,6 +1450,76 @@
         }
       ],
       "provenance": "Unchanged gameplay assertions on genuine Vite development artifact; actual inline bytes and live development-tools verified per realm; arranged fixtures retain original provenance"
+    },
+    "development-lifecycle-03": {
+      "files": [
+        "tests/survive-complete-run-runtime.mjs",
+        "tests/health-runtime.mjs",
+        "tests/race-runtime.mjs"
+      ],
+      "roles": {
+        "tests/survive-complete-run-runtime.mjs": "browser",
+        "tests/health-runtime.mjs": "browser",
+        "tests/race-runtime.mjs": "mixed"
+      },
+      "browser": true,
+      "buildScopes": [
+        "development"
+      ],
+      "jobs": [
+        {
+          "id": "survive-complete-run-runtime-development",
+          "file": "tests/survive-complete-run-runtime.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "defaultBuildScope": "development",
+          "artifactPatterns": [
+            "artifacts/survive-complete-failure.png",
+            "artifacts/survive-complete-paused-market.png",
+            "artifacts/survive-complete-regroup.png",
+            "artifacts/survive-complete-result.png",
+            "artifacts/survive-complete-run.json",
+            "artifacts/survive-five-participant-paging.png"
+          ],
+          "requiredBuildScopes": [
+            "development"
+          ],
+          "verifyArtifactScope": true
+        },
+        {
+          "id": "health-runtime-development",
+          "file": "tests/health-runtime.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "defaultBuildScope": "development",
+          "artifactPatterns": [],
+          "requiredBuildScopes": [
+            "development"
+          ],
+          "verifyArtifactScope": true
+        },
+        {
+          "id": "race-runtime-development",
+          "file": "tests/race-runtime.mjs",
+          "role": "mixed",
+          "requiredRealms": [
+            "node",
+            "browser"
+          ],
+          "defaultBuildScope": "development",
+          "artifactPatterns": [],
+          "requiredBuildScopes": [
+            "development"
+          ],
+          "verifyArtifactScope": true,
+          "nodeRealmId": "tests/race-runtime.mjs#race-runtime-development"
+        }
+      ],
+      "provenance": "Unchanged Survive complete-run, health and Race assertions on byte-proven genuine development realms; mixed Node parent remains global only"
     }
   },
   "pendingAdapters": [
@@ -2677,7 +2763,8 @@
     "tests/strict-node-tests.mjs",
     "tests/strict-node-tests.test.mjs",
     "tests/guidance.test.mjs",
-    "tools/release-coverage/development-artifact.test.mjs"
+    "tools/release-coverage/development-artifact.test.mjs",
+    "tools/release-coverage/node-job-identity.test.mjs"
   ],
   "strata": {
     "shared-authority-input": {
@@ -4644,9 +4731,17 @@
               [
                 "playing",
                 "settled"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "settled"
               ]
             ],
-            "lifetimes": 3
+            "lifetimes": 4
           },
           {
             "mode": "race",
@@ -4706,9 +4801,17 @@
               [
                 "playing",
                 "settled"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "settled"
               ]
             ],
-            "lifetimes": 4
+            "lifetimes": 5
           }
         ]
       },
@@ -4777,13 +4880,65 @@
           "development"
         ],
         "verifyArtifactScope": true
+      },
+      {
+        "id": "survive-complete-run-runtime-development",
+        "file": "tests/survive-complete-run-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "development",
+        "artifactPatterns": [
+          "artifacts/survive-complete-failure.png",
+          "artifacts/survive-complete-paused-market.png",
+          "artifacts/survive-complete-regroup.png",
+          "artifacts/survive-complete-result.png",
+          "artifacts/survive-complete-run.json",
+          "artifacts/survive-five-participant-paging.png"
+        ],
+        "requiredBuildScopes": [
+          "development"
+        ],
+        "verifyArtifactScope": true
+      },
+      {
+        "id": "health-runtime-development",
+        "file": "tests/health-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "development",
+        "artifactPatterns": [],
+        "requiredBuildScopes": [
+          "development"
+        ],
+        "verifyArtifactScope": true
+      },
+      {
+        "id": "race-runtime-development",
+        "file": "tests/race-runtime.mjs",
+        "role": "mixed",
+        "requiredRealms": [
+          "node",
+          "browser"
+        ],
+        "defaultBuildScope": "development",
+        "artifactPatterns": [],
+        "requiredBuildScopes": [
+          "development"
+        ],
+        "verifyArtifactScope": true,
+        "nodeRealmId": "tests/race-runtime.mjs#race-runtime-development"
       }
     ],
     "controls": [
       "tests/strict-node-tests.mjs",
       "tests/strict-node-tests.test.mjs",
       "tests/guidance.test.mjs",
-      "tools/release-coverage/development-artifact.test.mjs"
+      "tools/release-coverage/development-artifact.test.mjs",
+      "tools/release-coverage/node-job-identity.test.mjs"
     ],
     "dynamicImports": {
       "tests/consumable-drops.test.mjs": [

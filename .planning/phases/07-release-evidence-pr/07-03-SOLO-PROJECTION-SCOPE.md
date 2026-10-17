@@ -31,3 +31,26 @@ These candidates are application scope, not TypeScript public-API impossibility.
 - `src/co-op-market.ts`: `037a96c9f9436346f06306cac74808aab5e92e205ce2c42bebb1dbd16ca24c22`
 - `src/session-recovery.ts`: `35119abd8ac6551d253ec0ada320c934fd5a9cf20c142444e3afdb4094093b9c`
 - `src/levels/v1.ts`: `2528a12bdc80d8da5579dccf04cd64509a2ceeb7f3ff229b9cb970207c4f5c56`
+
+## Implementation proposal: authority and implicit else
+
+Prepared, not yet executed. Existing Game/session ranges still rely on the earlier `07-03-SOLO-CALL-CLOSURE.md`, `07-03-MODE-SCOPE-FINDING.md` and `07-03-FLOW-MOB-SCOPE.md`; this document adds only its listed projections/wrappers/inventory scopes, not a replacement rationale for previous decisions. Disposition text distinguishes application-unused wrappers from session-service calls and names each inventory method's actual caller.
+
+Caller authority pins are mandatory separate inputs, never denominator entries. Missing or changed main/render/Race/session-recovery/levels-v1 authority rejects generation before examining counters.
+
+For Istanbul's absent-else representation, only arm1 of a two-arm `if` with exactly `{start:{},end:{}}` may inherit proof. Its parent location must exactly match a TypeScript IfStatement with no else, whose complete source span is contained within an already-reviewed unavailable range. The existing exact source hash and source-map/schema identity remain bound. Malformed/partial locations, extra keys/arms, unknown types, shifted/crossing parent spans, explicit else and reachable guards receive no special exclusion. Positive observed hits continue to fail through the unchanged evaluator. No zero-count selection or broad fallback to parent lines is permitted.
+
+## Focused validation (2026-10-17 UTC)
+
+Initial units64023 failed15/16; diagnostic25947 confirmed a tooling representation mismatch, not product RED: empty source-map points serialize to `{}` but in memory may have exactly own `line` and `column` keys both undefined. The generator accepts those two equivalent representations only; one-key partials, numeric fields and unrelated keys remain ineligible. Parent AST constraints are unchanged.
+
+Final unit35696 exited0,16/16, `/tmp/down-to-duck-07-03-solo-projection-units-final.log`. Includes real mapped explicit-else and arm0-empty controls, mandatory/duplicate/stale authority rejection, excluded-positive contradiction, and retained bootstrap/guard checks. Initial and diagnostic logs remain `/tmp/down-to-duck-07-03-solo-projection-units.log` and `/tmp/down-to-duck-07-03-solo-projection-map-diagnostic.log`.
+
+Unchanged solo-model canonical55841 exited0, run `29b54a0b-97ff-4da0-b6d1-3b30fdaaf815`,24 scenarios/48 intervals,1/1 parity test (26,724.794166ms), `/tmp/down-to-duck-07-03-solo-projection-canonical.log`. No positive excluded hit contradicted the proof. Raw covered numerators and denominators exactly match prior Flow-scope run b67390f4; no behavior credit was added by projection.
+
+| Mode | Raw L/F/B covered/total | Applicable L/F/B covered/total | Dispositions |
+| --- | --- | --- | --- |
+| solo-arcade | 926/2039;218/656;963/2768 | 926/1207;218/296;963/1459 | 3047 (+340) |
+| solo-flow | 790/2039;195/656;823/2768 | 790/1067;195/276;823/1284 | 3455 (+375) |
+
+Reports remain focused/report-only; mode floors are not established. Runtime slot released after terminal. Generator/test/evidence changes are intentionally uncommitted pending root's coordinated dependent runner commit; runner itself was edited by its assigned owner, not this executor.

@@ -5,6 +5,7 @@ import { instrumentSources } from './instrument.mjs';
 import { capturePayload, mergePayloads } from './collector.mjs';
 import { deriveInterval, validateIntervals } from './attribution.mjs';
 import { validateModeRows, validateModelSidecar } from './run.mjs';
+import { createTurnModelRecorder } from './turn-model-attribution.mjs';
 
 function fixture() {
  const inventory=instrumentSources({'counter.ts':'function step(flag: boolean) { if (flag) return 1; return 2; }','unimported.ts':'export function never() { return 3; }'},'/attribution');
@@ -139,4 +140,47 @@ test('turn applicability refuses absent or invalid actual mode intervals before 
 test('browser applicability refuses nonproduction or uncollected evidence',async()=>{
  const {projectBrowserApplicability}=await import('./run.mjs');
  for(const rows of [[],[{status:'collected',identity:{buildScope:'development',artifactHash:'hash',jobId:'job'},payload:{}}],[{status:'missing',identity:{buildScope:'production',artifactHash:'hash',jobId:'job'},payload:{}}],[{status:'collected',identity:{buildScope:'production'},payload:{}}]])assert.throws(()=>projectBrowserApplicability({}, {},[],rows),/collected production/);
+});
+
+test('fresh turn acquisition measures only its import and rejects failed or changed ownership',async()=>{
+ // Synthetic calibration only: these counters and coordinators are never
+ // admitted as a production suite or used for release percentages.
+ const inventory=instrumentSources({'game.ts':'function initialize() { return 7; } initialize();'},'/fresh-turn-calibration');
+ const previous=globalThis.__coverage__,context=vm.createContext({}),results=[];
+ const identity={runId:'synthetic',realmId:'synthetic',jobId:'synthetic',artifactHash:'synthetic'};
+ try{
+  delete globalThis.__coverage__;
+  for(const mode of ['relay','race']){
+   class Coordinator {
+    constructor(game){this.session={id:`calibration-${mode}`,world:{host:game},definition:game.definition,mode:{},players:[{},{}]};this.setup={tilesPerLeg:50};this.descriptor={schema:'race-1'};}
+    snapshot(){return {phase:'running'};}
+   }
+   const recorder=createTurnModelRecorder({mode,inventory,identity,load:async()=>{
+    vm.runInContext(inventory['game.ts'].code,context);globalThis.__coverage__=context.__coverage__;
+    return {Coordinator,factory:game=>new Coordinator(game),createGame:()=>({definition:{id:'arcade'},state:'playing'})};
+   }});
+   const {owner}=await recorder.acquireFresh('arcade',{}),result=recorder.finish(),interval=result.intervals[0];results.push(result);
+   assert.equal(interval.observation.phase,'acquiring');assert.equal(interval.endObservation.sessionId,owner.session.id);
+   assert.deepEqual(Object.values(interval.payload.coverage['/fresh-turn-calibration/game.ts'].f),[1],'each fresh initialization contributes its actual delta');
+   validateIntervals(inventory,result.intervals);
+   await assert.rejects(()=>recorder.acquireFresh('arcade',{}),/Invalid fresh/);
+   owner.session.world.host={};assert.throws(()=>recorder.interval('wrong-owner',()=>{}),/Changed turn-mode owner/);
+  }
+  assert.equal(validateModeRows(inventory,[{realmId:identity.realmId,identity,payload:results.at(-1).payload,intervals:results.flatMap(r=>r.intervals)}],['relay','race']).length,2,'all fresh deltas fit their one independent parent');
+  for(const fault of ['import','factory','base','coordinator']){
+   class Coordinator {}
+   const recorder=createTurnModelRecorder({mode:'relay',inventory,identity,load:async()=>{
+    if(fault==='import')throw Error('import failed');
+    return {Coordinator,factory:fault==='factory'?null:game=>({session:{id:'synthetic',world:{host:game},definition:game.definition,mode:{},players:[{},{}]},setup:{tilesPerLeg:50}}),createGame:()=>({definition:{id:fault==='base'?'stroll':'arcade'},state:'playing'})};
+   }});
+   await assert.rejects(()=>recorder.acquireFresh('arcade',{}));
+   assert.throws(()=>recorder.finish(),/Missing acquired owner/);
+  }
+  let resolveImport;
+  const pending=createTurnModelRecorder({mode:'relay',inventory,identity,load:()=>new Promise(resolve=>{resolveImport=resolve;})});
+  const acquisition=pending.acquireFresh('arcade',{});
+  await assert.rejects(()=>pending.acquireFresh('arcade',{}),/Invalid fresh/);
+  assert.throws(()=>pending.finish(),/Missing acquired owner/);
+  resolveImport({});await assert.rejects(()=>acquisition,/Missing loaded/);
+ }finally{if(previous===undefined)delete globalThis.__coverage__;else globalThis.__coverage__=previous;}
 });

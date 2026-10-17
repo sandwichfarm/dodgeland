@@ -12,7 +12,7 @@ const {ITEM_CATALOG}=await sources.import('market/catalog');
 const config=process.env.DOWN_TO_DUCK_COVERAGE_CONFIG?JSON.parse(await readFile(process.env.DOWN_TO_DUCK_COVERAGE_CONFIG,'utf8')):null;
 const model=config?.modelAttribution;if(config&&!model)throw Error('Missing turn-model attribution configuration');
 const inventory=model?JSON.parse(await readFile(config.inventoryPath,'utf8')):null,records=[];
-after(async()=>{if(inventory){if(records.length!==7)throw Error('Incomplete turn-mode witnesses');await writeFile(model.output,JSON.stringify({...records.at(-1),intervals:records.flatMap(r=>r.intervals)}));}});
+after(async()=>{if(inventory){if(records.length!==9)throw Error('Incomplete turn-mode witnesses');await writeFile(model.output,JSON.stringify({...records.at(-1),intervals:records.flatMap(r=>r.intervals)}));}});
 const seats=[{seat:'p1',device:'gamepad-0',characterId:'butter'},{seat:'p2',device:'gamepad-1',characterId:'pip'},{seat:'p3',device:'gamepad-2',characterId:'sunny'}];
 const step=1/120;
 function lane(game,row){game.rows.set(row,{...generateLane(game.seed,row,game.home),kind:'meadow',blocked:[],decorations:[],actors:undefined,coin:null,coinActor:undefined});}
@@ -221,3 +221,48 @@ function closedRoster(run){
  assert.equal(run.session.admit({seat:'p4',device:'gamepad-8',characterId:'miso'}),false);
  assert.deepEqual(run.session.players,players);assert.strictEqual(run.session.world,world);assert.deepEqual([...run.game.rows.keys()],rows);assert.equal(run.game.time,time);assert.equal(JSON.stringify(run.game.runSeed),seed);assert.equal(observation(run),owned);
 }
+
+// Each additional lifetime imports a fresh actual module graph, then creates
+// that graph's Game and coordinator. Import-time work belongs only to this
+// acquisition; the earlier shared graph's counters are never copied into it.
+for(const [index,mode]of ['relay','race'].entries())test(`${mode} fresh bootstrap owns its first hop pause and terminal result`,async()=>{
+ const fresh=await loadSources(['game','relay','race','market/catalog','actors']);
+ assert.notEqual(fresh.directory,sources.directory);
+ const load=async()=>{
+  const gameModule=await fresh.import('game'),catalog=await fresh.import('market/catalog');
+  await fresh.import('actors');await fresh.import('race');
+  const composition=await fresh.import(mode);
+  assert.notEqual(gameModule.Game,Game);
+  const progress=gameModule.parseProgress(JSON.stringify({travelerVersion:2,mode:'arcade',world:'pond',selected:'butter',best:200,coins:900}));
+  assert.equal(progress.mode,'arcade');assert.equal(progress.coins,900);
+  return {factory:mode==='relay'?composition.createRelaySession:composition.createRaceSession,
+   Coordinator:mode==='relay'?composition.RelayCoordinator:composition.RaceCoordinator,
+   createGame:()=>new gameModule.Game(443+index,progress.world,progress.mode,false,catalog.ITEM_CATALOG,progress.selected)};
+ };
+ const proposal={seats:seats.slice(0,2),...(mode==='relay'?{tilesPerLeg:50}:{finishTiles:500,activeSeconds:180})};
+ try{
+  const recorder=inventory?createTurnModelRecorder({mode,inventory,load,identity:{runId:config.runId,realmId:model.realmId,jobId:config.jobId,artifactHash:config.browserBuilds.modules.artifactHash}}):null;
+  const {game,owner}=recorder?await recorder.acquireFresh('arcade',proposal):await(async()=>{const loaded=await load(),game=loaded.createGame();return {game,owner:loaded.factory(game,proposal)};})();
+  const session=owner.session,world=session.world,[p1,p2]=session.players;
+  const tape=()=>{
+   assert.strictEqual(world.host,game);assert.equal(game.definition.id,'arcade');
+   assert.deepEqual(session.players.map(p=>p.characterId),['butter','pip']);
+   assert.ok(session.players.every(p=>p.run.wallet===0),'saved lifetime coins never fund a fresh multiplayer run');
+   assert.ok(game.rows.size>0);assert.ok(session.views().every(view=>Number.isFinite(view.x)&&Number.isFinite(view.y)));
+   assert.equal(session.dispatch({seat:'p1',direction:'forward'}),true);
+   assert.equal(session.dispatch({seat:'p2',direction:'forward'}),mode==='race');
+   for(let n=0;n<24;n++)session.update(step);
+   assert.equal(p1.personalScore,1);assert.equal(p2.personalScore,mode==='race'?1:0);
+   const time=world.time,positions=session.players.map(p=>[p.groundX,p.groundY]),clocks=mode==='race'?owner.elapsed:owner.history.current?.activeSeconds;
+   game.pause();for(let n=0;n<120;n++)session.update(step);
+   assert.equal(world.time,time);assert.deepEqual(session.players.map(p=>[p.groundX,p.groundY]),positions);
+   if(mode==='race')assert.equal(owner.elapsed,clocks);
+   game.resume();assert.strictEqual(session.world,world);
+   if(mode==='relay')owner.finish();else for(const p of session.players){assert.equal(owner.command(owner.actionToken(p.seat),'leave'),true);assert.equal(owner.command(owner.actionToken(p.seat),'confirm'),true);}
+   assert.ok(Object.isFrozen(owner.result));const result=JSON.stringify(owner.result);
+   for(let n=0;n<60;n++)session.update(step);
+   assert.equal(JSON.stringify(owner.result),result);assert.equal(session.dispatch({seat:'p1',direction:'forward'}),false);
+  };
+  if(recorder){recorder.interval('fresh-lifecycle',tape);records.push(recorder.finish());}else tape();
+ }finally{await fresh.dispose();}
+});
