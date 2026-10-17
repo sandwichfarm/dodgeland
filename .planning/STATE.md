@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-12 recovery focused and cancellation passed; suffix diagnostic next
-last_updated: "2026-10-17T00:18:27.674813+00:00"
+stopped_at: 07-12 suffix exited0 and independent review clean; full collection authorized
+last_updated: "2026-10-17T00:23:02.617889+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,10 +12,12 @@ progress:
   completed_plans: 40
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Recovery68c3f42 focused48811 and cancellation77687 passed; exact ordered127 retained, suffix diagnostic authorized, full report pending.
+last_activity_desc: Recovery focused/negative independently accepted; suffix81659 exited0 with12 jobs/24 payloads restored; full collection authorized, report pending.
 ---
 
 # Project State
+
+Current checkpoint: suffix81659 exited0,12/12 jobs and24 payloads; all17 preserved files/dist unchanged. Independent recovery review clean and root authorized next full collection. All no-active/held statements below are historical snapshots. Full report/floors still pending.
 
 Adjacent run-menu observation14480 confirms ready320×360 Options,320×560 home and390×844 home share the Travelers overflow; corresponding dead states fit because Local Play is absent. Temporary read-only diagnostic only, no replacement gate or source/test edits. No active process; repair scope must cover ready home as well as Options.
 
