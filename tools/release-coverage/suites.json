@@ -1375,6 +1375,65 @@
         }
       ],
       "provenance": "Fresh current ESM graph per actual solo base; independent pinned uninstrumented oracle; disjoint import/construction and runtime intervals"
+    },
+    "development-gameplay-03": {
+      "files": [
+        "tests/market-runtime.mjs",
+        "tests/survive-recovery-outcomes-runtime.mjs",
+        "tests/mob-runtime.mjs"
+      ],
+      "role": "browser",
+      "browser": true,
+      "buildScopes": [
+        "development"
+      ],
+      "jobs": [
+        {
+          "id": "market-runtime-development",
+          "file": "tests/market-runtime.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "defaultBuildScope": "development",
+          "artifactPatterns": [],
+          "minimumBrowserRealms": 1,
+          "requiredBuildScopes": [
+            "development"
+          ],
+          "verifyArtifactScope": true
+        },
+        {
+          "id": "survive-recovery-outcomes-runtime-development",
+          "file": "tests/survive-recovery-outcomes-runtime.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "defaultBuildScope": "development",
+          "artifactPatterns": [],
+          "requiredBuildScopes": [
+            "development"
+          ],
+          "verifyArtifactScope": true
+        },
+        {
+          "id": "mob-runtime-development",
+          "file": "tests/mob-runtime.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "defaultBuildScope": "development",
+          "artifactPatterns": [],
+          "minimumBrowserRealms": 7,
+          "requiredBuildScopes": [
+            "development"
+          ],
+          "verifyArtifactScope": true
+        }
+      ],
+      "provenance": "Unchanged gameplay assertions on genuine Vite development artifact; actual inline bytes and live development-tools verified per realm; arranged fixtures retain original provenance"
     }
   },
   "pendingAdapters": [
@@ -2617,7 +2676,8 @@
   "controlPlane": [
     "tests/strict-node-tests.mjs",
     "tests/strict-node-tests.test.mjs",
-    "tests/guidance.test.mjs"
+    "tests/guidance.test.mjs",
+    "tools/release-coverage/development-artifact.test.mjs"
   ],
   "strata": {
     "shared-authority-input": {
@@ -4673,12 +4733,57 @@
             ]
           }
         ]
+      },
+      {
+        "id": "market-runtime-development",
+        "file": "tests/market-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "development",
+        "artifactPatterns": [],
+        "minimumBrowserRealms": 1,
+        "requiredBuildScopes": [
+          "development"
+        ],
+        "verifyArtifactScope": true
+      },
+      {
+        "id": "survive-recovery-outcomes-runtime-development",
+        "file": "tests/survive-recovery-outcomes-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "development",
+        "artifactPatterns": [],
+        "requiredBuildScopes": [
+          "development"
+        ],
+        "verifyArtifactScope": true
+      },
+      {
+        "id": "mob-runtime-development",
+        "file": "tests/mob-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "defaultBuildScope": "development",
+        "artifactPatterns": [],
+        "minimumBrowserRealms": 7,
+        "requiredBuildScopes": [
+          "development"
+        ],
+        "verifyArtifactScope": true
       }
     ],
     "controls": [
       "tests/strict-node-tests.mjs",
       "tests/strict-node-tests.test.mjs",
-      "tests/guidance.test.mjs"
+      "tests/guidance.test.mjs",
+      "tools/release-coverage/development-artifact.test.mjs"
     ],
     "dynamicImports": {
       "tests/consumable-drops.test.mjs": [

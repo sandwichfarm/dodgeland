@@ -1,4 +1,4 @@
-import { artifactForCoverage, artifactDirectoryForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
+import { artifactForCoverage, verifyRealmArtifact, artifactDirectoryForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 // Actual built app in an opaque iframe. CDP stages score/coins/clear terrain;
 // market controls, effects, inventory and all subsequent simulation are real.
 import assert from 'node:assert/strict';
@@ -68,6 +68,7 @@ try {
   await page.goto(`http://127.0.0.1:${server.address().port}`);
   frame = await (await page.locator('iframe').elementHandle()).contentFrame();
   await frame.waitForFunction(() => window.marketFixture?.hydrated && !!window.marketFixture.handlers['puddlehop.market']);
+  await verifyRealmArtifact(frame,identity);
   // Leave room for the browser round trip when running layout in parallel.
   await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 1000);
   const advance = ms => page.clock.runFor(ms);

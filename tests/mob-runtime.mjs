@@ -1,4 +1,4 @@
-import { artifactForCoverage, artifactDirectoryForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
+import { artifactForCoverage, verifyRealmArtifact, artifactDirectoryForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 // Built-artifact integration in an opaque allow-scripts iframe. Chrome debugger
 // scopes supply explicit late-score / clear-meadow scenario fixtures; this is
 // not an end-to-end claim that a human or autoplay route survived the first 480
@@ -52,7 +52,7 @@ const server = createServer((_request, response) => {
   response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); response.end(harness);
 });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
-const evidence = { artifact: 'unmodified production module; opaque allow-scripts iframe',
+const evidence = { artifact: 'unmodified built application module; opaque allow-scripts iframe',
   fixture: 'CDP closure inspection supplies score-minus-one, elapsed run time, earlier encounter history for isolated crab/wasp scenes, expired earlier market invitations, and clear meadow terrain; subsequent controls and simulation are real',
   scenarios: [], errors: [], external: [] };
 let browser, frame, identity, generation = 0;
@@ -83,6 +83,7 @@ try {
     frame = await (await page.locator('#napplet').elementHandle()).contentFrame();
     await frame.locator('#sound-preview-cue option[value="death.mob"]').waitFor({ state: 'attached' });
     await frame.waitForFunction(() => window.mobFixture?.hydrated);
+    await verifyRealmArtifact(frame,identity);
     return frame;
   }
   await currentFrame();

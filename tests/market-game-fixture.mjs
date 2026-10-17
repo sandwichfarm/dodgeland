@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { chromium } from 'playwright';
-import { artifactForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
+import { artifactForCoverage, verifyRealmArtifact, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 let coverageScenario=0;
 
 export async function createMarketGameFixture(evidence, options = {}) {
@@ -82,6 +82,7 @@ frame.srcdoc=${artifact};</script>`;
   const iframe = page.locator('iframe');
   const frame = await (await iframe.elementHandle()).contentFrame();
   await frame.waitForFunction(() => window.marketGameFixture?.hydrated && !!window.marketGameFixture.handlers['puddlehop.market']);
+  await verifyRealmArtifact(frame,coverageIdentity);
   await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 1000);
   assert.equal(await frame.evaluate(() => location.origin), 'null');
   const advance = ms => page.clock.runFor(ms);
