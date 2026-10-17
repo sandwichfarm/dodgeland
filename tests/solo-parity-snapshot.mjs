@@ -254,7 +254,7 @@ export async function runDifferentialScenario(options) {
 export async function runDifferentialMatrix(scenarios, { currentRecorderFactory } = {}) {
   const loaded = await loadIndependentEngines();
   try {
-    if(currentRecorderFactory)loaded.currentRecorder=await currentRecorderFactory(await loaded.currentModules.import('session'));
+    if(currentRecorderFactory)loaded.currentRecorder=await currentRecorderFactory({...await loaded.currentModules.import('session'),...await loaded.currentModules.import('mode-rules')});
     const results=await Promise.all(scenarios.map(scenario => runLoadedScenario(loaded, scenario)));
     await loaded.currentRecorder?.finish();
     return results;

@@ -1,3 +1,5 @@
+import {SOLO_DEFINITION_SNAPSHOTS,SOLO_DEFINITION_SOURCE_HASH,validateSoloDefinition} from './solo-definition-evidence.mjs';
+const canonicalEvidence={sourceHash:SOLO_DEFINITION_SOURCE_HASH,snapshot:SOLO_DEFINITION_SNAPSHOTS.arcade,rulesIdentity:true,deepFrozen:true};
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
@@ -10,7 +12,7 @@ import { createTurnModelRecorder } from './turn-model-attribution.mjs';
 function fixture() {
  const inventory=instrumentSources({'counter.ts':'function step(flag: boolean) { if (flag) return 1; return 2; }','unimported.ts':'export function never() { return 3; }'},'/attribution');
  const context=vm.createContext({});vm.runInContext(inventory['counter.ts'].code,context);
- const observation={mode:'solo-arcade',base:'arcade',kind:'solo',state:'playing',participants:1,ownership:{worldIsOwn:true,playerIsOwn:true,sessionActive:false,playerSessionAbsent:true,sessionBindings:0,stageBindings:0}};
+ const observation={mode:'solo-arcade',base:'arcade',definitionEvidence:canonicalEvidence,kind:'solo',state:'playing',participants:1,ownership:{canonicalDefinition:true,canonicalRules:true,worldIsOwn:true,playerIsOwn:true,sessionActive:false,playerSessionAbsent:true,sessionBindings:0,stageBindings:0}};
  const snapshot=sequence=>({sequence,jobId:'mode-proof',buildScope:'production',artifactHash:'artifact',observation,provenance:'public-input',payload:capturePayload(inventory,JSON.parse(JSON.stringify(context.__coverage__)),{runId:'run',realmId:'realm'})});
  const before=snapshot(0);vm.runInContext('step(true);step(false);',context);const after=snapshot(1);
  return {inventory,context,snapshot,before,after};
@@ -112,12 +114,12 @@ test('model sidecar requires independent parent, exact phases and actual config 
 
 test('solo applicability projection refuses absent or nonpublic ownership evidence before dispositions',async()=>{
  const {projectSoloApplicability}=await import('./run.mjs');
- for(const intervals of [[],[{mode:'solo-arcade',provenance:'component-model',observation:{}}],[{mode:'solo-arcade',provenance:'public-input',observation:{ownership:{worldIsOwn:true}}}]])assert.throws(()=>projectSoloApplicability('solo-arcade',{}, {},[],intervals),/stable ownership/);
+ for(const intervals of [[],[{mode:'solo-arcade',provenance:'component-model',observation:{}}],[{mode:'solo-arcade',provenance:'public-input',observation:{ownership:{canonicalDefinition:true,canonicalRules:true,worldIsOwn:true}}}]])assert.throws(()=>projectSoloApplicability('solo-arcade',{}, {},[],intervals),/stable ownership|definition evidence/);
 });
 
 test('solo component owner/staging evidence and turn base identity remain explicit',()=>{
  const {inventory,before,after}=fixture();before.provenance=after.provenance='component-model';
- const solo={mode:'solo-arcade',base:'arcade',kind:'solo',ownerId:'actual-game-1',participants:1,phase:'playing',ownership:{worldIsOwn:true,playerIsOwn:true,sessionActive:false,playerSessionAbsent:true,stageCalls:0,boundaryChecks:2}};
+ const solo={mode:'solo-arcade',base:'arcade',definitionEvidence:canonicalEvidence,kind:'solo',ownerId:'actual-game-1',participants:1,phase:'playing',ownership:{canonicalDefinition:true,canonicalRules:true,worldIsOwn:true,playerIsOwn:true,sessionActive:false,playerSessionAbsent:true,stageCalls:0,boundaryChecks:2}};
  before.observation=after.observation=solo;
  assert.equal(deriveInterval(inventory,before,after,'solo').mode,'solo-arcade');
  for(const changed of [{...solo,ownerId:'other'},{...solo,ownership:{...solo.ownership,stageCalls:1}},{...solo,ownership:{...solo.ownership,playerSessionAbsent:false}}])assert.throws(()=>deriveInterval(inventory,before,{...after,observation:changed},'bad'));
@@ -183,4 +185,24 @@ test('fresh turn acquisition measures only its import and rejects failed or chan
   assert.throws(()=>pending.finish(),/Missing acquired owner/);
   resolveImport({});await assert.rejects(()=>acquisition,/Missing loaded/);
  }finally{if(previous===undefined)delete globalThis.__coverage__;else globalThis.__coverage__=previous;}
+});
+
+
+test('canonical definition evidence rejects missing forged and mismatched snapshots',()=>{
+ assert.equal(validateSoloDefinition(canonicalEvidence,'arcade'),true);
+ for(const value of [undefined,{canonicalDefinition:true,canonicalRules:true},{...canonicalEvidence,sourceHash:'forged'},{...canonicalEvidence,rulesIdentity:false},{...canonicalEvidence,deepFrozen:false},{...canonicalEvidence,snapshot:SOLO_DEFINITION_SNAPSHOTS.stroll}])assert.throws(()=>validateSoloDefinition(value,'arcade'),/evidence/);
+ const changed=structuredClone(canonicalEvidence);changed.snapshot.rules.pursuit.speed=1.23;assert.throws(()=>validateSoloDefinition(changed,'arcade'),/evidence/);
+});
+
+
+test('direct solo projection refuses missing canonical evidence before mapping',async()=>{
+ const {projectSoloApplicability}=await import('./run.mjs');
+ const observation={base:'arcade',phase:'playing',ownership:{worldIsOwn:true,playerIsOwn:true,sessionActive:false,playerSessionAbsent:true,stageCalls:0,boundaryChecks:1}};
+ assert.throws(()=>projectSoloApplicability('solo-arcade',{}, {},[],[{mode:'solo-arcade',provenance:'component-model',observation,endObservation:observation}]),/definition evidence/);
+});
+
+test('canonical expected definitions cannot be mutated by an importing caller',()=>{
+ assert.throws(()=>{SOLO_DEFINITION_SNAPSHOTS.arcade.rules.pursuit.speed=1.23;},TypeError);
+ assert.throws(()=>{SOLO_DEFINITION_SNAPSHOTS.stroll.rules.pursuers.introductionThresholds.push(999);},TypeError);
+ assert.equal(validateSoloDefinition(canonicalEvidence,'arcade'),true);
 });

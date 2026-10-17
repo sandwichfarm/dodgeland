@@ -1,3 +1,4 @@
+import {definitionEvidence,validateSoloDefinition} from './solo-definition-evidence.mjs';
 import {readFile,writeFile} from 'node:fs/promises';
 import {capturePayload} from './collector.mjs';
 import {deriveInterval,validateIntervals} from './attribution.mjs';
@@ -20,15 +21,16 @@ export async function createSoloBootstrapRecorder(configPath=process.env.DOWN_TO
  return {
   async witness(name,base,load,construct,tape){
    if(active||names.has(name)||!['arcade','stroll'].includes(base))throw Error('Invalid bootstrap lifetime');
-   active=true;names.add(name);let LocalSession,original,observed,stageCalls=0,checks=0,game,world,player;
+   active=true;names.add(name);let canonical,LocalSession,original,observed,stageCalls=0,checks=0,game,world,player;
    const common={ownerId:name,kind:'solo',base,mode:base==='arcade'?'solo-arcade':'solo-flow'};
    function observe(){
-    if(!game||game.world!==world||game.player!==player||world.host!==game||player.world!==world||!player.primary||game.definition.id!==base||world.sessionActive||player.session!==undefined||stageCalls||LocalSession.stage!==observed)throw Error('Bootstrap ownership/staging mismatch');
-    return {...common,phase:game.state,participants:1,ownership:{worldIsOwn:true,playerIsOwn:true,sessionActive:false,playerSessionAbsent:true,stageCalls,boundaryChecks:++checks}};
+    if(!game||game.world!==world||game.player!==player||world.host!==game||player.world!==world||!player.primary||game.definition.id!==base||game.definition!==canonical||game.rules!==canonical?.rules||world.definition!==canonical||world.rules!==game.rules||world.sessionActive||player.session!==undefined||stageCalls||LocalSession.stage!==observed)throw Error('Bootstrap ownership/staging mismatch');
+    validateSoloDefinition(definitionEvidence(game.definition,game.rules,world),base);
+    return {...common,definitionEvidence:definitionEvidence(game.definition,game.rules,world),phase:game.state,participants:1,ownership:{canonicalDefinition:true,canonicalRules:true,worldIsOwn:true,playerIsOwn:true,sessionActive:false,playerSessionAbsent:true,stageCalls,boundaryChecks:++checks}};
    }
    try{
     const before=inventory?snapshot({...common,phase:'acquiring',participants:0}):null;
-    const loaded=await load();LocalSession=loaded.session.LocalSession;original=LocalSession.stage;
+    const loaded=await load();if(!loaded.modeRules?.SOLO_ARCADE_MODE||!loaded.modeRules?.SOLO_STROLL_MODE)throw Error('Missing fresh canonical solo definitions');canonical=base==='arcade'?loaded.modeRules.SOLO_ARCADE_MODE:loaded.modeRules.SOLO_STROLL_MODE;LocalSession=loaded.session.LocalSession;original=LocalSession.stage;
     observed=function(...args){stageCalls++;return original.apply(this,args);};LocalSession.stage=observed;
     game=construct(loaded);world=game.world;player=game.player;
     const acquired=observe();if(inventory)add(before,snapshot(acquired),`${name}:acquisition`);

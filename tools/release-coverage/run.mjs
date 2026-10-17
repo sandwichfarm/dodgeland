@@ -1,3 +1,4 @@
+import {validateSoloDefinition} from './solo-definition-evidence.mjs';
 import { mkdir, readFile, writeFile, readdir, cp, rm, stat } from 'node:fs/promises';
 import { resolve, join, dirname, relative, matchesGlob } from 'node:path';
 import { createRequire } from 'node:module';
@@ -154,6 +155,7 @@ export function validateModelSidecar(inventory,row,parents,{runId,jobId,realmId,
 
 export function projectSoloApplicability(mode,inventory,mapped,paths,intervals){
  const witnesses=intervals.filter(i=>i.mode===mode);
+ for(const witness of witnesses)for(const observed of (witness.provenance==='component-model'?[witness.observation,witness.endObservation]:[witness.observation]))if(observed?.phase!=='acquiring')validateSoloDefinition(observed?.definitionEvidence,observed?.base);
  if(!witnesses.length||witnesses.some(i=>{
   if(i.provenance==='public-input')return Object.entries({worldIsOwn:true,playerIsOwn:true,sessionActive:false,playerSessionAbsent:true,sessionBindings:0,stageBindings:0}).some(([key,value])=>i.observation?.ownership?.[key]!==value);
   if(i.provenance!=='component-model')return true;

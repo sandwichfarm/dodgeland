@@ -1,3 +1,4 @@
+import {SOLO_DEFINITION_SOURCE_HASH,validateSoloDefinition} from '../tools/release-coverage/solo-definition-evidence.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createMarketGameFixture } from './market-game-fixture.mjs';
@@ -18,7 +19,14 @@ for(const mode of ['solo-arcade','solo-flow','survive-arcade','survive-flow','re
   await app.advance(32);
   const observe=async()=>{
    const game=await app.onGame(function(){return {base:this.definition.id,state:this.state};});
-   let kind='solo',participants=1;
+   let kind='solo',participants=1,definitionEvidence;
+   if(mode.startsWith('solo-')){
+    definitionEvidence=await app.onGame(function(){
+     const normalize=v=>v===undefined?{__undefined:true}:typeof v==='function'?{__function:true}:Array.isArray(v)?v.map(normalize):v&&typeof v==='object'?Object.fromEntries(Object.keys(v).sort().map(k=>[k,normalize(v[k])])):v;
+     const frozen=v=>!v||typeof v!=='object'||Object.isFrozen(v)&&Object.values(v).every(frozen);
+     return {snapshot:normalize(this.definition),rulesIdentity:this.rules===this.definition.rules&&this.world.definition===this.definition&&this.world.rules===this.rules,deepFrozen:frozen(this.definition)};
+    });definitionEvidence.sourceHash=SOLO_DEFINITION_SOURCE_HASH;validateSoloDefinition(definitionEvidence,base);
+   }
    const ownership=await app.sessionOwnership();
    if(mode.startsWith('solo-')){
     assert.deepEqual(ownership,{worldIsOwn:true,playerIsOwn:true,sessionActive:false,playerSessionAbsent:true,sessionBindings:0,stageBindings:0},'stable solo has no live or staged session owner');
@@ -30,7 +38,7 @@ for(const mode of ['solo-arcade','solo-flow','survive-arcade','survive-flow','re
     assert.equal(ownership.sessionActive,true);assert.equal(ownership.playerSessionAbsent,false);assert.equal(ownership.stageBindings,0);
    }
    assert.equal(game.base,base);assert.equal(game.state,'playing');assert.equal(await app.frame.locator('#app').getAttribute('data-run-state'),'playing');assert.equal(kind,mode.startsWith('solo-')?'solo':mode.startsWith('survive-')?'survive':mode);
-   return {mode,base:game.base,kind,state:game.state,participants,ownership};
+   return {mode,base:game.base,kind,state:game.state,participants,definitionEvidence,ownership:mode.startsWith('solo-')?{...ownership,canonicalDefinition:true,canonicalRules:true}:ownership};
   };
   const before=await snapshotRealm(app.frame,await observe());
   const start=await app.onGame(function(){return {x:this.x,y:this.y,time:this.time};});
@@ -47,7 +55,7 @@ for(const mode of ['solo-arcade','solo-flow','survive-arcade','survive-flow','re
    const staged=await app.sessionOwnership();assert.ok(staged.stageBindings>0);
    assert.equal(staged.sessionActive,false);assert.equal(staged.playerSessionAbsent,true);
    await app.frame.locator('#local-session-back').click();
-   assert.deepEqual(await app.sessionOwnership(),afterObservation.ownership);
+   const {canonicalDefinition,canonicalRules,...actualOwnership}=afterObservation.ownership;assert.deepEqual(await app.sessionOwnership(),actualOwnership);
   }
   assert.deepEqual(evidence.errors,[]);assert.deepEqual(evidence.external,[]);assert.deepEqual(await app.frame.evaluate(()=>window.marketGameFixture.forbidden),[]);
  }finally{await app.close();}

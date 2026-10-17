@@ -1,3 +1,4 @@
+import {validateSoloDefinition} from './solo-definition-evidence.mjs';
 import { mergePayloads } from './collector.mjs';
 
 export const modes = ['solo-arcade','solo-flow','survive-arcade','survive-flow','relay','race'];
@@ -5,16 +6,18 @@ function checkObservation(o) {
  if(!o||!modes.includes(o.mode)||o.state!=='playing')throw Error('Missing live mode evidence');
  const kind=o.mode.startsWith('solo-')?'solo':o.mode.startsWith('survive-')?'survive':o.mode;
  const base=o.mode.endsWith('arcade')?'arcade':'stroll';
- if(kind==='solo'&&Object.entries({worldIsOwn:true,playerIsOwn:true,sessionActive:false,playerSessionAbsent:true,sessionBindings:0,stageBindings:0}).some(([key,value])=>o.ownership?.[key]!==value))throw Error('Missing actual solo ownership evidence');
+ if(kind==='solo')validateSoloDefinition(o.definitionEvidence,o.base);
+ if(kind==='solo'&&Object.entries({canonicalDefinition:true,canonicalRules:true,worldIsOwn:true,playerIsOwn:true,sessionActive:false,playerSessionAbsent:true,sessionBindings:0,stageBindings:0}).some(([key,value])=>o.ownership?.[key]!==value))throw Error('Missing actual solo ownership evidence');
  if(o.kind!==kind||o.base!==base||!Number.isInteger(o.participants)||(kind==='solo'?o.participants!==1:o.participants<2||o.participants>4))throw Error('Invalid actual mode/base evidence');
 }
 function checkComponent(o) {
  const solo=o?.mode?.startsWith('solo-'),turn=['relay','race'].includes(o?.mode);
  if(!o || !['solo-arcade','solo-flow','survive-arcade','survive-flow','relay','race'].includes(o.mode) || o.kind!==(solo?'solo':turn?o.mode:'survive') || (turn?!['arcade','stroll'].includes(o.base):o.base!==(o.mode.endsWith('arcade')?'arcade':'stroll')))throw Error('Invalid component mode evidence');
  if(solo){
+  if(o.phase!=='acquiring')validateSoloDefinition(o.definitionEvidence,o.base);
   if(!['acquiring','ready','playing','paused','dead'].includes(o.phase)||typeof o.ownerId!=='string'||!o.ownerId)throw Error('Invalid solo component phase/owner');
   if(o.phase==='acquiring'){if(o.participants!==0)throw Error('Invalid solo acquisition');}
-  else if(o.participants!==1||Object.entries({worldIsOwn:true,playerIsOwn:true,sessionActive:false,playerSessionAbsent:true,stageCalls:0}).some(([key,value])=>o.ownership?.[key]!==value)||!Number.isSafeInteger(o.ownership.boundaryChecks)||o.ownership.boundaryChecks<1)throw Error('Invalid solo component ownership');
+  else if(o.participants!==1||Object.entries({canonicalDefinition:true,canonicalRules:true,worldIsOwn:true,playerIsOwn:true,sessionActive:false,playerSessionAbsent:true,stageCalls:0}).some(([key,value])=>o.ownership?.[key]!==value)||!Number.isSafeInteger(o.ownership.boundaryChecks)||o.ownership.boundaryChecks<1)throw Error('Invalid solo component ownership');
   return;
  }
  if(!['acquiring','playing','paused','pending','settled'].includes(o.phase))throw Error('Invalid component lifecycle phase');

@@ -28,7 +28,7 @@ test('fresh actual solo bootstraps retain pinned acquisition and movement',{time
     assert.equal(progress.selected,'butter','the old implicit Pip default migrates to the duck');
     assert.equal(progress.mode,base);assert.equal(progress.soundPack,'pond');
     assert.deepEqual([progress.musicVolume,progress.ambienceVolume,progress.effectsVolume],[0,.4,1]);
-    assert.notEqual(game.Game,baselineGame.Game);return {game,catalog,actors,session,progress};
+    assert.notEqual(game.Game,baselineGame.Game);return {game,catalog,actors,session,progress,modeRules:await modules.import('mode-rules')};
    },loaded=>new loaded.game.Game(113,loaded.progress.world,loaded.progress.mode,false,loaded.catalog.ITEM_CATALOG,loaded.progress.selected),async(actual,loaded,boundary)=>{
     const compare=command=>compareTracePoint({scenario:`bootstrap-${base}`,command,step:0,baseline:snapshotGame(expected,baselineGame),current:snapshotGame(actual,loaded.game)});
     compare('acquired');
