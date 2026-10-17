@@ -14,7 +14,7 @@ const authoritySources=await Promise.all(Object.keys(TURN_AUTHORITY_PINS).map(as
 const audit=JSON.parse(await readFile(join(root,'.planning/phases/07-release-evidence-pr/07-03-PAUSED-MOVEMENT-REFERENCE-AUDIT.json'),'utf8'));
 const closureSources=await Promise.all(Object.keys(audit.sourceHashes).filter(path=>!path.endsWith('.d.ts')).map(async path=>({path,source:await readFile(join(root,path),'utf8')})));
 const turnApplicabilityDispositions=input=>generateTurnDispositions({authoritySources,closureSources,canonicalSources:closureSources,...input});
-const texts=Object.fromEntries(await Promise.all([...new Set([...Object.keys(TURN_APPLICABILITY_SOURCES),'src/mode-rules.ts'])].map(async path=>[path,await readFile(join(root,path),'utf8')])));
+const texts=Object.fromEntries(await Promise.all([...new Set([...Object.keys(TURN_APPLICABILITY_SOURCES),'src/mode-rules.ts','src/consumables.ts'])].map(async path=>[path,await readFile(join(root,path),'utf8')])));
 const inventory=instrumentSources(texts,root);
 // A zero schema realm only, never gameplay evidence or mode coverage credit.
 const mapped=await reportCoverage(inventory,[Object.fromEntries(Object.values(inventory).map(row=>[row.path,row.zero]))],directory);
@@ -215,4 +215,51 @@ test('actual turn modes retain built-in validation but exclude unreachable autho
   const dispositions=turnApplicabilityDispositions({mode,sources});
   for(const [name,expected]of [['function fail(',true],['function numberAt(',false],['function checkUnknown(',false],['function mergeGroup<',false],['export function composeModeDefinition(',false],['function freeze<',false],['export function isModeDefinition(',false]])for(const id of functionIds(rules,name))assert.equal(excluded(dispositions,rules,id),expected,name);
  }
+});
+
+test('Relay scopes only unreachable consumable debit callables while Race and credit stay applicable',()=>{
+ const source=sourceFor('consumables.ts'),session=sourceFor('session.ts');assert.ok(source);
+ for(const mode of ['relay','race']){
+  const dispositions=turnApplicabilityDispositions({mode,sources});
+  for(const fragment of ['function targetsFor(','export function planConsumableDebit('])
+   for(const id of functionIds(source,fragment))assert.equal(excluded(dispositions,source,id),mode==='relay',fragment);
+  for(const fragment of ['export function validateConsumableCatalogue(','export function planConsumableCredit(',
+   'function validateBase(','function chargesFor(','function resulting(','function definition(','function sameOwner('])
+   for(const id of functionIds(source,fragment))assert.equal(excluded(dispositions,source,id),false,'kept '+fragment);
+  const allocation=line(source,'export const CONSUMABLES:');
+  const initializers=Object.entries(source.coverage.statementMap).filter(([,site])=>site.start.line===allocation);
+  assert.ok(initializers.length);for(const[id]of initializers)assert.equal(excluded(dispositions,source,id,'statement'),false,'catalogue initialization retained');
+  for(const id of functionIds(session,'useConsumable(action:'))assert.equal(excluded(dispositions,session,id),false,'absent-instance public guard retained');
+ }
+});
+
+test('each new Relay debit disposition rejects actual hits and stale source/map/schema identities',()=>{
+ const source=sourceFor('consumables.ts'),reference='07-03-TURN-DEBIT-FINDING.md';
+ const dispositions=turnApplicabilityDispositions({mode:'relay',sources});
+ const selected=dispositions.filter(d=>d.path===source.path&&d.authority.endsWith(reference));assert.ok(selected.length);
+ for(const kind of ['statement','function','branch'])assert.ok(selected.some(d=>d.kind===kind),kind);
+ for(const d of selected){
+  const hits=structuredClone(attributed);if(d.kind==='branch')hits[d.path].b[d.id][d.arm]=1;else hits[d.path][d.kind==='statement'?'s':'f'][d.id]=1;
+  assert.throws(()=>reportApplicability({mode:'relay',sources,attributed:hits,dispositions}),/contradicted/);
+ }
+ for(const changed of [sources.filter(s=>s.path!==source.path),[...sources,source],sources.map(s=>s.path===source.path?{...s,source:s.source+'\n// changed debit authority'}:s)])
+  assert.throws(()=>turnApplicabilityDispositions({mode:'relay',sources:changed}),/Missing|Duplicate|changed/);
+ const staleMap=structuredClone(sources);staleMap.find(s=>s.path===source.path).map.file='stale-debit.js';
+ assert.throws(()=>reportApplicability({mode:'relay',sources:staleMap,attributed,dispositions}),/stale/);
+ const changed=structuredClone(sources),hits=structuredClone(attributed);changed.find(s=>s.path===source.path).coverage.fnMap['0'].name='changed';hits[source.path].fnMap['0'].name='changed';
+ assert.throws(()=>reportApplicability({mode:'relay',sources:changed,attributed:hits,dispositions}),/stale/);
+});
+
+test('Relay debit scope keeps unknown and crossing sites and never depends on measured zeros',()=>{
+ const source=sourceFor('consumables.ts'),start=line(source,'function targetsFor('),end=line(source,'export function planConsumableCredit(');
+ const changed=structuredClone(sources),row=changed.find(s=>s.path===source.path);
+ const cross={start:{line:start,column:0},end:{line:end,column:0}};
+ row.coverage.statementMap['cross-debit']=cross;row.coverage.s['cross-debit']=0;
+ row.coverage.fnMap['cross-debit']={name:'cross-debit',decl:cross,loc:cross,line:start};row.coverage.f['cross-debit']=0;
+ row.coverage.branchMap['cross-debit']={type:'cond-expr',line:start,loc:cross,locations:[cross,{start:{},end:{}}]};row.coverage.b['cross-debit']=[0,0];
+ const dispositions=turnApplicabilityDispositions({mode:'relay',sources:changed});
+ assert.equal(dispositions.some(d=>d.path===source.path&&d.id==='cross-debit'),false);
+ const before=turnApplicabilityDispositions({mode:'relay',sources});
+ const positive=structuredClone(sources);for(const s of positive){for(const key of ['s','f'])for(const id of Object.keys(s.coverage[key]))s.coverage[key][id]=123;for(const id of Object.keys(s.coverage.b))s.coverage.b[id]=s.coverage.b[id].map(()=>123);}
+ assert.deepEqual(turnApplicabilityDispositions({mode:'relay',sources:positive}),before,'source proof cannot infer applicability from a zero count');
 });
