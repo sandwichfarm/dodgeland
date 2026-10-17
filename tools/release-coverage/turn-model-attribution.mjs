@@ -6,10 +6,10 @@ let sequence = 0;
 /** Test-only recorder for one actual imported Relay/Race coordinator lifetime. */
 export function createTurnModelRecorder({ mode, inventory, identity, factory, Coordinator }) {
  if (!['relay','race'].includes(mode) || typeof factory !== 'function' || typeof Coordinator !== 'function') throw Error('Missing turn-mode factory');
- let game, owner, session, composition, sessionId, setup;
+ let game, owner, session, composition, sessionId, setup, expectedBase;
  const intervals = [];
  function observe() {
-  const base=game.definition.id;
+  const base=game?.definition.id??expectedBase;
   if(!['arcade','stroll'].includes(base))throw Error('Invalid turn-mode base');
   const common={mode,kind:mode,base};
   if(!owner)return {...common,phase:'acquiring',sessionId:null,participants:0};
@@ -26,6 +26,15 @@ export function createTurnModelRecorder({ mode, inventory, identity, factory, Co
    setup=JSON.stringify(mode==='relay'?owner.setup:owner.descriptor);
    if(!composition||mode==='race'&&owner.descriptor.schema!=='race-1'||mode==='relay'&&!Number.isInteger(owner.setup.tilesPerLeg))throw Error('Invalid actual composition');
    record('acquisition',before);return owner;
+  },
+  acquireFrom(createGame,base,proposal){
+   if(game||!['arcade','stroll'].includes(base))throw Error('Invalid turn-mode acquisition');
+   expectedBase=base;const before=snapshot();game=createGame();
+   if(game.definition.id!==base)throw Error('Acquired unexpected actual base');
+   owner=factory(game,proposal);session=owner.session;composition=session.mode;sessionId=session.id;
+   setup=JSON.stringify(mode==='relay'?owner.setup:owner.descriptor);
+   if(!composition||mode==='race'&&owner.descriptor.schema!=='race-1'||mode==='relay'&&!Number.isInteger(owner.setup.tilesPerLeg))throw Error('Invalid actual composition');
+   record('acquisition',before);return {game,owner};
   },
   interval(id,action){if(!session)throw Error('Missing acquired owner');const before=snapshot(),result=action(owner);if(result&&typeof result.then==='function')throw Error('Turn-mode interval must be synchronous');record(id,before);return result;},
   finish(){if(!session)throw Error('Missing acquired owner');validateIntervals(inventory,intervals);return {identity:{...identity,buildScope:'production',provenance:'component-model'},payload:snapshot().payload,intervals:structuredClone(intervals)};},

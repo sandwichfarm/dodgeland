@@ -1384,3 +1384,16 @@ devtools.ts now has31/32 functions and30/33 branch arms; diagnostics6/6 and20/20
 Twelve prior zero arms gained behavior evidence. The retained initial failure
 was an asymmetric blur fixture, repaired without product changes. Full development
 stratum and aggregate enforcing coverage remain pending.
+
+## Pause navigation gains
+
+`07-03-PAUSE-GAPS.md` records corrected chain44546 exit0, canonical
+run8e0b59eb-b175-43ad-b4e0-5669d30899e9 and one actual browser payload. The
+unchanged source and identical mapped schemas now measure90/95 lines,16/17
+functions and75/88 branch arms. Six prior zero arms gained real paging/focus/
+resume evidence. Earlier failures were fixture assumptions; no product change
+or fabricated RED. Full aggregate enforcement remains pending.
+
+### Turn Arcade extension
+
+Seven real Relay/Race coordinator lifetimes /25 disjoint intervals passed ordinary7/7 and canonical7/7 (71873 exit0; run3ac5861e-2c3e-4a9a-abc8-9582168b50a2). Versioned actual Arcade acquisition, owned denominations/movement/fractional drift, Relay paid pack/card/sale/pull, Race appearance-only buy/rejection and real innate-water/fatal-personal recovery are now covered with explicit component arrangements. Raw/applicable Relay1392/2350L482/817F1465/3196B; Race1440/2303L523/818F1670/3253B. No mode exclusions or floor changes; remaining misses stay visible. Exact provenance/logs in07-03-TURN-MODE-COVERAGE.md.

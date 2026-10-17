@@ -27,3 +27,18 @@ Canonical command `node tools/release-coverage/run.mjs --suite turn-model-03 --r
 Historical initial public intervals measured Relay306/2349L148/817F312/3196B and Race335/2302L167/818F350/3253B. These are **separate collection/provenance measurements**, not additive counts. The one-line denominator change follows the reviewed session lifetime identity source fix. Old/new source schemas are not merged. Current substantial missing branches remain visible; neither mode reaches its floor from this focused evidence. Full enforcing collection and further source-grounded coverage/applicability work remain pending.
 
 Execution slot released to root after terminal success; no active process remains from this proof.
+
+## Bounded Arcade expansion (2026-10-17 UTC)
+
+The earlier five-lifetime Flow proof remains intact. Two added Arcade lifetimes bring the fixture to seven lifetimes and 25 disjoint intervals (Relay three/11; Race four/14). For these two acquisitions only, the dedicated recorder snapshots before the actual `Game.fromSeed('ph3-00000071-pond-a-n', ITEM_CATALOG, 'butter')` call, validates the returned actual Arcade definition, then binds the real coordinator/session. Seed decoding and world construction therefore belong to the measured acquisition. Imports and the old five Game constructions remain outside their intervals. No shared validator was weakened; manifest expectations were separately updated in a50bcf2.
+
+Each added lifetime has acquisition, owned-world, market, and hazards/terminal intervals. Production session updates collect all five denominations into the correct owner's wallet, move forward/back without duplicate earned credit, and carry a fractional river rider. Relay uses actual owner-bound adapter purchases of Magnet and a paid Small Pack, claims a non-Magnet card, sells it for its real sale value, and attracts a coin through production pull updates before payment. Race buys/equips a cosmetic and rejects arranged legacy card/pack offers without debit. Both then trigger the actual innate water rescue, wait for it to settle, suffer a second fatal unsupported river landing while innate remains spent, accept actual personal recovery, and terminate with frozen results. Terrain, stock, funds and market milestone are explicitly arranged component fixtures, not public-input journeys or naturally acquired economics. No direct generic planning helper receives mode credit.
+
+Ordinary unchanged complete fixture: seven tests passed, zero failed/canceled/skipped, 632.92ms, `/tmp/down-to-duck-07-03-turn-arcade-ordinary.log`. Canonical handle71873 exited0, seven tests passed in14,476.605542ms; `/tmp/down-to-duck-07-03-turn-arcade-canonical.log`, run `3ac5861e-2c3e-4a9a-abc8-9582168b50a2`. One real Node parent and exactly25 intervals/seven acquired lifetimes passed the runner's schema/owner validation. Reports are under `artifacts/release-coverage/turn-model-03/`; the run-specific collected evidence is retained under its run UUID. The manifest remains report-only with thresholdsEvaluatedfalse.
+
+| Stratum | Raw and applicable lines | Functions | Branch arms | Gain versus prior focused run |
+| --- | --- | --- | --- | --- |
+| Relay | 1392/2350 | 482/817 | 1465/3196 | +376L, +82F, +451B |
+| Race | 1440/2303 | 523/818 | 1670/3253 | +302L, +53F, +324B |
+
+There are no Relay/Race applicability exclusions in this report, so raw and applicable counts match. Denominators are unchanged from the earlier five-lifetime proof. Both mode floors remain open; these focused reports do not establish full release acceptance. The serial execution slot was released to the mode agent after71873 terminal success. No production files changed for this expansion.

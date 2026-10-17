@@ -12,7 +12,7 @@ const {ITEM_CATALOG}=await sources.import('market/catalog');
 const config=process.env.DOWN_TO_DUCK_COVERAGE_CONFIG?JSON.parse(await readFile(process.env.DOWN_TO_DUCK_COVERAGE_CONFIG,'utf8')):null;
 const model=config?.modelAttribution;if(config&&!model)throw Error('Missing turn-model attribution configuration');
 const inventory=model?JSON.parse(await readFile(config.inventoryPath,'utf8')):null,records=[];
-after(async()=>{if(inventory){if(records.length!==5)throw Error('Incomplete turn-mode witnesses');await writeFile(model.output,JSON.stringify({...records.at(-1),intervals:records.flatMap(r=>r.intervals)}));}});
+after(async()=>{if(inventory){if(records.length!==7)throw Error('Incomplete turn-mode witnesses');await writeFile(model.output,JSON.stringify({...records.at(-1),intervals:records.flatMap(r=>r.intervals)}));}});
 const seats=[{seat:'p1',device:'gamepad-0',characterId:'butter'},{seat:'p2',device:'gamepad-1',characterId:'pip'},{seat:'p3',device:'gamepad-2',characterId:'sunny'}];
 const step=1/120;
 function lane(game,row){game.rows.set(row,{...generateLane(game.seed,row,game.home),kind:'meadow',blocked:[],decorations:[],actors:undefined,coin:null,coinActor:undefined});}
@@ -110,4 +110,82 @@ test('Race timeout closes pending personal offers before frozen ranking',()=>{
  const run=start('race'),{owner:race,session}=run;
  run.run('earned-then-pending',()=>{hop(run,['p1']);ticks(run,27*120);const p=session.players[1];p.powerReadyAt=9999;session.damage('p2',{cause:'fog',amount:99,reason:'arranged late fatal'});assert.ok(p.recovery.offer);});
  run.run('timeout-and-late-offer',()=>{ticks(run,4*120);assert.equal(race.result.outcome,'time');assert.equal(session.players[1].recovery.offer,undefined);assert.equal(session.recover({kind:'personal',ownerSeat:'p2'}),false);assert.ok(race.recoveryClosures.some(c=>c.seat==='p2'));assert.ok(Object.isFrozen(race.result));});run.finish();
+});
+
+// Two additional actual Arcade lifetimes. Seed decoding/generation is inside
+// acquisition; all terrain, stock and starting funds below are explicit fixtures.
+function arcade(mode){
+ const factory=mode==='relay'?createRelaySession:createRaceSession,Coordinator=mode==='relay'?RelayCoordinator:RaceCoordinator;
+ const recorder=inventory?createTurnModelRecorder({mode,inventory,factory,Coordinator,identity:{runId:config.runId,realmId:model.realmId,jobId:config.jobId,artifactHash:config.browserBuilds.modules.artifactHash}}):null;
+ const createGame=()=>Game.fromSeed('ph3-00000071-pond-a-n',ITEM_CATALOG,'butter');
+ const proposal={seats:seats.slice(0,2),...(mode==='relay'?{tilesPerLeg:50}:{finishTiles:500,activeSeconds:180})};
+ const acquired=recorder?recorder.acquireFrom(createGame,'arcade',proposal):(()=>{const game=createGame();return {game,owner:factory(game,proposal)};})();
+ const {game,owner}=acquired,session=owner.session;
+ assert.equal(game.definition.id,'arcade');assert.equal(game.runSeed.schema,3);assert.strictEqual(session.world.host,game);assert.ok(owner instanceof Coordinator);
+ for(let row=-8;row<80;row++)lane(game,row);
+ return {game,owner,session,run:(id,action)=>recorder?recorder.interval(id,action):action(owner),finish:()=>{if(recorder)records.push(recorder.finish());}};
+}
+let marketAction=0;
+function transact(run,p,kind,fields={}){
+ const c=run.session.openCoOpMarket(p);assert.ok(c);
+ return run.session.actCoOpMarket({actionId:`arcade-${++marketAction}`,kind,seat:p.seat,device:p.device,participantId:p.participantId,expectedOwnerGeneration:c.ownerGeneration,expectedInventoryGeneration:c.inventoryGeneration,expectedRunRevision:c.runRevision,expectedContextGeneration:c.contextGeneration,...fields});
+}
+function stockBuy(run,p,id){
+ const item=ITEM_CATALOG.find(item=>item.id===id);assert.ok(item);
+ const offer={id:`arranged-${++marketAction}`,itemId:id,price:item.price,sold:false};p.run.market.offers.push(offer);
+ return transact(run,p,'buy',{offerId:offer.id});
+}
+function course(run,row,values={}){lane(run.game,row);const value=run.game.rows.get(row);Object.assign(value,{phase:0,speed:0,spacing:20,length:4,...values});return value;}
+function settledMove(run,p,direction){assert.equal(run.session.dispatch({seat:p.seat,direction}),true);for(let n=0;n<120&&p.hop>0;n++)ticks(run,1);assert.equal(p.hop,0);}
+function ownedWorld(run){
+ const [p,other]=run.session.players,otherWallet=other.run.wallet;
+ for(const [id,value]of[['coin',1],['bar',2],['small-sack',5],['big-sack',10],['huge-sack',25]]){
+  const row=course(run,p.y,{coin:p.groundX,coinDenomination:id}),before=p.run.wallet;
+  ticks(run,1);assert.equal(row.coin,null);assert.equal(p.run.wallet,before+value);assert.equal(other.run.wallet,otherWallet);
+ }
+ const before=p.personalScore;course(run,p.y+1);settledMove(run,p,'forward');assert.equal(p.personalScore,before+1);
+ course(run,p.y-1);settledMove(run,p,'back');assert.equal(p.personalScore,before+1);
+ const river=course(run,p.y,{kind:'river',speed:.7,phase:p.groundX-.7*run.game.time});
+ const x=p.groundX;ticks(run,12);assert.notEqual(p.groundX,x);assert.equal(p.state,'playing');assert.equal(p.personalScore,before+1);
+ course(run,p.y);assert.equal(river.kind,'river');
+}
+function rescueAndFinish(run,mode){
+ const p=run.session.players[0];
+ course(run,p.y+1,{kind:'river',phase:10,length:1});assert.equal(run.session.dispatch({seat:p.seat,direction:'forward'}),true);
+ for(let n=0;n<120&&!p.powerRescue;n++)ticks(run,1);
+ assert.ok(p.powerRescue);assert.equal(p.statistics.deaths,0);
+ for(let n=0;n<600&&p.powerRescue;n++)ticks(run,1);
+ assert.equal(p.powerRescue,null);assert.equal(p.state,'playing');assert.ok(p.powerReadyAt>p.personalScore);
+ course(run,p.y+1,{kind:'river',phase:10,length:1});assert.equal(run.session.dispatch({seat:p.seat,direction:'forward'}),true);
+ for(let n=0;n<120&&p.state!=='dead';n++)ticks(run,1);
+ assert.equal(p.state,'dead');assert.equal(p.statistics.deaths,1);assert.ok(p.recovery.offer);
+ assert.equal(run.session.recover({kind:'personal',ownerSeat:p.seat}),true);assert.equal(p.recovery.charge,'spent');
+ if(mode==='relay'){for(const player of run.session.players)run.session.depart(player.seat);}
+ else for(const player of run.session.players){assert.equal(run.owner.command(run.owner.actionToken(player.seat),'leave'),true);assert.equal(run.owner.command(run.owner.actionToken(player.seat),'confirm'),true);}
+ assert.ok(run.owner.result);assert.ok(Object.isFrozen(run.owner.result));
+}
+test('Relay Arcade seeded world paid inventory magnet and personal rescue',()=>{
+ const run=arcade('relay'),p=run.session.players[0];
+ run.run('arcade-owned-world',()=>ownedWorld(run));
+ run.run('arcade-paid-market-pull',()=>{
+  p.run.advanceScore(100);p.run.creditCoins(1000);assert.equal(p.run.open(),true);
+  const before=p.run.wallet;assert.equal(stockBuy(run,p,'magnet').ok,true);assert.ok(p.run.wallet<before);assert.ok(p.run.cards.length);
+  assert.equal(stockBuy(run,p,'pack-pocket').ok,true);const pack=p.run.pendingPack;assert.ok(pack);assert.equal(transact(run,p,'claim-pack',{ids:pack.choices.filter(card=>!card.components.some(c=>c.itemId==='magnet')).slice(0,pack.picks).map(card=>card.id)}).ok,true);assert.equal(p.run.pendingPack,null);
+  const sold=p.run.cards.find(card=>!card.components.some(c=>c.itemId==='magnet'));assert.ok(sold);const wallet=p.run.wallet;assert.equal(transact(run,p,'sell',{cardId:sold.id}).ok,true);assert.equal(p.run.wallet,wallet+sold.saleValue);
+  assert.equal(transact(run,p,'close').ok,true);
+  const row=course(run,p.y+1,{coin:p.groundX}),funds=p.run.wallet;ticks(run,1);assert.ok(row.coinPull);assert.equal(p.run.wallet,funds);
+  for(let n=0;n<240&&row.coin!==null;n++)ticks(run,1);assert.equal(row.coin,null);assert.equal(p.run.wallet,funds+1);
+ });
+ run.run('arcade-hazards-terminal',()=>rescueAndFinish(run,'relay'));run.finish();
+});
+test('Race Arcade seeded world cosmetics reject gameplay stock and personal rescue',()=>{
+ const run=arcade('race'),p=run.session.players[0];
+ run.run('arcade-owned-world',()=>ownedWorld(run));
+ run.run('arcade-cosmetic-authority',()=>{
+  p.run.advanceScore(100);p.run.creditCoins(1000);assert.equal(p.run.open(),true);
+  const before=p.run.wallet;assert.equal(stockBuy(run,p,'look-hat-cap').ok,true);assert.ok(p.run.wallet<before);assert.equal(transact(run,p,'equip',{itemId:'look-hat-cap'}).ok,true);
+  const saved=p.run.wallet;assert.equal(stockBuy(run,p,'magnet').ok,false);assert.equal(stockBuy(run,p,'pack-pocket').ok,false);assert.equal(p.run.wallet,saved);assert.equal(p.run.cards.length,0);assert.equal(p.run.pendingPack,null);
+  assert.equal(transact(run,p,'close').ok,true);
+ });
+ run.run('arcade-hazards-terminal',()=>rescueAndFinish(run,'race'));run.finish();
 });
