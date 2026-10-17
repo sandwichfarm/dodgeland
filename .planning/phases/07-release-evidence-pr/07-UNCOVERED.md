@@ -2,6 +2,17 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Latest actual paid Relay generation evidence
+
+RELAY-GENERATION-RUNTIME/PROOF records6 normal plus6 PROD/6 DEV journeys:
+1200 real hops and36 paid purchases,12 actual iframe realms/no mode intervals.
+Three nondefault card recipes shape100 newly generated rows per case while
+retaining old terrain and owner-only inventory/wallet/progress. Explicit funds/
+stock/next-row safe-terrain arrangements and immutable baseline provenance
+are retained. Eight browser/eight DEV unique branches yield browser8370/9817
+(passes) and DEV2315/2784(needs52). Relay26/Race72 unchanged. Frozen initial
+ledger/global/full reports unchanged;semantic review/full acceptance pending.
+
 ## Latest source-proved production-browser API scope
 
 APP-UNUSED-CLOSURE/AUDIT/PROOF records fresh complete caller/reflection review

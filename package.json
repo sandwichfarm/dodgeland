@@ -87,7 +87,8 @@
     "test:race-river-items": "node tests/strict-node-tests.mjs tests/race-river-items.test.mjs",
     "test:river-rewards-runtime": "pnpm build && node tests/strict-node-tests.mjs tests/river-rewards-runtime.mjs",
     "test:turn-character-powers": "node --test tests/relay-character-powers.test.mjs tests/race-character-powers.test.mjs",
-    "test:preference-hydration-runtime": "node --test tests/preference-hydration-runtime.mjs"
+    "test:preference-hydration-runtime": "node --test tests/preference-hydration-runtime.mjs",
+    "test:relay-generation-runtime": "node --test tests/relay-generation-runtime.mjs"
   },
   "dependencies": {
     "@napplet/sdk": "^0.29.0"

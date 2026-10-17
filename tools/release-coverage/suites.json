@@ -8965,6 +8965,52 @@
         }
       ],
       "provenance": "Actual SDK hydration of missing,malformed,legacy,locked and clamped saved preferences;visible paged controls,user-triggered persistence and directional hop. No app parser/state/callback replacement;absent optional remote pack domains remain graceful."
+    },
+    "relay-generation-runtime-03": {
+      "files": [
+        "tests/relay-generation-runtime.mjs"
+      ],
+      "roles": {
+        "tests/relay-generation-runtime.mjs": "browser"
+      },
+      "browser": true,
+      "buildScopes": [
+        "production",
+        "development"
+      ],
+      "jobs": [
+        {
+          "id": "relay-generation-runtime",
+          "file": "tests/relay-generation-runtime.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "minimumBrowserRealms": 6,
+          "defaultBuildScope": "production",
+          "requiredBuildScopes": [
+            "production"
+          ],
+          "verifyArtifactScope": true,
+          "artifactPatterns": []
+        },
+        {
+          "id": "relay-generation-runtime-development",
+          "file": "tests/relay-generation-runtime.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "minimumBrowserRealms": 6,
+          "defaultBuildScope": "development",
+          "requiredBuildScopes": [
+            "development"
+          ],
+          "verifyArtifactScope": true,
+          "artifactPatterns": []
+        }
+      ],
+      "provenance": "Actual opaque built Relay setup,paid card purchases and100 real keyboard hops per case;three recipes across Arcade/Flow and legacy/current schemas. Immutable baseline supplies seeds/plain geometry;funds,eligibility,stock and safe next-row approach are explicit fixtures. No pose,earned progress,clock,effects or generator replacement. No Node/mode evidence borrowed."
     }
   },
   "pendingAdapters": [
@@ -16986,6 +17032,36 @@
           "browser"
         ],
         "minimumBrowserRealms": 10,
+        "defaultBuildScope": "development",
+        "requiredBuildScopes": [
+          "development"
+        ],
+        "verifyArtifactScope": true,
+        "artifactPatterns": []
+      },
+      {
+        "id": "relay-generation-runtime",
+        "file": "tests/relay-generation-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "minimumBrowserRealms": 6,
+        "defaultBuildScope": "production",
+        "requiredBuildScopes": [
+          "production"
+        ],
+        "verifyArtifactScope": true,
+        "artifactPatterns": []
+      },
+      {
+        "id": "relay-generation-runtime-development",
+        "file": "tests/relay-generation-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "minimumBrowserRealms": 6,
         "defaultBuildScope": "development",
         "requiredBuildScopes": [
           "development"

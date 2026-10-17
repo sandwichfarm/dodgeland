@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Source-proved browser unused-API scope passes;remaining diagnostic branch gaps Relay26 Race72 DEV60
-last_updated: "2026-10-17T22:46:07.416054+00:00"
+stopped_at: Actual built Relay paid generation journeys pass;remaining diagnostic branch gaps Relay26 Race72 DEV52
+last_updated: "2026-10-17T22:56:27.611025+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,29 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Browser diagnostic floors pass source-proved accounting;20 focused/115 controls and4 PROD+4 DEV integrated cases pass. Remaining Relay26 Race72 DEV60;semantic ledger/full enforcement/07-04/05/06/PR remain.
+last_activity_desc: Six paid generation journeys pass normal/PROD/DEV;1200 canonical hops,36 purchases,12 iframes,8 controls;178 additive jobs. DEV gap52,Relay26,Race72;semantic ledger/full enforcement/07-04/05/06/PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+Latest actual Relay generation:normal03 six cases pluscanonical6 PROD/6 DEV
+pass,1200 actual hops/36 paid purchases/12 independent iframe realms. Three
+card recipes over Arcade/Flow and schemas1/3 shape real newly generated roads,
+rivers,rails,scenery/rewards relative to immutable a310a81ed6. Actual UI sets
+999-tile legs and buys cards;nondefault effects/exact wallet debit/old terrain
+preservation/owner-only100 completed hops are asserted. Funds,eligibility,stock
+and safe next-row terrain are fixtures;no pose/progress/clock/effects/cards/
+generator replacement. RELAY-GENERATION-RUNTIME/PROOF binds exact facts and
+retained64-row sample correction (not product RED). Eight collection controls
+and complete178-job audit pass,all176 previous jobs preserved. No app source,
+dependency,oracle,rootlock or floor change. New unique positives:eight browser/
+eight DEV;browser8370/9817 passes,DEV2315/2784(needs52),Relay2288/2722(needs26),
+Race2495/3020(needs72). No mode/global/initial-ledger credit. Original full
+report remains enforced-fail. Semantic ledger,fresh full enforcement,07-04/05/06
+and PR remain. All processes terminal. One normal900x600 frame inspected,
+not final visual matrix;24 canonical pictures retained.
 
 Latest production-browser unused-API scope:4c169fd refactor passes18 before/
 after controls and ten byte-identical reports;f91a853 retains tool-contract
