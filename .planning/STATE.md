@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Actual built Relay paid generation journeys pass;remaining diagnostic branch gaps Relay26 Race72 DEV52
-last_updated: "2026-10-17T22:56:27.611025+00:00"
+stopped_at: Validated staging source proof passes;remaining diagnostic branch gaps Relay3 Race50 DEV52
+last_updated: "2026-10-17T23:08:32.045298+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,27 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Six paid generation journeys pass normal/PROD/DEV;1200 canonical hops,36 purchases,12 iframes,8 controls;178 additive jobs. DEV gap52,Relay26,Race72;semantic ledger/full enforcement/07-04/05/06/PR remain.
+last_activity_desc: Staging contract20 focused/all117 controls,1179 independently revalidated intervals/40 parents and12 fresh cases pass. Diagnostic gaps Relay3 Race50 DEV52;real teardown boundary/full semantic review/fresh gates/PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+Latest validated turn staging proof:b6b4793 retains20-case RED18pass/2fail.
+Implementation passes20 focused/all117 controls,1179 revalidated original/source-
+identical intervals across40 independent parents,and actual12-case integration
+with24 fresh intervals/two Node parents/no browsers. TURN-STAGING-CLOSURE/AUDIT/
+PROOF binds fixed factory rosters/config/handlers,three allocation paths,closed
+live-admission proof and exact AST initializer/fallback/true-then sites. Every
+raw and covered numerator is unchanged. Added Relay8S/1F/27B,Race8S/1F/26B;
+diagnostics Relay2288/2695(needs3),Race2495/2994(needs50),DEV2315/2784(needs52),
+browser8370/9817(passes). No app/dependency/oracle/rootlock/floor change or
+new gameplay/global/initial-ledger credit. All processes terminal;registry178.
+Original full report stays enforced-fail. Next inspect genuine teardown
+measurement per MODE-TEARDOWN-COVERAGE-NOTE;stop remains applicable,not
+unreachable due to recorder.active limitations. Other real gaps,full semantic
+ledger,fresh full enforcement,07-04/05/06 and PR remain.
 
 Latest actual Relay generation:normal03 six cases pluscanonical6 PROD/6 DEV
 pass,1200 actual hops/36 paid purchases/12 independent iframe realms. Three

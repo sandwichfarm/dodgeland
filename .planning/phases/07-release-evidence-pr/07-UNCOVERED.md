@@ -2,6 +2,17 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Latest validated turn staging source proof
+
+TURN-STAGING-CLOSURE/AUDIT/PROOF records fixed closed-roster factory/value
+closure and bounded unavailable initializers/fallbacks/true outcomes. Actual
+guards/false outcomes/terrain failures/rollback/startup stay counted.20 focused/
+all117 controls,1179 revalidated intervals/40 independent parents and12 fresh
+cases pass. Raw and all covered numerators unchanged. Added Relay27/Race26
+branch dispositions yield Relay2288/2695(needs3),Race2495/2994(needs50). DEV52
+remains;browser passes. Stop/teardown remains applicable pending honest
+release-boundary measurement. Initial/global/full reports stay unchanged.
+
 ## Latest actual paid Relay generation evidence
 
 RELAY-GENERATION-RUNTIME/PROOF records6 normal plus6 PROD/6 DEV journeys:

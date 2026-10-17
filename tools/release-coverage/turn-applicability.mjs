@@ -61,7 +61,8 @@ export function turnApplicabilityDispositions({mode,sources,authoritySources,clo
   if(key==='src/mode-rules.ts'){output.push(...builtinRuleDispositions({mode,source,closureSources,canonicalSources}));continue;}
   const tree=ts.createSourceFile(key,source.source,ts.ScriptTarget.Latest,true);if(tree.parseDiagnostics.length)throw Error('Invalid reviewed source');
   const point=o=>{const p=tree.getLineAndCharacterOfPosition(o);return{line:p.line+1,column:p.character};};
-  const span=n=>({start:point(n.getStart(tree)),end:point(n.end)}),ranges=[],functions=[];
+  const span=n=>({start:point(n.getStart(tree)),end:point(n.end)}),ranges=[],functions=[],falseOutcomes=[];
+  const stagingReference='.planning/phases/07-release-evidence-pr/07-03-TURN-STAGING-CLOSURE.md';
   const add=(node,reason,onlyFunction=false,reference)=>(onlyFunction?functions:ranges).push({span:span(node),reason,reference});
   const all=[];function walk(n){all.push(n);ts.forEachChild(n,walk);}walk(tree);
   const member=(owner,name)=>{const c=tree.statements.find(n=>ts.isClassDeclaration(n)&&n.name?.text===owner),m=c?.members.find(n=>name==='constructor'?ts.isConstructorDeclaration(n):n.name?.getText(tree)===name);if(!m?.body)throw Error('Reviewed member absent: '+owner+'.'+name);return m;};
@@ -76,6 +77,24 @@ export function turnApplicabilityDispositions({mode,sources,authoritySources,clo
   const noItems='Relay installs consumables:false; no ConsumableWorld or captured item policy exists. Shared bootstrap registration and absent-extension guards remain applicable.';
   const appearance='Race restricts every closed-roster inventory to appearance-only before play. No successful card, pack or power acquisition can populate it; public rejection guards and cosmetic transactions remain applicable.';
   if(key==='src/session.ts'){
+   const staged='Pinned turn factories supply validated explicit rosters/matching frozen mode/default capacity4. Only exact unavailable initializer/fallback/then execution is removed; actual constructor, evaluated guard, staging, placement and rollback remain accountable.';
+   const admit='Closed turn modes reject live admission before private admitPlan. Its only turn call is stage(plan,false,false) before active start; actual construction, guards, bindRecovery and roster insertion remain accountable.';
+   const unavailableThen=(node,reason)=>{if(!ts.isIfStatement(node)||node.elseStatement)throw Error('Reviewed false-only guard changed');add(node.thenStatement,reason,false,stagingReference);falseOutcomes.push({span:span(node),reason,reference:stagingReference});};
+   const parameter=(owner,method,name)=>{const value=member(owner,method).parameters.find(p=>p.name.getText(tree)===name)?.initializer;if(!value)throw Error('Reviewed explicit parameter changed: '+owner+'.'+method+'.'+name);add(value,method==='admitPlan'?admit:staged,false,stagingReference);};
+   for(const[owner,method,name]of [['SessionPlayer','constructor','primary'],['LocalSession','constructor','options'],['LocalSession','stage','options'],['LocalSessionStage','constructor','originalPrimaryDevice'],['LocalSession','admitPlan','start'],['LocalSession','admitPlan','emit']])parameter(owner,method,name);
+   const sessionConstructor=member('LocalSession','constructor'),throws=sessionConstructor.body.statements.filter(n=>ts.isIfStatement(n)&&ts.isThrowStatement(n.thenStatement));
+   if(throws.length!==3)throw Error('Reviewed session constructor guards changed');for(const node of throws)unavailableThen(node,staged);
+   const stage=member('LocalSession','stage'),within=(owner)=>all.filter(n=>n.pos>=owner.body.pos&&n.end<=owner.body.end);
+   const defaults=within(stage).filter(n=>ts.isBinaryExpression(n)&&n.operatorToken.kind===ts.SyntaxKind.QuestionQuestionToken&&(['new SharedWorld(game)',"new SessionPlayer(world, 'p1', 'keyboard-a', game.characterId, true)",'DEFAULT_CHARACTER'].includes(n.right.getText(tree))||n.left.getText(tree)==='options.roster'));
+   if(defaults.length!==4)throw Error('Reviewed turn stage fallbacks changed');for(const node of defaults)add(node.right,staged,false,stagingReference);
+   const unique=stage.body.statements.filter(n=>ts.isIfStatement(n)&&ts.isThrowStatement(n.thenStatement));if(unique.length!==1)throw Error('Reviewed stage uniqueness guard changed');unavailableThen(unique[0],staged);
+   const plan=member('LocalSession','admitPlan'),planGuards=plan.body.statements.filter(n=>ts.isIfStatement(n)&&['start && !player.start()','this.active','emit'].includes(n.expression.getText(tree)));
+   if(planGuards.length!==3)throw Error('Reviewed staged admission guards changed');for(const node of planGuards)unavailableThen(node,admit);
+   const start=planGuards.find(n=>n.expression.getText(tree)==='start && !player.start()').expression;add(start.right,admit,false,stagingReference);
+   const handler='Both fixed frozen turn handlers always provide canAct/canTransact/simulates. Only the missing-handler nullish fallback is unavailable; dispatch, callback execution, filters and returned values remain counted.';
+   for(const[name,text]of [['canAct','this.mode?.handlers.canAct?.(seat)'],['canTransact','this.mode?.handlers.canTransact?.(seat)'],['update','this.mode?.handlers.simulates?.(player)'],['views','this.mode?.handlers.simulates?.(player)'],...(mode==='relay'?[['refreshSharedWorldEffects','this.mode?.handlers.simulates?.(player)']]:[])]){
+    const nodes=within(member('LocalSession',name)).filter(n=>ts.isBinaryExpression(n)&&n.operatorToken.kind===ts.SyntaxKind.QuestionQuestionToken&&n.left.getText(tree)===text);if(nodes.length!==1)throw Error('Reviewed fixed handler fallback changed: '+name);add(nodes[0].right,handler,false,stagingReference);
+   }
    const seatReference='.planning/phases/07-release-evidence-pr/07-03-SEAT-CALL-CLOSURE.md';
    const constructor=member('SessionPlayer','constructor');let placementFallbacks=0;
    for(const node of all.filter(n=>n.pos>=constructor.body.pos&&n.end<=constructor.body.end)){
@@ -198,7 +217,12 @@ export function turnApplicabilityDispositions({mode,sources,authoritySources,clo
   const emit=(kind,id,arm,rule)=>output.push({mode,path:source.path,...identity,kind,id,...(arm===undefined?{}:{arm}),callReason:rule.reason,stateReason:'Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.',authority:rule.reference??(['src/session.ts','src/game.ts','src/market/run.ts','src/consumable-drops.ts'].includes(key)?closureAuthority:authority)});
   for(const[id,site]of Object.entries(source.coverage.statementMap)){const r=eligible(site);if(r)emit('statement',id,undefined,r);}
   for(const[id,site]of Object.entries(source.coverage.fnMap)){const r=[...ranges,...functions].find(r=>contains(r.span,site.loc)&&contains(r.span,site.decl));if(r)emit('function',id,undefined,r);}
-  for(const[id,site]of Object.entries(source.coverage.branchMap))for(const[arm,loc]of site.locations.entries()){const r=eligible(loc)||implicitRule(site,arm,loc);if(r)emit('branch',id,arm,r);}
+  for(const[id,site]of Object.entries(source.coverage.branchMap))for(const[arm,loc]of site.locations.entries()){
+   let r=eligible(loc)||implicitRule(site,arm,loc);
+   if(!r&&site.type==='if'&&arm===0&&site.locations.length===2&&sameSpan(site.loc,loc))r=falseOutcomes.find(r=>sameSpan(r.span,site.loc));
+   if(r?.reference===stagingReference&&!['if','cond-expr','binary-expr','default-arg','switch'].includes(site.type))r=undefined;
+   if(r)emit('branch',id,arm,r);
+  }
  }
  return output;
 }

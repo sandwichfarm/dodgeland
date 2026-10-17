@@ -69,3 +69,33 @@ source authority and require fresh review. A positive excluded hit must reject
 the projection. Retained tool-contract RED and all scope/positive/mutation
 controls precede integrated reprojection. Original full report remains a failure;
 semantic ledger,fresh full enforcement,07-04/05/06 and PR remain required.
+
+## Executed evidence
+
+b6b4793 retains the tool-contract RED:20 cases,18 pass/two expected failures.
+Implementation passes20 focused and all117 controls,including every new
+positive-excluded statement/function/branch and malformed/crossing guard probes.
+The original1155 intervals revalidate from38 independently hashed parents
+(24 Node model jobs/14 browser parents),and the source-identical power cohort
+adds24 separately revalidated intervals/two parents. All1179 intervals across
+40 parents retain their original identities and observations.
+
+Every raw metric and covered numerator remains unchanged. Exact additions:
+Relay8 statements/one function/27 branches;Race8 statements/one function/26
+branches. All are bounded by this proof. With existing genuine power witnesses,
+diagnostic Relay2288/2695 needs3;Race2495/2994 needs50. DEV2315/2784 needs52;
+browser8370/9817 already passes. No fresh gameplay/global/initial-ledger credit.
+
+Actual integrated 9bd2e4f6-a1e6-483b-a295-c857a28e2043 exits0:12 cases,24
+source-bound intervals,two independent current Node parents,no browser evidence.
+Every new excluded site has zero positive hits. Full inventory f46f,normal raw
+e980 and rootlock5ac remain. TURN-STAGING-PROOF binds source/caller audit,RED/
+green controls,all original input pins,reprojection/union scripts and fresh
+raw parents/reports. Registry stays178 jobs;no app/dependency/oracle/floor change.
+Original full report remains enforced-fail. Remaining true gaps,semantic
+ledger,fresh full enforcement,07-04/05/06 and PR remain required.
+
+Teardown remains applicable. This review does not treat LocalSession.stop as
+unavailable merely because current mode-interval metadata cannot end with
+active=false;MODE-TEARDOWN-COVERAGE-NOTE still requires a real release-boundary
+measurement or other honest mode-specific proof.
