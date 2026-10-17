@@ -111,7 +111,7 @@ Source `037a96c9f9436346f06306cac74808aab5e92e205ce2c42bebb1dbd16ca24c22`; schem
 |33|145|1|[1594, 0, 1562, 1558, 1558]|pending|
 |35|149|0|[0, 414]|pending|
 |43|164|1|[13, 0]|pending|
-|44|165|0|[0, 98]|pending|
+|44|165|0|[0, 98]|[covered arms 0](07-03-LEDGER-REVIEW.md#market-authority)|
 |46|166|1|[5, 0]|pending|
 |49|168|0|[0, 90]|pending|
 |51|169|1|[27, 0]|pending|
@@ -132,8 +132,8 @@ Source `9c79f7c09255d5b18bf48c0679a37c18b38c7cbda70b06931e84306614d75c1d`; schem
 
 | Branch | Source line | Zero arms | Baseline counts | Disposition |
 |---|---:|---|---|---|
-|0|27|0|[0]|pending|
-|1|27|1|[812974, 0]|pending|
+|0|27|0|[0]|[covered arms 0](07-03-LEDGER-REVIEW.md#content)|
+|1|27|1|[812974, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#content)|
 
 ### src/collection-ui.ts
 
@@ -205,10 +205,10 @@ Source `8ffff220d26c0a984f8159a18701b20d421a8d86708ee828f3d17634195c0e60`; schem
 
 | Branch | Source line | Zero arms | Baseline counts | Disposition |
 |---|---:|---|---|---|
-|3|53|0|[0, 154]|pending|
-|5|58|1|[154, 0]|pending|
-|6|61|1|[154, 0]|pending|
-|9|63|0|[0, 130]|pending|
+|3|53|0|[0, 154]|[covered arms 0](07-03-LEDGER-REVIEW.md#development)|
+|5|58|1|[154, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#development)|
+|6|61|1|[154, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#development)|
+|9|63|0|[0, 130]|[covered arms 0](07-03-LEDGER-REVIEW.md#development)|
 
 ### src/devtools.ts
 
@@ -216,16 +216,16 @@ Source `717ad3568ee1cd1139f3650e1785f7aa4867cb4113b5417053b8677dd83f9e87`; schem
 
 | Branch | Source line | Zero arms | Baseline counts | Disposition |
 |---|---:|---|---|---|
-|0|42|0|[0]|pending|
+|0|42|0|[0]|[covered arms 0](07-03-LEDGER-REVIEW.md#development)|
 |1|43|1|[5, 0]|pending|
-|3|44|0|[0, 5]|pending|
+|3|44|0|[0, 5]|[covered arms 0](07-03-LEDGER-REVIEW.md#development)|
 |7|54|1|[7, 0]|pending|
-|8|61|1|[7, 0]|pending|
-|9|70|0|[0, 2]|pending|
-|10|71|1|[2, 0]|pending|
+|8|61|1|[7, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#development)|
+|9|70|0|[0, 2]|[covered arms 0](07-03-LEDGER-REVIEW.md#development)|
+|10|71|1|[2, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#development)|
 |11|82|1|[1, 0]|pending|
-|12|92|0|[0, 2]|pending|
-|13|93|0,1|[0, 0]|pending|
+|12|92|0|[0, 2]|[covered arms 0](07-03-LEDGER-REVIEW.md#development)|
+|13|93|0,1|[0, 0]|[covered arms 0,1](07-03-LEDGER-REVIEW.md#development)|
 
 ### src/game.ts
 
@@ -261,8 +261,8 @@ Source `fb5d9224e46c19b3745099429f06bd141d9b738bb2d8786ed3266e1b6a7d95f6`; schem
 |285|725|0|[0, 15645654]|pending|
 |286|726|0|[0, 15645654]|pending|
 |287|726|1|[15645654, 0]|pending|
-|288|729|0|[0, 15645654]|pending|
-|290|732|0,1|[0, 0]|pending|
+|288|729|0|[0, 15645654]|[covered arms 0](07-03-LEDGER-REVIEW.md#reused-authority)|
+|290|732|0,1|[0, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#reused-authority); pending arms 0|
 |292|739|0|[0, 1178622]|pending|
 |301|752|0|[0, 478]|pending|
 |302|756|0|[0, 8961]|pending|
@@ -297,7 +297,7 @@ Source `3571b5700c43dbb32a1ebbc7b3698d0e70081061d22ab91aea6b479978178a6b`; schem
 
 | Branch | Source line | Zero arms | Baseline counts | Disposition |
 |---|---:|---|---|---|
-|0|27|1|[1035, 0]|pending|
+|0|27|1|[1035, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#content)|
 
 ### src/keyboard-input.ts
 
@@ -305,21 +305,21 @@ Source `8e0d6a152777a497ea35f0f9cb09428945909e9ff08573833178eeea6da7c5f8`; schem
 
 | Branch | Source line | Zero arms | Baseline counts | Disposition |
 |---|---:|---|---|---|
-|0|54|0|[0, 4866]|pending|
-|6|81|0|[0, 450]|pending|
-|10|91|0|[0, 536]|pending|
-|12|95|0|[0, 2680]|pending|
-|15|110|0|[0, 6]|pending|
-|17|112|1|[6, 0]|pending|
-|20|126|0|[0, 3]|pending|
-|21|126|0,1|[0, 0]|pending|
-|26|194|0|[0, 256]|pending|
-|27|194|0,1|[0, 0]|pending|
-|30|210|1|[9, 0]|pending|
-|33|219|0|[0, 735]|pending|
-|39|230|0|[0, 733]|pending|
-|40|234|0|[0]|pending|
-|41|236|0|[0]|pending|
+|0|54|0|[0, 4866]|[covered arms 0](07-03-LEDGER-REVIEW.md#keyboard)|
+|6|81|0|[0, 450]|[covered arms 0](07-03-LEDGER-REVIEW.md#keyboard)|
+|10|91|0|[0, 536]|[covered arms 0](07-03-LEDGER-REVIEW.md#keyboard)|
+|12|95|0|[0, 2680]|[covered arms 0](07-03-LEDGER-REVIEW.md#keyboard)|
+|15|110|0|[0, 6]|[covered arms 0](07-03-LEDGER-REVIEW.md#keyboard)|
+|17|112|1|[6, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#keyboard)|
+|20|126|0|[0, 3]|[covered arms 0](07-03-LEDGER-REVIEW.md#keyboard)|
+|21|126|0,1|[0, 0]|[covered arms 0,1](07-03-LEDGER-REVIEW.md#keyboard)|
+|26|194|0|[0, 256]|[covered arms 0](07-03-LEDGER-REVIEW.md#keyboard)|
+|27|194|0,1|[0, 0]|[covered arms 0,1](07-03-LEDGER-REVIEW.md#keyboard)|
+|30|210|1|[9, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#keyboard)|
+|33|219|0|[0, 735]|[covered arms 0](07-03-LEDGER-REVIEW.md#keyboard)|
+|39|230|0|[0, 733]|[covered arms 0](07-03-LEDGER-REVIEW.md#keyboard)|
+|40|234|0|[0]|[covered arms 0](07-03-LEDGER-REVIEW.md#keyboard)|
+|41|236|0|[0]|[covered arms 0](07-03-LEDGER-REVIEW.md#keyboard)|
 
 ### src/levels/v1.ts
 
@@ -337,7 +337,7 @@ Source `e2e87f0afb51b59b4fda24ee6a3a523fe29e3af22bcf5b00494c8a90382f061c`; schem
 
 | Branch | Source line | Zero arms | Baseline counts | Disposition |
 |---|---:|---|---|---|
-|0|6|0|[0]|pending|
+|0|6|0|[0]|[covered arms 0](07-03-LEDGER-REVIEW.md#content)|
 
 ### src/main.ts
 
@@ -773,16 +773,16 @@ Source `cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2`; schem
 
 | Branch | Source line | Zero arms | Baseline counts | Disposition |
 |---|---:|---|---|---|
-|11|111|0|[0, 7003]|pending|
-|15|117|0|[0]|pending|
-|16|118|0|[0, 780]|pending|
-|18|120|0|[0, 779]|pending|
-|22|133|0|[0, 772]|pending|
-|24|139|0|[0, 771]|pending|
-|26|145|0|[0, 769]|pending|
-|30|155|0|[0, 765]|pending|
-|34|163|0|[0, 762]|pending|
-|35|164|0|[0, 3810]|pending|
+|11|111|0|[0, 7003]|[covered arms 0](07-03-LEDGER-REVIEW.md#mode-validation)|
+|15|117|0|[0]|[covered arms 0](07-03-LEDGER-REVIEW.md#mode-validation)|
+|16|118|0|[0, 780]|[covered arms 0](07-03-LEDGER-REVIEW.md#mode-validation)|
+|18|120|0|[0, 779]|[covered arms 0](07-03-LEDGER-REVIEW.md#mode-validation)|
+|22|133|0|[0, 772]|[covered arms 0](07-03-LEDGER-REVIEW.md#mode-validation)|
+|24|139|0|[0, 771]|[covered arms 0](07-03-LEDGER-REVIEW.md#mode-validation)|
+|26|145|0|[0, 769]|[covered arms 0](07-03-LEDGER-REVIEW.md#mode-validation)|
+|30|155|0|[0, 765]|[covered arms 0](07-03-LEDGER-REVIEW.md#mode-validation)|
+|34|163|0|[0, 762]|[covered arms 0](07-03-LEDGER-REVIEW.md#mode-validation)|
+|35|164|0|[0, 3810]|[covered arms 0](07-03-LEDGER-REVIEW.md#mode-validation)|
 
 ### src/pause-ui.ts
 
@@ -793,20 +793,20 @@ Source `e0f7d449c755077a98cf411b93fd209be8f8fbacbb21d005cd8e12c333d93dc2`; schem
 |6|41|1|[104, 0]|pending|
 |7|44|0|[0, 104]|pending|
 |8|53|0|[0, 145]|pending|
-|19|74|0|[0, 44]|pending|
-|20|74|1|[44, 0]|pending|
+|19|74|0|[0, 44]|[covered arms 0](07-03-LEDGER-REVIEW.md#pause)|
+|20|74|1|[44, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#pause)|
 |25|80|0|[0, 11]|pending|
-|26|81|0|[0, 11]|pending|
+|26|81|0|[0, 11]|[covered arms 0](07-03-LEDGER-REVIEW.md#pause)|
 |27|85|1|[1744, 0]|pending|
 |28|88|1|[300, 0]|pending|
 |30|95|1|[252, 0]|pending|
 |31|98|0|[0]|pending|
 |35|114|0|[0, 8]|pending|
 |36|115|0|[0, 8]|pending|
-|37|117|1|[8, 0]|pending|
-|38|117|1|[8, 0]|pending|
+|37|117|1|[8, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#pause)|
+|38|117|1|[8, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#pause)|
 |39|121|0|[0, 13]|pending|
-|40|123|1|[13, 0]|pending|
+|40|123|1|[13, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#pause)|
 |42|126|0|[0, 4]|pending|
 
 ### src/race-items.ts
@@ -895,24 +895,24 @@ Source `7b7295a4655082be30a81d590bb3e53db4f7b193b405509fb4944b3d7fb51a67`; schem
 
 | Branch | Source line | Zero arms | Baseline counts | Disposition |
 |---|---:|---|---|---|
-|2|34|0|[0, 2515]|pending|
-|4|36|0|[0, 2216]|pending|
-|10|46|0|[0, 169]|pending|
-|12|48|0|[0, 169]|pending|
+|2|34|0|[0, 2515]|[covered arms 0](07-03-LEDGER-REVIEW.md#relay-ledger)|
+|4|36|0|[0, 2216]|[covered arms 0](07-03-LEDGER-REVIEW.md#relay-ledger)|
+|10|46|0|[0, 169]|[covered arms 0](07-03-LEDGER-REVIEW.md#relay-ledger)|
+|12|48|0|[0, 169]|[covered arms 0](07-03-LEDGER-REVIEW.md#relay-ledger)|
 |15|49|1|[168, 0]|pending|
-|16|50|0|[0, 168]|pending|
-|22|62|0|[0, 6]|pending|
-|24|64|0|[0, 6]|pending|
-|25|65|0|[0, 6]|pending|
-|27|69|0|[0, 97]|pending|
-|28|70|0|[0, 97]|pending|
-|30|72|0|[0, 97]|pending|
-|32|77|0|[0, 129]|pending|
-|34|79|0|[0, 129]|pending|
-|35|81|0|[0, 129]|pending|
-|39|89|0|[0, 21]|pending|
-|40|89|0|[0, 21]|pending|
-|42|103|0|[0, 21]|pending|
+|16|50|0|[0, 168]|[covered arms 0](07-03-LEDGER-REVIEW.md#relay-ledger)|
+|22|62|0|[0, 6]|[covered arms 0](07-03-LEDGER-REVIEW.md#relay-ledger)|
+|24|64|0|[0, 6]|[covered arms 0](07-03-LEDGER-REVIEW.md#relay-ledger)|
+|25|65|0|[0, 6]|[covered arms 0](07-03-LEDGER-REVIEW.md#relay-ledger)|
+|27|69|0|[0, 97]|[covered arms 0](07-03-LEDGER-REVIEW.md#relay-ledger)|
+|28|70|0|[0, 97]|[covered arms 0](07-03-LEDGER-REVIEW.md#relay-ledger)|
+|30|72|0|[0, 97]|[covered arms 0](07-03-LEDGER-REVIEW.md#relay-ledger)|
+|32|77|0|[0, 129]|[covered arms 0](07-03-LEDGER-REVIEW.md#relay-ledger)|
+|34|79|0|[0, 129]|[covered arms 0](07-03-LEDGER-REVIEW.md#relay-ledger)|
+|35|81|0|[0, 129]|[covered arms 0](07-03-LEDGER-REVIEW.md#relay-ledger)|
+|39|89|0|[0, 21]|[covered arms 0](07-03-LEDGER-REVIEW.md#relay-ledger)|
+|40|89|0|[0, 21]|[covered arms 0](07-03-LEDGER-REVIEW.md#relay-ledger)|
+|42|103|0|[0, 21]|[covered arms 0](07-03-LEDGER-REVIEW.md#relay-ledger)|
 
 ### src/relay-ui.ts
 
@@ -933,12 +933,12 @@ Source `b775194505201a55cc8f4377051e508674ba965d8e6eabc23eb490f14a5267cd`; schem
 |47|161|1|[9, 0]|pending|
 |53|196|1|[10, 0]|pending|
 |54|196|0,1|[0, 0]|pending|
-|58|212|1|[68, 0]|pending|
-|59|212|0,1|[0, 0]|pending|
-|60|212|0,1|[0, 0]|pending|
+|58|212|1|[68, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#relay-presentation)|
+|59|212|0,1|[0, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#relay-presentation); pending arms 0|
+|60|212|0,1|[0, 0]|[covered arms 0](07-03-LEDGER-REVIEW.md#relay-presentation); pending arms 1|
 |61|217|0|[0, 147]|pending|
 |63|218|1|[137, 0]|pending|
-|65|232|0,1|[0, 0]|pending|
+|65|232|0,1|[0, 0]|[covered arms 0](07-03-LEDGER-REVIEW.md#relay-presentation); pending arms 1|
 
 ### src/relay.ts
 
@@ -1006,7 +1006,7 @@ Source `3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a`; schem
 |64|227|0|[0, 1102]|pending|
 |67|232|1|[1102, 0]|pending|
 |77|257|0|[0, 62]|pending|
-|79|258|0|[0, 62]|pending|
+|79|258|0|[0, 62]|[covered arms 0](07-03-LEDGER-REVIEW.md#hand-menu)|
 |80|260|1|[62, 0]|pending|
 |81|260|1|[62, 0]|pending|
 |82|260|0,1|[0, 0]|pending|
@@ -1018,10 +1018,10 @@ Source `3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a`; schem
 |102|282|0,1|[0, 0]|pending|
 |103|283|1|[16, 0]|pending|
 |105|291|1|[233, 0]|pending|
-|107|301|1|[1494, 0]|pending|
-|109|303|0,1|[0, 0]|pending|
-|110|305|0,1|[0, 0]|pending|
-|111|305|0,1|[0, 0]|pending|
+|107|301|1|[1494, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#hand-menu)|
+|109|303|0,1|[0, 0]|[covered arms 0,1](07-03-LEDGER-REVIEW.md#hand-menu)|
+|110|305|0,1|[0, 0]|[covered arms 0](07-03-LEDGER-REVIEW.md#hand-menu); pending arms 1|
+|111|305|0,1|[0, 0]|[covered arms 0,1](07-03-LEDGER-REVIEW.md#hand-menu)|
 |117|314|1|[252, 0]|pending|
 |118|318|0|[0, 128648]|pending|
 |119|320|1|[128648, 0]|pending|
@@ -1029,7 +1029,7 @@ Source `3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a`; schem
 |131|339|0|[0, 56653]|pending|
 |135|347|0|[0, 3]|pending|
 |136|349|0|[0, 3]|pending|
-|137|350|1|[3, 0]|pending|
+|137|350|1|[3, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#hand-menu)|
 |139|354|0|[0, 2]|pending|
 |140|356|1|[2, 0]|pending|
 
@@ -1050,10 +1050,10 @@ Source `1d02c36c6d47645e86795810c5b5eb0d20ee85601bec3d4746de42b21920f676`; schem
 |33|89|1|[6, 0]|pending|
 |34|89|1|[6, 0]|pending|
 |36|91|1|[548, 0]|pending|
-|42|99|0|[0, 153]|pending|
-|43|99|1|[153, 0]|pending|
+|42|99|0|[0, 153]|[covered arms 0](07-03-LEDGER-REVIEW.md#hand-menu)|
+|43|99|1|[153, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#hand-menu)|
 |48|104|0|[0, 8]|pending|
-|49|106|0|[0, 8]|pending|
+|49|106|0|[0, 8]|[covered arms 0](07-03-LEDGER-REVIEW.md#hand-menu)|
 |51|111|1|[252, 0]|pending|
 |52|113|0|[0]|pending|
 |53|114|0|[0, 128648]|pending|
@@ -1061,9 +1061,9 @@ Source `1d02c36c6d47645e86795810c5b5eb0d20ee85601bec3d4746de42b21920f676`; schem
 |60|131|1|[363, 0]|pending|
 |61|135|0|[0, 26]|pending|
 |62|136|0|[0, 26]|pending|
-|63|137|1|[26, 0]|pending|
-|64|137|1|[26, 0]|pending|
-|66|143|1|[33, 0]|pending|
+|63|137|1|[26, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#hand-menu)|
+|64|137|1|[26, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#hand-menu)|
+|66|143|1|[33, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#hand-menu)|
 |68|145|0|[0, 13]|pending|
 
 ### src/run-seed.ts
@@ -1092,17 +1092,17 @@ Source `e42c0af885310c699a275aa819c7d66d6902e20164db08cacacf5aee7017da9f`; schem
 
 | Branch | Source line | Zero arms | Baseline counts | Disposition |
 |---|---:|---|---|---|
-|3|83|0|[0, 227]|pending|
-|4|83|2,3,4|[227, 40, 0, 0, 0]|pending|
-|5|83|0,1|[0, 0]|pending|
-|9|86|1|[3809, 0]|pending|
-|10|87|1|[3809, 0]|pending|
-|13|90|1|[2, 0]|pending|
-|14|90|1,2,3|[2, 0, 0, 0]|pending|
-|15|90|0|[0, 2]|pending|
-|16|91|0,1|[0, 0]|pending|
+|3|83|0|[0, 227]|[covered arms 0](07-03-LEDGER-REVIEW.md#controller-router)|
+|4|83|2,3,4|[227, 40, 0, 0, 0]|[covered arms 2,3](07-03-LEDGER-REVIEW.md#controller-router); pending arms 4|
+|5|83|0,1|[0, 0]|[covered arms 0,1](07-03-LEDGER-REVIEW.md#controller-router)|
+|9|86|1|[3809, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#controller-router)|
+|10|87|1|[3809, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#controller-router)|
+|13|90|1|[2, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#controller-router)|
+|14|90|1,2,3|[2, 0, 0, 0]|[covered arms 1,2](07-03-LEDGER-REVIEW.md#controller-router); pending arms 3|
+|15|90|0|[0, 2]|[covered arms 0](07-03-LEDGER-REVIEW.md#controller-router)|
+|16|91|0,1|[0, 0]|[covered arms 0,1](07-03-LEDGER-REVIEW.md#controller-router)|
 |17|96|1|[2492, 0]|pending|
-|18|116|0|[0, 1674]|pending|
+|18|116|0|[0, 1674]|[covered arms 0](07-03-LEDGER-REVIEW.md#controller-router)|
 |29|139|1|[27, 0]|pending|
 |36|165|1|[23, 0]|pending|
 |37|166|0|[0, 23]|pending|
@@ -1121,7 +1121,7 @@ Source `35119abd8ac6551d253ec0ada320c934fd5a9cf20c142444e3afdb4094093b9c`; schem
 |---|---:|---|---|---|
 |0|11|1|[415, 0]|pending|
 |4|25|0|[0, 243]|pending|
-|12|46|0|[0, 132]|pending|
+|12|46|0|[0, 132]|[covered arms 0](07-03-LEDGER-REVIEW.md#reused-authority)|
 |16|48|1|[19, 0]|pending|
 |21|52|1|[29, 0]|pending|
 |26|61|0|[0, 145]|pending|
@@ -1138,9 +1138,9 @@ Source `3f7144ef7840f9f6fe64829f37b0dd043367bb3c85875289a19604e2946dd280`; schem
 |4|61|1|[2, 0]|pending|
 |5|61|0,1|[0, 0]|pending|
 |7|69|0|[0, 49]|pending|
-|10|92|0,1|[0, 0]|pending|
+|10|92|0,1|[0, 0]|[covered arms 0,1](07-03-LEDGER-REVIEW.md#keyboard-editor)|
 |17|116|1|[7, 0]|pending|
-|25|132|0|[0, 3]|pending|
+|25|132|0|[0, 3]|[covered arms 0](07-03-LEDGER-REVIEW.md#keyboard-editor)|
 |27|139|1|[1, 0]|pending|
 |35|244|1|[1431, 0]|pending|
 |37|246|1|[1431, 0]|pending|
@@ -1250,16 +1250,16 @@ Source `9f9b114ae820a3a5f59d172c907593fae8455aef0358eabfb020dfc062f6d921`; schem
 
 | Branch | Source line | Zero arms | Baseline counts | Disposition |
 |---|---:|---|---|---|
-|1|13|0|[0, 2]|pending|
-|2|15|0|[0, 2]|pending|
-|4|17|1|[2, 0]|pending|
-|5|22|0|[0, 16]|pending|
-|9|27|0,1|[0, 0]|pending|
-|10|28|0|[0, 16]|pending|
-|11|28|0,1|[0, 0]|pending|
-|12|39|0|[0, 12]|pending|
-|15|45|1|[2, 0]|pending|
-|16|48|0|[0, 10]|pending|
+|1|13|0|[0, 2]|[covered arms 0](07-03-LEDGER-REVIEW.md#sound-loader)|
+|2|15|0|[0, 2]|[covered arms 0](07-03-LEDGER-REVIEW.md#sound-loader)|
+|4|17|1|[2, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#sound-loader)|
+|5|22|0|[0, 16]|[covered arms 0](07-03-LEDGER-REVIEW.md#sound-loader)|
+|9|27|0,1|[0, 0]|[covered arms 0,1](07-03-LEDGER-REVIEW.md#sound-loader)|
+|10|28|0|[0, 16]|[covered arms 0](07-03-LEDGER-REVIEW.md#sound-loader)|
+|11|28|0,1|[0, 0]|[covered arms 0,1](07-03-LEDGER-REVIEW.md#sound-loader)|
+|12|39|0|[0, 12]|[covered arms 0](07-03-LEDGER-REVIEW.md#sound-loader)|
+|15|45|1|[2, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#sound-loader)|
+|16|48|0|[0, 10]|[covered arms 0](07-03-LEDGER-REVIEW.md#sound-loader)|
 
 ### src/sound-packs.ts
 
@@ -1276,23 +1276,23 @@ Source `82e413739bfe7bdc4f29dd555eddaa5849dbebed10d296a5a439041accddb352`; schem
 | Branch | Source line | Zero arms | Baseline counts | Disposition |
 |---|---:|---|---|---|
 |5|73|0|[0, 10]|pending|
-|7|78|1|[10, 0]|pending|
-|10|81|0|[0, 4]|pending|
-|11|81|1|[4, 0]|pending|
-|14|89|0|[0, 7]|pending|
-|15|90|0,1|[0, 0]|pending|
-|16|91|0,1|[0, 0]|pending|
-|17|91|0,1|[0, 0]|pending|
+|7|78|1|[10, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#sound-settings)|
+|10|81|0|[0, 4]|[covered arms 0](07-03-LEDGER-REVIEW.md#sound-settings)|
+|11|81|1|[4, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#sound-settings)|
+|14|89|0|[0, 7]|[covered arms 0](07-03-LEDGER-REVIEW.md#sound-settings)|
+|15|90|0,1|[0, 0]|[covered arms 0,1](07-03-LEDGER-REVIEW.md#sound-settings)|
+|16|91|0,1|[0, 0]|[covered arms 0](07-03-LEDGER-REVIEW.md#sound-settings); pending arms 1|
+|17|91|0,1|[0, 0]|[covered arms 0,1](07-03-LEDGER-REVIEW.md#sound-settings)|
 |18|93|1|[7, 0]|pending|
-|20|101|0|[0, 16]|pending|
-|22|102|0|[0, 16]|pending|
-|23|108|1|[2, 0]|pending|
+|20|101|0|[0, 16]|[covered arms 0](07-03-LEDGER-REVIEW.md#sound-settings)|
+|22|102|0|[0, 16]|[covered arms 0](07-03-LEDGER-REVIEW.md#sound-settings)|
+|23|108|1|[2, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#sound-settings)|
 |24|111|0|[0, 499]|pending|
-|26|116|0|[0, 497]|pending|
-|27|116|1|[497, 0]|pending|
-|28|117|0,1|[0, 0]|pending|
-|29|120|0,1|[0, 0]|pending|
-|30|122|0,1|[0, 0]|pending|
+|26|116|0|[0, 497]|[covered arms 0](07-03-LEDGER-REVIEW.md#sound-settings)|
+|27|116|1|[497, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#sound-settings)|
+|28|117|0,1|[0, 0]|[covered arms 0,1](07-03-LEDGER-REVIEW.md#sound-settings)|
+|29|120|0,1|[0, 0]|[covered arms 0](07-03-LEDGER-REVIEW.md#sound-settings); pending arms 1|
+|30|122|0,1|[0, 0]|[covered arms 0,1](07-03-LEDGER-REVIEW.md#sound-settings)|
 
 ### src/soundscape.ts
 
@@ -1348,12 +1348,17 @@ Source `6ff040ceaed6a1fd4ff1dcf7e8b8bc9a773bcc4a3598fa6a83529a05d28b72e6`; schem
 
 | Branch | Source line | Zero arms | Baseline counts | Disposition |
 |---|---:|---|---|---|
-|0|20|1|[9600, 0]|pending|
-|1|21|0,1|[0, 0]|pending|
-|2|21|0,1|[0, 0]|pending|
+|0|20|1|[9600, 0]|[covered arms 1](07-03-LEDGER-REVIEW.md#content)|
+|1|21|0,1|[0, 0]|[covered arms 0,1](07-03-LEDGER-REVIEW.md#content)|
+|2|21|0,1|[0, 0]|[covered arms 0,1](07-03-LEDGER-REVIEW.md#content)|
 |5|34|0|[0, 18778]|pending|
 
 Total retained zero branch arms: 1051. No automatic dismissals.
+
+Focused semantic review now binds141 of those historical arms to named passing
+behavioral evidence in `07-03-LEDGER-REVIEW.md`. The other910 remain pending;
+all1051 initial rows/counts and source hashes stay visible. This is not a new
+aggregate coverage report or acceptance of the residual branches.
 
 ## Reviewed solo applicability preparation
 
