@@ -1,5 +1,11 @@
 # Pickup claim repair: source and applicability review
 
+Follow-up correction: [Relay unpaid pull repair](07-03-RELAY-PULL-REPAIR.md)
+supersedes this historical review's bench-claim retention assumption. Immediate
+confirmation continuity remains; the next advancing tick releases unpaid claims
+owned by non-simulating travelers. The older hashes and measurements below remain
+historical evidence and are not relabelled.
+
 2026-10-17 UTC. This addendum advances only the reviewed session source pin for
 the disconnect repair retained in `07-03-DEVELOPMENT-GAMEPLAY-EVIDENCE.md`.
 Root and an independent read-only reviewer inspected the exact source change

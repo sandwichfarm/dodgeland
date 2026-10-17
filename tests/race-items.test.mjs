@@ -9,7 +9,7 @@ const { Game } = await sources.import('game');
 const { createRaceSession, RaceCoordinator } = await sources.import('race');
 
 const authority={Game,...await sources.import('session'),...await sources.import('mode-rules')};
-const reuse=await turnReuseAttribution({authority,mode:'race',factory:createRaceSession,Coordinator:RaceCoordinator,lifetimes:23});
+const reuse=await turnReuseAttribution({authority,mode:'race',factory:createRaceSession,Coordinator:RaceCoordinator,lifetimes:24});
 after(()=>reuse.finish());
 
 test('common world dependency: installed capability must not grant legacy Revival capacity', async () => {
@@ -328,4 +328,40 @@ test('expired temporary cooldown cannot extend a hop delay beyond its active dea
   assert.equal(p.setHopCooldown(1.35,.01),true);assert.equal(run.session.dispatch({seat:'p1',direction:'forward'}),true);
   while(p.hop>0)step(run);
   assert.equal(p.hopCooldown.multiplier,1);assert.equal(run.session.dispatch({seat:'p1',direction:'forward'}),true);
+});
+
+test('a finished racer releases an unpaid pull without granting progress or duplicate coins',()=>{
+ const witness=reuse.lifetime(),game=new Game(121,'pond','stroll',false,[],'butter');
+ for(const lane of game.rows.values())Object.assign(lane,{kind:'meadow',blocked:[],decorations:[],coin:null,coinPull:undefined,coinActor:undefined,actors:undefined});
+ const race=witness.acquire(game,{seats:[{seat:'p1',device:'keyboard-a',characterId:'butter'},{seat:'p2',device:'keyboard-b',characterId:'pip'}],finishTiles:1,activeSeconds:180});
+ const session=race.session,[finished,waiting]=session.players,reward=game.rows.get(1);
+ finished.x=finished.fromX=-.55;reward.coin=0;reward.coinDenomination='coin';
+ witness.interval('finished-owner-pull',()=>{
+  assert.equal(session.dispatch({seat:'p1',direction:'forward'}),true);
+  for(let n=0;n<120&&finished.hop>0;n++)session.update(1/120);
+  assert.equal(finished.hop,0);assert.equal(race.isFinished('p1'),true);
+  assert.equal(finished.state,'playing');assert.equal(finished.participation,'active');
+  assert.equal(race.result,undefined);assert.ok(reward.coinPull);
+  assert.equal(session.world.pickupOwners.get(1),'p1');
+  assert.equal(finished.run.wallet,0);assert.equal(waiting.run.wallet,0);
+ });
+ // Component arrangement: a remaining racer is next to the existing coin.
+ // Spatial placement earns no hops and never changes the finish feed.
+ waiting.x=waiting.fromX=-.55;waiting.y=waiting.fromY=1;waiting.maxY=1;waiting.personalFrontierY=1;waiting.hop=0;
+ witness.interval('remaining-racer-collects',()=>{
+  const finishTick=race.finishTick('p1');session.update(1/120);
+  assert.equal(session.world.pickupOwners.get(1),'p2');
+  for(let n=0;n<240&&reward.coin!==null;n++)session.update(1/120);
+  assert.equal(reward.coin,null);assert.equal(reward.coinPull,undefined);
+  assert.equal(finished.run.wallet,0);assert.equal(finished.statistics.pickups,0);
+  assert.equal(waiting.run.wallet,1);assert.equal(waiting.statistics.pickups,1);
+  assert.equal(waiting.completedForwardTiles,0);assert.equal(race.isFinished('p2'),false);
+  assert.equal(race.finishTick('p1'),finishTick);
+  assert.equal(session.world.pickupOwners.has(1),false);assert.equal(session.world.attractedCoins.has(1),false);
+  for(let n=0;n<120;n++)session.update(1/120);
+  assert.equal(waiting.run.wallet,1);assert.equal(waiting.statistics.pickups,1);
+  assert.equal(race.command(race.actionToken('p2'),'leave'),true);
+  assert.equal(race.command(race.actionToken('p2'),'confirm'),true);
+  assert.ok(Object.isFrozen(race.result));assert.equal(race.result.outcome,'finish');
+ });witness.finish();
 });

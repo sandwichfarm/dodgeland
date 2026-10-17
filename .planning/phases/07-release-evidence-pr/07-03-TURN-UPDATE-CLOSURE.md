@@ -1,5 +1,10 @@
 # Canonical Relay/Race shared update closure
 
+Current-source addendum: [unpaid claim eligibility repair](07-03-RELAY-PULL-REPAIR.md)
+reviews the sole subsequent session argument change and advances the complete
+caller fingerprint. All dispatch/receiver edges below remain unchanged. The
+original hashes and measurements below retain their historical identities.
+
 Scope: canonical Arcade/Flow bases owned by the actual Relay/Race coordinators.
 This disposition changes mode applicability only. Raw/global/per-file accounting,
 numeric floors, public guards and authored-mode compatibility remain intact.

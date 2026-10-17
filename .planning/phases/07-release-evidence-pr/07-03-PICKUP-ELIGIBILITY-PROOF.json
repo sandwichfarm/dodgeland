@@ -1,0 +1,695 @@
+{
+  "status": "Repair, ordinary gates, nine current-source refresh cohorts and preservation checks pass; full release acceptance remains open",
+  "baseCommit": "04c30a4",
+  "sourceChange": "src/session.ts:1036 passes activePlayers instead of this.players",
+  "sourceTransition": {
+    "beforeSession": "f8ce62cdc5c87557636cce62f0b15005bfa5f9cde42c708d67915b4c1ebcec39",
+    "afterSession": "bf1d769947cd7e251d47957abdc4238f36ab4583fd5f5d32d3900e7f4c39f16c",
+    "beforeInventory": "f741bb29520d4edb84def73c4c0e18a477903c028637675af647c81518655bfa",
+    "afterInventory": "153de8d17a4715b118bdcbf5d813406b35dd44133a0572dc73a37a5e6e9fe7a1",
+    "changed": [
+      "src/session.ts"
+    ],
+    "beforeDevelopmentAuthority": "10e47f7622ef7f755e41eff71ff68ee0bf488b0c8e8d62ea8232a11e2e01e034",
+    "afterDevelopmentAuthority": "f6a5623fb9db48fc1449b8b30400b6ad875a0e422f7ce6e94dcbf41c316276ba"
+  },
+  "red": {
+    "ordinaryTests": 17,
+    "passed": 16,
+    "failed": 1,
+    "log": "/tmp/down-to-duck-relay-pull-handoff-red.log"
+  },
+  "fractionalBeforeVariant": {
+    "purpose": "Explicit pre-repair source variant; no current-source counter credit",
+    "sourceCommit": "04c30a4",
+    "sessionHash": "f8ce62cdc5c87557636cce62f0b15005bfa5f9cde42c708d67915b4c1ebcec39",
+    "coinColumn": 0,
+    "duckColumn": -0.55,
+    "results": [
+      {
+        "mode": "relay",
+        "status": "failed",
+        "actual": "p1",
+        "expected": "p2",
+        "message": "eligible incoming traveler must own the unpaid pull\n\n'p1' !== 'p2'\n"
+      },
+      {
+        "mode": "race",
+        "status": "failed",
+        "actual": "p1",
+        "expected": "p2",
+        "message": "eligible incoming traveler must own the unpaid pull\n\n'p1' !== 'p2'\n"
+      }
+    ]
+  },
+  "ordinary": {
+    "tests": 70,
+    "passed": 70,
+    "failed": 0,
+    "log": "/tmp/down-to-duck-pickup-fractional-green.log"
+  },
+  "tooling": {
+    "tests": 94,
+    "passed": 94,
+    "failed": 0,
+    "log": "/tmp/down-to-duck-relay-pull-source-controls.log"
+  },
+  "canonical": {
+    "runId": "ce75d312-6900-4870-90ae-a481e2085db1",
+    "exitCode": 0,
+    "payloads": 2,
+    "tests": {
+      "race-items": 19,
+      "relay-boundary": 17
+    },
+    "models": {
+      "race": {
+        "intervals": 73,
+        "lifetimes": 24
+      },
+      "relay": {
+        "intervals": 8,
+        "lifetimes": 4
+      }
+    },
+    "log": "/tmp/down-to-duck-pickup-eligibility-fractional-canonical.log"
+  },
+  "ordinaryGates": {
+    "status": "passed",
+    "commands": [
+      {
+        "name": "solo-parity",
+        "status": "passed",
+        "log": "/tmp/down-to-duck-pickup-repair-solo-parity.log",
+        "pid": 57457,
+        "exitCode": 0
+      },
+      {
+        "name": "session-model",
+        "status": "passed",
+        "log": "/tmp/down-to-duck-pickup-repair-session-model.log",
+        "pid": 60697,
+        "exitCode": 0
+      },
+      {
+        "name": "survive-recovery",
+        "status": "passed",
+        "log": "/tmp/down-to-duck-pickup-repair-survive-recovery.log",
+        "pid": 60734,
+        "exitCode": 0
+      },
+      {
+        "name": "type-check",
+        "status": "passed",
+        "log": "/tmp/down-to-duck-pickup-repair-type-check.log",
+        "pid": 60785,
+        "exitCode": 0
+      },
+      {
+        "name": "build",
+        "status": "passed",
+        "log": "/tmp/down-to-duck-pickup-repair-build.log",
+        "pid": 60875,
+        "exitCode": 0
+      },
+      {
+        "name": "guidance",
+        "status": "passed",
+        "log": "/tmp/down-to-duck-pickup-repair-guidance.log",
+        "pid": 60941,
+        "exitCode": 0
+      },
+      {
+        "name": "conformance",
+        "status": "passed",
+        "log": "/tmp/down-to-duck-pickup-repair-conformance.log",
+        "pid": 60959,
+        "exitCode": 0
+      }
+    ],
+    "finished": "2026-10-17T12:20:29.516282+00:00"
+  },
+  "normalArtifact": {
+    "path": "dist/index.html",
+    "sha256": "ff8ed4433a0e006bbf31d2f5843339930d00ed3ede5c694a4e03b269ad6cc7ee"
+  },
+  "lockSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "broaderRefresh": "/tmp/down-to-duck-pickup-browser-refresh.json",
+  "limitations": [
+    "No old/new session counter merging",
+    "No fresh full enforcing report",
+    "Conformance still5 pass0 fail5 unmeasured",
+    "Normal visual/clause and final gate/PR remain open"
+  ],
+  "broaderRefreshResult": {
+    "status": "failed",
+    "groups": [
+      {
+        "suite": "turn-reuse-03",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/pickup-reuse-03",
+        "log": "/tmp/down-to-duck-pickup-reuse-03.log",
+        "status": "passed",
+        "started": "2026-10-17T12:25:37.068649+00:00",
+        "pid": 70071,
+        "exitCode": 0,
+        "finished": "2026-10-17T12:27:48.060179+00:00"
+      },
+      {
+        "suite": "relay-lifecycle-03",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/pickup-relay-lifecycle-03",
+        "log": "/tmp/down-to-duck-pickup-relay-lifecycle-03.log",
+        "status": "passed",
+        "started": "2026-10-17T12:27:48.060757+00:00",
+        "pid": 74584,
+        "exitCode": 0,
+        "finished": "2026-10-17T12:29:35.216063+00:00"
+      },
+      {
+        "suite": "race-results-03",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/pickup-race-results-03",
+        "log": "/tmp/down-to-duck-pickup-race-results-03.log",
+        "status": "passed",
+        "started": "2026-10-17T12:29:35.216530+00:00",
+        "pid": 78281,
+        "exitCode": 0,
+        "finished": "2026-10-17T12:32:03.349810+00:00"
+      },
+      {
+        "suite": "turn-spawn-safety-03",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/pickup-turn-matrix-03",
+        "log": "/tmp/down-to-duck-pickup-turn-matrix-03.log",
+        "status": "passed",
+        "started": "2026-10-17T12:32:03.350175+00:00",
+        "pid": 83377,
+        "exitCode": 0,
+        "finished": "2026-10-17T12:32:49.256100+00:00"
+      },
+      {
+        "suite": "solo-freeze-03",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/pickup-solo-matrix-03",
+        "log": "/tmp/down-to-duck-pickup-solo-matrix-03.log",
+        "status": "failed",
+        "started": "2026-10-17T12:32:49.256428+00:00",
+        "pid": 84937,
+        "exitCode": 1,
+        "finished": "2026-10-17T12:50:30.804264+00:00"
+      }
+    ],
+    "started": "2026-10-17T12:25:37.054193+00:00",
+    "temporaryOriginals": [
+      "race-05-03-reclaim-900x600-dark.png",
+      "race-05-03-recovery-decline.png",
+      "race-05-03-departed-result.png",
+      "race-05-03-reclaim-900x600-light.png",
+      "race-05-03-reclaim-320x560-dark.png",
+      "race-05-03-reclaim-1000x280-dark.png",
+      "race-05-03-reclaim-240x240-dark.png",
+      "race-05-03-reclaim-320x560-light.png",
+      "race-05-03-recovery-expiry.png",
+      "race-05-03-reclaim-240x240-light.png",
+      "race-05-03-reclaim-1000x280-light.png",
+      "race-05-03-waiting.png",
+      "race-05-03-recovery-accept.png"
+    ],
+    "backup": "/var/folders/g8/w4qrj6k57hx_3lg6ltc1k70w0000gn/T/down-to-duck-turn-update-preserved-ch2y_2yo",
+    "error": "solo-freeze-03 failed with 1",
+    "frozenFiles": {
+      "dist/index.html": "ff8ed4433a0e006bbf31d2f5843339930d00ed3ede5c694a4e03b269ad6cc7ee",
+      "pnpm-lock.yaml": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+      "src/game.ts": "fb5d9224e46c19b3745099429f06bd141d9b738bb2d8786ed3266e1b6a7d95f6",
+      "src/session.ts": "bf1d769947cd7e251d47957abdc4238f36ab4583fd5f5d32d3900e7f4c39f16c",
+      "src/main.ts": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "tools/release-coverage/suites.json": "5ebf96e2dd03a6656ef54639fe84cdfa63198df24e679e94faf3135bb6cc53e4"
+    },
+    "preserved": true,
+    "temporaryPreserved": true,
+    "finished": "2026-10-17T12:50:30.855893+00:00"
+  },
+  "timeoutInvestigation": {
+    "testStartUTC": "2026-10-17T12:32:51.011Z",
+    "testDurationMs": 1059192.067791,
+    "deadlineMs": 120000,
+    "sleepStart": "2026-10-17 05:33:41 -0700",
+    "wake": "2026-10-17 05:50:27 -0700",
+    "sleepSeconds": 1006,
+    "evidence": "pmset -g log",
+    "conclusion": "The recorded sleep spans most of the elapsed test duration; the timer fired after wake. No assertion mismatch was reported. Retry retains original deadline and does not credit the failed partial collection.",
+    "powerLogLines": [
+      "2026-10-17 05:33:41 -0700 Sleep               \tEntering Sleep state due to 'Sleep Service Back to Sleep':TCPKeepAlive=active Using AC (Charge:100%) 1006 secs ",
+      "2026-10-17 05:50:27 -0700 DarkWake            \tDarkWake from Deep Idle [CDNPB] : due to NUB.SPMI0Sw3IRQ nub-spmi0.0x02 rtc/Maintenance Using AC (Charge:100%) 45 secs   "
+    ]
+  },
+  "resumedRefresh": {
+    "status": "passed",
+    "groups": [
+      {
+        "suite": "solo-freeze-03",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/pickup-solo-matrix-retry-03",
+        "log": "/tmp/down-to-duck-pickup-solo-matrix-retry-03.log",
+        "status": "passed",
+        "started": "2026-10-17T13:35:24.610868+00:00",
+        "pid": 7086,
+        "exitCode": 0,
+        "finished": "2026-10-17T13:36:47.069333+00:00"
+      },
+      {
+        "suite": "solo-bootstrap-03",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/pickup-solo-bootstrap-03",
+        "log": "/tmp/down-to-duck-pickup-solo-bootstrap-03.log",
+        "status": "passed",
+        "started": "2026-10-17T13:36:47.069704+00:00",
+        "pid": 9758,
+        "exitCode": 0,
+        "finished": "2026-10-17T13:36:54.607096+00:00"
+      },
+      {
+        "suite": "modes-12",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/pickup-public-03",
+        "log": "/tmp/down-to-duck-pickup-public-03.log",
+        "status": "passed",
+        "started": "2026-10-17T13:36:54.607399+00:00",
+        "pid": 10094,
+        "exitCode": 0,
+        "finished": "2026-10-17T13:37:50.080743+00:00"
+      }
+    ],
+    "started": "2026-10-17T13:35:24.597327+00:00",
+    "temporaryOriginals": [
+      "race-05-03-reclaim-900x600-dark.png",
+      "race-05-03-recovery-decline.png",
+      "race-05-03-departed-result.png",
+      "race-05-03-reclaim-900x600-light.png",
+      "race-05-03-reclaim-320x560-dark.png",
+      "race-05-03-reclaim-1000x280-dark.png",
+      "race-05-03-reclaim-240x240-dark.png",
+      "race-05-03-reclaim-320x560-light.png",
+      "race-05-03-recovery-expiry.png",
+      "race-05-03-reclaim-240x240-light.png",
+      "race-05-03-reclaim-1000x280-light.png",
+      "race-05-03-waiting.png",
+      "race-05-03-recovery-accept.png"
+    ],
+    "backup": "/var/folders/g8/w4qrj6k57hx_3lg6ltc1k70w0000gn/T/down-to-duck-turn-update-preserved-a1wcdey3",
+    "frozenFiles": {
+      "dist/index.html": "ff8ed4433a0e006bbf31d2f5843339930d00ed3ede5c694a4e03b269ad6cc7ee",
+      "pnpm-lock.yaml": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+      "src/game.ts": "fb5d9224e46c19b3745099429f06bd141d9b738bb2d8786ed3266e1b6a7d95f6",
+      "src/session.ts": "bf1d769947cd7e251d47957abdc4238f36ab4583fd5f5d32d3900e7f4c39f16c",
+      "src/main.ts": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "tools/release-coverage/suites.json": "5ebf96e2dd03a6656ef54639fe84cdfa63198df24e679e94faf3135bb6cc53e4"
+    },
+    "preserved": true,
+    "temporaryPreserved": true,
+    "finished": "2026-10-17T13:37:50.097427+00:00"
+  },
+  "finalRefresh": {
+    "status": "passed",
+    "started": "2026-10-17T13:38:07.169247+00:00",
+    "backup": "/var/folders/g8/w4qrj6k57hx_3lg6ltc1k70w0000gn/T/down-to-duck-relay-public-preserved-ho8cg8lq",
+    "originals": [
+      "relay-runtime-controller-market.png",
+      "relay-runtime-readonly-240x240-dark.png",
+      "relay-runtime-empty-900x600-dark.png",
+      "relay-runtime-empty-2400x1200-dark.png",
+      "relay-runtime-readonly-200x160-light.png",
+      "relay-runtime-readonly-320x560-dark.png",
+      "relay-runtime-readonly-2400x1200-light.png",
+      "relay-runtime-empty-200x160-light.png",
+      "relay-runtime-empty-200x160-dark.png",
+      "relay-runtime-contact.png",
+      "relay-runtime-paid-pack-320x560-light.png",
+      "relay-runtime-paid-pack-1000x280-dark.png",
+      "relay-runtime-readonly-1000x280-light.png",
+      "relay-runtime-paid-pack-2400x1200-light.png",
+      "relay-runtime-empty-320x560-dark.png",
+      "relay-runtime-readonly-200x160-dark.png",
+      "relay-runtime-empty-240x240-dark.png",
+      "relay-runtime-empty-240x240-light.png",
+      "relay-runtime-paid-pack-900x600-light.png",
+      "relay-runtime-readonly-900x600-dark.png",
+      "relay-runtime-readonly-240x240-light.png",
+      "relay-runtime-paid-pack-1000x280-light.png",
+      "relay-runtime-readonly-1000x280-dark.png",
+      "relay-runtime-empty-320x560-light.png",
+      "relay-runtime-paid-pack-200x160-dark.png",
+      "relay-runtime-readonly-320x560-light.png",
+      "relay-runtime-empty-1000x280-light.png",
+      "relay-runtime-empty-1000x280-dark.png",
+      "relay-runtime-empty-contact.png",
+      "relay-runtime-paid-pack-900x600-dark.png",
+      "relay-runtime-empty-2400x1200-light.png",
+      "relay-runtime-paid-pack-240x240-light.png",
+      "relay-runtime-readonly-900x600-light.png",
+      "relay-runtime-earned-51.png",
+      "relay-runtime-empty-900x600-light.png",
+      "relay-runtime-earned-continuity.json",
+      "relay-runtime-readonly-2400x1200-dark.png",
+      "relay-runtime-paid-pack-200x160-light.png",
+      "relay-runtime-final-contact.png",
+      "relay-runtime-paid-pack-240x240-dark.png",
+      "relay-runtime-paid-pack-clip.png",
+      "relay-runtime-paid-pack-320x560-dark.png",
+      "relay-runtime-paid-pack-2400x1200-dark.png"
+    ],
+    "frozenFiles": {
+      "dist/index.html": "ff8ed4433a0e006bbf31d2f5843339930d00ed3ede5c694a4e03b269ad6cc7ee",
+      "pnpm-lock.yaml": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+      "src/game.ts": "fb5d9224e46c19b3745099429f06bd141d9b738bb2d8786ed3266e1b6a7d95f6",
+      "src/session.ts": "bf1d769947cd7e251d47957abdc4238f36ab4583fd5f5d32d3900e7f4c39f16c",
+      "src/main.ts": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "tools/release-coverage/suites.json": "5ebf96e2dd03a6656ef54639fe84cdfa63198df24e679e94faf3135bb6cc53e4"
+    },
+    "groups": [
+      {
+        "suite": "turn-item-ownership-03",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/pickup-relay-public-03",
+        "status": "passed",
+        "log": "/tmp/down-to-duck-pickup-relay-public-03.log",
+        "pid": 12214,
+        "exitCode": 0
+      },
+      {
+        "suite": "shared-pickup-03",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/pickup-shared-runtime-03",
+        "status": "passed",
+        "log": "/tmp/down-to-duck-pickup-shared-runtime-03.log",
+        "pid": 17294,
+        "exitCode": 0
+      }
+    ],
+    "exitCode": 0,
+    "preserved": true,
+    "temporaryPreserved": true,
+    "finished": "2026-10-17T13:41:32.442257+00:00"
+  },
+  "successfulRefreshCollections": [
+    {
+      "group": "turn-reuse-03",
+      "directory": "artifacts/release-coverage/pickup-reuse-03",
+      "runId": "19c63e9e-7d63-4753-b6f5-dac6f1c12fdc",
+      "manifestSha256": "be48c935cc30cb88cebd3f1e70feff627c0121db99466ae4646bfb2a6e8d7fc7",
+      "payloads": 7,
+      "intervals": 107,
+      "modeAcquisitions": {
+        "relay": 4,
+        "race": 37
+      },
+      "exitCode": 0,
+      "thresholdsEvaluated": false,
+      "log": "/tmp/down-to-duck-pickup-reuse-03.log"
+    },
+    {
+      "group": "relay-lifecycle-03",
+      "directory": "artifacts/release-coverage/pickup-relay-lifecycle-03",
+      "runId": "ceb80f7a-082b-40ab-88ac-004106f3bd24",
+      "manifestSha256": "f0e2131411b6dfab34cf890a618fd5f8142704fdd95f6210650b23145c331fcb",
+      "payloads": 7,
+      "intervals": 30,
+      "modeAcquisitions": {
+        "relay": 15,
+        "race": 0
+      },
+      "exitCode": 0,
+      "thresholdsEvaluated": false,
+      "log": "/tmp/down-to-duck-pickup-relay-lifecycle-03.log"
+    },
+    {
+      "group": "race-results-03",
+      "directory": "artifacts/release-coverage/pickup-race-results-03",
+      "runId": "ecf1b1ed-0640-4908-b8ce-3d43e2f6121f",
+      "manifestSha256": "1b2e2676947f53fa7051bad63ff8160ca4e6c093c7241498bd69e5b7419a2760",
+      "payloads": 7,
+      "intervals": 40,
+      "modeAcquisitions": {
+        "relay": 0,
+        "race": 12
+      },
+      "exitCode": 0,
+      "thresholdsEvaluated": false,
+      "log": "/tmp/down-to-duck-pickup-race-results-03.log"
+    },
+    {
+      "group": "turn-spawn-safety-03",
+      "directory": "artifacts/release-coverage/pickup-turn-matrix-03",
+      "runId": "7a6d7609-c512-4943-9479-17b8d4b09afe",
+      "manifestSha256": "106f22d83f20c34cb3ac9f55105eb10ed0d20b948df13270d95ca7e12c022f96",
+      "payloads": 1,
+      "intervals": 49,
+      "modeAcquisitions": {
+        "relay": 6,
+        "race": 7
+      },
+      "exitCode": 0,
+      "thresholdsEvaluated": false,
+      "log": "/tmp/down-to-duck-pickup-turn-matrix-03.log"
+    },
+    {
+      "group": "solo-freeze-03",
+      "directory": "artifacts/release-coverage/pickup-solo-matrix-retry-03",
+      "runId": "5ab99765-7ec0-454a-a7fa-d4f9bbd1030a",
+      "manifestSha256": "dcb38556c887293b10397fbdbb197d60a27b502771f1fe96f4fbf6e329983095",
+      "payloads": 1,
+      "intervals": 124,
+      "modeAcquisitions": {
+        "relay": 0,
+        "race": 0
+      },
+      "exitCode": 0,
+      "thresholdsEvaluated": false,
+      "log": "/tmp/down-to-duck-pickup-solo-matrix-retry-03.log"
+    },
+    {
+      "group": "solo-bootstrap-03",
+      "directory": "artifacts/release-coverage/pickup-solo-bootstrap-03",
+      "runId": "a34d4215-0392-440a-a63d-56a3ec77c870",
+      "manifestSha256": "2e1473160f7f1853ee3aaa22776f549c30751ad2ee8c6c57828a48c48347f1ad",
+      "payloads": 1,
+      "intervals": 4,
+      "modeAcquisitions": {
+        "relay": 0,
+        "race": 0
+      },
+      "exitCode": 0,
+      "thresholdsEvaluated": false,
+      "log": "/tmp/down-to-duck-pickup-solo-bootstrap-03.log"
+    },
+    {
+      "group": "modes-12",
+      "directory": "artifacts/release-coverage/pickup-public-03",
+      "runId": "58e68d24-3b9e-4d2a-988e-b6f4e7d9966c",
+      "manifestSha256": "0271f09e1df4c752d6cc8b1da0cefa49e0b9a91975c1c5decfb9efeb61fde78b",
+      "payloads": 6,
+      "intervals": 6,
+      "modeAcquisitions": {
+        "relay": 0,
+        "race": 0
+      },
+      "exitCode": 0,
+      "thresholdsEvaluated": false,
+      "log": "/tmp/down-to-duck-pickup-public-03.log"
+    },
+    {
+      "group": "turn-item-ownership-03",
+      "directory": "artifacts/release-coverage/pickup-relay-public-03",
+      "runId": "af092101-f03e-4053-809f-ea4b9316f027",
+      "manifestSha256": "b68eedbee6732953224e3dd50aeca2e8ea75006714bc11c47469908766d20ff1",
+      "payloads": 16,
+      "intervals": 74,
+      "modeAcquisitions": {
+        "relay": 0,
+        "race": 24
+      },
+      "exitCode": 0,
+      "thresholdsEvaluated": false,
+      "log": "/tmp/down-to-duck-pickup-relay-public-03.log"
+    },
+    {
+      "group": "shared-pickup-03",
+      "directory": "artifacts/release-coverage/pickup-shared-runtime-03",
+      "runId": "312aca78-1526-43c9-bafe-1018083d2e87",
+      "manifestSha256": "614e50f62c19ea64f9a906c837b0aed24b097b11f4354daa871a653442742d1a",
+      "payloads": 2,
+      "intervals": 0,
+      "modeAcquisitions": {
+        "relay": 0,
+        "race": 0
+      },
+      "exitCode": 0,
+      "thresholdsEvaluated": false,
+      "log": "/tmp/down-to-duck-pickup-shared-runtime-03.log"
+    }
+  ],
+  "diagnostic": {
+    "path": "/tmp/down-to-duck-pickup-refresh-reproject.json",
+    "sha256": "69d0b775f0864dbb3c7741887f624b25f4d00f772a4529f6be9f0d3dd7287882",
+    "exitCode": 0,
+    "purpose": "Current disk/canonical caller guard revalidation; fresh component/public diagnostic union, not an enforcing release report",
+    "groups": [
+      {
+        "group": "pickup-turn-matrix-03",
+        "runId": "7a6d7609-c512-4943-9479-17b8d4b09afe",
+        "payloads": 1,
+        "collectedIntervals": 49,
+        "selectedIntervals": 49,
+        "selection": "all",
+        "modes": [
+          "relay",
+          "race"
+        ]
+      },
+      {
+        "group": "pickup-reuse-03",
+        "runId": "19c63e9e-7d63-4753-b6f5-dac6f1c12fdc",
+        "payloads": 7,
+        "collectedIntervals": 107,
+        "selectedIntervals": 107,
+        "selection": "all",
+        "modes": [
+          "relay",
+          "race"
+        ]
+      },
+      {
+        "group": "pickup-relay-lifecycle-03",
+        "runId": "ceb80f7a-082b-40ab-88ac-004106f3bd24",
+        "payloads": 7,
+        "collectedIntervals": 30,
+        "selectedIntervals": 30,
+        "selection": "all",
+        "modes": [
+          "relay"
+        ]
+      },
+      {
+        "group": "pickup-race-results-03",
+        "runId": "ecf1b1ed-0640-4908-b8ce-3d43e2f6121f",
+        "payloads": 7,
+        "collectedIntervals": 40,
+        "selectedIntervals": 40,
+        "selection": "all",
+        "modes": [
+          "race"
+        ]
+      },
+      {
+        "group": "pickup-public-03",
+        "runId": "58e68d24-3b9e-4d2a-988e-b6f4e7d9966c",
+        "payloads": 6,
+        "collectedIntervals": 6,
+        "selectedIntervals": 6,
+        "selection": "all",
+        "modes": [
+          "relay",
+          "race"
+        ]
+      },
+      {
+        "group": "pickup-relay-public-03",
+        "runId": "af092101-f03e-4053-809f-ea4b9316f027",
+        "payloads": 16,
+        "collectedIntervals": 74,
+        "selectedIntervals": 1,
+        "selection": "Relay public interval only; repeated Race item model omitted",
+        "modes": [
+          "relay"
+        ]
+      }
+    ],
+    "modes": {
+      "relay": {
+        "componentLifetimes": 25,
+        "publicIntervals": 2,
+        "intervals": 63,
+        "raw": {
+          "lines": {
+            "covered": 1941,
+            "total": 2350
+          },
+          "statements": {
+            "covered": 2800,
+            "total": 3733
+          },
+          "functions": {
+            "covered": 639,
+            "total": 817
+          },
+          "branches": {
+            "covered": 2041,
+            "total": 3198
+          }
+        },
+        "applicable": {
+          "lines": {
+            "covered": 1941,
+            "total": 2114
+          },
+          "statements": {
+            "covered": 2800,
+            "total": 3343
+          },
+          "functions": {
+            "covered": 639,
+            "total": 716
+          },
+          "branches": {
+            "covered": 2041,
+            "total": 2830
+          }
+        },
+        "remaining": {
+          "lines": 0,
+          "functions": 6,
+          "branches": 365
+        }
+      },
+      "race": {
+        "componentLifetimes": 56,
+        "publicIntervals": 1,
+        "intervals": 166,
+        "raw": {
+          "lines": {
+            "covered": 2022,
+            "total": 2303
+          },
+          "statements": {
+            "covered": 2920,
+            "total": 3643
+          },
+          "functions": {
+            "covered": 679,
+            "total": 818
+          },
+          "branches": {
+            "covered": 2274,
+            "total": 3255
+          }
+        },
+        "applicable": {
+          "lines": {
+            "covered": 2022,
+            "total": 2177
+          },
+          "statements": {
+            "covered": 2920,
+            "total": 3446
+          },
+          "functions": {
+            "covered": 679,
+            "total": 767
+          },
+          "branches": {
+            "covered": 2274,
+            "total": 3078
+          }
+        },
+        "remaining": {
+          "lines": 0,
+          "functions": 12,
+          "branches": 343
+        }
+      }
+    },
+    "historicalChangedSessionCountersUsed": false
+  },
+  "completedAt": "2026-10-17T13:43:35.913170+00:00"
+}

@@ -1952,7 +1952,7 @@
           "modelAttribution": [
             {
               "mode": "race",
-              "lifetimes": 23,
+              "lifetimes": 24,
               "phases": [
                 [
                   "acquiring",
@@ -2233,6 +2233,18 @@
                 [
                   "playing",
                   "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
                 ]
               ]
             }
@@ -2373,7 +2385,7 @@
           "modelAttribution": [
             {
               "mode": "relay",
-              "lifetimes": 3,
+              "lifetimes": 4,
               "phases": [
                 [
                   "acquiring",
@@ -2398,6 +2410,14 @@
                 [
                   "playing",
                   "pending"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
                 ]
               ]
             }
@@ -2474,7 +2494,7 @@
           "modelAttribution": [
             {
               "mode": "race",
-              "lifetimes": 23,
+              "lifetimes": 24,
               "phases": [
                 [
                   "acquiring",
@@ -2755,6 +2775,18 @@
                 [
                   "playing",
                   "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
                 ]
               ]
             }
@@ -4199,6 +4231,376 @@
         }
       ],
       "provenance": "Whole actual turn matrix, thirteen lifetimes/forty-nine intervals; original eleven cases retained; real no-exit/no-placement rejection, backoff and safe spawn after space opens; no private director state assignment or product timing change"
+    },
+    "pickup-eligibility-03": {
+      "files": [
+        "tests/race-items.test.mjs",
+        "tests/relay-boundary.test.mjs"
+      ],
+      "role": "node",
+      "jobs": [
+        {
+          "id": "race-items-test",
+          "file": "tests/race-items.test.mjs",
+          "role": "node",
+          "requiredRealms": [
+            "node"
+          ],
+          "defaultBuildScope": "modules",
+          "artifactPatterns": [],
+          "modelAttribution": [
+            {
+              "mode": "race",
+              "lifetimes": 24,
+              "phases": [
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "relay-boundary-test",
+          "file": "tests/relay-boundary.test.mjs",
+          "role": "node",
+          "requiredRealms": [
+            "node"
+          ],
+          "defaultBuildScope": "modules",
+          "artifactPatterns": [],
+          "modelAttribution": [
+            {
+              "mode": "relay",
+              "lifetimes": 4,
+              "phases": [
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "pending"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "pending"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "pending"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      "provenance": "Whole Race item and Relay boundary suites; actual finished/benched claim release, natural pull and exactly one incoming payout; arrangements explicit; no standalone or duplicate whole-worker mode credit"
     }
   },
   "pendingAdapters": [
@@ -6441,7 +6843,7 @@
         "modelAttribution": [
           {
             "mode": "race",
-            "lifetimes": 23,
+            "lifetimes": 24,
             "phases": [
               [
                 "acquiring",
@@ -6722,6 +7124,18 @@
               [
                 "playing",
                 "playing"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "settled"
               ]
             ]
           }
@@ -7110,7 +7524,7 @@
         "modelAttribution": [
           {
             "mode": "relay",
-            "lifetimes": 3,
+            "lifetimes": 4,
             "phases": [
               [
                 "acquiring",
@@ -7135,6 +7549,14 @@
               [
                 "playing",
                 "pending"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "settled"
               ]
             ]
           }

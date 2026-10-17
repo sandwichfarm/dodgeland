@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-03 meaningful coverage closure; full enforcing report pending
-last_updated: "2026-10-17T11:47:26.162345+00:00"
+stopped_at: 07-03 pickup repair verified; nine current-source cohorts pass
+last_updated: "2026-10-17T13:43:35.913170+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,7 +12,7 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Shared turn closure proven; five reused suites and seven public intervals refreshed; exact mode gaps remain; full release open.
+last_activity_desc: Pickup repair and nine fresh cohorts pass; honest source-bound diagnostic retains open mode floors.
 ---
 
 # Project State
@@ -30,8 +30,8 @@ jump/load (71b5dc6), and a disconnected owner's retained coin claim (RED0638b42,
 repair7e71ab1). All have retained RED/GREEN evidence. Required
 type/build/guidance checks pass. Conformance remains five
 passes, zero failures and five unmeasured checks. Normal build raw SHA256:
-`a34fd21258f80302593c584f5a9566f7511af49798c0b0cac6dacc1beb478bc1`.
-Current session source is `f8ce62cdc5c87557636cce62f0b15005bfa5f9cde42c708d67915b4c1ebcec39`;
+`ff8ed4433a0e006bbf31d2f5843339930d00ed3ede5c694a4e03b269ad6cc7ee`.
+Current session source is `bf1d769947cd7e251d47957abdc4238f36ab4583fd5f5d32d3900e7f4c39f16c`;
 all older session measurements below retain their historical identities and
 cannot be merged into the current source. Focused canonical refresh passed; the current complete report-only collection
 is terminal as recorded below. Full enforcing release acceptance remains pending.
@@ -535,7 +535,7 @@ unmeasured; normal build/lock/suite manifest/source hashes and temporary capture
 are preserved. Original assertions323/22/165 remain byte-identical; four observer
 assertions are added. No gameplay changes, floor changes or false new-hit claims.
 
-Current-source revalidated diagnostic selects79 component lifetimes/221 intervals
+Before the pickup repair, the source-bound diagnostic selected79 component lifetimes/221 intervals
 plus7 public intervals. The supplementary repeated Race model is omitted. Relay
 1941/2114L638/716F2039/2830B needs7F367B; Race2010/2177L677/767F2254/3078B needs14F363B.
 This is not full release enforcement. Initial semantic ledger remains162 covered/
@@ -543,6 +543,56 @@ This is not full release enforcement. Initial semantic ledger remains162 covered
 and traffic/recovery scenes; then further reviewed closure and fresh full report.
 07-04 conformance,07-05 normal visuals/clauses and07-06 final gate/PR remain open.
 No runtime is active. Mixed-input aliases remain a design proposal.
+
+Current pickup eligibility repair supersedes the earlier bench-retention
+assumption: LocalSession.update passes its already computed simulating players
+to unpaid-claim cleanup. Actual Relay handoff and finished-Race scenes strand a
+coin under prerepair04c30a4/f8ce62, including integer coin0/fractional duck−0.55.
+The one-argument repair is source bf1d7699; no extra mode-handler call/RNG draw,
+world reset, grid normalization or tuning. Paid assets and confirmation continuity
+stay intact. Review/source-transition and9-target compiler audit:
+07-03-RELAY-PULL-REPAIR.md and07-03-RELAY-PULL-REFERENCE-AUDIT.json.
+
+Ordinary70/70, source controls94/94, solo parity21, session/input78 and Survive
+recovery44 pass. Type/build/guidance pass; conformance still5/0/5 unmeasured.
+Focused current-source ce75d312 passes Race19/Relay17 whole tests:24 Race
+lifetimes/73 intervals and4 Relay/8, two independent Node parents. Old session
+counters cannot merge with this source. Solo/turn/DEV source pins advance only
+after review; complete caller fingerprint153de8d1, DEV f6a5623f. No new exclusion.
+
+Current-source refresh is now terminal and successful across nine whole cohorts:
+turn reuse, Relay lifecycle, Race results, turn matrix, solo matrix/bootstrap,
+six public modes, Relay inventory and actual PROD/DEV shared pickup. Exact
+run IDs, manifest hashes, terminal wrappers, logs and preservation checks are
+retained in07-03-PICKUP-ELIGIBILITY-PROOF.json. Public Relay12/12 and both real
+shared-pickup browser realms pass. DEV authority accepts bf1d7699; focused
+applicable counts1157/2104L360/679F1054/2794B are not a floor pass.
+
+Initial exec25272 terminated1 after four successful cohorts: solo cancelled on
+its unchanged120s deadline after1059s elapsed, overlapping recorded1006s OS
+sleep05:33:41–05:50:27 PDT. No assertion mismatch/partial counter credit. Separate
+retry33015 under temporary caffeinate passes the62-scenario test in55.124s,
+plus bootstrap and six public modes. Final wrapper49692 passes Relay/shared
+runtime. All wrappers and diagnostic98653 are terminal0; all13 race and43 Relay
+prior temporary outputs, normal ff8ed443/root lock and ordinary artifacts are
+preserved. No source/test/tool freeze or test/browser chain remains active.
+Do not poll closed handles or restart completed collections.
+
+Current bf1d7699 diagnostic revalidates exact disk/canonical158-source inventories,
+code/map/site schemas and all interval authorities. It selects81 actual component
+lifetimes/226 intervals plus7 public intervals (four public intervals belong to
+Solo/Survive). Repeated supplementary Race item model is omitted. Actual turn
+counts: Relay25lifetimes/61component+2public intervals,1941/2114L639/716F2041/2830B;
+Race56lifetimes/165component+1public intervals,2022/2177L679/767F2274/3078B.
+Relay still needs6functions365arms; Race12functions343arms. No old/new session
+counter merging, new exclusions, floor reductions or fresh enforcing acceptance.
+
+Semantic ledger remains162 initial arms annotated/889pending. Next substantive
+coverage work is actual contested coin/contact/pull arbitration and remaining
+traffic/recovery scenes, then reviewed scope and fresh full enforcement.07-04
+conformance,07-05 normal visuals/clauses and07-06 final gate/PR remain open.
+Mixed-input aliases remain a proposal; latest choice and controller-first keyboard
+joining are documented. No physical native-controller measurement is claimed.
 
 ## Next required work
 
@@ -576,7 +626,9 @@ No runtime is active. Mixed-input aliases remain a design proposal.
 Mixed input exploration is saved in `.planning/research/MIXED-INPUT-UX.md`
 (ecceafb): a traveler can retain keyboard and controller simultaneously and
 switch freely. First deliberate unfamiliar input offers control/join; established
-player count drives later join defaults. This is a proposal, not implementation.
+player count drives later join defaults. Controller-first play leaves the unused
+keyboard unassigned until its explicit control/join choice, preserving either
+join order. This is a proposal, not implementation.
 
 ## Durable evidence
 

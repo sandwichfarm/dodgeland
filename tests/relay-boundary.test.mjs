@@ -11,7 +11,7 @@ const { Game, generateLane, laneActors, coinPosition } = gameModule;
 const { ITEM_CATALOG } = await sources.import('market/catalog');
 const { createRelaySession, RelayCoordinator } = await sources.import('relay');
 const authority={Game,...await sources.import('session'),...await sources.import('mode-rules')};
-const reuse=await turnReuseAttribution({authority,mode:'relay',factory:createRelaySession,Coordinator:RelayCoordinator,lifetimes:3});
+const reuse=await turnReuseAttribution({authority,mode:'relay',factory:createRelaySession,Coordinator:RelayCoordinator,lifetimes:4});
 after(()=>reuse.finish());
 const STEP = 1 / 120;
 
@@ -307,4 +307,35 @@ test('returning placement cannot recharge the actual 250-settled-tile personal r
   assert.equal(player.completedForwardTiles, 249); assert.equal(player.recovery.charge, 'spent');
   step(run); assert.equal(player.completedForwardTiles, 250); assert.equal(player.recovery.charge, 'available');
   assert.equal(player.statistics.selfRevives, 1); assert.equal(player.statistics.deaths, 1);
+});
+
+test('a confirmed Relay handoff releases a real in-flight coin pull to the incoming runner',()=>{
+ const witness=reuse.lifetime(),run=setup(1,'stroll',[],witness),{game,relay,session}=run,[outgoing,incoming]=session.players;
+ // A legal fractional duck position after log drift; the meadow coin keeps
+ // its ordinary integer column and no grid normalization is introduced.
+ outgoing.x=outgoing.fromX=-.55;
+ const reward=courseLane(game,1,{coin:0});
+ witness.interval('handoff-coin-pull',()=>{
+ assert.equal(session.dispatch({seat:'p1',direction:'forward'}),true);
+ for(let tick=0;tick<120&&outgoing.hop>0;tick++)session.update(STEP);
+ assert.equal(outgoing.hop,0);assert.equal(relay.snapshot().phase,'handoff');
+ assert.ok(reward.coinPull);assert.equal(session.world.pickupOwners.get(1),'p1');
+ assert.equal(outgoing.run.wallet,0);assert.equal(incoming.run.wallet,0);
+ const frozen={time:game.time,pull:{...reward.coinPull}};ticks(session,120);
+ assert.equal(game.time,frozen.time);assert.deepEqual(reward.coinPull,frozen.pull);
+ assert.equal(relay.confirm(relay.confirmation()),true);
+ assert.deepEqual([incoming.groundX,incoming.groundY],[outgoing.groundX,outgoing.groundY]);
+ assert.equal(incoming.groundX,-.55);
+ session.update(STEP);
+ assert.equal(session.world.pickupOwners.get(1),'p2','the waiting former runner must not retain attraction authority');
+ assert.ok(reward.coinPull.x<frozen.pull.x);
+ for(let tick=0;tick<240&&reward.coin!==null;tick++)session.update(STEP);
+ assert.equal(reward.coin,null);assert.equal(reward.coinPull,undefined);
+ assert.equal(outgoing.run.wallet,0);assert.equal(outgoing.statistics.pickups,0);
+ assert.equal(incoming.run.wallet,1);assert.equal(incoming.statistics.pickups,1);
+ assert.equal(session.world.pickupOwners.has(1),false);
+ assert.equal(session.world.attractedCoins.has(1),false);
+ ticks(session,120);assert.equal(incoming.run.wallet,1);assert.equal(incoming.statistics.pickups,1);
+ relay.finish();
+ });witness.finish();
 });

@@ -3,7 +3,7 @@ import { createRequire } from 'node:module';
 import { applicabilityIdentity } from './applicability.mjs';
 const ts=createRequire(new URL('../../package.json',import.meta.url))('typescript');
 export const DEVELOPMENT_STRATUM='development';
-export const DEVELOPMENT_AUTHORITY_DIGEST='10e47f7622ef7f755e41eff71ff68ee0bf488b0c8e8d62ea8232a11e2e01e034';
+export const DEVELOPMENT_AUTHORITY_DIGEST='f6a5623fb9db48fc1449b8b30400b6ad875a0e422f7ce6e94dcbf41c316276ba';
 export const DEVELOPMENT_CONFIG_PINS=Object.freeze({
  'index.html':'cb9773abc32939bdf61664b7e850eb044aa3f37aef79f61d50e9b69346ce7c0b',
  'vite.config.ts':'cc82c2ed6058718e3fe09ff1e6b55f8504b14bd60ebf59ef3a4488da510b5e30',

@@ -1033,7 +1033,7 @@ export class LocalSession {
       this.mode?.handlers.tick?.(this);
       return;
     }
-    this.world.releaseInactivePickupClaims(this.players);
+    this.world.releaseInactivePickupClaims(activePlayers);
     const frame = this.world.beginFrame(activePlayers);
     const priorStates = new Map(activePlayers.map(player => [player, player.state]));
     const previousTime = this.world.update(dt);

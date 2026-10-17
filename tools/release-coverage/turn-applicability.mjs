@@ -2,14 +2,14 @@ import { createHash } from 'node:crypto';
 import { createRequire } from 'node:module';
 import { applicabilityIdentity } from './applicability.mjs';
 const ts=createRequire(new URL('../../package.json',import.meta.url))('typescript');
-// Complete executable src inventory reviewed in TURN-REFERENCE-AUDIT.json.
+// Complete executable src inventory reviewed in RELAY-PULL-REFERENCE-AUDIT.json.
 // A new/changed caller anywhere invalidates this closure, even outside the stratum.
-const callerInventoryHash='f741bb29520d4edb84def73c4c0e18a477903c028637675af647c81518655bfa';
+const callerInventoryHash='153de8d17a4715b118bdcbf5d813406b35dd44133a0572dc73a37a5e6e9fe7a1';
 // Deliberately reviewed pins: never regenerate automatically when production changes.
 export const TURN_APPLICABILITY_SOURCES=Object.freeze({
  'src/relay.ts':'f5c1eea5b82e6e42d7b6bbc6a95f7f0d28aa7ad7468c4464e0217ab9f89e6c02',
  'src/race.ts':'d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da',
- 'src/session.ts':'f8ce62cdc5c87557636cce62f0b15005bfa5f9cde42c708d67915b4c1ebcec39',
+ 'src/session.ts':'bf1d769947cd7e251d47957abdc4238f36ab4583fd5f5d32d3900e7f4c39f16c',
  'src/session-recovery.ts':'35119abd8ac6551d253ec0ada320c934fd5a9cf20c142444e3afdb4094093b9c',
  'src/recovery.ts':'835df7ab867c3421e7d295778c864ceba83f0ea10e588c4c6f4d95cdc2c1702b',
  'src/shared-world-effects.ts':'715dce9a98a83c398aa3a3d43531568008a9cefaa9be8df766a921dd2eb43a45',
