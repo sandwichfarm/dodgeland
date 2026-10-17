@@ -90,6 +90,34 @@ test('diagnostics expose useful state without changing the run', () => {
   assert.equal(developmentSnapshot(game), before);
 });
 
+test('diagnostics distinguish active rescue, pursuers, open markets and worlds without replay codes', () => {
+  const duck = new Game(77, 'pond', 'arcade', false, ITEM_CATALOG, 'butter');
+  Object.assign(duck.rows.get(0), { kind: 'river', blocked: [], decorations: [], coin: null, phase: 10, speed: 0, spacing: 20, length: 2 });
+  duck.state = 'playing'; duck.update(0);
+  assert.ok(duck.powerRescue, 'the actual water collision starts the duck rescue');
+  // A valid placed pursuer makes the diagnostic identity/phase/position visible;
+  // this case tests inspection, not natural mob-spawn timing.
+  duck.mobs.push({ id: 42, kind: 'slime', x: 3.25, y: 1.5, fromX: 3.25, fromY: 1.5,
+    targetX: 3.25, targetY: 1.5, phase: 'rest', phaseLeft: 2, phaseDuration: 2 });
+  const before = developmentSnapshot(duck);
+  const output = developmentDiagnostics(duck, false);
+  assert.match(output, /UNMODIFIED RUN/);
+  assert.ok(output.includes(`${duck.powerRemaining} blocks`));
+  assert.ok(output.includes(`rescue ${duck.powerRescue.remaining.toFixed(2)}`));
+  assert.match(output, /mobs slime:rest \(3\.3,1\.5\)/);
+  assert.equal(developmentSnapshot(duck), before, 'inspection does not advance rescue, cooldown or pursuer state');
+
+  const market = jumpDevelopmentRun(new Game(78, 'pond', 'arcade', false, ITEM_CATALOG), 100);
+  market.resume(); assert.equal(market.openMarket(), true);
+  assert.match(developmentDiagnostics(market, true), /market 100 · [\d.]+s · open/);
+  const extension = { ...WORLDS[0], id: 'diagnostic-extension' };
+  WORLDS.push(extension);
+  try {
+    const custom = new Game(79, extension.id);
+    assert.match(developmentDiagnostics(custom, false), /unregistered world · no replay code/);
+  } finally { WORLDS.pop(); }
+});
+
 test('jump preserves all captured schema identities and their copied codes recreate the courses', () => {
   for (const schema of [1, 2, 3]) {
     const original = new Game(createRunSeed(0xfedcba98, 'shuffle', 'stroll', true, schema), undefined, undefined, undefined, ITEM_CATALOG);

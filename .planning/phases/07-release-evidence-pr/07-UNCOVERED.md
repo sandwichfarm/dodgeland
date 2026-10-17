@@ -1375,3 +1375,12 @@ branch-arm hits in unchanged sound-settings.ts. Saved-pack hydration/cache,
 controlled deadline/retry, optional-domain fallback and invalid input are actual
 SDK/UI paths. Focused56/67; initial-full plus focused diagnostic union62/67 is
 not a final aggregate pass. Baseline rows remain intact; full enforcement pending.
+
+## Development control and diagnostics gains
+
+`07-03-DEVTOOLS-GAPS.md` records corrected chain20650 exit0 and canonical
+run236dbb72-7791-4771-9201-cc2e8b54aaae with five real payloads. Unchanged
+devtools.ts now has31/32 functions and30/33 branch arms; diagnostics6/6 and20/20.
+Twelve prior zero arms gained behavior evidence. The retained initial failure
+was an asymmetric blur fixture, repaired without product changes. Full development
+stratum and aggregate enforcing coverage remain pending.

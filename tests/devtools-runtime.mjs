@@ -75,6 +75,40 @@ try {
   const state = () => frame.locator('#development-state').innerText();
   const key = async name => { await frame.evaluate(name => window.developmentFixture.handlers[`puddlehop.${name}`](), name); await advance(30); };
   assert.equal(await frame.evaluate(() => location.origin), 'null');
+  // Closing the inspector restores the underlying run and input surface for
+  // every supported route, without resuming a paused run or changing records.
+  for (const close of ['toggle', 'button', 'escape', 'blur', 'visibility']) {
+    await frame.locator('#development-toggle').click(); await advance(20);
+    assert.equal(await frame.locator('#app').evaluate(app => app.inert), true);
+    const inspected = await state();
+    if (close === 'toggle') await frame.locator('#development-toggle').click();
+    if (close === 'button') await frame.locator('#development-close').click();
+    if (close === 'escape') await frame.locator('#development-score').press('Escape');
+    if (close === 'blur') await frame.evaluate(() => {
+      dispatchEvent(new Event('blur'));
+      dispatchEvent(new Event('focus'));
+    });
+    if (close === 'visibility') {
+      // Host visibility delivery is arranged explicitly; no claim of a native
+      // operating-system background transition is made by this browser case.
+      await frame.evaluate(() => {
+        document.dispatchEvent(new Event('visibilitychange'));
+      });
+      assert.equal(await frame.locator('#development-panel').isVisible(), true, 'a visible-state notification keeps the inspector open');
+      await frame.evaluate(() => {
+        Object.defineProperty(document, 'hidden', { configurable: true, value: true });
+        document.dispatchEvent(new Event('visibilitychange'));
+        delete document.hidden;
+        document.dispatchEvent(new Event('visibilitychange'));
+      });
+    }
+    await advance(20);
+    assert.equal(await frame.locator('#development-panel').isVisible(), false, close);
+    assert.equal(await frame.locator('#app').evaluate(app => app.inert), false, `${close} restores game input availability`);
+    await frame.locator('#development-toggle').click(); await advance(20);
+    assert.equal(await state(), inspected, `${close} leaves inspected simulation unchanged`);
+    await frame.locator('#development-close').click();
+  }
   await frame.locator('#development-toggle').click();
   await frame.locator('[data-development-score="100"]').click(); await advance(30);
   assert.match(await state(), /SANDBOX · records disabled · paused/);
@@ -84,6 +118,7 @@ try {
   const frozen = await state();
   await advance(1000); assert.equal(await state(), frozen, 'inspector pauses real simulation');
   await frame.locator('#development-score').fill('123');
+  await frame.locator('#development-score').press('ArrowLeft');
   for (const action of ['forward', 'forward-w', 'pause', 'play', 'market', 'call']) await key(action);
   assert.equal(await state(), frozen, 'injected SDK keys cannot change the run while typing inspector input');
   await frame.locator('#development-jump-form button').click(); await advance(20);
@@ -91,6 +126,17 @@ try {
   await frame.locator('#development-score').fill('100');
   await frame.locator('#development-score').press('Enter'); await advance(20);
   assert.match(await state(), /score 100/, 'Enter runs the same local jump without native form submission');
+  await frame.locator('#development-coins').click();
+  await frame.locator('#development-score').focus();
+  await page.keyboard.down('Enter');
+  assert.equal(await frame.locator('#coins').innerText(), '0', 'the fresh Enter performs the requested reset');
+  await frame.locator('#development-coins').click();
+  await frame.locator('#development-score').focus();
+  await page.keyboard.down('Enter');
+  await page.keyboard.up('Enter');
+  assert.equal(await frame.locator('#coins').innerText(), '25', 'a held Enter repeat cannot reset the sandbox again');
+  await frame.locator('#development-score').press('Enter'); await advance(20);
+  assert.equal(await frame.locator('#coins').innerText(), '0');
   assert.equal(await frame.locator('#market').isVisible(), false);
   await frame.locator('#development-coins').click(); await advance(20);
   assert.equal(await frame.locator('#coins').innerText(), '25'); assert.match(await state(), /wallet 25/);
