@@ -227,6 +227,40 @@ try {
   assert.equal(await frame.locator('#best').innerText(), 'BEST 17', 'lifetime records still hydrate');
   evidence.scenarios.push('delayed storage hydration preserves ready-screen sandbox wallet, seed and record-isolation flag');
 
+  // Replacing a multiplayer world must retire its old owners and input routes,
+  // not leave a solo inspector describing a different world from the renderer.
+  for (const replacement of ['jump', 'load']) {
+    await beginRealm(page, `development-local-play-${replacement}`, 'development');
+    await page.locator('iframe').evaluate(el => { el.style.width = '900px'; el.style.height = '600px'; });
+    await page.evaluate(() => window.mount('development'));
+    frame = await (await page.locator('iframe').elementHandle()).contentFrame();
+    await frame.waitForFunction(() => !!window.developmentFixture?.handlers['puddlehop.market'] && !!document.querySelector('#development-toggle'));
+    await frame.locator('#local-play').click();
+    await frame.locator('#local-session-start').click();
+    assert.equal(await frame.locator('#session-seats [data-seat]').count(), 2);
+    const writesBefore = await frame.evaluate(() => window.developmentFixture.writes.length);
+    await frame.locator('#development-toggle').click();
+    if (replacement === 'jump') await frame.locator('[data-development-score="100"]').click();
+    else {
+      await frame.locator('#development-seed').fill('ph3-1234abcd-frost-s-g');
+      await frame.locator('#development-seed-form button').click();
+    }
+    await advance(30);
+    const score = replacement === 'jump' ? 100 : 0;
+    assert.match(await state(), new RegExp(`SANDBOX · records disabled · paused[\\s\\S]*score ${score} · position 0.00, ${score}.00`));
+    assert.equal(await frame.locator('#session-seats').isVisible(), false, `${replacement} retires the previous multiplayer world and its HUD`);
+    assert.equal(await frame.locator('#local-session-setup').isVisible(), false);
+    await frame.locator('#development-resume').click(); await advance(40);
+    await frame.waitForFunction(() => !!window.developmentFixture.handlers['puddlehop.right']);
+    await key('right'); await advance(180);
+    await frame.locator('#development-toggle').click();
+    assert.match(await state(), new RegExp(`score ${score} · position 1.00, ${score}.00`), 'restored solo input moves the inspected world');
+    await frame.locator('#development-coins').click();
+    assert.match(await state(), /wallet 25/);
+    assert.equal(await frame.evaluate(() => window.developmentFixture.writes.length), writesBefore, 'replacing a session and manipulating its sandbox cannot persist lifetime records');
+    evidence.scenarios.push(`public local-play → development ${replacement} retires session owners, restores solo input and preserves sandbox record isolation`);
+  }
+
   await beginRealm(page, 'production-boundary', 'production');
   await page.evaluate(() => window.mount('production'));
   frame = await (await page.locator('iframe').elementHandle()).contentFrame();
