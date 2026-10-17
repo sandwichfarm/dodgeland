@@ -1001,6 +1001,34 @@ Next genuine gameplay gap:actual fractional platform carry and off-grid coin
 capture across Arcade/Flow Relay/Race with default gravity,then remaining mode/
 semantic gaps and fresh enforcing full report/07-04/05/06/PR.
 
+## Latest actual fractional log-grid execution
+
+ee71c769 passes4/4 ordinary/canonical,four actual Arcade/Flow Relay/Race
+lifetimes/88 intervals. Nineteen real platform-carried offsets per run(76
+crossings) include both half-tile boundaries. Real hops/default positive gravity
+collect exactly one coin each without normalizing x,adding card powers,altering
+pose/progress/clock or paying the other owner. All runs stay alive,no innate
+escape,and finish39 personally completed hops/nineteen P1 coins. Terrain/log/
+coin arrangement stays an explicit component fixture. TURN-LOG-COINS/PROOF
+bind exact run/source/intervals/normal903/rootlock5ac.
+
+Current diagnostic gains4 Relay/2 Race branches:Relay2221/2744B needs112,
+Race2446/3032B needs132;line/functions pass diagnostically. Use current
+/tmp/down-to-duck-turn-log-coin-mode-union.py/json,which reuses separate strict
+old-cohort Relay-debit projections plus this fresh cohort. No source-identical
+initial zero is newly hit:186 reviewed(185 covered,one private default),865
+pending. Complete validated execution inventory151 entries/158 closure/163
+production jobs,all previous roots/controls retained. No production,oracle,
+dependency or numeric floor change.
+
+Type-check,build,guidance7/7 and CLI conformance all exit0;CLI still5 pass/0 fail/
+5 unmeasured(manifest3,wire1,lifecycle1),not07-04 proof. Rebuilt normal903 and
+rootlock5ac match. All collection/control/projection/parent/build chains are
+terminal;no freeze remains. Next complete meaningful remaining mode/semantic
+gaps,then fresh enforcing full report and07-04/05/06/PR. Planned-seat constructor
+fallback scope remains a read-only candidate requiring its full value-flow/site/
+contradiction proof;do not prune from the zero count alone. No PR is open.
+
 ## Next required work
 
 1. Complete07-03: broad honest Solo/Relay/Race and development evidence,

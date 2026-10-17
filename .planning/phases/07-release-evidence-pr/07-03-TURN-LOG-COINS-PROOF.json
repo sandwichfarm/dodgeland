@@ -1,0 +1,133 @@
+{
+  "status": "Four ordinary/canonical actual fractional-log coin journeys pass;not full release acceptance",
+  "runId": "ee71c769-1eea-4fa0-aad3-2aba5becf96c",
+  "payloadCount": 1,
+  "lifetimes": 4,
+  "intervals": 88,
+  "fractionalCrossings": 76,
+  "offsetsPerLifetime": 19,
+  "thresholdsEvaluated": false,
+  "manifestSha256": "3cc4862cacbe1054925b391ba2d9573eafdde35dbbdfbafc054b5a8a3184d89b",
+  "canonicalInventorySha256": "37f806f85a06a771ca5e1302b2e5aa996fd725c29e66175ef2d150a8c0f31404",
+  "currentDiagnosticModes": {
+    "relay": {
+      "raw": {
+        "statements": {
+          "covered": 2920,
+          "total": 3735
+        },
+        "functions": {
+          "covered": 656,
+          "total": 817
+        },
+        "branches": {
+          "covered": 2221,
+          "total": 3204
+        },
+        "lines": {
+          "covered": 1974,
+          "total": 2352
+        }
+      },
+      "applicable": {
+        "statements": {
+          "covered": 2920,
+          "total": 3271
+        },
+        "functions": {
+          "covered": 656,
+          "total": 708
+        },
+        "branches": {
+          "covered": 2221,
+          "total": 2744
+        },
+        "lines": {
+          "covered": 1974,
+          "total": 2079
+        }
+      },
+      "remaining": {
+        "lines": 0,
+        "functions": 0,
+        "branches": 112
+      },
+      "componentLifetimes": 86,
+      "componentIntervals": 297,
+      "publicIntervals": 2
+    },
+    "race": {
+      "raw": {
+        "statements": {
+          "covered": 3017,
+          "total": 3645
+        },
+        "functions": {
+          "covered": 699,
+          "total": 818
+        },
+        "branches": {
+          "covered": 2446,
+          "total": 3261
+        },
+        "lines": {
+          "covered": 2047,
+          "total": 2305
+        }
+      },
+      "applicable": {
+        "statements": {
+          "covered": 3017,
+          "total": 3406
+        },
+        "functions": {
+          "covered": 699,
+          "total": 758
+        },
+        "branches": {
+          "covered": 2446,
+          "total": 3032
+        },
+        "lines": {
+          "covered": 2047,
+          "total": 2163
+        }
+      },
+      "remaining": {
+        "lines": 0,
+        "functions": 0,
+        "branches": 132
+      },
+      "componentLifetimes": 119,
+      "componentIntervals": 418,
+      "publicIntervals": 8
+    }
+  },
+  "executionInventory": {
+    "valid": true,
+    "entries": 151,
+    "closure": 158,
+    "jobs": 163,
+    "controls": 10
+  },
+  "normalArtifactRawSha256": "9036d9a1f179b136569a3b400c412d954d783987c751832afbbbfda287c63539",
+  "rootLockRawSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "logs": {
+    "ordinary": "/tmp/down-to-duck-turn-log-coin-ordinary.log",
+    "canonical": "/tmp/down-to-duck-turn-log-coin-canonical.log"
+  },
+  "initialLedger": {
+    "newSourceIdenticalWitnesses": 0,
+    "reviewed": 186,
+    "covered": 185,
+    "privateDefault": 1,
+    "pending": 865
+  },
+  "limits": [
+    "Explicit alternating ordinary-log/land/coin component terrain;actual player inputs and platform motion own all positions,clocks and earned progress",
+    "Empty cards/powers,default positive gravity,no grid normalization,innate rescue or other-owner payout",
+    "Nineteen fractional offsets include half-tile boundaries and nearby inside points;four actual mode/base combinations",
+    "No public input-device,UI or visual capture claim",
+    "No production,oracle,dependency,applicability or numeric floor change from this gameplay suite;uses separately accepted Relay debit scope"
+  ]
+}

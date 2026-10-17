@@ -77,7 +77,8 @@
     "test:turn-character-rescues": "node tests/strict-node-tests.mjs tests/turn-character-rescues.test.mjs",
     "test:turn-mob-boundaries": "node tests/strict-node-tests.mjs tests/turn-mob-boundaries.test.mjs",
     "test:turn-seed-compatibility": "node tests/strict-node-tests.mjs tests/turn-seed-compatibility.test.mjs",
-    "test:turn-saved-bootstrap": "node tests/strict-node-tests.mjs tests/turn-saved-bootstrap.test.mjs"
+    "test:turn-saved-bootstrap": "node tests/strict-node-tests.mjs tests/turn-saved-bootstrap.test.mjs",
+    "test:turn-log-coins": "node tests/strict-node-tests.mjs tests/turn-log-coin-capture.test.mjs"
   },
   "dependencies": {
     "@napplet/sdk": "^0.29.0"

@@ -2,6 +2,20 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Current fractional log-grid coin capture
+
+Actual Arcade/Flow Relay/Race suite passes4/4 ordinary/canonical ee71c769,
+four lifetimes/88 bounded intervals. Real input/platform carry creates76
+fractional crossings,including half-tile boundaries;default gravity pays each
+coin exactly once without grid normalization or other-owner payout. Empty
+cards/powers,39 earned/completed hops and frozen results retain ownership.
+Terrain is an explicit component fixture;no pose,clock,score or callback is
+injected. TURN-LOG-COINS/PROOF retain exact identities and limits.
+Diagnostic gains4 Relay/2 Race witnesses leave112/132 branches required,using
+the separately accepted Relay debit scope. Initial review remains186(185
+covered,one private default),865 pending. No new scope/floor/source change
+from this gameplay suite;full enforcing/semantic review remains open.
+
 ## Current Relay debit scope and global consumable validation
 
 Two Relay-unreachable callables are now precisely scoped under the complete
