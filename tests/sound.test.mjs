@@ -22,7 +22,7 @@ const modules = new Map([...await compileSources(['audio','sound-packs'])].map((
 for(const [name,code] of modules) await writeFile(join(directory,`${name}.js`),code);
 after(() => rm(directory, { recursive: true, force: true }));
 const { parseSoundPack, parseSoundFile, parsePackAddress, MAX_SOUND_BYTES } = await import(pathToFileURL(join(directory, 'sound-packs.js')));
-const { SOUND_CUES, GAME_SOUND_CUES, CHARACTER_CALL_CUES, SCENE_SOUND_CUES, MOB_SOUND_CUES, DEATH_SOUND_CUES, HEALTH_SOUND_CUES, SPILL_SOUND_CUES, BUILTIN_PACKS } = await import(pathToFileURL(join(directory, 'audio.js')));
+const { GameAudio, SOUND_CUES, GAME_SOUND_CUES, CHARACTER_CALL_CUES, SCENE_SOUND_CUES, MOB_SOUND_CUES, DEATH_SOUND_CUES, HEALTH_SOUND_CUES, SPILL_SOUND_CUES, BUILTIN_PACKS } = await import(pathToFileURL(join(directory, 'audio.js')));
 const author = 'a'.repeat(64);
 const fileId = 'b'.repeat(64);
 const hash = 'c'.repeat(64);
@@ -92,6 +92,62 @@ test('pack addresses preserve colon-containing identifiers and reject the wrong 
   assert.equal(parsePackAddress(`30063:${author}:${'x'.repeat(200)}`).identifier.length, 200);
   for (const input of [`30000:${author}:pond`, `30063:${author.toUpperCase()}:pond`, `30063:invalid:pond`, `30063:${author}:`, `30063:${author}:${'x'.repeat(201)}`, 'naddr1invalid']) {
     assert.throws(() => parsePackAddress(input), Error);
+  }
+});
+
+test('missing browser audio capabilities preserve silent gameplay and give an explicit decode error', async () => {
+  assert.equal(typeof globalThis.AudioContext, 'undefined');
+  assert.equal(typeof globalThis.OfflineAudioContext, 'undefined');
+  const audio = new GameAudio();
+  await audio.prepare();
+  audio.unlock();
+  audio.play('hop');
+  audio.syncLoops([{ id: 'road', cue: 'traffic.pass', gain: .4 }]);
+  audio.setMix({ music: .5, ambience: .2, effects: 1 });
+  await assert.rejects(audio.decode(new Uint8Array([1, 2, 3]).buffer), /Audio decoding is unavailable/);
+  audio.dispose();
+  await audio.prepare();
+  audio.unlock();
+  audio.play('call.duck');
+  await assert.rejects(audio.decode(new Uint8Array([1]).buffer), /Audio has been closed/);
+});
+
+test('an offline decode completing after disposal cannot return a clip or retain the caller buffer', async () => {
+  const original = Object.getOwnPropertyDescriptor(globalThis, 'OfflineAudioContext');
+  let resolveDecode, received, contexts = 0;
+  // Only the browser decoder is deferred. The production GameAudio owns the
+  // request, input copy and disposal check, without any playback capability.
+  globalThis.OfflineAudioContext = class {
+    constructor(channels, length, rate) {
+      assert.deepEqual([channels, length, rate], [1, 1, 44_100]);
+      contexts++;
+    }
+    decodeAudioData(bytes) {
+      received = bytes;
+      return new Promise(resolve => { resolveDecode = resolve; });
+    }
+  };
+  const audio = new GameAudio(), input = new Uint8Array([1, 2, 3, 4]);
+  try {
+    const pending = audio.decode(input.buffer);
+    assert.equal(contexts, 1);
+    assert.notEqual(received, input.buffer);
+    assert.deepEqual([...new Uint8Array(received)], [1, 2, 3, 4]);
+    input.fill(9);
+    assert.deepEqual([...new Uint8Array(received)], [1, 2, 3, 4]);
+    audio.dispose();
+    // Accessing decoded data would mean the stale completion crossed teardown.
+    const decoded = new Proxy({}, { get(_target, key) {
+      if (key === 'then') return undefined; // Promise resolution checks thenability.
+      throw new Error('stale decoded data was inspected');
+    } });
+    resolveDecode(decoded);
+    await assert.rejects(pending, /Audio has been closed/);
+    assert.equal(contexts, 1);
+  } finally {
+    audio.dispose();
+    if (original) Object.defineProperty(globalThis, 'OfflineAudioContext', original);
+    else delete globalThis.OfflineAudioContext;
   }
 });
 
@@ -1021,13 +1077,31 @@ test('scene loops update in place, bound polyphony, release resources and preser
       for (let i = 0; i < 8; i++) audio.play('train');
       const loops = window.loopSources.filter(voice => voice.source.loop && !voice.stops);
       const effects = window.loopSources.filter(voice => !voice.source.loop && !voice.stops);
+      audio.setMix({ music: 1, ambience: 0, effects: 1 });
+      const ambienceRetired = loops.every(voice => voice.stops === 1);
+      const effectsRetained = effects.every(voice => voice.stops === 0);
+      const beforeMutedScene = window.loopSources.length;
+      audio.syncLoops(requests);
+      const mutedSceneSilent = window.loopSources.length === beforeMutedScene;
+      audio.setMix({ music: 1, ambience: 1, effects: 1 });
+      // Re-enter a full road scene before the previous fades finish. Retiring
+      // sources must share the budget with new sources, without starving it.
+      audio.syncLoops(requests.map(loop => ({ ...loop, id: `${loop.id}:return` })));
+      const returnedLoops = window.loopSources.filter(voice => voice.source.loop && !voice.stops).length;
+      const retiredReleased = loops.every(voice => voice.disconnects === 1);
       audio.syncLoops([]);
-      return { created, afterUpdate, loops: loops.length, effects: effects.length };
+      return { created, afterUpdate, loops: loops.length, effects: effects.length,
+        ambienceRetired, effectsRetained, mutedSceneSilent, returnedLoops, retiredReleased };
     });
     assert.equal(first.created, 8, 'scene voices have a fixed cap');
     assert.equal(first.afterUpdate, 8, 'position and volume updates retain existing voices');
     assert.equal(first.loops, 8, 'burst effects do not steal continuous beds');
     assert.equal(first.effects, 6);
+    assert.equal(first.ambienceRetired, true, 'muting ambience retires each already playing engine');
+    assert.equal(first.effectsRetained, true, 'the ambience fader does not stop impact effects');
+    assert.equal(first.mutedSceneSilent, true, 'new scene requests cannot restart a muted category');
+    assert.equal(first.returnedLoops, 8, 'quickly unmuting restores the full bounded scene');
+    assert.equal(first.retiredReleased, true, 'old fading voices release their slots during immediate re-entry');
     await page.waitForTimeout(160);
     assert.equal(await page.evaluate(() => window.loopSources.filter(voice => voice.source.loop && voice.disconnects === 0).length), 0, 'departed emitters finish their fade and disconnect');
     const custom = await page.evaluate(async () => {

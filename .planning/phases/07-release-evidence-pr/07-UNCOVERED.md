@@ -63,20 +63,20 @@ Source `f9d23f3e4f80f1414c854b93c4665cb49d185e34d1ebea901f4f795d81782102`; schem
 |165|811|0|[0, 961]|pending|
 |166|822|0|[0, 35943]|pending|
 |171|839|0|[0, 76]|pending|
-|182|916|0|[0, 104]|pending|
-|185|938|0|[0, 1550]|pending|
+|182|916|0|[0, 104]|[covered arm 0](07-03-LEDGER-REVIEW.md#audio-lifecycle)|
+|185|938|0|[0, 1550]|[covered arm 0](07-03-LEDGER-REVIEW.md#audio-lifecycle)|
 |190|950|0|[0, 100]|pending|
 |193|957|0|[0, 3922]|pending|
 |195|964|0|[0, 3051]|pending|
 |199|982|1|[92, 0]|pending|
-|203|994|0|[0, 1]|pending|
-|213|1025|0|[0, 20]|pending|
-|214|1028|0|[0, 19]|pending|
+|203|994|0|[0, 1]|[covered arm 0](07-03-LEDGER-REVIEW.md#audio-lifecycle)|
+|213|1025|0|[0, 20]|[covered arm 0](07-03-LEDGER-REVIEW.md#audio-lifecycle)|
+|214|1028|0|[0, 19]|[covered arm 0](07-03-LEDGER-REVIEW.md#audio-lifecycle)|
 |215|1033|0|[0]|pending|
 |238|1073|1|[1, 0]|pending|
 |241|1082|0|[0, 40]|pending|
 |242|1087|0|[0, 7]|pending|
-|256|1133|0,1|[0, 0]|pending|
+|256|1133|0,1|[0, 0]|[covered arm 1; arm 0 pending](07-03-LEDGER-REVIEW.md#audio-lifecycle)|
 |257|1136|0|[0, 1527]|pending|
 |265|1150|0|[0, 290]|pending|
 
@@ -1355,8 +1355,8 @@ Source `6ff040ceaed6a1fd4ff1dcf7e8b8bc9a773bcc4a3598fa6a83529a05d28b72e6`; schem
 
 Total retained zero branch arms: 1051. No automatic dismissals.
 
-Focused semantic review now binds141 of those historical arms to named passing
-behavioral evidence in `07-03-LEDGER-REVIEW.md`. The other910 remain pending;
+Focused semantic review now binds147 of those historical arms to named passing
+behavioral evidence in `07-03-LEDGER-REVIEW.md`. The other904 remain pending;
 all1051 initial rows/counts and source hashes stay visible. This is not a new
 aggregate coverage report or acceptance of the residual branches.
 

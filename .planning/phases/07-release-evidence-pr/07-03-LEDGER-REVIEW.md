@@ -53,6 +53,20 @@ definition still drives a real Game hop. `tests/mode-rules.test.mjs`.
 Canonical `ba43c979-a145-40ae-9560-109afec0d0f6`,8/8,91/91 arms.
 [Evidence](07-03-CONTENT-GAPS.md#mode-authoring-validation).
 
+## Audio-lifecycle
+
+**SOLO-02, UI-06, TEST-02, TEST-03.** Missing realtime/offline audio capabilities
+leave playback calls harmless and report unavailable decoding. Preparation stays
+safe before unlock/after disposal; an offline decode completing after disposal
+rejects before touching stale audio data. Real browser AudioBufferSource nodes
+prove that an ambience fader retires all eight engines while effects continue,
+and immediate re-entry releases fading voices under the shared cap.
+`tests/sound.test.mjs`, canonical `c6e37e9d-4a3f-4473-a600-e9f5e0bb756c`,44/44
+including the unchanged gamepad suite,20 muted component-browser realms and two
+Node parents. Six initial zero arms have exact matching source/map/site schemas.
+The empty-retiring-set arm256/0 stays pending; only256/1 gained proof.
+[Exact conditions and counts](07-03-AUDIO-LIFECYCLE-GAPS.md).
+
 ## Sound-settings
 
 **SOLO-02, UI-06, TEST-03.** User-selected custom audio wins delayed hydration;
