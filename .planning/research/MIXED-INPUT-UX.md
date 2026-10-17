@@ -49,6 +49,12 @@ device management dashboard to the HUD. In play, a small badge beside each
 traveler can identify their most recently used input. Change hints only on
 deliberate input, not pointer hover or tiny axis changes.
 
+Keep the current solo keyboard aliases while no shared-keyboard split is
+configured. Pressing arrows after WASD must not suggest joining another player.
+Split those keys into separate named profiles only through the explicit shared
+keyboard setup/remapping flow. Discovering a controller must not split the
+keyboard or reassign either profile as a side effect.
+
 Keyboard, controller, touch and pointer actions must all pass through the same
 owner check. Touch controls can belong to a selected traveler; one shared pointer
 can inspect other travelers without silently changing who owns a purchase,
