@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: 07-03 meaningful coverage closure; full enforcing report pending
-last_updated: "2026-10-17T07:03:22.932265+00:00"
+last_updated: "2026-10-17T07:41:26.973899+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -364,6 +364,25 @@ needs two branch arms. No fresh enforcing full acceptance. See
 07-03-SOLO-GUARDS-PROOF.md/json. All current solo job copies expect61/122 without
 relabelling historical cohorts. No runtime is active; next scope is genuine
 remaining Arcade/Relay/Race/DEV/browser behavior, then enforcing collection.
+
+Final solo mob tranche authored:62scenarios,33Arcade/29Flow. New actual director
+spawn precedes arranged market eligibility, then paid Stoplight and Quiet
+Footsteps.24fixed ticks preserve the same mob's position and phase; later actual
+ticks prove wave advancement, mob wash-away and wave death clearing inventory.
+Independent review accepted corrected scope. Initial1777fixture created a market
+invitation before spawn and was rejected0-vs1;18852reordered it but wrongly
+expected a stationary frozen mob/owner to survive until10s expiry. Actual .65
+wave speed/6tile trail overtakes them first. These fixture-only findings remain
+in separate ordinary logs;99438 passes whole62-scenario pinned parity after
+correction. No product timing or rules changed; no expiry/resume claim.
+Canonical solo-freeze-03 terminated0 on exec19597, run
+`b945cea1-ee46-4845-ae0c-2613e3e91a34`, whole62-scenario pinned matrix passes.
+62actual lifetimes/124intervals,33Arcade/29Flow bind one independent parent.
+Normal artifact/root lock hashes preserved. Exact-source/map/all-site-schema
+full+newsolo diagnostic is Arcade1166/1207L276/296F1216/1427B and
+Flow1028/1067L254/276F1069/1252B: five new Arcade branches/four lines.
+Both solo diagnostic targets pass; fresh enforcing full collection remains
+mandatory. See07-03-SOLO-FREEZE-PROOF.md/json. No runtime is active.
 
 ## Next required work
 

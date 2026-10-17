@@ -364,10 +364,35 @@ for(const shield of [false,true]){
   assert.equal(game.warning,true);game.update(0);assert.equal(game.state,'playing');assert.equal(game.mobs.length,0,'a catching wave does not add a new pursuer');return {warning:game.warning,mobs:game.mobs.length};
  }}]});
 }
+{
+ const name='arcade-live-mob-freeze-and-wave';guardNames.push(name);
+ breadth.push({name,mode:'arcade',home:'pond',characterId:'butter',seed:207,catalogIds:['power-freeze','mob-spawn-delay'],setup:(game,module)=>{
+  game.state='playing';game.maxY=game.y=game.fromY=160;game.ensureRows();for(const row of game.rows.keys())safeRow(game,module,row);
+  game.time=45;game.waveRow=60;
+ },tape:[{kind:'fixture',apply:game=>{
+  game.update(0);assert.equal(game.mobs.length,1,'the actual eligible director creates the first pursuer');
+  const mob=game.mobs[0],before={x:mob.x,y:mob.y,phase:mob.phase,left:mob.phaseLeft};
+  // An invitation suppresses new spawns, so arrange shopping only after this
+  // actual pursuer exists. No test-created mob or forced phase is introduced.
+  game.run.advanceScore(100);game.run.creditCoins(100);
+  assert.equal(game.openMarket(),true);paidOffer(game,'power-freeze');paidOffer(game,'mob-spawn-delay');game.closeMarket();
+  assert.equal(game.run.effects.mobSpeed,0);assert.ok(game.run.effects.mobSpawnDelay>0);
+  for(let n=0;n<24;n++)game.update(1/120);
+  assert.deepEqual({x:mob.x,y:mob.y,phase:mob.phase,left:mob.phaseLeft},before,'freeze pauses both movement and the current phase');
+  assert.equal(game.mobs.length,1);assert.equal(game.state,'playing');
+  const wave=game.waveRow;
+  for(let n=0;game.state==='playing'&&n<1500;n++)game.update(1/120);
+  assert.ok(game.waveRow>wave,'Stoplight never freezes the chasing wave');
+  assert.equal(game.mobs.some(candidate=>candidate===mob),false,'the advancing wave can wash away the frozen pursuer');
+  assert.equal(game.state,'dead');assert.equal(game.deathCause,'wave');
+  assert.equal(game.run.powers.length,0);assert.equal(game.run.wallet,0,'wave death clears the remaining purchased assets');
+  return {id:mob.id,washedAway:true,cause:game.deathCause,wave:game.waveRow};
+ }}]});
+}
 
 test('bounded actual solo bases retain pinned movement, hazards, recovery, economy and terminal behavior',{timeout:120000},async()=>{
  const results=await runDifferentialMatrix([...scenarios,...breadth],{currentRecorderFactory:createSoloModelRecorder});
- assert.equal(results.length,61);
+ assert.equal(results.length,62);
  for(let index=0;index<16;index+=8){
   const [movement,traffic,river,hurt,market,terminal,actors,mobs]=results.slice(index,index+8);
   for(const result of results.slice(index,index+8)){assert.equal(result.baselineSha,PINNED_BASELINE_SHA);assert.ok(result.points>1);}
