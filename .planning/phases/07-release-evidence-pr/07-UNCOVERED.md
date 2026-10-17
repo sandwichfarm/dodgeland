@@ -2,6 +2,20 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Current setup rejection and corrected acquisition
+
+Four actual Arcade/Flow Relay/Race journeys pass ordinary/canonical4/4,
+a4ca112f. Invalid proposal and blocked-row staging attempts preserve the same
+Game; corrected acquisition,late setup rejection,settled first hop and immutable
+terminal results bind four lifetimes/twelve intervals. SETUP-RETRY/PROOF retain
+exact source/map/site identity and explicit component provenance. Relay98/0
+at293 and Race108/0 at248 each gain2 initial-zero hits: fresh-ready factory
+guards reject re-acquisition without mutation. Initial review totals are now
+176 annotated(175 covered,one reviewed private default),875 pending. All prior
+counts/checkpoints remain historical. Current identical-source diagnostic needs
+300 Relay branches and247 Race branches; line/function targets pass diagnostically.
+No full enforcing release acceptance or production/source-scope/floor change.
+
 ## Current executed controller guards
 
 INPUT-01/02/04/05/06,TEST-02: all17 old router cases remain verbatim; five new
@@ -1020,7 +1034,7 @@ Source `d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da`; schem
 |69|163|1|[269677, 0]|pending|
 |80|174|0|[0, 58553]|pending|
 |92|202|1|[29945, 0]|pending|
-|108|248|0|[0, 180]|pending|
+|108|248|0|[0, 180]|[covered arm 0](07-03-LEDGER-REVIEW.md#setup-retry)|
 |109|249|1|[180, 0]|pending|
 
 ### src/recovery.ts
@@ -1104,7 +1118,7 @@ Source `f5c1eea5b82e6e42d7b6bbc6a95f7f0d28aa7ad7468c4464e0217ab9f89e6c02`; schem
 |77|214|0|[0, 22]|pending|
 |78|223|0|[0, 8]|pending|
 |90|245|1|[41181, 0]|pending|
-|98|293|0|[0, 95]|pending|
+|98|293|0|[0, 95]|[covered arm 0](07-03-LEDGER-REVIEW.md#setup-retry)|
 
 ### src/render.ts
 

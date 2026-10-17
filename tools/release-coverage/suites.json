@@ -5275,6 +5275,89 @@
         }
       ],
       "provenance": "Whole original controller router suite plus five exported contract cases; injected snapshots/reentrant host callbacks,not physical device or public-UI evidence. No mode attribution or production changes."
+    },
+    "turn-setup-retry-03": {
+      "files": [
+        "tests/turn-setup-retry.test.mjs"
+      ],
+      "roles": {
+        "tests/turn-setup-retry.test.mjs": "node"
+      },
+      "jobs": [
+        {
+          "id": "turn-setup-retry-test",
+          "file": "tests/turn-setup-retry.test.mjs",
+          "role": "node",
+          "requiredRealms": [
+            "node"
+          ],
+          "defaultBuildScope": "modules",
+          "artifactPatterns": [],
+          "modelAttribution": [
+            {
+              "mode": "relay",
+              "lifetimes": 2,
+              "phases": [
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
+                ]
+              ]
+            },
+            {
+              "mode": "race",
+              "lifetimes": 2,
+              "phases": [
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      "provenance": "Four actual Arcade/Flow Relay/Race acquisition lifetimes: real rejected factory attempts and failed placement,correction on the same unchanged Game,final successful acquisition,actual first hop and frozen results. Explicit blocked-row component fixture; no pure validator/helper-only or public-UI mode claim."
     }
   },
   "pendingAdapters": [
@@ -9930,6 +10013,78 @@
               ],
               [
                 "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "settled"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "turn-setup-retry-test",
+        "file": "tests/turn-setup-retry.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": [],
+        "modelAttribution": [
+          {
+            "mode": "relay",
+            "lifetimes": 2,
+            "phases": [
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "settled"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "settled"
+              ]
+            ]
+          },
+          {
+            "mode": "race",
+            "lifetimes": 2,
+            "phases": [
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "settled"
+              ],
+              [
+                "acquiring",
                 "playing"
               ],
               [

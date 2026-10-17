@@ -1,0 +1,210 @@
+{
+  "status": "Four ordinary and four canonical setup journeys pass; report-only,not full release acceptance",
+  "runId": "a4ca112f-4f4e-4028-a3c0-739c9f0782f6",
+  "payloadCount": 1,
+  "lifetimes": 4,
+  "intervals": 12,
+  "thresholdsEvaluated": false,
+  "manifestSha256": "9327f1729cfc29dd461adaf525df383a8e70665b929edd35e31b817c51d03871",
+  "canonicalInventorySha256": "37f806f85a06a771ca5e1302b2e5aa996fd725c29e66175ef2d150a8c0f31404",
+  "witnesses": [
+    {
+      "path": "src/relay.ts",
+      "sourceHash": "f5c1eea5b82e6e42d7b6bbc6a95f7f0d28aa7ad7468c4464e0217ab9f89e6c02",
+      "mapHash": "f20ca8a0dcea141035a8a302915ac67da56d9be55a470a4655e1a01e4bf78fa7",
+      "mappedSchemaSha256": "d198942c0329037e6750c56750cc79a3f09747ee5d5a81cce0c1dd4ef323090a",
+      "id": "98",
+      "arm": 0,
+      "line": 293,
+      "initialCount": 0,
+      "count": 2,
+      "condition": "An actual factory attempt on the already playing same Game rejects fresh-ready requirement without changing owner/course/run/resources",
+      "site": {
+        "loc": {
+          "start": {
+            "line": 293,
+            "column": 2
+          },
+          "end": {
+            "line": 293,
+            "column": 93
+          }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": {
+              "line": 293,
+              "column": 2
+            },
+            "end": {
+              "line": 293,
+              "column": 93
+            }
+          },
+          {
+            "start": {},
+            "end": {}
+          }
+        ]
+      }
+    },
+    {
+      "path": "src/race.ts",
+      "sourceHash": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+      "mapHash": "359d1befb5381d2a2df7d84e71de36101ec61193601e694e8af77ddd2f617fb8",
+      "mappedSchemaSha256": "d53b26f7e763b7df7667301fef75fdc5ba46e07c49e0bca538d2d82a22c9c9ee",
+      "id": "108",
+      "arm": 0,
+      "line": 248,
+      "initialCount": 0,
+      "count": 2,
+      "condition": "An actual factory attempt on the already playing same Game rejects fresh-ready requirement without changing owner/course/run/resources",
+      "site": {
+        "loc": {
+          "start": {
+            "line": 248,
+            "column": 2
+          },
+          "end": {
+            "line": 248,
+            "column": 92
+          }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": {
+              "line": 248,
+              "column": 2
+            },
+            "end": {
+              "line": 248,
+              "column": 92
+            }
+          },
+          {
+            "start": {},
+            "end": {}
+          }
+        ]
+      }
+    }
+  ],
+  "currentDiagnosticModes": {
+    "relay": {
+      "raw": {
+        "statements": {
+          "covered": 2821,
+          "total": 3735
+        },
+        "functions": {
+          "covered": 641,
+          "total": 817
+        },
+        "branches": {
+          "covered": 2075,
+          "total": 3204
+        },
+        "lines": {
+          "covered": 1946,
+          "total": 2352
+        }
+      },
+      "applicable": {
+        "statements": {
+          "covered": 2821,
+          "total": 3310
+        },
+        "functions": {
+          "covered": 641,
+          "total": 710
+        },
+        "branches": {
+          "covered": 2075,
+          "total": 2793
+        },
+        "lines": {
+          "covered": 1946,
+          "total": 2104
+        }
+      },
+      "remaining": {
+        "lines": 0,
+        "functions": 0,
+        "branches": 300
+      },
+      "componentLifetimes": 33,
+      "componentIntervals": 94,
+      "publicIntervals": 2
+    },
+    "race": {
+      "raw": {
+        "statements": {
+          "covered": 2945,
+          "total": 3645
+        },
+        "functions": {
+          "covered": 686,
+          "total": 818
+        },
+        "branches": {
+          "covered": 2331,
+          "total": 3261
+        },
+        "lines": {
+          "covered": 2025,
+          "total": 2305
+        }
+      },
+      "applicable": {
+        "statements": {
+          "covered": 2945,
+          "total": 3406
+        },
+        "functions": {
+          "covered": 686,
+          "total": 758
+        },
+        "branches": {
+          "covered": 2331,
+          "total": 3032
+        },
+        "lines": {
+          "covered": 2025,
+          "total": 2163
+        }
+      },
+      "remaining": {
+        "lines": 0,
+        "functions": 0,
+        "branches": 247
+      },
+      "componentLifetimes": 65,
+      "componentIntervals": 212,
+      "publicIntervals": 8
+    }
+  },
+  "normalArtifactRawSha256": "9036d9a1f179b136569a3b400c412d954d783987c751832afbbbfda287c63539",
+  "rootLockRawSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "storageRecovery": {
+    "root": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage",
+    "method": "SHA256-identical independent-inode APFS copy-on-write clones",
+    "scanned": 2605,
+    "cloned": 632,
+    "logicalDuplicateBytes": 5149674002,
+    "freeBefore": 983695360,
+    "freeAfter": 5600452608
+  },
+  "logs": {
+    "ordinary": "/tmp/down-to-duck-setup-retry-ordinary.log",
+    "failedBeforeTests": "/tmp/down-to-duck-setup-retry-canonical.log",
+    "successfulCanonical": "/tmp/down-to-duck-setup-retry-canonical-retry.log"
+  },
+  "limits": [
+    "Explicit component acquisition/retry fixture,not public setup UI or native device proof",
+    "No production source,dependency,oracle,scope or numeric floor change",
+    "Complete current inventory and exact mapped schemas verified before diagnostic union",
+    "Two source-identical initial zero arms reviewed; no changed Game/Session relabel"
+  ]
+}

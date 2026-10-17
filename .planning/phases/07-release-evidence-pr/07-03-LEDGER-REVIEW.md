@@ -233,3 +233,17 @@ Current disk and initial/focused source/map/site schemas match exactly. This
 file is unchanged even though session.ts has a new identity; no old session.ts
 counter is relabelled. No product, test, policy or count changes accompany this
 annotation. Full enforcement remains pending.
+
+## Setup-retry
+
+**ARCH-03,INPUT-02,RELAY-01,RACE-01,TEST-02/03.** Actual Relay and Race factories
+reject a second acquisition of the same now-playing Game without changing its
+owner,course,pose,run or resources; the same session then settles a real first
+hop and freezes its terminal result. `tests/turn-setup-retry.test.mjs`,canonical
+`a4ca112f-4f4e-4028-a3c0-739c9f0782f6`,whole4/4 component journeys/twelve intervals.
+Unchanged initial Relay98/0 at293 and Race108/0 at248 each have2 hits. Initial
+source/map/full mapped schemas and current disk source all match. Separate
+invalid proposals and blocked-row staging rollback precede corrected acquisition
+on the same Game; these are explicit component fixtures,not public setup input.
+[Full identities and provenance](07-03-SETUP-RETRY-PROOF.json). No source or scope
+change; no historical changed Game/Session counter is relabelled.

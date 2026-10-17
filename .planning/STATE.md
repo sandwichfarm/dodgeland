@@ -812,12 +812,28 @@ validators/factory suites before adding tests. Do not give pure helper-only or
 whole mixed-worker execution mode credit. Constructor scope remains read-only
 pending full value-flow/negative controls. No final enforcing release pass yet.
 
+## Latest setup-retry execution
+
+Canonical a4ca112f passes4/4,one Node parent,four actual Relay/Race component
+lifetimes/twelve intervals. Rejected proposals/blocked staging,corrected same-Game
+acquisition,late setup rejection,settled first hop and frozen result are proved.
+Two source-identical initial fresh-ready guard arms gain2 hits each; totals now
+176 annotated(175 covered,one reviewed private default),875 pending. Current
+diagnostic Relay2075/2793B needs300; Race2331/3032B needs247. Line/function
+targets pass diagnostically; no full enforcing acceptance. New full job and
+package script are additive:144 entries/151 closure,156 production jobs/nine
+controls. Production,normal903/rootlock5ac unchanged. Initial ENOSPC occurred
+before tests; byte-identical APFS report clones preserve all evidence and reclaim
+about4.3GiB. SETUP-RETRY/PROOF retain exact identities and storage/error limits.
+No chain is live. Next close real mode branch gaps,then full enforcement and
+remaining07-04/05/06.
+
 ## Next required work
 
 1. Complete07-03: broad honest Solo/Relay/Race and development evidence,
    remaining per-file gaps, complete semantic ledger, then a fresh enforcing
-   full report. Keep all floors.174 initial zero arms have source-identical
-   semantic annotations(173 covered,one reviewed private default);877 still need completed semantic/behavioral proof,
+   full report. Keep all floors.176 initial zero arms have source-identical
+   semantic annotations(175 covered,one reviewed private default);875 still need completed semantic/behavioral proof,
    including six source-reviewed market candidates awaiting evidence. Genuine fresh
    bootstrap proof now exists; all unions before full collection are diagnostic.
 2. Execute07-04 conformance proof,07-05 clause/visual evidence,07-06 exact final
