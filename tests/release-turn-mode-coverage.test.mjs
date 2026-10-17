@@ -13,7 +13,7 @@ const {ITEM_CATALOG}=await sources.import('market/catalog');
 const config=process.env.DOWN_TO_DUCK_COVERAGE_CONFIG?JSON.parse(await readFile(process.env.DOWN_TO_DUCK_COVERAGE_CONFIG,'utf8')):null;
 const model=config?.modelAttribution;if(config&&!model)throw Error('Missing turn-model attribution configuration');
 const inventory=model?JSON.parse(await readFile(config.inventoryPath,'utf8')):null,records=[];
-after(async()=>{if(inventory){if(records.length!==9)throw Error('Incomplete turn-mode witnesses');await writeFile(model.output,JSON.stringify({...records.at(-1),intervals:records.flatMap(r=>r.intervals)}));}});
+after(async()=>{if(inventory){if(records.length!==11)throw Error('Incomplete turn-mode witnesses');await writeFile(model.output,JSON.stringify({...records.at(-1),intervals:records.flatMap(r=>r.intervals)}));}});
 const seats=[{seat:'p1',device:'gamepad-0',characterId:'butter'},{seat:'p2',device:'gamepad-1',characterId:'pip'},{seat:'p3',device:'gamepad-2',characterId:'sunny'}];
 const step=1/120;
 function lane(game,row){game.rows.set(row,{...generateLane(game.seed,row,game.home),kind:'meadow',blocked:[],decorations:[],actors:undefined,coin:null,coinActor:undefined});}
@@ -139,11 +139,11 @@ test('Race timeout closes pending personal offers before frozen ranking',()=>{
 
 // Two additional actual Arcade lifetimes. Seed decoding/generation is inside
 // acquisition; all terrain, stock and starting funds below are explicit fixtures.
-function arcade(mode){
+function arcade(mode,settings={}){
  const factory=mode==='relay'?createRelaySession:createRaceSession,Coordinator=mode==='relay'?RelayCoordinator:RaceCoordinator;
  const recorder=inventory?createTurnModelRecorder({mode,inventory,factory,Coordinator,identity:{runId:config.runId,realmId:model.realmId,jobId:config.jobId,artifactHash:config.browserBuilds.modules.artifactHash}}):null;
  const createGame=()=>Game.fromSeed('ph3-00000071-pond-a-n',ITEM_CATALOG,'butter');
- const proposal={seats:seats.slice(0,2),...(mode==='relay'?{tilesPerLeg:50}:{finishTiles:500,activeSeconds:180})};
+ const proposal={seats:seats.slice(0,2),...(mode==='relay'?{tilesPerLeg:50}:{finishTiles:500,activeSeconds:180}),...settings};
  const acquired=recorder?recorder.acquireFrom(createGame,'arcade',proposal):(()=>{const game=createGame();return {game,owner:factory(game,proposal)};})();
  const {game,owner}=acquired,session=owner.session;
  assert.equal(game.definition.id,'arcade');assert.equal(game.runSeed.schema,3);assert.strictEqual(session.world.host,game);assert.ok(owner instanceof Coordinator);
@@ -308,4 +308,80 @@ for(const [index,mode]of ['relay','race'].entries())test(`${mode} fresh bootstra
   };
   if(recorder){recorder.interval('fresh-lifecycle',tape);records.push(recorder.finish());}else tape();
  }finally{await fresh.dispose();}
+});
+
+
+// Progress/clock/terrain are explicit component arrangements, outside measured
+// actions. Mobs and every phase/timer below are created only by the real director.
+function arrangeDirectorScene(run,row,time){
+ const {game,session}=run;
+ game.time=time;game.waveRow=row-100;session.world.noteProgress(row);
+ for(const [index,p]of session.players.entries()){
+  p.x=p.fromX=index===0?0:4;p.y=p.fromY=row;p.maxY=Math.max(p.maxY,row);p.hop=0;
+  p.personalFrontierY=Math.max(p.personalFrontierY,row);
+ }
+ for(let y=row-10;y<=row+12;y++)course(run,y);
+}
+function activeMobTargets(run){return run.session.players.filter(p=>p.state==='playing'&&p.participation==='active'&&run.session.canAct(p.seat));}
+function distanceToMob(run,mob){return Math.min(...activeMobTargets(run).map(p=>Math.hypot(p.groundX-mob.x,p.groundY-mob.y)));}
+function safeAttackExit(run,mob,player){
+ const dx=mob.targetX-mob.fromX,dy=mob.targetY-mob.fromY,length=Math.hypot(dx,dy)||1;
+ return [{direction:'forward',x:0,y:1},{direction:'left',x:-1,y:0},{direction:'right',x:1,y:0}]
+  .filter(move=>Math.abs(player.groundX+move.x)<=5)
+  .sort((a,b)=>Math.abs(dx*b.y-dy*b.x)/length-Math.abs(dx*a.y-dy*a.x)/length)[0].direction;
+}
+for(const mode of ['relay','race'])test(`${mode} actual director introduces walking slime and committed crab/wasp strikes`,()=>{
+ const run=arcade(mode,mode==='relay'?{tilesPerLeg:999}:{}),{game,session}=run,world=session.world;
+ const spawned=[],attacks=[],originalSpawn=game.onMobSpawn,originalAttack=game.onMobAttack;
+ game.onMobSpawn=function(mob){originalSpawn.call(this,mob);spawned.push(mob);};
+ game.onMobAttack=function(mob){originalAttack.call(this,mob);attacks.push({mob,characterId:this.characterId});};
+ let previous;
+ for(const [index,kind]of ['slime','crab','wasp'].entries()){
+  arrangeDirectorScene(run,160+160*index,45+30*index);
+  const before=session.players.map(p=>({seat:p.seat,wallet:p.run.wallet,health:p.health,deaths:p.statistics.deaths,innate:p.statistics.innateUses}));
+  run.run(`actual-director-${kind}`,()=>{
+   ticks(run,1);
+   assert.strictEqual(session.world,world);assert.equal(spawned.length,index+1);
+   const mob=spawned[index];assert.equal(mob.kind,kind);assert.equal(mob.phase,'spawning');
+   assert.equal(game.mobs.length,1);assert.strictEqual(game.mobs[0],mob);
+   if(previous){assert.equal(game.mobs.includes(previous),false,'progress retires the previous pursuer through the real update');assert.ok(mob.id>previous.id);}
+   const initialDistance=distanceToMob(run,mob);
+   for(let n=0;n<300&&mob.phase==='spawning';n++)ticks(run,1);
+   assert.notEqual(mob.phase,'spawning');assert.ok(game.mobs.includes(mob));
+   if(kind==='slime'){
+    assert.equal(mob.phase,'walking');assert.equal(attacks.length,0);
+    const paused={time:game.time,x:mob.x,y:mob.y,left:mob.phaseLeft,phase:mob.phase};
+    game.pause();ticks(run,120);assert.deepEqual({time:game.time,x:mob.x,y:mob.y,left:mob.phaseLeft,phase:mob.phase},paused);
+    game.resume();ticks(run,12);assert.ok(distanceToMob(run,mob)<initialDistance,'the actual spawned slime walks toward an active traveler');
+   }else{
+    for(let n=0;n<700&&mob.phase!=='windup';n++)ticks(run,1);
+    assert.equal(mob.phase,'windup');assert.ok(game.mobs.includes(mob));
+    const target=activeMobTargets(run).find(p=>Math.abs(p.groundX-mob.targetX)<.26&&Math.abs(p.groundY-mob.targetY)<.26);
+    assert.ok(target,'the warning names an actual active traveler');
+    assert.strictEqual(attacks.at(-1).mob,mob);assert.equal(attacks.at(-1).characterId,target.characterId);
+    const locked=[mob.targetX,mob.targetY],earned=target.earnedDistance,direction=safeAttackExit(run,mob,target);
+    assert.equal(session.dispatch({seat:target.seat,direction}),true);
+    for(let n=0;n<120&&target.hop>0;n++)ticks(run,1);
+    assert.equal(target.hop,0);assert.equal(target.earnedDistance,earned+(direction==='forward'?1:0));
+    assert.deepEqual([mob.targetX,mob.targetY],locked,'the marked strike does not retarget the escaping traveler');
+    for(let n=0;n<240&&mob.phase!=='moving';n++)ticks(run,1);
+    assert.equal(mob.phase,'moving');const start=[mob.x,mob.y];ticks(run,6);
+    assert.notDeepEqual([mob.x,mob.y],start,'a committed strike advances through actual fixed steps');
+    const elapsedFraction=1-mob.phaseLeft/mob.phaseDuration;
+    const traveledFraction=Math.hypot(mob.x-mob.fromX,mob.y-mob.fromY)/Math.hypot(mob.targetX-mob.fromX,mob.targetY-mob.fromY);
+    assert.ok(elapsedFraction>0&&elapsedFraction<.5,'observe the opening half of the real strike');
+    assert.ok(kind==='crab'?traveledFraction>elapsedFraction:traveledFraction<elapsedFraction,'crab strikes start fast while wasp dives ease in');
+    for(let n=0;n<240&&mob.phase!=='rest';n++)ticks(run,1);
+    assert.equal(mob.phase,'rest');assert.ok(mob.phaseLeft>0);assert.deepEqual([mob.targetX,mob.targetY],locked);
+    assert.equal(attacks.filter(event=>event.mob===mob).length,1,'one warning commits one strike before recovery');
+   }
+   for(const expected of before){const p=session.players.find(p=>p.seat===expected.seat);assert.equal(p.state,'playing');assert.deepEqual({seat:p.seat,wallet:p.run.wallet,health:p.health,deaths:p.statistics.deaths,innate:p.statistics.innateUses},expected);}
+   previous=mob;
+  });
+ }
+ run.run('actual-director-terminal',()=>{
+  assert.deepEqual(spawned.map(mob=>mob.kind),['slime','crab','wasp']);
+  if(mode==='relay')run.owner.finish();else for(const p of session.players){assert.equal(run.owner.command(run.owner.actionToken(p.seat),'leave'),true);assert.equal(run.owner.command(run.owner.actionToken(p.seat),'confirm'),true);}
+  assert.ok(run.owner.result);assert.ok(Object.isFrozen(run.owner.result));
+ });run.finish();
 });

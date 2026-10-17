@@ -1384,9 +1384,29 @@
                 [
                   "playing",
                   "settled"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
                 ]
               ],
-              "lifetimes": 4
+              "lifetimes": 5
             },
             {
               "mode": "race",
@@ -1454,9 +1474,29 @@
                 [
                   "playing",
                   "settled"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
                 ]
               ],
-              "lifetimes": 5
+              "lifetimes": 6
             }
           ]
         }
@@ -3665,6 +3705,193 @@
         }
       ],
       "provenance": "Whole original Race results suite; twelve actual Race lifetimes/forty bounded intervals, terrain/resources/cooldown/position fixtures outside action intervals; pure ledger/rank and generic market components stay global-only; six built browser journeys remain distinct"
+    },
+    "turn-director-03": {
+      "files": [
+        "tests/release-turn-mode-coverage.test.mjs"
+      ],
+      "role": "node",
+      "jobs": [
+        {
+          "id": "release-turn-mode-coverage",
+          "file": "tests/release-turn-mode-coverage.test.mjs",
+          "role": "node",
+          "requiredRealms": [
+            "node"
+          ],
+          "modelAttribution": [
+            {
+              "mode": "relay",
+              "phases": [
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
+                ]
+              ],
+              "lifetimes": 5
+            },
+            {
+              "mode": "race",
+              "phases": [
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
+                ],
+                [
+                  "settled",
+                  "settled"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
+                ]
+              ],
+              "lifetimes": 6
+            }
+          ]
+        }
+      ],
+      "provenance": "Whole actual Relay/Race matrix, eleven actual lifetimes/thirty-nine intervals; arranged scene progress/time/terrain outside measured actions; real director creates all new pursuers and fixed updates own warning/walk/strike/recovery; no browser or whole-worker credit"
     }
   },
   "pendingAdapters": [
@@ -7653,9 +7880,29 @@
               [
                 "playing",
                 "settled"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "settled"
               ]
             ],
-            "lifetimes": 4
+            "lifetimes": 5
           },
           {
             "mode": "race",
@@ -7723,9 +7970,29 @@
               [
                 "playing",
                 "settled"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "settled"
               ]
             ],
-            "lifetimes": 5
+            "lifetimes": 6
           }
         ]
       },

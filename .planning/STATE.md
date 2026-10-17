@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: 07-03 meaningful coverage closure; full enforcing report pending
-last_updated: "2026-10-17T10:12:32.797227+00:00"
+last_updated: "2026-10-17T10:43:45.874395+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,7 +12,7 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Race results44/44 normal/canonical494cd687;12 actual lifetimes40intervals; diagnostic gains10L4F24B and Race line target met; remaining release gates open.
+last_activity_desc: Actual director11/11 normal/canonicalce1b01ba;11lifetimes39intervals; Relay gains29L5F42B, Race6L1F8B; release gates open.
 ---
 
 # Project State
@@ -454,6 +454,26 @@ Exact-current full+turn-lifecycle+new-results diagnostic is Race2004/2222L675/76
 Full enforcing collection and semantic ledger remain pending; no release pass.
 See07-03-RACE-RESULTS-PROOF.md/json, logs/state under race-results-close.
 No runtime is active. Source/test/tool freeze is released after preservation.
+
+Actual director tranche candidate extends the existing whole turn matrix9→11
+cases/lifetimes,29→39 intervals (Relay5/18, Race6/21). Two new actual Arcade
+coordinators retain original scene/pursuer rules; Relay uses valid999-tile leg.
+Progress/clock/terrain/positions are explicit fixtures outside intervals. The
+real director spawns slime/crab/wasp, including retirement of prior actor on
+progress; no mobs/phases/private timers are assigned. Actual updates test walk,
+shared pause, committed warning target, real hop escape, distinct early easing,
+rest, unchanged health/wallet/death/innate state and frozen terminal result.
+Original default callbacks remain invoked by real spawn/attack delivery.
+Initial14313 ordinary failed only Relay fixture9999 rejected by valid1–999 limit;
+11953 with999 passed11/11. Easing-strengthened96904 passes11/11; no product RED.
+Canonical turn-director-03 exec65621 terminal0, runce1b01ba-7aac-4114-a590-32a980b028d4,
+whole11/11. Eleven actual lifetimes/39 expected intervals bind one Node parent;
+Relay5/18, Race6/21. All eight frozen hashes preserved. No runtime remains.
+Exact-source/map/all-site-schema diagnostic now Relay1941/2159L637/718F2036/2893B
+and Race2010/2222L676/769F2251/3141B: gains29L/5F/42B and6L/1F/8B respectively.
+Remaining Relay3L/10F/424B, Race17F/419B; no fresh enforcing release acceptance.
+See07-03-TURN-DIRECTOR-PROOF.md/json. Logs/preservation use turn-director prefix.
+Semantic ledger162 initial arms annotated/889pending remains unchanged.
 
 ## Next required work
 
