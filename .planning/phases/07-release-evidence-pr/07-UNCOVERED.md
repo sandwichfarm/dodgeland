@@ -2,14 +2,21 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
-## Current full enforcing collection is live
+## Current complete enforcing result:four branch shortfalls
 
-Source Game8836/inventoryf46f/normal rawe980 supersede the historical union below.
-Current complete169-job collection started19:33:54 UTC fromd661eb9 with397 frozen
-files and unchanged floors. Runner63419/collector63428/session18032 are verified
-live at2026-10-17T19:35:54.099507+00:00;11 jobs passed so far. No terminal floor result exists yet.
-See CURRENT-FULL-RUN and current-full-03 state/log. Do not reuse old changed Game
-counters or declare a release pass before the complete current report is reviewed.
+All169 jobs/nine controls passed,current complete inventoryf46f/Game8836/normal
+e980. Original aggregation OOM/exit-6 is preserved;exact frozen reporting-only
+recovery02 exited1 with four branch failures:browser8336/9867,DEV2253/2805,
+Race2492/3034,Relay2286/2763. At85%,they need51/132/87/63 additional witnesses
+respectively. All global/per-file/line/function floors pass. See CURRENT-FULL-RUN
+and CURRENT-FULL-PROOF for exact source,commands,exits and immutable receipts.
+
+Initial-current mechanical comparison retains181 source/map/schema-identical
+positive arms,397 unchanged zeros and473 original changed-source arms requiring
+fresh semantic review. It does not replace the original ledger or prove behavior
+from counters alone. Current raw830 zero arms and applicable shortfall candidates
+are retained under current-full-03;every meaningful residual still needs explicit
+behavioral proof or a proven application/build-scope disposition. No acceptance.
 
 ## Previous complete post-repair cohort refresh (superseded Game identity)
 

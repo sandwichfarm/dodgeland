@@ -1,0 +1,248 @@
+{
+  "purpose": "Current complete enforcing coverage result,not release completion",
+  "observedAt": "2026-10-17T21:28:13.860971+00:00",
+  "runId": "0b8f818d-62a2-4922-ab83-242886778c0c",
+  "normalRawSha256": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
+  "rootLockRawSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "inventoryByteSha256": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+  "sourceFreezeFiles": 397,
+  "sourceFreezeMatches": true,
+  "originalCollector": {
+    "exit": -6,
+    "status": "tests-or-collection-failed",
+    "failure": "Node default4GB heap OOM during reporting after all169 jobs/9 controls passed",
+    "stateSha256": "88ff586c873219299bd33a2ae8adf95ebff64da3f7138257b77463fcee9b7c90",
+    "logSha256": "8f50f7d98d2e254337dc3b5d365808392c2c30a1041caec39cb70bb6bb23c4d5"
+  },
+  "recovery": {
+    "command": "node --max-old-space-size=24576 artifacts/release-coverage/current-full-03/recover-report.mjs",
+    "exit": 1,
+    "scriptSha256": "08338494f8088f91ba61d2b3012cd13f13693b8d75f1d16bfbcee278aeca3ede",
+    "preparationSha256": "03a300dff6262773864ddbbbe744965360064276bc221ec2af91a6191dd50190",
+    "logSha256": "4d456322178736a3bf2c2cea97877fe67989d9fbc08e83d30da766afeae459ef",
+    "tailMethod": "Resolve policy.json against original frozen module URL;all post-test logic otherwise copied verbatim",
+    "allPreparedRawInputsReverified": true,
+    "attempt01": "Preserved missing-import wrapper failure and partial output;both complete global maps byte-identical",
+    "originalInputsModified": false,
+    "testsRerun": false,
+    "counterScopeOrFloorChanged": false
+  },
+  "productionJobs": 169,
+  "controls": 9,
+  "payloads": 454,
+  "browserRealms": 359,
+  "intervalCount": 1155,
+  "intervalsByMode": {
+    "race": 586,
+    "relay": 427,
+    "solo-arcade": 69,
+    "solo-flow": 61,
+    "survive-arcade": 6,
+    "survive-flow": 6
+  },
+  "thresholdsEvaluated": true,
+  "status": "enforced-fail",
+  "global": {
+    "lines": {
+      "total": 7994,
+      "covered": 7911,
+      "skipped": 0,
+      "pct": 98.96
+    },
+    "statements": {
+      "total": 13888,
+      "covered": 13330,
+      "skipped": 0,
+      "pct": 95.98
+    },
+    "functions": {
+      "total": 2242,
+      "covered": 2194,
+      "skipped": 0,
+      "pct": 97.85
+    },
+    "branches": {
+      "total": 9998,
+      "covered": 9168,
+      "skipped": 0,
+      "pct": 91.69
+    },
+    "branchesTrue": {
+      "total": 0,
+      "covered": 0,
+      "skipped": 0,
+      "pct": "Unknown"
+    }
+  },
+  "strata": {
+    "shared-authority-input": {
+      "lines": {
+        "covered": 2446,
+        "total": 2456
+      },
+      "functions": {
+        "covered": 761,
+        "total": 770
+      },
+      "branches": {
+        "covered": 3154,
+        "total": 3317
+      }
+    },
+    "solo-arcade": {
+      "lines": {
+        "covered": 1170,
+        "total": 1210
+      },
+      "functions": {
+        "covered": 276,
+        "total": 295
+      },
+      "branches": {
+        "covered": 1217,
+        "total": 1408
+      }
+    },
+    "solo-flow": {
+      "lines": {
+        "covered": 1032,
+        "total": 1070
+      },
+      "functions": {
+        "covered": 254,
+        "total": 275
+      },
+      "branches": {
+        "covered": 1070,
+        "total": 1233
+      }
+    },
+    "survive-arcade": {
+      "lines": {
+        "covered": 87,
+        "total": 89
+      },
+      "functions": {
+        "covered": 64,
+        "total": 65
+      },
+      "branches": {
+        "covered": 149,
+        "total": 165
+      }
+    },
+    "survive-flow": {
+      "lines": {
+        "covered": 87,
+        "total": 89
+      },
+      "functions": {
+        "covered": 64,
+        "total": 65
+      },
+      "branches": {
+        "covered": 149,
+        "total": 165
+      }
+    },
+    "relay": {
+      "lines": {
+        "covered": 2025,
+        "total": 2104
+      },
+      "functions": {
+        "covered": 671,
+        "total": 715
+      },
+      "branches": {
+        "covered": 2286,
+        "total": 2763
+      }
+    },
+    "race": {
+      "lines": {
+        "covered": 2069,
+        "total": 2165
+      },
+      "functions": {
+        "covered": 706,
+        "total": 758
+      },
+      "branches": {
+        "covered": 2492,
+        "total": 3034
+      }
+    },
+    "browser-presentation-owner-lifecycle": {
+      "lines": {
+        "covered": 7583,
+        "total": 7852
+      },
+      "functions": {
+        "covered": 2022,
+        "total": 2189
+      },
+      "branches": {
+        "covered": 8336,
+        "total": 9867
+      }
+    },
+    "development": {
+      "lines": {
+        "covered": 2035,
+        "total": 2109
+      },
+      "functions": {
+        "covered": 632,
+        "total": 680
+      },
+      "branches": {
+        "covered": 2253,
+        "total": 2805
+      }
+    }
+  },
+  "failures": [
+    {
+      "name": "browser-presentation-owner-lifecycle",
+      "metric": "branches",
+      "covered": 8336,
+      "total": 9867,
+      "floor": 85,
+      "additionalCoveredBranchesRequired": 51
+    },
+    {
+      "name": "development",
+      "metric": "branches",
+      "covered": 2253,
+      "total": 2805,
+      "floor": 85,
+      "additionalCoveredBranchesRequired": 132
+    },
+    {
+      "name": "race",
+      "metric": "branches",
+      "covered": 2492,
+      "total": 3034,
+      "floor": 85,
+      "additionalCoveredBranchesRequired": 87
+    },
+    {
+      "name": "relay",
+      "metric": "branches",
+      "covered": 2286,
+      "total": 2763,
+      "floor": 85,
+      "additionalCoveredBranchesRequired": 63
+    }
+  ],
+  "reportArtifacts": {
+    "artifacts/release-coverage/current-full-03/recovered-report-02/manifest.json": "29ebb6d51d2c7a56de195751e32eff9cb0f06dc49b63a29f786328757018f83c",
+    "artifacts/release-coverage/current-full-03/recovered-report-02/attribution.json": "1386cd1d47c8d30d266bd8315663e38d0238d3d5b1db8f4ba34c33e5d6d65cb9",
+    "artifacts/release-coverage/current-full-03/recovered-report-02/shortfalls.json": "a3dde978b5d090ce2282bf15f6805e13687e78802640e0e8eff1cd33a2a6ed21",
+    "artifacts/release-coverage/current-full-03/recovered-report-02/report/coverage-final.json": "99ce960b1ad9f2ff822762d38566fd2ee47191eaf497cc3e893782d064e97766",
+    "artifacts/release-coverage/current-full-03/recovered-report-02/execution-inventory.json": "4337c8824f0a7b51eef84cec793f1c23a144e3b0b07e6a4db59283b3ed0f0a20",
+    "artifacts/release-coverage/current-full-03/recovered-report-02/job-ledger.json": "52b6f1d98a3e05014c19eadaf60fb6d2983157fbb7edb14a6b163e79d33fcfcf"
+  },
+  "next": "Close four exact branch strata shortfalls and finish full semantic ledger;07-04/05/06 and PR remain required"
+}

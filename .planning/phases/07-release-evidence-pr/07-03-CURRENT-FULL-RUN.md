@@ -1,3 +1,57 @@
+# Current full collection: tests passed, four coverage shortfalls
+
+Recovery02/session15271 completed with exit1. All169 production jobs and9 controls
+passed;454 complete parent payloads include359 browser realms,with1155 verified
+mode intervals. The exact unchanged post-test evaluator reports four branch
+shortfalls;no global/per-file/line/function shortfall remains.
+
+| Stratum | Covered/total branches | Additional hits needed at85% |
+|---|---:|---:|
+| Browser presentation/owner/lifecycle |8336/9867|51|
+| Development |2253/2805|132|
+| Race |2492/3034|87|
+| Relay |2286/2763|63|
+
+Global:7911/7994 lines,2194/2242 functions,9168/9998 branches. All numeric floors
+remain unchanged. CURRENT-FULL-PROOF.json binds exact commands,exits,receipt and
+report hashes. Every397 frozen file and prepared raw input was rehashed after
+reporting;all matched. Both complete recovered global maps are byte-identical.
+The original collector remains honestly recorded as exit-6 on a4GB heap OOM;
+recovery01 remains a missing-import wrapper failure. Recovery02 used24GB heap
+and only the frozen post-test tail,without rerunning tests or modifying counters,
+scope or thresholds. Terminal report root:artifacts/release-coverage/
+current-full-03/recovered-report-02. All process handles are terminal.
+
+Read-only inspection produced exact applicable zero candidates;initial-current
+ledger comparison keeps changed-source arms separate. No complete semantic
+review,07-03 acceptance,07-04/05/06 completion or PR is claimed. Next address
+genuine remaining gaps and preserve the complete current report as a checkpoint.
+
+## Earlier run history (superseded statuses)
+
+Original169 production jobs and9 executable controls all passed.359 browser
+realms are retained under run0b8f818d-62a2-4922-ab83-242886778c0c. The original
+collector/session18032 is terminal:exit-6 at2026-10-17T21:05:02UTC,with a recorded
+Node4GB heap OOM during report assembly. Preserve this failure;do not relabel it
+as a successful original CLI exit. All397 frozen source/test/tool/config/package
+files,normal e980/rootlock5ac and inventoryf46f remain exact.
+
+Recovery02 runs only the exact frozen post-test logic using saved captures and
+24GB Node heap. Session15271/PID90381 was verified live after launch21:18:21UTC.
+Output:artifacts/release-coverage/current-full-03/recovered-report-02. Preparation
+JSON binds every raw input,wrapper and copied tail hash;the rebuilt inventory
+must be byte-identical before reporting. All original floors and validations
+remain enforced. The only copied-tail edit resolves policy.json against its
+original module URL. Attempt01's missing-import failure is preserved separately;
+attempt02 passed static unresolved-binding/export checks.
+
+No terminal mode/floor verdict yet. Global/per-file raw preflight has no
+shortfalls,which is narrower than full acceptance. No test/build/browser chain
+runs concurrently. Poll recovery15271;do not restart based on an observation
+timeout. Complete semantic review,07-04/05/06 and PR remain required.
+
+## Original run history (superseded live statements)
+
 # Current complete enforcing collection in progress
 
 This is a live run, not release acceptance. Started 2026-10-17T19:33:54.650170+00:00 from

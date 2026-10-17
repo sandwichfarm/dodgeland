@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Current full enforcing169-job collection live;session18032 runner63419 collector63428
-last_updated: "2026-10-17T19:56:58.106440+00:00"
+stopped_at: Current full169 jobs pass;recovered enforcement terminal1 with four branch-stratum shortfalls
+last_updated: "2026-10-17T21:29:49.902760+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,32 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Verified live full session18032;54 of169 production jobs and9 controls pass,103 browser realms.397 frozen files unchanged;terminal result pending.
+last_activity_desc: Recovery02 terminal1;all global/per-file/line/function floors pass;browser51 DEV132 Race87 Relay63 more branch witnesses required at unchanged85%.
 ---
 
 # Project State
 
 ## Current work
+
+Current authoritative checkpoint: recovery02/session15271 is terminal1. All169
+production jobs and9 controls passed;454 parent payloads(359 browser),1155 verified
+mode intervals. Exact saved-input reporting completed with24GB heap after the
+original collector's recorded4GB OOM/exit-6. Attempt01's missing-import wrapper
+failure remains preserved. All397 frozen inputs and every raw receipt were
+reverified unchanged;both complete recovered global maps are byte-identical.
+
+All global and per-file floors pass;all strata line/function floors pass. Four
+exact branch shortfalls remain at unchanged85%:browser8336/9867(needs51),
+DEV2253/2805(needs132),Race2492/3034(needs87),Relay2286/2763(needs63). Global
+7911/7994L2194/2242F9168/9998B. CURRENT-FULL-PROOF binds original failure,
+recovery method/log/report hashes and current normal e980/rootlock5ac/inventoryf46f.
+Original CLI is not relabelled successful. No collection/recovery process remains.
+
+Read-only initial-current ledger comparison finds181 unchanged-source positive
+arms,397 unchanged zeros and473 changed-source original arms requiring fresh
+review. These are mechanical candidates,not semantic acceptance. The full
+semantic ledger,07-04/05/06 and PR remain required. Earlier live/checkpoint
+statements below are historical. Next close genuine measured branch gaps.
 
 Latest verified wait2026-10-17T19:56:58.106440+00:00:full session18032 remains live,
 runner63419/collector63428,54/169 jobs and9 executable controls terminal green,
