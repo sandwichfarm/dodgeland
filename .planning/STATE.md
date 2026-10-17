@@ -3,19 +3,21 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-12 full collection68162 active after accepted recovery and suffix
-last_updated: "2026-10-17T00:23:33.165361+00:00"
+stopped_at: 07-12 complete initial report accepted; 07-03 gap closure next
+last_updated: "2026-10-17T01:29:43.499945+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
   total_plans: 45
-  completed_plans: 40
+  completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Full132-job collection68162 active, run6802bfd4; accepted recovery and suffix12 complete, initial report pending.
+last_activity_desc: Full68162 exit0,132 production plus2 controls,368 payloads,47 exact shortfalls; independent report review/root acceptance received.07-12 complete.
 ---
 
 # Project State
+
+CURRENT TERMINAL:68162 exited0; run6802bfd4-2d88-4d8e-a091-9733e4423b91 completed132 production jobs plus2 controls,368 payloads,1308 ordinary backups restored. Initial JSON/text/LCOV and9strata pinned under run/initial-report with sha256.json.47 exact floor shortfalls remain; report-only is not release acceptance. Independent reviewer and root accepted complete initial report.07-12SUMMARY complete;6phases41/45plans. No active process.07-03 now authorized for meaningful gap closure; all prior ACTIVE/no-authority paragraphs below are historical snapshots.
 
 CURRENT ACTIVE 2026-10-17T00:23:33.165361+00:00: session68162, collectorPID42842/shell42560, run6802bfd4-2d88-4d8e-a091-9733e4423b91. Log `/tmp/down-to-duck-07-12-full-collection-recovery-verified.log`. Frozen implementation68c3f42, launch commit3ec1473 (docs only); exact fast collection/attribution/policy prefix then all132 production jobs plus2 controls, report-only, oracle/diff suffix. No concurrent chains or source/test/tool mutations. Initial complete report and coverage floors remain pending; all older active/held/no-active paragraphs are historical.
 

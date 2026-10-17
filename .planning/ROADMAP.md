@@ -192,7 +192,7 @@ Plans:
 - [x] 07-09-PLAN.md — Seven canonical owners proven; amended scope independently approved in d35ca47.
 - [x] 07-10-PLAN.md — Eight package component owners20/20,12 canonical browser payloads.
 - [x] 07-11-PLAN.md — Seven built owners, eight jobs and56 canonical browser payloads.
-- [ ] 07-12-PLAN.md — Collect audio jobs, reconcile full inventory and produce valid attributed initial report.
+- [x] 07-12-PLAN.md — Collect audio jobs, reconcile full inventory and produce valid attributed initial report.
 - [ ] 07-03-PLAN.md — Close meaningful measured coverage and behavioral gaps.
 - [ ] 07-04-PLAN.md — Measure scoped wire, teardown and current-manifest conformance.
 - [ ] 07-05-PLAN.md — Commit current visual proof and complete original-clause traceability.
@@ -211,4 +211,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 4. Relay | 6/6 | Complete    | 2026-10-15 |
 | 5. Race | 7/7 | Complete    | 2026-10-16 |
 | 6. Cross-Mode Presentation | 2/2 | Complete    | 2026-10-16 |
-| 7. Release Evidence & PR | 7/12 | In progress | - |
+| 7. Release Evidence & PR | 8/12 | In progress | - |
