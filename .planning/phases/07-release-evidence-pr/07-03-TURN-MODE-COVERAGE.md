@@ -42,3 +42,18 @@ Ordinary unchanged complete fixture: seven tests passed, zero failed/canceled/sk
 | Race | 1440/2303 | 523/818 | 1670/3253 | +302L, +53F, +324B |
 
 There are no Relay/Race applicability exclusions in this report, so raw and applicable counts match. Denominators are unchanged from the earlier five-lifetime proof. Both mode floors remain open; these focused reports do not establish full release acceptance. The serial execution slot was released to the mode agent after71873 terminal success. No production files changed for this expansion.
+
+## Bounded lifecycle tranche (2026-10-17 UTC)
+
+Seven existing lifetimes and all25 intervals remain; no manifest, recorder, product or policy change. Both modes now assert closed-roster admission rejection without changing participants/world/rows/time/seed/economy. Relay exercises a dead runner's device loss, frozen recovery deadline, wrong-device rejection, original reclaim preserving death/assets, and actual personal recovery; selected-but-unconfirmed skip records an event without inventing a leg; deliberate departure clears an active recovery offer without another death. Race exercises immutable history/events/movement snapshots, decreasing active grace, rejected foreign and unsafe reclaim, successful no-ahead reclaim, and all-dead pending offers before timeout closes recovery.
+
+The first ordinary attempt failed6/7 because twelve grace ticks legitimately trimmed the revived player's earned-bound terrain (ground13, earned0, rows beginning2). Diagnostic log `/tmp/down-to-duck-07-03-turn-lifecycle-diagnostic.log` preserves that fact. The final fixture retains the atomic no-safe-placement rejection, then explicitly arranges a meadow at earned0 for successful reclaim and asserts resulting ground is no farther ahead. This is arranged component terrain, not a product repair or public journey.
+
+Final ordinary `/tmp/down-to-duck-07-03-turn-lifecycle-ordinary-final.log` passed7/7. Canonical handle23173 exited0: `/tmp/down-to-duck-07-03-turn-lifecycle-canonical.log`, run `a22c7560-4154-4c94-b34e-24947ee48541`,7/7 (14,116.986708ms), one actual parent with seven bound lifetimes/25 disjoint intervals. Existing source-pinned applicability accepted the evidence without positive-hit contradictions.
+
+| Mode | Raw L/F/B covered/total | Applicable L/F/B covered/total | Covered gain against prior breadth |
+| --- | --- | --- | --- |
+| Relay | 1400/2350;489/817;1487/3196 | 1400/2226;489/752;1487/3010 | +8L,+7F,+22B |
+| Race | 1449/2303;531/818;1688/3253 | 1449/2281;531/803;1688/3207 | +9L,+8F,+18B |
+
+Raw denominators remain unchanged; applicability is the separately reviewed current projection, not a change in this tranche. Focused report-only evidence does not meet either mode's full floor. Serial slot released to root after terminal success; no process remains from this tranche.

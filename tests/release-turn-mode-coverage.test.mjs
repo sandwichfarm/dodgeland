@@ -35,6 +35,7 @@ function observation(run){return JSON.stringify({items:run.session.consumableSna
 test('Relay real handoff recovery leave and immutable contribution lifecycle',()=>{
  const run=start('relay',{count:3}),{owner:relay,session}=run;
  run.run('earned-handoff',()=>{
+  closedRoster(run);
   const p=session.players[0];p.run.advanceScore(100);p.run.creditCoins(24);assert.equal(p.run.open(),true);
   const before=p.run.wallet;assert.equal(buy(run,p,'revival').ok,false);assert.equal(p.run.wallet,before);p.run.close();
   hop(run,['p1']);const row=run.game.rows.get(p.y);row.coin=0;session.world.claimPickup(p,row,run.game.time,0,5);session.world.resolvePickups();
@@ -44,14 +45,21 @@ test('Relay real handoff recovery leave and immutable contribution lifecycle',()
  });
  run.run('death-recovery-disconnect',()=>{
   const p=session.players[1];p.powerReadyAt=9999;session.damage('p2',{cause:'train',amount:99,reason:'arranged fatal contact'});ticks(run,1);
-  assert.equal(relay.snapshot().phase,'recovery');assert.equal(session.recover({kind:'personal',ownerSeat:'p2'}),true);assert.equal(p.recovery.charge,'spent');
+  assert.equal(relay.snapshot().phase,'recovery');
+  const offer=structuredClone(p.recovery.offer),frozenTime=run.game.time,assets={wallet:p.run.wallet,health:p.health,deaths:p.statistics.deaths};
+  relay.disconnect('p2');ticks(run,240);assert.equal(run.game.time,frozenTime);assert.deepEqual(p.recovery.offer,offer);
+  assert.equal(command(relay,'p1','skip'),false);assert.equal(relay.reclaim('p2','gamepad-9'),false);assert.equal(relay.reclaim('p2','gamepad-1'),true);
+  assert.equal(p.participation,'dead');assert.deepEqual({wallet:p.run.wallet,health:p.health,deaths:p.statistics.deaths},assets);assert.deepEqual(p.recovery.offer,offer);
+  assert.equal(session.recover({kind:'personal',ownerSeat:'p2'}),true);assert.equal(p.recovery.charge,'spent');
   assert.equal(session.deviceLost('p2'),true);const time=run.game.time;ticks(run,120);assert.equal(run.game.time,time);
   assert.equal(session.reclaim('p2','gamepad-9'),false);assert.equal(session.reclaim('p2','gamepad-1'),true);
   assert.equal(command(relay,'p2','leave'),true);assert.equal(command(relay,'p2','cancel'),true);assert.equal(command(relay,'p2','leave'),true);assert.equal(command(relay,'p2','confirm'),true);
   assert.equal(relay.activeSeat,'p3');assert.equal(relay.snapshot().phase,'handoff');assert.equal(relay.confirm(relay.confirmation()),true);
  });
  run.run('terminal-ledger',()=>{
-  session.depart('p3');session.depart('p1');assert.ok(relay.result);const result=relay.result,saved=JSON.stringify(result);
+  session.depart('p3');assert.equal(relay.activeSeat,'p1');assert.equal(relay.confirm(relay.confirmation()),true);
+  const p=session.players[0];p.powerReadyAt=9999;session.damage('p1',{cause:'train',amount:99,reason:'arranged pending departure'});ticks(run,1);assert.ok(p.recovery.offer);
+  const deaths=p.statistics.deaths;session.depart('p1');assert.equal(p.recovery.offer,undefined);assert.equal(p.statistics.deaths,deaths);assert.ok(relay.result);const result=relay.result,saved=JSON.stringify(result);
   assert.equal(result.contributions.find(p=>p.seat==='p2').selfRevives,1);assert.equal(result.contributions.find(p=>p.seat==='p2').deaths,1);
   assert.equal(command(relay,'p1','leave'),false);ticks(run,120);assert.strictEqual(relay.result,result);assert.equal(JSON.stringify(result),saved);
  });run.finish();
@@ -66,6 +74,13 @@ test('Relay waiting skip cancel and original-seat authority preserve the same wo
   assert.equal(command(relay,'p2','skip'),true);assert.equal(relay.command(stale),false);assert.equal(command(relay,'p2','cancel'),true);
   assert.equal(command(relay,'p2','skip'),true);assert.equal(command(relay,'p2','confirm'),true);assert.equal(relay.activeSeat,'p2');assert.equal(relay.confirm(relay.confirmation()),true);
   hop(run,['p2']);assert.strictEqual(session.world,world);assert.equal(relay.history.legs[0].outcome,'skipped');
+  // A new selected turn is not a leg until fresh confirmation succeeds.
+  assert.equal(session.reclaim('p3','gamepad-2'),true);assert.equal(session.deviceLost('p2'),true);
+  assert.equal(command(relay,'p3','skip'),true);assert.equal(command(relay,'p3','confirm'),true);assert.equal(relay.activeSeat,'p3');assert.equal(relay.history.current,undefined);
+  const legs=relay.history.legs.length;assert.equal(session.reclaim('p2','gamepad-1'),true);assert.equal(session.deviceLost('p3'),true);
+  assert.equal(command(relay,'p2','skip'),true);assert.equal(command(relay,'p2','confirm'),true);assert.equal(relay.activeSeat,'p2');assert.equal(relay.history.legs.length,legs);
+  assert.equal(relay.history.events.filter(e=>e.kind==='skip'&&e.seat==='p3').length,1);assert.equal(relay.history.legs.some(leg=>leg.seat==='p3'),false);
+  assert.equal(relay.confirm(relay.confirmation()),true);
  });
  run.run('freeze-disconnected-result',()=>{const result=relay.finish(),saved=JSON.stringify(result);assert.equal(result.contributions.find(p=>p.seat==='p1').connected,false);assert.strictEqual(relay.finish(),result);assert.equal(session.reclaim('p1','gamepad-0'),false);assert.equal(JSON.stringify(result),saved);});run.finish();
 });
@@ -74,6 +89,7 @@ test('Relay waiting skip cancel and original-seat authority preserve the same wo
 test('Race owned items fog recovery grace and DNF ledger',()=>{
  const run=start('race'),{owner:race,session}=run,[p1,p2]=session.players;
  run.run('market-items',()=>{
+  closedRoster(run);
   p1.run.advanceScore(100);p1.run.creditCoins(60);assert.equal(p1.run.open(),true);
   assert.equal(buy(run,p1,'mud-splash').ok,true);assert.equal(buy(run,p1,'fog-lantern').ok,true);assert.equal(p1.run.wallet,0);p1.run.close();
   const plan=race.items.plan('p1','mud-splash','p2');assert.equal(plan.ok,true);assert.equal(race.items.commit(plan),true);assert.equal(p2.hopCooldown.multiplier,1.35);
@@ -88,8 +104,13 @@ test('Race owned items fog recovery grace and DNF ledger',()=>{
   // Continue the real fog cadence through hurt immunity to its actual fatal transaction.
   p2.powerReadyAt=9999;for(let i=0;i<600&&p2.state!=='dead';i++)ticks(run,1);
   assert.equal(p2.state,'dead');assert.equal(p2.deathCause,'fog');assert.equal(race.status('p2'),'recovery-offered');assert.equal(session.recover({kind:'personal',ownerSeat:'p2'}),true);assert.equal(p2.recovery.charge,'spent');
-  session.deviceLost('p2');const token=race.reclaimToken('p2');assert.ok(token);const earned=p2.earnedDistance;
-  assert.equal(race.reclaim({...token,sessionId:'foreign'},'gamepad-8'),false);assert.equal(race.reclaim(token,'gamepad-8'),true);assert.equal(p2.earnedDistance,earned);
+  session.deviceLost('p2');assert.equal(race.graceRemaining('p2'),12);const event=race.events.at(-1);assert.equal(event.seat,'p2');assert.ok(Object.isFrozen(event));
+  const history=race.history,eventsBefore=race.events.length;assert.ok(Object.isFrozen(history));assert.ok(Object.isFrozen(race.movementLedger));assert.ok(race.movementLedger.length>0);assert.ok(race.movementLedger.every(Object.isFrozen));
+  ticks(run,12);assert.ok(race.graceRemaining('p2')<12);assert.ok(race.graceRemaining('p2')>11);assert.ok(race.elapsed>0);
+  const token=race.reclaimToken('p2');assert.ok(token);const earned=p2.earnedDistance;
+  assert.equal(race.reclaim({...token,sessionId:'foreign'},'gamepad-8'),false);const unavailable=observation(run);assert.equal(race.reclaim(token,'gamepad-8'),false);assert.equal(observation(run),unavailable);
+  // Arranged terrain: no ahead placement is allowed; supply a safe cell at the earned bound.
+  lane(run.game,Math.floor(earned));assert.equal(race.reclaim(token,'gamepad-8'),true);assert.ok(p2.groundY<=earned);assert.equal(p2.earnedDistance,earned);assert.equal(race.graceRemaining('p2'),0);assert.ok(race.events.length>eventsBefore);assert.ok(Object.isFrozen(history));
  });
  run.run('confirmed-departure-result',()=>{
   assert.equal(race.command(race.actionToken('p1'),'leave'),true);assert.equal(race.command(race.actionToken('p1'),'cancel'),true);
@@ -108,7 +129,10 @@ test('Race same-tick finish ties remain immutable after terminal input',()=>{
 
 test('Race timeout closes pending personal offers before frozen ranking',()=>{
  const run=start('race'),{owner:race,session}=run;
- run.run('earned-then-pending',()=>{hop(run,['p1']);ticks(run,27*120);const p=session.players[1];p.powerReadyAt=9999;session.damage('p2',{cause:'fog',amount:99,reason:'arranged late fatal'});assert.ok(p.recovery.offer);});
+ run.run('earned-then-pending',()=>{hop(run,['p1']);ticks(run,27*120);const p=session.players[1];p.powerReadyAt=9999;session.damage('p2',{cause:'fog',amount:99,reason:'arranged late fatal'});assert.ok(p.recovery.offer);
+  const p1=session.players[0];p1.powerReadyAt=9999;session.damage('p1',{cause:'train',amount:99,reason:'arranged all-dead pending'});ticks(run,1);
+  assert.ok(session.players.every(p=>p.participation==='dead'&&p.recovery.offer));assert.equal(race.result,undefined);
+ });
  run.run('timeout-and-late-offer',()=>{ticks(run,4*120);assert.equal(race.result.outcome,'time');assert.equal(session.players[1].recovery.offer,undefined);assert.equal(session.recover({kind:'personal',ownerSeat:'p2'}),false);assert.ok(race.recoveryClosures.some(c=>c.seat==='p2'));assert.ok(Object.isFrozen(race.result));});run.finish();
 });
 
@@ -189,3 +213,11 @@ test('Race Arcade seeded world cosmetics reject gameplay stock and personal resc
  });
  run.run('arcade-hazards-terminal',()=>rescueAndFinish(run,'race'));run.finish();
 });
+
+
+function closedRoster(run){
+ const players=[...run.session.players],world=run.session.world,rows=[...run.game.rows.keys()],time=run.game.time,seed=JSON.stringify(run.game.runSeed);
+ const owned=observation(run);
+ assert.equal(run.session.admit({seat:'p4',device:'gamepad-8',characterId:'miso'}),false);
+ assert.deepEqual(run.session.players,players);assert.strictEqual(run.session.world,world);assert.deepEqual([...run.game.rows.keys()],rows);assert.equal(run.game.time,time);assert.equal(JSON.stringify(run.game.runSeed),seed);assert.equal(observation(run),owned);
+}
