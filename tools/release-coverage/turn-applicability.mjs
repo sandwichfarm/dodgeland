@@ -3,15 +3,15 @@ import { createRequire } from 'node:module';
 import { applicabilityIdentity } from './applicability.mjs';
 import { builtinRuleDispositions } from './builtin-rule-applicability.mjs';
 const ts=createRequire(new URL('../../package.json',import.meta.url))('typescript');
-// Complete executable src inventory reviewed in PAUSED-MOVEMENT-REFERENCE-AUDIT.json.
+// Complete src transition reviewed in 07-03-RELAY-EFFECTS-CLOSURE.md.
 // A new/changed caller anywhere invalidates this closure, even outside the stratum.
-const callerInventoryHash='92a4572f0d38c4bfbf79d424e30d3dfca03b984fbb6c654cfaed5e390212da96';
+const callerInventoryHash='1e5fb4e2867c625954f071288a00d89c3fa1d51dc53424fb69d063f3783f3853';
 // Deliberately reviewed pins: never regenerate automatically when production changes.
 export const TURN_APPLICABILITY_SOURCES=Object.freeze({
  'src/mode-rules.ts':'cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2',
- 'src/relay.ts':'f5c1eea5b82e6e42d7b6bbc6a95f7f0d28aa7ad7468c4464e0217ab9f89e6c02',
+ 'src/relay.ts':'e789deca92e5e17ec683cbbd3103b9b9b3d3e726d6e36712fa5aec4c755c7f89',
  'src/race.ts':'d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da',
- 'src/session.ts':'399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9',
+ 'src/session.ts':'e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9',
  'src/session-recovery.ts':'35119abd8ac6551d253ec0ada320c934fd5a9cf20c142444e3afdb4094093b9c',
  'src/recovery.ts':'835df7ab867c3421e7d295778c864ceba83f0ea10e588c4c6f4d95cdc2c1702b',
  'src/shared-world-effects.ts':'715dce9a98a83c398aa3a3d43531568008a9cefaa9be8df766a921dd2eb43a45',
@@ -31,6 +31,7 @@ export const TURN_AUTHORITY_PINS=Object.freeze({
 });
 const authority='.planning/phases/07-release-evidence-pr/07-03-TURN-SCOPE-FINDINGS.md';
 const closureAuthority='.planning/phases/07-release-evidence-pr/07-03-TURN-CALL-CLOSURE-REVIEW.md';
+const effectAuthority='.planning/phases/07-release-evidence-pr/07-03-RELAY-EFFECTS-CLOSURE.md';
 const before=(a,b)=>a.line<b.line||a.line===b.line&&a.column<=b.column;
 const contains=(a,b)=>b?.start&&b?.end&&before(a.start,b.start)&&before(b.end,a.end);
 function checkCallerInventory(inventory){
@@ -70,7 +71,7 @@ export function turnApplicabilityDispositions({mode,sources,authoritySources,clo
    add(node.body,reason,false,reference);add(node,reason,true,reference);
   };
   const personal='Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.';
-  const shared='Only Survive attaches shared-effect policy; pinned Relay/Race attachments do not. refreshSharedWorldEffects returns before resolver execution.';
+  const shared='Only Survive and Relay attach shared-effect policy. Pinned Race never installs it; its refresh guard returns before setter/resolver execution. Relay shared effects remain counted.';
   const unused='Application-unused compatibility wrapper: pinned production callers use underlying world/actor helpers instead. Direct API evidence remains globally accountable.';
   const noItems='Relay installs consumables:false; no ConsumableWorld or captured item policy exists. Shared bootstrap registration and absent-extension guards remain applicable.';
   const appearance='Race restricts every closed-roster inventory to appearance-only before play. No successful card, pack or power acquisition can populate it; public rejection guards and cosmetic transactions remain applicable.';
@@ -84,7 +85,8 @@ export function turnApplicabilityDispositions({mode,sources,authoritySources,clo
    if(flareOperands!==2||flareBodies!==1)throw Error('Reviewed personal-only safe-cell flow changed');
    if(mode==='race')add(member('LocalSession','transferPosition'),'Complete pinned caller inventory resolves this method only from Relay.confirm. Canonical Race never transfers a Relay baton; acquisition and personal/reclaim placement remain applicable.',false,reference);
    for(const name of['selectMobTarget','view'])add(member('SharedWorld',name),unused);
-   for(const name of['installSharedWorldEffects','sharedWorldEffectsSnapshot'])add(member('LocalSession',name),shared);
+   if(mode==='race')add(member('LocalSession','installSharedWorldEffects'),shared,false,effectAuthority);
+   add(member('LocalSession','sharedWorldEffectsSnapshot'),unused,false,effectAuthority);
    if(mode==='relay'){
     const c=tree.statements.find(n=>ts.isClassDeclaration(n)&&n.name?.text==='ConsumableWorld');if(!c)throw Error('ConsumableWorld absent');
     for(const m of c.members)if(m.body||m.initializer)add(m,'Relay attachment installs market with consumables:false and never installs private ConsumableWorld; no instance exists in this composition.');
@@ -98,7 +100,7 @@ export function turnApplicabilityDispositions({mode,sources,authoritySources,clo
    }
    const refresh=member('LocalSession','refreshSharedWorldEffects');
    if(refresh.body.statements[0].getText(tree)!=='if (!this.sharedEffectPolicy) return;')throw Error('Shared-effect guard changed');
-   for(const statement of [...refresh.body.statements].slice(1))add(statement,shared);
+   if(mode==='race')for(const statement of [...refresh.body.statements].slice(1))add(statement,shared,false,effectAuthority);
   }
   if(key==='src/game.ts'){
    const reference='.planning/phases/07-release-evidence-pr/07-03-TURN-UPDATE-CLOSURE.md';
@@ -111,7 +113,7 @@ export function turnApplicabilityDispositions({mode,sources,authoritySources,clo
    for(const statement of statements.slice(dispatch+1))add(statement,'All pinned collectCoins calls occur inside finishPlayerUpdate during resolvePlayer with the same active world. collectSessionCoins returns before this solo-only remainder. Shared dispatch and every shared contact/claim guard remain accountable.',false,reference);
    for(const name of['worldForRow','actorPositions'])callable(name,unused);
    add(member('Game','syncSharedEffects'),unused);
-   add(member('Game','setSharedWorldEffects'),shared);
+   if(mode==='race')add(member('Game','setSharedWorldEffects'),shared,false,effectAuthority);
    if(mode==='relay')add(member('Game','installWorldExtension'),noItems);
   }
   if(key==='src/consumable-drops.ts'&&mode==='relay'){
@@ -149,8 +151,8 @@ export function turnApplicabilityDispositions({mode,sources,authoritySources,clo
     }
    }
   }
-  if(key==='src/shared-world-effects.ts'){
-   const fn=tree.statements.find(n=>ts.isFunctionDeclaration(n)&&n.name?.text==='resolveSharedWorldEffects');if(!fn?.body)throw Error('Shared resolver absent');add(fn.body,shared);add(fn,shared,true);
+  if(key==='src/shared-world-effects.ts'&&mode==='race'){
+   const fn=tree.statements.find(n=>ts.isFunctionDeclaration(n)&&n.name?.text==='resolveSharedWorldEffects');if(!fn?.body)throw Error('Shared resolver absent');add(fn.body,shared,false,effectAuthority);add(fn,shared,true,effectAuthority);
   }
   if(key==='src/session-recovery.ts'){
    const recover=member('SessionRecoveryController','recover');

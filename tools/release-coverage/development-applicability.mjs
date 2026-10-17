@@ -3,7 +3,8 @@ import { createRequire } from 'node:module';
 import { applicabilityIdentity } from './applicability.mjs';
 const ts=createRequire(new URL('../../package.json',import.meta.url))('typescript');
 export const DEVELOPMENT_STRATUM='development';
-export const DEVELOPMENT_AUTHORITY_DIGEST='f2c39da5fa89906882ab4af8cad11e3181ff18c1e1a90ad6325bbf805d6c8c17';
+// Exact two-file transition reviewed in 07-03-RELAY-EFFECTS-CLOSURE.md.
+export const DEVELOPMENT_AUTHORITY_DIGEST='cde4b39081b7ec1d6878fb50adbd2b7f40c59d10afb4ec595530fda1553fca1c';
 export const DEVELOPMENT_CONFIG_PINS=Object.freeze({
  'index.html':'cb9773abc32939bdf61664b7e850eb044aa3f37aef79f61d50e9b69346ce7c0b',
  'vite.config.ts':'cc82c2ed6058718e3fe09ff1e6b55f8504b14bd60ebf59ef3a4488da510b5e30',

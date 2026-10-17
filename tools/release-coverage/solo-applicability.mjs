@@ -15,7 +15,8 @@ const reviewed = Object.freeze({
   'src/shared-world-effects.ts': { hash:'715dce9a98a83c398aa3a3d43531568008a9cefaa9be8df766a921dd2eb43a45', callables:['resolveSharedWorldEffects'] },
   'src/consumables.ts': { hash:'6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12', callables:['reject','validGeneration','validId','definition','holdsCapability','sameOwner','chargesFor','validateBase','resulting','targetsFor','planConsumableCredit','planConsumableDebit'] },
   'src/consumable-drops.ts': { hash:'2fc4a1c55dc7f37dbcac2b7091661e3a284d3292eddf1460da423a39520dec4a', callables:['freeze','signed','validate','mix32','draw','consumablePickupId','classifyConsumableBucket','classifyItemBucket','sampleConsumableDrop','sampleItemDrop'] },
-  'src/session.ts': { hash: '399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9', owner: 'LocalSession', helpers: [] },
+  // Session-only policy delta reviewed in 07-03-RELAY-EFFECTS-CLOSURE.md.
+  'src/session.ts': { hash: 'e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9', owner: 'LocalSession', helpers: [] },
   'src/co-op-market.ts': { hash: '037a96c9f9436346f06306cac74808aab5e92e205ce2c42bebb1dbd16ca24c22', owner: 'CoOpMarketAdapter', helpers: ['actionId', 'isMarketWindowOpen', 'canBuyOrEquip'] },
 });
 export const SOLO_AUTHORITY_PINS = Object.freeze({"src/main.ts": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4", "src/render.ts": "b6b5ae2ff1a4af8e3f6a0bf2c96bfcc3e83b11e95e38892ccaa6f33f3c2122c2", "src/race.ts": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da", "src/session-recovery.ts": "35119abd8ac6551d253ec0ada320c934fd5a9cf20c142444e3afdb4094093b9c", "src/levels/v1.ts": "2528a12bdc80d8da5579dccf04cd64509a2ceeb7f3ff229b9cb970207c4f5c56"});

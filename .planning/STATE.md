@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Relay world-effect purchase repair green;coverage profile review and current-source refresh required
-last_updated: "2026-10-17T18:18:01.632227+00:00"
+stopped_at: Relay effect profiles reviewed;106 controls and fresh canonical tracer pass;broader current refresh next
+last_updated: "2026-10-17T18:27:28.491198+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,14 +12,26 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Real Relay card bug fixed after retained two-case RED;213 nearby cases and final focused2 pass;old69/98 coverage gaps are historical.
+last_activity_desc: Relay scope expands53 sites;all106 controls pass;c60a7982 actual tracer2/2 with4 intervals;current full coverage not yet measured.
 ---
 
 # Project State
 
 ## Current work
 
-Latest source transition: paid Relay world-effect regression145c371 failed2/2.
+Latest profile checkpoint: Relay shared-effect accountability expands53 mapped
+sites(29S/7F/17B),with all106 controls passing after retained tool-contract RED.
+Current source-pinned turn/solo/built-in/DEV profiles are reviewed against exact
+source transition and full371-target audit. Fresh actual Relay tracer c60a7982
+passes2/2,one independent Node parent/four bounded intervals;canonical inventory
+byte digest5cf69c2c,current executable digest1e5fb4e2. Normal6bd/rootlock5ac stay
+exact. Required type/build/guidance/conformance pass;CLI still5 pass/5 unmeasured.
+RELAY-EFFECTS-CLOSURE/PROFILES-PROOF bind identities and no-floor-change limits.
+Broader current-source cohort refresh,semantic review and fresh enforcing full
+coverage remain required. No current mode-floor/PR acceptance claim. Old69/98
+totals stay historical. No test/build chain remains live at this checkpoint.
+
+Prior product repair checkpoint: paid Relay world-effect regression145c371 failed2/2.
 Narrow two-body repair in Relay.attach and LocalSession.refreshSharedWorldEffects
 now passes2/2 and preserves continuous actors through active-owner changes.
 Nearest Relay/Survive/solo gates112/112,Race/solo-actor gates101/101,final focused
@@ -30,8 +42,8 @@ unchanged;older Session399/Relayf5c counters and69/98 diagnostic gaps are
 historical and must not be merged into current measurements. RELAY-EFFECTS/
 OWNERSHIP/RED/PROOF bind source,real failure,repair and371-target resolved audit.
 
-Immediate next work: review coverage source pins and expand Relay shared-effect
-applicability,then fresh canonical tracer/cohort collection. Do not blindly
+Historical repair follow-up(now profile/tracer steps complete): review coverage
+source pins and expand Relay shared-effect applicability,then canonical collection. Do not blindly
 re-pin. Relay now calls installSharedWorldEffects;Race still does not. Keep all
 Race/personal/consumable scope proofs source-bound and all numeric floors.
 sharedWorldEffectsSnapshot remains application-unused under the current audit.
@@ -1088,8 +1100,8 @@ contradiction proof;do not prune from the zero count alone. No PR is open.
 
 ## Next required work
 
-1. Complete07-03: first reconcile source profiles after Relay effect repair and
-   refresh current-source evidence;then broad honest Solo/Relay/Race and development evidence,
+1. Complete07-03: reviewed profiles/tracer now pass;refresh the broader current-
+   source cohorts after Relay repair,then broad honest Solo/Relay/Race and development evidence,
    remaining per-file gaps, complete semantic ledger, then a fresh enforcing
    full report. Keep all floors.190 initial zero arms have source-identical
    semantic annotations(189 covered,one reviewed private default);861 still need completed semantic/behavioral proof,

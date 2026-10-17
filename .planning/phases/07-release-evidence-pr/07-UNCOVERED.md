@@ -2,6 +2,18 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Current reviewed profiles and fresh Relay tracer
+
+Relay's newly reachable shared-effect code is now retained:53 mapped sites
+(29 statements,7 functions,17 branches) that remain excluded only for Race's
+proved uninstalled policy. The getter keeps its separate application-unused
+proof. All106 tooling controls pass after retained tool-contract RED14 pass/
+1 fail;every affected site is calibrated,with no gameplay credit from zeros.
+Fresh actual Relay tracer c60a7982 passes2/2,one Node parent/four ownership
+intervals,under reviewed current source/disk/map identities. RELAY-EFFECTS-
+CLOSURE/PROFILES-PROOF bind the transition. Broader current cohorts and enforcing
+full coverage remain open;old69/98 diagnostic totals remain historical.
+
 ## Current Relay effect purchase repair invalidates prior source totals
 
 Real paid School Zone reproduction145c371 failed both bases:traffic stayed at

@@ -25,6 +25,51 @@ const line=(source,fragment)=>{const index=source.source.indexOf(fragment);asser
 function functionIds(source,fragment){const at=line(source,fragment),ids=Object.entries(source.coverage.fnMap).filter(([,site])=>site.decl.start.line===at).map(([id])=>id);assert.ok(ids.length,fragment);return ids;}
 function excluded(dispositions,source,id,kind='function'){return dispositions.some(d=>d.path===source.path&&d.kind===kind&&d.id===id);}
 
+test('Relay world-effect opt-in stays accountable while Race remains opt-out',()=>{
+ // Synthetic mapped counters calibrate scope,never gameplay or mode credit.
+ const relay=turnApplicabilityDispositions({mode:'relay',sources});
+ const race=turnApplicabilityDispositions({mode:'race',sources});
+ const functions=[
+  [sourceFor('session.ts'),'installSharedWorldEffects('],
+  [sourceFor('game.ts'),'setSharedWorldEffects('],
+  [sourceFor('session.ts'),'.filter(player => isLivingRecoverySubject(player) &&'],
+  [sourceFor('session.ts'),'.map(player => ({ seat: player.seat, effects: player.run.effects }))'],
+ ];
+ for(const[source,fragment]of functions)for(const id of functionIds(source,fragment)){
+  assert.equal(excluded(relay,source,id),false,'reachable Relay '+fragment);
+  assert.equal(excluded(race,source,id),true,'uninstalled Race '+fragment);
+  const hits=structuredClone(attributed);hits[source.path].f[id]=1;
+  assert.equal(reportApplicability({mode:'relay',sources,attributed:hits,dispositions:relay}).applicable.functions.covered,1);
+  assert.throws(()=>reportApplicability({mode:'race',sources,attributed:hits,dispositions:race}),/contradicted/);
+ }
+ const shared=sourceFor('shared-world-effects.ts');
+ for(const id of Object.keys(shared.coverage.fnMap)){
+  assert.equal(excluded(relay,shared,id),false,'Relay resolver/callback '+id);
+  assert.equal(excluded(race,shared,id),true,'Race resolver/callback '+id);
+  const hits=structuredClone(attributed);hits[shared.path].f[id]=1;
+  assert.equal(reportApplicability({mode:'relay',sources,attributed:hits,dispositions:relay}).applicable.functions.covered,1);
+  assert.throws(()=>reportApplicability({mode:'race',sources,attributed:hits,dispositions:race}),/contradicted/);
+ }
+ const expanded=race.filter(site=>site.authority.endsWith('07-03-RELAY-EFFECTS-CLOSURE.md')
+  && !relay.some(other=>other.path===site.path&&other.kind===site.kind&&other.id===site.id&&other.arm===site.arm));
+ assert.ok(expanded.length>30,'actual complete mapped shared-effect body expansion');
+ for(const site of expanded){
+  const hits=structuredClone(attributed),counter={statement:'s',function:'f',branch:'b'}[site.kind];
+  if(site.kind==='branch')hits[site.path][counter][site.id][site.arm]=1;
+  else hits[site.path][counter][site.id]=1;
+  const metric={statement:'statements',function:'functions',branch:'branches'}[site.kind];
+  assert.equal(reportApplicability({mode:'relay',sources,attributed:hits,dispositions:relay}).applicable[metric].covered,1,
+   'Relay retains every mapped shared-effect '+site.kind+' '+site.id);
+  assert.throws(()=>reportApplicability({mode:'race',sources,attributed:hits,dispositions:race}),/contradicted/,
+   'Race rejects every excluded positive shared-effect hit');
+ }
+ for(const mode of ['relay','race']){
+  const ds=mode==='relay'?relay:race,session=sourceFor('session.ts');
+  for(const id of functionIds(session,'sharedWorldEffectsSnapshot()'))assert.equal(excluded(ds,session,id),true,'application-unused snapshot');
+  for(const id of functionIds(session,'private refreshSharedWorldEffects()'))assert.equal(excluded(ds,session,id),false,'reachable policy guard');
+ }
+});
+
 test('standalone update closure requires the complete reviewed caller inventory',()=>{
  for(const mode of ['relay','race']){
   assert.throws(()=>generateTurnDispositions({mode,sources,authoritySources}),/caller inventory/);
@@ -63,7 +108,7 @@ test('exact opt-in closures are excluded but guards, common world and acquisitio
   const guardLine=line(recovery,"if (!owner || session.result || !this.allowed.includes(request.kind))");
   const guards=Object.entries(recovery.coverage.statementMap).filter(([,site])=>site.start.line===guardLine);assert.ok(guards.length);for(const[id]of guards)assert.equal(excluded(dispositions,recovery,id,'statement'),false);
   for(const id of functionIds(session,'constructor(private readonly session: LocalSession'))assert.equal(excluded(dispositions,session,id),mode==='relay');
-  const shared=sourceFor('shared-world-effects.ts');for(const id of functionIds(shared,'export function resolveSharedWorldEffects'))assert.equal(excluded(dispositions,shared,id),true);
+  const shared=sourceFor('shared-world-effects.ts');for(const id of functionIds(shared,'export function resolveSharedWorldEffects'))assert.equal(excluded(dispositions,shared,id),mode==='race');
   for(const key of['src/relay.ts','src/race.ts'])assert.equal(dispositions.some(d=>d.path.endsWith('/'+key)),false,'no broad '+key+' exclusions');
   for(const[file,fragments]of Object.entries({'game.ts':['openMarket():','  closeMarket(','resetSharedWorldEffects():','syncSharedWorldEffects():','worldExtensionSnapshot<','updateSessionWorldExtension('],'market/run.ts':['constructor(seed:','buy(offerId:','previewPack(ids:','claimPack(ids:','skipPack():','sell(cardId:','tick(dt:','private capacityFor(']})){
    const source=sourceFor(file);for(const fragment of fragments)for(const id of functionIds(source,fragment))assert.equal(excluded(dispositions,source,id),false,'kept '+fragment);
@@ -83,14 +128,18 @@ test('caller proof fails closed before counters and exact newly reviewed callabl
    assert.throws(()=>turnApplicabilityDispositions({mode,sources,authoritySources:changed}),/authority changed/);
   }
   const dispositions=turnApplicabilityDispositions({mode,sources});
-  const selection={'game.ts':['export function worldForRow(','export function actorPositions(','syncSharedEffects(player:','setSharedWorldEffects('],
-   'session.ts':['selectMobTarget(','view():','installSharedWorldEffects(','sharedWorldEffectsSnapshot()']};
+  const selection={'game.ts':['export function worldForRow(','export function actorPositions(','syncSharedEffects(player:'],
+   'session.ts':['selectMobTarget(','view():','sharedWorldEffectsSnapshot()']};
   if(mode==='relay'){
    selection['session.ts'].push('function captureConsumablePolicy(','installConsumableWorld(');
    selection['game.ts'].push('installWorldExtension(');
    selection['consumable-drops.ts']=['export function sampleItemDrop(','export function sampleConsumableDrop(','export function classifyItemBucket('];
    selection['market/run.ts']=['restrictItems(','spendCoins('];
-  }else selection['market/run.ts']=['private hold(','private cardPool('];
+  }else {
+   selection['market/run.ts']=['private hold(','private cardPool('];
+   selection['game.ts'].push('setSharedWorldEffects(');
+   selection['session.ts'].push('installSharedWorldEffects(');
+  }
   for(const[file,fragments]of Object.entries(selection)){
    const source=sourceFor(file);for(const fragment of fragments)for(const id of functionIds(source,fragment))assert.ok(excluded(dispositions,source,id),'excluded '+fragment);
    for(const kind of['statement','function','branch']){
