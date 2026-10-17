@@ -193,7 +193,10 @@ test('only AST-bound unavailable implicit else arms receive parent proof',()=>{
  row.coverage.branchMap.unmatched={...structuredClone(branch),loc:{start:{line:1,column:0},end:{line:99999,column:0}},locations:[branch.locations[0],{start:{},end:{}}]};row.coverage.b.unmatched=[0,0];
  assert.equal(soloApplicabilityDispositions({mode,sources:altered}).some(d=>d.id==='unmatched'&&d.arm===1),false,'crossing parent cannot prove unavailable else');
  const game=sources.find(s=>s.path.endsWith('/game.ts'));
- for(const[id,b]of Object.entries(game.coverage.branchMap))if(b.type==='if'&&b.locations[1]&&JSON.stringify(b.locations[1])==='{"start":{},"end":{}}'&&!dispositions.some(d=>d.path===game.path&&d.kind==='branch'&&d.id===id&&d.arm===0))assert.equal(dispositions.some(d=>d.path===game.path&&d.kind==='branch'&&d.id===id&&d.arm===1),false,'reachable guard implicit else retained');
+ for(const[id,b]of Object.entries(game.coverage.branchMap))if(b.type==='if'&&b.locations[1]&&JSON.stringify(b.locations[1])==='{"start":{},"end":{}}'&&!dispositions.some(d=>d.path===game.path&&d.kind==='branch'&&d.id===id&&d.arm===0)){
+  const removed=dispositions.find(d=>d.path===game.path&&d.kind==='branch'&&d.id===id&&d.arm===1);
+  if(removed)assert.match(removed.callReason,/Only Game.update calls finishPlayerUpdate/,'only separately proved true driver guard may lose its false arm');
+ }
 });
 
 
@@ -211,5 +214,34 @@ test('actual explicit else and empty arm zero cannot inherit implicit-else proof
  for(const arm of[0,1]){
   const altered=structuredClone(sources),row=altered.find(s=>s.path===selected.source.path);row.coverage.branchMap[selected.id].locations[arm]={start:{},end:{}};
   assert.equal(soloApplicabilityDispositions({mode,sources:altered}).some(d=>d.path===row.path&&d.kind==='branch'&&d.id===selected.id&&d.arm===arm),false,'empty explicit-else/arm-zero remains applicable');
+ }
+});
+
+test('strict solo dispatch excludes only proved outcomes while guard evaluation and real fallback remain',()=>{
+ const game=sources.find(s=>s.path.endsWith('/game.ts')),text=game.source.split('\n');
+ for(const mode of['solo-arcade','solo-flow']){
+  const dispositions=soloApplicabilityDispositions({mode,sources});
+  const has=(kind,id,arm)=>dispositions.some(d=>d.path===game.path&&d.kind===kind&&d.id===id&&(arm===undefined||d.arm===arm));
+  for(const [fragment,impossible]of [['if (this.world?.sessionActive) this.syncSharedWorldEffects()',0],['if (this.scoringPlayer) this.scoringPlayer.earnedDistance++',0],['if (this.sessionProtected()) return;',0],['if (sessionPlayer) {',0],['if (sessionSeat) this.world.pickupOwners.delete',0],['if (drivesWorld) this.updateMobs',1]]){
+   const at=text.findIndex(line=>line.includes(fragment))+1;assert.ok(at,fragment);
+   const candidates=Object.entries(game.coverage.branchMap).filter(([,site])=>site.type==='if'&&site.loc.start.line===at&&site.locations.length===2);
+   const entry=candidates.find(([id])=>has('branch',id,impossible));assert.ok(entry,'proved outcome '+fragment);
+   const[id,site]=entry;assert.equal(has('branch',id,1-impossible),false,'reachable opposite '+fragment);
+   const guards=Object.entries(game.coverage.statementMap).filter(([,s])=>JSON.stringify(s)===JSON.stringify(site.loc));
+   assert.ok(guards.length,'actual predicate statement '+fragment);for(const[sid]of guards)assert.equal(has('statement',sid),false);
+   const positive=structuredClone(attributed);positive[game.path].b[id][impossible]=1;
+   assert.throws(()=>reportApplicability({mode,sources,attributed:positive,dispositions}),/contradicted/);
+   for(const mutate of [b=>{b.type='unknown';},b=>{b.loc.start.column++;},b=>{b.loc.end.line++;},b=>{b.locations[impossible]={start:{line:1,column:0},end:{line:99999,column:0}};},b=>{b.locations.push({start:{},end:{}});}]){
+    const changed=structuredClone(sources);mutate(changed.find(s=>s.path===game.path).coverage.branchMap[id]);
+    assert.equal(soloApplicabilityDispositions({mode,sources:changed}).some(d=>d.path===game.path&&d.kind==='branch'&&d.id===id&&d.arm===impossible),false,'malformed guard proof stays counted');
+   }
+  }
+  // Conditions with other rejection causes do not become wholly false just
+  // because one session-related operand is unavailable.
+  for(const fragment of["if (this.state !== 'playing' || this.hop > 0",'if (!request || !Number.isFinite(request.amount)',"if (this.pursuitEnabled && this.rules.pursuit.strategy === 'wave')"]){
+   const at=text.findIndex(line=>line.includes(fragment))+1;assert.ok(at,fragment);
+   const entries=Object.entries(game.coverage.branchMap).filter(([,b])=>b.type==='if'&&b.loc.start.line===at);assert.ok(entries.length);
+   for(const[id,b]of entries)for(let arm=0;arm<b.locations.length;arm++)assert.equal(has('branch',id,arm),false,'compound/rule guard retained '+fragment);
+  }
  }
 });

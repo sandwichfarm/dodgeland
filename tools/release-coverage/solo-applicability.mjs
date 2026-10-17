@@ -45,7 +45,7 @@ export function soloApplicabilityDispositions({ mode, sources, authoritySources 
     if (tree.parseDiagnostics.length) throw Error('Invalid reviewed source');
     const point = offset => { const p = tree.getLineAndCharacterOfPosition(offset); return { line: p.line + 1, column: p.character }; };
     const span = node => ({ start: point(node.getStart(tree)), end: point(node.end) });
-    const ranges = [], functionRanges = [];
+    const ranges = [], functionRanges = [], guardArms = [];
     const reasons = [];
     const addRange = (node, reason, functionsOnly = false) => { const range=span(node); (functionsOnly?functionRanges:ranges).push(range); reasons.push({range,reason}); };
     for(const name of rule.callables??[]){
@@ -103,6 +103,29 @@ export function soloApplicabilityDispositions({ mode, sources, authoritySources 
       if(!expression||!ts.isBinaryExpression(expression)||expression.left.getText(tree)!=="access === 'standard'"||expression.right.getText(tree)!=='itemEligibility(item).appearance')throw Error('Reviewed standard item guard changed');
       addRange(expression.right,'Strict solo retains initialized standard access; only Race attach calls restrictItems. Standard guard remains applicable.');
     }
+    if(key==='src/game.ts'){
+      const reason='Strict owned solo has no session or operation context. Source-bound assignment/caller closure proves only this dispatch body or operand unavailable; predicate evaluation and ordinary fallback remain applicable.';
+      const falseGuards={ensureRows:['this.world?.sessionActive'],move:['this.scoringPlayer'],end:['participant'],collideVehicles:['this.sessionProtected()'],finishPlayerUpdate:['this.operationPlayer && this.hop < 1e-9'],lifecycle:['this.operationPlayer && !this.operationPlayer.primary'],collectCoins:['sessionPlayer','pickupOwner && pickupOwner !== sessionSeat','sessionSeat','sessionSeat && !pickupOwner']};
+      const methods=['pursuitEnabled','scoringPlayer','sessionProtected',...Object.keys(falseGuards)];
+      for(const name of methods){
+        const method=owner.members.find(n=>n.name?.getText(tree)===name);if(!method?.body)throw Error('Solo dispatch member absent: '+name);
+        const nodes=[];const visit=n=>{nodes.push(n);ts.forEachChild(n,visit);};visit(method.body);
+        for(const condition of falseGuards[name]??[]){
+          const matches=nodes.filter(n=>ts.isIfStatement(n)&&n.expression.getText(tree)===condition);
+          if(matches.length!==(name==='collectCoins'&&condition==='sessionSeat'?3:1))throw Error('Solo dispatch guard changed: '+name+'/'+condition);
+          for(const node of matches){addRange(node.thenStatement,reason);guardArms.push({node,arm:0,reason});}
+        }
+        if(name==='finishPlayerUpdate'){
+          const matches=nodes.filter(n=>ts.isIfStatement(n)&&n.expression.getText(tree)==='drivesWorld');
+          if(matches.length!==3||matches.some(n=>n.elseStatement))throw Error('Solo world driver guards changed');
+          for(const node of matches)guardArms.push({node,arm:1,reason:'Only Game.update calls finishPlayerUpdate in strict solo, passing literal true. Keep the evaluated predicate and body; only its impossible false outcome is unavailable.'});
+        }
+        for(const node of nodes){
+          if(ts.isConditionalExpression(node)&&(node.condition.getText(tree)==='this.world?.sessionActive'||name==='collectCoins'&&node.condition.getText(tree)==='sessionSeat'))addRange(node.whenTrue,reason);
+          if(ts.isBinaryExpression(node)&&node.operatorToken.kind===ts.SyntaxKind.AmpersandAmpersandToken&&['this.world?.sessionActive','!!this.operationPlayer','this.operationPlayer','this.scoringPlayer',...(name==='collectCoins'?['pickupOwner','sessionSeat']:[])].includes(node.left.getText(tree)))addRange(node.right,reason);
+        }
+      }
+    }
     if(key==='src/mobs.ts'&&mode==='solo-flow'){
       const reason='Pinned SOLO_STROLL_MODE disables pursuers. Game.updateMobs still invokes MobDirector.update, whose first guard clears mobs and returns before this private AI closure. mobDefinition bootstrap stays applicable.';
       const director=tree.statements.find(n=>ts.isClassDeclaration(n)&&n.name?.text==='MobDirector');if(!director)throw Error('Reviewed MobDirector absent');
@@ -121,14 +144,18 @@ export function soloApplicabilityDispositions({ mode, sources, authoritySources 
     const sameSpan=(a,b)=>samePoint(a?.start,b?.start)&&samePoint(a?.end,b?.end);
     const emptyPoint=p=>p&&typeof p==='object'&&!Array.isArray(p)&&(Object.keys(p).length===0||(Object.keys(p).length===2&&Object.hasOwn(p,'line')&&Object.hasOwn(p,'column')&&p.line===undefined&&p.column===undefined));
     const syntheticElse=(site,arm,location)=>arm===1&&site.type==='if'&&site.locations.length===2&&location&&Object.keys(location).length===2&&emptyPoint(location.start)&&emptyPoint(location.end)&&unavailableImplicitIfs.some(range=>sameSpan(range,site.loc));
-    const add = (kind, id, arm, site) => dispositions.push({ mode, path: source.path, ...identity, kind, id,
+    const provenGuard=(site,arm,location)=>site.type==='if'&&site.locations.length===2&&guardArms.find(proof=>proof.arm===arm&&sameSpan(span(proof.node),site.loc)&&(arm===0?(sameSpan(location,site.loc)||sameSpan(location,span(proof.node.thenStatement))):location&&Object.keys(location).length===2&&emptyPoint(location.start)&&emptyPoint(location.end)));
+    const add = (kind, id, arm, site, guard) => dispositions.push({ mode, path: source.path, ...identity, kind, id,
       ...(arm === undefined ? {} : { arm }),
-      callReason: reasons.find(({range})=>contains(range,site))?.reason ?? 'Reviewed session-only callable body.',
+      callReason: guard?.reason ?? reasons.find(({range})=>contains(range,site))?.reason ?? 'Reviewed session-only callable body.',
       stateReason: 'Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable.',
-      authority: ['src/game.ts','src/session.ts','src/market/run.ts','src/market/types.ts'].includes(key)?'.planning/phases/07-release-evidence-pr/07-03-SOLO-PROJECTION-SCOPE.md':key==='src/mobs.ts'?'.planning/phases/07-release-evidence-pr/07-03-FLOW-MOB-SCOPE.md':authority });
+      authority: guard||key==='src/game.ts'?'.planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md':['src/session.ts','src/market/run.ts','src/market/types.ts'].includes(key)?'.planning/phases/07-release-evidence-pr/07-03-SOLO-PROJECTION-SCOPE.md':key==='src/mobs.ts'?'.planning/phases/07-release-evidence-pr/07-03-FLOW-MOB-SCOPE.md':authority });
     for (const [id, site] of Object.entries(source.coverage.statementMap)) if (eligible(site)) add('statement', id, undefined, site);
     for (const [id, site] of Object.entries(source.coverage.fnMap)) if ([...ranges, ...functionRanges].some(range => contains(range, site.loc) && contains(range, site.decl))) add('function', id, undefined, site.loc);
-    for (const [id, site] of Object.entries(source.coverage.branchMap)) for (const [arm, location] of site.locations.entries()) if (eligible(location)) add('branch', id, arm, location); else if(syntheticElse(site,arm,location)) add('branch',id,arm,site.loc);
+    for (const [id, site] of Object.entries(source.coverage.branchMap)) for (const [arm, location] of site.locations.entries()) {
+      const guard=provenGuard(site,arm,location);
+      if(guard)add('branch',id,arm,site.loc,guard);else if (eligible(location)) add('branch', id, arm, location); else if(syntheticElse(site,arm,location)) add('branch',id,arm,site.loc);
+    }
   }
   if (seen.size !== Object.keys(reviewed).length) throw Error('Missing reviewed solo source');
   return dispositions;
