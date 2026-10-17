@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Relay first-hop generation repair green;current profiles108 controls and16-lifetime canonical tracer pass
-last_updated: "2026-10-17T19:21:07.591940+00:00"
+stopped_at: Relay generation repair and actual Race mud movement green;current canonical16/48 and4/16 cohorts verified
+last_updated: "2026-10-17T19:26:11.186081+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,24 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Real first-hop card bug repaired;185 nearby tests and required gates pass;current Game8836 profiles and48-interval Relay attribution verified. Full release remains open.
+last_activity_desc: Paid Race Mud Splash now proven through actual victim hops,pause and expiry;55 nearby tests and4-lifetime canonical cohort pass. Full release remains open.
 ---
 
 # Project State
 
 ## Current work
+
+Latest added Race proof: four actual paid Mud Splash movement cases pass across
+both bases and attacking seats. Real victim landing,next-hop rejection,pause,
+resume,expiry and frozen results use production authority;only safe terrain and
+market eligibility/funds are arranged. No invented RED or source repair. Nearest
+55 Race item/lifecycle/ordering tests pass. Canonical8ef2132f passes four lifetimes/
+16 actual component intervals/one Node parent,current complete inventoryf46f.
+Three previously zero unchanged session.ts branches gain real coverage;changed
+Game excluded from that historical diagnostic comparison. This is no full mode
+floor claim. Current dispatch156 entries/163 closure/168 jobs/10 control paths.
+RACE-MUD-MOVEMENT/PROOF bind exact sources and evidence. All handles terminal0.
+
 
 Actual first-hop generation RED bcd79e7 has10 product failures/16 cases. Narrow
 repair b2ce1e8 leaves active-session generation to the existing shared tick after

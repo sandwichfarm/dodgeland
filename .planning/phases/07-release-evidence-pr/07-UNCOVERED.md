@@ -1810,3 +1810,15 @@ PROFILES-PROOF for exact pins and provenance. Earlier Game04 19-cohort union and
 Frozen initial semantic rows keep their original source identities;no historical
 counter relabeling or Game04→8836 merge. Full semantic/global/file/mode enforcement,
 final conformance,visual/clause proof and PR remain open.
+
+
+### Actual Race Mud Splash movement and pause/expiry
+
+Four new passing cases cover both bases/each attacking seat through actual paid
+purchase,use,opponent movement,cooldown rejection,paused clocks,resume,active expiry
+and frozen results. No source change/invented RED. Nearest55 tests pass;canonical
+8ef2132f verifies4 Race lifetimes/16 intervals/one Node parent,current inventoryf46f.
+Three previously zero exact-source session.ts branches are covered relative to the
+historical union;changed Game excluded,no new full mode percentage or floor claim.
+See RACE-MUD-MOVEMENT/PROOF. Full original semantic review and final release gates
+remain required. Current additive execution audit156 entries/163 closure/168 jobs.

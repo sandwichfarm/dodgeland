@@ -1,0 +1,71 @@
+{
+  "status": "Added honest passing Race behavioral proof;no product source change or invented RED;release incomplete",
+  "utc": "2026-10-17T19:26:11.186081+00:00",
+  "sourcePins": {
+    "src/game.ts": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+    "src/session.ts": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+    "src/race.ts": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+    "src/race-items.ts": "2a43c05772c1f641595ca9bee7cc2bb486e3b2a922ebab412fc65e189708432b"
+  },
+  "testSourceSha256": "65dcb5d02c2f0127ba3b6f6e6347d0f0f590d7fd5119ba56a51777a246544dfb",
+  "ordinaryNearest": {
+    "tests": 55,
+    "passed": 55,
+    "failed": 0,
+    "skipped": 0,
+    "exit": 0
+  },
+  "canonicalCohort": {
+    "directory": "artifacts/release-coverage/race-mud-movement-03",
+    "runId": "8ef2132f-845b-4eeb-bc05-c25e5e4261a5",
+    "inventoryByteSha256": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+    "tests": 4,
+    "payloads": 1,
+    "componentLifetimes": 4,
+    "componentIntervals": 16,
+    "publicIntervals": 0,
+    "thresholdsEvaluated": false
+  },
+  "behavior": [
+    "Actual paid30-coin Mud Splash purchase and real policy commit",
+    "Both bases and each seat as attacker;only opponent affected",
+    "Normal-duration landing then cooldown rejects actual next hop without progress",
+    "Real pause freezes world/race/effect clocks and rejects movement",
+    "Real resumed ticks unblock hop and expire effect with no timer assignment",
+    "No foreign progress,wallet,health,innate power or duplicate-use changes",
+    "Immutable results reject late input"
+  ],
+  "arrangements": [
+    "Safe component terrain",
+    "Market eligibility and starting funds"
+  ],
+  "diagnosticOnly": {
+    "newPreviouslyMissingUnchangedSourceBranches": 3,
+    "source": "src/session.ts",
+    "changedGameExcluded": true,
+    "notFullModeUnion": true
+  },
+  "dispatch": {
+    "entries": 156,
+    "closure": 163,
+    "productionJobs": 168,
+    "controlPaths": 10
+  },
+  "normalArtifactRawSha256": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
+  "rootLockRawSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "artifacts": {
+    "artifacts/release-coverage/relay-generation-effects/race-mud-first.log": "6619e2d8ca835ebe54af0055e8d9659ba87e624b3684fce9ae367e688fe08149",
+    "artifacts/release-coverage/relay-generation-effects/race-mud-nearest.log": "9d816bcf41f30b6c11b92cc0b1e7b59d76d38d08a579eb2ee76a60d496ab35d4",
+    "artifacts/release-coverage/relay-generation-effects/race-mud-canonical.log": "39ea12b46df59bcfe733375c58347f4bd26677370cb2b20524e4c2e30ca14340",
+    "artifacts/release-coverage/relay-generation-effects/dispatch-with-mud.json": "065ef6a7e3cf171743deead17e16bed9384d8cd8f7cb1b4a12c791d59a1d3d7a",
+    "artifacts/release-coverage/relay-generation-effects/race-mud-diagnostic-delta.json": "dce6a32929b4b97db454f1922afb4a8f9ccdacce29d98dec14c7bb8e1ebeff0e",
+    "artifacts/release-coverage/race-mud-movement-03/manifest.json": "b1edf4561cd53f5678228159bca79843927973a1ecd474ee1e5511bbe364594e",
+    "artifacts/release-coverage/race-mud-movement-03/attribution.json": "6789e4173cf33a57015c9a7572f3ae7bd29d22d866f8fdfc63ed47445fff6754"
+  },
+  "limits": [
+    "No mode/global/per-file floor acceptance",
+    "Full semantic review and enforcing current-source collection still required",
+    "07-04/05/06 and PR remain open",
+    "No source,oracle,lock or threshold change"
+  ]
+}
