@@ -12,7 +12,7 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Full51a4bea2 terminal0;160 ledger entries/439 payloads;12 floor shortfalls remain; freeze released.
+last_activity_desc: Whole market12/12 and session16/16 ordinary/canonical pass; eight new branches each; enforcing aggregate pending.
 ---
 
 # Project State
@@ -292,6 +292,18 @@ Source/policy unchanged; normal build/root lock preserved. See
 07-03-MARKET-GUARD-REVIEW.md and07-03-MARKET-GUARD-PROOF.json. Focused118/135
 market branches are not a combined floor pass; fresh enforcing full remains
 required. No runtime is active.
+
+Session setup guards pass whole16/16 ordinary then canonical
+`c93f8228-ba50-46a6-a3a9-695dae86684e`,25214terminal0. Actual both-base invalid
+capacity/duplicate-roster/mismatched-world setup preserves solo state and restores
+its input binding; valid setup still commits, retains fractional income and hops.
+Invalid mode/handler containers cannot invoke callbacks; valid captured attach
+runs once. Eight formerly-zero current-session branches have exact source/map/
+site-schema matches to51a4bea2. Initial changed-session ledger is not relabelled.
+One Node parent, no mode credit, source/policy/normal build/root lock unchanged.
+See07-03-SESSION-SETUP-GUARDS.md andPROOF.json. Fresh enforcing aggregate remains
+required; no runtime active. Next genuine turn-mode lifecycle reuse is read-only
+analysis, not yet authored or measured.
 
 ## Next required work
 

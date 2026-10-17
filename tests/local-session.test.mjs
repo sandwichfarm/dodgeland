@@ -5,7 +5,7 @@ import { loadSources } from './source-loader.mjs';
 const sources = await loadSources(['game', 'session']);
 after(() => sources.dispose());
 const { Game } = await sources.import('game');
-const { LocalSession, SessionPlayer } = await sources.import('session');
+const { LocalSession, SessionPlayer, composeSessionModeDefinition } = await sources.import('session');
 
 function meadowRows(game) {
   for (const lane of game.rows.values()) {
@@ -251,4 +251,88 @@ test('player death spills and clears only the terminal player before its lifecyc
   const death = session.lifecycle.at(-1);
   assert.equal(death.type, 'player-death'); assert.equal(death.seat, 'p2');
   assert.equal(p2.statistics.deaths, 1); assert.equal(p2.statistics.deathCause, 'traffic');
+});
+
+function soloSetupSnapshot(game) {
+  const player = game.player;
+  return JSON.stringify({
+    seed: game.seed, time: game.time, tick: game.world.simulationTick,
+    shared: game.world.sessionActive, rows: [...game.rows], mobs: game.mobs,
+    position: [player.x, player.y, player.fromX, player.fromY, player.hop],
+    progress: [player.maxY, player.earnedDistance, player.personalScore],
+    device: player.device, character: player.characterId, state: player.state,
+    health: player.health, coins: player.coins, run: player.run,
+    recovery: player.recovery, statistics: player.statistics, interactions: player.interactions,
+  });
+}
+
+test('invalid session setup rejects before adopting the solo world or retaining a replacement device', () => {
+  for (const base of ['arcade', 'stroll']) {
+    const game = new Game(607, 'pond', base, false, [], 'pip');
+    meadowRows(game);
+    game.player.run.creditCoins(13.375);
+    const primary = game.player, originalSession = primary.session;
+    const before = soloSetupSnapshot(game);
+    for (const capacity of [0, 5, 1.5, NaN, Infinity]) {
+      assert.throws(() => LocalSession.stage(game, {
+        roster: [], primaryDevice: 'gamepad-7', config: { capacity },
+      }), /capacity.*integer/i);
+      assert.equal(soloSetupSnapshot(game), before, 'failed stage restores device and all observed solo state');
+      assert.strictEqual(primary.session, originalSession);
+    }
+    const second = new SessionPlayer(game.world, 'p2', 'keyboard-b', 'butter');
+    const sameDevice = new SessionPlayer(game.world, 'p3', primary.device, 'sunny');
+    const sameCharacter = new SessionPlayer(game.world, 'p4', 'keyboard-d', primary.characterId);
+    for (const [players, capacity] of [
+      [[], 4], [[primary, primary], 4], [[primary, second], 1],
+      [[primary, sameDevice], 4], [[primary, sameCharacter], 4],
+    ]) {
+      assert.throws(() => new LocalSession(game.world, players, { config: { capacity } }), /unique stable seats, devices, and characters/i);
+      assert.equal(soloSetupSnapshot(game), before);
+      assert.strictEqual(primary.session, originalSession);
+    }
+    const other = new Game(608, 'pond', base === 'arcade' ? 'stroll' : 'arcade');
+    const foreignMode = composeSessionModeDefinition(other.definition, {});
+    assert.throws(() => LocalSession.stage(game, {
+      roster: [], primaryDevice: 'gamepad-8', mode: foreignMode,
+    }), /exact live world definition/i);
+    assert.equal(soloSetupSnapshot(game), before);
+    assert.strictEqual(primary.session, originalSession);
+
+    const stage = LocalSession.stage(game, { roster: [], primaryDevice: 'gamepad-7', config: { capacity: 1 } });
+    const session = stage.commit();
+    assert.equal(primary.device, 'gamepad-7', 'a valid setup can still commit after every rejection');
+    assert.strictEqual(primary.session, session);
+    assert.equal(session.players.length, 1);
+    assert.equal(primary.run.wallet, 13, 'setup preserves the existing wallet and fractional earnings');
+    assert.equal(primary.run.creditCoins(.625), 1);
+    assert.equal(primary.run.wallet, 14);
+    assert.equal(session.dispatch({ seat: 'p1', direction: 'forward' }), true);
+    assert.equal(primary.y, 1);
+    assert.throws(() => stage.cancel(), /committed LocalSession/i);
+    assert.strictEqual(stage.commit(), session, 'repeated commit keeps the same owner and session');
+    session.stop();
+  }
+});
+
+test('session composition refuses invalid definitions and handler containers before using callbacks', () => {
+  const game = new Game(609, 'pond', 'arcade');
+  const before = soloSetupSnapshot(game);
+  let called = 0;
+  assert.throws(() => composeSessionModeDefinition({}, { attach() { called++; } }), /validated mode definition/i);
+  for (const handlers of [undefined, null, [], 'invalid', 3, () => {}]) {
+    assert.throws(() => composeSessionModeDefinition(game.definition, handlers), /session handlers/i);
+  }
+  assert.equal(called, 0);
+  assert.equal(soloSetupSnapshot(game), before);
+  const handlers = { attach() { called++; } };
+  const mode = composeSessionModeDefinition(game.definition, handlers);
+  assert.ok(Object.isFrozen(mode)); assert.ok(Object.isFrozen(mode.handlers));
+  handlers.attach = () => { throw new Error('caller replaced its original handler'); };
+  const stage = LocalSession.stage(game, { roster: [], mode });
+  const session = stage.commit();
+  assert.equal(called, 1, 'a valid mode uses the captured callback exactly once');
+  assert.strictEqual(stage.commit(), session);
+  assert.equal(called, 1);
+  session.stop();
 });
