@@ -19,12 +19,18 @@ for(const mode of ['solo-arcade','solo-flow','survive-arcade','survive-flow','re
   const observe=async()=>{
    const game=await app.onGame(function(){return {base:this.definition.id,state:this.state};});
    let kind='solo',participants=1;
+   const ownership=await app.sessionOwnership();
+   if(mode.startsWith('solo-')){
+    assert.deepEqual(ownership,{worldIsOwn:true,playerIsOwn:true,sessionActive:false,playerSessionAbsent:true,sessionBindings:0,stageBindings:0},'stable solo has no live or staged session owner');
+   }
    if(!mode.startsWith('solo-')){
     const actual=await app.onSession(function(){return {base:this.definition.id,kind:this.mode?.handlers.retainDeadDevice?'race':this.mode?.handlers.canAct?'relay':this.mode?'survive':'uncomposed',participants:this.players.length};});
     assert.equal(actual.base,game.base);kind=actual.kind;participants=actual.participants;
+    assert.ok(ownership.sessionBindings>0,'the scope observer finds a committed session');
+    assert.equal(ownership.sessionActive,true);assert.equal(ownership.playerSessionAbsent,false);assert.equal(ownership.stageBindings,0);
    }
    assert.equal(game.base,base);assert.equal(game.state,'playing');assert.equal(await app.frame.locator('#app').getAttribute('data-run-state'),'playing');assert.equal(kind,mode.startsWith('solo-')?'solo':mode.startsWith('survive-')?'survive':mode);
-   return {mode,base:game.base,kind,state:game.state,participants};
+   return {mode,base:game.base,kind,state:game.state,participants,ownership};
   };
   const before=await snapshotRealm(app.frame,await observe());
   const start=await app.onGame(function(){return {x:this.x,y:this.y,time:this.time};});
@@ -33,7 +39,16 @@ for(const mode of ['solo-arcade','solo-flow','survive-arcade','survive-flow','re
   assert.equal(await app.frame.locator('#character-call').isDisabled(),true,'muted fixture retains unavailable call feedback');
   await app.frame.locator('#pause').click();const paused=await app.onGame(function(){return {x:this.x,y:this.y,time:this.time,state:this.state};});assert.equal(await app.frame.locator('#app').getAttribute('data-run-state'),'paused');await app.advance(300);assert.deepEqual(await app.onGame(function(){return {x:this.x,y:this.y,time:this.time,state:this.state};}),paused);
   await app.frame.locator(await app.frame.locator('#play').isVisible()?'#play':'#pause').click();await app.advance(32);
-  const after=await snapshotRealm(app.frame,await observe());recordInterval(before,after,mode);
+  const afterObservation=await observe(),after=await snapshotRealm(app.frame,afterObservation);recordInterval(before,after,mode);
+  if(mode.startsWith('solo-')){
+   // Outside the attributed interval: demonstrate the observer catches staging
+   // even though the actual Game has not adopted a multiplayer session yet.
+   await app.frame.locator('#pause').click();await app.frame.locator('#local-play').click();
+   const staged=await app.sessionOwnership();assert.ok(staged.stageBindings>0);
+   assert.equal(staged.sessionActive,false);assert.equal(staged.playerSessionAbsent,true);
+   await app.frame.locator('#local-session-back').click();
+   assert.deepEqual(await app.sessionOwnership(),afterObservation.ownership);
+  }
   assert.deepEqual(evidence.errors,[]);assert.deepEqual(evidence.external,[]);assert.deepEqual(await app.frame.evaluate(()=>window.marketGameFixture.forbidden),[]);
  }finally{await app.close();}
 });

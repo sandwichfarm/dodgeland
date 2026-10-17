@@ -86,25 +86,29 @@ frame.srcdoc=${artifact};</script>`;
   assert.equal(await frame.evaluate(() => location.origin), 'null');
   const advance = ms => page.clock.runFor(ms);
   const objectIds = new Map();
-  async function onObject(kind, fn, args) {
-    if (!objectIds.has(kind)) {
+  async function productionBindings() {
       const { frameTree } = await cdp.send('Page.getFrameTree');
       const context = [...contexts.values()].find(value => value.auxData?.frameId === frameTree.childFrames[0].frame.id && value.auxData?.isDefault);
       const { result: handler } = await cdp.send('Runtime.evaluate', { contextId: context.id, includeCommandLineAPI: true, expression: 'getEventListeners(document.getElementById("pause")).click[0].listener' });
       const detail = await cdp.send('Runtime.getProperties', { objectId: handler.objectId, ownProperties: true });
       const scopes = await cdp.send('Runtime.getProperties', { objectId: detail.internalProperties.find(value => value.name === '[[Scopes]]').value.objectId, ownProperties: true });
+      const objects = [];
       for (const scope of scopes.result) {
         if (!scope.value?.objectId || scope.value.description === 'Global') continue;
         const bindings = await cdp.send('Runtime.getProperties', { objectId: scope.value.objectId, ownProperties: true });
-        for (const binding of bindings.result) {
-          if (binding.value?.type !== 'object' || !binding.value.objectId) continue;
+        objects.push(...bindings.result.filter(binding => binding.value?.type === 'object' && binding.value.objectId));
+      }
+      return objects;
+  }
+  async function onObject(kind, fn, args) {
+    if (!objectIds.has(kind)) {
+        for (const binding of await productionBindings()) {
           const predicate = kind === 'renderer' ? 'function(){return this?.canvas instanceof HTMLCanvasElement && typeof this.drawSession === "function" && typeof this.project === "function";}' : kind === 'game'
             ? 'function(){return this?.rows instanceof Map && typeof this.move === "function" && this.run?.catalog instanceof Map;}'
             : 'function(){return Array.isArray(this?.players) && this.world?.rows instanceof Map && typeof this.dispatch === "function" && typeof this.views === "function";}';
           const match = await cdp.send('Runtime.callFunctionOn', { objectId: binding.value.objectId, returnByValue: true, functionDeclaration: predicate });
           if (match.result.value) objectIds.set(kind, binding.value.objectId);
         }
-      }
       assert.ok(objectIds.has(kind), `${kind} is discoverable through production debugger scope, with no app test hook`);
     }
     const result = await cdp.send('Runtime.callFunctionOn', { objectId: objectIds.get(kind), functionDeclaration: fn.toString(), returnByValue: true, arguments: args.map(value => ({ value })) });
@@ -113,6 +117,26 @@ frame.srcdoc=${artifact};</script>`;
   }
   const onGame = (fn, ...args) => onObject('game', fn, args);
   const onSession = (fn, ...args) => onObject('session', fn, args);
+  async function sessionOwnership() {
+    // Fresh scope inspection: an uncommitted stage can hold a session even while
+    // the Game's primary player and world still appear to be solo-owned.
+    const presence = { games: 0, sessionBindings: 0, stageBindings: 0 };
+    for (const binding of await productionBindings()) {
+      const result = await cdp.send('Runtime.callFunctionOn', {
+        objectId: binding.value.objectId, returnByValue: true,
+        functionDeclaration: 'function(){return {game:this?.rows instanceof Map && typeof this.move === "function" && this.run?.catalog instanceof Map,session:Array.isArray(this?.players) && this.world?.rows instanceof Map && typeof this.dispatch === "function" && typeof this.views === "function",stage:this?.game?.rows instanceof Map && Array.isArray(this.session?.players) && typeof this.commit === "function" && typeof this.cancel === "function"};}',
+      });
+      if (result.exceptionDetails) throw new Error(JSON.stringify(result.exceptionDetails));
+      const value = result.result.value;
+      presence.games += Number(value.game); presence.sessionBindings += Number(value.session); presence.stageBindings += Number(value.stage);
+    }
+    assert.ok(presence.games > 0, 'ownership inspection reaches the actual application scope');
+    const owned = await onGame(function () {
+      return { worldIsOwn: this.world.host === this, playerIsOwn: this.player.world === this.world && this.player.primary,
+        sessionActive: this.world.sessionActive, playerSessionAbsent: this.player.session === undefined };
+    });
+    return { ...owned, sessionBindings: presence.sessionBindings, stageBindings: presence.stageBindings };
+  }
   async function sendPads(pads, focused = true) {
     await page.evaluate(({ pads, focused }) => window.marketPads(pads, focused), { pads, focused });
     await frame.evaluate(() => Promise.resolve()); await advance(32);
@@ -248,7 +272,7 @@ frame.srcdoc=${artifact};</script>`;
     return labels.map(label => ({ ...label, bodies: records.filter(r=>r.kind==='body' && Math.abs(r.x-label.x)<1e-8 && Math.abs(r.y-label.y)<1e-8) }));
   }
   return { browser, page, frame, iframe, advance, onGame, onSession, onRenderer:(fn,...args)=>onObject('renderer',fn,args), sendPads, resize, key, open, stageMarket, stageOffers,
-    observeTravelers,
+    observeTravelers, sessionOwnership,
     refreshOwners() { objectIds.clear(); },
     async close() { try { await collectRealm(frame,coverageIdentity); } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); } } };
 }
