@@ -19,6 +19,14 @@ last_activity_desc: Race target-policy scope passes24 focused/all125 controls an
 
 ## Current work
 
+Evidence storage prepared:997 retained JSON artifacts transparently compressed
+with source/destination/final SHA256 and unchanged-original identity checks.
+Free space increased from about2.1GiB to9.1GiB. Every latest committed proof
+hash reverified after maintenance. STORAGE-MAINTENANCE binds script/log/per-file
+proof. No content/path deletion or test/coverage credit. Fresh full collection
+still waits on DEV52 and complete semantic review.
+
+
 Latest Race target-policy closure:a264561 retains24-control RED22 pass/two fail;
 implementation passes24 focused/all125 controls,159-file resolved audit and
 36 actual tests/81 verified intervals/two independent Node parents. Exact
