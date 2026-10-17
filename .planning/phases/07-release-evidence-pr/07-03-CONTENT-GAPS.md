@@ -64,3 +64,28 @@ now execute:0/0,6/0,10/0,12/0,15/0,17/1,20/0,21/0,21/1,26/0,27/0,27/1,30/1,
 `8e0d6a152777a497ea35f0f9cb09428945909e9ff08573833178eeea6da7c5f8`, map and
 mapped schemas match the pinned full baseline. This source-bound focused
 improvement is not a full release pass; `thresholdsEvaluated:false` remains.
+
+## Sound-pack loading boundaries
+
+Root added `tests/release-sound-loader-gaps.test.mjs`, registered in focused and
+full Node inventories by62c3c20. Seven component tests exercise the actual SDK
+forwarding with injected host fixtures, real Blob bytes and SHA-256, and a
+controlled decoder dependency. They never open an audio device or network.
+Missing optional domains, invalid addresses, host failure versus absent lists,
+deterministic list selection, invalid bytes and metadata, shared-file cue
+durations, the decoded-memory budget and cancellation at asynchronous boundaries
+are checked. No production change or RED is claimed.
+
+Combined chain79288 exited0:7/7 ordinary and7/7 canonical tests. Logs are
+`/tmp/down-to-duck-07-03-sound-loader-ordinary.log` and
+`/tmp/down-to-duck-07-03-sound-loader-canonical.log`. Canonical run
+`9ababc7e-ebc3-437c-9480-6d678f10da83` collected one Node payload and retained
+`thresholdsEvaluated:false`. The focused file executes40/41 branch arms; its
+remaining relay-options arm7/0 already has initial-full evidence.
+
+Source hash `9f9b114ae820a3a5f59d172c907593fae8455aef0358eabfb020dfc062f6d921`,
+map and mapped schemas match the pinned initial-full report. Twelve previously
+zero mapped arms gained evidence:1/0(line13)=1,2/0(15)=3,4/1(17)=1,5/0(22)=2,
+9/0(27)=3,9/1(27)=1,10/0(28)=2,11/0(28)=1,11/1(28)=1,12/0(39)=3,15/1(45)=1,
+16/0(48)=1. This is focused source-bound improvement, not aggregate release
+acceptance or real-browser audio playback proof.
