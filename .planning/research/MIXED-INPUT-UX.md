@@ -12,7 +12,7 @@ solo player with a keyboard and controller into an unintended multiplayer party.
 
 | Situation | Proposed behavior |
 | --- | --- |
-| Nobody has started yet; first input deliberately used | Control P1 immediately. Keep the default keyboard profile available to P1 as an alias. |
+| Nobody has started yet; first input deliberately used | Establish P1 and assign that input immediately. Keep the default keyboard profile discoverable; assign it when deliberately used. |
 | A controller connects but remains idle | Update Controls; no interruption. |
 | One player established; unfamiliar input deliberately used | Ask **Control this duck** / **Join as another duck**, with the current portrait. |
 | Control this duck | Add the input to that traveler. Keyboard remains usable. Show a brief combined-input badge. |
@@ -33,6 +33,15 @@ multiplayer game is active, follow that mode's existing admission/recovery
 policy; an unknown controller must not arbitrarily pause a Race for everyone.
 Dismissal leaves the run and assignments intact. Allow another explicit Start
 press to reopen it, with no persistent nag on movement or drift.
+
+Starting on a controller must not silently claim an unused keyboard. Its first
+deliberate confirm offers the same control-or-join choice, so controller P1 plus
+keyboard P2 is as accessible as the reverse order. When keyboard P1 chooses
+**Control this duck** on a controller, both remain assigned immediately; there
+is no exclusive active-device setting or further switching prompt. The same
+applies when controller P1 explicitly adds the keyboard. Cancel leaves the new
+source unassigned. An assignment changes only through a confirmed control/join
+choice or the explicit Controls flow.
 
 ## Controls should show people first
 
@@ -136,6 +145,8 @@ keyboard/pointer/touch paths usable.
    duplicate-input suppression and compact layouts through actual UI paths.
 
 Critical examples: keyboard P1 + controller P2; keyboard and controller both P1;
+controller P1 followed by keyboard P2, and the reverse order; a controller-first
+solo player explicitly adding the keyboard without creating P2;
 two keyboard profiles + controllers; unplug one alias while another remains;
 unplug all inputs and reclaim; stale event after reassignment; two identical
 controllers; simultaneous join requests; held confirm across the chooser; a
