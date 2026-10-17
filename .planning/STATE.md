@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Relay effect profiles reviewed;106 controls and fresh canonical tracer pass;broader current refresh next
-last_updated: "2026-10-17T18:27:28.491198+00:00"
+stopped_at: All18 current-source cohorts pass;official diagnostic union needs74 Relay98 Race branches
+last_updated: "2026-10-17T19:02:04.860680+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,14 +12,34 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Relay scope expands53 sites;all106 controls pass;c60a7982 actual tracer2/2 with4 intervals;current full coverage not yet measured.
+last_activity_desc: Post-repair18-cohort refresh green;19 current cohorts,74 independent parents,873 selected intervals;mode branch targets and final release still open.
 ---
 
 # Project State
 
 ## Current work
 
-Latest profile checkpoint: Relay shared-effect accountability expands53 mapped
+Latest complete refresh: all18 current-source cohorts pass;separate c60a7982
+Relay tracer makes19 selected cohorts. Complete source inventory bytes5cf69c2c
+and all mapped schemas match.74 independent parents(21 Node/53 browser) and950
+actual bounded intervals include873 selected Relay/Race intervals. Official
+reportApplicability evaluator and regenerated current dispositions agree with
+the independent diagnostic union. Relay2017/2102L666/715F2273/2761B(needs74);
+Race2065/2163L703/758F2480/3032B(needs98). Line/function floors pass diagnostically;
+branch/full-global/per-file enforcement and semantic review remain open.
+
+Source/test/tool freeze,normal6bd/rootlock5ac remain exact after every cohort.
+Batch18:28:39→18:56:12 UTC is terminal0;no process/test/build chain remains live.
+Artifacts and reproduction scripts are under relay-effects-refresh;RELAY-EFFECTS-
+REFRESH/PROOF bind exact run IDs,source and evaluator checks. First verifier
+metadata omission was corrected in the artifact-only verification script;no
+product or historical report changed. Current inventory1e5fb4e2,Sessione90,
+Relaye789 and Game04 remain authoritative. No old source counts are merged.
+Next:close the measured74/98 mode branch gaps with real behavior/required
+source proof,complete semantic/global/file review,then fresh enforcing full
+collection. Final07-04/05/06 and PR remain pending;goal stays active.
+
+Historical profile checkpoint: Relay shared-effect accountability expands53 mapped
 sites(29S/7F/17B),with all106 controls passing after retained tool-contract RED.
 Current source-pinned turn/solo/built-in/DEV profiles are reviewed against exact
 source transition and full371-target audit. Fresh actual Relay tracer c60a7982
@@ -1100,8 +1120,8 @@ contradiction proof;do not prune from the zero count alone. No PR is open.
 
 ## Next required work
 
-1. Complete07-03: reviewed profiles/tracer now pass;refresh the broader current-
-   source cohorts after Relay repair,then broad honest Solo/Relay/Race and development evidence,
+1. Complete07-03: all18 current-source refresh cohorts now pass;close current
+   Relay74/Race98 branch gaps and broad honest Solo/Relay/Race/development evidence,
    remaining per-file gaps, complete semantic ledger, then a fresh enforcing
    full report. Keep all floors.190 initial zero arms have source-identical
    semantic annotations(189 covered,one reviewed private default);861 still need completed semantic/behavioral proof,

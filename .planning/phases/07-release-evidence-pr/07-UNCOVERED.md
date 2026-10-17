@@ -2,6 +2,19 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Current complete post-repair cohort refresh
+
+All18 fresh cohorts pass,plus current Relay effect tracer c60a7982.19 selected
+current-source cohorts share complete inventory bytes5cf69c2c and mapped schemas.
+74 independent payloads(21 Node/53 browser) carry950 actual bounded intervals;
+873 Relay/Race intervals enter the union. Official evaluator/regenerated current
+dispositions agree with the diagnostic totals:Relay2273/2761B(needs74),Race2480/
+3032B(needs98),with passing line/function targets. All source/test/tool,normal6bd
+and rootlock5ac freezes pass. RELAY-EFFECTS-REFRESH/PROOF bind exact run IDs and
+limits. No old changed-source counter is reused,no numeric floor changes,and
+no full enforcing release acceptance follows. Initial190 reviewed/861 pending
+remain source-bound;full semantic and current code review are still required.
+
 ## Current reviewed profiles and fresh Relay tracer
 
 Relay's newly reachable shared-effect code is now retained:53 mapped sites
