@@ -44,3 +44,23 @@ enforcing full report still owns current global/per-file/per-mode acceptance;
 the remaining wearable defensive guard is not dismissed merely because the
 other branches now execute.07-UNCOVERED should bind these outcomes to the
 retained baseline entries while continuing the full semantic review.
+
+## Keyboard fallback and latch gaps
+
+Root also added three behavioral cases to existing `tests/keyboard-input.test.mjs`:
+rejected storage reads/writes retain usable local controls; malformed persisted
+profiles fail atomically before router construction/persistence; unsupported or
+unbound keys cannot release a held action across focus/capture. No production
+change or RED is claimed. Executor registered the focused group in7e1e546;
+the existing full keyboard job already runs this file.
+
+Combined chain84817 exited0:9/9 ordinary and9/9 canonical tests, no skips or
+cancellations. Logs `/tmp/down-to-duck-07-03-keyboard-ordinary.log` and
+`/tmp/down-to-duck-07-03-keyboard-canonical.log`; canonical run
+`f4da84e1-5715-42c7-b075-9a363f51849a`, one actual Node payload. The focused
+keyboard file executes82/82 branch arms. Seventeen previously zero mapped arms
+now execute:0/0,6/0,10/0,12/0,15/0,17/1,20/0,21/0,21/1,26/0,27/0,27/1,30/1,
+33/0,39/0,40/0,41/0. Source hash
+`8e0d6a152777a497ea35f0f9cb09428945909e9ff08573833178eeea6da7c5f8`, map and
+mapped schemas match the pinned full baseline. This source-bound focused
+improvement is not a full release pass; `thresholdsEvaluated:false` remains.

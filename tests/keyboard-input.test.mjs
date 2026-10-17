@@ -103,3 +103,69 @@ test('binding store persists only accepted complete maps and retains an in-memor
   assert.equal((await unavailable.commit(changed)).ok, true);
   assert.deepEqual(unavailable.current(), changed, 'storage absence keeps the usable session map');
 });
+
+test('rejected storage reads and writes keep usable controls for the current run', async () => {
+  const { createKeyboardBindingStore, DEFAULT_KEYBOARD_BINDINGS, KEYBOARD_STORAGE_KEY, updateKeyboardBinding } = await sources.import('keyboard-input');
+  const operations = [];
+  const store = createKeyboardBindingStore({
+    async getItem(key) { operations.push(['read', key]); throw new Error('storage unavailable'); },
+    async setItem(key, value) { operations.push(['write', key, value]); throw new Error('storage denied'); },
+  });
+  assert.deepEqual(await store.load(), DEFAULT_KEYBOARD_BINDINGS);
+  const changed = updateKeyboardBinding(DEFAULT_KEYBOARD_BINDINGS, 'keyboard-a', 'call', 'e');
+  const result = await store.commit(changed);
+  assert.equal(result.ok, true);
+  assert.equal(store.current().profiles['keyboard-a'].call, 'E');
+  assert.deepEqual(result.bindings, store.current());
+  assert.deepEqual(operations.map(([kind, key]) => [kind, key]), [['read', KEYBOARD_STORAGE_KEY], ['write', KEYBOARD_STORAGE_KEY]]);
+  const invalid = updateKeyboardBinding(changed, 'keyboard-b', 'call', 'E');
+  assert.equal((await store.commit(invalid)).ok, false);
+  assert.deepEqual(store.current(), changed, 'rejected proposal retains the last usable in-memory map');
+  assert.equal(operations.length, 2, 'invalid proposal never attempts persistence');
+  assert.deepEqual(await createKeyboardBindingStore().load(), DEFAULT_KEYBOARD_BINDINGS);
+});
+
+test('malformed persisted profiles fall back atomically and cannot create a live router', async () => {
+  const { DEFAULT_KEYBOARD_BINDINGS, parseStoredKeyboardBindings, serializeKeyboardBindings, validateKeyboardBindings, createKeyboardInput, updateKeyboardBinding } = await sources.import('keyboard-input');
+  const badKey = updateKeyboardBinding(DEFAULT_KEYBOARD_BINDINGS, 'keyboard-a', 'call', 'Shift');
+  const conflicting = updateKeyboardBinding(DEFAULT_KEYBOARD_BINDINGS, 'keyboard-b', 'call', 'q');
+  const invalid = [null, 1, { version: 1 }, { version: 1, profiles: 'invalid' },
+    { version: 1, profiles: { 'keyboard-a': 7, 'keyboard-b': DEFAULT_KEYBOARD_BINDINGS.profiles['keyboard-b'] } },
+    { version: 1, profiles: { 'keyboard-a': DEFAULT_KEYBOARD_BINDINGS.profiles['keyboard-a'] } }, badKey, conflicting];
+  const sink = { move: () => assert.fail('invalid map moved'), call: () => assert.fail('invalid map called') };
+  for (const candidate of invalid) {
+    const before = structuredClone(candidate);
+    assert.equal(validateKeyboardBindings(candidate).ok, false);
+    assert.deepEqual(parseStoredKeyboardBindings(JSON.stringify(candidate)), DEFAULT_KEYBOARD_BINDINGS);
+    assert.throws(() => serializeKeyboardBindings(candidate), TypeError);
+    assert.throws(() => createKeyboardInput(sink, candidate), TypeError);
+    assert.deepEqual(candidate, before);
+  }
+  assert.throws(() => updateKeyboardBinding(DEFAULT_KEYBOARD_BINDINGS, 'keyboard-c', 'call', 'E'), TypeError);
+  assert.throws(() => updateKeyboardBinding(DEFAULT_KEYBOARD_BINDINGS, 'keyboard-a', 'unknown-action', 'E'), TypeError);
+});
+
+test('unbound and unsupported keys cannot release another held action across focus and capture', async () => {
+  const { createKeyboardInput, normalizeKeyboardKey } = await sources.import('keyboard-input');
+  const calls = [], moves = [];
+  const keyboard = createKeyboardInput({ move: (...args) => moves.push(args), call: seat => calls.push(seat) });
+  assert.equal(normalizeKeyboardKey(undefined), undefined);
+  assert.equal(normalizeKeyboardKey(13), undefined);
+  keyboard.resume(['Shift', 'z', 'q']);
+  for (const key of ['Shift', 'z', '?']) {
+    assert.equal(keyboard.keydown(key), false);
+    assert.equal(keyboard.keyup(key), false);
+  }
+  assert.equal(keyboard.keydown('q'), false, 'unknown releases leave the held call latched');
+  assert.deepEqual(calls, []);
+  assert.deepEqual(moves, []);
+  assert.equal(keyboard.keyup('q'), true);
+  assert.equal(keyboard.keydown('q'), true);
+  keyboard.beginCapture(); keyboard.endCapture();
+  assert.equal(keyboard.keydown('q'), true, 'empty capture ends with fresh input');
+  keyboard.suspend(); keyboard.resume();
+  assert.equal(keyboard.keydown('.'), true);
+  keyboard.dispose();
+  assert.equal(keyboard.keydown('.'), false);
+  assert.deepEqual(calls, ['p1', 'p1', 'p2']);
+});
