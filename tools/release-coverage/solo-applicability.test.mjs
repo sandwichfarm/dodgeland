@@ -24,13 +24,18 @@ test('actual mapped source excludes only reviewed solo-inapplicable execution an
   for (const mode of ['solo-arcade', 'solo-flow']) {
     const dispositions = soloApplicabilityDispositions({ mode, sources });
     const excluded = new Set(dispositions.filter(d => d.path === session.path && d.kind === 'function').map(d => d.id));
-    const start = line('export class LocalSession {'), stage = line('static stage(');
-    assert.ok(stage > start);
-    for (const [id, site] of Object.entries(session.coverage.fnMap)) {
-      if (site.decl.start.line < start) assert.equal(excluded.has(id), false, `shared owner function ${id}`);
-      if (site.decl.start.line === stage) assert.equal(excluded.has(id), false, 'static transition remains applicable');
+    const retainedLines=[line('function alias('),line('constructor(game: Game)'),line('noteProgress(row:'),line('constructor(world: SharedWorld'),line('get label()'),line('private get rescueFraction()'),line('get groundX()'),line('get groundY()'),line('get personalScore()'),line('selectMobTarget('),line('view(): SharedWorld')];
+    for(const at of retainedLines){
+      const ids=Object.entries(session.coverage.fnMap).filter(([,site])=>site.decl.start.line===at).map(([id])=>id);
+      assert.ok(ids.length,`retained source line ${at} has a mapped function`);
+      for(const id of ids)assert.equal(excluded.has(id),false,`retained shared/uncertain function ${id}`);
     }
-    assert.ok(excluded.size > 100, 'actual LocalSession instance functions are explicitly mapped');
+    for(const fragment of ['static stage(', 'captureConsumablePolicy(', 'beginFrame(', 'resolvePickups()', 'recordInteraction(event:', 'setHopCooldown(', 'constructor(readonly game: Game', 'constructor(private readonly session: LocalSession']){
+      const at=line(fragment),ids=Object.entries(session.coverage.fnMap).filter(([,site])=>site.decl.start.line===at).map(([id])=>id);
+      assert.ok(ids.length,`reviewed source line ${at} has a mapped function`);
+      for(const id of ids)assert.equal(excluded.has(id),true,`reviewed session-only function ${id}`);
+    }
+    assert.ok(excluded.size > 180, 'bounded member dispositions include real private item machinery');
     assert.ok(dispositions.some(d => d.path.endsWith('/co-op-market.ts') && d.kind === 'branch'));
     const report = reportApplicability({ mode, sources, attributed, dispositions });
     assert.equal(report.raw.functions.total, Object.values(attributed).reduce((sum, c) => sum + Object.keys(c.f).length, 0));
@@ -64,4 +69,21 @@ test('mapped exclusions cannot conceal an observed solo hit or survive source-ma
   const schema = structuredClone(sources), hits = structuredClone(attributed);
   schema[0].coverage.fnMap['0'].name = 'changed'; hits[schema[0].path].fnMap['0'].name = 'changed';
   assert.throws(() => reportApplicability({ mode, sources: schema, attributed: hits, dispositions }), /stale/);
+});
+
+
+test('new stage and secondary callback exclusions reject hits while preserving initialization',()=>{
+ const mode='solo-arcade',dispositions=soloApplicabilityDispositions({mode,sources});
+ const at=line('static stage('),id=Object.entries(session.coverage.fnMap).find(([,site])=>site.decl.start.line===at)[0];
+ const hits=structuredClone(attributed);hits[session.path].f[id]=1;
+ assert.throws(()=>reportApplicability({mode,sources,attributed:hits,dispositions}),/contradicted/);
+ const callbackLine=line("onCoin: SessionPlayerCallbacks['onCoin']");
+ const callbackId=Object.entries(session.coverage.fnMap).find(([,site])=>site.decl.start.line===callbackLine)[0];
+ assert.ok(dispositions.some(d=>d.path===session.path&&d.kind==='function'&&d.id===callbackId));
+ const statements=Object.entries(session.coverage.statementMap).filter(([,site])=>site.start.line===callbackLine);
+ assert.ok(statements.length);
+ for(const [id]of statements)assert.ok(!dispositions.some(d=>d.path===session.path&&d.kind==='statement'&&d.id===id),'callback allocation remains applicable');
+ const alias=Object.entries(session.coverage.fnMap).find(([,site])=>site.decl.start.line===line('function alias('))[0];
+ const sharedHits=structuredClone(attributed);sharedHits[session.path].f[alias]=1;
+ assert.equal(reportApplicability({mode,sources,attributed:sharedHits,dispositions}).applicable.functions.covered,1);
 });

@@ -29,3 +29,38 @@ Required focused command: `node --test tools/release-coverage/applicability.test
 Actual terminal result: exit0,8/8, zero failures/cancellations/skips,581.435417ms. Durable log `/tmp/down-to-duck-07-03-solo-applicability-final.log`. The first command exited1 because the new test incorrectly requested a report with zero required realms; the existing collector correctly rejected it (`Invalid required realms`). Retained log `/tmp/down-to-duck-07-03-solo-applicability.log`. The fixture now supplies one explicitly synthetic zero-counter realm solely to obtain the actual mapped schema; it grants no gameplay hits. No product defect or product RED is claimed. Execution slot released to the mode integration agent after terminal success.
 
 Runner integration belongs to the separate mode-attribution owner. It must retain raw mode metrics and the full omitted-site ledger, validate genuine solo interval provenance, and apply unchanged floors only to the explicitly reviewed applicable projection. This generator does not independently establish that an interval is solo. Current historical observer inference limitations remain open until that owner supplies direct session/staging absence observations.
+
+## Bounded member-level extension (current review)
+
+The preceding conservative static-stage/shared-owner retention describes the initial generator. Under renewed explicit source review, strict solo now also omits the following exact AST-contained execution spans. Source pins are unchanged and every disposition retains source/map/schema hashes plus its positive call/state reason. This does not classify whole SharedWorld or SessionPlayer classes.
+
+| Span selection | Positive call/state proof |
+|---|---|
+| LocalSession.stage and LocalSessionStage members | Staging allocates LocalSession; current strict solo evidence rejects even stage followed by cancellation. Stage positive counter hits are also rejected by applicability. |
+| Private ConsumableWorld members and captureConsumablePolicy | Sole allocation/capture is LocalSession.installConsumableWorld:642, installed by Survive/Race handlers. No solo Game installer exists. |
+| SharedWorld beginFrame/update/resolvingPlayer/resolvePlayer/claimPickup/claimPickupPull/resolvePickups/releaseInactivePickupClaims | LocalSession.update:1032–1049 owns this frame/update/arbitration sequence. Game.collectCoins:721–722 enters shared claims only through sessionActive/resolvingPlayer; solo Game.update uses its own path. |
+| SessionPlayer setHopCooldown/hopCooldown/canHop/noteHop/interactions/recordInteraction/start/move/update | Race/LocalSession callers; Game.scoringPlayer:345 is null for untouched primary solo, gating hop cooldown and interaction calls. |
+| SessionPlayer constructor statements after `if(primary)` returns | Secondary placement/inventory branch cannot execute for Game's primary construction. The constructor function, primary branch and field initialization stay applicable. |
+| Five SessionPlayer default callback function entries | Primary alias adoption replaces these placeholder functions before invocation. Their allocation statements remain applicable. |
+| composeSessionModeDefinition and isDeviceId callable bodies | Race composition and LocalSession admission/reclaim respectively; module-level arrow initialization is retained. |
+
+Retained explicitly: alias and its accessor closures, SharedWorld constructor/noteProgress, primary SessionPlayer constructor; uncertain `mobs`, `selectMobTarget`, `view`, label/ground/power/score/display getters and render remain applicable. No item/drop/recovery module-wide exclusion is introduced by this patch.
+
+Initialization is a separate accounting concern: consumable catalogue freeze and other boot validation can execute before any measured interval. Their absence from mode hits does not justify removing them. This patch keeps module initialization and primary object initialization, even when that leaves zeroes. Global all-source evidence and numeric floors remain unchanged.
+
+New synthetic checks use the actual instrumented/remapped schemas to assert named retained/excluded members, positive stage hits reject, callback allocation remains, and retained alias hits still count. Existing source/map/schema drift and all site-kind contradiction tests remain. Testing waits for the serialized execution slot; no runtime result is claimed in this paragraph.
+
+### Measured extension result
+
+Serial command82510 exited0. `/tmp/down-to-duck-solo-applicability-expanded-unit.log` records11/11 tooling/ownership checks; `/tmp/down-to-duck-solo-applicability-expanded-canonical.log` records the canonical bounded solo witness (16 paired scenarios,32 validated intervals, one independent parent). Run `987ca2e0-51ab-4fc7-9716-1338e93b8d14` under `artifacts/release-coverage/solo-model-03/` retains exact source/schema-bound ledgers. No excluded site had positive attributed hits. Raw metrics are unchanged from the prior run.
+
+| Mode | Raw lines/functions/arms | Applicable lines/functions/arms |
+|---|---|---|
+| Solo Arcade |658/2039;145/656;633/2768|658/1465;145/391;633/2011|
+| Solo Flow |594/2039;134/656;560/2768|594/1465;134/391;560/2011|
+
+Each ledger now has2019 omitted sites. Session's applicable functions are6/22 (raw6/250); prior applicable denominator123 became22 through101 specifically selected function dispositions. Unknown/unproven methods remain. This still falls well below unchanged floors. `git diff --check` passed; slot released to root at terminal confirmation.
+
+### Next bounded runtime proposal (not implemented)
+
+Reuse actual paired parity scenarios with behavioral assertions: schema1/2/3 extreme generation and seed roundtrip (`solo-parity.test.mjs:311–329`); denomination/magnet/retained pickup exact-once cleanup (`266–309`); catalogue purchase/shield and100-row regeneration/innate cooldown (`190–227`); seven actual Game.end innate-power callbacks (`247–255`). Parameterize actual base only where its contract applies, retaining Flow's absent-pursuer behavior. Reconcile current missed reachable symbols before selecting cases. The current canonical16-scenario execution takes about52s, so blindly expanding per-scenario full-schema payloads is inappropriate; any bounded grouping/aggregation optimization must preserve disjoint exact deltas and individual behavioral assertions. No additional cases or omissions are claimed here.
