@@ -135,3 +135,8 @@ test('turn applicability refuses absent or invalid actual mode intervals before 
  assert.throws(()=>projectTurnApplicability('relay',{}, {},[],[{mode:'race'}]),/actual mode witnesses/);
  assert.throws(()=>projectTurnApplicability('relay',{}, {},[],[{mode:'relay',provenance:'component-model',observation:{}}]));
 });
+
+test('browser applicability refuses nonproduction or uncollected evidence',async()=>{
+ const {projectBrowserApplicability}=await import('./run.mjs');
+ for(const rows of [[],[{status:'collected',identity:{buildScope:'development',artifactHash:'hash',jobId:'job'},payload:{}}],[{status:'missing',identity:{buildScope:'production',artifactHash:'hash',jobId:'job'},payload:{}}],[{status:'collected',identity:{buildScope:'production'},payload:{}}]])assert.throws(()=>projectBrowserApplicability({}, {},[],rows),/collected production/);
+});

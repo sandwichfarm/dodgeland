@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 
-const modes = new Set(['solo-arcade', 'solo-flow', 'survive-arcade', 'survive-flow', 'relay', 'race']);
+const modes = new Set(['solo-arcade', 'solo-flow', 'survive-arcade', 'survive-flow', 'relay', 'race', 'browser-presentation-owner-lifecycle']);
 const hash = value => createHash('sha256').update(typeof value === 'string' ? value : JSON.stringify(value)).digest('hex');
 const nonempty = value => typeof value === 'string' && value.trim().length > 0;
 const sameKeys = (a, b) => JSON.stringify(Object.keys(a).sort()) === JSON.stringify(Object.keys(b).sort());

@@ -6,6 +6,7 @@ import { randomUUID } from 'node:crypto';
 import { globSync } from 'node:fs';
 import { buildInventory, repositoryRoot } from './inventory.mjs';
 import { mergePayloads } from './collector.mjs';
+import { browserApplicabilityDispositions, BROWSER_STRATUM } from './browser-applicability.mjs';
 import { reportApplicability } from './applicability.mjs';
 import { soloApplicabilityDispositions } from './solo-applicability.mjs';
 import { turnApplicabilityDispositions, TURN_APPLICABILITY_SOURCES } from './turn-applicability.mjs';
@@ -174,6 +175,17 @@ export function projectTurnApplicability(mode,inventory,mapped,paths,intervals){
  return {...reportApplicability({mode,sources,attributed,dispositions}),authoritySources:authoritySources.map(source=>({path:source.path,sourceHash:hash(source.source)}))};
 }
 
+export function projectBrowserApplicability(inventory,mapped,paths,rows){
+ if(!rows.length||rows.some(row=>row.status!=='collected'||row.identity?.buildScope!=='production'||!row.identity?.artifactHash||!row.identity?.jobId||!row.payload))throw Error('Browser applicability requires collected production application realms');
+ const sources=paths.map(path=>{
+  const absolute=resolve(repositoryRoot,path),record=Object.values(inventory).find(r=>r.path===absolute);
+  if(!record||!mapped[absolute])throw Error('Missing mapped browser applicability source');
+  return {path:absolute,source:record.source,map:record.map,coverage:mapped[absolute]};
+ });
+ const attributed=Object.fromEntries(sources.map(s=>[s.path,mapped[s.path]]));
+ return reportApplicability({mode:BROWSER_STRATUM,sources,attributed,dispositions:browserApplicabilityDispositions({mode:BROWSER_STRATUM,sources})});
+}
+
 export function evaluatePolicy(policy,files,strata){
  const failures=[];
  const check=(name,summary,floors)=>{
@@ -259,18 +271,22 @@ async function main(){
  const merged=mergePayloads(data.inventory,payloads,{runId,expectedRealms:allRealms,expectedSources:Object.keys(data.inventory)});
  const report=await reportCoverage(data.inventory,[merged],join(output,'report'));
  let policyResult,attribution;
- if(full||modelRows.length||browserRows.some(r=>r.intervals?.length)){
+ if(full||modelRows.length||browserRows.length){
   const policy=JSON.parse(await readFile(new URL('./policy.json',import.meta.url),'utf8')),intervals=validateModeRows(data.inventory,[...browserRows,...modelRows],full?modes:[...new Set([...modelRows,...browserRows].flatMap(r=>(r.intervals??[]).map(i=>i.mode)))]),strata={},strataProof={},provenanceStrata={},rawStrata={},applicability={};
   const summaries=map=>Object.fromEntries(policy.files.map(p=>[p,map.fileCoverageFor(resolve(repositoryRoot,p)).toSummary().toJSON()]));
   for(const [name,paths]of Object.entries(policy.strata)){
-   if(!full&&!intervals.some(i=>i.mode===name))continue;
-   const selected=modes.includes(name)?intervals.filter(i=>i.mode===name).map(i=>i.payload):name==='development'?browserRows.filter(r=>r.identity.buildScope==='development').map(r=>r.payload):name==='browser-presentation-owner-lifecycle'?browserRows.filter(r=>r.identity.buildScope!=='development').map(r=>r.payload):payloads;
+   if(!full&&!intervals.some(i=>i.mode===name)&&!(name===BROWSER_STRATUM&&browserRows.some(r=>r.identity.buildScope==='production')))continue;
+   const selected=modes.includes(name)?intervals.filter(i=>i.mode===name).map(i=>i.payload):name==='development'?browserRows.filter(r=>r.identity.buildScope==='development').map(r=>r.payload):name===BROWSER_STRATUM?browserRows.filter(r=>r.identity.buildScope==='production').map(r=>r.payload):payloads;
    if(!selected.length)throw Error(`Missing stratum evidence ${name}`);
    const raw=mergePayloads(data.inventory,selected,{runId,expectedRealms:selected.map(p=>p.realmId)}),stratumReport=await reportCoverage(data.inventory,[raw],join(output,'strata',name)),files=summaries(stratumReport.map);
    strata[name]=Object.fromEntries(['lines','functions','branches'].map(metric=>[metric,paths.reduce((sum,p)=>({covered:sum.covered+files[p][metric].covered,total:sum.total+files[p][metric].total}),{covered:0,total:0})]));
    rawStrata[name]=structuredClone(strata[name]);
    if(name.startsWith('solo-')||['relay','race'].includes(name)){
     applicability[name]=(name.startsWith('solo-')?projectSoloApplicability:projectTurnApplicability)(name,data.inventory,stratumReport.map.toJSON(),paths,intervals);
+    strata[name]=Object.fromEntries(['lines','functions','branches'].map(metric=>[metric,applicability[name].applicable[metric]]));
+   }
+   if(name===BROWSER_STRATUM){
+    applicability[name]=projectBrowserApplicability(data.inventory,stratumReport.map.toJSON(),paths,browserRows.filter(r=>r.identity.buildScope==='production'));
     strata[name]=Object.fromEntries(['lines','functions','branches'].map(metric=>[metric,applicability[name].applicable[metric]]));
    }
    if(modes.includes(name)){
@@ -284,7 +300,7 @@ async function main(){
    }
    strataProof[name]={sourcePaths:paths,realms:selected.map(p=>p.realmId),basis:modes.includes(name)?'verified exclusive interval delta':'actual complete source-bound realm snapshots'};
   }
-  policyResult=full?evaluatePolicy(policy,summaries(report.map),strata):{pass:false,failures:[],thresholdsEvaluated:false};policyResult.failures.sort((a,b)=>a.name.localeCompare(b.name)||a.metric.localeCompare(b.metric));attribution={strata,rawStrata,applicability,strataProof,provenanceStrata,policyBasis:'Solo and turn mode strata use source-bound composition applicability; raw/global/per-file maps unchanged; Survive strata raw',intervals:intervals.map(({payload,...identity})=>identity),globalUses:'complete parent snapshots only; interval deltas never added globally'};
+  policyResult=full?evaluatePolicy(policy,summaries(report.map),strata):{pass:false,failures:[],thresholdsEvaluated:false};policyResult.failures.sort((a,b)=>a.name.localeCompare(b.name)||a.metric.localeCompare(b.metric));attribution={strata,rawStrata,applicability,strataProof,provenanceStrata,policyBasis:'Solo, turn and browser application strata use source-bound applicability; raw/global/per-file maps unchanged; Survive strata raw',intervals:intervals.map(({payload,...identity})=>identity),globalUses:'complete parent snapshots only; interval deltas never added globally'};
   await writeFile(join(output,'shortfalls.json'),JSON.stringify(policyResult,null,2));await writeFile(join(output,'attribution.json'),JSON.stringify(attribution,null,2));await writeFile(join(output,'shortfalls.txt'),policyResult.failures.map(f=>`${f.name} ${f.metric}: ${f.covered}/${f.total}; floor ${f.floor}%`).join('\n')+'\n');
  }
  await writeFile(join(output,'manifest.json'),JSON.stringify({status:reportOnly?'report-only':policyResult?.pass?'enforced-pass':'enforced-fail',thresholdsEvaluated:full,policyResult,runId,expectedRealms:allRealms,payloadCount:payloads.length,files:data.files,summary:report.summary,normalArtifactHash:normalHash,browserArtifactHash:group.browser?browserBuilds.production?.artifactHash:null,browserBuilds:group.browser?browserBuilds:null,jobs,workerRoles,separateScopes:manifest?.separateScopes,provenance:group.provenance??'existing assertions with actual/arranged distinctions retained',browserRows:browserRows.map(({identity,realmId})=>({identity,realmId}))},null,2));

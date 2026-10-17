@@ -58,3 +58,10 @@ test('missing sources, schema drift, invalid counters and empty applicability fa
   input.dispositions = [...['0', '1', '2'].map(id => disposition('statement', id)), ...['0', '1'].map(id => disposition('function', id)), ...[0, 1].map(arm => disposition('branch', '0', arm))];
   assert.throws(() => reportApplicability(input), /Empty applicable/);
 });
+
+
+test('only the exact browser application stratum is added to applicability',()=>{
+ const {input}=fixture();
+ assert.deepEqual(reportApplicability({...input,mode:'browser-presentation-owner-lifecycle'}).raw,reportApplicability(input).raw);
+ for(const mode of ['browser','browser-presentation','development','shared-input','browser-presentation-owner-lifecycle-extra'])assert.throws(()=>reportApplicability({...input,mode}),/Unknown mode/);
+});
