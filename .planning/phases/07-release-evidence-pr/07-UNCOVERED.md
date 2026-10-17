@@ -2,6 +2,15 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Latest actual saved preference evidence
+
+PREFERENCE-HYDRATION/PROOF records10 normal plus10 PROD/10 DEV cases,20
+independent iframe realms,no mode intervals. Visible settings,normalized
+user-triggered persistence and first hop verify legacy/corrupt/clamped input
+and absent optional remote packs. One new browser/11 DEV positive branches
+yield diagnostic gaps browser8/DEV60;Relay26/Race72 unchanged. Frozen initial
+rows and original enforced-fail full report remain unchanged. No full acceptance.
+
 ## Latest actual turn innate power evidence
 
 TURN-CHARACTER-POWERS/PROOF records12 real contact/cooldown cases,24 verified

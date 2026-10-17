@@ -8919,6 +8919,52 @@
       ],
       "browser": false,
       "provenance": "Actual composed Relay/Race on Arcade/Flow;real water,front traffic and train contacts from dispatched hops trigger owner innate rescue,then cooldown death/personal offer. Only terrain and hazard geometry arranged;no pose,health,clock,cooldown or collision callback mutation."
+    },
+    "preference-hydration-03": {
+      "files": [
+        "tests/preference-hydration-runtime.mjs"
+      ],
+      "roles": {
+        "tests/preference-hydration-runtime.mjs": "browser"
+      },
+      "browser": true,
+      "buildScopes": [
+        "production",
+        "development"
+      ],
+      "jobs": [
+        {
+          "id": "preference-hydration-runtime",
+          "file": "tests/preference-hydration-runtime.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "minimumBrowserRealms": 10,
+          "defaultBuildScope": "production",
+          "requiredBuildScopes": [
+            "production"
+          ],
+          "verifyArtifactScope": true,
+          "artifactPatterns": []
+        },
+        {
+          "id": "preference-hydration-runtime-development",
+          "file": "tests/preference-hydration-runtime.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "minimumBrowserRealms": 10,
+          "defaultBuildScope": "development",
+          "requiredBuildScopes": [
+            "development"
+          ],
+          "verifyArtifactScope": true,
+          "artifactPatterns": []
+        }
+      ],
+      "provenance": "Actual SDK hydration of missing,malformed,legacy,locked and clamped saved preferences;visible paged controls,user-triggered persistence and directional hop. No app parser/state/callback replacement;absent optional remote pack domains remain graceful."
     }
   },
   "pendingAdapters": [
@@ -16916,6 +16962,36 @@
             ]
           }
         ]
+      },
+      {
+        "id": "preference-hydration-runtime",
+        "file": "tests/preference-hydration-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "minimumBrowserRealms": 10,
+        "defaultBuildScope": "production",
+        "requiredBuildScopes": [
+          "production"
+        ],
+        "verifyArtifactScope": true,
+        "artifactPatterns": []
+      },
+      {
+        "id": "preference-hydration-runtime-development",
+        "file": "tests/preference-hydration-runtime.mjs",
+        "role": "browser",
+        "requiredRealms": [
+          "browser"
+        ],
+        "minimumBrowserRealms": 10,
+        "defaultBuildScope": "development",
+        "requiredBuildScopes": [
+          "development"
+        ],
+        "verifyArtifactScope": true,
+        "artifactPatterns": []
       }
     ],
     "controls": [

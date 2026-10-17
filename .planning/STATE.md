@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Real turn innate contact/cooldown proof passes;diagnostic branch gaps Relay26 Race72 browser9 DEV71
-last_updated: "2026-10-17T22:31:57.764080+00:00"
+stopped_at: Actual saved preference hydration passes both builds;diagnostic gaps Relay26 Race72 browser8 DEV60
+last_updated: "2026-10-17T22:38:20.736022+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,26 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Turn powers12 cases/24 real intervals and8 collection controls pass;174 additive jobs. Remaining gaps Relay26 Race72 browser9 DEV71;semantic review/full enforcement/07-04/05/06/PR remain.
+last_activity_desc: Ten saved preference cases pass normal/PROD/DEV;20 iframe realms,8 collection controls,4 default-fixture regressions;176 jobs. Remaining branch gaps26 Relay/72 Race/8 browser/60 DEV;full verification and PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+Latest actual preference hydration:ten cases pass ordinary and each built
+PROD/DEV scope,20 independent iframe realms/no Node contribution/no mode
+intervals. Real SDK hydration,visible paged settings,user-triggered persistence
+and a visible-button first hop verify normalization and optional-domain fallback.
+Eight collection controls/four inherited river reward regressions pass. Shared
+fixture only adds optional raw save input;old defaults stay. PREFERENCE-HYDRATION
+/PROOF binds exact run/source/map/log/scenario/image hashes. All174 previous jobs
+are preserved;complete inventory now176 jobs. No app/dependency/oracle/floor
+change. Unique positives:one browser/11 DEV;diagnostics browser8362/9846(needs8),
+DEV2307/2784(needs60),Relay2288/2722(needs26),Race2495/3020(needs72). Original
+full report remains enforced-fail;semantic review,fresh enforcement,07-04/05/06
+and PR remain. Actual normal900x600 Camp image inspected,not final visual matrix.
+All processes terminal;first physical-key fixture mistake retained.
 
 Latest real turn power proof:Twelve cases cross Relay/Race,Arcade/Flow and
 Duck water/Chicken traffic/Robot train contacts. Actual dispatch and simulation

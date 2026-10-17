@@ -1,0 +1,1038 @@
+{
+  "purpose": "Actual built hydration and public settings persistence in separate PROD/DEV artifacts;source-identical diagnostic witnesses,not full release acceptance",
+  "runId": "2872e965-9d28-407b-9af5-11c803b25fef",
+  "ordinaryExit": 0,
+  "ordinaryCases": 10,
+  "canonicalExit": 0,
+  "canonicalCases": 20,
+  "collectionControls": 8,
+  "defaultFixtureRegressionCases": 4,
+  "browserRealms": 20,
+  "nodeParents": 0,
+  "modeIntervals": 0,
+  "all174PriorJobsPreserved": true,
+  "productionSourceChanged": false,
+  "newProductRed": false,
+  "fixtureCorrection": "Ordinary01 used physical W while the fixture supplies SDK action callbacks without a solo keyboard bridge. Ordinary02 uses the visible directional button. All preference assertions already passed in01.",
+  "inventoryRawSha256": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+  "results": {
+    "browser-presentation-owner-lifecycle": {
+      "before": {
+        "covered": 8361,
+        "total": 9846
+      },
+      "newUniqueBranchWitnesses": 1,
+      "diagnosticCovered": 8362,
+      "total": 9846,
+      "remainingAt85": 8,
+      "rows": [
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "337",
+          "arm": 0,
+          "hits": 2,
+          "location": {
+            "start": {
+              "line": 801,
+              "column": 4
+            },
+            "end": {
+              "line": 801,
+              "column": 81
+            }
+          },
+          "line": 801,
+          "text": "if (p.soundPack === 'custom' && !p.soundAddress.trim()) p.soundPack = 'pond';"
+        }
+      ]
+    },
+    "development": {
+      "before": {
+        "covered": 2296,
+        "total": 2784
+      },
+      "newUniqueBranchWitnesses": 11,
+      "diagnosticCovered": 2307,
+      "total": 2784,
+      "remainingAt85": 60,
+      "rows": [
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "326",
+          "arm": 0,
+          "hits": 1,
+          "location": {
+            "start": {
+              "line": 794,
+              "column": 4
+            },
+            "end": {
+              "line": 794,
+              "column": 91
+            }
+          },
+          "line": 794,
+          "text": "if (data.travelerVersion !== 2 && p.selected === 'pip') p.selected = DEFAULT_CHARACTER;"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "328",
+          "arm": 1,
+          "hits": 5,
+          "location": {
+            "start": {},
+            "end": {}
+          },
+          "line": 795,
+          "text": "if (data.mode === 'stroll' || data.mode === 'arcade') p.mode = data.mode;"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "330",
+          "arm": 0,
+          "hits": 1,
+          "location": {
+            "start": {
+              "line": 796,
+              "column": 4
+            },
+            "end": {
+              "line": 796,
+              "column": 68
+            }
+          },
+          "line": 796,
+          "text": "if (typeof data.reduced === 'boolean') p.reduced = data.reduced;"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "332",
+          "arm": 0,
+          "hits": 3,
+          "location": {
+            "start": {
+              "line": 798,
+              "column": 83
+            },
+            "end": {
+              "line": 798,
+              "column": 193
+            }
+          },
+          "line": 798,
+          "text": "for (const key of ['musicVolume', 'ambienceVolume', 'effectsVolume'] as const) if (typeof data[key] === 'number' && Number.isFinite(data[key])) p[key] = Math.max(0, Math.min(1, data[key]));"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "333",
+          "arm": 1,
+          "hits": 3,
+          "location": {
+            "start": {
+              "line": 798,
+              "column": 120
+            },
+            "end": {
+              "line": 798,
+              "column": 146
+            }
+          },
+          "line": 798,
+          "text": "for (const key of ['musicVolume', 'ambienceVolume', 'effectsVolume'] as const) if (typeof data[key] === 'number' && Number.isFinite(data[key])) p[key] = Math.max(0, Math.min(1, data[key]));"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "334",
+          "arm": 0,
+          "hits": 4,
+          "location": {
+            "start": {
+              "line": 799,
+              "column": 4
+            },
+            "end": {
+              "line": 799,
+              "column": 112
+            }
+          },
+          "line": 799,
+          "text": "if (['pond', 'arcade', 'custom'].includes(data.soundPack as string)) p.soundPack = data.soundPack as string;"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "335",
+          "arm": 0,
+          "hits": 3,
+          "location": {
+            "start": {
+              "line": 800,
+              "column": 4
+            },
+            "end": {
+              "line": 800,
+              "column": 118
+            }
+          },
+          "line": 800,
+          "text": "if (typeof data.soundAddress === 'string' && data.soundAddress.length <= 2000) p.soundAddress = data.soundAddress;"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "336",
+          "arm": 1,
+          "hits": 4,
+          "location": {
+            "start": {
+              "line": 800,
+              "column": 49
+            },
+            "end": {
+              "line": 800,
+              "column": 81
+            }
+          },
+          "line": 800,
+          "text": "if (typeof data.soundAddress === 'string' && data.soundAddress.length <= 2000) p.soundAddress = data.soundAddress;"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "337",
+          "arm": 0,
+          "hits": 2,
+          "location": {
+            "start": {
+              "line": 801,
+              "column": 4
+            },
+            "end": {
+              "line": 801,
+              "column": 81
+            }
+          },
+          "line": 801,
+          "text": "if (p.soundPack === 'custom' && !p.soundAddress.trim()) p.soundPack = 'pond';"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "338",
+          "arm": 1,
+          "hits": 3,
+          "location": {
+            "start": {
+              "line": 801,
+              "column": 36
+            },
+            "end": {
+              "line": 801,
+              "column": 58
+            }
+          },
+          "line": 801,
+          "text": "if (p.soundPack === 'custom' && !p.soundAddress.trim()) p.soundPack = 'pond';"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "339",
+          "arm": 0,
+          "hits": 1,
+          "location": {
+            "start": {
+              "line": 803,
+              "column": 2
+            },
+            "end": {
+              "line": 803,
+              "column": 127
+            }
+          },
+          "line": 803,
+          "text": "if (!CHARACTERS.some(c => c.id === p.selected && p.coins >= c.coins && p.best >= c.distance)) p.selected = DEFAULT_CHARACTER;"
+        }
+      ]
+    }
+  },
+  "scenarios": {
+    "preference-hydration-runtime": {
+      "provenance": "Runtime-owned saved strings enter through actual SDK storage hydration. Assertions use visible game settings and user-triggered SDK persistence. No app state, parser, callback, pose or clock replacement.",
+      "scenarios": [
+        {
+          "id": "missing",
+          "expected": {
+            "selected": "butter",
+            "name": "Butter",
+            "mode": "arcade",
+            "reduced": false,
+            "muted": false,
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1,
+            "soundPack": "pond",
+            "soundAddress": ""
+          },
+          "saved": {
+            "travelerVersion": 2,
+            "best": 0,
+            "strollBest": 0,
+            "coins": 0,
+            "runs": 0,
+            "selected": "butter",
+            "world": "home",
+            "mode": "arcade",
+            "reduced": true,
+            "muted": false,
+            "soundPack": "pond",
+            "soundAddress": "",
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1
+          },
+          "errors": [],
+          "external": []
+        },
+        {
+          "id": "malformed",
+          "expected": {
+            "selected": "butter",
+            "name": "Butter",
+            "mode": "arcade",
+            "reduced": false,
+            "muted": false,
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1,
+            "soundPack": "pond",
+            "soundAddress": ""
+          },
+          "saved": {
+            "travelerVersion": 2,
+            "best": 0,
+            "strollBest": 0,
+            "coins": 0,
+            "runs": 0,
+            "selected": "butter",
+            "world": "home",
+            "mode": "arcade",
+            "reduced": true,
+            "muted": false,
+            "soundPack": "pond",
+            "soundAddress": "",
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1
+          },
+          "errors": [],
+          "external": []
+        },
+        {
+          "id": "wrong-types",
+          "expected": {
+            "selected": "butter",
+            "name": "Butter",
+            "mode": "arcade",
+            "reduced": false,
+            "muted": false,
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1,
+            "soundPack": "pond",
+            "soundAddress": ""
+          },
+          "saved": {
+            "travelerVersion": 2,
+            "best": 0,
+            "strollBest": 0,
+            "coins": 0,
+            "runs": 0,
+            "selected": "butter",
+            "world": "home",
+            "mode": "arcade",
+            "reduced": true,
+            "muted": false,
+            "soundPack": "pond",
+            "soundAddress": "",
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1
+          },
+          "errors": [],
+          "external": []
+        },
+        {
+          "id": "legacy-default-frog",
+          "expected": {
+            "selected": "butter",
+            "name": "Butter",
+            "mode": "stroll",
+            "reduced": false,
+            "muted": true,
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1,
+            "soundPack": "pond",
+            "soundAddress": ""
+          },
+          "saved": {
+            "travelerVersion": 2,
+            "best": 0,
+            "strollBest": 0,
+            "coins": 0,
+            "runs": 0,
+            "selected": "butter",
+            "world": "home",
+            "mode": "stroll",
+            "reduced": true,
+            "muted": true,
+            "soundPack": "pond",
+            "soundAddress": "",
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1
+          },
+          "errors": [],
+          "external": []
+        },
+        {
+          "id": "explicit-frog",
+          "expected": {
+            "selected": "pip",
+            "name": "Pip",
+            "mode": "arcade",
+            "reduced": false,
+            "muted": true,
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1,
+            "soundPack": "pond",
+            "soundAddress": ""
+          },
+          "saved": {
+            "travelerVersion": 2,
+            "best": 0,
+            "strollBest": 0,
+            "coins": 0,
+            "runs": 0,
+            "selected": "pip",
+            "world": "home",
+            "mode": "arcade",
+            "reduced": true,
+            "muted": true,
+            "soundPack": "pond",
+            "soundAddress": "",
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1
+          },
+          "errors": [],
+          "external": []
+        },
+        {
+          "id": "locked-traveler",
+          "expected": {
+            "selected": "butter",
+            "name": "Butter",
+            "mode": "arcade",
+            "reduced": false,
+            "muted": true,
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1,
+            "soundPack": "pond",
+            "soundAddress": ""
+          },
+          "saved": {
+            "travelerVersion": 2,
+            "best": 74,
+            "strollBest": 0,
+            "coins": 0,
+            "runs": 0,
+            "selected": "butter",
+            "world": "home",
+            "mode": "arcade",
+            "reduced": true,
+            "muted": true,
+            "soundPack": "pond",
+            "soundAddress": "",
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1
+          },
+          "errors": [],
+          "external": []
+        },
+        {
+          "id": "clamped-mix",
+          "expected": {
+            "selected": "sunny",
+            "name": "Sunny",
+            "mode": "stroll",
+            "reduced": true,
+            "muted": true,
+            "musicVolume": 1,
+            "ambienceVolume": 0,
+            "effectsVolume": 0.35,
+            "soundPack": "arcade",
+            "soundAddress": "remembered"
+          },
+          "saved": {
+            "travelerVersion": 2,
+            "best": 100,
+            "strollBest": 9,
+            "coins": 200,
+            "runs": 4,
+            "selected": "sunny",
+            "world": "home",
+            "mode": "stroll",
+            "reduced": false,
+            "muted": true,
+            "soundPack": "arcade",
+            "soundAddress": "remembered",
+            "musicVolume": 1,
+            "ambienceVolume": 0,
+            "effectsVolume": 0.35
+          },
+          "errors": [],
+          "external": []
+        },
+        {
+          "id": "empty-custom-pack",
+          "expected": {
+            "selected": "butter",
+            "name": "Butter",
+            "mode": "arcade",
+            "reduced": false,
+            "muted": true,
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1,
+            "soundPack": "pond",
+            "soundAddress": "   "
+          },
+          "saved": {
+            "travelerVersion": 2,
+            "best": 0,
+            "strollBest": 0,
+            "coins": 0,
+            "runs": 0,
+            "selected": "butter",
+            "world": "home",
+            "mode": "arcade",
+            "reduced": true,
+            "muted": true,
+            "soundPack": "pond",
+            "soundAddress": "   ",
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1
+          },
+          "errors": [],
+          "external": []
+        },
+        {
+          "id": "saved-optional-pack",
+          "expected": {
+            "selected": "butter",
+            "name": "Butter",
+            "mode": "arcade",
+            "reduced": false,
+            "muted": true,
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1,
+            "soundPack": "custom",
+            "soundAddress": "naddr1saved-pack"
+          },
+          "saved": {
+            "travelerVersion": 2,
+            "best": 0,
+            "strollBest": 0,
+            "coins": 0,
+            "runs": 0,
+            "selected": "butter",
+            "world": "home",
+            "mode": "arcade",
+            "reduced": true,
+            "muted": true,
+            "soundPack": "custom",
+            "soundAddress": "naddr1saved-pack",
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1
+          },
+          "errors": [],
+          "external": []
+        },
+        {
+          "id": "overlong-address",
+          "expected": {
+            "selected": "butter",
+            "name": "Butter",
+            "mode": "arcade",
+            "reduced": false,
+            "muted": true,
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1,
+            "soundPack": "pond",
+            "soundAddress": ""
+          },
+          "saved": {
+            "travelerVersion": 2,
+            "best": 0,
+            "strollBest": 0,
+            "coins": 0,
+            "runs": 0,
+            "selected": "butter",
+            "world": "home",
+            "mode": "arcade",
+            "reduced": true,
+            "muted": true,
+            "soundPack": "pond",
+            "soundAddress": "",
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1
+          },
+          "errors": [],
+          "external": []
+        }
+      ]
+    },
+    "preference-hydration-runtime-development": {
+      "provenance": "Runtime-owned saved strings enter through actual SDK storage hydration. Assertions use visible game settings and user-triggered SDK persistence. No app state, parser, callback, pose or clock replacement.",
+      "scenarios": [
+        {
+          "id": "missing",
+          "expected": {
+            "selected": "butter",
+            "name": "Butter",
+            "mode": "arcade",
+            "reduced": false,
+            "muted": false,
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1,
+            "soundPack": "pond",
+            "soundAddress": ""
+          },
+          "saved": {
+            "travelerVersion": 2,
+            "best": 0,
+            "strollBest": 0,
+            "coins": 0,
+            "runs": 0,
+            "selected": "butter",
+            "world": "home",
+            "mode": "arcade",
+            "reduced": true,
+            "muted": false,
+            "soundPack": "pond",
+            "soundAddress": "",
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1
+          },
+          "errors": [],
+          "external": []
+        },
+        {
+          "id": "malformed",
+          "expected": {
+            "selected": "butter",
+            "name": "Butter",
+            "mode": "arcade",
+            "reduced": false,
+            "muted": false,
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1,
+            "soundPack": "pond",
+            "soundAddress": ""
+          },
+          "saved": {
+            "travelerVersion": 2,
+            "best": 0,
+            "strollBest": 0,
+            "coins": 0,
+            "runs": 0,
+            "selected": "butter",
+            "world": "home",
+            "mode": "arcade",
+            "reduced": true,
+            "muted": false,
+            "soundPack": "pond",
+            "soundAddress": "",
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1
+          },
+          "errors": [],
+          "external": []
+        },
+        {
+          "id": "wrong-types",
+          "expected": {
+            "selected": "butter",
+            "name": "Butter",
+            "mode": "arcade",
+            "reduced": false,
+            "muted": false,
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1,
+            "soundPack": "pond",
+            "soundAddress": ""
+          },
+          "saved": {
+            "travelerVersion": 2,
+            "best": 0,
+            "strollBest": 0,
+            "coins": 0,
+            "runs": 0,
+            "selected": "butter",
+            "world": "home",
+            "mode": "arcade",
+            "reduced": true,
+            "muted": false,
+            "soundPack": "pond",
+            "soundAddress": "",
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1
+          },
+          "errors": [],
+          "external": []
+        },
+        {
+          "id": "legacy-default-frog",
+          "expected": {
+            "selected": "butter",
+            "name": "Butter",
+            "mode": "stroll",
+            "reduced": false,
+            "muted": true,
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1,
+            "soundPack": "pond",
+            "soundAddress": ""
+          },
+          "saved": {
+            "travelerVersion": 2,
+            "best": 0,
+            "strollBest": 0,
+            "coins": 0,
+            "runs": 0,
+            "selected": "butter",
+            "world": "home",
+            "mode": "stroll",
+            "reduced": true,
+            "muted": true,
+            "soundPack": "pond",
+            "soundAddress": "",
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1
+          },
+          "errors": [],
+          "external": []
+        },
+        {
+          "id": "explicit-frog",
+          "expected": {
+            "selected": "pip",
+            "name": "Pip",
+            "mode": "arcade",
+            "reduced": false,
+            "muted": true,
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1,
+            "soundPack": "pond",
+            "soundAddress": ""
+          },
+          "saved": {
+            "travelerVersion": 2,
+            "best": 0,
+            "strollBest": 0,
+            "coins": 0,
+            "runs": 0,
+            "selected": "pip",
+            "world": "home",
+            "mode": "arcade",
+            "reduced": true,
+            "muted": true,
+            "soundPack": "pond",
+            "soundAddress": "",
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1
+          },
+          "errors": [],
+          "external": []
+        },
+        {
+          "id": "locked-traveler",
+          "expected": {
+            "selected": "butter",
+            "name": "Butter",
+            "mode": "arcade",
+            "reduced": false,
+            "muted": true,
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1,
+            "soundPack": "pond",
+            "soundAddress": ""
+          },
+          "saved": {
+            "travelerVersion": 2,
+            "best": 74,
+            "strollBest": 0,
+            "coins": 0,
+            "runs": 0,
+            "selected": "butter",
+            "world": "home",
+            "mode": "arcade",
+            "reduced": true,
+            "muted": true,
+            "soundPack": "pond",
+            "soundAddress": "",
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1
+          },
+          "errors": [],
+          "external": []
+        },
+        {
+          "id": "clamped-mix",
+          "expected": {
+            "selected": "sunny",
+            "name": "Sunny",
+            "mode": "stroll",
+            "reduced": true,
+            "muted": true,
+            "musicVolume": 1,
+            "ambienceVolume": 0,
+            "effectsVolume": 0.35,
+            "soundPack": "arcade",
+            "soundAddress": "remembered"
+          },
+          "saved": {
+            "travelerVersion": 2,
+            "best": 100,
+            "strollBest": 9,
+            "coins": 200,
+            "runs": 4,
+            "selected": "sunny",
+            "world": "home",
+            "mode": "stroll",
+            "reduced": false,
+            "muted": true,
+            "soundPack": "arcade",
+            "soundAddress": "remembered",
+            "musicVolume": 1,
+            "ambienceVolume": 0,
+            "effectsVolume": 0.35
+          },
+          "errors": [],
+          "external": []
+        },
+        {
+          "id": "empty-custom-pack",
+          "expected": {
+            "selected": "butter",
+            "name": "Butter",
+            "mode": "arcade",
+            "reduced": false,
+            "muted": true,
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1,
+            "soundPack": "pond",
+            "soundAddress": "   "
+          },
+          "saved": {
+            "travelerVersion": 2,
+            "best": 0,
+            "strollBest": 0,
+            "coins": 0,
+            "runs": 0,
+            "selected": "butter",
+            "world": "home",
+            "mode": "arcade",
+            "reduced": true,
+            "muted": true,
+            "soundPack": "pond",
+            "soundAddress": "   ",
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1
+          },
+          "errors": [],
+          "external": []
+        },
+        {
+          "id": "saved-optional-pack",
+          "expected": {
+            "selected": "butter",
+            "name": "Butter",
+            "mode": "arcade",
+            "reduced": false,
+            "muted": true,
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1,
+            "soundPack": "custom",
+            "soundAddress": "naddr1saved-pack"
+          },
+          "saved": {
+            "travelerVersion": 2,
+            "best": 0,
+            "strollBest": 0,
+            "coins": 0,
+            "runs": 0,
+            "selected": "butter",
+            "world": "home",
+            "mode": "arcade",
+            "reduced": true,
+            "muted": true,
+            "soundPack": "custom",
+            "soundAddress": "naddr1saved-pack",
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1
+          },
+          "errors": [],
+          "external": []
+        },
+        {
+          "id": "overlong-address",
+          "expected": {
+            "selected": "butter",
+            "name": "Butter",
+            "mode": "arcade",
+            "reduced": false,
+            "muted": true,
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1,
+            "soundPack": "pond",
+            "soundAddress": ""
+          },
+          "saved": {
+            "travelerVersion": 2,
+            "best": 0,
+            "strollBest": 0,
+            "coins": 0,
+            "runs": 0,
+            "selected": "butter",
+            "world": "home",
+            "mode": "arcade",
+            "reduced": true,
+            "muted": true,
+            "soundPack": "pond",
+            "soundAddress": "",
+            "musicVolume": 0.6,
+            "ambienceVolume": 0.65,
+            "effectsVolume": 1
+          },
+          "errors": [],
+          "external": []
+        }
+      ]
+    }
+  },
+  "images": {
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/suite-artifacts/preference-hydration-runtime/missing.png": "5e575f44a3c9eebb48506251460d3dafcb1967cd4473d29ba10e8e832c2c7d7e",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/suite-artifacts/preference-hydration-runtime/malformed.png": "6ddf926659cb1bff0d01b45f6cea51b68e63eade67276d8c230656a456d442e3",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/suite-artifacts/preference-hydration-runtime/wrong-types.png": "f9fcac21234e04cb1a7f8f57817e54d5dea700f198eef700697904a1a97425af",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/suite-artifacts/preference-hydration-runtime/legacy-default-frog.png": "0c4eaa0e3b8438ce9802d9f0cb0308a4e870e07dc0e808ab5f158107740190b1",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/suite-artifacts/preference-hydration-runtime/explicit-frog.png": "3680a9df09036d7ec4c1cb24944f1ee432b655cb27468573fa26c78afec38872",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/suite-artifacts/preference-hydration-runtime/locked-traveler.png": "8a83cfedbf7af11348f0d5e9b03c9d7b7b5da98a397e62f82da2ef78a40ff2b3",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/suite-artifacts/preference-hydration-runtime/clamped-mix.png": "a801f992d559c2964d2d654f14a36be4f2beca6bc863bd82d42651d1278005d4",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/suite-artifacts/preference-hydration-runtime/empty-custom-pack.png": "23d43f379554b437792a9972df9e673fd900d9d3d0e955a0672910347c18042e",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/suite-artifacts/preference-hydration-runtime/saved-optional-pack.png": "7e9336b35e2854ef27d16d127b5bb2eb6c05169233e81a38b9996070de5f3feb",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/suite-artifacts/preference-hydration-runtime/overlong-address.png": "7b9271ee18d266ec8fb6ece38900712e174b4a5749f267061bc11d2ba7655c7a",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/suite-artifacts/preference-hydration-runtime-development/missing.png": "88220c24f470a71eeb076b3ea1c17552651fac1d6b2ba0de028f4b242e2d0d2b",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/suite-artifacts/preference-hydration-runtime-development/malformed.png": "086f07a94d9affca8e6f1d64763b0fa79082bcf25a49350b61f1a84f974c678c",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/suite-artifacts/preference-hydration-runtime-development/wrong-types.png": "9fe9cd3e3b2902aa0782ac508cc1925855b12189ccaa1c058c96d71e4c25fefc",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/suite-artifacts/preference-hydration-runtime-development/legacy-default-frog.png": "27bcf6f4322f8b3334a372e68df5538bf52a015861e6cb012e68947127720595",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/suite-artifacts/preference-hydration-runtime-development/explicit-frog.png": "17c87012c152983719a11001a3532bb391e00b1955296e8fcd8f1003fcf6c040",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/suite-artifacts/preference-hydration-runtime-development/locked-traveler.png": "63902d4d328ca88e3161ddcb37ac845ce1588be61647d39b90fe04807f505df5",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/suite-artifacts/preference-hydration-runtime-development/clamped-mix.png": "76d48ed933ea017138addeb1788aa366b6c7fe5918b7238fc42969deff033c62",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/suite-artifacts/preference-hydration-runtime-development/empty-custom-pack.png": "0ceecf80007e87882c98a152b1688457bd4f7c99e928118db2a4b88d3ac020f9",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/suite-artifacts/preference-hydration-runtime-development/saved-optional-pack.png": "29accc6ed185538a3cb3dd30ea0a1e707bf4c3deff71a974759e0a628ef6aab7",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/suite-artifacts/preference-hydration-runtime-development/overlong-address.png": "1b32b3536a2007d950b3c06787a18620e1af9a3da185a35f9091feeca1ed6b91"
+  },
+  "hashes": {
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/browser-08e7b9367beff716d1d96d359d61ca629bedff167c2bb87034b11cd64bab38bd.json": "d364888676a33e470865274b8478e2a23a3359e7241def78ed2af841e6554a8b",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/browser-0e206ba7d31168913dea69ffbe668045ad2935556611906a09d8d9b7c39ec4d3.json": "51773e2d32a9d30141bc3a40442df440039d870de7f19e388bab3a72eacb8aba",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/browser-187eacb0a9d5417ca4c0f6666ccacd1679af646f436e749bebe7790025006ba1.json": "d7f54bdd3c489670c61cbe6bce47337fdcff706d90bbc5132e76285776d403b9",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/browser-19da5bcafefef68a4a4ee2d454a6f257f7a68d64eb5c7f77087f9cb5a964b9e9.json": "0c0869922ce47970135df4f6aa85eb89b63a0d507420bfb7cbe677467c617a28",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/browser-3cef520f84de998b99150f67a178596a39126499be288e224460de67726dbc1b.json": "9080bb320cd5ea5cafc1e9bbc3118b40c7889d8ad4e22e34976dfbcf4db4c6f0",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/browser-40f493de47aaade5a3ee683f82bfef600a9f372e8fb9d768bebbea4db6d52ce3.json": "9472f20dc61d85f523672cb1cbc190dcb3641bba52c0e4df1b67f0e4684f768a",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/browser-412885156bd0558a4a04a626f50563fd4343d71b2f816456c1eb56b38ce37650.json": "54bb45c44f696a11e1e2cc3a3dbf0ed7ff2b5716707fd80424ac00e677d8b1c2",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/browser-5dac568824253f5e9ced79aca6faa550496da887d01443c830ef0073dc244c5a.json": "666fb91d6ab5e7f83b13442a243b05c5e4fb64f13f1b19c47f7f55db92244ac9",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/browser-75b251bbb36322660d6420287d2b1fcfaad74a0fe274d35ddd43d3d08bf049ec.json": "220457180dcb91d6334b35498abb6b7427b3c5c82b7650a355b119afff7e35bd",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/browser-9702dcf416f061ed147473b58c7f4a7aad5cec4863cc37a8ea3fc603f0b02480.json": "e8d2216aacd97a4e51edb7fa7fb9524de5c00211ca809af10a9b4dfbeecaf930",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/browser-9d339228c742e2a9f882a7f842f090f81ab3f6430b7c8f0c5b7bee51f2c9ab80.json": "ac4d44c9c66467acbffebf0a5b25bdd95446ed8b51a251dccf53a4472d25e08c",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/browser-accc5587424520c28b9bb998f201d53b50a56a17da7c1d01dacd9ad056a9552a.json": "9f9795f3131841f8a0cac4680d4348987307b05d5992aa24db9a73d323be9b3a",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/browser-b89dd0f3dcaceb359126f1d340fd523896828cfbe9c624fc92e5aa9ea3b01342.json": "8fb8d75f6527d6d5476cf36250f89eca744a00353f9c9d8e0f93df4d3f6a221d",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/browser-cc78bb25dfecdcc6ab3ac95a8da2d646f9e9acf9d2cb54e0f23afca789fb11d5.json": "631a1511135ffcdbccc8f06689bd4cc6bb868fa5f42e010c8f941ccf2ff16b92",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/browser-e3562e116820da5d8d2b74c4516b35a7f6cb4cb977cfc31640d1887320054a0b.json": "4abeb3a1a0cfabb23de5ed241223d13eeb5d25101f3256f255971f59b02048e6",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/browser-f2e9f771e9581cac4d137434c1b955e99d99537a89efc9296a2a2f7caad740f4.json": "b534be318657689f322ea60256d35de292fd71abbefe1bbf1733e5ff7b54b69f",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/browser-f3366952cbb73555f83254bca134ad895dbbff1bc01068cea5bb1c1128c9c00f.json": "8fb88129c63e471d48b3593c135311f4cf09e405870ebfdec64912a46f1cdde0",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/browser-f5edd7e692c662e0e49382f44f26364651c49a4522a15cc4964c6ddc5c5918d4.json": "fbea3157b7a3c9983da8f5ad292cdc640f0d9f9bffd9f68a8ac8330e033d0677",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/browser-f887ca98e7b6334456c52f5e3b18b5cea5c18c74e77e5a09dbb670af05869e13.json": "281abe2a1ba063d89117f80d999ff0473fbfc69cd0760b52bbe93a306f528eff",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/browser-fc26b29f9129ed79230a8b173dfb3481e5fff5cb2d2f8328304e8a6bf72e6ec6.json": "23299976aa06c220b1f782f95cbd4f3aaa257b97d9f8da96e85166439912715a",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/inventory.json": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+    "artifacts/release-coverage/preference-hydration-03/2872e965-9d28-407b-9af5-11c803b25fef/job-ledger.json": "190844fff861eab893e83e34524c8a5dc654ffcf374113f018b4eea4db045f3b",
+    "artifacts/release-coverage/preference-hydration-03/attribution.json": "5a0f8b77af7d5d70acded50a2c534fea90857ac351078db92e4737839225c7cc",
+    "artifacts/release-coverage/preference-hydration-03/manifest.json": "1d4e0ad26c72d07748079dec25bb851dde60b12728cbaaeeb2b132557ad31851",
+    "artifacts/release-coverage/preference-hydration-03/strata/browser-presentation-owner-lifecycle/coverage-final.json": "32ecf0b3a7df76e44d4a696626f75ef9fb722fa1ee7621ea0b7e0adb9c956986",
+    "artifacts/release-coverage/preference-hydration-03/strata/development/coverage-final.json": "ab6ba13b6390ada0238f566bfec1e5418b7cb68dc7bfdb27d9fb68eeb278d213",
+    "artifacts/release-coverage/preference-hydration-03-proof/canonical.log": "9acadfdacb5a38b52e7341ce38106441a080eeb2fc2242ed26decfde7cf46ed4",
+    "artifacts/release-coverage/preference-hydration-03-proof/compare.py": "15721b059744b04e32daa4e14729f07ab4ff39bb4f87a914ae1a24b695ce5caa",
+    "artifacts/release-coverage/preference-hydration-03-proof/controls.log": "410ae803b1e1f2e05d105071d102f7039cf80902954973f59d8c6071e09d7cca",
+    "artifacts/release-coverage/preference-hydration-03-proof/default-fixture-regression.log": "9194cc9a5e2a0af111b054a887eadfb4c3a48ae3ba103d42b21326dadb25d40f",
+    "artifacts/release-coverage/preference-hydration-03-proof/dispatch-audit.json": "4eae0fb7e130ed2acc97ce3176004ba1050eadf7a6a765a2c354293aedfb61f1",
+    "artifacts/release-coverage/preference-hydration-03-proof/ordinary-01.log": "dd1f5f2e577ad20d3022a9784c7ccd7d8328b0d979afa83690678e079c7069ca",
+    "artifacts/release-coverage/preference-hydration-03-proof/ordinary-02.log": "d07e891468be86bf2a410e15b7e8ff33e1bf38897609e6c9b9ca99b36c4c0e52",
+    "artifacts/release-coverage/preference-hydration-03-proof/test-attempt-01.mjs": "80aae69369313b8eb7a884d671281cfa6cb997c0a71c8a0c0963beba3e3c9bed",
+    "package.json": "7930375fe5b0e2f8ead22987963aef42df9304fadd92c903a60c1863f1fe3032",
+    "tests/market-game-fixture.mjs": "e7bb47711cd9d079f39a0b486a1630e9d850f6e73d406893ced24ef5e4b49536",
+    "tests/preference-hydration-runtime.mjs": "a90ff159ca8b12c3f25b8edb76acb9ca9ba4dc32e6f8d5eb545d14bd6e11a92f",
+    "tools/release-coverage/suites.json": "3ad1b31360e771b7eb4049553b01aa2b1018b9b43e1835b68ae3cd86f020eac3"
+  },
+  "limitations": [
+    "Runtime-owned storage responses are fixtures,not a full shell-wire conformance claim.",
+    "No mode interval,physical hardware or complete visual matrix credit.",
+    "Only the normal900x600 clamped-mix camp image was visually inspected;twenty canonical screenshots are retained.",
+    "Original full report is enforced-fail. Remaining semantic review,fresh full enforcement,07-04/05/06 and PR required."
+  ]
+}
