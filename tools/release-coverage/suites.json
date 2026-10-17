@@ -1678,14 +1678,30 @@
                 [
                   "playing",
                   "settled"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
                 ]
               ],
-              "lifetimes": 11
+              "lifetimes": 12
             }
           ]
         }
       ],
-      "provenance": "Whole actual turn matrix: twenty-one lifetimes/eighty-five intervals. Original fifteen cases retained; actual staged river/road/rail admission, live fractional carry, first hops, bench isolation, pause and terminal results. No private placement or claim planner invocation."
+      "provenance": "Whole actual turn matrix: twenty-two lifetimes/eighty-nine intervals. Original twenty-one cases retained; actual secondary innate rescue, interrupted-hop credit cancellation,101 settled hops, earned healing/recharge, independent owners and frozen results. Explicit component fixtures; no direct planner, revival-credit or RNG injection."
     },
     "devtools-gaps-03": {
       "files": [
@@ -4284,14 +4300,30 @@
                 [
                   "playing",
                   "settled"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
                 ]
               ],
-              "lifetimes": 11
+              "lifetimes": 12
             }
           ]
         }
       ],
-      "provenance": "Whole actual turn matrix: twenty-one lifetimes/eighty-five intervals. Original fifteen cases retained; actual staged river/road/rail admission, live fractional carry, first hops, bench isolation, pause and terminal results. No private placement or claim planner invocation."
+      "provenance": "Whole actual turn matrix: twenty-two lifetimes/eighty-nine intervals. Original twenty-one cases retained; actual secondary innate rescue, interrupted-hop credit cancellation,101 settled hops, earned healing/recharge, independent owners and frozen results. Explicit component fixtures; no direct planner, revival-credit or RNG injection."
     },
     "turn-spawn-safety-03": {
       "files": [
@@ -4655,14 +4687,30 @@
                 [
                   "playing",
                   "settled"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
                 ]
               ],
-              "lifetimes": 11
+              "lifetimes": 12
             }
           ]
         }
       ],
-      "provenance": "Whole actual turn matrix: twenty-one lifetimes/eighty-five intervals. Original fifteen cases retained; actual staged river/road/rail admission, live fractional carry, first hops, bench isolation, pause and terminal results. No private placement or claim planner invocation."
+      "provenance": "Whole actual turn matrix: twenty-two lifetimes/eighty-nine intervals. Original twenty-one cases retained; actual secondary innate rescue, interrupted-hop credit cancellation,101 settled hops, earned healing/recharge, independent owners and frozen results. Explicit component fixtures; no direct planner, revival-credit or RNG injection."
     },
     "pickup-eligibility-03": {
       "files": [
@@ -6279,7 +6327,10 @@
     "tools/release-coverage/development-artifact.test.mjs",
     "tools/release-coverage/node-job-identity.test.mjs",
     "tools/release-coverage/development-applicability.test.mjs",
-    "tools/release-coverage/turn-reuse-attribution.test.mjs"
+    "tools/release-coverage/turn-reuse-attribution.test.mjs",
+    "tools/release-coverage/builtin-rule-applicability.test.mjs",
+    "tools/release-coverage/solo-applicability.test.mjs",
+    "tools/release-coverage/turn-applicability.test.mjs"
   ],
   "strata": {
     "shared-authority-input": {
@@ -9335,9 +9386,25 @@
               [
                 "playing",
                 "settled"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "settled"
               ]
             ],
-            "lifetimes": 11
+            "lifetimes": 12
           }
         ]
       },
@@ -9555,7 +9622,10 @@
       "tools/release-coverage/development-artifact.test.mjs",
       "tools/release-coverage/node-job-identity.test.mjs",
       "tools/release-coverage/development-applicability.test.mjs",
-      "tools/release-coverage/turn-reuse-attribution.test.mjs"
+      "tools/release-coverage/turn-reuse-attribution.test.mjs",
+      "tools/release-coverage/builtin-rule-applicability.test.mjs",
+      "tools/release-coverage/solo-applicability.test.mjs",
+      "tools/release-coverage/turn-applicability.test.mjs"
     ],
     "dynamicImports": {
       "tests/consumable-drops.test.mjs": [

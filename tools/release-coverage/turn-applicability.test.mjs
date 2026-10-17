@@ -11,10 +11,10 @@ const directory=await mkdtemp(join(tmpdir(),'turn-applicability-'));after(()=>rm
 const root=resolve(new URL('../..',import.meta.url).pathname);
 const ts=createRequire(new URL('../../package.json',import.meta.url))('typescript');
 const authoritySources=await Promise.all(Object.keys(TURN_AUTHORITY_PINS).map(async path=>({path,source:await readFile(join(root,path),'utf8')})));
-const audit=JSON.parse(await readFile(join(root,'.planning/phases/07-release-evidence-pr/07-03-SAFE-ADOPTION-REFERENCE-AUDIT.json'),'utf8'));
+const audit=JSON.parse(await readFile(join(root,'.planning/phases/07-release-evidence-pr/07-03-INNATE-HOP-REFERENCE-AUDIT.json'),'utf8'));
 const closureSources=await Promise.all(Object.keys(audit.sourceHashes).filter(path=>!path.endsWith('.d.ts')).map(async path=>({path,source:await readFile(join(root,path),'utf8')})));
 const turnApplicabilityDispositions=input=>generateTurnDispositions({authoritySources,closureSources,canonicalSources:closureSources,...input});
-const texts=Object.fromEntries(await Promise.all(Object.keys(TURN_APPLICABILITY_SOURCES).map(async path=>[path,await readFile(join(root,path),'utf8')])));
+const texts=Object.fromEntries(await Promise.all([...new Set([...Object.keys(TURN_APPLICABILITY_SOURCES),'src/mode-rules.ts'])].map(async path=>[path,await readFile(join(root,path),'utf8')])));
 const inventory=instrumentSources(texts,root);
 // A zero schema realm only, never gameplay evidence or mode coverage credit.
 const mapped=await reportCoverage(inventory,[Object.fromEntries(Object.values(inventory).map(row=>[row.path,row.zero]))],directory);
@@ -205,5 +205,14 @@ test('personal-only turn recovery excludes precise Flare paths while safe acquis
    const hits=structuredClone(attributed);if(d.kind==='branch')hits[d.path].b[d.id][d.arm]=1;else hits[d.path][d.kind==='statement'?'s':'f'][d.id]=1;
    assert.throws(()=>reportApplicability({mode,sources,attributed:hits,dispositions}),/contradicted/,'every new excluded '+d.kind+' rejects positive hits');
   }
+ }
+});
+
+
+test('actual turn modes retain built-in validation but exclude unreachable authoring failures',()=>{
+ const rules=sourceFor('mode-rules.ts');assert.ok(rules);
+ for(const mode of ['relay','race']){
+  const dispositions=turnApplicabilityDispositions({mode,sources});
+  for(const [name,expected]of [['function fail(',true],['function numberAt(',false],['function checkUnknown(',false],['function mergeGroup<',false],['export function composeModeDefinition(',false],['function freeze<',false],['export function isModeDefinition(',false]])for(const id of functionIds(rules,name))assert.equal(excluded(dispositions,rules,id),expected,name);
  }
 });

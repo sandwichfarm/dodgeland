@@ -169,7 +169,10 @@ export function projectSoloApplicability(mode,inventory,mapped,paths,intervals){
   return {path:absolute,source:record.source,map:record.map,coverage:mapped[absolute]};
  });
  const attributed=Object.fromEntries(sources.map(s=>[s.path,mapped[s.path]]));
- return reportApplicability({mode,sources,attributed,dispositions:soloApplicabilityDispositions({mode,sources,authoritySources:Object.keys(SOLO_AUTHORITY_PINS).map(path=>{const record=Object.values(inventory).find(r=>r.path===resolve(repositoryRoot,path));if(!record)throw Error("Missing solo caller authority: "+path);return {path,source:record.source};})})});
+ const names=readdirSync(join(repositoryRoot,'src'),{recursive:true}).filter(path=>/\.(ts|tsx|js|mjs)$/.test(path)&&!path.endsWith('.d.ts')).sort();
+ const closureSources=names.map(path=>({path:'src/'+path.replaceAll('\\','/'),source:readFileSync(join(repositoryRoot,'src',path),'utf8')}));
+ const canonicalSources=Object.values(inventory).map(record=>({path:record.path,source:record.source}));
+ return reportApplicability({mode,sources,attributed,dispositions:soloApplicabilityDispositions({mode,sources,closureSources,canonicalSources,authoritySources:Object.keys(SOLO_AUTHORITY_PINS).map(path=>{const record=Object.values(inventory).find(r=>r.path===resolve(repositoryRoot,path));if(!record)throw Error("Missing solo caller authority: "+path);return {path,source:record.source};})})});
 }
 
 export function projectTurnApplicability(mode,inventory,mapped,paths,intervals){

@@ -1,19 +1,21 @@
 import { createHash } from 'node:crypto';
 import { createRequire } from 'node:module';
 import { applicabilityIdentity } from './applicability.mjs';
+import { builtinRuleDispositions } from './builtin-rule-applicability.mjs';
 const ts=createRequire(new URL('../../package.json',import.meta.url))('typescript');
-// Complete executable src inventory reviewed in SAFE-ADOPTION-REFERENCE-AUDIT.json.
+// Complete executable src inventory reviewed in INNATE-HOP-REFERENCE-AUDIT.json.
 // A new/changed caller anywhere invalidates this closure, even outside the stratum.
-const callerInventoryHash='b550759a82d954b9d3572690179ebb0071a182843381dc23a84e697e6bc62583';
+const callerInventoryHash='9ef7fa9ebc20c98c6d807c10529ddd36365a47d533614c41d46470d2463a7eef';
 // Deliberately reviewed pins: never regenerate automatically when production changes.
 export const TURN_APPLICABILITY_SOURCES=Object.freeze({
+ 'src/mode-rules.ts':'cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2',
  'src/relay.ts':'f5c1eea5b82e6e42d7b6bbc6a95f7f0d28aa7ad7468c4464e0217ab9f89e6c02',
  'src/race.ts':'d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da',
  'src/session.ts':'399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9',
  'src/session-recovery.ts':'35119abd8ac6551d253ec0ada320c934fd5a9cf20c142444e3afdb4094093b9c',
  'src/recovery.ts':'835df7ab867c3421e7d295778c864ceba83f0ea10e588c4c6f4d95cdc2c1702b',
  'src/shared-world-effects.ts':'715dce9a98a83c398aa3a3d43531568008a9cefaa9be8df766a921dd2eb43a45',
- 'src/game.ts':'fb5d9224e46c19b3745099429f06bd141d9b738bb2d8786ed3266e1b6a7d95f6',
+ 'src/game.ts':'f783839e0a6bfc98eb2a0a4e35e381e9002daafb0ced9832dcbfe1b4a2794396',
  'src/market/run.ts':'ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f',
  'src/consumable-drops.ts':'2fc4a1c55dc7f37dbcac2b7091661e3a284d3292eddf1460da423a39520dec4a',
 });
@@ -54,6 +56,7 @@ export function turnApplicabilityDispositions({mode,sources,authoritySources,clo
  if(selected.size!==Object.keys(TURN_APPLICABILITY_SOURCES).length)throw Error('Missing reviewed turn source');
  const output=[];
  for(const[key,{source,identity}]of selected){
+  if(key==='src/mode-rules.ts'){output.push(...builtinRuleDispositions({mode,source,closureSources,canonicalSources}));continue;}
   const tree=ts.createSourceFile(key,source.source,ts.ScriptTarget.Latest,true);if(tree.parseDiagnostics.length)throw Error('Invalid reviewed source');
   const point=o=>{const p=tree.getLineAndCharacterOfPosition(o);return{line:p.line+1,column:p.character};};
   const span=n=>({start:point(n.getStart(tree)),end:point(n.end)}),ranges=[],functions=[];

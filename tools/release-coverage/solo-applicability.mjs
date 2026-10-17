@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { createRequire } from 'node:module';
 import { applicabilityIdentity } from './applicability.mjs';
+import { builtinRuleDispositions } from './builtin-rule-applicability.mjs';
 
 const ts = createRequire(new URL('../../package.json', import.meta.url))('typescript');
 const reviewed = Object.freeze({
@@ -9,7 +10,7 @@ const reviewed = Object.freeze({
 
   'src/mobs.ts': { hash:'6077ac4fd884ef16f9fe8ab3f3db77a431b2d2853adbeddc1d0d843b595018d1' },
   'src/mode-rules.ts': { hash:'cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2' },
-  'src/game.ts': { hash: 'fb5d9224e46c19b3745099429f06bd141d9b738bb2d8786ed3266e1b6a7d95f6', owner: 'Game', callables:['worldForRow','actorPositions'], helpers: [], members: ['syncSharedEffects', 'collectSessionCoins', 'sessionPickupContact', 'operationFor', 'inPlayerOperation', 'startPlayer', 'movePlayer', 'updateSessionPlayer', 'damagePlayer', 'advancePlayerDeathVisuals', 'advanceSharedWorld', 'advanceSharedPursuit', 'awardSessionPickup', 'updateSessionMobs', 'setSharedWorldEffects', 'resetSharedWorldEffects', 'syncSharedWorldEffects', 'installWorldExtension', 'updateSessionWorldExtension'] },
+  'src/game.ts': { hash: 'f783839e0a6bfc98eb2a0a4e35e381e9002daafb0ced9832dcbfe1b4a2794396', owner: 'Game', callables:['worldForRow','actorPositions'], helpers: [], members: ['syncSharedEffects', 'collectSessionCoins', 'sessionPickupContact', 'operationFor', 'inPlayerOperation', 'startPlayer', 'movePlayer', 'updateSessionPlayer', 'damagePlayer', 'advancePlayerDeathVisuals', 'advanceSharedWorld', 'advanceSharedPursuit', 'awardSessionPickup', 'updateSessionMobs', 'setSharedWorldEffects', 'resetSharedWorldEffects', 'syncSharedWorldEffects', 'installWorldExtension', 'updateSessionWorldExtension'] },
   'src/recovery.ts': { hash:'835df7ab867c3421e7d295778c864ceba83f0ea10e588c4c6f4d95cdc2c1702b', callables:['reject','stable','isLivingRecoverySubject','planRecovery','commitRecoveryPlan'] },
   'src/shared-world-effects.ts': { hash:'715dce9a98a83c398aa3a3d43531568008a9cefaa9be8df766a921dd2eb43a45', callables:['resolveSharedWorldEffects'] },
   'src/consumables.ts': { hash:'6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12', callables:['reject','validGeneration','validId','definition','holdsCapability','sameOwner','chargesFor','validateBase','resulting','targetsFor','planConsumableCredit','planConsumableDebit'] },
@@ -23,7 +24,7 @@ const before = (a, b) => a.line < b.line || a.line === b.line && a.column <= b.c
 const contains = (outer, inner) => inner?.start && inner?.end && before(outer.start, inner.start) && before(inner.end, outer.end);
 
 /** Reviewed stable-solo applicability only; this does not establish interval provenance. */
-export function soloApplicabilityDispositions({ mode, sources, authoritySources }) {
+export function soloApplicabilityDispositions({ mode, sources, authoritySources, closureSources, canonicalSources }) {
   if (!['solo-arcade', 'solo-flow'].includes(mode)) throw Error('Stable solo mode required');
   if (!Array.isArray(sources)) throw Error('Source inventory required');
   if(!Array.isArray(authoritySources))throw Error('Missing solo caller authority');
@@ -41,6 +42,7 @@ export function soloApplicabilityDispositions({ mode, sources, authoritySources 
     seen.add(key);
     const rule = reviewed[key], identity = applicabilityIdentity(source);
     if (identity.sourceHash !== rule.hash) throw Error('Reviewed solo source changed: ' + key);
+    if(key==='src/mode-rules.ts')dispositions.push(...builtinRuleDispositions({mode,source,closureSources,canonicalSources}));
     const tree = ts.createSourceFile(key, source.source, ts.ScriptTarget.Latest, true);
     if (tree.parseDiagnostics.length) throw Error('Invalid reviewed source');
     const point = offset => { const p = tree.getLineAndCharacterOfPosition(offset); return { line: p.line + 1, column: p.character }; };

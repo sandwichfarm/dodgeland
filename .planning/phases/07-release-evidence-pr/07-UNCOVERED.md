@@ -2,6 +2,29 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Current interrupted innate hop and built-in rule scope
+
+ARCH-03/COOP-04/RACE-04/TEST-02/03: RED e146fb5 proves a real secondary Sunny
+traffic rescue wrongly credits an unsettled hop toward personal revival. Game
+f783839e cancels that participant's pending forward hop through the existing
+session operation. Score, innate100/revival250, health, landing and RNG stay
+unchanged.58 affected+24 nearby cases,102 controls, seven gates and nine fresh
+cohorts pass. Current22-world matrix binds89 intervals and22,512 shared updates,
+zero standalone calls/ownership violations. See INNATE-HOP-PROOF/REPAIR.
+
+Built-in composer closure proves two fixed valid calls, retaining initialization,
+successful validation and runtime checks. Only fail execution/exact17 impossible
+invalid then-outcomes and enclosed error operands qualify, under both complete
+disk/canonical158-code inventories and exact source/map/AST identities. Unknown
+sites remain counted; positive excluded hits reject. Raw/global/file counters
+and all numerators are unchanged. Four-mode current-data scope delta is exactly
+-1L/-18S/-1F/-21B each. BUILTIN-RULE-CLOSURE/audit retain the caller/value proof.
+
+Current fresh diagnostic Relay1943/2104L641/710F2053/2791B needs320B;
+Race2022/2163L684/758F2290/3030B needs286B. These supersede older focused gaps
+below, not their historical source identities. No full enforcing acceptance or
+new initial-ledger/global-zero annotation is claimed;162/889 review totals stay.
+
 ## Current safe admission and recovery scope
 
 ARCH-03/INPUT-02/TEST-02/03: two real river adoption failures in2b64cdd prove
@@ -15,10 +38,9 @@ continued hops. See SAFE-ADOPTION-PROOF.json and SAFE-ADOPTION-REPAIR.md.
 Complete caller/policy review adds precise Flare-only safe-cell dispositions
 and Race-only transferPosition; safePlacement stays counted during acquisition.
 Same current raw/site comparison changes no numerator; all raw/global/file
-counters and numeric floors remain complete. Current diagnostics still need
+counters and numeric floors remain complete. Then-current diagnostics needed
 Relay338B and Race3F307B. No fresh enforcing/full-branch acceptance is claimed;
-initial source-bound annotations remain historical. Rule-authoring candidates
-remain read-only pending complete proof, never automatic exclusions.
+initial source-bound annotations remain historical. The subsequently completed built-in review is recorded above.
 
 ## Current pickup eligibility and arbitration
 

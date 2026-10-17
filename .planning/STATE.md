@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-03 safe admission repair verified; nine fresh cohorts pass
-last_updated: "2026-10-17T14:28:39.662950+00:00"
+stopped_at: 07-03 interrupted innate hop repaired; nine fresh cohorts pass
+last_updated: "2026-10-17T15:05:00.608446+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,7 +12,7 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Valid river admission fixed;21 real worlds and nine fresh cohorts pass; Relay functions pass, branch gates remain.
+last_activity_desc: Interrupted innate hop repaired;58+24 gameplay,102 controls, seven gates and nine fresh cohorts pass; release branch floors remain open.
 ---
 
 # Project State
@@ -30,7 +30,7 @@ jump/load (71b5dc6), and a disconnected owner's retained coin claim (RED0638b42,
 repair7e71ab1). All have retained RED/GREEN evidence. Required
 type/build/guidance checks pass. Conformance remains five
 passes, zero failures and five unmeasured checks. Normal build raw SHA256:
-`c66d9f9bacd9881f3a6306e6c015e2e9b0a6d507bc316303a61c521a251f7d76`.
+`a05e47ef1572fd544b5a0d10bc83f33d313effb925b3f4a8e1ef2bdd8f17cc4a`.
 Current session source is `399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9`;
 all older session measurements below retain their historical identities and
 cannot be merged into the current source. Focused canonical refresh passed; the current complete report-only collection
@@ -674,6 +674,43 @@ is outside that candidate. Actual secondary innate powers and richer bound
 public Race journeys remain behavior targets. Do not attribute planner/oracle
 helper calls or whole mixed workers to modes. Full enforcing07-03/04/05/06/PR
 obligations remain open; mixed input aliases remain design-only.
+
+Innate-hop verification78862 is terminal0; temporary caffeinate ended. RED e146fb5
+retains a real P3 Sunny road rescue that prematurely credited completed tile1
+while powerRescue remained airborne. Game.tryCharacterPower now cancels that
+participant's interrupted pending forward hop before the unchanged interaction/
+callback. No score, health, innate100/revival250 cooldown, RNG or mode-specific
+logic changes. Whole affected58/58 plus nearby character/damage/recovery24/24
+pass; all21 old matrix case bodies unchanged. New22nd lifetime proves actual
+secondary rescue,101 settled simultaneous hops, earned half-feather healing,
+innate recharge, other-owner isolation and frozen results. See INNATE-HOP-REPAIR
+and INNATE-HOP-REFERENCE-AUDIT20. Game sourcef783839e only; session399 unchanged.
+Caller inventory9ef7fa9e/DEV935c3e5b explicitly reviewed after stale-pin rejection.
+
+Built-in authoring closure now maps only fail execution and exact17 invalid true
+outcomes/error-message operands for the two fixed valid composer calls. Successful
+validation, module initialization, runtime isModeDefinition and all raw/global/
+file counters remain counted. All source/map/AST identities and both independent
+full158-source disk/canonical inventories are required. Unknown/crossing locations
+stay counted; every excluded hit rejects.102 controls pass, including complete
+inventory mutations, malformed sites and every new positive-hit contradiction.
+The two initial integration failures were expected missing-scope controls, not
+product RED. No further default/fallback/wave/trail exclusion is added. Full
+control inventory now includes the new mapper and both integration suites(nine
+full controls). BUILTIN-RULE-CLOSURE/current audit retain exact proof.
+
+Seven project gates pass (solo parity/session-model/Survive recovery/type/build/
+guidance/CLI conformance, latter still5/0/5unmeasured). All nine fresh cohorts pass
+at15:01:03Z; source/test/tool/suite freeze released. Normal a05e47ef, root lock5ac,
+56 prior temporary outputs and ordinary artifacts are preserved. No live chain.
+The22-world/89-interval matrix records22,512 shared updates,zero standalone and
+no ownership violations. See07-03-INNATE-HOP-PROOF.json for exact cohort IDs.
+Current six-root diagnostic union:90 component lifetimes/266 component intervals
+plus seven public intervals. Relay1943/2104L641/710F2053/2791B needs320B;
+Race2022/2163L684/758F2290/3030B needs286B. Both line/function floors pass only
+diagnostically. Complete source/map/caller inventories revalidated; no historical
+changed-Game counter merging. Fresh full enforcement, semantic ledger,07-04/05/06
+and final PR remain open; mixed-input aliases remain design-only.
 
 ## Next required work
 

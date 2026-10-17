@@ -13,7 +13,9 @@ const directory = await mkdtemp(join(tmpdir(), 'solo-applicability-'));
 after(() => rm(directory, { recursive: true, force: true }));
 const root = resolve(new URL('../..', import.meta.url).pathname);
 const authoritySources=await Promise.all(Object.keys(SOLO_AUTHORITY_PINS).map(async path=>({path,source:await readFile(join(root,path),'utf8')})));
-const soloApplicabilityDispositions=input=>generateSoloDispositions({authoritySources,...input});
+const audit=JSON.parse(await readFile(join(root,'.planning/phases/07-release-evidence-pr/07-03-INNATE-HOP-REFERENCE-AUDIT.json'),'utf8'));
+const closureSources=await Promise.all(Object.keys(audit.sourceHashes).filter(path=>!path.endsWith('.d.ts')).map(async path=>({path,source:await readFile(join(root,path),'utf8')})));
+const soloApplicabilityDispositions=input=>generateSoloDispositions({authoritySources,closureSources,canonicalSources:closureSources,...input});
 const texts = Object.fromEntries(await Promise.all(['src/market/run.ts','src/market/types.ts','src/session.ts', 'src/co-op-market.ts', 'src/game.ts', 'src/recovery.ts', 'src/shared-world-effects.ts', 'src/mobs.ts', 'src/mode-rules.ts', 'src/consumables.ts', 'src/consumable-drops.ts'].map(async path => [path, await readFile(join(root, path), 'utf8')])));
 const inventory = instrumentSources(texts, root);
 // Explicit synthetic zero realm supplies schema only; this is not runtime credit.
@@ -242,6 +244,19 @@ test('strict solo dispatch excludes only proved outcomes while guard evaluation 
    const at=text.findIndex(line=>line.includes(fragment))+1;assert.ok(at,fragment);
    const entries=Object.entries(game.coverage.branchMap).filter(([,b])=>b.type==='if'&&b.loc.start.line===at);assert.ok(entries.length);
    for(const[id,b]of entries)for(let arm=0;arm<b.locations.length;arm++)assert.equal(has('branch',id,arm),false,'compound/rule guard retained '+fragment);
+  }
+ }
+});
+
+
+test('built-in authoring failures are excluded while successful composition and all guards remain',()=>{
+ const rules=sources.find(s=>s.path.endsWith('/mode-rules.ts'));
+ const at=text=>rules.source.slice(0,rules.source.indexOf(text)).split('\n').length;
+ for(const mode of ['solo-arcade','solo-flow']){
+  const dispositions=soloApplicabilityDispositions({mode,sources});
+  for(const [name,expected]of [['function fail(',true],['function numberAt(',false],['function checkUnknown(',false],['function mergeGroup<',false],['export function composeModeDefinition(',false],['function freeze<',false],['export function isModeDefinition(',false]]){
+   const ids=Object.entries(rules.coverage.fnMap).filter(([,f])=>f.decl.start.line===at(name));assert.ok(ids.length,name);
+   for(const[id]of ids)assert.equal(dispositions.some(d=>d.path===rules.path&&d.kind==='function'&&d.id===id),expected,name);
   }
  }
 });
