@@ -907,12 +907,65 @@ gaps using existing actual mobs cases before duplicating tests. Preserve all
 current sources,mode floors and old identities. Then finish complete semantic
 review/fresh enforcing full report,07-04/05/06 and the PR. No PR is open.
 
+## Latest shared mob execution
+
+6b16b5d7 passes28/28 ordinary/canonical,28 actual Arcade Relay/Race lifetimes/
+84 bounded component intervals(13 Relay/15 Race). Sealed/available ground routes
+versus flight,actual traffic/train body retirement,same-frame active death/spill/
+recovery ownership,Relay bench exclusion and stable Race crab targeting are
+proved. Initial route/timing fixture expectations were corrected without product
+changes. TURN-MOB/PROOF retain exact identities and current union. Diagnostic
+Relay2189/2793B needs186;Race2416/3032B needs162;line/functions pass diagnostically.
+Initial semantic ledger unchanged180 reviewed/871 pending. Additive complete
+manifest148 entries/155 closure/160 production jobs,all controls retained.
+Normal903/rootlock5ac and all production sources remain unchanged.
+The subsequent seed/preference collections are terminal as recorded below.
+No full release acceptance or PR claim.
+
+## Latest versioned course and saved-preference execution
+
+Seed2bf32d39 passes24/24 ordinary/canonical,24 real Relay/Race Arcade/Flow
+lifetimes/72 intervals. Schema1/2/3,normal Pond zero seeds and gentle Shuffle
+maximum seeds exactly match immutable a310a81e courses before same-world
+adoption. Full Game.fromSeed invalid imports reject before corrected setup;
+real settled hop and frozen result retain the exact versioned code. Initial
+Race result-shape fixture correction is retained;no product RED.
+
+Saved2bb34684 passes24/24 ordinary/canonical,24 actual lifetimes/72 intervals.
+Normalized malformed/legacy/current preferences supply actual Game construction
+then actual mode play. Complete preferences and initial course match the pinned
+oracle;no extra parser calls during play,oracle/current merge or lifetime-coin
+funding. Content7/1 at93 gains12 initial source/map/schema-identical hits.
+TURN-SEED/SAVED plus PROOF files retain exact identities and provenance.
+
+Latest diagnostic Relay2217/2793B needs158;Race2444/3032B needs134. Lines/functions
+pass diagnostically. Initial ledger181 annotated(180 covered,one private default),
+870 pending. Three whole new suites give76 final cases/228 bounded intervals,
+37 Relay/40 Race additional branch witnesses versus9833efa. Complete validated
+manifest150 entries/157 closure/162 production jobs,all original groups/jobs
+semantically unchanged,all controls retained. Normal903/rootlock5ac exact;no
+production,dependency,floor or applicability changes. All three collections are
+terminal;no chain/freeze remains.
+
+Current type-check,build,guidance7/7 and CLI conformance exit0 after all three
+new suites. CLI remains5 pass/0 fail/5 unmeasured(manifest/wire/lifecycle),so
+07-04 is still required. Rebuilt normal903/rootlock5ac hashes match exactly.
+
+Next finish remaining real mode branch gaps and semantic review,then fresh
+enforcing full collection and07-04/05/06/PR. A source-reviewed scope candidate:
+Relay never constructs ConsumableWorld,while graph finds planConsumableDebit's
+only app caller in that private class and targetsFor's only caller in the debit
+function. Do not change scope until full resolved caller/value proof and exact
+site/negative/positive-hit controls support it. Retain module initialization,
+credit/market guards,raw/global/file counts and all floors. No disposition is
+authorized by this preliminary graph observation alone.
+
 ## Next required work
 
 1. Complete07-03: broad honest Solo/Relay/Race and development evidence,
    remaining per-file gaps, complete semantic ledger, then a fresh enforcing
-   full report. Keep all floors.180 initial zero arms have source-identical
-   semantic annotations(179 covered,one reviewed private default);871 still need completed semantic/behavioral proof,
+   full report. Keep all floors.181 initial zero arms have source-identical
+   semantic annotations(180 covered,one reviewed private default);870 still need completed semantic/behavioral proof,
    including six source-reviewed market candidates awaiting evidence. Genuine fresh
    bootstrap proof now exists; all unions before full collection are diagnostic.
 2. Execute07-04 conformance proof,07-05 clause/visual evidence,07-06 exact final

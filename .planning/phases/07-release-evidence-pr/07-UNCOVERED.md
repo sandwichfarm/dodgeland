@@ -2,6 +2,46 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Current persisted-preference acquisition
+
+Whole actual saved-bootstrap suite passes24/24 ordinary/canonical2bb34684,
+24 actual lifetimes/72 intervals. Actual normalized malformed/legacy/current
+preferences drive actual Game world/base/character construction and real mode
+play;complete preferences/starting courses match the immutable solo oracle.
+No terrain/clock/progress/callback fixture or unrelated playing parser calls.
+Saved coins never fund run wallets. Content7/1 at93 has12 source/map/schema-
+identical initial-zero hits for the built-in world fallback. TURN-SAVED/PROOF
+retain identities and limits. Initial review now181(180 covered,one private
+default),870 pending. Diagnostic gains18 branches each giveRelay2217/2793B
+(needs158),Race2444/3032B(needs134);line/functions pass diagnostically. No source,
+scope,floor or dependency change;full release acceptance remains open.
+
+## Current versioned seed compatibility
+
+Whole Relay/Race Arcade/Flow course suite passes24/24 ordinary/canonical2bf32d39,
+24 actual lifetimes/72 intervals. Every schema1/2/3 normal Pond zero-seed and
+gentle Shuffle maximum-seed course exactly matches the immutable solo baseline
+before same-world adoption. Real first hop and frozen seeded results retain the
+version. Full Game.fromSeed import rejection precedes corrected acquisition;
+there are no direct decoder/helper-only or public seed-entry UI claims.
+TURN-SEED/PROOF retain pin,identities and corrected Race result-shape fixture.
+Diagnostic gains10 branches each leave176 Relay/152 Race;line/functions pass
+diagnostically. No new initial annotations:180 reviewed/871 pending. No source,
+scope,floor or dependency change;full release acceptance remains open.
+
+## Current actual shared mob boundaries
+
+Whole actual encounter suite passes28/28 ordinary/canonical6b16b5d7,28 actual
+Arcade lifetimes/84 intervals. Ground mobs wait at sealed routes or take an open
+detour;wasps fly across. Actual traffic/train contacts retire only ground bodies.
+One shared Race frame resolves both active deaths/offers/spills exactly once;
+Relay excludes the bench. Distinct personal revivals and stable crab targeting
+preserve ownership and frozen results. TURN-MOB/PROOF retain explicit fixtures
+and initial route/timing assumption correction. Diagnostic gains9 Relay/12 Race
+leave186/162 branch gaps;line/functions pass diagnostically. No new initial-zero
+annotation:180 reviewed(179 covered,one private default),871 pending. No source,
+scope,dependency or floor change;full release acceptance remains open.
+
 ## Latest bounded bonus-pack evidence
 
 Expanded whole market cohort d05cb058 passes4/4,including actual paid one/two-pick
@@ -406,7 +446,7 @@ Source `56d4423a4d6c7bddd21be800353156487d46c5f5fe0a9ff4f550b4dadc14ea99`; schem
 
 | Branch | Source line | Zero arms | Baseline counts | Disposition |
 |---|---:|---|---|---|
-|7|93|1|[299, 0]|pending|
+|7|93|1|[299, 0]|[covered arm 1](07-03-LEDGER-REVIEW.md#turn-saved-world)|
 
 ### src/devtools-state.ts
 

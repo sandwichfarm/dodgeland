@@ -273,3 +273,15 @@ Initial/current disk source,map and full mapped schemas match. Explicit terrain,
 market eligibility,funds and added stock remain component fixtures.
 [Exact identities and broader full-hand/paid-pack proof](07-03-TURN-MARKET-PROOF.json).
 Eight previously reviewed co-op-market guard witnesses are not counted twice.
+
+## Turn-saved-world
+
+**SOLO-02,ARCH-03,RELAY-01,RACE-01,TEST-02/03.** Unknown/default persisted world
+values feed actual Game construction,which selects the first built-in world;
+complete normalized preferences and starting rows exactly match the immutable
+solo baseline. The same actual Game starts Relay/Race and settles a real hop.
+`tests/turn-saved-bootstrap.test.mjs`,canonical
+`2bb34684-91a5-482e-bf54-d4022b4b4e49`,whole24/24 cases. Content7/1 at93 has12
+initial-zero hits;initial/current disk source,map and full mapped schemas match.
+No oracle code contributes current counters. Audio fields are parser component
+assertions,not speaker or UI proof. [Exact evidence](07-03-TURN-SAVED-PROOF.json).

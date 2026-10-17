@@ -1,0 +1,129 @@
+{
+  "status": "Twenty-eight ordinary/canonical actual shared mob journeys pass;not full release acceptance",
+  "runId": "6b16b5d7-56bf-46f9-b12d-d567ceffa50b",
+  "payloadCount": 1,
+  "lifetimes": 28,
+  "intervals": 84,
+  "thresholdsEvaluated": false,
+  "modeCaseCounts": {
+    "relay": 13,
+    "race": 15
+  },
+  "manifestSha256": "e8ef2c980891386322ba0eb77fd17fdcfe235eb17e723f26db64e3d18e176e64",
+  "canonicalInventorySha256": "37f806f85a06a771ca5e1302b2e5aa996fd725c29e66175ef2d150a8c0f31404",
+  "initialSourceIdenticalWitnesses": [],
+  "currentDiagnosticModes": {
+    "relay": {
+      "raw": {
+        "statements": {
+          "covered": 2903,
+          "total": 3735
+        },
+        "functions": {
+          "covered": 654,
+          "total": 817
+        },
+        "branches": {
+          "covered": 2189,
+          "total": 3204
+        },
+        "lines": {
+          "covered": 1972,
+          "total": 2352
+        }
+      },
+      "applicable": {
+        "statements": {
+          "covered": 2903,
+          "total": 3310
+        },
+        "functions": {
+          "covered": 654,
+          "total": 710
+        },
+        "branches": {
+          "covered": 2189,
+          "total": 2793
+        },
+        "lines": {
+          "covered": 1972,
+          "total": 2104
+        }
+      },
+      "remaining": {
+        "lines": 0,
+        "functions": 0,
+        "branches": 186
+      },
+      "componentLifetimes": 60,
+      "componentIntervals": 181,
+      "publicIntervals": 2
+    },
+    "race": {
+      "raw": {
+        "statements": {
+          "covered": 3000,
+          "total": 3645
+        },
+        "functions": {
+          "covered": 697,
+          "total": 818
+        },
+        "branches": {
+          "covered": 2416,
+          "total": 3261
+        },
+        "lines": {
+          "covered": 2045,
+          "total": 2305
+        }
+      },
+      "applicable": {
+        "statements": {
+          "covered": 3000,
+          "total": 3406
+        },
+        "functions": {
+          "covered": 697,
+          "total": 758
+        },
+        "branches": {
+          "covered": 2416,
+          "total": 3032
+        },
+        "lines": {
+          "covered": 2045,
+          "total": 2163
+        }
+      },
+      "remaining": {
+        "lines": 0,
+        "functions": 0,
+        "branches": 162
+      },
+      "componentLifetimes": 93,
+      "componentIntervals": 302,
+      "publicIntervals": 8
+    }
+  },
+  "executionInventory": {
+    "valid": true,
+    "entries": 148,
+    "closure": 155,
+    "jobs": 160,
+    "controlPaths": 10
+  },
+  "normalArtifactRawSha256": "9036d9a1f179b136569a3b400c412d954d783987c751832afbbbfda287c63539",
+  "rootLockRawSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "logs": {
+    "ordinary": "/tmp/down-to-duck-turn-mob-ordinary.log",
+    "canonical": "/tmp/down-to-duck-turn-mob-canonical.log",
+    "retainedFixtureCorrection": "/tmp/down-to-duck-turn-mob-sealed-route-fixture.log"
+  },
+  "limits": [
+    "Explicit terrain/body/pose/funds component fixtures;all routing,contact,retirement,damage and recovery use actual LocalSession.update",
+    "No mock director,private plan call,custom mode/policy,input device or public UI claim",
+    "First fixture combined a sealed river/tree route with an open-detour expectation and sampled wasp before warning;corrected tests distinguish unavailable versus available routes and wait for actual warning",
+    "No production,oracle,dependency,scope or numeric floor change"
+  ]
+}

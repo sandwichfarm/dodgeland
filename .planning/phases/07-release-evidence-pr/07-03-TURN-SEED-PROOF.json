@@ -1,0 +1,132 @@
+{
+  "status": "Twenty-four ordinary/canonical actual versioned-course journeys pass;not full release acceptance",
+  "runId": "2bf32d39-d85c-4242-a54e-e2e5e2a94948",
+  "payloadCount": 1,
+  "lifetimes": 24,
+  "intervals": 72,
+  "thresholdsEvaluated": false,
+  "modeCaseCounts": {
+    "relay": 12,
+    "race": 12
+  },
+  "oracleCommit": "a310a81ed6c76df4b265c9012c23b8c83f4802e5",
+  "oracleCurrentContribution": false,
+  "manifestSha256": "03a686cc9ec57587caa05c58f45e15d3ce9fbdc1995efb46674f8141d7a8434f",
+  "canonicalInventorySha256": "37f806f85a06a771ca5e1302b2e5aa996fd725c29e66175ef2d150a8c0f31404",
+  "currentDiagnosticModes": {
+    "relay": {
+      "raw": {
+        "statements": {
+          "covered": 2909,
+          "total": 3735
+        },
+        "functions": {
+          "covered": 654,
+          "total": 817
+        },
+        "branches": {
+          "covered": 2199,
+          "total": 3204
+        },
+        "lines": {
+          "covered": 1974,
+          "total": 2352
+        }
+      },
+      "applicable": {
+        "statements": {
+          "covered": 2909,
+          "total": 3310
+        },
+        "functions": {
+          "covered": 654,
+          "total": 710
+        },
+        "branches": {
+          "covered": 2199,
+          "total": 2793
+        },
+        "lines": {
+          "covered": 1974,
+          "total": 2104
+        }
+      },
+      "remaining": {
+        "lines": 0,
+        "functions": 0,
+        "branches": 176
+      },
+      "componentLifetimes": 72,
+      "componentIntervals": 217,
+      "publicIntervals": 2
+    },
+    "race": {
+      "raw": {
+        "statements": {
+          "covered": 3006,
+          "total": 3645
+        },
+        "functions": {
+          "covered": 697,
+          "total": 818
+        },
+        "branches": {
+          "covered": 2426,
+          "total": 3261
+        },
+        "lines": {
+          "covered": 2047,
+          "total": 2305
+        }
+      },
+      "applicable": {
+        "statements": {
+          "covered": 3006,
+          "total": 3406
+        },
+        "functions": {
+          "covered": 697,
+          "total": 758
+        },
+        "branches": {
+          "covered": 2426,
+          "total": 3032
+        },
+        "lines": {
+          "covered": 2047,
+          "total": 2163
+        }
+      },
+      "remaining": {
+        "lines": 0,
+        "functions": 0,
+        "branches": 152
+      },
+      "componentLifetimes": 105,
+      "componentIntervals": 338,
+      "publicIntervals": 8
+    }
+  },
+  "executionInventory": {
+    "valid": true,
+    "entries": 149,
+    "closure": 156,
+    "jobs": 161,
+    "controlPaths": 10
+  },
+  "normalArtifactRawSha256": "9036d9a1f179b136569a3b400c412d954d783987c751832afbbbfda287c63539",
+  "rootLockRawSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "initialSourceIdenticalWitnesses": [],
+  "logs": {
+    "ordinary": "/tmp/down-to-duck-turn-seed-ordinary.log",
+    "canonical": "/tmp/down-to-duck-turn-seed-canonical.log",
+    "retainedFixtureCorrection": "/tmp/down-to-duck-turn-seed-result-shape-fixture.log"
+  },
+  "limits": [
+    "Actual public Game.fromSeed failed import attempts precede corrected actual mode acquisition;not decoder-helper-only or public UI evidence",
+    "Independent pinned baseline supplies expected starting terrain/identity only;never current counters",
+    "No terrain,clock,progress,charge,callback or definition fixture injected",
+    "Race results correctly retain descriptor.seedCode;initial test expected the Relay top-level shape and was corrected without product change",
+    "No production,oracle,dependency,scope or numeric floor change;no changed Game/Session initial relabel"
+  ]
+}
