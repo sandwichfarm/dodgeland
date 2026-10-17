@@ -105,3 +105,24 @@ Root `pnpm-lock.yaml` SHA256 is
 `5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d`;
 `git diff --quiet a310a81ed6c76df4b265c9012c23b8c83f4802e5 -- pnpm-lock.yaml`
 also exited0. Full enforcing coverage and the remaining release plans remain open.
+
+## Mode authoring validation
+
+Root extended existing `tests/mode-rules.test.mjs` with one grouped behavioral
+case for malformed definitions/groups, invalid identifiers, incompatible pursuit
+and retention policies, invalid introduction thresholds and nonfunction lifecycle
+callbacks. Each rejection preserves caller input and the existing immutable
+defaults; a fresh default definition still drives an actual Game hop afterward.
+This closes existing validation gaps without a source repair or invented RED.
+
+Chain52878 exited0 with8/8 ordinary and8/8 canonical composer tests. Logs:
+`/tmp/down-to-duck-07-03-mode-rules-ordinary.log` and
+`/tmp/down-to-duck-07-03-mode-rules-canonical.log`. Focused group `mode-rules-03`
+was registered alongside the unchanged full job in c286940. Canonical run
+`ba43c979-a145-40ae-9560-109afec0d0f6` executes91/91 mapped branch arms.
+Source SHA is `cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2`;
+all three mapped site schemas match the pinned initial-full report. Its ten
+previous zero arms now execute:11/0(line111)=3,15/0(117)=2,16/0(118)=3,
+18/0(120)=2,22/0(133)=1,24/0(139)=1,26/0(145)=1,30/0(155)=5,34/0(163)=1,
+35/0(164)=5. Focused thresholds remain unevaluated; full release acceptance is
+still pending.

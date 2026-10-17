@@ -66,6 +66,35 @@ test('composer rejects invalid numeric, policy, retention, and fixed-world input
   for (const [input, message] of invalid) assert.throws(() => composeModeDefinition(input), message);
 });
 
+test('authoring rejects malformed definitions and incompatible policies without altering playable defaults', () => {
+  const defaults = composeModeDefinition();
+  const before = JSON.stringify(defaults.rules);
+  assert.equal(defaults.id, 'custom');
+  const invalid = [
+    ...[null, 'arcade', []].map(input => [input, /definition/]),
+    ...[null, 1, []].map(input => [{ simulation: input }, /simulation/]),
+    ...[12, 'Mixed Case'].map(id => [{ id }, /id/]),
+    [{ pursuit: { strategy: 'unknown' } }, /pursuit\.strategy/],
+    [{ pursuit: { strategy: 'trail' }, presentation: { pursuitVisible: true } }, /presentation\.pursuitVisible/],
+    [{ retention: { rowsAhead: 28, pickupBindingAhead: 29 } }, /retention\.pickupBindingAhead/],
+    ...[null, [1, 2], [1, 2, 2], [0, 2, 3], [1, 2, 3.5]].map(introductionThresholds =>
+      [{ pursuers: { introductionThresholds } }, /pursuers\.introductionThresholds/]),
+    [{ presentation: { pursuitVisible: 'yes' } }, /presentation\.pursuitVisible/],
+    ...['onStart', 'onProgress', 'onPause', 'onResume', 'onTerminal'].map(key =>
+      [{ lifecycle: { [key]: true } }, new RegExp(`lifecycle\\.${key}`)]),
+  ];
+  for (const [input, message] of invalid) {
+    const supplied = structuredClone(input);
+    assert.throws(() => composeModeDefinition(input), message);
+    assert.deepEqual(input, supplied, 'a rejected definition must not mutate caller input');
+    assert.equal(JSON.stringify(defaults.rules), before, 'rejection must not alter existing rules');
+  }
+  const fresh = composeModeDefinition();
+  assert.deepEqual(fresh.rules, defaults.rules);
+  const game = new Game(7, 'pond', 'arcade', false, [], 'butter', { definition: fresh });
+  assert.equal(game.move('forward'), true, 'valid defaults remain playable after invalid authoring attempts');
+});
+
 test('custom definitions drive game clocks, health, pursuit, movement, and lifecycle without changing seed identity', () => {
   const events = [];
   const definition = customRules({ lifecycle: {
