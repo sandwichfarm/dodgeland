@@ -27,16 +27,17 @@ function observeUpdateRoute(GameType){
  restoreObservers.push(()=>{GameType.prototype.update=standalone;GameType.prototype.updateSessionPlayer=shared;});
 }
 observeUpdateRoute(Game);
-after(()=>{for(const restore of restoreObservers)restore();assert.equal(observedWorlds.size,15);assert.ok(executionObservations.sharedCalls>0);assert.equal(executionObservations.standaloneCalls,0);assert.deepEqual(executionObservations.violations,[]);});
+after(()=>{for(const restore of restoreObservers)restore();assert.equal(observedWorlds.size,21);assert.ok(executionObservations.sharedCalls>0);assert.equal(executionObservations.standaloneCalls,0);assert.deepEqual(executionObservations.violations,[]);});
 const config=process.env.DOWN_TO_DUCK_COVERAGE_CONFIG?JSON.parse(await readFile(process.env.DOWN_TO_DUCK_COVERAGE_CONFIG,'utf8')):null;
 const model=config?.modelAttribution;if(config&&!model)throw Error('Missing turn-model attribution configuration');
 const inventory=model?JSON.parse(await readFile(config.inventoryPath,'utf8')):null,records=[];
-after(async()=>{if(inventory){if(records.length!==15)throw Error('Incomplete turn-mode witnesses');await writeFile(model.output,JSON.stringify({...records.at(-1),executionObservations:{...executionObservations,worlds:observedWorlds.size},intervals:records.flatMap(r=>r.intervals)}));}});
+after(async()=>{if(inventory){if(records.length!==21)throw Error('Incomplete turn-mode witnesses');await writeFile(model.output,JSON.stringify({...records.at(-1),executionObservations:{...executionObservations,worlds:observedWorlds.size},intervals:records.flatMap(r=>r.intervals)}));}});
 const seats=[{seat:'p1',device:'gamepad-0',characterId:'butter'},{seat:'p2',device:'gamepad-1',characterId:'pip'},{seat:'p3',device:'gamepad-2',characterId:'sunny'}];
 const step=1/120;
 function lane(game,row){game.rows.set(row,{...generateLane(game.seed,row,game.home),kind:'meadow',blocked:[],decorations:[],actors:undefined,coin:null,coinActor:undefined});}
-function start(mode,options={}){
+function start(mode,options={},arrange){
  const game=new Game(113,'pond','stroll',false,ITEM_CATALOG,'butter');for(let row=-8;row<80;row++)lane(game,row);
+ if(arrange)arrange(game);
  const factory=mode==='relay'?createRelaySession:createRaceSession,Coordinator=mode==='relay'?RelayCoordinator:RaceCoordinator;
  const recorder=inventory?createTurnModelRecorder({mode,inventory,factory,Coordinator,authority,identity:{runId:config.runId,realmId:model.realmId,jobId:config.jobId,artifactHash:config.browserBuilds.modules.artifactHash}}):null;
  const proposal={seats:seats.slice(0,options.count??2),...(mode==='relay'?{tilesPerLeg:2}:{finishTiles:500,activeSeconds:30}),...options};delete proposal.count;
@@ -539,4 +540,44 @@ test('Relay paid magnet settles multiple world coins without funding the benched
    assert.equal(result.contributions.find(p=>p.seat==='p1').pickups,3);assert.equal(result.contributions.find(p=>p.seat==='p2').pickups,0);
   });run.finish();
  }finally{trace.restore();}
+});
+
+for(const mode of ['relay','race'])for(const kind of ['river','road','rail'])test(`${mode} adopts a ${kind} course through real safe placement before closed-roster play`,()=>{
+ const count=kind==='river'?2:3,expected=kind==='river'?[0,-3]:kind==='road'?[0,2,-3]:[-2.6,.4,1.4];
+ const run=start(mode,{count,...(mode==='relay'?{tilesPerLeg:50}:{activeSeconds:180})},game=>{
+  // The existing course is an explicit fixture before actual coordinator
+  // acquisition. prepareAdmission/safePlacement elect every secondary cell.
+  const row=game.rows.get(0);Object.assign(row,{kind,actors:undefined,coin:null,phase:0,speed:0,spacing:20,length:.6,variant:0,blocked:[1]});
+  if(kind==='river')Object.assign(row,{spacing:1.5,length:.9,speed:.5});
+  else {
+   if(kind==='road')row.phase=-1;
+   else {game.x=game.fromX=-2.6;Object.assign(row,{phase:1+29*1.75/38,period:5,warning:1,length:12.6,speed:-1,blocked:[-2]});}
+   const x=kind==='road'?-2:-.6;
+   game.mobs.push({id:902,kind:'slime',x,y:0,fromX:x,fromY:0,targetX:x,targetY:0,phase:'rest',phaseLeft:5,phaseDuration:5});
+  }
+ });
+ const {session}=run,players=[...session.players],world=session.world;
+ run.run(`safe-${kind}-adoption-and-first-hop`,()=>{
+  assert.equal(players.length,count);assert.deepEqual(players.map(p=>p.characterId),seats.slice(0,count).map(p=>p.characterId));
+  for(const [index,p]of players.entries()){
+   assert.ok(Math.abs(p.groundX-expected[index])<1e-9,`${p.seat} uses the first genuinely safe distinct candidate`);
+   assert.equal(p.groundY,0);assert.equal(p.health,3);assert.equal(p.statistics.deaths,0);assert.equal(p.run.wallet,0);assert.equal(p.completedForwardTiles,0);
+  }
+  assert.equal(new Set(players.map(p=>Math.round(p.groundX))).size,count);
+  const time=world.time,positions=players.map(p=>[p.groundX,p.groundY]);
+  run.game.pause();ticks(run,30);assert.equal(world.time,time);assert.deepEqual(players.map(p=>[p.groundX,p.groundY]),positions);run.game.resume();
+  ticks(run,1);
+  if(kind==='river')for(const [index,p]of players.entries())if(mode==='race'||index===0)assert.notEqual(p.groundX,positions[index][0],'the actual supported rider drifts without snapping its grid');
+  hop(run,mode==='relay'?['p1']:players.map(p=>p.seat));
+  assert.strictEqual(session.world,world);assert.ok(world.time>time);
+  for(const [index,p]of players.entries()){
+   assert.equal(p.state,'playing');assert.equal(p.health,3);assert.equal(p.statistics.deaths,0);assert.equal(p.run.wallet,0);
+   assert.equal(p.completedForwardTiles,mode==='race'||index===0?1:0);
+   assert.equal(p.groundY,mode==='race'||index===0?1:0);
+  }
+ });
+ run.run(`safe-${kind}-adoption-terminal`,()=>{
+  if(mode==='relay')run.owner.finish();else for(const p of players){assert.equal(run.owner.command(run.owner.actionToken(p.seat),'leave'),true);assert.equal(run.owner.command(run.owner.actionToken(p.seat),'confirm'),true);}
+  assert.ok(Object.isFrozen(run.owner.result));
+ });run.finish();
 });
