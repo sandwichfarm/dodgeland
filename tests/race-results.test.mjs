@@ -8,7 +8,8 @@ const sources = await loadSources(['game', 'race', 'session', 'market/catalog'])
 after(sources.dispose);
 const { Game } = await sources.import('game');
 const { createRaceSession, RaceCoordinator } = await sources.import('race');
-const reuse = await turnReuseAttribution({ mode: 'race', factory: createRaceSession, Coordinator: RaceCoordinator, lifetimes: 12 });
+const authority={Game,...await sources.import('session'),...await sources.import('mode-rules')};
+const reuse = await turnReuseAttribution({authority, mode: 'race', factory: createRaceSession, Coordinator: RaceCoordinator, lifetimes: 12 });
 after(() => reuse.finish());
 
 test('statistics dependency: successful market interaction survives death clear exactly once', () => {

@@ -23,6 +23,10 @@ function checkComponent(o) {
  if(!['acquiring','playing','paused','pending','settled'].includes(o.phase))throw Error('Invalid component lifecycle phase');
  if(o.phase==='acquiring') { if(o.sessionId!==null || o.participants!==0)throw Error('Invalid acquisition evidence'); }
  else if(typeof o.sessionId!=='string'||!o.sessionId||!Number.isInteger(o.participants)||o.participants<1||o.participants>4)throw Error('Missing component session identity');
+ if(turn&&o.phase!=='acquiring'){
+  validateSoloDefinition(o.definitionEvidence,o.base);
+  if(o.participants<2||['canonicalDefinition','canonicalRules','sameModule','sessionActive','sessionRunning','worldIsOwn','playerIsOwn','rosterStable'].some(key=>o.ownership?.[key]!==true))throw Error('Missing actual turn ownership evidence');
+ }
 }
 function checkPair(before,after,provenance) {
  if(provenance==='component-model') {

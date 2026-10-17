@@ -1,0 +1,90 @@
+{
+  "status": "Focused ownership evidence passes; release gates remain open",
+  "baseCommit": "eb8109535e4cbc85b4bce9572bc29b390183a88c",
+  "runId": "2079dfd3-3a66-41c8-8280-ff330915f1c1",
+  "canonicalExitCode": 0,
+  "canonicalSession": 63485,
+  "command": "node tools/release-coverage/run.mjs --suite turn-spawn-safety-03 --report-only --output artifacts/release-coverage/turn-ownership-final-03",
+  "tests": {
+    "controlsAndOrdinaryMatrix": 105,
+    "canonicalMatrix": 13,
+    "failures": 0,
+    "skips": 0
+  },
+  "actual": {
+    "lifetimes": 13,
+    "intervals": 49,
+    "independentParents": 1,
+    "validatedNonAcquiringEndpoints": 85,
+    "relay": {
+      "lifetimes": 6,
+      "intervals": 23
+    },
+    "race": {
+      "lifetimes": 7,
+      "intervals": 26
+    }
+  },
+  "canonicalSourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+  "preserved": {
+    "dist/index.html": "a34fd21258f80302593c584f5a9566f7511af49798c0b0cac6dacc1beb478bc1",
+    "pnpm-lock.yaml": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+    "tools/release-coverage/suites.json": "40542f5f5b41fdc059d323077b8235da33c3c8e4062e4a72f1fdb1f7b8975c98",
+    "src/game.ts": "fb5d9224e46c19b3745099429f06bd141d9b738bb2d8786ed3266e1b6a7d95f6",
+    "src/session.ts": "f8ce62cdc5c87557636cce62f0b15005bfa5f9cde42c708d67915b4c1ebcec39",
+    "src/main.ts": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+    "src/mobs.ts": "6077ac4fd884ef16f9fe8ab3f3db77a431b2d2853adbeddc1d0d843b595018d1"
+  },
+  "assertionPreservation": {
+    "baseCommit": "eb8109535e4cbc85b4bce9572bc29b390183a88c",
+    "files": {
+      "tests/release-turn-mode-coverage.test.mjs": {
+        "assertions": 323,
+        "argumentsByteIdentical": true
+      },
+      "tests/race-items.test.mjs": {
+        "assertions": 117,
+        "argumentsByteIdentical": true
+      },
+      "tests/race-lifecycle.test.mjs": {
+        "assertions": 129,
+        "argumentsByteIdentical": true
+      },
+      "tests/race-results.test.mjs": {
+        "assertions": 136,
+        "argumentsByteIdentical": true
+      },
+      "tests/relay-boundary.test.mjs": {
+        "assertions": 144,
+        "argumentsByteIdentical": true
+      },
+      "tests/relay-lifecycle.test.mjs": {
+        "assertions": 155,
+        "argumentsByteIdentical": true
+      }
+    }
+  },
+  "checks": {
+    "typeCheck": 0,
+    "build": 0,
+    "guidance": 0,
+    "conformance": {
+      "exitCode": 0,
+      "passes": 5,
+      "failures": 0,
+      "unmeasured": 5
+    }
+  },
+  "logs": [
+    "/tmp/down-to-duck-turn-ownership-final-controls.log",
+    "/tmp/down-to-duck-turn-ownership-final-canonical.log",
+    "/tmp/down-to-duck-turn-ownership-project-checks.log"
+  ],
+  "limitations": [
+    "Boundary observations do not prove transient callback/value-flow closure",
+    "No applicability changes or coverage-floor acceptance",
+    "Historical turn sidecars lacking mandatory evidence must be recollected before fresh enforcing aggregation",
+    "Five reuse cohorts have authority plumbing updated; their full mixed browser jobs have not been recollected under this contract",
+    "Mixed-input aliases remain a proposal, not implemented behavior"
+  ]
+}

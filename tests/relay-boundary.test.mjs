@@ -10,7 +10,8 @@ const gameModule = await sources.import('game');
 const { Game, generateLane, laneActors, coinPosition } = gameModule;
 const { ITEM_CATALOG } = await sources.import('market/catalog');
 const { createRelaySession, RelayCoordinator } = await sources.import('relay');
-const reuse=await turnReuseAttribution({mode:'relay',factory:createRelaySession,Coordinator:RelayCoordinator,lifetimes:3});
+const authority={Game,...await sources.import('session'),...await sources.import('mode-rules')};
+const reuse=await turnReuseAttribution({authority,mode:'relay',factory:createRelaySession,Coordinator:RelayCoordinator,lifetimes:3});
 after(()=>reuse.finish());
 const STEP = 1 / 120;
 

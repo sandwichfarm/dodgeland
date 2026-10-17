@@ -8,6 +8,59 @@ import { capturePayload, mergePayloads } from './collector.mjs';
 import { deriveInterval, validateIntervals } from './attribution.mjs';
 import { validateModeRows, validateModelSidecar } from './run.mjs';
 import { createTurnModelRecorder } from './turn-model-attribution.mjs';
+import { loadSources } from '../../tests/source-loader.mjs';
+
+test('turn recorder rejects forged canonical rules and detached ownership and stays failed',async()=>{
+ const sources=await loadSources(['game','relay','race','session','mode-rules']);
+ const foreign=await loadSources(['game','session','mode-rules']);
+ const previous=globalThis.__coverage__;
+ try{
+  const authority={...await sources.import('game'),...await sources.import('session'),...await sources.import('mode-rules')};
+  const inventory=instrumentSources({'counter.ts':'function step() { return 1; } step();'},'/turn-owner-controls');
+  const context=vm.createContext({});vm.runInContext(inventory['counter.ts'].code,context);globalThis.__coverage__=context.__coverage__;
+  const identity={runId:'synthetic',realmId:'synthetic',jobId:'synthetic',artifactHash:'synthetic'};
+  for(const mode of ['relay','race']){
+   const module=await sources.import(mode),factory=mode==='relay'?module.createRelaySession:module.createRaceSession,Coordinator=mode==='relay'?module.RelayCoordinator:module.RaceCoordinator;
+   const proposal={seats:[{seat:'p1',device:'keyboard-a',characterId:'butter'},{seat:'p2',device:'gamepad-0',characterId:'pip'}]};
+   const mutations=[
+    game=>{const definition=Object.freeze({...game.definition});game.definition=game.world.definition=definition;game.player.session.definition=definition;},
+    game=>{const definition=Object.freeze({...game.definition,rules:Object.freeze({...game.rules,health:Object.freeze({...game.rules.health,maxHealth:99})})});game.definition=game.world.definition=game.player.session.definition=definition;game.rules=game.world.rules=definition.rules;},
+    game=>{const definition={...game.definition,rules:{...game.rules,lifecycle:{afterHop:()=>{}}}};game.definition=game.world.definition=game.player.session.definition=definition;game.rules=game.world.rules=definition.rules;},
+    game=>{game.world.sessionActive=false;},
+    game=>{game.player.session.active=false;},
+    game=>{game.player.session=undefined;},
+    game=>{game.player.world={...game.world};},
+    game=>{game.world={...game.world};},
+    game=>{game.player.session.players[1].participantId='replacement';},
+    game=>{game.player.session.players[1].characterId='miso';},
+   ];
+   for(const mutate of mutations){
+    const game=new authority.Game(113,'pond','arcade',false,[],'butter');
+    const recorder=createTurnModelRecorder({mode,inventory,identity,factory,Coordinator,authority});
+    recorder.acquire(game,proposal);mutate(game);
+    assert.throws(()=>recorder.interval('invalid',()=>{}),/canonical|ownership|owner/i);
+    assert.throws(()=>recorder.finish(),/Missing acquired owner/,'failed evidence must never be recoverable');
+   }
+   const game=new authority.Game(113,'pond','arcade',false,[],'butter');
+   const definition=Object.freeze({...game.definition});game.definition=game.world.definition=definition;
+   const forged=createTurnModelRecorder({mode,inventory,identity,factory,Coordinator,authority});
+   assert.throws(()=>forged.acquire(game,proposal),/canonical|ownership|owner/i);
+   assert.throws(()=>forged.finish(),/Missing acquired owner/);
+   const wrongModule={...authority,...await foreign.import('session')};
+   const mixed=createTurnModelRecorder({mode,inventory,identity,factory,Coordinator,authority:wrongModule});
+   assert.throws(()=>mixed.acquire(new authority.Game(113),proposal),/canonical|ownership|owner/i);
+   const valid=createTurnModelRecorder({mode,inventory,identity,factory,Coordinator,authority});
+   const live=valid.acquire(new authority.Game(113),proposal);
+   valid.interval('order-and-device-change',()=>{live.session.players.reverse();live.session.players[0].device='gamepad-9';});
+   assert.equal(valid.finish().intervals.length,2,'device aliases and roster ordering are not participant identity');
+   const stopped=createTurnModelRecorder({mode,inventory,identity,factory,Coordinator,authority});
+   const stoppedOwner=stopped.acquire(new authority.Game(113),proposal);
+   assert.throws(()=>stopped.interval('stopped-during-action',()=>stoppedOwner.session.stop()),/owner/i);
+   stoppedOwner.session.active=true;
+   assert.throws(()=>stopped.finish(),/Missing acquired owner/,'restoring a failed boundary cannot rehabilitate it');
+  }
+ }finally{await sources.dispose();await foreign.dispose();if(previous===undefined)delete globalThis.__coverage__;else globalThis.__coverage__=previous;}
+});
 
 function fixture() {
  const inventory=instrumentSources({'counter.ts':'function step(flag: boolean) { if (flag) return 1; return 2; }','unimported.ts':'export function never() { return 3; }'},'/attribution');
@@ -125,7 +178,9 @@ test('solo component owner/staging evidence and turn base identity remain explic
  for(const changed of [{...solo,ownerId:'other'},{...solo,ownership:{...solo.ownership,stageCalls:1}},{...solo,ownership:{...solo.ownership,playerSessionAbsent:false}}])assert.throws(()=>deriveInterval(inventory,before,{...after,observation:changed},'bad'));
  for(const mode of ['relay','race']){
   before.observation={mode,base:'arcade',kind:mode,phase:'acquiring',sessionId:null,participants:0};
-  after.observation={mode,base:'arcade',kind:mode,phase:'playing',sessionId:'actual-session',participants:2};
+  after.observation={mode,base:'arcade',kind:mode,phase:'playing',sessionId:'actual-session',participants:2,definitionEvidence:canonicalEvidence,ownership:{canonicalDefinition:true,canonicalRules:true,sameModule:true,sessionActive:true,sessionRunning:true,worldIsOwn:true,playerIsOwn:true,rosterStable:true}};
+  for(const field of ['definitionEvidence','ownership']){const invalid=structuredClone(after);delete invalid.observation[field];assert.throws(()=>deriveInterval(inventory,before,invalid,'missing-evidence'));}
+  for(const field of Object.keys(after.observation.ownership)){const invalid=structuredClone(after);invalid.observation.ownership[field]=false;assert.throws(()=>deriveInterval(inventory,before,invalid,'false-ownership'));}
   assert.equal(deriveInterval(inventory,before,after,mode).mode,mode);
   assert.throws(()=>deriveInterval(inventory,before,{...after,observation:{...after.observation,base:'stroll'}},'changed-base'));
  }
@@ -152,28 +207,34 @@ test('fresh turn acquisition measures only its import and rejects failed or chan
  const identity={runId:'synthetic',realmId:'synthetic',jobId:'synthetic',artifactHash:'synthetic'};
  try{
   delete globalThis.__coverage__;
+  const definitions=SOLO_DEFINITION_SNAPSHOTS;
+  class SharedWorld {constructor(game){this.host=game;this.definition=game.definition;this.rules=game.rules;this.sessionActive=true;}}
+  class SessionPlayer {constructor(world,primary,seat){Object.assign(this,{world,primary,seat,participantId:seat,characterId:seat});}}
+  class Game {constructor(base='arcade'){this.definition=definitions[base];this.rules=this.definition.rules;this.world=new SharedWorld(this);this.player=new SessionPlayer(this.world,true,'p1');this.state='playing';}}
+  class LocalSession {constructor(game,mode){this.id=`calibration-${mode}`;this.world=game.world;this.definition=game.definition;this.mode={definition:game.definition};this.roster=this.players=[game.player,new SessionPlayer(this.world,false,'p2')];this.active=true;for(const p of this.players)p.session=this;}}
+  const authority={Game,SharedWorld,SessionPlayer,LocalSession,SOLO_ARCADE_MODE:definitions.arcade,SOLO_STROLL_MODE:definitions.stroll};
   for(const mode of ['relay','race']){
    class Coordinator {
-    constructor(game){this.session={id:`calibration-${mode}`,world:{host:game},definition:game.definition,mode:{},players:[{},{}]};this.setup={tilesPerLeg:50};this.descriptor={schema:'race-1'};}
+    constructor(game){this.session=new LocalSession(game,mode);this.setup={tilesPerLeg:50};this.descriptor={schema:'race-1'};}
     snapshot(){return {phase:'running'};}
    }
    const recorder=createTurnModelRecorder({mode,inventory,identity,load:async()=>{
     vm.runInContext(inventory['game.ts'].code,context);globalThis.__coverage__=context.__coverage__;
-    return {Coordinator,factory:game=>new Coordinator(game),createGame:()=>({definition:{id:'arcade'},state:'playing'})};
+    return {authority,Coordinator,factory:game=>new Coordinator(game),createGame:()=>new Game()};
    }});
    const {owner}=await recorder.acquireFresh('arcade',{}),result=recorder.finish(),interval=result.intervals[0];results.push(result);
    assert.equal(interval.observation.phase,'acquiring');assert.equal(interval.endObservation.sessionId,owner.session.id);
    assert.deepEqual(Object.values(interval.payload.coverage['/fresh-turn-calibration/game.ts'].f),[1],'each fresh initialization contributes its actual delta');
    validateIntervals(inventory,result.intervals);
    await assert.rejects(()=>recorder.acquireFresh('arcade',{}),/Invalid fresh/);
-   owner.session.world.host={};assert.throws(()=>recorder.interval('wrong-owner',()=>{}),/Changed turn-mode owner/);
+   owner.session.world.host={};assert.throws(()=>recorder.interval('wrong-owner',()=>{}),/canonical turn ownership|Changed turn-mode owner/);
   }
   assert.equal(validateModeRows(inventory,[{realmId:identity.realmId,identity,payload:results.at(-1).payload,intervals:results.flatMap(r=>r.intervals)}],['relay','race']).length,2,'all fresh deltas fit their one independent parent');
   for(const fault of ['import','factory','base','coordinator']){
    class Coordinator {}
    const recorder=createTurnModelRecorder({mode:'relay',inventory,identity,load:async()=>{
     if(fault==='import')throw Error('import failed');
-    return {Coordinator,factory:fault==='factory'?null:game=>({session:{id:'synthetic',world:{host:game},definition:game.definition,mode:{},players:[{},{}]},setup:{tilesPerLeg:50}}),createGame:()=>({definition:{id:fault==='base'?'stroll':'arcade'},state:'playing'})};
+    return {authority,Coordinator,factory:fault==='factory'?null:game=>({session:{id:'synthetic',world:{host:game},definition:game.definition,mode:{},players:[{},{}]},setup:{tilesPerLeg:50}}),createGame:()=>new Game(fault==='base'?'stroll':'arcade')};
    }});
    await assert.rejects(()=>recorder.acquireFresh('arcade',{}));
    assert.throws(()=>recorder.finish(),/Missing acquired owner/);

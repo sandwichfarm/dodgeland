@@ -8,7 +8,8 @@ const sources = await loadSources(['game', 'race', 'session-input']);
 after(sources.dispose);
 const { Game } = await sources.import('game');
 const { createRaceSession, RaceCoordinator } = await sources.import('race');
-const reuse=await turnReuseAttribution({mode:'race',factory:createRaceSession,Coordinator:RaceCoordinator,lifetimes:13});
+const authority={Game,...await sources.import('session'),...await sources.import('mode-rules')};
+const reuse=await turnReuseAttribution({authority,mode:'race',factory:createRaceSession,Coordinator:RaceCoordinator,lifetimes:13});
 after(()=>reuse.finish());
 const { GamepadRouter } = await sources.import('session-input');
 for(const choice of ['accept','decline','expiry'])test(`built actual traffic death personal offer ${choice} through visible Race controls`,{timeout:40000},async()=>{

@@ -10,6 +10,7 @@ const {createRelaySession,RelayCoordinator}=await sources.import('relay');
 const {createRaceSession,RaceCoordinator}=await sources.import('race');
 const {generateSeedLane}=await sources.import('levels/index');
 const {ITEM_CATALOG}=await sources.import('market/catalog');
+const authority={Game,...await sources.import('session'),...await sources.import('mode-rules')};
 const config=process.env.DOWN_TO_DUCK_COVERAGE_CONFIG?JSON.parse(await readFile(process.env.DOWN_TO_DUCK_COVERAGE_CONFIG,'utf8')):null;
 const model=config?.modelAttribution;if(config&&!model)throw Error('Missing turn-model attribution configuration');
 const inventory=model?JSON.parse(await readFile(config.inventoryPath,'utf8')):null,records=[];
@@ -20,7 +21,7 @@ function lane(game,row){game.rows.set(row,{...generateLane(game.seed,row,game.ho
 function start(mode,options={}){
  const game=new Game(113,'pond','stroll',false,ITEM_CATALOG,'butter');for(let row=-8;row<80;row++)lane(game,row);
  const factory=mode==='relay'?createRelaySession:createRaceSession,Coordinator=mode==='relay'?RelayCoordinator:RaceCoordinator;
- const recorder=inventory?createTurnModelRecorder({mode,inventory,factory,Coordinator,identity:{runId:config.runId,realmId:model.realmId,jobId:config.jobId,artifactHash:config.browserBuilds.modules.artifactHash}}):null;
+ const recorder=inventory?createTurnModelRecorder({mode,inventory,factory,Coordinator,authority,identity:{runId:config.runId,realmId:model.realmId,jobId:config.jobId,artifactHash:config.browserBuilds.modules.artifactHash}}):null;
  const proposal={seats:seats.slice(0,options.count??2),...(mode==='relay'?{tilesPerLeg:2}:{finishTiles:500,activeSeconds:30}),...options};delete proposal.count;
  const owner=recorder?recorder.acquire(game,proposal):factory(game,proposal),session=owner.session;
  assert.ok(owner instanceof Coordinator);assert.strictEqual(session.world.host,game);assert.equal(session.definition.id,'stroll');
@@ -141,7 +142,7 @@ test('Race timeout closes pending personal offers before frozen ranking',()=>{
 // acquisition; all terrain, stock and starting funds below are explicit fixtures.
 function arcade(mode,settings={}){
  const factory=mode==='relay'?createRelaySession:createRaceSession,Coordinator=mode==='relay'?RelayCoordinator:RaceCoordinator;
- const recorder=inventory?createTurnModelRecorder({mode,inventory,factory,Coordinator,identity:{runId:config.runId,realmId:model.realmId,jobId:config.jobId,artifactHash:config.browserBuilds.modules.artifactHash}}):null;
+ const recorder=inventory?createTurnModelRecorder({mode,inventory,factory,Coordinator,authority,identity:{runId:config.runId,realmId:model.realmId,jobId:config.jobId,artifactHash:config.browserBuilds.modules.artifactHash}}):null;
  const createGame=()=>Game.fromSeed('ph3-00000071-pond-a-n',ITEM_CATALOG,'butter');
  const proposal={seats:seats.slice(0,2),...(mode==='relay'?{tilesPerLeg:50}:{finishTiles:500,activeSeconds:180}),...settings};
  const acquired=recorder?recorder.acquireFrom(createGame,'arcade',proposal):(()=>{const game=createGame();return {game,owner:factory(game,proposal)};})();
@@ -278,7 +279,7 @@ for(const [index,mode]of ['relay','race'].entries())test(`${mode} fresh bootstra
   assert.notEqual(gameModule.Game,Game);
   const progress=gameModule.parseProgress(JSON.stringify({travelerVersion:2,mode:'arcade',world:'pond',selected:'butter',best:200,coins:900}));
   assert.equal(progress.mode,'arcade');assert.equal(progress.coins,900);
-  return {factory:mode==='relay'?composition.createRelaySession:composition.createRaceSession,
+  return {authority:{Game:gameModule.Game,...await fresh.import('session'),...await fresh.import('mode-rules')},factory:mode==='relay'?composition.createRelaySession:composition.createRaceSession,
    Coordinator:mode==='relay'?composition.RelayCoordinator:composition.RaceCoordinator,
    createGame:()=>new gameModule.Game(443+index,progress.world,progress.mode,false,catalog.ITEM_CATALOG,progress.selected)};
  };

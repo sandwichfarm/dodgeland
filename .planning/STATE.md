@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: 07-03 meaningful coverage closure; full enforcing report pending
-last_updated: "2026-10-17T10:48:52.718935+00:00"
+last_updated: "2026-10-17T11:04:57.207530+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,7 +12,7 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Spawn safety13/13 normal/canonical4277edaf;13lifetimes49intervals; one function/three branches gained per mode; full release gates open.
+last_activity_desc: Turn ownership105 controls/ordinary plus13 canonical pass; full canonical definitions and live session provenance; release gates open.
 ---
 
 # Project State
@@ -498,6 +498,23 @@ canonical-definition/callback proof; current turn recorder base ID alone is not
 that proof. Main.closeMarket unconditional paths remain kept. Investigate full
 ownership before implementing any closure; preserve authored-mode composability.
 No runtime is active; full release gates still open.
+
+Turn recorder ownership is now strengthened; see07-03-TURN-OWNERSHIP-PROOF.md/json.
+105 tooling/ordinary tests and canonical13/13 pass in2079dfd3, exec63485 exit0:
+13 actual lifetimes/49 intervals, Relay6/23 and Race7/26, one independent parent.
+Same-module Game/session/world/player classes, exact exported frozen definitions,
+complete source-pinned rule snapshots, live session/world and stable roster links
+are verified at boundaries. Failed observations permanently invalidate a recorder.
+Serialization rejects absent/false ownership or missing canonical evidence.
+Original assertion calls in six affected suites are byte-identical; only authority
+plumbing changes. Production, lock, suite manifest and normal build are unchanged.
+Type/build/guidance pass; conformance still5 pass/0 fail/5 unmeasured. No exclusions
+or coverage-floor claims are added. Historical turn sidecars lack the new evidence
+and need recollection before fresh enforcing aggregation; updated five reuse
+cohorts' mixed browser jobs are not yet recollected. Main setup/reset/pagehide,
+terminal/re-entry and receiver/value-flow closure remain necessary before any
+new applicability disposition. Mixed-input aliases remain proposal-only.
+No runtime is active; full release gates remain open.
 
 ## Next required work
 

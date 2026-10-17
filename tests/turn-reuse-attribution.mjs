@@ -3,7 +3,7 @@ import {createTurnModelRecorder} from '../tools/release-coverage/turn-model-attr
 import {capturePayload} from '../tools/release-coverage/collector.mjs';
 
 // Opt-in attribution around existing assertions, never around the entire worker.
-export async function turnReuseAttribution({mode,factory,Coordinator,lifetimes}) {
+export async function turnReuseAttribution({mode,factory,Coordinator,authority,lifetimes}) {
  const path=process.env.DOWN_TO_DUCK_COVERAGE_CONFIG;
  const config=path?JSON.parse(await readFile(path,'utf8')):null;
  const model=config?.modelAttribution;
@@ -13,7 +13,7 @@ export async function turnReuseAttribution({mode,factory,Coordinator,lifetimes})
  return {
   lifetime(){
    if(active)throw Error('Overlapping reused turn lifetime');active=true;opened++;
-   const recorder=inventory?createTurnModelRecorder({mode,factory,Coordinator,inventory,identity}):null;
+   const recorder=inventory?createTurnModelRecorder({mode,factory,Coordinator,authority,inventory,identity}):null;
    let finished=false;
    return {
     acquire(game,proposal){if(finished)throw Error('Finished reused turn lifetime');return recorder?recorder.acquire(game,proposal):factory(game,proposal);},
