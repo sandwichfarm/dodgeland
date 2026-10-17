@@ -29,3 +29,17 @@ are committed in d661eb9. They add eight unchanged-source missing branches beyon
 the historical union and prior mud proof. This full run will establish fresh
 current global/file/mode measurements; it may still report real shortfalls.
 Semantic review,07-04/05/06 and PR remain required. The goal is active.
+
+## Latest verified wait,2026-10-17T19:56:58.106440+00:00
+
+Actual runner63419/collector63428/session18032 remain live.54/169 production jobs
+and9 executable controls are terminal green;103 browser realms are captured.
+The market layout,pack replacement and preview jobs passed;market-runtime is
+active. All397 frozen file hashes match. No terminal manifest or floor result
+exists. Per-run directory0b8f818d-62a2-4922-ab83-242886778c0c contains actual ledgers
+and captures. monitor.py/latest-observation.json retain current process facts;
+inspect-result.py is a read-only report reader prepared for the terminal result.
+No new test/build/browser chain or frozen source edit occurred during this wait.
+Read-only protocol/candidate preparation was committed18370f8,not07-04 acceptance.
+No PR is open. Goal remains active;next action is poll the same actual handle,
+then inspect the completed enforcing report and address its genuine shortfalls.

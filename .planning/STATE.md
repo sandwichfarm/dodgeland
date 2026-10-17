@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Current full enforcing169-job collection live;session18032 runner63419 collector63428
-last_updated: "2026-10-17T19:42:29.997528+00:00"
+last_updated: "2026-10-17T19:56:58.106440+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,22 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: River proof committed d661eb9;current full collection running with397 frozen files and unchanged floors. Poll actual session18032.
+last_activity_desc: Verified live full session18032;54 of169 production jobs and9 controls pass,103 browser realms.397 frozen files unchanged;terminal result pending.
 ---
 
 # Project State
 
 ## Current work
+
+Latest verified wait2026-10-17T19:56:58.106440+00:00:full session18032 remains live,
+runner63419/collector63428,54/169 jobs and9 executable controls terminal green,
+103 browser realms captured. Market layout,pack replacement and preview passed;
+market-runtime is running. All397 frozen file hashes match;no terminal manifest
+or floor result. monitor.py records actual process observations;inspect-result.py
+is ready to read the terminal official report and exact raw/applicable zero arms.
+Do not execute it as a substitute for the unfinished run or edit frozen inputs.
+Current full run directory:0b8f818d-62a2-4922-ab83-242886778c0c.
+
 
 Latest live audit19:42:29 UTC:runner63419/collector63428 remain live;9 controls and
 19/169 production jobs are terminal green. Cross-mode presentation continues
