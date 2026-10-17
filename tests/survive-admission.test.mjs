@@ -148,7 +148,22 @@ test('unavailable safe cells reject admission atomically without consuming the n
   meadow(game);
   assert.equal(session.admit({ device: 'keyboard-b', characterId: 'sunny' }), true);
   assert.equal(control.session.admit({ device: 'keyboard-b', characterId: 'sunny' }), true);
-  assert.deepEqual(session.players[1].recovery, control.session.players[1].recovery,
+  assert.notEqual(session.id, control.session.id, 'the comparison runs retain independent authority lifetimes');
+  const comparableRecovery = current => {
+    const recovery = current.players[1].recovery;
+    assert.ok(recovery.grantId.startsWith(`${current.id}:grant-`), 'grant belongs to its actual session');
+    assert.ok(recovery.participantId.startsWith(`${current.id}:`), 'participant belongs to its actual session');
+    for (const alias of recovery.aliases) if (alias.startsWith('participant:')) {
+      assert.ok(alias.startsWith(`participant:${current.id}:`), 'participant aliases belong to their actual session');
+    }
+    return { ...recovery,
+      grantId: `<session>${recovery.grantId.slice(current.id.length)}`,
+      participantId: `<session>${recovery.participantId.slice(current.id.length)}`,
+      aliases: recovery.aliases.map(alias => alias.startsWith(`participant:${current.id}:`)
+        ? `participant:<session>${alias.slice(`participant:${current.id}`.length)}` : alias),
+    };
+  };
+  assert.deepEqual(comparableRecovery(session), comparableRecovery(control.session),
     'rejected preflight must not allocate a grant or bind aliases');
 });
 

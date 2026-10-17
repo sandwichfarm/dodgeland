@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: 07-03 meaningful coverage closure; full enforcing report pending
-last_updated: "2026-10-17T05:17:34Z"
+last_updated: "2026-10-17T05:31:17.467026+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,7 +12,7 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Existing Race item and Relay ownership journeys now have verified mode attribution; complete current-source refresh next.
+last_activity_desc: Both stale independent-session comparisons corrected and peer-reviewed; all66 registered Node-role jobs pass; fresh full collection next.
 ---
 
 # Project State
@@ -199,9 +199,35 @@ changed main/session files. The diagnostic is below main/session targets, but ol
 those ratios alone cannot establish which behavior gaps remain. A complete current-source refresh is now the next evidence step,
 while mode gaps and semantic review remain open.
 
-Current runtime: idle. Scoped source review and all30 ordinary/canonical cases
-passed. Root recording evidence and preparing the complete refresh. All remaining
-release obligations below remain open.
+Current runtime: no active test/build/browser process. Ordinary Node-only
+preflight27789 passed52/66jobs (boundary14/14 and immutable solo parity included),
+then exposed one obsolete literal-lifetime comparison in Survive admission17/18.
+Root's case-local correction validates own-session identity prefixes and retains
+all suffixes/aliases/ordering/fields and original admission/nonmutation checks.
+Continuation85096 terminated0 with14/14wholejobs, including admission18/18.
+All66 registered Node-role jobs pass; both test-only diffs passed independent
+read-only review and `git diff --check`. No product/policy change. Retained logs
+and states are `/tmp/down-to-duck-07-03-node-preflight.{log,json}` and
+`/tmp/down-to-duck-07-03-node-preflight-resume.{log,json}`. Both preserve normal
+dist/root lock and registered prior artifacts. Mixed/browser jobs remain full
+collection obligations; next evidence is one fresh complete current cohort.
+
+Earlier full refresh session68195 terminated1 at2026-10-17T05:22:24Z after14 PASS
+jobs, run `8608d4a2-db6d-49a8-bd0f-fbd2b324be26`, frozen head
+`759c9a941e3209c6fa83a67a754b42d7a64b5d9c`. The whole consumable boundary
+suite passed13/14; snapshot purity differed only by independent session identity
+prefixes. Its narrow correction now passes14/14 ordinarily. Both obsolete
+comparison failures and exact repairs are retained in
+07-03-CURRENT-FULL-IDENTITY-FINDING.md.
+
+The failed log `/tmp/down-to-duck-07-03-current-full.log` and terminal state
+`/tmp/down-to-duck-07-03-current-full-launch.json` remain intact. Wrapper restored
+125 prior temporary outputs, normal dist and root lock unchanged. Backup:
+`/var/folders/g8/w4qrj6k57hx_3lg6ltc1k70w0000gn/T/down-to-duck-current-full-prior-_qikb8wj`.
+The original6802.../initial-report stays immutable. No current full report or
+floor acceptance follows from this partial run. Next run the whole corrected
+boundary suite, then an ordinary Node-only preflight before a fresh full cohort.
+Root owns the sole runtime; agents remain idle/read-only.
 
 ## Next required work
 

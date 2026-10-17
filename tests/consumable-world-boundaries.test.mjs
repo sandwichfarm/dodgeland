@@ -356,9 +356,25 @@ test('reading an item snapshot after late admission cannot change subsequent own
       game.worldExtensionSnapshot();
     }
     killOnWater(game, session, session.players.find(player => player.seat === 'p1'));
-    return observableState(session);
+    return { sessionId: session.id, state: observableState(session) };
   });
-  assert.deepEqual(outcomes[1], outcomes[0], 'HUD and renderer reads must not allocate or mutate authoritative inventory state');
+  assert.notEqual(outcomes[1].sessionId, outcomes[0].sessionId, 'independent runs must have distinct authority lifetimes');
+  const comparable = ({ sessionId, state }) => ({ ...state, players: state.players.map(player => {
+    const recovery = player.recovery;
+    if (!recovery) return player;
+    assert.ok(recovery.grantId.startsWith(`${sessionId}:grant-`), 'grant belongs to this actual session');
+    assert.ok(recovery.participantId.startsWith(`${sessionId}:`), 'participant belongs to this actual session');
+    for (const alias of recovery.aliases) if (alias.startsWith('participant:')) {
+      assert.ok(alias.startsWith(`participant:${sessionId}:`), 'participant aliases retain this session authority');
+    }
+    return { ...player, recovery: { ...recovery,
+      grantId: `<session>${recovery.grantId.slice(sessionId.length)}`,
+      participantId: `<session>${recovery.participantId.slice(sessionId.length)}`,
+      aliases: recovery.aliases.map(alias => alias.startsWith(`participant:${sessionId}:`)
+        ? `participant:<session>${alias.slice(`participant:${sessionId}`.length)}` : alias),
+    } };
+  }) });
+  assert.deepEqual(comparable(outcomes[1]), comparable(outcomes[0]), 'HUD and renderer reads must not allocate or mutate authoritative inventory state');
 });
 
 function purchaseBelongings(run, index) {
