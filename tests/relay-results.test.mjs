@@ -143,6 +143,46 @@ test('built frozen results expose podium, participant and leg pages across frame
   } finally {await app.close();}
 });
 
+test('built results distinguish fatal runners from departures and page back without changing the frozen record', {timeout:30000}, async()=>{
+  const {createMarketGameFixture}=await import('./market-game-fixture.mjs');
+  const evidence={errors:[],external:[]}; const app=await createMarketGameFixture(evidence);
+  try {
+    await app.frame.locator('#local-play').click();
+    await app.frame.locator('#relay-play').click();
+    await app.frame.locator('#relay-tiles').fill('999');
+    await app.frame.locator('#local-session-start').click(); await app.advance(80);
+    // Arrange a fatal production transaction for each active runner; the
+    // public recovery/ready controls decide whether and when play continues.
+    for (const seat of ['p1','p2']) {
+      await app.onSession(function(seat){
+        const player=this.players.find(player=>player.seat===seat);
+        this.world.host.inPlayerOperation(player, game=>game.end('Result fixture fatal train','train'));
+        this.update(1/120);
+      },seat);
+      await app.advance(80);
+      await app.frame.getByRole('button',{name:'Continue without revive',exact:true}).click(); await app.advance(80);
+      if(seat==='p1')await app.frame.getByRole('button',{name:"Start P2's leg",exact:true}).click();
+    }
+    await app.frame.getByRole('heading',{name:'Relay results',exact:true}).waitFor();
+    const frozen=await app.onSession(function(){return JSON.stringify(this.result);});
+    const result=JSON.parse(frozen);
+    assert.deepEqual(result.contributions.map(row=>[row.lifecycle,row.connected,row.deaths]),[['dead',true,1],['dead',true,1]]);
+    assert.deepEqual(result.legs.map(row=>row.outcome),['dead','dead']);
+    await app.resize(900,600);
+    await app.frame.locator('.relay-results-nav button').nth(1).click();
+    const first=await app.frame.locator('.relay-results-body').innerText();
+    assert.match(first,/P1/); assert.match(first,/Lifecycle\s+Dead/);
+    await app.frame.getByRole('button',{name:'Next result page',exact:true}).click();
+    assert.match(await app.frame.locator('.relay-results-body').innerText(),/P2/);
+    await app.frame.getByRole('button',{name:'Previous result page',exact:true}).click();
+    assert.equal(await app.frame.locator('.relay-results-body').innerText(),first);
+    assert.equal(await app.frame.evaluate(()=>document.activeElement?.textContent),'Leg ledger','first page restores focus to the enabled section control');
+    await app.advance(500);
+    assert.equal(await app.onSession(function(){return JSON.stringify(this.result);}),frozen,'result navigation retains the exact terminal record');
+    assert.deepEqual(evidence.errors,[]); assert.deepEqual(evidence.external,[]);
+  } finally {await app.close();}
+});
+
 test('production skip/reclaim and expired offer preserve partial credits and exclude inactive time',()=>{
   const run=setup(50); hop(run); run.game.awardCoins(6); run.session.update(1/120);
   const elapsed=run.game.time; run.session.deviceLost('p1'); for(let i=0;i<1000;i++) run.session.update(1/120);

@@ -1404,6 +1404,14 @@ run ee255c8a-ee08-4897-85df-a99aec5a0f99 has three actual browser lifetimes.
 arms and six new menu arms. All source hashes and mapped schemas match baseline.
 The retained menu failures are fixture assumptions. No full pass is claimed.
 
+## Fatal Relay result presentation
+
+`07-03-RELAY-RESULT-UI-GAPS.md` records90898 exit0, ordinary/canonical16/16,
+run28604c09-5f20-408f-bc38-416ab964994c. Actual fatal transactions followed by
+public recovery/ready controls produce Dead result pages. Four new relay-ui
+arms distinguish fatalities and backward navigation, with unchanged source and
+mapped schemas. Existing captures and normal dist are preserved. No full pass.
+
 ### Turn Arcade extension
 
 Seven real Relay/Race coordinator lifetimes /25 disjoint intervals passed ordinary7/7 and canonical7/7 (71873 exit0; run3ac5861e-2c3e-4a9a-abc8-9582168b50a2). Versioned actual Arcade acquisition, owned denominations/movement/fractional drift, Relay paid pack/card/sale/pull, Race appearance-only buy/rejection and real innate-water/fatal-personal recovery are now covered with explicit component arrangements. Raw/applicable Relay1392/2350L482/817F1465/3196B; Race1440/2303L523/818F1670/3253B. No mode exclusions or floor changes; remaining misses stay visible. Exact provenance/logs in07-03-TURN-MODE-COVERAGE.md.
