@@ -47,3 +47,34 @@ show that baton placement and other players' legs do not recharge the target.
 Retain every original matrix/boundary assertion and immutable solo parity.
 Source changes require current-source canonical refresh and explicit pin review;
 full enforcing/semantic/conformance/visual/PR gates remain open.
+
+## Post-edit ownership and source review
+
+Retained RED4beda7a. Game.movePlayer now reads the immutable world.host pause
+state before selecting a player's receiver. All other movement behavior delegates
+to the same unchanged inPlayerOperation callback. No Session or mode source
+changes. Four new role/mode journeys and all original22 matrix cases/Relay17/
+Race-items19 pass together62/62. A direct SessionPlayer.move assertion now also
+checks the same authority without changing the retained dispatch reproducer.
+
+The fresh23-target compiler audit covers159 src files. All original20 resolved
+reference/call/dynamic-access records are byte-identical to the reviewed prior
+audit. New targets show one Game.movePlayer caller(SessionPlayer.move),one
+SessionPlayer.move caller(LocalSession.dispatch),and three application dispatch
+calls in main. No standalone updater,unused wrapper,rule composer,recovery
+policy or constructor path gains a caller. Only Game changes in the complete
+source inventory; source/map/site schemas from the old Game cannot be merged.
+
+The stale-pin control deliberately fails before the reviewed advancement,log
+/tmp/down-to-duck-paused-movement-stale-pin.log. Existing scope rules are retained:
+no new exclusions,defaults,wave/trail pruning or numeric floor changes. Game's
+Solo/turn pins and complete turn/built-in/DEV caller fingerprints advance only
+for this reviewed guard. Runtime isModeDefinition,valid initialization and all
+raw/global/per-file counters remain intact. The exact transition is:
+
+- gameBefore: `f783839e0a6bfc98eb2a0a4e35e381e9002daafb0ced9832dcbfe1b4a2794396`
+- gameAfter: `04d7556c96b37b03539f270c2ce2c8e2b620c301d729a1fd6238be8e66d9413b`
+- inventoryBefore: `9ef7fa9ebc20c98c6d807c10529ddd36365a47d533614c41d46470d2463a7eef`
+- inventoryAfter: `92a4572f0d38c4bfbf79d424e30d3dfca03b984fbb6c654cfaed5e390212da96`
+- developmentBefore: `935c3e5b6a253c0f1e0cf1ff3aef44d54de0bfc2ae9c98a9a8bcd766ec02d5e7`
+- developmentAfter: `f2c39da5fa89906882ab4af8cad11e3181ff18c1e1a90ad6325bbf805d6c8c17`

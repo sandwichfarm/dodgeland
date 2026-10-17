@@ -5107,6 +5107,153 @@
         }
       ],
       "provenance": "Whole existing Race runtime suite; only seven bounded live public UI intervals receive Race attribution. Private route planners, separate Node oracle, setup and other browser snapshots stay global-only."
+    },
+    "turn-recovery-progress-03": {
+      "files": [
+        "tests/turn-recovery-progress.test.mjs"
+      ],
+      "roles": {
+        "tests/turn-recovery-progress.test.mjs": "node"
+      },
+      "jobs": [
+        {
+          "id": "turn-recovery-progress-test",
+          "file": "tests/turn-recovery-progress.test.mjs",
+          "role": "node",
+          "requiredRealms": [
+            "node"
+          ],
+          "defaultBuildScope": "modules",
+          "artifactPatterns": [],
+          "modelAttribution": [
+            {
+              "mode": "relay",
+              "lifetimes": 2,
+              "phases": [
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "pending"
+                ],
+                [
+                  "pending",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "pending"
+                ],
+                [
+                  "pending",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "pending"
+                ],
+                [
+                  "pending",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "pending"
+                ],
+                [
+                  "pending",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
+                ]
+              ]
+            },
+            {
+              "mode": "race",
+              "lifetimes": 2,
+              "phases": [
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      "provenance": "Four actual composed Flow Relay/Race primary/secondary lifetimes; arranged starting damage and corridor,actual swept fatal contact,recovery,pause and settled249/250/251 hops. No direct progress,clock,cooldown or authority injection; no public-input claim."
     }
   },
   "pendingAdapters": [
@@ -9639,6 +9786,142 @@
           "development"
         ],
         "verifyArtifactScope": true
+      },
+      {
+        "id": "turn-recovery-progress-test",
+        "file": "tests/turn-recovery-progress.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": [],
+        "modelAttribution": [
+          {
+            "mode": "relay",
+            "lifetimes": 2,
+            "phases": [
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "pending"
+              ],
+              [
+                "pending",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "pending"
+              ],
+              [
+                "pending",
+                "playing"
+              ],
+              [
+                "playing",
+                "settled"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "pending"
+              ],
+              [
+                "pending",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "pending"
+              ],
+              [
+                "pending",
+                "playing"
+              ],
+              [
+                "playing",
+                "settled"
+              ]
+            ]
+          },
+          {
+            "mode": "race",
+            "lifetimes": 2,
+            "phases": [
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "settled"
+              ],
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "settled"
+              ]
+            ]
+          }
+        ]
       }
     ],
     "controls": [

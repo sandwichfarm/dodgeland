@@ -11,7 +11,7 @@ const directory=await mkdtemp(join(tmpdir(),'turn-applicability-'));after(()=>rm
 const root=resolve(new URL('../..',import.meta.url).pathname);
 const ts=createRequire(new URL('../../package.json',import.meta.url))('typescript');
 const authoritySources=await Promise.all(Object.keys(TURN_AUTHORITY_PINS).map(async path=>({path,source:await readFile(join(root,path),'utf8')})));
-const audit=JSON.parse(await readFile(join(root,'.planning/phases/07-release-evidence-pr/07-03-INNATE-HOP-REFERENCE-AUDIT.json'),'utf8'));
+const audit=JSON.parse(await readFile(join(root,'.planning/phases/07-release-evidence-pr/07-03-PAUSED-MOVEMENT-REFERENCE-AUDIT.json'),'utf8'));
 const closureSources=await Promise.all(Object.keys(audit.sourceHashes).filter(path=>!path.endsWith('.d.ts')).map(async path=>({path,source:await readFile(join(root,path),'utf8')})));
 const turnApplicabilityDispositions=input=>generateTurnDispositions({authoritySources,closureSources,canonicalSources:closureSources,...input});
 const texts=Object.fromEntries(await Promise.all([...new Set([...Object.keys(TURN_APPLICABILITY_SOURCES),'src/mode-rules.ts'])].map(async path=>[path,await readFile(join(root,path),'utf8')])));

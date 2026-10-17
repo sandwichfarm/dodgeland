@@ -13,7 +13,7 @@ const directory = await mkdtemp(join(tmpdir(), 'solo-applicability-'));
 after(() => rm(directory, { recursive: true, force: true }));
 const root = resolve(new URL('../..', import.meta.url).pathname);
 const authoritySources=await Promise.all(Object.keys(SOLO_AUTHORITY_PINS).map(async path=>({path,source:await readFile(join(root,path),'utf8')})));
-const audit=JSON.parse(await readFile(join(root,'.planning/phases/07-release-evidence-pr/07-03-INNATE-HOP-REFERENCE-AUDIT.json'),'utf8'));
+const audit=JSON.parse(await readFile(join(root,'.planning/phases/07-release-evidence-pr/07-03-PAUSED-MOVEMENT-REFERENCE-AUDIT.json'),'utf8'));
 const closureSources=await Promise.all(Object.keys(audit.sourceHashes).filter(path=>!path.endsWith('.d.ts')).map(async path=>({path,source:await readFile(join(root,path),'utf8')})));
 const soloApplicabilityDispositions=input=>generateSoloDispositions({authoritySources,closureSources,canonicalSources:closureSources,...input});
 const texts = Object.fromEntries(await Promise.all(['src/market/run.ts','src/market/types.ts','src/session.ts', 'src/co-op-market.ts', 'src/game.ts', 'src/recovery.ts', 'src/shared-world-effects.ts', 'src/mobs.ts', 'src/mode-rules.ts', 'src/consumables.ts', 'src/consumable-drops.ts'].map(async path => [path, await readFile(join(root, path), 'utf8')])));

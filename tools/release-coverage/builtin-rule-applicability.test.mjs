@@ -8,7 +8,7 @@ import {instrumentSources,reportCoverage} from './instrument.mjs';
 import {reportApplicability} from './applicability.mjs';
 import {builtinRuleDispositions} from './builtin-rule-applicability.mjs';
 const root=resolve(new URL('../..',import.meta.url).pathname),ts=createRequire(new URL('../../package.json',import.meta.url))('typescript');
-const audit=JSON.parse(await readFile(join(root,'.planning/phases/07-release-evidence-pr/07-03-INNATE-HOP-REFERENCE-AUDIT.json'),'utf8'));
+const audit=JSON.parse(await readFile(join(root,'.planning/phases/07-release-evidence-pr/07-03-PAUSED-MOVEMENT-REFERENCE-AUDIT.json'),'utf8'));
 const callers=await Promise.all(Object.keys(audit.sourceHashes).filter(path=>!path.endsWith('.d.ts')).map(async path=>({path,source:await readFile(join(root,path),'utf8')})));
 const directory=await mkdtemp(join(tmpdir(),'builtin-rule-scope-'));after(()=>rm(directory,{recursive:true,force:true}));
 const text=await readFile(join(root,'src/mode-rules.ts'),'utf8'),inventory=instrumentSources({'src/mode-rules.ts':text},root);

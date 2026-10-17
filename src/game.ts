@@ -261,7 +261,7 @@ export class Game {
   /** Session-only adapter over the released start transition. */
   startPlayer(player: SessionPlayer): boolean { return this.inPlayerOperation(player, context => context.start()); }
   /** Session-only adapter over the released movement/progress transition. */
-  movePlayer(player: SessionPlayer, direction: Direction): boolean { return this.inPlayerOperation(player, context => context.move(direction)); }
+  movePlayer(player: SessionPlayer, direction: Direction): boolean { return this.world.host.state !== 'paused' && this.inPlayerOperation(player, context => context.move(direction)); }
   damagePlayer(player: SessionPlayer, request: DamageRequest): DamageResult { return this.inPlayerOperation(player, context => context.applyDamage(request)); }
   get pursuitEnabled(): boolean { return !(this.world?.sessionActive && this.player.session?.mode?.handlers.suppressPursuit); }
   /** Apply the elected seat's run effects once before a world-only tick. */

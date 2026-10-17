@@ -2,7 +2,7 @@ import {createHash} from 'node:crypto';
 import {createRequire} from 'node:module';
 import {applicabilityIdentity} from './applicability.mjs';
 const ts=createRequire(new URL('../../package.json',import.meta.url))('typescript');
-const callerDigest='9ef7fa9ebc20c98c6d807c10529ddd36365a47d533614c41d46470d2463a7eef';
+const callerDigest='92a4572f0d38c4bfbf79d424e30d3dfca03b984fbb6c654cfaed5e390212da96';
 const sourceHash='cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2';
 const authority='.planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md';
 const hash=value=>createHash('sha256').update(value).digest('hex');

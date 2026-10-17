@@ -3,9 +3,9 @@ import { createRequire } from 'node:module';
 import { applicabilityIdentity } from './applicability.mjs';
 import { builtinRuleDispositions } from './builtin-rule-applicability.mjs';
 const ts=createRequire(new URL('../../package.json',import.meta.url))('typescript');
-// Complete executable src inventory reviewed in INNATE-HOP-REFERENCE-AUDIT.json.
+// Complete executable src inventory reviewed in PAUSED-MOVEMENT-REFERENCE-AUDIT.json.
 // A new/changed caller anywhere invalidates this closure, even outside the stratum.
-const callerInventoryHash='9ef7fa9ebc20c98c6d807c10529ddd36365a47d533614c41d46470d2463a7eef';
+const callerInventoryHash='92a4572f0d38c4bfbf79d424e30d3dfca03b984fbb6c654cfaed5e390212da96';
 // Deliberately reviewed pins: never regenerate automatically when production changes.
 export const TURN_APPLICABILITY_SOURCES=Object.freeze({
  'src/mode-rules.ts':'cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2',
@@ -15,7 +15,7 @@ export const TURN_APPLICABILITY_SOURCES=Object.freeze({
  'src/session-recovery.ts':'35119abd8ac6551d253ec0ada320c934fd5a9cf20c142444e3afdb4094093b9c',
  'src/recovery.ts':'835df7ab867c3421e7d295778c864ceba83f0ea10e588c4c6f4d95cdc2c1702b',
  'src/shared-world-effects.ts':'715dce9a98a83c398aa3a3d43531568008a9cefaa9be8df766a921dd2eb43a45',
- 'src/game.ts':'f783839e0a6bfc98eb2a0a4e35e381e9002daafb0ced9832dcbfe1b4a2794396',
+ 'src/game.ts':'04d7556c96b37b03539f270c2ce2c8e2b620c301d729a1fd6238be8e66d9413b',
  'src/market/run.ts':'ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f',
  'src/consumable-drops.ts':'2fc4a1c55dc7f37dbcac2b7091661e3a284d3292eddf1460da423a39520dec4a',
 });

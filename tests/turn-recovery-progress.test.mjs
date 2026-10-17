@@ -125,6 +125,7 @@ test(`${mode} ${targetSeat}: real revival recharges on settled personal hop250, 
     const beforeMotion = motion();
     const accepted = session.dispatch({ seat: targetSeat, direction: 'forward' });
     assert.equal(accepted, false, JSON.stringify({ sharedState: game.state, targetSeat, beforeMotion, afterMotion: motion() }));
+    assert.equal(target.move('forward'), false, 'direct player movement shares the same paused-world authority');
     assert.deepEqual(motion(), beforeMotion); assert.deepEqual(session.players.map(credit), saved); game.resume();
   });
   // Replace only the initial road fixture outside the earned-movement interval.
