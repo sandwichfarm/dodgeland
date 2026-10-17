@@ -184,7 +184,7 @@ function invoke(game, gameModule, command, fixedStep) {
 
 /** Runs one tape through independently compiled pinned and working engines. */
 async function runLoadedScenario(loaded, { name, seed, home = 'pond', mode = 'arcade', gentle = false, characterId,
-  definitions = [], catalogIds, tape, fixedStep = 1 / 120, perturbCurrent, setup, keepTrace = false }) {
+  definitions = [], catalogIds, fromSeed = false, tape, fixedStep = 1 / 120, perturbCurrent, setup, keepTrace = false }) {
   const { baselineGame, currentGame, baselineCatalog, currentCatalog, baselineActors, currentActors } = loaded;
   const resolveCatalog = (catalog, side) => {
     if (!catalogIds) return definitions;
@@ -197,10 +197,11 @@ async function runLoadedScenario(loaded, { name, seed, home = 'pond', mode = 'ar
   };
   const baselineDefinitions = resolveCatalog(baselineCatalog, 'baseline');
   const currentDefinitions = resolveCatalog(currentCatalog, 'current');
-  const baseline = new baselineGame.Game(seed, home, mode, gentle, baselineDefinitions, characterId);
+  let baseline = new baselineGame.Game(seed, home, mode, gentle, baselineDefinitions, characterId);
+  if(fromSeed)baseline=baselineGame.Game.fromSeed(baseline.seedCode,baselineDefinitions,characterId);
   if(loaded.currentRecorder&&perturbCurrent)throw Error('Mode attribution refuses perturbed current engines');
   const recorder=loaded.currentRecorder?.scenario(name,mode);
-  const construct=()=>new currentGame.Game(seed, home, mode, gentle, currentDefinitions, characterId);
+  const construct=()=>fromSeed?currentGame.Game.fromSeed(baseline.seedCode,currentDefinitions,characterId):new currentGame.Game(seed, home, mode, gentle, currentDefinitions, characterId);
   const current = recorder?recorder.acquire(construct):construct();
   recorder?.begin();
   ensureMobRngTrack(baseline);

@@ -17,8 +17,28 @@ for(const mode of ['arcade','stroll']){
   {...base,name:`${mode}-pause-hurt`,seed:79,setup:(game,module)=>{lane(game,module,'road');game.state='playing';game.x=game.fromX=-.975;},tape:[{kind:'move',direction:'right'},step(18),{kind:'call',method:'pause'},step(24),{kind:'call',method:'resume'},step(24)]},
   {...base,name:`${mode}-market`,seed:41,setup:game=>{game.state='playing';},tape:[{kind:'call',target:'run',method:'advanceScore',args:[100]},{kind:'call',method:'openMarket'},step(12),{kind:'call',method:'closeMarket'},step(12)]},
   {...base,name:`${mode}-terminal`,seed:59,setup:game=>{game.state='playing';game.run.creditCoins(9);},tape:[{kind:'call',method:'end',args:['terminal ordering','traffic','front']},step(12),{kind:'call',method:'advanceDeathVisuals',args:[.25]}]},
-  {...base,name:`${mode}-actors`,seed:443,setup:game=>{game.state='playing';game.maxY=game.y=game.fromY=400;game.time=45;game.ensureRows();},tape:[step(12)]},
-  {...base,name:`${mode}-mobs`,seed:207,setup:game=>{game.state='playing';game.maxY=game.y=game.fromY=160;game.time=45;game.ensureRows();},tape:[step(24)]},
+  {...base,name:`${mode}-actors`,seed:443,setup:game=>{game.state='playing';game.maxY=game.y=game.fromY=400;game.time=45;game.ensureRows();},tape:[step(12),{kind:'fixture',apply:(game,module)=>{
+   const river=[...game.rows.values()].find(lane=>lane.kind==='river'&&lane.actors);assert.ok(river,'generated progressive river exists');
+   const actor=module.laneActors(river,game.time).find(actor=>Math.abs(actor.x)<3);assert.ok(actor,'visible platform');
+   game.state='playing';game.y=game.fromY=game.maxY=river.index;game.x=game.fromX=actor.x;game.hop=0;game.waveRow=river.index-100;
+   river.coin=0;river.coinActor=actor.id;river.coinDenomination='bar';const before=game.coins;
+   const anchor=module.coinPosition(river,game.time);assert.ok(anchor);assert.equal(anchor.y,river.index);
+   for(let n=0;n<24;n++)game.update(1/120);
+   assert.equal(game.state,'playing');assert.equal(river.coin,null);assert.equal(game.coins,before+2);assert.notEqual(game.x,actor.x,'real platform carries rider');
+   return {coins:game.coins,anchor,carried:game.x};
+  }}]},
+  {...base,name:`${mode}-mobs`,seed:207,setup:game=>{game.state='playing';game.maxY=game.y=game.fromY=160;game.time=45;game.ensureRows();},tape:[step(24),{kind:'fixture',apply:(game,module)=>{
+   if(mode==='stroll'){assert.equal(game.mobs.length,0);for(let n=0;n<480;n++)game.update(1/120);assert.equal(game.mobs.length,0);return {disabled:true};}
+   const observed={};
+   for(const kind of ['slime','crab','wasp']){
+    game.state='playing';game.x=game.fromX=0;game.y=game.fromY=game.maxY=160;game.hop=0;game.waveRow=-100;game.powerLandingGrace=100;
+    for(let row=157;row<=165;row++)safeRow(game,module,row);game.mobs.length=0;
+    const mob={id:900,kind,x:1,y:160,fromX:1,fromY:160,targetX:1,targetY:160,phase:'rest',phaseLeft:.001,phaseDuration:.001};game.mobs.push(mob);
+    const phases=new Set();for(let n=0;n<960;n++){game.update(1/120);phases.add(mob.phase);}
+    if(kind==='slime')assert.ok(phases.has('walking'),'slime plans real walking');else for(const phase of ['windup','moving','rest'])assert.ok(phases.has(phase),`${kind} reaches ${phase}`);
+    assert.equal(game.state,'playing');observed[kind]=[...phases];
+   }return observed;
+  }}]},
  );
 }
 // Eight extra lifetimes: six independently bound schema Games and one longer same-owner tape per base.
@@ -26,7 +46,7 @@ function safeRow(game,module,row){game.rows.set(row,{...module.generateLane(game
 function paidOffer(game,id){const item=game.run.catalog.get(id);assert.ok(item);const offer={id:`bounded-${id}-${game.run.revision}`,itemId:id,price:item.price,sold:false};game.run.market.offers.push(offer);const before=game.run.wallet;const result=game.run.buy(offer.id);assert.equal(result.ok,true,result.message);assert.equal(game.run.wallet,before-item.price);return result;}
 const breadth=[];
 for(const mode of ['arcade','stroll']){
- for(const schema of [1,2,3])breadth.push({name:`${mode}-schema-${schema}`,mode,seed:{schema,seed:0xffffffff,home:'shuffle',mode,gentle:true},setup:game=>{game.state='playing';game.maxY=game.y=game.fromY=1000000;game.ensureRows();},tape:[step(24)]});
+ for(const schema of [1,2,3])breadth.push({name:`${mode}-schema-${schema}`,mode,fromSeed:true,seed:{schema,seed:0xffffffff,home:'shuffle',mode,gentle:true},setup:game=>{game.state='playing';game.maxY=game.y=game.fromY=1000000;game.ensureRows();},tape:[step(24)]});
  const tape=[];
  for(const [denomination,value]of [['coin',1],['bar',2],['small-sack',5],['big-sack',10],['huge-sack',25]])tape.push(
   {kind:'fixture',apply:(game,module)=>{safeRow(game,module,1);Object.assign(game.rows.get(1),{coin:0,coinDenomination:denomination});return game.coins;}},
@@ -78,9 +98,10 @@ for(const mode of ['arcade','stroll']){
  for(let row=1;row<=100;row++)tape.push({kind:'fixture',apply:(game,module)=>safeRow(game,module,row)},{kind:'move',direction:'forward'},step(18));
  tape.push({kind:'fixture',apply:game=>{assert.equal(game.maxY,100);assert.equal(game.health,1.5,'real100-row regeneration');return {health:game.health,milestone:game.healedMilestone};}});
  for(const [characterId,cause]of [['butter','water'],['sunny','traffic'],['pip','mob'],['petal','traffic'],['beep','train'],['rust','mob'],['pebble','wave']])tape.push(
-  {kind:'fixture',apply:(game,module)=>{game.characterId=characterId;game.state='playing';game.health=game.maxHealth;game.hurtRemaining=0;game.powerReadyAt=0;game.powerRescue=null;game.powerLandingGrace=0;game.hop=0;game.caughtByWave=false;game.waveRow=-100;game.mobs.length=0;for(let row=game.y-3;row<=game.y+5;row++)safeRow(game,module,row);}},
+  {kind:'fixture',apply:(game,module)=>{game.setCharacter(characterId);assert.equal(game.characterId,characterId);game.state='playing';game.health=game.maxHealth;game.hurtRemaining=0;game.powerReadyAt=0;game.powerRescue=null;game.powerLandingGrace=0;game.hop=0;game.caughtByWave=false;game.waveRow=-100;game.mobs.length=0;for(let row=game.y-3;row<=game.y+5;row++)safeRow(game,module,row);}},
   {kind:'call',method:'end',args:['bounded innate rescue',cause,characterId==='petal'?'rear':undefined]},step(12)
  );
+ tape.push({kind:'fixture',apply:game=>{assert.ok(game.run.cosmetics.length>=2);game.powerReadyAt=game.maxY+100;game.powerRescue=null;game.powerLandingGrace=0;game.hurtRemaining=0;game.state='playing';game.end('owned cosmetics fatal spill','train');assert.equal(game.state,'dead');assert.equal(game.run.cosmetics.length,0);assert.ok(game.deathSpill.cosmetics.length>=2);return {spilled:game.deathSpill.cosmetics};}});
  breadth.push({name:`${mode}-paid-pickup-health-powers`,seed:113,mode,catalogIds:['magnet','coin-multiplier','regen-bonus','extra-pocket','broad-deck','crossing-guard','pack-pocket','look-hat-cap','look-hat-aviator','score-income','power-coin-rush','scenery-clear'],setup:(game,module)=>{game.state='playing';safeRow(game,module,0);game.run.advanceScore(100);assert.equal(game.openMarket(),true);game.run.creditCoins(1000);paidOffer(game,'magnet');game.closeMarket();},tape});
 }
 test('bounded actual solo bases retain pinned movement, hazards, recovery, economy and terminal behavior',{timeout:120000},async()=>{
