@@ -6,6 +6,7 @@ const output = new URL('../artifacts/', import.meta.url); await mkdir(output, { 
 const evidence = { artifact: 'Built app in an opaque allow-scripts iframe', frames: [], scenarios: [], errors: [], external: [] };
 const fixture = await createMarketGameFixture(evidence), { page, frame, iframe, advance, resize, key, onGame } = fixture;
 let current = 'setup';
+let backwardReaderChecked = false;
 const colors = { dark: { background:'#242b32', text:'#f0eee5', primary:'#9fc28a' }, light: { background:'#f4f2df', text:'#263c38', primary:'#477953' } };
 async function layout(name) {
   current = name;
@@ -42,6 +43,14 @@ async function read(topicName) {
   await topic(topicName); const chunks=[];
   for(let i=0;i<50;i++) {
     await layout(`${current}/${topicName}/${i}`);chunks.push(await frame.locator(topicName==='stats'?'#run-menu-stat-page':'#run-menu-copy').innerText());
+    if (i > 0 && !backwardReaderChecked) {
+      const content = frame.locator(topicName === 'stats' ? '#run-menu-stat-page' : '#run-menu-copy');
+      await frame.locator('#run-menu-prev').click(); await advance(20);
+      assert.equal(await content.innerText(), chunks.at(-2), 'backward reader paging restores the exact previous text');
+      await frame.locator('#run-menu-next').click(); await advance(20);
+      assert.equal(await content.innerText(), chunks.at(-1), 'forward paging returns to the same text');
+      backwardReaderChecked = true;
+    }
     if(await frame.locator('#run-menu-next').isDisabled()) break;
     await frame.locator('#run-menu-next').click();await advance(20);assert.ok(i<49);
   }
@@ -85,10 +94,25 @@ try {
   await resize(240,240);
   await topic('stats');await key('back-menu');assert.equal(await frame.locator('[data-run-topic="stats"]').isVisible(),true);
   await frame.locator('[data-run-topic="seed"]').focus();await key('play');assert.equal(await frame.locator('#run-seed-code').isVisible(),true);
-  for(let n=0;n<8;n++){await page.keyboard.press('Tab');assert.equal(await frame.evaluate(()=>document.getElementById('run-panel').contains(document.activeElement)),true);}
+  for(let n=0;n<8;n++){await page.keyboard.press(n<4?'Tab':'Shift+Tab');assert.equal(await frame.evaluate(()=>document.getElementById('run-panel').contains(document.activeElement)),true);}
+  assert.equal(backwardReaderChecked, true, 'a compact reader exercised previous-page navigation');
+  // Seed text retains text-input ownership; test menu directions on buttons.
+  await home();
+  const endedRun = await onGame(function(){return {state:this.state,time:this.time,x:this.x,y:this.y};});
+  for (const direction of ['forward', 'left', 'back', 'right']) {
+    const focused = await frame.evaluate(() => document.activeElement?.id || document.activeElement?.dataset.runTopic);
+    await key(direction);
+    assert.notEqual(await frame.evaluate(() => document.activeElement?.id || document.activeElement?.dataset.runTopic), focused, `${direction} navigates the run menu`);
+    assert.deepEqual(await onGame(function(){return {state:this.state,time:this.time,x:this.x,y:this.y};}), endedRun, 'menu navigation cannot advance a finished run');
+  }
   await page.emulateMedia({reducedMotion:'reduce'});await advance(20);assert.equal(await frame.locator('#run-panel').evaluate(node=>getComputedStyle(node).animationName),'none');
   await home();await resize(900,600);const deadMaterial=await layout('result material');
-  await frame.locator('#play').click();await key('pause');await advance(250);
+  await frame.locator('#result-heading').click();
+  assert.equal(await frame.evaluate(() => document.activeElement instanceof HTMLButtonElement), false);
+  await key('play');
+  // Retry creates a new Game; onGame intentionally retains the old owner.
+  assert.equal(await frame.locator('#app').getAttribute('data-run-state'), 'playing', 'confirm with no focused button starts the next run');
+  await key('pause');await advance(250);
   const pauseMaterial=await frame.locator('#run-panel').evaluate(node=>({paper:getComputedStyle(node).backgroundColor,wood:getComputedStyle(node).borderTopColor,font:getComputedStyle(node).fontFamily}));
   assert.equal(deadMaterial.paper,pauseMaterial.paper);assert.equal(deadMaterial.wood,pauseMaterial.wood);assert.equal(deadMaterial.font,pauseMaterial.font);
   evidence.scenarios.push('Ready/results centered and tinted in 36 frame/theme/state cases, every control ≥44px, no scrolling, complete compact text/stat/seed pages, live resize; real run values; same font/paper/wood as pause; focus and SDK Enter/Back; reduced motion.');

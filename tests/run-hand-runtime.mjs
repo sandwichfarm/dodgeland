@@ -289,6 +289,24 @@ try {
   const pauseCard = (await state()).cards[0];
   await (await findHand(pauseCard.id)).click(); await settle(); await closeHand();
   assert.equal((await state()).state, 'paused', 'Closing hand details opened from pause keeps the game paused');
+  await (await findHand(pauseCard.id)).click(); await settle();
+  const beforeHandNavigation = await state();
+  for (const direction of ['forward', 'back', 'left', 'right']) {
+    const focused = await frame.evaluate(() => document.activeElement?.dataset.handKey);
+    await key(direction);
+    assert.notEqual(await frame.evaluate(() => document.activeElement?.dataset.handKey), focused, `${direction} changes the focused hand control`);
+  }
+  for (let i = 0; i < 8; i++) {
+    await page.keyboard.press(i < 4 ? 'Tab' : 'Shift+Tab');
+    assert.equal(await frame.evaluate(() => document.getElementById('run-inventory').contains(document.activeElement)), true, 'both Tab directions stay in the inspected hand');
+  }
+  assert.deepEqual(await state(), beforeHandNavigation, 'hand navigation leaves inventory and simulation unchanged');
+  await page.keyboard.press('Escape'); await settle();
+  assert.equal(await frame.locator('#run-hand-detail').isVisible(), false, 'native Escape closes card inspection');
+  assert.equal((await state()).state, 'paused', 'native Escape preserves the surrounding pause');
+  await (await findHand(pauseCard.id)).click(); await settle();
+  await handCard(pauseCard.id).click(); await settle();
+  assert.equal(await frame.locator('#run-hand-detail').isVisible(), false, 'selecting the same owned card toggles its inspection closed');
   evidence.scenarios.push('SDK Enter and direction commands operate the focused hand without moving the duck; gameplay inspection pauses safely, sale resumes, native Tab reaches cards, and an already-paused run stays paused.');
 
   currentCase = 'Power-only HUD';

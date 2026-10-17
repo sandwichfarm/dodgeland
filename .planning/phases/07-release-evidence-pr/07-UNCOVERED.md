@@ -1394,6 +1394,16 @@ functions and75/88 branch arms. Six prior zero arms gained real paging/focus/
 resume evidence. Earlier failures were fixture assumptions; no product change
 or fabricated RED. Full aggregate enforcement remains pending.
 
+## Keyboard reset and hand/menu gains
+
+`07-03-KEYBOARD-UI-GAPS.md` records60843 exit0 and three new session-ui arms
+from unsupported capture and conflicting/successful default resets. Canonical
+run ee255c8a-ee08-4897-85df-a99aec5a0f99 has three actual browser lifetimes.
+`07-03-HAND-MENU-GAPS.md` records73832 exit0 and run
+22c5771c-f306-4d06-8bd0-c870da8380a9 with two browser payloads, eight new hand
+arms and six new menu arms. All source hashes and mapped schemas match baseline.
+The retained menu failures are fixture assumptions. No full pass is claimed.
+
 ### Turn Arcade extension
 
 Seven real Relay/Race coordinator lifetimes /25 disjoint intervals passed ordinary7/7 and canonical7/7 (71873 exit0; run3ac5861e-2c3e-4a9a-abc8-9582168b50a2). Versioned actual Arcade acquisition, owned denominations/movement/fractional drift, Relay paid pack/card/sale/pull, Race appearance-only buy/rejection and real innate-water/fatal-personal recovery are now covered with explicit component arrangements. Raw/applicable Relay1392/2350L482/817F1465/3196B; Race1440/2303L523/818F1670/3253B. No mode exclusions or floor changes; remaining misses stay visible. Exact provenance/logs in07-03-TURN-MODE-COVERAGE.md.
