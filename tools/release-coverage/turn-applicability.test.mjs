@@ -378,3 +378,48 @@ test('every additional seat-closure disposition rejects positive hits and leaves
   assert.deepEqual(turnApplicabilityDispositions({mode,sources:positive}),dispositions,'counter-independent caller proof');
  }
 });
+
+test('validated turn acquisition excludes only impossible staged defaults and failure outcomes',()=>{
+ const source=sourceFor('session.ts');
+ for(const mode of ['relay','race']){
+  const ds=turnApplicabilityDispositions({mode,sources});
+  const added=ds.filter(d=>d.authority.endsWith('07-03-TURN-STAGING-CLOSURE.md'));
+  assert.ok(added.length>20,'nonempty bounded staging proof');
+  for(const fragment of [
+   'if (!Number.isInteger(this.config.capacity)',
+   'if (players.length < 1 ||',
+   'if (options.mode && options.mode.definition !== world.definition)',
+   'if (new Set(roster.map(spec => spec.seat))',
+   'if (start && !player.start())',
+   'if (this.active) player.session = this;',
+   "if (emit) this.emit('player-joined'",
+  ]){
+   const at=line(source,fragment),entries=Object.entries(source.coverage.branchMap).filter(([,b])=>b.type==='if'&&b.loc.start.line===at);assert.equal(entries.length,1,fragment);
+   const[id]=entries[0];assert.ok(added.some(d=>d.kind==='branch'&&d.id===id&&d.arm===0),fragment);
+   assert.equal(ds.some(d=>d.path===source.path&&d.kind==='branch'&&d.id===id&&d.arm===1),false,'actual false guard retained');
+   const statements=Object.entries(source.coverage.statementMap).filter(([,s])=>s.start.line===at);assert.ok(statements.some(([id])=>!excluded(ds,source,id,'statement')),'evaluated guard retained');
+  }
+  for(const fragment of ['constructor(world: SharedWorld, seat:', 'constructor(world: SharedWorld, players:', 'static stage(game:', 'constructor(readonly game:', 'private admitPlan(']){
+   const at=line(source,fragment),defaults=Object.entries(source.coverage.branchMap).filter(([,b])=>b.type==='default-arg'&&b.loc.start.line===at);assert.ok(defaults.length,fragment);
+   for(const[id]of defaults)assert.ok(added.some(d=>d.kind==='branch'&&d.id===id&&d.arm===0),'only unused initializer '+fragment);
+   const roots=Object.entries(source.coverage.fnMap).filter(([,fn])=>fn.decl.start.line===at&&fn.loc.end.line>at);assert.ok(roots.length);
+   for(const[id]of roots)assert.equal(excluded(ds,source,id),false,'constructor/method execution retained');
+  }
+  for(const d of added){const hits=structuredClone(attributed);if(d.kind==='branch')hits[d.path].b[d.id][d.arm]=1;else hits[d.path][d.kind==='statement'?'s':'f'][d.id]=1;assert.throws(()=>reportApplicability({mode,sources,attributed:hits,dispositions:ds}),/contradicted/);}
+ }
+});
+
+test('staging proof preserves unknown/crossing conditions and actual fallback reads',()=>{
+ const source=sourceFor('session.ts'),at=line(source,'const roster = options.roster ??');
+ for(const mode of ['relay','race']){
+  const ds=turnApplicabilityDispositions({mode,sources});
+  const root=Object.entries(source.coverage.branchMap).find(([,b])=>b.type==='binary-expr'&&b.loc.start.line===at&&b.locations[0].start.column===source.source.split('\n')[at-1].indexOf('options.roster'));assert.ok(root);
+  assert.equal(ds.some(d=>d.path===source.path&&d.kind==='branch'&&d.id===root[0]&&d.arm===0),false);
+  assert.ok(ds.some(d=>d.path===source.path&&d.kind==='branch'&&d.id===root[0]&&d.arm===1));
+  const guardLine=line(source,'if (!Number.isInteger(this.config.capacity)'),guard=Object.entries(source.coverage.branchMap).find(([,b])=>b.type==='if'&&b.loc.start.line===guardLine);assert.ok(guard);
+  for(const malformed of [{start:{},end:{}},{start:{line:guardLine,column:0},end:{line:guardLine+1,column:0}}]){
+   const changed=structuredClone(sources),row=changed.find(s=>s.path===source.path);row.coverage.branchMap[guard[0]].locations[0]=malformed;
+   assert.equal(turnApplicabilityDispositions({mode,sources:changed}).some(d=>d.path===source.path&&d.kind==='branch'&&d.id===guard[0]&&d.arm===0),false);
+  }
+ }
+});
