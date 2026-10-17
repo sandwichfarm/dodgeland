@@ -7989,6 +7989,51 @@
         }
       ],
       "provenance": "Existing four actual Relay/Race Arcade/Flow setup-and-correction journeys expanded with38 rejected real Game authoring inputs each and corrected pack endpoints;unchanged existing full job and12 ownership intervals"
+    },
+    "relay-world-effects-03": {
+      "files": [
+        "tests/relay-world-effects.test.mjs"
+      ],
+      "roles": {
+        "tests/relay-world-effects.test.mjs": "node"
+      },
+      "jobs": [
+        {
+          "id": "relay-world-effects-test",
+          "file": "tests/relay-world-effects.test.mjs",
+          "role": "node",
+          "requiredRealms": [
+            "node"
+          ],
+          "defaultBuildScope": "modules",
+          "artifactPatterns": [],
+          "modelAttribution": [
+            {
+              "mode": "relay",
+              "lifetimes": 2,
+              "phases": [
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
+                ],
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "settled"
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      "provenance": "Two actual Relay Arcade/Flow lifetimes;paid owner cards,selling and real one-tile baton transfers with exact physical continuity;component terrain/funds/stock,not public UI"
     }
   },
   "pendingAdapters": [
@@ -15148,6 +15193,40 @@
               ],
               [
                 "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "settled"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "relay-world-effects-test",
+        "file": "tests/relay-world-effects.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
+        "artifactPatterns": [],
+        "modelAttribution": [
+          {
+            "mode": "relay",
+            "lifetimes": 2,
+            "phases": [
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "settled"
+              ],
+              [
+                "acquiring",
                 "playing"
               ],
               [

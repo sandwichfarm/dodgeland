@@ -36,3 +36,14 @@ Do not automatically re-pin old reports or merge changed Session/Relay counters.
 All numeric floors,immutable oracle/rootlock and ordinary artifacts remain in
 force. The current69/98 diagnostic gaps are historical after a source change;
 no new release percentage may be inferred until a fresh current-source report.
+
+## Implementation and verification addendum
+
+The generic simulation predicate and Relay opt-in are the only production
+changes. Existing tests/relay-boundary.test.mjs had two explicit no-policy
+expectations;they now assert the current runner's contributor policy while
+retaining the complete before/after world and personal continuity comparisons.
+The new regression is wired through the existing bounded turn recorder and
+additive package/full-job metadata. No broader source ownership is added.
+RELAY-EFFECTS/PROOF record213 passing nearby cases,final focused2/2 and required
+project gates. Source-pinned coverage refresh remains a separate required task.

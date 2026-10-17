@@ -69,6 +69,7 @@ export class RelayCoordinator {
     this.ledger = createRelayLedger(this.setup.seats.map(seat => session.players.find(p => p.seat === seat.seat)!));
     for (const player of session.players) this.observed.set(player.seat, { coins: player.coins, pickups: player.statistics.pickups, selfRevives: player.statistics.selfRevives, deaths: player.statistics.deaths, distance: 0 });
     this.openLeg(); session.installCoOpMarket({ consumables: false, name: 'Relay', capabilities: [], closeOnInvalidate: true });
+    session.installSharedWorldEffects();
   }
   private eventId(): string { return `${this.session.id}:${++this.eventSequence}`; }
   private openLeg(): void {

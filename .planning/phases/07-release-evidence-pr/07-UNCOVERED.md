@@ -2,6 +2,19 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Current Relay effect purchase repair invalidates prior source totals
+
+Real paid School Zone reproduction145c371 failed both bases:traffic stayed at
+base speed. The narrow two-body Session/Relay repair enables the existing
+active-simulated-runner policy. New regressions pass2/2;nearest Relay/Survive/
+solo gates112/112 and Race/solo-actor gates101/101 pass. Ground/platform exact
+continuity comparisons remain. RELAY-EFFECTS/OWNERSHIP/RED/PROOF retain evidence.
+New source inventory1e5fb4e2,Sessione90fc363,Relaye789deca and normal6bd5104d
+replace the old source identities. Prior69/98 branch gaps are now historical,
+not current acceptance evidence. Relay shared-effect exclusions must expand
+before canonical collection;all numeric floors stay fixed. Initial190 reviewed
+annotations retain their original hashes;do not relabel changed-source hits.
+
 ## Current authoring/acquisition validation proof
 
 Expanded existing Relay/Race Arcade/Flow setup suite passes4/4 ordinary and

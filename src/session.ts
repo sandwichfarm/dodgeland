@@ -675,7 +675,7 @@ export class LocalSession {
   private refreshSharedWorldEffects(): void {
     if (!this.sharedEffectPolicy) return;
     this.resolvedSharedEffects = resolveSharedWorldEffects(this.players
-      .filter(isLivingRecoverySubject)
+      .filter(player => isLivingRecoverySubject(player) && (this.mode?.handlers.simulates?.(player) ?? true))
       .map(player => ({ seat: player.seat, effects: player.run.effects })));
     this.world.host.setSharedWorldEffects(this.resolvedSharedEffects.effects);
   }

@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-03 authoring setup passes4 expanded cases; branch gaps69 Relay98 Race
-last_updated: "2026-10-17T18:07:06.346996+00:00"
+stopped_at: Relay world-effect purchase repair green;coverage profile review and current-source refresh required
+last_updated: "2026-10-17T18:18:01.632227+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,14 +12,35 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Authoring validation adds14 Relay11 Race branch witnesses and two initial annotations;190 reviewed861 pending;165 full jobs retained.
+last_activity_desc: Real Relay card bug fixed after retained two-case RED;213 nearby cases and final focused2 pass;old69/98 coverage gaps are historical.
 ---
 
 # Project State
 
 ## Current work
 
-Latest checkpoint: expanded authoring/setup proof3248a738 passes4/4 ordinary
+Latest source transition: paid Relay world-effect regression145c371 failed2/2.
+Narrow two-body repair in Relay.attach and LocalSession.refreshSharedWorldEffects
+now passes2/2 and preserves continuous actors through active-owner changes.
+Nearest Relay/Survive/solo gates112/112,Race/solo-actor gates101/101,final focused
+wrapper2/2 and required type/build/guidance/conformance pass. CLI still5 pass/
+5 unmeasured. Exact source Sessione90fc363,Relaye789deca,complete executable
+inventory1e5fb4e2;normal raw6bd5104d,rootlock5ac. All older Game04 source remains
+unchanged;older Session399/Relayf5c counters and69/98 diagnostic gaps are
+historical and must not be merged into current measurements. RELAY-EFFECTS/
+OWNERSHIP/RED/PROOF bind source,real failure,repair and371-target resolved audit.
+
+Immediate next work: review coverage source pins and expand Relay shared-effect
+applicability,then fresh canonical tracer/cohort collection. Do not blindly
+re-pin. Relay now calls installSharedWorldEffects;Race still does not. Keep all
+Race/personal/consumable scope proofs source-bound and all numeric floors.
+sharedWorldEffectsSnapshot remains application-unused under the current audit.
+New full dispatch154 entries/161 closure/166 jobs includes two-lifetime Relay
+tracer. Existing190 initial annotations remain historical/source-bound;861
+initial candidates still lack complete semantic proof. No current enforcing
+coverage or new mode-floor claim. No test/build chain is live and no PR is open.
+
+Historical checkpoint: expanded authoring/setup proof3248a738 passes4/4 ordinary
 and canonical cases,one Node parent/12 actual mode intervals. Each acquisition
 rejects38 malformed real Game inputs,then adopts the corrected Game;original
 staging rollback,actual hop and frozen results remain. No source/scope/floor
@@ -55,11 +76,11 @@ required type/build/guidance/conformance checks exit0;CLI still5 pass/5
 unmeasured. Normal903/rootlock5ac unchanged. TURN-PLATFORM-REWARDS/PROOF bind
 identities and limits. No test/build chain is live and no PR is open.
 
-Latest source transition: Game04d7556c fixes paused secondary movement; Session399
+Historical pre-Relay-repair transition: Game04d7556c fixed paused secondary movement; Session399
 and all other src files are unchanged. Current-source verification87218
 is terminal0 as recorded at the latest checkpoint below. The earlier a05 normal
 artifact and every f783 Game diagnostic remain historical; do not merge them with
-the repaired Game. Exact current normal raw artifact is9036d9a1 as recorded in
+the repaired Game. Historical pre-Relay-repair normal raw artifact is9036d9a1 as recorded in
 PAUSED-MOVEMENT-PROOF.json. No fresh full enforcing release result is claimed.
 
 
@@ -75,7 +96,7 @@ repair7e71ab1). All have retained RED/GREEN evidence. Required
 type/build/guidance checks pass. Conformance remains five
 passes, zero failures and five unmeasured checks. Normal build raw SHA256:
 `9036d9a1f179b136569a3b400c412d954d783987c751832afbbbfda287c63539`.
-Current session source is `399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9`;
+Historical pre-Relay-repair session source is `399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9`;
 all older session measurements below retain their historical identities and
 cannot be merged into the current source. Focused canonical refresh passed; the current complete report-only collection
 is terminal as recorded below. Full enforcing release acceptance remains pending.
@@ -1067,7 +1088,8 @@ contradiction proof;do not prune from the zero count alone. No PR is open.
 
 ## Next required work
 
-1. Complete07-03: broad honest Solo/Relay/Race and development evidence,
+1. Complete07-03: first reconcile source profiles after Relay effect repair and
+   refresh current-source evidence;then broad honest Solo/Relay/Race and development evidence,
    remaining per-file gaps, complete semantic ledger, then a fresh enforcing
    full report. Keep all floors.190 initial zero arms have source-identical
    semantic annotations(189 covered,one reviewed private default);861 still need completed semantic/behavioral proof,

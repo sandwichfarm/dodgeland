@@ -235,9 +235,12 @@ function prepareContinuity(platform) {
   run.session.world.resolvePickups();
   assert.equal(run.session.world.pickupOwners.get(3), 'p1');
   assert.strictEqual(run.session.world.attractedCoins.get(3), retained);
-  // Relay has not opted into the later cooperative item/effect policies.
+  // Relay has no consumable world. Its shared modifier policy belongs only
+  // to the current runner and stays frozen with the transfer board.
   assert.equal(run.session.consumableSnapshot(), undefined);
-  assert.equal(run.session.sharedWorldEffectsSnapshot(), undefined);
+  const policy = run.session.sharedWorldEffectsSnapshot();
+  assert.ok(policy);
+  assert.ok(Object.values(policy.contributors).every(seat => seat === 'p1'));
   return run;
 }
 

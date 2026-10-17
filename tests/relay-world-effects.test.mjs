@@ -1,15 +1,21 @@
 import test, { after } from 'node:test';
 import assert from 'node:assert/strict';
 import { loadSources } from './source-loader.mjs';
+import { turnReuseAttribution } from './turn-reuse-attribution.mjs';
 
 const sources = await loadSources(['game', 'relay', 'market/catalog']);
 after(() => sources.dispose());
 const { Game, generateLane, laneActors } = await sources.import('game');
-const { createRelaySession } = await sources.import('relay');
+const { createRelaySession, RelayCoordinator } = await sources.import('relay');
 const { ITEM_CATALOG } = await sources.import('market/catalog');
+const authority = { Game, ...await sources.import('session'), ...await sources.import('mode-rules') };
+const reuse = await turnReuseAttribution({ mode: 'relay', factory: createRelaySession,
+  Coordinator: RelayCoordinator, authority, lifetimes: 2 });
+after(() => reuse.finish());
 const STEP = 1 / 120;
 for (const base of ['arcade', 'stroll'])
 test(`relay/${base}: only the current runner changes world speeds and baton changes preserve physical continuity`, () => {
+  const witness = reuse.lifetime();
   const game = Game.fromSeed(`ph3-00000071-pond-${base === 'arcade' ? 'a' : 's'}-n`, ITEM_CATALOG, 'butter');
   for (let y = -8; y < 30; y++) game.rows.set(y, {
     ...generateLane(game.seed, y, game.home), kind: 'meadow', blocked: [], decorations: [],
@@ -18,10 +24,11 @@ test(`relay/${base}: only the current runner changes world speeds and baton chan
   const road = game.rows.get(3), river = game.rows.get(4);
   Object.assign(road, { kind: 'road', speed: -2, spacing: 6, length: 2, phase: .25 });
   Object.assign(river, { kind: 'river', speed: 1.5, spacing: 6, length: 3, phase: .4 });
-  const owner = createRelaySession(game, { tilesPerLeg: 1, seats: [
+  const owner = witness.acquire(game, { tilesPerLeg: 1, seats: [
     { seat: 'p1', device: 'keyboard-a', characterId: 'butter' },
     { seat: 'p2', device: 'keyboard-b', characterId: 'sunny' },
   ] });
+  witness.interval('paid-owner-effects-and-continuous-baton', () => {
   const session = owner.session, [p, other] = session.players;
   // Explicit component market eligibility/funds/stock. Transactions,input,
   // effects,clocks,positions,personal progress and handoffs remain production-owned.
@@ -97,4 +104,6 @@ test(`relay/${base}: only the current runner changes world speeds and baton chan
   const result = owner.finish(), frozen = JSON.stringify(result);
   assert.ok(Object.isFrozen(result)); session.update(STEP);
   assert.strictEqual(owner.result, result); assert.equal(JSON.stringify(result), frozen);
+  });
+  witness.finish();
 });
