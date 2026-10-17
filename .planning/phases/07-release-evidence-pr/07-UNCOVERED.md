@@ -1363,6 +1363,10 @@ See `07-03-SOLO-APPLICABILITY.md` for exact source-pinned production disposition
 
 `07-03-SURVIVE-GAPS.md` records ordinary2/2 and canonical2/2 run344fd116-4fb9-4e87-85ad-8c31a8bcd837: same two actual mode lifetimes and ten intervals, one Node parent, no source change. Real production progress/recovery/item/archival transactions increase each mode from80/89L50/65F102/165B to87/89L64/65F149/165B, with unchanged denominators and explicit arranged component-model provenance. Full enforcing collection still pending; historical baseline zero rows are retained, not relabeled as final failures or silently deleted.
 
+## Relay and Race component lifetime evidence
+
+`07-03-TURN-MODE-COVERAGE.md` records ordinary/canonical5/5, run2275eb09-bc7d-48f1-b493-2c1bcbbd443d, exactly five actual coordinator lifetimes and17 intervals bound to one Node parent. Current Relay1016/2350L400/817F1014/3196B and Race1138/2303L470/818F1346/3253B remain below floors; no shortfall is dismissed. Original public intervals are distinct evidence and must not be numerically added to these measurements. Explicit terrain/economy arrangements and actual production transactions retain component-model provenance. No source change or whole-worker mode relabeling.
+
 ## Sound-settings UI restoration gains
 
 `07-03-SOUND-UI-GAPS.md` records ordinary and canonical chain89647 exit0,
