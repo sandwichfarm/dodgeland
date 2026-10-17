@@ -923,6 +923,13 @@
       ],
       "role": "node",
       "provenance": "Existing keyboard authority/storage lifecycle production tests, including malformed and ignored-key behavior"
+    },
+    "release-sound-loader-gaps": {
+      "files": [
+        "tests/release-sound-loader-gaps.test.mjs"
+      ],
+      "role": "node",
+      "provenance": "Production sound loader and official SDK forwarding with injected optional-domain hosts, real Blob/hash and explicitly controlled decoder component; no playback/public-browser claim"
     }
   },
   "pendingAdapters": [
@@ -3346,6 +3353,16 @@
           "browser"
         ],
         "defaultBuildScope": "production",
+        "artifactPatterns": []
+      },
+      {
+        "id": "release-sound-loader-gaps-test",
+        "file": "tests/release-sound-loader-gaps.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "defaultBuildScope": "modules",
         "artifactPatterns": []
       },
       {
