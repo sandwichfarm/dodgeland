@@ -27,11 +27,11 @@ function observeUpdateRoute(GameType){
  restoreObservers.push(()=>{GameType.prototype.update=standalone;GameType.prototype.updateSessionPlayer=shared;});
 }
 observeUpdateRoute(Game);
-after(()=>{for(const restore of restoreObservers)restore();assert.equal(observedWorlds.size,21);assert.ok(executionObservations.sharedCalls>0);assert.equal(executionObservations.standaloneCalls,0);assert.deepEqual(executionObservations.violations,[]);});
+after(()=>{for(const restore of restoreObservers)restore();assert.equal(observedWorlds.size,22);assert.ok(executionObservations.sharedCalls>0);assert.equal(executionObservations.standaloneCalls,0);assert.deepEqual(executionObservations.violations,[]);});
 const config=process.env.DOWN_TO_DUCK_COVERAGE_CONFIG?JSON.parse(await readFile(process.env.DOWN_TO_DUCK_COVERAGE_CONFIG,'utf8')):null;
 const model=config?.modelAttribution;if(config&&!model)throw Error('Missing turn-model attribution configuration');
 const inventory=model?JSON.parse(await readFile(config.inventoryPath,'utf8')):null,records=[];
-after(async()=>{if(inventory){if(records.length!==21)throw Error('Incomplete turn-mode witnesses');await writeFile(model.output,JSON.stringify({...records.at(-1),executionObservations:{...executionObservations,worlds:observedWorlds.size},intervals:records.flatMap(r=>r.intervals)}));}});
+after(async()=>{if(inventory){if(records.length!==22)throw Error('Incomplete turn-mode witnesses');await writeFile(model.output,JSON.stringify({...records.at(-1),executionObservations:{...executionObservations,worlds:observedWorlds.size},intervals:records.flatMap(r=>r.intervals)}));}});
 const seats=[{seat:'p1',device:'gamepad-0',characterId:'butter'},{seat:'p2',device:'gamepad-1',characterId:'pip'},{seat:'p3',device:'gamepad-2',characterId:'sunny'}];
 const step=1/120;
 function lane(game,row){game.rows.set(row,{...generateLane(game.seed,row,game.home),kind:'meadow',blocked:[],decorations:[],actors:undefined,coin:null,coinActor:undefined});}
@@ -579,5 +579,46 @@ for(const mode of ['relay','race'])for(const kind of ['river','road','rail'])tes
  run.run(`safe-${kind}-adoption-terminal`,()=>{
   if(mode==='relay')run.owner.finish();else for(const p of players){assert.equal(run.owner.command(run.owner.actionToken(p.seat),'leave'),true);assert.equal(run.owner.command(run.owner.actionToken(p.seat),'confirm'),true);}
   assert.ok(Object.isFrozen(run.owner.result));
+ });run.finish();
+});
+
+test('Race secondary chicken rescues a real fatal crossing and earns healing and innate recharge independently',()=>{
+ const run=start('race',{count:3,activeSeconds:180}),{session}=run,[p1,p2,chicken]=session.players;
+ // Explicit starting damage/poses and the road precede the real collision.
+ coinPositionFixture(p1,-4,0);coinPositionFixture(p2,4,0);coinPositionFixture(chicken,0,0);chicken.health=.25;
+ course(run,1,{kind:'road',phase:0,speed:0,spacing:20,length:1.15});
+ const other=players=>players.map(p=>({seat:p.seat,health:p.health,wallet:p.run.wallet,deaths:p.statistics.deaths,innate:p.statistics.innateUses,selfRevives:p.statistics.selfRevives}));
+ const untouched=other([p1,p2]);let activatedAt;
+ run.run('secondary-real-chicken-rescue',()=>{
+  assert.equal(chicken.characterId,'sunny');assert.equal(chicken.power.id,'chicken-out');
+  assert.equal(session.dispatch({seat:chicken.seat,direction:'forward'}),true);
+  for(let n=0;n<120&&!chicken.powerRescue;n++)ticks(run,1);
+  assert.ok(chicken.powerRescue);activatedAt=chicken.personalScore;
+  assert.equal(chicken.powerReadyAt,activatedAt+100);assert.equal(chicken.health,.25,'Chicken Out averts the impact without healing prior damage');
+  assert.equal(chicken.statistics.innateUses,1);assert.equal(chicken.statistics.deaths,0);assert.equal(chicken.completedForwardTiles,0);
+  assert.equal(chicken.recovery.charge,'available');assert.equal(chicken.statistics.selfRevives,0);
+  for(let n=0;n<240&&chicken.powerRescue;n++)ticks(run,1);
+  assert.equal(chicken.powerRescue,null);assert.equal(chicken.groundY,0);assert.equal(chicken.state,'playing');assert.equal(chicken.powerReady,false);
+  assert.deepEqual(other([p1,p2]),untouched);assert.equal(chicken.run.wallet,0);
+ });
+ // A safe authored-length component corridor, arranged before the action.
+ // Every tile below is earned with actual simultaneous dispatch and settlement.
+ for(let row=0;row<=140;row++)course(run,row);
+ run.run('secondary-earned-healing-and-recharge',()=>{
+  for(let row=1;row<=101;row++){
+   for(const p of [p1,p2,chicken])assert.equal(session.dispatch({seat:p.seat,direction:'forward'}),true);
+   for(let n=0;n<120&&session.players.some(p=>p.hop>0);n++)ticks(run,1);
+   for(const p of [p1,p2,chicken]){assert.equal(p.hop,0);assert.equal(p.groundY,row);assert.equal(p.state,'playing');assert.equal(p.completedForwardTiles,row);}
+   assert.equal(chicken.health,row<100?.25:.75,'only the earned100 milestone heals half a feather');
+   if(row===100){assert.equal(chicken.powerRemaining,1);assert.equal(chicken.powerReady,false);}
+  }
+  assert.equal(chicken.personalScore,activatedAt+100);assert.equal(chicken.powerReady,true);assert.equal(chicken.powerRemaining,0);
+  assert.equal(chicken.statistics.innateUses,1);assert.equal(chicken.recovery.charge,'available');assert.equal(chicken.statistics.selfRevives,0);
+  assert.deepEqual(other([p1,p2]),untouched);assert.equal(chicken.statistics.deaths,0);assert.equal(chicken.run.wallet,0);assert.equal(run.owner.result,undefined);
+ });
+ run.run('secondary-power-results',()=>{
+  for(const p of [p1,p2,chicken]){assert.equal(run.owner.command(run.owner.actionToken(p.seat),'leave'),true);assert.equal(run.owner.command(run.owner.actionToken(p.seat),'confirm'),true);}
+  assert.ok(Object.isFrozen(run.owner.result));
+  const result=run.owner.result.players.find(p=>p.seat===chicken.seat);assert.equal(result.innateUses,1);assert.equal(result.selfRevives,0);assert.equal(result.deaths,0);assert.equal(result.distance,101);
  });run.finish();
 });
