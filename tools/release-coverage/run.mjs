@@ -55,7 +55,7 @@ export async function auditExecutionInventory(manifest){
  const paths=tracked.stdout.split('\0').filter(Boolean),pkg=JSON.parse(await readFile(join(repositoryRoot,'package.json'),'utf8'));
  const resolved=resolveCommandInventory(pkg.scripts,await readFile(join(repositoryRoot,'tests/phase6-gate.mjs'),'utf8'),paths);
  // This plan's new original-purpose suite is an explicit additive entry, never a replacement.
- resolved.entries.push({path:'tests/release-mode-coverage.mjs',origins:['plan07-12:mode-attribution']});resolved.entries.sort((a,b)=>a.path.localeCompare(b.path));
+ resolved.entries.push({path:'tests/release-mode-coverage.mjs',origins:['plan07-12:mode-attribution']},{path:'tests/release-survive-mode-coverage.test.mjs',origins:['plan07-03:component-mode-attribution']});resolved.entries.sort((a,b)=>a.path.localeCompare(b.path));
  const closure=new Map(),queue=resolved.entries.map(r=>r.path);
  while(queue.length){const path=queue.shift();if(closure.has(path))continue;const text=await readFile(join(repositoryRoot,path),'utf8'),source=ts.createSourceFile(path,text,ts.ScriptTarget.Latest,true,ts.ScriptKind.JS),imports=[],dynamic=[];
   function add(spec){if(!spec.startsWith('.'))return;const target=relative(repositoryRoot,resolve(repositoryRoot,dirname(path),spec));if(!paths.includes(target))throw Error(`Unresolved local import ${path}: ${spec}`);imports.push(target);if(target.startsWith('tests/'))queue.push(target);}
@@ -104,6 +104,22 @@ export function validateModeRows(inventory,rows,required=modes){
  }
  for(const mode of required)if(!intervals.some(i=>i.mode===mode))throw Error(`Missing exclusive mode ${mode}`);
  return intervals;
+}
+
+export function validateModelSidecar(inventory,row,parents,{runId,jobId,realmId,artifactHash,expectations}){
+ if(row?.identity?.provenance!=='component-model'||row.identity.jobId!==jobId||row.identity.runId!==runId||row.identity.realmId!==realmId||row.identity.artifactHash!==artifactHash)throw Error('Model sidecar identity mismatch');
+ const found=parents.filter(p=>p.runId===runId&&p.realmId===realmId);
+ if(found.length!==1||JSON.stringify(row.payload)!==JSON.stringify(found[0]))throw Error('Model sidecar differs from independent Node parent');
+ if(!Array.isArray(expectations)||!expectations.length||new Set(expectations.map(e=>e.mode)).size!==expectations.length)throw Error('Invalid model expectations');
+ const bound={...row,realmId,payload:found[0]};
+ const intervals=validateModeRows(inventory,[bound],expectations.map(e=>e.mode));
+ if(intervals.some(i=>i.provenance!=='component-model'||!expectations.some(e=>e.mode===i.mode)))throw Error('Unexpected model interval');
+ for(const expected of expectations){
+  const actual=intervals.filter(i=>i.mode===expected.mode);
+  if(actual.length!==expected.phases.length||actual.some((i,n)=>i.observation.phase!==expected.phases[n][0]||i.endObservation.phase!==expected.phases[n][1]))throw Error('Incomplete model lifecycle intervals');
+  if(new Set(actual.map(i=>i.endObservation.sessionId)).size!==1)throw Error('Multiple model session lifetimes');
+ }
+ return bound;
 }
 
 export function evaluatePolicy(policy,files,strata){
@@ -170,7 +186,7 @@ async function main(){
   }
   for(const path of group.artifactDirectories??[]){const original=resolve(repositoryRoot,path),backup=join(payloadDirectory,'prior-artifacts',path),present=!!await stat(original).catch(()=>null);if(present)await cp(original,backup,{recursive:true});preserved.push({original,backup,path,present});}
   if(full){await writeFile(join(payloadDirectory,'execution-inventory.json'),JSON.stringify(executionInventory,null,2));const controlEnv={...process.env};delete controlEnv.DOWN_TO_DUCK_COVERAGE_CONFIG;delete controlEnv.NODE_TEST_CONTEXT;for(const file of manifest.execution.controls.filter(p=>p.endsWith('.test.mjs'))){console.log(`CONTROL ${file}`);run(process.execPath,['tests/strict-node-tests.mjs',file],controlEnv);jobLedger.push({file,role:'control',exitCode:0});}}
-  if(jobs){for(const job of jobs){const jobConfig=join(payloadDirectory,'job-'+job.id+'.json');await writeFile(jobConfig,JSON.stringify({...config,jobId:job.id,defaultBuildScope:job.defaultBuildScope??'production',expectedWorkers:[job.file]}));console.log(`${new Date().toISOString()} BEGIN ${job.id}`);await preserveJobArtifacts(job,payloadDirectory,async()=>run(process.execPath,['tests/strict-node-tests.mjs',job.file],{...env,...job.env,DOWN_TO_DUCK_COVERAGE_CONFIG:jobConfig}));jobLedger.push({id:job.id,file:job.file,role:workerRoles[job.file],exitCode:0});await writeFile(join(payloadDirectory,'job-ledger.json'),JSON.stringify(jobLedger,null,2));console.log(`${new Date().toISOString()} PASS ${job.id}`);}}
+  if(jobs){for(const job of jobs){const jobConfig=join(payloadDirectory,'job-'+job.id+'.json');await writeFile(jobConfig,JSON.stringify({...config,jobId:job.id,defaultBuildScope:job.defaultBuildScope??'production',expectedWorkers:[job.file],...(job.modelAttribution?{modelAttribution:{realmId:job.file,output:join(payloadDirectory,`model-${job.id}.json`)}}:{})}));console.log(`${new Date().toISOString()} BEGIN ${job.id}`);await preserveJobArtifacts(job,payloadDirectory,async()=>run(process.execPath,['tests/strict-node-tests.mjs',job.file],{...env,...job.env,DOWN_TO_DUCK_COVERAGE_CONFIG:jobConfig}));jobLedger.push({id:job.id,file:job.file,role:workerRoles[job.file],exitCode:0});await writeFile(join(payloadDirectory,'job-ledger.json'),JSON.stringify(jobLedger,null,2));console.log(`${new Date().toISOString()} PASS ${job.id}`);}}
   else run(process.execPath,['tests/strict-node-tests.mjs',...group.files],env);
  }finally{
   for(const {original,backup,path,present}of preserved){if(await stat(original).catch(()=>null))await cp(original,join(payloadDirectory,'suite-artifacts',path),{recursive:true});await rm(original,{recursive:true,force:true});if(present)await cp(backup,original,{recursive:true});}
@@ -182,21 +198,36 @@ async function main(){
  }
  for(const file of group.files.filter(f=>['browser','mixed'].includes(workerRoles[f])))if(!browserRows.some(row=>resolve(row.identity.suite)===resolve(repositoryRoot,file)))throw Error(`Missing browser owner ${file}`);
  if(jobs)for(const job of jobs.filter(j=>workerRoles[j.file]!=='node')){const rows=browserRows.filter(r=>r.identity.jobId===job.id&&resolve(r.identity.suite)===resolve(repositoryRoot,job.file));if(rows.length<(job.minimumBrowserRealms??1))throw Error(`Missing browser job ${job.id}`);for(const scope of job.requiredBuildScopes??[job.defaultBuildScope??'production'])if(!rows.some(r=>r.identity.buildScope===scope&&r.identity.artifactHash===browserBuilds[scope]?.artifactHash))throw Error(`Missing browser job scope ${job.id}/${scope}`);}
+ const modelRows=[];
+ for(const job of jobs??[])if(job.modelAttribution){
+  const sidecar=JSON.parse(await readFile(join(payloadDirectory,`model-${job.id}.json`),'utf8'));
+  modelRows.push(validateModelSidecar(data.inventory,sidecar,payloads,{runId,jobId:job.id,realmId:job.file,artifactHash:browserBuilds.modules.artifactHash,expectations:job.modelAttribution}));
+ }
  const allRealms=[...expectedRealms,...browserRows.map(row=>row.realmId)];
  const merged=mergePayloads(data.inventory,payloads,{runId,expectedRealms:allRealms,expectedSources:Object.keys(data.inventory)});
  const report=await reportCoverage(data.inventory,[merged],join(output,'report'));
  let policyResult,attribution;
- if(full){
-  const policy=JSON.parse(await readFile(new URL('./policy.json',import.meta.url),'utf8')),intervals=validateModeRows(data.inventory,browserRows),strata={},strataProof={};
+ if(full||modelRows.length){
+  const policy=JSON.parse(await readFile(new URL('./policy.json',import.meta.url),'utf8')),intervals=validateModeRows(data.inventory,[...browserRows,...modelRows],full?modes:[...new Set(modelRows.flatMap(r=>r.intervals.map(i=>i.mode)))]),strata={},strataProof={},provenanceStrata={};
   const summaries=map=>Object.fromEntries(policy.files.map(p=>[p,map.fileCoverageFor(resolve(repositoryRoot,p)).toSummary().toJSON()]));
   for(const [name,paths]of Object.entries(policy.strata)){
+   if(!full&&!intervals.some(i=>i.mode===name))continue;
    const selected=modes.includes(name)?intervals.filter(i=>i.mode===name).map(i=>i.payload):name==='development'?browserRows.filter(r=>r.identity.buildScope==='development').map(r=>r.payload):name==='browser-presentation-owner-lifecycle'?browserRows.filter(r=>r.identity.buildScope!=='development').map(r=>r.payload):payloads;
    if(!selected.length)throw Error(`Missing stratum evidence ${name}`);
    const raw=mergePayloads(data.inventory,selected,{runId,expectedRealms:selected.map(p=>p.realmId)}),stratumReport=await reportCoverage(data.inventory,[raw],join(output,'strata',name)),files=summaries(stratumReport.map);
    strata[name]=Object.fromEntries(['lines','functions','branches'].map(metric=>[metric,paths.reduce((sum,p)=>({covered:sum.covered+files[p][metric].covered,total:sum.total+files[p][metric].total}),{covered:0,total:0})]));
+   if(modes.includes(name)){
+    provenanceStrata[name]={};
+    for(const provenance of [...new Set(intervals.filter(i=>i.mode===name).map(i=>i.provenance))]){
+     const deltas=intervals.filter(i=>i.mode===name&&i.provenance===provenance).map(i=>i.payload);
+     const mergedProvenance=mergePayloads(data.inventory,deltas,{runId,expectedRealms:deltas.map(p=>p.realmId)});
+     const proof=await reportCoverage(data.inventory,[mergedProvenance],join(output,'strata',name,provenance)),mapped=summaries(proof.map);
+     provenanceStrata[name][provenance]=Object.fromEntries(['lines','functions','branches'].map(metric=>[metric,paths.reduce((sum,p)=>({covered:sum.covered+mapped[p][metric].covered,total:sum.total+mapped[p][metric].total}),{covered:0,total:0})]));
+    }
+   }
    strataProof[name]={sourcePaths:paths,realms:selected.map(p=>p.realmId),basis:modes.includes(name)?'verified exclusive interval delta':'actual complete source-bound realm snapshots'};
   }
-  policyResult=evaluatePolicy(policy,summaries(report.map),strata);policyResult.failures.sort((a,b)=>a.name.localeCompare(b.name)||a.metric.localeCompare(b.metric));attribution={strata,strataProof,intervals:intervals.map(({payload,...identity})=>identity),globalUses:'complete parent snapshots only; interval deltas never added globally'};
+  policyResult=full?evaluatePolicy(policy,summaries(report.map),strata):{pass:false,failures:[],thresholdsEvaluated:false};policyResult.failures.sort((a,b)=>a.name.localeCompare(b.name)||a.metric.localeCompare(b.metric));attribution={strata,strataProof,provenanceStrata,intervals:intervals.map(({payload,...identity})=>identity),globalUses:'complete parent snapshots only; interval deltas never added globally'};
   await writeFile(join(output,'shortfalls.json'),JSON.stringify(policyResult,null,2));await writeFile(join(output,'attribution.json'),JSON.stringify(attribution,null,2));await writeFile(join(output,'shortfalls.txt'),policyResult.failures.map(f=>`${f.name} ${f.metric}: ${f.covered}/${f.total}; floor ${f.floor}%`).join('\n')+'\n');
  }
  await writeFile(join(output,'manifest.json'),JSON.stringify({status:reportOnly?'report-only':policyResult?.pass?'enforced-pass':'enforced-fail',thresholdsEvaluated:full,policyResult,runId,expectedRealms:allRealms,payloadCount:payloads.length,files:data.files,summary:report.summary,normalArtifactHash:normalHash,browserArtifactHash:group.browser?browserBuilds.production?.artifactHash:null,browserBuilds:group.browser?browserBuilds:null,jobs,workerRoles,separateScopes:manifest?.separateScopes,provenance:group.provenance??'existing assertions with actual/arranged distinctions retained',browserRows:browserRows.map(({identity,realmId})=>({identity,realmId}))},null,2));

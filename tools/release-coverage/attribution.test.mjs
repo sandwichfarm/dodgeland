@@ -4,12 +4,12 @@ import vm from 'node:vm';
 import { instrumentSources } from './instrument.mjs';
 import { capturePayload, mergePayloads } from './collector.mjs';
 import { deriveInterval, validateIntervals } from './attribution.mjs';
-import { validateModeRows } from './run.mjs';
+import { validateModeRows, validateModelSidecar } from './run.mjs';
 
 function fixture() {
  const inventory=instrumentSources({'counter.ts':'function step(flag: boolean) { if (flag) return 1; return 2; }','unimported.ts':'export function never() { return 3; }'},'/attribution');
  const context=vm.createContext({});vm.runInContext(inventory['counter.ts'].code,context);
- const observation={mode:'solo-arcade',base:'arcade',kind:'solo',state:'playing',participants:1};
+ const observation={mode:'solo-arcade',base:'arcade',kind:'solo',state:'playing',participants:1,ownership:{worldIsOwn:true,playerIsOwn:true,sessionActive:false,playerSessionAbsent:true,sessionBindings:0,stageBindings:0}};
  const snapshot=sequence=>({sequence,jobId:'mode-proof',buildScope:'production',artifactHash:'artifact',observation,provenance:'public-input',payload:capturePayload(inventory,JSON.parse(JSON.stringify(context.__coverage__)),{runId:'run',realmId:'realm'})});
  const before=snapshot(0);vm.runInContext('step(true);step(false);',context);const after=snapshot(1);
  return {inventory,context,snapshot,before,after};
@@ -89,4 +89,22 @@ test('parent bounds reject unsafe sums and invalid or ambiguous canonical parent
  assert.throws(()=>validateModeRows(inventory,[row],['solo-arcade']),/Invalid counter/);
  row.payload=after.payload;
  assert.throws(()=>validateModeRows(inventory,[row,{...row,intervals:[]}],['solo-arcade']),/parent/);
+});
+
+
+test('model sidecar requires independent parent, exact phases and actual config binding',()=>{
+ const {inventory,before,after}=fixture();
+ before.provenance=after.provenance='component-model';
+ const common={mode:'survive-flow',base:'stroll',kind:'survive'};
+ before.observation={...common,phase:'acquiring',sessionId:null,participants:0};
+ after.observation={...common,phase:'playing',sessionId:'local-1',participants:2};
+ const interval=deriveInterval(inventory,before,after,'acquire');
+ const row={identity:{runId:'run',realmId:'realm',jobId:'mode-proof',artifactHash:'artifact',provenance:'component-model'},payload:after.payload,intervals:[interval]};
+ const options={runId:'run',realmId:'realm',jobId:'mode-proof',artifactHash:'artifact',expectations:[{mode:'survive-flow',phases:[['acquiring','playing']]}]};
+ assert.equal(validateModelSidecar(inventory,row,[after.payload],options).realmId,'realm');
+ assert.throws(()=>validateModelSidecar(inventory,row,[],options),/independent/);
+ assert.throws(()=>validateModelSidecar(inventory,row,[before.payload],options),/independent/);
+ assert.throws(()=>validateModelSidecar(inventory,row,[after.payload],{...options,jobId:'wrong'}),/identity/);
+ assert.throws(()=>validateModelSidecar(inventory,{...row,intervals:[]},[after.payload],options),/Missing exclusive/);
+ assert.throws(()=>validateModelSidecar(inventory,row,[after.payload],{...options,expectations:[{mode:'survive-flow',phases:[['playing','settled']]}]}),/Incomplete/);
 });

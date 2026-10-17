@@ -10,14 +10,16 @@ after(()=>sources.dispose());
 const {Game,generateLane}=await sources.import('game');
 const {LocalSession}=await sources.import('session');
 const {createSurviveTogetherDefinition}=await sources.import('survive-together');
-const inventory=process.env.RELEASE_MODEL_INVENTORY?JSON.parse(await readFile(process.env.RELEASE_MODEL_INVENTORY,'utf8')):null;
+const config=process.env.DOWN_TO_DUCK_COVERAGE_CONFIG?JSON.parse(await readFile(process.env.DOWN_TO_DUCK_COVERAGE_CONFIG,'utf8')):null;
+const model=config?.modelAttribution;
+if(config&&!model)throw Error('Missing canonical model attribution configuration');
+const inventory=model?JSON.parse(await readFile(config.inventoryPath,'utf8')):null;
 const records=[];
 after(async()=>{
  if(inventory){
-  if(!process.env.RELEASE_MODEL_INTERVAL_OUTPUT)throw Error('Missing component interval output path');
   if(records.length!==2)throw Error('Incomplete Survive component witnesses');
   const final=records.at(-1);
-  await writeFile(process.env.RELEASE_MODEL_INTERVAL_OUTPUT,JSON.stringify({...final,intervals:records.flatMap(row=>row.intervals)}));
+  await writeFile(model.output,JSON.stringify({...final,intervals:records.flatMap(row=>row.intervals)}));
  }
 });
 const step=1/120;
@@ -33,7 +35,7 @@ function drown(game,session,player){
 for(const base of ['arcade','stroll'])test(`composed Survive ${base}: acquisition, recovery, paused clock, terminal ledger and late rejection`,()=>{
  const game=new Game(121,'pond',base,false,[],'butter');
  for(const row of game.rows.keys())lane(game,row);game.mobs.length=0;
- const recorder=inventory?createSurviveModelRecorder({inventory,identity:{runId:process.env.RELEASE_COVERAGE_RUN,realmId:process.env.RELEASE_COVERAGE_REALM,jobId:process.env.RELEASE_MODEL_JOB,artifactHash:process.env.RELEASE_MODEL_ARTIFACT_HASH}}):null;
+ const recorder=inventory?createSurviveModelRecorder({inventory,identity:{runId:config.runId,realmId:model.realmId,jobId:config.jobId,artifactHash:config.browserBuilds.modules.artifactHash}}):null;
  const commit=mode=>LocalSession.stage(game,{roster:[{seat:'p2',device:'keyboard-b',characterId:'sunny'}],mode}).commit();
  const session=recorder?recorder.acquire(game,createSurviveTogetherDefinition,commit):commit(createSurviveTogetherDefinition(game.definition));
  assert.equal(session.definition.id,base);assert.equal(session.mode.definition,game.definition);

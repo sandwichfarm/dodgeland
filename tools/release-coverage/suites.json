@@ -930,6 +930,94 @@
       ],
       "role": "node",
       "provenance": "Production sound loader and official SDK forwarding with injected optional-domain hosts, real Blob/hash and explicitly controlled decoder component; no playback/public-browser claim"
+    },
+    "survive-model-03": {
+      "files": [
+        "tests/release-survive-mode-coverage.test.mjs"
+      ],
+      "role": "node",
+      "jobs": [
+        {
+          "id": "release-survive-mode-coverage",
+          "file": "tests/release-survive-mode-coverage.test.mjs",
+          "role": "node",
+          "requiredRealms": [
+            "node"
+          ],
+          "modelAttribution": [
+            {
+              "mode": "survive-arcade",
+              "phases": [
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "pending"
+                ],
+                [
+                  "pending",
+                  "settled"
+                ],
+                [
+                  "settled",
+                  "settled"
+                ]
+              ]
+            },
+            {
+              "mode": "survive-flow",
+              "phases": [
+                [
+                  "acquiring",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "playing"
+                ],
+                [
+                  "playing",
+                  "pending"
+                ],
+                [
+                  "pending",
+                  "settled"
+                ],
+                [
+                  "settled",
+                  "settled"
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      "provenance": "Actual composed Survive component-model lifecycle intervals; arranged terrain and clock; no public-input credit"
+    },
+    "mode-rules-03": {
+      "files": [
+        "tests/mode-rules.test.mjs"
+      ],
+      "role": "node",
+      "jobs": [
+        {
+          "id": "mode-rules-test",
+          "file": "tests/mode-rules.test.mjs",
+          "role": "node",
+          "requiredRealms": [
+            "node"
+          ],
+          "defaultBuildScope": "modules",
+          "artifactPatterns": []
+        }
+      ],
+      "provenance": "Existing production mode composer validation assertions"
     }
   },
   "pendingAdapters": [
@@ -3980,6 +4068,66 @@
         ],
         "defaultBuildScope": "modules",
         "artifactPatterns": []
+      },
+      {
+        "id": "release-survive-mode-coverage",
+        "file": "tests/release-survive-mode-coverage.test.mjs",
+        "role": "node",
+        "requiredRealms": [
+          "node"
+        ],
+        "modelAttribution": [
+          {
+            "mode": "survive-arcade",
+            "phases": [
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "pending"
+              ],
+              [
+                "pending",
+                "settled"
+              ],
+              [
+                "settled",
+                "settled"
+              ]
+            ]
+          },
+          {
+            "mode": "survive-flow",
+            "phases": [
+              [
+                "acquiring",
+                "playing"
+              ],
+              [
+                "playing",
+                "playing"
+              ],
+              [
+                "playing",
+                "pending"
+              ],
+              [
+                "pending",
+                "settled"
+              ],
+              [
+                "settled",
+                "settled"
+              ]
+            ]
+          }
+        ]
       }
     ],
     "controls": [

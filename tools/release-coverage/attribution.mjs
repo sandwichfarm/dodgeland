@@ -5,6 +5,7 @@ function checkObservation(o) {
  if(!o||!modes.includes(o.mode)||o.state!=='playing')throw Error('Missing live mode evidence');
  const kind=o.mode.startsWith('solo-')?'solo':o.mode.startsWith('survive-')?'survive':o.mode;
  const base=o.mode.endsWith('arcade')?'arcade':'stroll';
+ if(kind==='solo'&&Object.entries({worldIsOwn:true,playerIsOwn:true,sessionActive:false,playerSessionAbsent:true,sessionBindings:0,stageBindings:0}).some(([key,value])=>o.ownership?.[key]!==value))throw Error('Missing actual solo ownership evidence');
  if(o.kind!==kind||o.base!==base||!Number.isInteger(o.participants)||(kind==='solo'?o.participants!==1:o.participants<2||o.participants>4))throw Error('Invalid actual mode/base evidence');
 }
 function checkComponent(o) {
