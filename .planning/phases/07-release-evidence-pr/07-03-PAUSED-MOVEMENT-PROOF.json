@@ -1,0 +1,66 @@
+{
+  "status": "Focused repair passes; complete current-source verification is running,not release acceptance",
+  "redCommit": "4beda7a",
+  "redLog": "/tmp/down-to-duck-paused-secondary-red.log",
+  "redCases": {
+    "primaryPassed": 2,
+    "secondaryFailed": 2,
+    "mechanism": "world.host paused; secondary personal receiver playing; accepted hop and earned progress"
+  },
+  "green": {
+    "log": "/tmp/down-to-duck-paused-movement-green.log",
+    "passed": 62
+  },
+  "nearby": {
+    "log": "/tmp/down-to-duck-paused-movement-nearby.log",
+    "passed": 14,
+    "directPlayerPauseAssertion": true
+  },
+  "controls": {
+    "log": "/tmp/down-to-duck-paused-movement-controls.log",
+    "passed": 102,
+    "currentFixtureLog": "/tmp/down-to-duck-paused-movement-current-fixtures.log",
+    "currentFixturePassed": 28
+  },
+  "sourceTransition": {
+    "gameBefore": "f783839e0a6bfc98eb2a0a4e35e381e9002daafb0ced9832dcbfe1b4a2794396",
+    "gameAfter": "04d7556c96b37b03539f270c2ce2c8e2b620c301d729a1fd6238be8e66d9413b",
+    "inventoryBefore": "9ef7fa9ebc20c98c6d807c10529ddd36365a47d533614c41d46470d2463a7eef",
+    "inventoryAfter": "92a4572f0d38c4bfbf79d424e30d3dfca03b984fbb6c654cfaed5e390212da96",
+    "developmentBefore": "935c3e5b6a253c0f1e0cf1ff3aef44d54de0bfc2ae9c98a9a8bcd766ec02d5e7",
+    "developmentAfter": "f2c39da5fa89906882ab4af8cad11e3181ff18c1e1a90ad6325bbf805d6c8c17",
+    "changed": [
+      "src/game.ts"
+    ]
+  },
+  "executionInventory": {
+    "valid": true,
+    "entries": 143,
+    "closure": 150,
+    "jobs": 155,
+    "controls": 9
+  },
+  "verificationState": "/tmp/down-to-duck-paused-movement-verification.json",
+  "liveHandle": 87218,
+  "limitations": [
+    "Complete refresh is not yet terminal",
+    "No current full enforcing release result",
+    "Semantic ledger,conformance supplemental proof,visual/clause evidence,final exact gate and PR remain open",
+    "Mixed-input aliases remain proposal only"
+  ],
+  "repairCommit": "808340b",
+  "checkpoint": {
+    "observedAt": "2026-10-17T15:51:11.639496+00:00",
+    "passedProjectGates": 8,
+    "passedCohorts": 11,
+    "running": [
+      {
+        "suite": "development-lifecycle-03",
+        "pid": 76611,
+        "started": "2026-10-17T15:50:35.133873+00:00"
+      }
+    ],
+    "normalArtifactRawSha256": "9036d9a1f179b136569a3b400c412d954d783987c751832afbbbfda287c63539",
+    "status": "Live handle87218 confirmed running; no refresh completion claim"
+  }
+}

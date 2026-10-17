@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-03 bounded public Race journeys and genuine development verification pass
-last_updated: "2026-10-17T15:20:08.708218+00:00"
+stopped_at: 07-03 paused secondary movement repaired; current-source verification live87218
+last_updated: "2026-10-17T15:51:11.640032+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,20 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Seven public Race intervals add24 real branch arms;16 ordinary16 production18 development cases pass; release gates remain open.
+last_activity_desc: Actual249/250/251 journeys exposed paused secondary hop;62+14 gameplay and102 controls pass; twelve-cohort refresh live.
 ---
 
 # Project State
 
 ## Current work
+
+Latest source transition: Game04d7556c fixes paused secondary movement; Session399
+and all other src files are unchanged. Normal rebuild/current-source verification
+is LIVE87218 as recorded at the latest checkpoint below. The earlier a05 normal
+artifact and every f783 Game diagnostic remain historical; do not merge them with
+the repaired Game. Exact new artifact digest is in the live wrapper state after
+its build gate. No fresh full enforcing release result is claimed.
+
 
 07-12 is complete. Its immutable initial report is run
 `6802bfd4-2d88-4d8e-a091-9733e4423b91`: 132 production jobs plus two controls,
@@ -732,12 +740,59 @@ results; all enforcing/semantic/conformance/visual/PR obligations remain open.
 Mixed-input proposal26528f6 now names concrete registry/router/command migration
 seams; keyboard/controller aliases are still proposed, not implemented.
 
+Paused-movement RED4beda7a retains both Relay/Race secondary failures during
+shared pause,while primary cases pass. Game.movePlayer now checks immutable
+world.host.state before personal receiver selection. Game.move formulas and all
+Session/mode/clock/RNG/health/inventory/cooldown behavior remain unchanged. All62
+affected cases pass;14 nearby cases include direct-player pause rejection. The
+new four Flow lifetimes spend real personal revival,then settle249/250/251 hops.
+Default50 Relay legs prove placement/other-owner progress cannot recharge the
+benched traveler. Initial nonfatal rear-bump fixture error is retained separately
+and is not a product RED. No fake progress/clock/death/cooldown injection.
+
+Fresh23-target compiler audit covers159sources; all previous20 reference/call/
+dynamic-access records unchanged. Only Game source changes fromf783 to04d.
+Complete caller digest92a4572f and DEVf2c39da5 advance only after explicit repair
+review/stale-pin rejection. All102 controls plus28 current-fixture controls pass.
+Existing22 matrix bodies remain unchanged; no new exclusion or numeric changes.
+Additive job gives143 executable entries/150 closure paths,155 production jobs,
+nine executable controls. Source/test/tool/suite bytes are now FROZEN in serial
+wrapper87218,temporary own caffeinate lifetime; state/logs
+/tmp/down-to-duck-paused-movement-verification.json and wrapper.log. It runs eight
+project gates and twelve current-source cohorts,including new four lifetimes,
+all prior mode/public cohorts and genuine22-realm DEV lifecycle. Preserve83 prior
+temporary outputs,ordinary artifacts,rootlock5ac and unrelated preview/Paja.
+PAUSED-MOVEMENT-REPAIR/REFERENCE-AUDIT/PROOF retain concrete evidence. Never restart
+on polling timeout; resume same confirmed live handle. Release all freezes only
+at authoritative terminal completion. Fresh enforcement,semantic ledger,07-04/05/
+06 and final PR remain open; aliases remain design-only.
+
+Controller-default semantic review now records initial session-input52/0 as
+application-unreachable,with its raw zero/denominator unchanged. Two-target
+full159-source resolved compiler audit proves the only private helper call passes
+a const value from main's guaranteed-string template callback. No exclusion,
+positive-hit or malformed external-host claim. Source/map/canonical initial schema
+match. Totals now163 annotated(162 covered+one reviewed private default),888
+pending; all older162/889 statements above are historical. Eleven other input
+arms have five prepared test fragments outside the frozen repo,unexecuted:
+/tmp/down-to-duck-controller-guard-cases.mjs.txt. Append/run after87218 terminal.
+See CONTROLLER-GUARD-REVIEW/DEFAULT-AUDIT. Current normal raw artifact is9036d9a1
+as produced by the already-passing build gate; oldera05 is historical.
+
+Repair808340b is committed. Wrapper87218 is still authoritatively live; all eight
+project gates and first ten cohorts pass. Production Race/public and final DEV
+lifecycle still run serially. All frozen bytes remain untouched. Once terminal,
+first finalize current-source proof/metrics and release freeze,then append/run
+five prepared controller cases and collect the existing whole input job. Read-only
+PLANNED-SEAT-SCOPE-FINDING documents constructor candidate boundaries only; it
+authorizes no new disposition and must not replace the executable follow-up.
+
 ## Next required work
 
 1. Complete07-03: broad honest Solo/Relay/Race and development evidence,
    remaining per-file gaps, complete semantic ledger, then a fresh enforcing
-   full report. Keep all floors.162 initial zero arms have source-identical
-   behavioral annotations;889 still need completed semantic/behavioral proof,
+   full report. Keep all floors.163 initial zero arms have source-identical
+   semantic annotations(162 covered,one reviewed private default);888 still need completed semantic/behavioral proof,
    including six source-reviewed market candidates awaiting evidence. Genuine fresh
    bootstrap proof now exists; all unions before full collection are diagnostic.
 2. Execute07-04 conformance proof,07-05 clause/visual evidence,07-06 exact final

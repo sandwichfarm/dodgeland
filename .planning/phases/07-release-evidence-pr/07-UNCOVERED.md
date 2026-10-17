@@ -2,6 +2,18 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Current controller-default semantic review
+
+INPUT-04/TEST-02: unchanged session-input initial52/0 is a private default whose
+only application call passes a const snapshot of main's guaranteed-string context
+callback. Complete159-source resolved references and constructor/value-flow are
+in CONTROLLER-DEFAULT-AUDIT.json; detailed scope is in CONTROLLER-GUARD-REVIEW.
+The raw zero and every denominator remain intact. This adds one explicit
+application-unreachable semantic disposition,not a covered hit or exclusion.
+Current initial review totals:163 annotated(162 covered,one private default),888
+pending. Eleven other input arms have prepared but unexecuted component cases;
+they remain pending. No release floor or current-source aggregate pass follows.
+
 ## Current bounded public Race evidence
 
 TEST-02/03/INPUT-04/05: whole existing Race browser suite passes16/16 ordinary
@@ -1228,7 +1240,7 @@ Source `e42c0af885310c699a275aa819c7d66d6902e20164db08cacacf5aee7017da9f`; schem
 |37|166|0|[0, 23]|pending|
 |43|185|0|[0, 14]|pending|
 |44|193|0|[0, 16]|pending|
-|52|223|0|[0]|pending|
+|52|223|0|[0]|[application-unreachable private default; raw zero retained](07-03-CONTROLLER-GUARD-REVIEW.md#private-default-review)|
 |55|236|1|[68, 0]|pending|
 |71|271|1|[8, 0]|pending|
 |82|308|0|[0, 162]|pending|
