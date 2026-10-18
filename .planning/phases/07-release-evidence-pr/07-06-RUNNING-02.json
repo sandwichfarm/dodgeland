@@ -1,0 +1,25 @@
+{
+  "status": "running-not-accepted",
+  "observedAt": "2026-10-18T04:57:30.177673+00:00",
+  "runId": "56748255-a473-4788-953e-484abc34a082",
+  "directory": "artifacts/release-final/56748255-a473-4788-953e-484abc34a082",
+  "sessionId": 96020,
+  "actualLiveParentPid": 13528,
+  "actualCommand": "node tests/release-gate.mjs",
+  "stage": "inherited-phase6",
+  "sourceHead": "5a9350a126a544529d9ba90df73233e918ba7802",
+  "normalArtifactRawSha256": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
+  "referenceHashes": {
+    "docs/release-evidence/reference/nip-5d.md": "7d716e8ec9f1737b070f4716b998f52fd6e189d5bb1bc4c2efe6c1dae35b9f37",
+    "docs/release-evidence/reference/reference.json": "a8d13df59b6b2be2da2b22a5c4d8b2f37c845d07121b845d67883c1451749a12"
+  },
+  "terminalExit": null,
+  "canonicalLog": "artifacts/release-final-launch-02/canonical.log",
+  "limits": [
+    "Second final attempt after actual route-helper fix652323a andcurrent visualrefresh;firstfailedrun retained",
+    "No full pass orPR claimed",
+    "After actual enforcing stage exits0,refresh executed-input receipts andclause bindings fromthisactualrun,before finalclause gate. Documentation-only proof writes do not change417frozen technicalinputs.",
+    "Never suspend timed workers;compressonlyclosed terminal-ownedpayloads ifactual pressure needs it."
+  ],
+  "normalMatchesPrior": true
+}

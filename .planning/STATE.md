@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-06 route driver fixed652323a; whole instrumented Race17/17; visual refresh54615 active
-last_updated: "2026-10-18T04:53:07.710931+00:00"
+stopped_at: 07-06 second full release run96020/PID13528 active; route repaired and visual refresh passed
+last_updated: "2026-10-18T04:59:00.028935+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -19,39 +19,58 @@ last_activity_desc: 07-05 complete;all51original clauses/47requirements mapped,6
 
 ## Current work
 
-FINAL ACCEPTANCE IS NOT PROVEN;44/45plans. Route driver fix652323a iscommitted.
-Actual regression RED1/GREEN0 proves optional coin seeking and scenery avoidance
-cycled fromfractionalx-4.116699 atrow190. Driver now tries optionaldetour onlyonce
-perexactrow/x before safeprogress. Game source,grid,thresholds andtimeouts unchanged.
-Theexact regression body is permanent inrace-runtime;an isolatedcopy executed
-it without skippedtests. Whole instrumented Race56914exit0:17/17pass,0skip/
-canceled/failed,run672dd6b3-8d10-47da-91ce-6f3743e153c9. See07-06-ROUTE-FIX-PROOF.
+SECOND FINAL RUN IS LIVE: session96020, actual PID13528, run
+56748255-a473-4788-953e-484abc34a082. Exact command: node tests/release-gate.mjs.
+Started after actual route repair652323a and visual evidence commit5a9350a.
+Log: artifacts/release-final-launch-02/canonical.log. Freeze417 technical inputs
+and references are in launch.json there; all rehashed unchanged. Normal e980
+artifact, immutable root lock/oracle and inherited phase6 runner are unchanged.
+Latest observation: inherited solo-parity21/21 passed; solo regression active.
+Revalidate actual same handle/PID and never restart merely for silence.
 
-NOW ACTIVE54615:node tools/release-coverage/evidence.mjs --capture-required
-logartifacts/release-final-launch-01/visual-after-route-fix-01.log. Followthis
-handle toterminal. All6prior evidenceJSONs arepreserved inpre-refresh-01 there.
-Freshcapture must finish94individuals/8sheets;reopenchangedimages,update actual
-inspections/visualintegrity/tracer. This test-onlypatch invalidates old417-input
-freezebindings,so do not claim oldwholeexecutions/captures arefresh source.
-Affectedhelper consumers:race-runtime,race-layout,cross-mode-presentation;
-developmentRace variant also requiresfresh evidence. Normal e980build isunchanged.
+MANDATORY MID-RUN DOCUMENTATION STEP: after the actual enforcing-coverage stage
+is terminal0 in this run's stages.json, execute the prepared read-only
+artifacts/release-final-launch-02/audit/reconcile.mjs. It must show zero new
+unreviewed raw-zero arms and all201 jobs passed. THEN execute prepared
+artifacts/release-final-launch-02/audit/refresh-execution-receipts.py before the
+parent reaches original-clauses. The conformance stages provide that window.
+These are documentation/evidence work,not a second app/test/report chain.
+The Python script was AST syntax parsed only,never executed. Review as needed.
+It refuses absent/failed/nonterminal stage,changed417 inputs,unreviewed zeros,
+missing actual182 job outputs or missing referenced named cases. It preserves
+historical full05 receipts separately,binds every new actual job/case/build,
+writes07-06-COVERAGE-PROOF and updates clauses from literal fresh receipts.
+Do not just rewrite historical observed hashes. No technical edits during run.
+If new raw-zero arms exist,review them honestly;do not weaken floors or relabel.
 
-Earlierfirstfinal11882exit1 isretained07-06-FAILED-01:71production+19controls
-passed before45sRacecase wascanceledduring55sroot-owned diskhold. Closedpayload
-compression exactbytesverified;all samePIDsresumed. Whole unchanged diagnostic
-36485thenfailed adifferent earned-market route(case5),15/16pass;its timeoutcase
-passed. Read-only normal35300 andinstrumented67698diagnostics each3/3 routes
-reached100/200;timingdiagnostic15745 reproducedthecycle after5sidle. Its10sidle
-unsafe crossing remains explicitdriver limitation,not fixedorclaimed bycyclefix.
-Allthosechainsareterminal. Do not suspend timedworkersagain;monitorowneddisk.
+Source-bound normal visual refresh54615 exited0:94images/8sheets,Relay5 and
+Race10 nested tests passed. Four changed sheets and two changed critical views
+were actually reopened;remaining inspected bytes identical. --check and
+--check-tracer both0. Current inspection/tracer/visual integrity committed in
+5a9350a;07-06-VISUAL-REFRESH-PROOF retains scope. Existing user UAT accepted.
 
-Aftercaptureandaffected execution/provenance refresh,afresh exactfull finalchain
-and actualopenPRremainmandatory. Could refresh currentexecution receipts from
-thatfull enforcing stage afterproducerterminal0andbeforeparentclause stage;
-preserve oldhistoricalreceipts,never justrewriteoldobservedhashes asfresh.
-Preparedrawzeroauditnamesfailed firstfinal88465003:copy/adapt explicitlytofuture
-successfulrun. Floors/oracle/rootlock/inheritedgate stayunchanged. Allbrowsers
-muted;preserveuserprocesses. Earlierparagraphsbelowaredatedlineage.
+Route fix652323a: optional coin seeking and scenery avoidance cycled at
+fractionalx-4.116699,row190. Driver now tries each optional detour once before
+safe progress. Exact regression RED1/GREEN0 and whole instrumented Race56914
+exit0,17/17,zero skipped/failed/canceled;07-06-ROUTE-FIX-PROOF. Only two test
+files changed;gameplay/grid/timeouts/floors untouched. Helper also serves Race
+layout and cross-mode tests;fresh final collection covers all affected workers
+and development variants. Historical full05 data are not current test hashes.
+
+First final11882 failed during a55.42478s root-owned disk-pressure hold crossing
+a45s Race timeout. Same PIDs resumed;no restart. Exact maintenance and failed
+receipts retained. Unchanged recovery36485 then failed another route case;
+read-only timing diagnostic15745 reproduced the coin/scenery cycle. All those
+chains are terminal. Do not suspend timed workers again. Only compress closed
+terminal-owned payloads with exact byte/ledger verification if needed;do not
+modify unrelated processes or artifacts. All browsers muted.
+
+44/45 plans remain. No actual PR yet. After THIS full chain terminal0,finish
+original requirement/security/visual audit,actual open PR/readback and docs-only
+GSD closure. /tmp/down-to-duck-07-pr-body.md is still a local pending draft;
+replace pending marker with actual metrics/final committed proof links before
+publishing. Actual repo sandwichfarm/down-to-duck; branch feat/local-multiplayer;
+base main. No merge/deploy/sign/publish. Older paragraphs below are dated lineage.
 
 07-06 Task1 controls are accepted:actual units7/7 andcalibration-only14142exit0,
 46/46 cases,zero skips. Actual report statuspartial-calibration-pass,technical/
