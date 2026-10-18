@@ -1,6 +1,6 @@
 {
   "status": "running-not-accepted",
-  "observedAt": "2026-10-18T06:00:51.801261+00:00",
+  "observedAt": "2026-10-18T06:26:53.834987+00:00",
   "runId": "56748255-a473-4788-953e-484abc34a082",
   "directory": "artifacts/release-final/56748255-a473-4788-953e-484abc34a082",
   "sessionId": 96020,
@@ -72,7 +72,7 @@
   "coverageObservation": {
     "runId": "c39c0fee-a277-47ec-b276-95f5e6b26932",
     "terminalControls": 19,
-    "terminalProduction": 76,
+    "terminalProduction": 126,
     "nonzeroTerminalJobs": 0,
     "expectedProduction": 182,
     "enforcementTerminal": false
@@ -130,5 +130,36 @@
       "completedAt": "2026-10-18T05:59:36.302Z",
       "includesRepairedEarnedMarketJourney": true
     }
-  }
+  },
+  "additionalClosedPayloadCompression": [
+    {
+      "proofPath": "artifacts/release-final-launch-02/storage-maintenance/closed-final-02-verified.json",
+      "sha256": "254bc11b0d3900c22f61e6e162ff0f82d750145005eae0093d121728c874ad84",
+      "proof": {
+        "purpose": "Independent verification of lossless final batch02 completed-payload compression;no execution/counter/source change",
+        "runId": "c39c0fee-a277-47ec-b276-95f5e6b26932",
+        "completedJobsAtSelection": 126,
+        "payloadsReverified": 239,
+        "originalLedgerBytesSavedBeforeSelection": true,
+        "originalLedgerShaMatches": true,
+        "currentAppendOnlyPrefixMatchesOriginal": true,
+        "frozenFilesVerified": 417,
+        "sourceFreezeChanges": [],
+        "activeOutputsUntouched": true,
+        "allocatedBytesSaved": 919547904,
+        "observedFreeBytesBefore": 3181076480,
+        "observedFreeBytesAfter": 4098981888,
+        "freeSpaceLimit": "Shared volume changes independently;per-file allocation savings are separate from whole-volume free-space movement",
+        "hashes": {
+          "artifacts/release-final-launch-02/storage-maintenance/closed-final-0055d5037c594f0495e4709fbf9b4ada.json": "e31ab7320510be50b232bb3d3ddc5f485f1e1856d2ef48e1c55fb46b589405fa",
+          "artifacts/release-final-launch-02/storage-maintenance/closed-final-0055d5037c594f0495e4709fbf9b4ada.ledger-snapshot.json": "91de1aadaa5fd8f0a7a7d7ac6007ca3aeabb36fd81772e9e5f8e5a85ef31e812",
+          "artifacts/release-final-launch-02/storage-maintenance/compress-closed-final-02.py": "bafe9f8b4e6266590f70985544876aab9ac7cf52ada647786836cc80a2c0c702",
+          "artifacts/release-final-launch-02/storage-maintenance/compress-closed-final-02.log": "6036cc6424d463204b2ecb8ecbe9197d773767fc367b6f56ce4ea78f26281d69",
+          "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final-launch-02/storage-maintenance/verify-closed-final-02.py": "d005c4b64d520a58816ee64f8c10b46735d8016962036ee56592030e6742025b",
+          "artifacts/release-final-launch-02/launch.json": "0ba7802c573979a1575e951e4d0bc5f8ff92288adb704a438b9848e5abcb1fd1"
+        }
+      },
+      "noTimedWorkerSuspended": true
+    }
+  ]
 }
