@@ -1,47 +1,64 @@
 # Multiplayer release evidence
 
-Release verification is in progress. This index contains completed conformance
-and the first actual visual tracer; it does not claim the full visual matrix,
-complete clause audit, final gate or open PR.
+The normal-build visual matrix and supplemental conformance are verified. The
+complete original-clause audit, final canonical release gate and actual open PR
+remain pending. No release-completion claim is made.
 
-## Opaque-frame conformance
+## Visual proof
 
-[Measured report](conformance.json): real official storage shim requests and
-per-invocation response correlation; missing, mismatched, wrong-source and
-duplicate response controls; scoped repeated teardown. The unsigned public
-manifest field subset and exact normal artifact digest pass independently.
-Installed legacy CLI:5 passed/5 unmeasured; supplement:6 passed/4 unmeasured.
-No signature, publication or physical-device claim.
+[Capture manifest](manifest.json) · [Inspection record](inspections.json) · [Current four-player tracer](tracer.json)
 
-## Actual four-player tracer
+| Mode/base | Dark sheet | Light sheet |
+| --- | --- | --- |
+| survive-arcade | [Dark](images/sheet-survive-arcade-dark.png) | [Light](images/sheet-survive-arcade-light.png) |
+| survive-flow | [Dark](images/sheet-survive-flow-dark.png) | [Light](images/sheet-survive-flow-light.png) |
+| relay | [Dark](images/sheet-relay-dark.png) | [Light](images/sheet-relay-light.png) |
+| race | [Dark](images/sheet-race-dark.png) | [Light](images/sheet-race-light.png) |
 
-![Four distinct travelers in Survive Together Flow](images/survive-flow-hud-900x600-dark-reduced-all.png)
+94 committed individual PNGs and eight fresh sheets bind exact normal artifact,
+technical source, image dimensions/digests, actual command exit and acquisition
+provenance. The48 frame/theme cells contain40 supported HUD views and8 minimum
+notices;two additional full-motion HUD views and44 setup/lifecycle/market/result
+views complete the set. The independently specified required inventory has90
+cells;four additional Arcade item/market views are retained.
 
-[Source/build/image/geometry manifest](tracer.json) · [Terminal acquisition receipt](visual-tracer-20261018030008866.json)
+Live HUD observations use the actual production voxel corners and packed
+nameplate/status envelopes, including visible DOM/material edges. Inclusive8CSSpx
+clearance passes. The acquisition uses visible controls, a public seed intent
+and authorized controller snapshots;the debugger only reads these live poses.
 
-The normal production HTML runs in an opaque iframe. Public seed intent,
-Play/Pause/Local Play/Start controls and authorized controller snapshots reach
-four distinct travelers on Flow rules. Read-only debugger observations measure
-the actual rendered voxel bodies and packed nameplate/status envelopes against
-visible DOM footprints, including material edges: inclusive8CSSpx clearance
-passes. No world, actor or camera state is injected. The legitimate Pause action
-holds the reached state. Storage/theme/keys are test-host fixtures; these images
-do not claim physical controllers or target-shell persistence.
+Survive recovery/result component setup and staged markets are labelled
+`component-model`: production inventory/transaction/death APIs arrange those
+states before actual UI navigation. They do not prove organic collection or
+hazard encounters. Relay/Race lifecycle/result images come from the existing
+input-driven normal-build layout journeys. Frozen modals intentionally obscure
+some world scenery;they are not relabelled live-HUD clearance measurements.
 
-Full-size900×600 dark/reduced-motion image inspected2026-10-18:four distinct
-models and identifying labels are visible; the team/seat status band, course,
-notice and controls remain readable; no observed HUD concealment of characters.
-This inspection is a technical review, separate from the user's already received
-play-feel approval. It covers this one image only.
+Every sheet and nine critical full-size views were actually inspected with
+`view_image`;the inspection file pins those exact bytes and records limits.
+Earlier inspected images whose bytes changed were reopened after acquisition.
 
-Run `node tools/release-coverage/evidence.mjs --check-tracer` to verify current
-source hashes, normal artifact, exact image dimensions/digest, durable acquisition
-receipt/output and recorded geometry. The complete `--check` contract still
-requires all specified frames/themes/states; the tracer cannot satisfy it.
+Recheck: `node tools/release-coverage/evidence.mjs --check` and `--check-tracer`.
+The parent acquisition receipt embeds actual stdout and child terminal metadata.
+Nested Relay/Race execution receipts remain in the manifest. All browsers muted.
 
-## Remaining proof
+## Conformance and behavioral execution
 
-The six-frame/two-theme matrix, reduced-motion representatives, recovery/market/
-items, Relay handoff/disconnect, Race fog/ties/DNF, mode-specific results, contact
-sheets and complete51-original-clause/47-requirement audit remain to be acquired
-or assembled. Final canonical verification and actual PR follow these checks.
+[Conformance report](conformance.json) records real official storage shim requests,
+promise/reply correlation, missing/mismatched/wrong-source/duplicate controls and
+scoped teardown. The current unsigned public candidate field subset and normal
+artifact digest pass independently. Installed legacy CLI:5 passed/5 unmeasured;
+supplement:6 passed/4 unmeasured. No signing or publication occurred.
+
+[Full05 execution receipts](executions-full05.json) retain all182 production jobs,
+their named actual passing cases, terminal ledger and unchanged410-input freeze.
+These coverage jobs execute instrumented production/development builds or compiled
+modules;their exact executed identities are separate from the normal companion
+artifact. These receipts do not substitute for the pending semantic clause audit.
+
+## Remaining release work
+
+Complete51 original-clause and47 requirement rows with each compound obligation,
+then run the unchanged inherited gate plus calibrated additive release checks.
+Open and verify the actual PR against main after those pass. Human presentation
+acceptance was already received2026-10-16;physical hardware remains unmeasured.

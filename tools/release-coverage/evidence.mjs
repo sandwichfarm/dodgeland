@@ -92,6 +92,21 @@ export async function validateVisualManifest(manifest, { artifactHash, sourceHas
     limit: 'Integrity/recorded geometry only;does not supply acquisition,visual inspection or whole-clause proof' };
 }
 
+export async function validateSheets(manifest, readImage) {
+  assert.ok(Array.isArray(manifest.sheets) && manifest.sheets.length === 8, 'Eight current mode/base/theme sheets required');
+  unique(manifest.sheets, s => s.id); unique(manifest.sheets, s => s.image);
+  const assigned = [];
+  for (const sheet of manifest.sheets) {
+    const expected = canonicalCaptures(manifest.captures).filter(c => `${c.mode === 'survive' ? `survive-${c.base === 'arcade' ? 'arcade' : 'flow'}` : c.mode}-${c.theme}` === sheet.id).map(c => c.id);
+    assert.ok(expected.length > 0); assert.deepEqual(sheet.captureIds, expected, 'Every sheet contains its exact stable source image set');
+    assert.match(sheet.image, /^docs\/release-evidence\/images\/sheet-[a-z-]+\.png$/);
+    const bytes = await readImage(sheet.image); assert.equal(sha(bytes), sheet.imageSha256); assert.deepEqual(pngDimensions(bytes), sheet.frame);
+    assigned.push(...sheet.captureIds);
+  }
+  assert.deepEqual(assigned.sort(), manifest.captures.map(c => c.id).sort());
+  return { sheets: manifest.sheets.length, everyCaptureRepresented: true };
+}
+
 export function validateClauseRows(document, { inventory, sourceHashes, executions, captures, allowPendingShip = false }) {
   const executionMap = new Map(executions.map(row => [row.id, row])), captureMap = new Map(captures.map(row => [row.id, row]));
   unique(executions, row => row.id); unique(captures, row => row.id);
@@ -165,7 +180,8 @@ export function requiredVisualIds() {
     ['survive-arcade', ['setup', 'recovery', 'results']],
     ['relay', ['setup', 'handoff', 'disconnect', 'market', 'results-tie']],
     ['race', ['setup', 'fog', 'items', 'results-tie', 'results-dnf']],
-  ]) for (const state of states) for (const theme of Object.keys(themes)) ids.push(idFor(variant, state, 900, 600, theme));
+  ]) for (const state of states) for (const theme of Object.keys(themes)) ids.push(idFor(variant, state, 900, 600, theme,
+    (variant === 'race' && state !== 'setup' || variant === 'relay' && !['setup', 'market'].includes(state)) ? 'full' : 'reduced'));
   for (const theme of Object.keys(themes)) {
     ids.push(idFor('survive-flow', 'recovery', 1000, 280, theme));
     ids.push(idFor('survive-flow', 'owner-target', 320, 560, theme));
@@ -196,7 +212,7 @@ async function currentSources() {
 const pad = (index, pressed = []) => ({ index, id: `release-${index}`, connected: true, mapping: 'standard', timestamp: 1,
   axes: [0, 0], buttons: Array.from({ length: 17 }, (_, i) => ({ pressed: pressed.includes(i), value: +pressed.includes(i), touched: false })) });
 
-async function actualSetup(app, variant) {
+async function actualSetup(app, variant, beforeStart) {
   const survive = variant.startsWith('survive-');
   if (survive) { await app.frame.locator('#play').click(); await app.frame.locator('#pause').click(); }
   await app.frame.locator('#local-play').click();
@@ -206,6 +222,7 @@ async function actualSetup(app, variant) {
     await app.sendPads([pad(0), pad(1)]);
   }
   if (!survive) await app.frame.locator(variant === 'relay' ? '#relay-play' : '#race-play').click();
+  await beforeStart?.();
   await app.frame.locator('#local-session-start').click(); await app.advance(80);
   const actual = await app.onSession(function () {
     return { base: this.definition.id, composed: !!this.mode, players: this.players.map(p => ({ seat: p.seat, participantId: p.participantId, characterId: p.characterId })),
@@ -229,12 +246,123 @@ async function actualPanels(app) {
   });
 }
 
+async function viewCapture(app, variant, state, width, height, theme, sourceHashes, normalArtifactHash, acquisitionKind, selector, actual) {
+  await app.resize(width, height);
+  await app.frame.evaluate(colors => marketGameFixture.setTheme({ colors }), themes[theme]); await app.advance(80);
+  assert.equal(await app.frame.locator(selector).isVisible(), true, `${variant}/${state} surface is actually visible`);
+  const observation = await app.frame.locator(selector).evaluate(board => {
+    const visible = n => n.getClientRects().length && !n.closest('[hidden]') && getComputedStyle(n).visibility !== 'hidden';
+    const controls = [...board.querySelectorAll('button,input')].filter(visible).map(n => {
+      const r = n.getBoundingClientRect(), hit = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
+      return { text: n.getAttribute('aria-label') || n.textContent, fits: r.width >= 43.5 && r.height >= 43.5 && r.left >= 0 && r.top >= 0 && r.right <= innerWidth + .5 && r.bottom <= innerHeight + .5, hit: hit === n || n.contains(hit) };
+    });
+    return { controls, documentOverflow: document.documentElement.scrollWidth > innerWidth || document.documentElement.scrollHeight > innerHeight,
+      boardOverflow: board.scrollHeight > board.clientHeight + 1 || board.scrollWidth > board.clientWidth + 1,
+      heading: board.querySelector('h2')?.textContent, selectedTarget: board.getAttribute('data-recovery-target'),
+      reduced: matchMedia('(prefers-reduced-motion: reduce)').matches };
+  });
+  assert.equal(observation.reduced, true); assert.equal(observation.documentOverflow, false); assert.equal(observation.boardOverflow, false);
+  assert.ok(observation.controls.length > 0 && observation.controls.every(c => c.fits && c.hit), `${variant}/${state} visible controls fit and receive pointer input: ${JSON.stringify(observation.controls)}`);
+  const id = idFor(variant, state, width, height, theme), image = `docs/release-evidence/images/${id}.png`;
+  await mkdir(resolve(evidenceRoot, 'images'), { recursive: true }); await app.iframe.screenshot({ path: resolve(root, image) });
+  console.log(`Captured ${id} (${acquisitionKind})`);
+  return { id, mode: variant.startsWith('survive-') ? 'survive' : variant, base: variant === 'survive-arcade' ? 'arcade' : 'stroll', state,
+    frame: { width, height }, theme, motion: 'reduced', participant: 'all', image, imageSha256: sha(await readFile(resolve(root, image))), normalArtifactHash, sourceHashes,
+    acquisition: { kind: acquisitionKind, actualModeAsserted: true, actualMode: actual, observation,
+      arrangement: acquisitionKind === 'component-model' ? 'Production RunInventory score/credit and mode transaction/end/recovery APIs arrange the visual state; subsequent menu actions and rendering use the shipped UI. This is not unassisted gameplay acquisition. No camera or renderer replacement.' : 'Visible setup controls and injected runtime theme; no private world/actor/camera writes' } };
+}
+
+async function surviveViews(app, variant, actual, captures, sourceHashes, normalArtifactHash) {
+  const { sessionHudAction } = await import('../../tests/market-game-fixture.mjs');
+  await app.resize(900, 600);
+  // Same explicit production-component setup as the existing recovery-board
+  // matrix, without modifying lanes, coordinates, camera or renderer.
+  const arranged = await app.onSession(function () {
+    const owner = this.players[0]; owner.run.advanceScore(100); owner.run.creditCoins(500); owner.run.open();
+    for (const itemId of ['revival', 'flare']) {
+      const context = this.openCoOpMarket({ seat: owner.seat, device: owner.device, participantId: owner.participantId });
+      const result = this.actCoOpMarket({ actionId: `release-view-${itemId}`, seat: owner.seat, device: owner.device, participantId: owner.participantId,
+        expectedOwnerGeneration: context.ownerGeneration, expectedInventoryGeneration: context.inventoryGeneration,
+        expectedRunRevision: context.runRevision, expectedContextGeneration: context.contextGeneration, kind: 'buy-consumable', itemId });
+      if (!result.ok) throw Error(result.message);
+    }
+    owner.run.close(); return { base: this.definition.id, players: this.players.length, charges: this.consumableSnapshot() };
+  });
+  assert.equal(arranged.base, actual.base); assert.equal(arranged.players, 4);
+  await app.advance(32); await app.frame.locator('#market-open').click(); await app.advance(300);
+  for (const theme of Object.keys(themes)) captures.push(await viewCapture(app, variant, 'market', 900, 600, theme, sourceHashes, normalArtifactHash, 'component-model', '#market', actual));
+  await app.frame.locator('#market-close').click(); await app.advance(300);
+  await app.onSession(function () {
+    for (const player of this.players.slice(1)) this.world.host.inPlayerOperation(player, context => context.end('Release visual fixture train', 'train'));
+    this.update(1 / 120);
+    if (!this.players.slice(1).every(player => player.participation === 'dead')) throw Error('Arranged teammates did not enter actual dead lifecycle');
+  }); await app.advance(32);
+  await sessionHudAction(app, 'p1', 'item'); await app.advance(32);
+  for (const theme of Object.keys(themes)) captures.push(await viewCapture(app, variant, 'items', 900, 600, theme, sourceHashes, normalArtifactHash, 'component-model', '#survive-recovery-board', actual));
+  await app.frame.getByRole('button', { name: 'Use Revival ×1', exact: true }).click(); await app.advance(32);
+  assert.ok(await app.frame.locator('#survive-recovery-board').getAttribute('data-recovery-target'), 'Actual dead teammate is selected');
+  for (const theme of Object.keys(themes)) {
+    captures.push(await viewCapture(app, variant, 'recovery', 900, 600, theme, sourceHashes, normalArtifactHash, 'component-model', '#survive-recovery-board', actual));
+    if (variant === 'survive-flow') {
+      captures.push(await viewCapture(app, variant, 'recovery', 1000, 280, theme, sourceHashes, normalArtifactHash, 'component-model', '#survive-recovery-board', actual));
+      const target = await app.frame.locator('#survive-recovery-board').getAttribute('data-recovery-target');
+      captures.push(await viewCapture(app, variant, 'owner-target', 320, 560, theme, sourceHashes, normalArtifactHash, 'component-model', '#survive-recovery-board', actual));
+      assert.equal(await app.frame.locator('#survive-recovery-board').getAttribute('data-recovery-target'), target, 'Actual selected target survives compact resize');
+    }
+  }
+  await app.resize(900, 600); await app.frame.getByRole('button', { name: 'Back to paused run', exact: true }).click();
+  const closeDetails = app.frame.getByRole('button', { name: 'Close details', exact: true });
+  if (await closeDetails.isVisible()) await closeDetails.click();
+  // Ending a paused primary is intentionally ignored by the engine. Resume
+  // through the actual UI before arranging the final component death.
+  if (await app.frame.getByRole('button', { name: 'Resume game', exact: true }).isVisible()) await app.frame.getByRole('button', { name: 'Resume game', exact: true }).click();
+  assert.equal(await app.onGame(function () { return this.state; }), 'playing', 'Visible resume must actually release the paused primary');
+  const result = await app.onSession(function () {
+    const owner = this.players[0]; this.world.host.inPlayerOperation(owner, context => context.end('Release visual fixture train', 'train'));
+    this.update(1 / 120); for (const player of this.players) this.declineRecovery(player.seat); this.update(1 / 120);
+    return { mode: this.result?.mode, contributions: this.result?.contributions, frozen: Object.isFrozen(this.result),
+      diagnostic: { time: this.world.time, hostState: this.world.host.state, players: this.players.map(p => ({ seat: p.seat, state: p.state, participation: p.participation, recovery: p.recovery })) } };
+  });
+  assert.equal(result.mode, 'survive-together', JSON.stringify(result.diagnostic)); assert.equal(result.contributions.length, 4); assert.equal(result.frozen, true);
+  await app.advance(80);
+  for (const theme of Object.keys(themes)) captures.push(await viewCapture(app, variant, 'results', 900, 600, theme, sourceHashes, normalArtifactHash, 'component-model', '#survive-results-root', { ...actual, result }));
+}
+
+async function runLayout(variant) {
+  const commandId = `normal-${variant}-layout`, argv = ['tests/strict-node-tests.mjs', `tests/${variant}-layout.mjs`];
+  const child = spawn(process.execPath, argv, { cwd: root, stdio: ['ignore', 'pipe', 'pipe'] });
+  let outputText = ''; const startedAt = new Date().toISOString();
+  for (const stream of [child.stdout, child.stderr]) stream.on('data', bytes => { outputText += bytes; process.stdout.write(bytes); });
+  const terminal = await new Promise((accept, reject) => { child.once('error', reject); child.once('close', (terminalExit, signal) => accept({ terminalExit, signal })); });
+  assert.equal(terminal.signal, null); assert.equal(terminal.terminalExit, 0, `${variant} layout must actually finish`);
+  return { commandId, executable: process.execPath, argv, pid: child.pid, startedAt, finishedAt: new Date().toISOString(), ...terminal, outputText, outputSha256: sha(outputText) };
+}
+
+async function createSheets(captures) {
+  const { chromium } = await import('playwright');
+  const browser = await chromium.launch({ args: ['--mute-audio'] }); const sheets = [];
+  try {
+    const page = await browser.newPage({ viewport: { width: 1600, height: 900 }, deviceScaleFactor: 1 });
+    for (const variant of variants) for (const theme of Object.keys(themes)) {
+      const selected = canonicalCaptures(captures).filter(c => (c.mode === 'survive' ? `survive-${c.base === 'arcade' ? 'arcade' : 'flow'}` : c.mode) === variant && c.theme === theme);
+      const figures = [];
+      for (const capture of selected) figures.push(`<figure><figcaption>${capture.state} · ${capture.frame.width}×${capture.frame.height} · ${capture.motion} · ${capture.acquisition.kind}</figcaption><img src="data:image/png;base64,${(await readFile(resolve(root, capture.image))).toString('base64')}"></figure>`);
+      await page.setContent(`<style>html,body{margin:0;background:#26342f;color:#fff4d4;font:16px/1.3 monospace}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:8px}figure{margin:0;min-width:0}figcaption{height:48px;font-size:13px}img{display:block;width:100%;height:240px;object-fit:contain;background:#111d18}</style><div class="grid">${figures.join('')}</div>`);
+      await page.locator('img').evaluateAll(images => Promise.all(images.map(image => image.decode())));
+      const image = `docs/release-evidence/images/sheet-${variant}-${theme}.png`;
+      await page.screenshot({ path: resolve(root, image), fullPage: true }); const bytes = await readFile(resolve(root, image));
+      sheets.push({ id: `${variant}-${theme}`, image, imageSha256: sha(bytes), frame: pngDimensions(bytes), captureIds: selected.map(c => c.id) });
+    }
+    return sheets;
+  } finally { await browser.close(); }
+}
+
 async function captureWorker(kind, outputPath) {
   assert.ok(['tracer', 'required'].includes(kind));
   assert.equal(process.env.DOWN_TO_DUCK_COVERAGE_CONFIG, undefined, 'Visual proof requires the normal artifact');
   const { createMarketGameFixture } = await import('../../tests/market-game-fixture.mjs');
   const sourceHashes = await currentSources(), normalArtifactHash = sha(await readFile(resolve(root, 'dist/index.html')));
-  const captures = [];
+  const captures = [], executions = [];
   for (const variant of kind === 'tracer' ? ['survive-flow'] : variants) {
     const evidence = { errors: [], external: [] };
     const app = await createMarketGameFixture(evidence, { gamepads: true, auditBoundary: true, initialIntent: {
@@ -243,7 +371,12 @@ async function captureWorker(kind, outputPath) {
     } });
     try {
       await app.page.emulateMedia({ reducedMotion: 'reduce' });
-      const actual = await actualSetup(app, variant);
+      const setupCaptures = [];
+      const actual = await actualSetup(app, variant, kind === 'required' ? async () => {
+        assert.equal(await app.frame.locator('#session-board').isVisible(), true);
+        for (const theme of Object.keys(themes)) setupCaptures.push(await viewCapture(app, variant, 'setup', 900, 600, theme, sourceHashes, normalArtifactHash, 'public-input', '#session-board'));
+      } : undefined);
+      for (const capture of setupCaptures) { capture.acquisition.actualMode = actual; captures.push(capture); }
       for (const [width, height] of kind === 'tracer' ? [[900, 600]] : frames) for (const theme of kind === 'tracer' ? ['dark'] : Object.keys(themes)) {
         await app.resize(width, height); await app.frame.evaluate(colors => window.marketGameFixture.setTheme({ colors }), themes[theme]); await app.advance(32);
         const state = width < 240 ? 'minimum-notice' : 'hud', id = idFor(variant, state, width, height, theme);
@@ -268,14 +401,56 @@ async function captureWorker(kind, outputPath) {
         await app.iframe.screenshot({ path: image }); capture.imageSha256 = sha(await readFile(image)); captures.push(capture);
         console.log(`Captured ${id}`);
       }
+      if (kind === 'required' && variant.startsWith('survive-')) await surviveViews(app, variant, actual, captures, sourceHashes, normalArtifactHash);
+      if (kind === 'required' && variant === 'relay') {
+        await app.resize(900, 600);
+        await app.onSession(function () { const run = this.players[0].run; run.advanceScore(100); run.creditCoins(500); });
+        await app.advance(32); await app.frame.locator('#market-open').click(); await app.advance(300);
+        for (const theme of Object.keys(themes)) captures.push(await viewCapture(app, variant, 'market', 900, 600, theme, sourceHashes, normalArtifactHash, 'component-model', '#market', actual));
+      }
+      if (kind === 'required' && variant === 'race') {
+        await app.resize(900, 600); await app.page.emulateMedia({ reducedMotion: 'no-preference' });
+        for (const theme of Object.keys(themes)) {
+          await app.frame.evaluate(colors => marketGameFixture.setTheme({ colors }), themes[theme]); await app.advance(32);
+          const id = idFor(variant, 'hud', 900, 600, theme, 'full');
+          const image = `docs/release-evidence/images/${id}.png`; await app.iframe.screenshot({ path: resolve(root, image) });
+          const travelers = await app.observeTravelers();
+          const clearance = { measured: true, minimumCssPixels: 8, collisions: [], actors: travelers.map(p => ({ id: p.text, parts: [{ kind: 'nameplate', rect: p.rect }, ...p.bodies.map(b => ({ kind: 'body', rect: b.rect }))] })), panels: await actualPanels(app) };
+          checkGeometry(clearance);
+          captures.push({ id, mode: variant, base: actual.base, state: 'hud', frame: { width: 900, height: 600 }, theme, motion: 'full', participant: 'all', normalArtifactHash, sourceHashes, image, imageSha256: sha(await readFile(resolve(root, image))), clearance,
+            acquisition: { kind: 'public-input', actualModeAsserted: true, actualMode: actual, observer: 'Read-only production voxel and packed label draw arguments' } });
+        }
+      }
       assert.deepEqual(evidence.errors, []); assert.deepEqual(evidence.external, []);
       assert.deepEqual(await app.frame.evaluate(() => marketGameFixture.forbidden), []);
     } finally { await app.close(); }
   }
+  if (kind === 'required') {
+    for (const variant of ['relay', 'race']) {
+      const execution = await runLayout(variant); executions.push(execution);
+      const reportPath = `artifacts/${variant}-layout/report.json`, reportBytes = await readFile(resolve(root, reportPath)), report = JSON.parse(reportBytes);
+      assert.equal(report.complete, true); assert.deepEqual(report.failures, []); assert.deepEqual(report.errors, []);
+      const states = variant === 'relay' ? { handoff: 'handoff', disconnect: 'disconnected', 'results-tie': 'tied-podium' }
+        : { fog: 'fog-exposed', items: 'mud-target', 'results-tie': 'four-tie', 'results-dnf': 'timeout-dnf' };
+      for (const [state, originalState] of Object.entries(states)) for (const theme of Object.keys(themes)) {
+        const observed = report.captures.find(c => c.state === originalState && c.width === 900 && c.height === 600 && c.theme === theme);
+        assert.ok(observed); assert.deepEqual(observed.failures, []);
+        const id = idFor(variant, state, 900, 600, theme, 'full'), image = `docs/release-evidence/images/${id}.png`;
+        const bytes = await readFile(resolve(root, `artifacts/${variant}-layout/${observed.name}`));
+        await writeFile(resolve(root, image), bytes);
+        captures.push({ id, mode: variant, base: 'stroll', state, frame: { width: 900, height: 600 }, theme, motion: 'full', participant: 'all', image, imageSha256: sha(bytes), normalArtifactHash, sourceHashes,
+          acquisition: { kind: 'public-input', actualModeAsserted: true, testFile: `tests/${variant}-layout.mjs`, testSourceHash: sourceHashes[`tests/${variant}-layout.mjs`],
+            commandId: execution.commandId, observedCapture: observed, reportPath, reportSha256: sha(reportBytes),
+            modeEvidence: 'Existing built UI journey asserts actual mode-specific surface and retains authoritative roster/result state across every resize; no private state writes',
+            limits: ['This lifecycle/result image has DOM/focus/motion checks; full voxel clearance is measured by the independent normal HUD matrix'] } });
+      }
+    }
+  }
+  const sheets = kind === 'required' ? await createSheets(captures) : [];
   assert.deepEqual(await currentSources(), sourceHashes, 'Source mutation during capture');
   assert.equal(sha(await readFile(resolve(root, 'dist/index.html'))), normalArtifactHash);
   await writeFile(outputPath, JSON.stringify({ schema: 'release-visual-evidence-1', createdAt: new Date().toISOString(),
-    sourceHashes, normalArtifactHash, captures: canonicalCaptures(captures),
+    sourceHashes, normalArtifactHash, captures: canonicalCaptures(captures), executions, sheets,
     limits: ['Test-host storage/theme/keys fixtures and authorized controller snapshots; no physical-device measurement', 'No human visual acceptance supplied by integrity checks'] }, null, 2) + '\n');
 }
 
@@ -297,7 +472,7 @@ async function acquire(kind) {
   assert.deepEqual(manifest.sourceHashes, await currentSources());
   assert.equal(manifest.normalArtifactHash, sha(await readFile(resolve(root, 'dist/index.html'))));
   const receiptPath = `docs/release-evidence/${commandId}.json`;
-  for (const capture of manifest.captures) Object.assign(capture.acquisition, { commandId, terminalExit: terminal.code,
+  for (const capture of manifest.captures) Object.assign(capture.acquisition, { nestedCommandId: capture.acquisition.commandId, commandId, terminalExit: terminal.code,
     receiptPath, receiptSha256: sha(JSON.stringify(receipt, null, 2) + '\n') });
   await writeFile(resolve(root, receiptPath), JSON.stringify(receipt, null, 2) + '\n');
   const target = kind === 'tracer' ? 'tracer.json' : 'manifest.json';
@@ -311,9 +486,35 @@ async function checkCurrent(tracer) {
     const receiptBytes = await readFile(resolve(root, capture.acquisition.receiptPath));
     validateCaptureReceipt(receiptBytes, capture.acquisition);
   }
-  return validateVisualManifest(manifest, { artifactHash: sha(await readFile(resolve(root, 'dist/index.html'))),
+  const result = await validateVisualManifest(manifest, { artifactHash: sha(await readFile(resolve(root, 'dist/index.html'))),
     sourceHashes: await currentSources(), requiredCaptureIds: tracer ? [tracerId] : requiredVisualIds(),
     readImage: path => readFile(resolve(root, path)) });
+  if (!tracer) Object.assign(result, await validateSheets(manifest, path => readFile(resolve(root, path))));
+  return result;
+}
+
+async function checkClauses(requirePr) {
+  await checkCurrent(false);
+  const document = JSON.parse(await readFile(resolve(evidenceRoot, 'clauses.json')));
+  const inventory = JSON.parse(await readFile(resolve(root, '.planning/phases/07-release-evidence-pr/07-CLAUSE-PREPARATION.json')));
+  for (const [path, expected] of Object.entries(document.sourceHashes)) assert.equal(sha(await readFile(resolve(root, path))), expected, `Stale clause authority ${path}`);
+  const bytes = await readFile(resolve(root, document.executionsSource.path)); assert.equal(sha(bytes), document.executionsSource.sha256);
+  const actual = JSON.parse(bytes);
+  assert.equal(actual.normalArtifactRawSha256, sha(await readFile(resolve(root, 'dist/index.html'))));
+  assert.equal(sha(await readFile(resolve(root, actual.enforcingProof))), actual.enforcingProofSha256);
+  for (const execution of actual.executions) {
+    assert.equal(sha(await readFile(resolve(root, execution.testFile))), execution.testSourceHash);
+    assert.equal(execution.terminalExit, 0);
+    if (execution.outputText) {
+      assert.equal(sha(execution.outputText), execution.rawOutputSha256);
+      for (const name of execution.cases) assert.ok(execution.outputText.split('\n').some(line => /^\s*ok \d+ - /.test(line) && line.trim().endsWith(`- ${name}`)), `Missing actual positive case ${name}`);
+    }
+  }
+  assert.deepEqual(document.taxonomy.map(row => row.id).sort(), ['A07-E3', 'A07-E5', 'A07-ES']);
+  assert.ok(document.taxonomy.every(row => row.status === 'unclassified-contract-retained' && row.contract && row.evidence));
+  const manifest = JSON.parse(await readFile(resolve(evidenceRoot, 'manifest.json')));
+  return validateClauseRows(document, { inventory, sourceHashes: document.sourceHashes,
+    executions: [...actual.executions, ...(document.additionalExecutions ?? [])], captures: manifest.captures, allowPendingShip: !requirePr });
 }
 
 async function main() {
@@ -323,6 +524,7 @@ async function main() {
   if (action === '--capture-required') return acquire('required');
   if (action === '--check-tracer') return console.log(JSON.stringify(await checkCurrent(true)));
   if (action === '--check') return console.log(JSON.stringify(await checkCurrent(false)));
-  throw Error('Supported: --capture-tracer,--check-tracer,--capture-required,--check');
+  if (action === '--check-clauses') return console.log(JSON.stringify(await checkClauses(kind === '--require-pr')));
+  throw Error('Supported: --capture-tracer,--check-tracer,--capture-required,--check,--check-clauses [--require-pr]');
 }
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main().catch(error => { console.error(error); process.exitCode = 1; });

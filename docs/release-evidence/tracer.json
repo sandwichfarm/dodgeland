@@ -1,6 +1,6 @@
 {
   "schema": "release-visual-evidence-1",
-  "createdAt": "2026-10-18T03:00:10.329Z",
+  "createdAt": "2026-10-18T03:11:14.546Z",
   "sourceHashes": {
     "index.html": "cb9773abc32939bdf61664b7e850eb044aa3f37aef79f61d50e9b69346ce7c0b",
     "package.json": "d232c4d5c539c00d03f0259cc28c09a4038dd0dc2894161e9d0166064bba7316",
@@ -286,7 +286,7 @@
     "tests/release-conformance.test.mjs": "f801db360b5a7565236e05aee55a847404c87c858230a9c55092c7c2cab025b1",
     "tests/release-content-gaps.test.mjs": "30dd3211a4b6e55e352d3a7b298360f5aee906e658b355bbdbaa1921bb87b28c",
     "tests/release-coverage-gaps.test.mjs": "15341dc13f3585bb5b98532987e83c3292e7f1f2a81be9d2faa823d99989f925",
-    "tests/release-evidence.test.mjs": "4d97219374f20c6af28094670f705e2435a8975c3cf9e9148b822b8f653ae497",
+    "tests/release-evidence.test.mjs": "b88fc5e2070f19a20e2b0bc10be5b5edf2985eb0961bea0fb701ba07cd0cce93",
     "tests/release-mode-coverage.mjs": "30966c9f61166f4bbe5e7bc292b0a67e58c1f557a0cdc7ad7cc609b7e0c6ac5c",
     "tests/release-solo-bootstrap.test.mjs": "70ad544cb4a5b48b954a81a11cc9e5290417cab7a6fd4b5c7c395b575d3e1b83",
     "tests/release-solo-mode-coverage.test.mjs": "1d3c345bc819822ed93e39557bad7b052a46eb32513fb2caed4d9bb0f534e566",
@@ -388,7 +388,7 @@
     "tools/release-coverage/development-applicability.mjs": "ed856b5f91260b79a48288ab2a22a7f3e136fe2c94234c623c37cfd53f9aaefb",
     "tools/release-coverage/development-applicability.test.mjs": "817d2f8742dfa3290551418bf2e8f4247b143e7b7066658519a480e3448b19a1",
     "tools/release-coverage/development-artifact.test.mjs": "53d24950f8bfc60edae0ad10e4a9a0e0b07775c318c281cbbc70485debec6f6a",
-    "tools/release-coverage/evidence.mjs": "9e64cfc265456a76487e43640b1343bd5c6fdeb6c8716ed6f650a2c6a86f4c8e",
+    "tools/release-coverage/evidence.mjs": "ec1556e2c0256cedcb3a3f534559c729ad2952b735bf3fee878b26499dcb178d",
     "tools/release-coverage/fixtures.mjs": "19130187260b606b57126f7bc4eea50aae9ad3ca94c190073cd4298d71275c46",
     "tools/release-coverage/instrument.mjs": "ffad78d5658501254a3ee4a35bc1629724d503dbe16f2df3acf74d9deec1bee5",
     "tools/release-coverage/inventory.mjs": "1b5a9f05e0ca1d2d4c953c73dcc13bb4001cc2b0f6700792b99694dd9f88613f",
@@ -717,7 +717,7 @@
         "tests/release-conformance.test.mjs": "f801db360b5a7565236e05aee55a847404c87c858230a9c55092c7c2cab025b1",
         "tests/release-content-gaps.test.mjs": "30dd3211a4b6e55e352d3a7b298360f5aee906e658b355bbdbaa1921bb87b28c",
         "tests/release-coverage-gaps.test.mjs": "15341dc13f3585bb5b98532987e83c3292e7f1f2a81be9d2faa823d99989f925",
-        "tests/release-evidence.test.mjs": "4d97219374f20c6af28094670f705e2435a8975c3cf9e9148b822b8f653ae497",
+        "tests/release-evidence.test.mjs": "b88fc5e2070f19a20e2b0bc10be5b5edf2985eb0961bea0fb701ba07cd0cce93",
         "tests/release-mode-coverage.mjs": "30966c9f61166f4bbe5e7bc292b0a67e58c1f557a0cdc7ad7cc609b7e0c6ac5c",
         "tests/release-solo-bootstrap.test.mjs": "70ad544cb4a5b48b954a81a11cc9e5290417cab7a6fd4b5c7c395b575d3e1b83",
         "tests/release-solo-mode-coverage.test.mjs": "1d3c345bc819822ed93e39557bad7b052a46eb32513fb2caed4d9bb0f534e566",
@@ -819,7 +819,7 @@
         "tools/release-coverage/development-applicability.mjs": "ed856b5f91260b79a48288ab2a22a7f3e136fe2c94234c623c37cfd53f9aaefb",
         "tools/release-coverage/development-applicability.test.mjs": "817d2f8742dfa3290551418bf2e8f4247b143e7b7066658519a480e3448b19a1",
         "tools/release-coverage/development-artifact.test.mjs": "53d24950f8bfc60edae0ad10e4a9a0e0b07775c318c281cbbc70485debec6f6a",
-        "tools/release-coverage/evidence.mjs": "9e64cfc265456a76487e43640b1343bd5c6fdeb6c8716ed6f650a2c6a86f4c8e",
+        "tools/release-coverage/evidence.mjs": "ec1556e2c0256cedcb3a3f534559c729ad2952b735bf3fee878b26499dcb178d",
         "tools/release-coverage/fixtures.mjs": "19130187260b606b57126f7bc4eea50aae9ad3ca94c190073cd4298d71275c46",
         "tools/release-coverage/instrument.mjs": "ffad78d5658501254a3ee4a35bc1629724d503dbe16f2df3acf74d9deec1bee5",
         "tools/release-coverage/inventory.mjs": "1b5a9f05e0ca1d2d4c953c73dcc13bb4001cc2b0f6700792b99694dd9f88613f",
@@ -883,10 +883,10 @@
         },
         "observer": "Read-only production draw arguments; no world,actor or camera writes",
         "setup": "Visible Play/Pause/Local Play/mode/Start; two keyboards and two authorized controller snapshots; visible Pause holds actual state",
-        "commandId": "visual-tracer-20261018030008866",
+        "commandId": "visual-required-20261018030823925",
         "terminalExit": 0,
-        "receiptPath": "docs/release-evidence/visual-tracer-20261018030008866.json",
-        "receiptSha256": "d7f92f9b5ffc3629f2af4bcf116705a02181d459c15e9a4450f61144d3b134f6"
+        "receiptPath": "docs/release-evidence/visual-required-20261018030823925.json",
+        "receiptSha256": "d8db78f53d8331cf346c2184cfca73e341d6102b8a7c21f8abb0e8523ae547f8"
       },
       "clearance": {
         "measured": true,
@@ -894,7 +894,7 @@
         "collisions": [],
         "actors": [
           {
-            "id": "▲ P1 · Butter",
+            "id": "\u25b2 P1 \u00b7 Butter",
             "parts": [
               {
                 "kind": "nameplate",
@@ -917,7 +917,7 @@
             ]
           },
           {
-            "id": "● P2 · Sunny",
+            "id": "\u25cf P2 \u00b7 Sunny",
             "parts": [
               {
                 "kind": "nameplate",
@@ -940,7 +940,7 @@
             ]
           },
           {
-            "id": "◆ P3 · Pip",
+            "id": "\u25c6 P3 \u00b7 Pip",
             "parts": [
               {
                 "kind": "nameplate",
@@ -963,7 +963,7 @@
             ]
           },
           {
-            "id": "■ P4 · Petal",
+            "id": "\u25a0 P4 \u00b7 Petal",
             "parts": [
               {
                 "kind": "nameplate",
@@ -1151,11 +1151,45 @@
           }
         ]
       },
-      "imageSha256": "0f7f1e1a4116bbfa933db3ba19ee5bbb71f6d89255debe00b842e6c204f47c0d"
+      "imageSha256": "5d836e74a467118379cd6bba7af246470e85597671d89bae74480b6ce3f17436"
     }
   ],
+  "executions": [
+    {
+      "commandId": "normal-relay-layout",
+      "executable": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+      "argv": [
+        "tests/strict-node-tests.mjs",
+        "tests/relay-layout.mjs"
+      ],
+      "pid": 73312,
+      "startedAt": "2026-10-18T03:08:47.100Z",
+      "finishedAt": "2026-10-18T03:09:34.441Z",
+      "terminalExit": 0,
+      "signal": null,
+      "outputText": "TAP version 13\n# layout start setup 2026-10-18T03:08:48.225Z\n# layout start setup-roster 2026-10-18T03:08:50.293Z\n# layout start invalid 2026-10-18T03:08:52.344Z\n# layout start order 2026-10-18T03:08:54.478Z\n# layout start live-hud 2026-10-18T03:08:56.480Z\n# layout start inactive-disconnected 2026-10-18T03:08:58.325Z\n# layout start owner-restriction 2026-10-18T03:09:00.272Z\n# Subtest: Relay visible controls preserve every layout state across frames, themes and motion preferences\n    # Subtest: setup, live HUD and owner restriction\n    ok 1 - setup, live HUD and owner restriction\n      ---\n      duration_ms: 15832.589417\n      type: 'test'\n      ...\n# layout start handoff 2026-10-18T03:09:03.363Z\n# layout start handoff-system-motion 2026-10-18T03:09:05.068Z\n# layout start roster 2026-10-18T03:09:06.829Z\n# layout start disconnected 2026-10-18T03:09:08.658Z\n# layout start skip 2026-10-18T03:09:10.408Z\n# layout start reclaim 2026-10-18T03:09:12.155Z\n# layout start leave 2026-10-18T03:09:13.856Z\n# layout start waiting 2026-10-18T03:09:16.150Z\n# layout start results 2026-10-18T03:09:17.987Z\n# layout start players 2026-10-18T03:09:19.726Z\n# layout start legs 2026-10-18T03:09:21.466Z\n    # Subtest: same-board handoff, lifecycle and results\n    ok 2 - same-board handoff, lifecycle and results\n      ---\n      duration_ms: 19871.68425\n      type: 'test'\n      ...\n# layout start tied-podium 2026-10-18T03:09:25.182Z\n# layout start result-system-motion 2026-10-18T03:09:26.888Z\n    # Subtest: second run tied result and system motion\n    ok 3 - second run tied result and system motion\n      ---\n      duration_ms: 5423.421334\n      type: 'test'\n      ...\n# layout start recovery-app-motion 2026-10-18T03:09:31.032Z\n    # Subtest: third run app motion and personal revival\n    ok 4 - third run app motion and personal revival\n      ---\n      duration_ms: 4264.099708\n      type: 'test'\n      ...\n    1..4\nok 1 - Relay visible controls preserve every layout state across frames, themes and motion preferences\n  ---\n  duration_ms: 46984.406417\n  type: 'test'\n  ...\n1..1\n# tests 5\n# suites 0\n# pass 5\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 47251.336333\n",
+      "outputSha256": "91ad29927273e46a48f80bc86b1d4d069759ad0f3c48b00fbca2defa775a2772"
+    },
+    {
+      "commandId": "normal-race-layout",
+      "executable": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+      "argv": [
+        "tests/strict-node-tests.mjs",
+        "tests/race-layout.mjs"
+      ],
+      "pid": 74801,
+      "startedAt": "2026-10-18T03:09:34.443Z",
+      "finishedAt": "2026-10-18T03:11:13.036Z",
+      "terminalExit": 0,
+      "signal": null,
+      "outputText": "TAP version 13\n# Race capture setup\n# Race capture rules\n# Race capture invalid\n# Race capture roster\n# Race capture four-racers\n# Race capture mud-target\n# Race capture target-motion\n# Race capture mud-effect\n# Race capture gear\n# Race capture wardrobe\n# Race capture owner-switch\n# Subtest: Race full frame theme motion matrix preserves authoritative state and accessible controls\n    # Subtest: setup, Mud and owner gear\n    ok 1 - setup, Mud and owner gear\n      ---\n      duration_ms: 21008.1345\n      type: 'test'\n      ...\n# Race capture fog-line\n# Race capture fog-exposed\n# Race capture fog-landed\n    # Subtest: fog line, exposure and damage\n    ok 2 - fog line, exposure and damage\n      ---\n      duration_ms: 9316.351666\n      type: 'test'\n      ...\n# Race capture four-tie\n# Race capture participant-1\n# Race capture participant-2\n# Race capture participant-3\n# Race capture participant-4\n    # Subtest: four tied finishers and participant pages\n    ok 3 - four tied finishers and participant pages\n      ---\n      duration_ms: 9487.083333\n      type: 'test'\n      ...\n# Race capture lantern-confirm\n# Race capture lantern-effect\n# Race capture lantern-already-lit\n    # Subtest: Lantern confirmation, effect and rejection\n    ok 4 - Lantern confirmation, effect and rejection\n      ---\n      duration_ms: 6526.477417\n      type: 'test'\n      ...\n# Race capture stale-target-disconnected\n# Race capture no-target\n    # Subtest: stale Mud target and no target\n    ok 5 - stale Mud target and no target\n      ---\n      duration_ms: 4641.562667\n      type: 'test'\n      ...\n# Race capture disconnected\n# Race capture reclaim\n# Race capture leave\n# Race capture waiting\n# Race capture timeout-dnf\n    # Subtest: disconnect, reclaim, waiting and timeout\n    ok 6 - disconnect, reclaim, waiting and timeout\n      ---\n      duration_ms: 23546.40225\n      type: 'test'\n      ...\n# Race capture personal-recovery\n# Race capture recovery-actions\n# Race capture protected\n# Race capture forfeited-last-racer\n# Race capture left-forfeited-dnf\n    # Subtest: personal recovery, protection and forfeit\n    ok 7 - personal recovery, protection and forfeit\n      ---\n      duration_ms: 16340.62625\n      type: 'test'\n      ...\n# Race capture app-motion\n    # Subtest: app reduced motion\n    ok 8 - app reduced motion\n      ---\n      duration_ms: 3359.338042\n      type: 'test'\n      ...\n    1..8\nok 1 - Race full frame theme motion matrix preserves authoritative state and accessible controls\n  ---\n  duration_ms: 97296.571375\n  type: 'test'\n  ...\n# Subtest: unchanged Race lifecycle notice does not repeat live announcements\nok 2 - unchanged Race lifecycle notice does not repeat live announcements\n  ---\n  duration_ms: 822.959458\n  type: 'test'\n  ...\n1..2\n# tests 10\n# suites 0\n# pass 10\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 98496.702666\n",
+      "outputSha256": "62d589172df9bf73fb721e93ea8c219b66d597c42b2e74383d3e0e8d95c2cf2d"
+    }
+  ],
+  "sheets": [],
   "limits": [
     "Test-host storage/theme/keys fixtures and authorized controller snapshots; no physical-device measurement",
     "No human visual acceptance supplied by integrity checks"
-  ]
+  ],
+  "scope": "Current tracer selected from the actual complete normal-build acquisition; parent receipt retains the whole command"
 }

@@ -1,0 +1,340 @@
+{
+  "scope": "07-05 Tasks1/2 complete;Task3 and07-06 pending",
+  "createdAt": "2026-10-18T03:12:40.165651+00:00",
+  "normalArtifactRawSha256": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
+  "captures": 94,
+  "sheets": 8,
+  "requiredCells": 90,
+  "actualHudGeometrySamples": 42,
+  "sourceCount": 414,
+  "hashes": {
+    "docs/release-evidence/manifest.json": "4dd87d5fca4ed8204d1dc7ae7e63e5c55e343a71d79f36a3b39daa63e6c68adc",
+    "docs/release-evidence/tracer.json": "898a784657c4c2d3ab0569d877a7fb545787a2b2645d70848f7fa7d099d632cd",
+    "docs/release-evidence/inspections.json": "543e54a77484c05f45e2334f2fddcf8efc9c9651d48e2b88c42457b03790aa48",
+    "docs/release-evidence/index.md": "f4527a185f23e0091cdf2f6ae80e3f26cb35820174155a225434d85050f5224d",
+    "docs/release-evidence/executions-full05.json": "adec596b079d9ea92cf389496f084f89d9a9ce59ff69cbafe5c00626e064d132",
+    "tools/release-coverage/evidence.mjs": "ec1556e2c0256cedcb3a3f534559c729ad2952b735bf3fee878b26499dcb178d",
+    "tests/release-evidence.test.mjs": "b88fc5e2070f19a20e2b0bc10be5b5edf2985eb0961bea0fb701ba07cd0cce93"
+  },
+  "executions": {
+    "unit": {
+      "log": "artifacts/release-coverage/evidence-required-05/unit-after-capture.log",
+      "sha256": "94504b859b40a13cde071bd6cd9b2e4dc2c8dd8754998a6aefca644edae48044",
+      "terminalExit": 0,
+      "outputText": "\u2714 inclusive8px clearance accepts8 and rejects7.99,touching,nonfinite and malformed rectangles (3.010958ms)\n\u2714 capture ordering is stable under permutation and does not mutate caller order (0.402833ms)\n\u2714 one source-bound PNG fixture validates integrity (0.372333ms)\n\u2714 empty,missing,duplicate,stale,wrong-frame and failed-source evidence never passes (1.564917ms)\n\u2714 original clauses and requirements remain exact;SHIP alone may remain visibly pending before final PR (0.232667ms)\n\u2714 omitted,duplicate,altered,unsupported-complete or unexecuted clause proof fails (0.647584ms)\n\u2714 an external command must retain a receipt and successful measured assertions (0.329292ms)\n\u2714 required visual cells cannot shrink to the completed HUD tracer (0.542375ms)\n\u2714 durable acquisition receipts reject nonterminal,failing,tampered or unmatched output (0.9315ms)\n\u2714 contact sheets require every current mode/base/theme image exactly once and reject stale bytes (1.623667ms)\n\u2139 tests 10\n\u2139 suites 0\n\u2139 pass 10\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 72.897208\n"
+    },
+    "capture": {
+      "log": "artifacts/release-coverage/evidence-required-05/capture.log",
+      "sha256": "ab1db274b6b386c2d1aa20ed41066580fb48040aec1e6b95092fc0b923921bae",
+      "terminalExit": 0,
+      "outputText": "Captured survive-arcade-setup-900x600-dark-reduced-all (public-input)\nCaptured survive-arcade-setup-900x600-light-reduced-all (public-input)\nCaptured survive-arcade-minimum-notice-200x160-dark-reduced-all\nCaptured survive-arcade-minimum-notice-200x160-light-reduced-all\nCaptured survive-arcade-hud-240x240-dark-reduced-all\nCaptured survive-arcade-hud-240x240-light-reduced-all\nCaptured survive-arcade-hud-320x560-dark-reduced-all\nCaptured survive-arcade-hud-320x560-light-reduced-all\nCaptured survive-arcade-hud-900x600-dark-reduced-all\nCaptured survive-arcade-hud-900x600-light-reduced-all\nCaptured survive-arcade-hud-1000x280-dark-reduced-all\nCaptured survive-arcade-hud-1000x280-light-reduced-all\nCaptured survive-arcade-hud-2400x1200-dark-reduced-all\nCaptured survive-arcade-hud-2400x1200-light-reduced-all\nCaptured survive-arcade-market-900x600-dark-reduced-all (component-model)\nCaptured survive-arcade-market-900x600-light-reduced-all (component-model)\nCaptured survive-arcade-items-900x600-dark-reduced-all (component-model)\nCaptured survive-arcade-items-900x600-light-reduced-all (component-model)\nCaptured survive-arcade-recovery-900x600-dark-reduced-all (component-model)\nCaptured survive-arcade-recovery-900x600-light-reduced-all (component-model)\nCaptured survive-arcade-results-900x600-dark-reduced-all (component-model)\nCaptured survive-arcade-results-900x600-light-reduced-all (component-model)\nCaptured survive-flow-setup-900x600-dark-reduced-all (public-input)\nCaptured survive-flow-setup-900x600-light-reduced-all (public-input)\nCaptured survive-flow-minimum-notice-200x160-dark-reduced-all\nCaptured survive-flow-minimum-notice-200x160-light-reduced-all\nCaptured survive-flow-hud-240x240-dark-reduced-all\nCaptured survive-flow-hud-240x240-light-reduced-all\nCaptured survive-flow-hud-320x560-dark-reduced-all\nCaptured survive-flow-hud-320x560-light-reduced-all\nCaptured survive-flow-hud-900x600-dark-reduced-all\nCaptured survive-flow-hud-900x600-light-reduced-all\nCaptured survive-flow-hud-1000x280-dark-reduced-all\nCaptured survive-flow-hud-1000x280-light-reduced-all\nCaptured survive-flow-hud-2400x1200-dark-reduced-all\nCaptured survive-flow-hud-2400x1200-light-reduced-all\nCaptured survive-flow-market-900x600-dark-reduced-all (component-model)\nCaptured survive-flow-market-900x600-light-reduced-all (component-model)\nCaptured survive-flow-items-900x600-dark-reduced-all (component-model)\nCaptured survive-flow-items-900x600-light-reduced-all (component-model)\nCaptured survive-flow-recovery-900x600-dark-reduced-all (component-model)\nCaptured survive-flow-recovery-1000x280-dark-reduced-all (component-model)\nCaptured survive-flow-owner-target-320x560-dark-reduced-all (component-model)\nCaptured survive-flow-recovery-900x600-light-reduced-all (component-model)\nCaptured survive-flow-recovery-1000x280-light-reduced-all (component-model)\nCaptured survive-flow-owner-target-320x560-light-reduced-all (component-model)\nCaptured survive-flow-results-900x600-dark-reduced-all (component-model)\nCaptured survive-flow-results-900x600-light-reduced-all (component-model)\nCaptured relay-setup-900x600-dark-reduced-all (public-input)\nCaptured relay-setup-900x600-light-reduced-all (public-input)\nCaptured relay-minimum-notice-200x160-dark-reduced-all\nCaptured relay-minimum-notice-200x160-light-reduced-all\nCaptured relay-hud-240x240-dark-reduced-all\nCaptured relay-hud-240x240-light-reduced-all\nCaptured relay-hud-320x560-dark-reduced-all\nCaptured relay-hud-320x560-light-reduced-all\nCaptured relay-hud-900x600-dark-reduced-all\nCaptured relay-hud-900x600-light-reduced-all\nCaptured relay-hud-1000x280-dark-reduced-all\nCaptured relay-hud-1000x280-light-reduced-all\nCaptured relay-hud-2400x1200-dark-reduced-all\nCaptured relay-hud-2400x1200-light-reduced-all\nCaptured relay-market-900x600-dark-reduced-all (component-model)\nCaptured relay-market-900x600-light-reduced-all (component-model)\nCaptured race-setup-900x600-dark-reduced-all (public-input)\nCaptured race-setup-900x600-light-reduced-all (public-input)\nCaptured race-minimum-notice-200x160-dark-reduced-all\nCaptured race-minimum-notice-200x160-light-reduced-all\nCaptured race-hud-240x240-dark-reduced-all\nCaptured race-hud-240x240-light-reduced-all\nCaptured race-hud-320x560-dark-reduced-all\nCaptured race-hud-320x560-light-reduced-all\nCaptured race-hud-900x600-dark-reduced-all\nCaptured race-hud-900x600-light-reduced-all\nCaptured race-hud-1000x280-dark-reduced-all\nCaptured race-hud-1000x280-light-reduced-all\nCaptured race-hud-2400x1200-dark-reduced-all\nCaptured race-hud-2400x1200-light-reduced-all\nTAP version 13\n# layout start setup 2026-10-18T03:08:48.225Z\n# layout start setup-roster 2026-10-18T03:08:50.293Z\n# layout start invalid 2026-10-18T03:08:52.344Z\n# layout start order 2026-10-18T03:08:54.478Z\n# layout start live-hud 2026-10-18T03:08:56.480Z\n# layout start inactive-disconnected 2026-10-18T03:08:58.325Z\n# layout start owner-restriction 2026-10-18T03:09:00.272Z\n# Subtest: Relay visible controls preserve every layout state across frames, themes and motion preferences\n    # Subtest: setup, live HUD and owner restriction\n    ok 1 - setup, live HUD and owner restriction\n      ---\n      duration_ms: 15832.589417\n      type: 'test'\n      ...\n# layout start handoff 2026-10-18T03:09:03.363Z\n# layout start handoff-system-motion 2026-10-18T03:09:05.068Z\n# layout start roster 2026-10-18T03:09:06.829Z\n# layout start disconnected 2026-10-18T03:09:08.658Z\n# layout start skip 2026-10-18T03:09:10.408Z\n# layout start reclaim 2026-10-18T03:09:12.155Z\n# layout start leave 2026-10-18T03:09:13.856Z\n# layout start waiting 2026-10-18T03:09:16.150Z\n# layout start results 2026-10-18T03:09:17.987Z\n# layout start players 2026-10-18T03:09:19.726Z\n# layout start legs 2026-10-18T03:09:21.466Z\n    # Subtest: same-board handoff, lifecycle and results\n    ok 2 - same-board handoff, lifecycle and results\n      ---\n      duration_ms: 19871.68425\n      type: 'test'\n      ...\n# layout start tied-podium 2026-10-18T03:09:25.182Z\n# layout start result-system-motion 2026-10-18T03:09:26.888Z\n    # Subtest: second run tied result and system motion\n    ok 3 - second run tied result and system motion\n      ---\n      duration_ms: 5423.421334\n      type: 'test'\n      ...\n# layout start recovery-app-motion 2026-10-18T03:09:31.032Z\n    # Subtest: third run app motion and personal revival\n    ok 4 - third run app motion and personal revival\n      ---\n      duration_ms: 4264.099708\n      type: 'test'\n      ...\n    1..4\nok 1 - Relay visible controls preserve every layout state across frames, themes and motion preferences\n  ---\n  duration_ms: 46984.406417\n  type: 'test'\n  ...\n1..1\n# tests 5\n# suites 0\n# pass 5\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 47251.336333\nTAP version 13\n# Race capture setup\n# Race capture rules\n# Race capture invalid\n# Race capture roster\n# Race capture four-racers\n# Race capture mud-target\n# Race capture target-motion\n# Race capture mud-effect\n# Race capture gear\n# Race capture wardrobe\n# Race capture owner-switch\n# Subtest: Race full frame theme motion matrix preserves authoritative state and accessible controls\n    # Subtest: setup, Mud and owner gear\n    ok 1 - setup, Mud and owner gear\n      ---\n      duration_ms: 21008.1345\n      type: 'test'\n      ...\n# Race capture fog-line\n# Race capture fog-exposed\n# Race capture fog-landed\n    # Subtest: fog line, exposure and damage\n    ok 2 - fog line, exposure and damage\n      ---\n      duration_ms: 9316.351666\n      type: 'test'\n      ...\n# Race capture four-tie\n# Race capture participant-1\n# Race capture participant-2\n# Race capture participant-3\n# Race capture participant-4\n    # Subtest: four tied finishers and participant pages\n    ok 3 - four tied finishers and participant pages\n      ---\n      duration_ms: 9487.083333\n      type: 'test'\n      ...\n# Race capture lantern-confirm\n# Race capture lantern-effect\n# Race capture lantern-already-lit\n    # Subtest: Lantern confirmation, effect and rejection\n    ok 4 - Lantern confirmation, effect and rejection\n      ---\n      duration_ms: 6526.477417\n      type: 'test'\n      ...\n# Race capture stale-target-disconnected\n# Race capture no-target\n    # Subtest: stale Mud target and no target\n    ok 5 - stale Mud target and no target\n      ---\n      duration_ms: 4641.562667\n      type: 'test'\n      ...\n# Race capture disconnected\n# Race capture reclaim\n# Race capture leave\n# Race capture waiting\n# Race capture timeout-dnf\n    # Subtest: disconnect, reclaim, waiting and timeout\n    ok 6 - disconnect, reclaim, waiting and timeout\n      ---\n      duration_ms: 23546.40225\n      type: 'test'\n      ...\n# Race capture personal-recovery\n# Race capture recovery-actions\n# Race capture protected\n# Race capture forfeited-last-racer\n# Race capture left-forfeited-dnf\n    # Subtest: personal recovery, protection and forfeit\n    ok 7 - personal recovery, protection and forfeit\n      ---\n      duration_ms: 16340.62625\n      type: 'test'\n      ...\n# Race capture app-motion\n    # Subtest: app reduced motion\n    ok 8 - app reduced motion\n      ---\n      duration_ms: 3359.338042\n      type: 'test'\n      ...\n    1..8\nok 1 - Race full frame theme motion matrix preserves authoritative state and accessible controls\n  ---\n  duration_ms: 97296.571375\n  type: 'test'\n  ...\n# Subtest: unchanged Race lifecycle notice does not repeat live announcements\nok 2 - unchanged Race lifecycle notice does not repeat live announcements\n  ---\n  duration_ms: 822.959458\n  type: 'test'\n  ...\n1..2\n# tests 10\n# suites 0\n# pass 10\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 98496.702666\nActual terminal capture receipt: docs/release-evidence/visual-required-20261018030823925.json\n"
+    },
+    "check": {
+      "log": "artifacts/release-coverage/evidence-required-05/check.log",
+      "sha256": "62390fa0619771cefecfa53cbbf1f0941b0a6616cb728b0d85b8073e27d436db",
+      "terminalExit": 0,
+      "outputText": "{\"captures\":94,\"completeRequiredSet\":true,\"ordering\":[\"race-fog-900x600-dark-full-all\",\"race-fog-900x600-light-full-all\",\"race-hud-240x240-dark-reduced-all\",\"race-hud-240x240-light-reduced-all\",\"race-hud-320x560-dark-reduced-all\",\"race-hud-320x560-light-reduced-all\",\"race-hud-900x600-dark-full-all\",\"race-hud-900x600-dark-reduced-all\",\"race-hud-900x600-light-full-all\",\"race-hud-900x600-light-reduced-all\",\"race-hud-1000x280-dark-reduced-all\",\"race-hud-1000x280-light-reduced-all\",\"race-hud-2400x1200-dark-reduced-all\",\"race-hud-2400x1200-light-reduced-all\",\"race-items-900x600-dark-full-all\",\"race-items-900x600-light-full-all\",\"race-minimum-notice-200x160-dark-reduced-all\",\"race-minimum-notice-200x160-light-reduced-all\",\"race-results-dnf-900x600-dark-full-all\",\"race-results-dnf-900x600-light-full-all\",\"race-results-tie-900x600-dark-full-all\",\"race-results-tie-900x600-light-full-all\",\"race-setup-900x600-dark-reduced-all\",\"race-setup-900x600-light-reduced-all\",\"relay-disconnect-900x600-dark-full-all\",\"relay-disconnect-900x600-light-full-all\",\"relay-handoff-900x600-dark-full-all\",\"relay-handoff-900x600-light-full-all\",\"relay-hud-240x240-dark-reduced-all\",\"relay-hud-240x240-light-reduced-all\",\"relay-hud-320x560-dark-reduced-all\",\"relay-hud-320x560-light-reduced-all\",\"relay-hud-900x600-dark-reduced-all\",\"relay-hud-900x600-light-reduced-all\",\"relay-hud-1000x280-dark-reduced-all\",\"relay-hud-1000x280-light-reduced-all\",\"relay-hud-2400x1200-dark-reduced-all\",\"relay-hud-2400x1200-light-reduced-all\",\"relay-market-900x600-dark-reduced-all\",\"relay-market-900x600-light-reduced-all\",\"relay-minimum-notice-200x160-dark-reduced-all\",\"relay-minimum-notice-200x160-light-reduced-all\",\"relay-results-tie-900x600-dark-full-all\",\"relay-results-tie-900x600-light-full-all\",\"relay-setup-900x600-dark-reduced-all\",\"relay-setup-900x600-light-reduced-all\",\"survive-arcade-hud-240x240-dark-reduced-all\",\"survive-arcade-hud-240x240-light-reduced-all\",\"survive-arcade-hud-320x560-dark-reduced-all\",\"survive-arcade-hud-320x560-light-reduced-all\",\"survive-arcade-hud-900x600-dark-reduced-all\",\"survive-arcade-hud-900x600-light-reduced-all\",\"survive-arcade-hud-1000x280-dark-reduced-all\",\"survive-arcade-hud-1000x280-light-reduced-all\",\"survive-arcade-hud-2400x1200-dark-reduced-all\",\"survive-arcade-hud-2400x1200-light-reduced-all\",\"survive-arcade-items-900x600-dark-reduced-all\",\"survive-arcade-items-900x600-light-reduced-all\",\"survive-arcade-market-900x600-dark-reduced-all\",\"survive-arcade-market-900x600-light-reduced-all\",\"survive-arcade-minimum-notice-200x160-dark-reduced-all\",\"survive-arcade-minimum-notice-200x160-light-reduced-all\",\"survive-arcade-recovery-900x600-dark-reduced-all\",\"survive-arcade-recovery-900x600-light-reduced-all\",\"survive-arcade-results-900x600-dark-reduced-all\",\"survive-arcade-results-900x600-light-reduced-all\",\"survive-arcade-setup-900x600-dark-reduced-all\",\"survive-arcade-setup-900x600-light-reduced-all\",\"survive-flow-hud-240x240-dark-reduced-all\",\"survive-flow-hud-240x240-light-reduced-all\",\"survive-flow-hud-320x560-dark-reduced-all\",\"survive-flow-hud-320x560-light-reduced-all\",\"survive-flow-hud-900x600-dark-reduced-all\",\"survive-flow-hud-900x600-light-reduced-all\",\"survive-flow-hud-1000x280-dark-reduced-all\",\"survive-flow-hud-1000x280-light-reduced-all\",\"survive-flow-hud-2400x1200-dark-reduced-all\",\"survive-flow-hud-2400x1200-light-reduced-all\",\"survive-flow-items-900x600-dark-reduced-all\",\"survive-flow-items-900x600-light-reduced-all\",\"survive-flow-market-900x600-dark-reduced-all\",\"survive-flow-market-900x600-light-reduced-all\",\"survive-flow-minimum-notice-200x160-dark-reduced-all\",\"survive-flow-minimum-notice-200x160-light-reduced-all\",\"survive-flow-owner-target-320x560-dark-reduced-all\",\"survive-flow-owner-target-320x560-light-reduced-all\",\"survive-flow-recovery-900x600-dark-reduced-all\",\"survive-flow-recovery-900x600-light-reduced-all\",\"survive-flow-recovery-1000x280-dark-reduced-all\",\"survive-flow-recovery-1000x280-light-reduced-all\",\"survive-flow-results-900x600-dark-reduced-all\",\"survive-flow-results-900x600-light-reduced-all\",\"survive-flow-setup-900x600-dark-reduced-all\",\"survive-flow-setup-900x600-light-reduced-all\"],\"limit\":\"Integrity/recorded geometry only;does not supply acquisition,visual inspection or whole-clause proof\",\"sheets\":8,\"everyCaptureRepresented\":true}\n"
+    },
+    "guidance": {
+      "log": "artifacts/release-coverage/evidence-required-05/guidance.log",
+      "sha256": "4f2d5ed80d493784ef671a8fe5b4332a83c1053f69172485ee975aba427dd958",
+      "terminalExit": 0,
+      "outputText": "\n> down-to-duck@0.1.0 test:guidance /Users/sandwich/Develop/crossy-road-clone\n> node --test tests/guidance.test.mjs\n\n\u2714 guidance traversal retains application files around explicit generated and upstream evidence (7.745625ms)\n\u2714 rejects retired app-owned bootstrap and probing APIs (53.141833ms)\n\u2714 keeps normal Nostr examples OUTBOX-first (1.900583ms)\n\u2714 ships no forked skill body, points agents at skills.sh, and keeps manifest config on documented surface (18.055333ms)\n\u2714 keeps deferred domains out of active package surfaces (82.078792ms)\n\u2714 treats injected optional-domain absence as a normal state (21.678667ms)\n\u2714 keeps the applet layout contract: no title header, frame-filling root (0.345917ms)\n\u2139 tests 7\n\u2139 suites 0\n\u2139 pass 7\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 431.977166\n"
+    }
+  },
+  "nestedActualExecutions": [
+    {
+      "commandId": "normal-relay-layout",
+      "executable": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+      "argv": [
+        "tests/strict-node-tests.mjs",
+        "tests/relay-layout.mjs"
+      ],
+      "pid": 73312,
+      "startedAt": "2026-10-18T03:08:47.100Z",
+      "finishedAt": "2026-10-18T03:09:34.441Z",
+      "terminalExit": 0,
+      "signal": null,
+      "outputText": "TAP version 13\n# layout start setup 2026-10-18T03:08:48.225Z\n# layout start setup-roster 2026-10-18T03:08:50.293Z\n# layout start invalid 2026-10-18T03:08:52.344Z\n# layout start order 2026-10-18T03:08:54.478Z\n# layout start live-hud 2026-10-18T03:08:56.480Z\n# layout start inactive-disconnected 2026-10-18T03:08:58.325Z\n# layout start owner-restriction 2026-10-18T03:09:00.272Z\n# Subtest: Relay visible controls preserve every layout state across frames, themes and motion preferences\n    # Subtest: setup, live HUD and owner restriction\n    ok 1 - setup, live HUD and owner restriction\n      ---\n      duration_ms: 15832.589417\n      type: 'test'\n      ...\n# layout start handoff 2026-10-18T03:09:03.363Z\n# layout start handoff-system-motion 2026-10-18T03:09:05.068Z\n# layout start roster 2026-10-18T03:09:06.829Z\n# layout start disconnected 2026-10-18T03:09:08.658Z\n# layout start skip 2026-10-18T03:09:10.408Z\n# layout start reclaim 2026-10-18T03:09:12.155Z\n# layout start leave 2026-10-18T03:09:13.856Z\n# layout start waiting 2026-10-18T03:09:16.150Z\n# layout start results 2026-10-18T03:09:17.987Z\n# layout start players 2026-10-18T03:09:19.726Z\n# layout start legs 2026-10-18T03:09:21.466Z\n    # Subtest: same-board handoff, lifecycle and results\n    ok 2 - same-board handoff, lifecycle and results\n      ---\n      duration_ms: 19871.68425\n      type: 'test'\n      ...\n# layout start tied-podium 2026-10-18T03:09:25.182Z\n# layout start result-system-motion 2026-10-18T03:09:26.888Z\n    # Subtest: second run tied result and system motion\n    ok 3 - second run tied result and system motion\n      ---\n      duration_ms: 5423.421334\n      type: 'test'\n      ...\n# layout start recovery-app-motion 2026-10-18T03:09:31.032Z\n    # Subtest: third run app motion and personal revival\n    ok 4 - third run app motion and personal revival\n      ---\n      duration_ms: 4264.099708\n      type: 'test'\n      ...\n    1..4\nok 1 - Relay visible controls preserve every layout state across frames, themes and motion preferences\n  ---\n  duration_ms: 46984.406417\n  type: 'test'\n  ...\n1..1\n# tests 5\n# suites 0\n# pass 5\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 47251.336333\n",
+      "outputSha256": "91ad29927273e46a48f80bc86b1d4d069759ad0f3c48b00fbca2defa775a2772"
+    },
+    {
+      "commandId": "normal-race-layout",
+      "executable": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+      "argv": [
+        "tests/strict-node-tests.mjs",
+        "tests/race-layout.mjs"
+      ],
+      "pid": 74801,
+      "startedAt": "2026-10-18T03:09:34.443Z",
+      "finishedAt": "2026-10-18T03:11:13.036Z",
+      "terminalExit": 0,
+      "signal": null,
+      "outputText": "TAP version 13\n# Race capture setup\n# Race capture rules\n# Race capture invalid\n# Race capture roster\n# Race capture four-racers\n# Race capture mud-target\n# Race capture target-motion\n# Race capture mud-effect\n# Race capture gear\n# Race capture wardrobe\n# Race capture owner-switch\n# Subtest: Race full frame theme motion matrix preserves authoritative state and accessible controls\n    # Subtest: setup, Mud and owner gear\n    ok 1 - setup, Mud and owner gear\n      ---\n      duration_ms: 21008.1345\n      type: 'test'\n      ...\n# Race capture fog-line\n# Race capture fog-exposed\n# Race capture fog-landed\n    # Subtest: fog line, exposure and damage\n    ok 2 - fog line, exposure and damage\n      ---\n      duration_ms: 9316.351666\n      type: 'test'\n      ...\n# Race capture four-tie\n# Race capture participant-1\n# Race capture participant-2\n# Race capture participant-3\n# Race capture participant-4\n    # Subtest: four tied finishers and participant pages\n    ok 3 - four tied finishers and participant pages\n      ---\n      duration_ms: 9487.083333\n      type: 'test'\n      ...\n# Race capture lantern-confirm\n# Race capture lantern-effect\n# Race capture lantern-already-lit\n    # Subtest: Lantern confirmation, effect and rejection\n    ok 4 - Lantern confirmation, effect and rejection\n      ---\n      duration_ms: 6526.477417\n      type: 'test'\n      ...\n# Race capture stale-target-disconnected\n# Race capture no-target\n    # Subtest: stale Mud target and no target\n    ok 5 - stale Mud target and no target\n      ---\n      duration_ms: 4641.562667\n      type: 'test'\n      ...\n# Race capture disconnected\n# Race capture reclaim\n# Race capture leave\n# Race capture waiting\n# Race capture timeout-dnf\n    # Subtest: disconnect, reclaim, waiting and timeout\n    ok 6 - disconnect, reclaim, waiting and timeout\n      ---\n      duration_ms: 23546.40225\n      type: 'test'\n      ...\n# Race capture personal-recovery\n# Race capture recovery-actions\n# Race capture protected\n# Race capture forfeited-last-racer\n# Race capture left-forfeited-dnf\n    # Subtest: personal recovery, protection and forfeit\n    ok 7 - personal recovery, protection and forfeit\n      ---\n      duration_ms: 16340.62625\n      type: 'test'\n      ...\n# Race capture app-motion\n    # Subtest: app reduced motion\n    ok 8 - app reduced motion\n      ---\n      duration_ms: 3359.338042\n      type: 'test'\n      ...\n    1..8\nok 1 - Race full frame theme motion matrix preserves authoritative state and accessible controls\n  ---\n  duration_ms: 97296.571375\n  type: 'test'\n  ...\n# Subtest: unchanged Race lifecycle notice does not repeat live announcements\nok 2 - unchanged Race lifecycle notice does not repeat live announcements\n  ---\n  duration_ms: 822.959458\n  type: 'test'\n  ...\n1..2\n# tests 10\n# suites 0\n# pass 10\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 98496.702666\n",
+      "outputSha256": "62d589172df9bf73fb721e93ea8c219b66d597c42b2e74383d3e0e8d95c2cf2d"
+    }
+  ],
+  "unitCases": 10,
+  "unitSkipped": 0,
+  "actualInspection": {
+    "createdAt": "2026-10-18T03:12:40.157108+00:00",
+    "method": "Actual view_image calls,original detail;all eight complete contact sheets and nine selected full-size critical views",
+    "manifestSha256": "4dd87d5fca4ed8204d1dc7ae7e63e5c55e343a71d79f36a3b39daa63e6c68adc",
+    "sheets": [
+      {
+        "id": "survive-arcade-dark",
+        "image": "docs/release-evidence/images/sheet-survive-arcade-dark.png",
+        "sha256": "d9690a0b213ae97ea42260a99217eaa27bb501c1acb87007d9ec651897c6dc5e",
+        "captureIds": [
+          "survive-arcade-hud-240x240-dark-reduced-all",
+          "survive-arcade-hud-320x560-dark-reduced-all",
+          "survive-arcade-hud-900x600-dark-reduced-all",
+          "survive-arcade-hud-1000x280-dark-reduced-all",
+          "survive-arcade-hud-2400x1200-dark-reduced-all",
+          "survive-arcade-items-900x600-dark-reduced-all",
+          "survive-arcade-market-900x600-dark-reduced-all",
+          "survive-arcade-minimum-notice-200x160-dark-reduced-all",
+          "survive-arcade-recovery-900x600-dark-reduced-all",
+          "survive-arcade-results-900x600-dark-reduced-all",
+          "survive-arcade-setup-900x600-dark-reduced-all"
+        ],
+        "inspected": true
+      },
+      {
+        "id": "survive-arcade-light",
+        "image": "docs/release-evidence/images/sheet-survive-arcade-light.png",
+        "sha256": "0f49ef1a2a86eb458ade57a21b329cba5e31b4630539fd25f571579972d3f047",
+        "captureIds": [
+          "survive-arcade-hud-240x240-light-reduced-all",
+          "survive-arcade-hud-320x560-light-reduced-all",
+          "survive-arcade-hud-900x600-light-reduced-all",
+          "survive-arcade-hud-1000x280-light-reduced-all",
+          "survive-arcade-hud-2400x1200-light-reduced-all",
+          "survive-arcade-items-900x600-light-reduced-all",
+          "survive-arcade-market-900x600-light-reduced-all",
+          "survive-arcade-minimum-notice-200x160-light-reduced-all",
+          "survive-arcade-recovery-900x600-light-reduced-all",
+          "survive-arcade-results-900x600-light-reduced-all",
+          "survive-arcade-setup-900x600-light-reduced-all"
+        ],
+        "inspected": true
+      },
+      {
+        "id": "survive-flow-dark",
+        "image": "docs/release-evidence/images/sheet-survive-flow-dark.png",
+        "sha256": "d65937b7f0521ee52591d845c9359d6ec53fbb5aba9bb7a413447ba2962c7591",
+        "captureIds": [
+          "survive-flow-hud-240x240-dark-reduced-all",
+          "survive-flow-hud-320x560-dark-reduced-all",
+          "survive-flow-hud-900x600-dark-reduced-all",
+          "survive-flow-hud-1000x280-dark-reduced-all",
+          "survive-flow-hud-2400x1200-dark-reduced-all",
+          "survive-flow-items-900x600-dark-reduced-all",
+          "survive-flow-market-900x600-dark-reduced-all",
+          "survive-flow-minimum-notice-200x160-dark-reduced-all",
+          "survive-flow-owner-target-320x560-dark-reduced-all",
+          "survive-flow-recovery-900x600-dark-reduced-all",
+          "survive-flow-recovery-1000x280-dark-reduced-all",
+          "survive-flow-results-900x600-dark-reduced-all",
+          "survive-flow-setup-900x600-dark-reduced-all"
+        ],
+        "inspected": true
+      },
+      {
+        "id": "survive-flow-light",
+        "image": "docs/release-evidence/images/sheet-survive-flow-light.png",
+        "sha256": "c0781fed89f789e9b608b6141521f1faa094d773a69a87f3a462fcab89fc9cf8",
+        "captureIds": [
+          "survive-flow-hud-240x240-light-reduced-all",
+          "survive-flow-hud-320x560-light-reduced-all",
+          "survive-flow-hud-900x600-light-reduced-all",
+          "survive-flow-hud-1000x280-light-reduced-all",
+          "survive-flow-hud-2400x1200-light-reduced-all",
+          "survive-flow-items-900x600-light-reduced-all",
+          "survive-flow-market-900x600-light-reduced-all",
+          "survive-flow-minimum-notice-200x160-light-reduced-all",
+          "survive-flow-owner-target-320x560-light-reduced-all",
+          "survive-flow-recovery-900x600-light-reduced-all",
+          "survive-flow-recovery-1000x280-light-reduced-all",
+          "survive-flow-results-900x600-light-reduced-all",
+          "survive-flow-setup-900x600-light-reduced-all"
+        ],
+        "inspected": true
+      },
+      {
+        "id": "relay-dark",
+        "image": "docs/release-evidence/images/sheet-relay-dark.png",
+        "sha256": "655e74b7f59c2ddd1ddd4d0847e0f3289dc89c53f10bd2044a2486f6c197053b",
+        "captureIds": [
+          "relay-disconnect-900x600-dark-full-all",
+          "relay-handoff-900x600-dark-full-all",
+          "relay-hud-240x240-dark-reduced-all",
+          "relay-hud-320x560-dark-reduced-all",
+          "relay-hud-900x600-dark-reduced-all",
+          "relay-hud-1000x280-dark-reduced-all",
+          "relay-hud-2400x1200-dark-reduced-all",
+          "relay-market-900x600-dark-reduced-all",
+          "relay-minimum-notice-200x160-dark-reduced-all",
+          "relay-results-tie-900x600-dark-full-all",
+          "relay-setup-900x600-dark-reduced-all"
+        ],
+        "inspected": true
+      },
+      {
+        "id": "relay-light",
+        "image": "docs/release-evidence/images/sheet-relay-light.png",
+        "sha256": "a85d1725cd84e14e3b6fe4bb8844c3dd1cea5dbbdba2ade8dcbeff97515e9555",
+        "captureIds": [
+          "relay-disconnect-900x600-light-full-all",
+          "relay-handoff-900x600-light-full-all",
+          "relay-hud-240x240-light-reduced-all",
+          "relay-hud-320x560-light-reduced-all",
+          "relay-hud-900x600-light-reduced-all",
+          "relay-hud-1000x280-light-reduced-all",
+          "relay-hud-2400x1200-light-reduced-all",
+          "relay-market-900x600-light-reduced-all",
+          "relay-minimum-notice-200x160-light-reduced-all",
+          "relay-results-tie-900x600-light-full-all",
+          "relay-setup-900x600-light-reduced-all"
+        ],
+        "inspected": true
+      },
+      {
+        "id": "race-dark",
+        "image": "docs/release-evidence/images/sheet-race-dark.png",
+        "sha256": "3a58a07e261f0e8ec0277f78e41caa299ef7bac3f5293c9afd66e5f49b3bc560",
+        "captureIds": [
+          "race-fog-900x600-dark-full-all",
+          "race-hud-240x240-dark-reduced-all",
+          "race-hud-320x560-dark-reduced-all",
+          "race-hud-900x600-dark-full-all",
+          "race-hud-900x600-dark-reduced-all",
+          "race-hud-1000x280-dark-reduced-all",
+          "race-hud-2400x1200-dark-reduced-all",
+          "race-items-900x600-dark-full-all",
+          "race-minimum-notice-200x160-dark-reduced-all",
+          "race-results-dnf-900x600-dark-full-all",
+          "race-results-tie-900x600-dark-full-all",
+          "race-setup-900x600-dark-reduced-all"
+        ],
+        "inspected": true
+      },
+      {
+        "id": "race-light",
+        "image": "docs/release-evidence/images/sheet-race-light.png",
+        "sha256": "4d3ff5b4d5f828431843af7521d467d47c6230735a09c0a84990b88d9ca98399",
+        "captureIds": [
+          "race-fog-900x600-light-full-all",
+          "race-hud-240x240-light-reduced-all",
+          "race-hud-320x560-light-reduced-all",
+          "race-hud-900x600-light-full-all",
+          "race-hud-900x600-light-reduced-all",
+          "race-hud-1000x280-light-reduced-all",
+          "race-hud-2400x1200-light-reduced-all",
+          "race-items-900x600-light-full-all",
+          "race-minimum-notice-200x160-light-reduced-all",
+          "race-results-dnf-900x600-light-full-all",
+          "race-results-tie-900x600-light-full-all",
+          "race-setup-900x600-light-reduced-all"
+        ],
+        "inspected": true
+      }
+    ],
+    "criticalFullSize": [
+      {
+        "id": "survive-flow-owner-target-320x560-dark-reduced-all",
+        "image": "docs/release-evidence/images/survive-flow-owner-target-320x560-dark-reduced-all.png",
+        "sha256": "a690a0167e20f7d1216ea1c97bef66947e7986cf782b0e99aded3c47b53b9f73",
+        "inspected": true
+      },
+      {
+        "id": "survive-arcade-results-900x600-dark-reduced-all",
+        "image": "docs/release-evidence/images/survive-arcade-results-900x600-dark-reduced-all.png",
+        "sha256": "b378a5f33ccef01c1762b665ac8c8af415b26ed867896889d9f1d1fbf7905058",
+        "inspected": true
+      },
+      {
+        "id": "relay-market-900x600-light-reduced-all",
+        "image": "docs/release-evidence/images/relay-market-900x600-light-reduced-all.png",
+        "sha256": "6a868f639763b10c3c098b6d23a8a8b936593fa213026177c5a306cf36004bf5",
+        "inspected": true
+      },
+      {
+        "id": "survive-flow-recovery-1000x280-light-reduced-all",
+        "image": "docs/release-evidence/images/survive-flow-recovery-1000x280-light-reduced-all.png",
+        "sha256": "1c3a3c2937659181a3d7066ac05b3e6840938cec1389abbbfcd006edf8467030",
+        "inspected": true
+      },
+      {
+        "id": "race-fog-900x600-dark-full-all",
+        "image": "docs/release-evidence/images/race-fog-900x600-dark-full-all.png",
+        "sha256": "d97dab73be11aac95cc81891908a8b8ea0080b13562655d6d0e3781c3bf896d2",
+        "inspected": true
+      },
+      {
+        "id": "relay-handoff-900x600-dark-full-all",
+        "image": "docs/release-evidence/images/relay-handoff-900x600-dark-full-all.png",
+        "sha256": "9865a6399a9b4abae3a4a4a67638af962e8e40ae3275f3958aafe9e51263e254",
+        "inspected": true
+      },
+      {
+        "id": "race-results-tie-900x600-light-full-all",
+        "image": "docs/release-evidence/images/race-results-tie-900x600-light-full-all.png",
+        "sha256": "9c6611901878fb580609e155172e446c30682c26e885763c5e58a3cdc529101e",
+        "inspected": true
+      },
+      {
+        "id": "race-results-dnf-900x600-dark-full-all",
+        "image": "docs/release-evidence/images/race-results-dnf-900x600-dark-full-all.png",
+        "sha256": "29c6b60ffd0f084a5d2cc60bcf0f0ccc5c37c5dfb04b6411d9e08d62cc958af9",
+        "inspected": true
+      },
+      {
+        "id": "race-hud-2400x1200-light-reduced-all",
+        "image": "docs/release-evidence/images/race-hud-2400x1200-light-reduced-all.png",
+        "sha256": "3f2a8d51d7fe9515ea89f0ca3a9d4ff911a1985e41c6d89c0af51d8a92ea2edc",
+        "inspected": true
+      }
+    ],
+    "findings": [
+      "All94 required/extra selected images appear once across the eight sheets;both themes,all six frame sizes and motion representatives reviewed",
+      "Survive Arcade and Flow retain four distinguishable models,HUD identities and a clear live course across supported frames;the too-small cell exposes the size notice",
+      "Compact/short recovery retains explicit owner,selected teammate and large action/pager controls without scrollbars",
+      "Survive results use equal-height unranked team perches with paged per-character statistics",
+      "Relay handoff/disconnect boards identify next runner and recovery/skip actions;frozen modal intentionally covers world scenery",
+      "Race fog retains leader/boundary and off-screen trailer cues;four-way true tie and timeout/departed-DNF are visually distinct",
+      "Current wide Race frame retains all four actors and complete seat status without actor/HUD concealment"
+    ],
+    "limits": [
+      "This is agent technical image inspection;it does not invent new human play-feel approval",
+      "Sheets review every image at thumbnail scale;nine critical views were additionally opened full-size",
+      "Survive recovery/results and staged market views are explicitly component-model acquisition,not unassisted gameplay",
+      "Only live HUD samples carry full voxel/packed-nameplate8px geometry;frozen lifecycle modals have separate DOM/focus/motion checks",
+      "No physical controller or external target-shell persistence measurement"
+    ]
+  },
+  "retainedEarlierAttempts": [
+    "evidence-required-01",
+    "evidence-required-02",
+    "evidence-required-03",
+    "evidence-required-04"
+  ],
+  "remaining": [
+    "07-05 Task3 complete semantic clause mapping and mechanical --check-clauses",
+    "07-06 exact final canonical/additive chain and actual verified open PR"
+  ],
+  "additionalTerminalChecks": {
+    "current-tracer": {
+      "log": "artifacts/release-coverage/evidence-required-05/check-tracer.log",
+      "sha256": "8b628516bee5a3df6c5ae0743044b508f490c9c58c66dd5a90e24f28ca0293f1",
+      "terminalExit": 0,
+      "outputText": "{\"captures\":1,\"completeRequiredSet\":true,\"ordering\":[\"survive-flow-hud-900x600-dark-reduced-all\"],\"limit\":\"Integrity/recorded geometry only;does not supply acquisition,visual inspection or whole-clause proof\"}\n"
+    },
+    "guidance-after-documentation": {
+      "log": "artifacts/release-coverage/evidence-required-05/guidance-final.log",
+      "sha256": "d2d40ed51c9347dc295cdb01fc535cb037165d6c0fac355c8aeeabde0632af8c",
+      "terminalExit": 0,
+      "outputText": "\n> down-to-duck@0.1.0 test:guidance /Users/sandwich/Develop/crossy-road-clone\n> node --test tests/guidance.test.mjs\n\n\u2714 guidance traversal retains application files around explicit generated and upstream evidence (7.358709ms)\n\u2714 rejects retired app-owned bootstrap and probing APIs (53.906167ms)\n\u2714 keeps normal Nostr examples OUTBOX-first (1.717583ms)\n\u2714 ships no forked skill body, points agents at skills.sh, and keeps manifest config on documented surface (19.063917ms)\n\u2714 keeps deferred domains out of active package surfaces (81.708292ms)\n\u2714 treats injected optional-domain absence as a normal state (20.976375ms)\n\u2714 keeps the applet layout contract: no title header, frame-filling root (0.340042ms)\n\u2139 tests 7\n\u2139 suites 0\n\u2139 pass 7\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 429.665\n"
+    }
+  }
+}

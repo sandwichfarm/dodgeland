@@ -2,7 +2,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { clearanceAtLeast8, canonicalCaptures, validateVisualManifest, validateClauseRows, requiredVisualIds, validateCaptureReceipt } from '../tools/release-coverage/evidence.mjs';
+import { clearanceAtLeast8, canonicalCaptures, validateVisualManifest, validateClauseRows, requiredVisualIds, validateCaptureReceipt, validateSheets } from '../tools/release-coverage/evidence.mjs';
 
 const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aMxoAAAAASUVORK5CYII=', 'base64');
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
@@ -134,4 +134,21 @@ test('durable acquisition receipts reject nonterminal,failing,tampered or unmatc
     const changed = structuredClone(receipt); alter(changed); assert.throws(() => accept(changed));
   }
   assert.throws(() => validateCaptureReceipt(Buffer.from('{}'), { commandId: receipt.commandId, receiptSha256: sha(JSON.stringify(receipt)) }));
+});
+
+test('contact sheets require every current mode/base/theme image exactly once and reject stale bytes', async () => {
+  const value = { captures: [], sheets: [] };
+  for (const variant of ['survive-arcade', 'survive-flow', 'relay', 'race']) for (const theme of ['dark', 'light']) {
+    const row = { ...capture(theme), id: `${variant}-${theme}`, mode: variant.startsWith('survive') ? 'survive' : variant,
+      base: variant === 'survive-arcade' ? 'arcade' : 'stroll' }; value.captures.push(row);
+    value.sheets.push({ id: `${variant}-${theme}`, image: `docs/release-evidence/images/sheet-${variant}-${theme}.png`,
+      imageSha256: sha(png), frame: { width: 1, height: 1 }, captureIds: [row.id] });
+  }
+  assert.equal((await validateSheets(value, async () => png)).everyCaptureRepresented, true);
+  for (const alter of [row => { row.sheets.pop(); }, row => { row.sheets[0].captureIds = []; },
+    row => { row.sheets[0].captureIds = [row.captures[1].id]; }, row => { row.sheets[0].imageSha256 = 'c'.repeat(64); },
+    row => { row.sheets[0].frame.height = 2; }, row => { row.sheets[0].image = '../outside.png'; },
+    row => { row.sheets[0].id = row.sheets[1].id; }]) {
+    const changed = structuredClone(value); alter(changed); await assert.rejects(validateSheets(changed, async () => png));
+  }
 });

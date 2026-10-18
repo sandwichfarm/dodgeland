@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-05 Task1 actual visual tracer complete;full matrix/clauses next
-last_updated: "2026-10-18T02:58:06.392666+00:00"
+stopped_at: 07-05 Tasks1/2 complete;94 images and8 sheets verified/inspected;clause audit next
+last_updated: "2026-10-18T03:13:07.577934+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,24 @@ progress:
   completed_plans: 43
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: 07-03 complete;canonical70321exit0,all201jobs,525parents,1215mode intervals,zero exact floor shortfalls. Fresh810zeros all reviewed andall410inputs unchanged. Scene2/2 andtype-check pass. Activate07-04 from conformance-draft-02 with raw-candidate retention;07-05/06 and PR remain.
+last_activity_desc: 07-05 Tasks1/2 complete;actual94 normal images,8 sheets,10unit controls,full inspection;Task3 clause audit then final gate/PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+07-05 Tasks1/2 are complete. Actual32475exit0 acquires94 normal-build images and
+8 sheets;90 required cells present. --check,units10/10,guidance all0. All eight
+sheets andnine critical full-size images actually inspected,pinned by exactbytes.
+Normalartifact e9800fc8;42 live HUD geometry samples passinclusive8px. Source
+hashes/current normal build match. Nested normal Relay5tests andRace10tests pass.
+Source-bound182 full05 job/case receipts now retained;all410 old frozen inputs
+stillmatch. See07-05-VISUAL-PROOF.json anddocs/release-evidence/index.md.
+Task3 compound semantic audit for51clauses/47requirements remains;CLI check
+exists butclauses.json is not populated/verified. Do not mark07-05 complete.
+Then07-06 exact final gate andactual open PR. No test/browser/build chain live.
+Older Task1/current paragraphs below are dated lineage,superseded here.
 
 07-05 Task1 is now complete:9/9 integrity/receipt controls,actual normal-build
 four-player Flow tracer,terminal child receipt,--check-tracer andguidance all0.
