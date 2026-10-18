@@ -1,14 +1,24 @@
 ---
 phase: 07
 slug: release-evidence-pr
-status: planned
+status: in_progress
 nyquist_compliant: false
-wave_0_complete: false
+wave_0_complete: true
 created: 2026-10-16
 ---
 # Phase07 validation contract
 
-Planning-only commands below are creation obligations, not existing passing evidence. Generic planner fallback. Existing entry21972 plus92241/52826 is accepted; do not repeat baseline. Node26.11.1/node:test and Playwright1.61.0 are existing infrastructure. 07-01 audited and installed the standalone tree and own lock, then passed exact Node/browser calibration10/10 (32469exit0). Root lock and oracle remain unchanged.07-02 Task1 passed93470exit0:9 calibration/collection,22 instrumented shared and28 ordinary shared/strict checks. These are accepted entry evidence, not full production coverage.
+The command column preserves the planned task commands. Result cells now refer to
+actual execution records, including explicitly amended task scopes; they do not
+assert that every historical command string ran unchanged. Plans01–05 and07–12
+are complete. Plan06 Task1 is complete; its frozen full chain and actual PR remain
+pending. The current run is exec11882/PID10879;revalidate that handle before
+relying on this dated observation. No phase or whole-release pass is claimed.
+
+The original Node26.11.1/node:test and Playwright1.61.0 infrastructure remains.
+The inherited gate and calibration passed in the active run;fresh production
+coverage enforcement is still running. Root lock and solo oracle are unchanged.
+The earlier full05 enforcing pass is separately preserved in07-03 evidence.
 
 ## Per-task verification and creation dependencies
 
@@ -26,30 +36,30 @@ Planning-only commands below are creation obligations, not existing passing evid
 | 07-08-1 | `node --test tools/release-coverage/collection.test.mjs && node tools/release-coverage/run.mjs --suite adapters-08-tracer --report-only` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Complete;10619exit0 |
 | 07-08-2 | `node --test tools/release-coverage/collection.test.mjs && node tools/release-coverage/run.mjs --suite adapters-08-middle --report-only` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Complete;78577exit0 |
 | 07-08-3 | `node --test tools/release-coverage/collection.test.mjs && node tools/release-coverage/run.mjs --suite adapters-08 --report-only` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Complete;86113exit0 |
-| 07-09-1 | `node --test tools/release-coverage/collection.test.mjs && node tools/release-coverage/run.mjs --suite adapters-09-tracer --report-only` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Proven52873exit0; amended plan approval pending |
-| 07-09-2 | `node --test tools/release-coverage/collection.test.mjs && node tools/release-coverage/run.mjs --suite adapters-09-middle --report-only` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Proven24492exit0; amended plan approval pending |
-| 07-09-3 | `node --test tools/release-coverage/collection.test.mjs && node tools/release-coverage/run.mjs --suite adapters-09 --report-only && git diff --exit-code a310a81ed6c76df4b265c9012c23b8c83f4802e5 -- pnpm-lock.yaml` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Amended seven-owner scope proven65803exit0; approval pending; full report moves12 |
-| 07-03-1 | `node tests/strict-node-tests.mjs tests/release-coverage-gaps.test.mjs && node tools/release-coverage/run.mjs --suite release-gaps --report-only` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Planned; not executed |
-| 07-03-2 | `node tests/strict-node-tests.mjs tests/release-coverage-gaps.test.mjs tests/release-coverage-runtime.mjs && node tools/release-coverage/run.mjs && pnpm type-check` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Planned; not executed |
-| 07-04-1 | `pnpm build && node --test tests/release-conformance.test.mjs && node tests/release-conformance.mjs` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Planned; not executed |
-| 07-04-2 | `node --test tests/release-conformance.test.mjs && node tests/release-conformance.mjs && pnpm test:conformance` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Planned; not executed |
-| 07-05-1 | `node --test tests/release-evidence.test.mjs && node tools/release-coverage/evidence.mjs --capture-tracer && node tools/release-coverage/evidence.mjs --check-tracer` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Planned; not executed |
-| 07-05-2 | `node tools/release-coverage/evidence.mjs --capture-required && node --test tests/release-evidence.test.mjs && node tools/release-coverage/evidence.mjs --check` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Planned; not executed |
-| 07-05-3 | `node --test tests/release-evidence.test.mjs && node tools/release-coverage/evidence.mjs --check-clauses` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Planned; not executed |
-| 07-06-1 | `node --test tests/release-gate.test.mjs && node tests/release-gate.mjs --calibration-only` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Planned; not executed |
-| 07-06-2 | `node tests/release-gate.mjs && git diff --exit-code a310a81ed6c76df4b265c9012c23b8c83f4802e5 -- pnpm-lock.yaml && git diff --check` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Planned; not executed |
+| 07-09-1 | `node --test tools/release-coverage/collection.test.mjs && node tools/release-coverage/run.mjs --suite adapters-09-tracer --report-only` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Complete;52873exit0;07-09-SUMMARY;scope accepted d35ca47 |
+| 07-09-2 | `node --test tools/release-coverage/collection.test.mjs && node tools/release-coverage/run.mjs --suite adapters-09-middle --report-only` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Complete;24492exit0;07-09-SUMMARY;scope accepted d35ca47 |
+| 07-09-3 | `node --test tools/release-coverage/collection.test.mjs && node tools/release-coverage/run.mjs --suite adapters-09 --report-only && git diff --exit-code a310a81ed6c76df4b265c9012c23b8c83f4802e5 -- pnpm-lock.yaml` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Complete amended seven-owner scope;65803exit0;full report delivered by12 |
+| 07-03-1 | `node tests/strict-node-tests.mjs tests/release-coverage-gaps.test.mjs && node tools/release-coverage/run.mjs --suite release-gaps --report-only` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Complete amended gap/semantic scope;07-03-SUMMARY and source-bound ledger/proofs |
+| 07-03-2 | `node tests/strict-node-tests.mjs tests/release-coverage-gaps.test.mjs tests/release-coverage-runtime.mjs && node tools/release-coverage/run.mjs && pnpm type-check` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Complete;70321exit0,enforced full05;type-check50459exit0;07-03-CURRENT-FULL-05-PROOF |
+| 07-04-1 | `pnpm build && node --test tests/release-conformance.test.mjs && node tests/release-conformance.mjs` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Complete;units3/3,collector26814exit0;07-04-SUMMARY and conformance.json |
+| 07-04-2 | `node --test tests/release-conformance.test.mjs && node tests/release-conformance.mjs && pnpm test:conformance` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Complete;collector26814 and CLI68244exit0;measured and unmeasured checks remain separate |
+| 07-05-1 | `node --test tests/release-evidence.test.mjs && node tools/release-coverage/evidence.mjs --capture-tracer && node tools/release-coverage/evidence.mjs --check-tracer` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Complete;actual normal tracer/control proof;07-05-TRACER-PROOF and07-05-SUMMARY |
+| 07-05-2 | `node tools/release-coverage/evidence.mjs --capture-required && node --test tests/release-evidence.test.mjs && node tools/release-coverage/evidence.mjs --check` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Complete;fresh72182exit0,94images/8sheets,12/12controls;07-05-CLAUSE-PROOF |
+| 07-05-3 | `node --test tests/release-evidence.test.mjs && node tools/release-coverage/evidence.mjs --check-clauses` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Complete;51original/47requirement rows mapped;--check-clauses0;only final gate/PR pending |
+| 07-06-1 | `node --test tests/release-gate.test.mjs && node tests/release-gate.mjs --calibration-only` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Complete;7/7controls and actual14142exit0 partial calibration46/46;07-06-CONTROLS-PROOF |
+| 07-06-2 | `node tests/release-gate.mjs && git diff --exit-code a310a81ed6c76df4b265c9012c23b8c83f4802e5 -- pnpm-lock.yaml && git diff --check` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | RUNNING;exec11882/PID10879;inherited/calibration passed;fresh enforcement pending;PR not open |
 
-| 07-10-1 | `node --test tools/release-coverage/collection.test.mjs && node tools/release-coverage/run.mjs --suite adapters-10-tracer --report-only` | Declared predecessor plus prior task; task creates named adapters/validators before use | Planned; not executed |
-| 07-10-2 | `node --test tools/release-coverage/collection.test.mjs && node tools/release-coverage/run.mjs --suite adapters-10-middle --report-only` | Declared predecessor plus prior task; task creates named adapters/validators before use | Planned; not executed |
-| 07-10-3 | `node --test tools/release-coverage/collection.test.mjs && node tools/release-coverage/run.mjs --suite adapters-10 --report-only && git diff --exit-code a310a81ed6c76df4b265c9012c23b8c83f4802e5 -- pnpm-lock.yaml` | Declared predecessor plus prior task; task creates named adapters/validators before use | Planned; not executed |
-| 07-11-1 | `node --test tools/release-coverage/collection.test.mjs && node tools/release-coverage/run.mjs --suite adapters-11-tracer --report-only` | Declared predecessor plus prior task; task creates named adapters/validators before use | Planned; not executed |
-| 07-11-2 | `node --test tools/release-coverage/collection.test.mjs && node tools/release-coverage/run.mjs --suite adapters-11-middle --report-only` | Declared predecessor plus prior task; task creates named adapters/validators before use | Planned; not executed |
-| 07-11-3 | `node --test tools/release-coverage/collection.test.mjs && node tools/release-coverage/run.mjs --suite adapters-11 --report-only && git diff --exit-code a310a81ed6c76df4b265c9012c23b8c83f4802e5 -- pnpm-lock.yaml` | Declared predecessor plus prior task; task creates named adapters/validators before use | Planned; not executed |
-| 07-12-1 | `node --test tools/release-coverage/collection.test.mjs && node tools/release-coverage/run.mjs --suite adapters-12-tracer --report-only && node tools/release-coverage/run.mjs --suite adapters-12-audio --report-only` | Declared predecessor plus prior task; task creates named adapters/validators before use | Planned; not executed |
-| 07-12-2 | `node --test tools/release-coverage/attribution.test.mjs tools/release-coverage/collection.test.mjs && node tools/release-coverage/run.mjs --suite modes-12 --report-only` | Declared predecessor plus prior task; task creates named adapters/validators before use | Planned; not executed |
-| 07-12-3 | `node --test tools/release-coverage/collection.test.mjs tools/release-coverage/attribution.test.mjs tools/release-coverage/policy.test.mjs && node tools/release-coverage/run.mjs --report-only && git diff --exit-code a310a81ed6c76df4b265c9012c23b8c83f4802e5 -- pnpm-lock.yaml && git diff --check` | Declared predecessor plus prior task; task creates named adapters/validators before use | Planned; not executed |
+| 07-10-1 | `node --test tools/release-coverage/collection.test.mjs && node tools/release-coverage/run.mjs --suite adapters-10-tracer --report-only` | Declared predecessor plus prior task; task creates named adapters/validators before use | Complete;46599exit0;07-10-SUMMARY |
+| 07-10-2 | `node --test tools/release-coverage/collection.test.mjs && node tools/release-coverage/run.mjs --suite adapters-10-middle --report-only` | Declared predecessor plus prior task; task creates named adapters/validators before use | Complete;43583exit0;07-10-SUMMARY |
+| 07-10-3 | `node --test tools/release-coverage/collection.test.mjs && node tools/release-coverage/run.mjs --suite adapters-10 --report-only && git diff --exit-code a310a81ed6c76df4b265c9012c23b8c83f4802e5 -- pnpm-lock.yaml` | Declared predecessor plus prior task; task creates named adapters/validators before use | Complete;8805exit0,owned20/20;metadata78013exit0;07-10-SUMMARY |
+| 07-11-1 | `node --test tools/release-coverage/collection.test.mjs && node tools/release-coverage/run.mjs --suite adapters-11-tracer --report-only` | Declared predecessor plus prior task; task creates named adapters/validators before use | Complete;fresh development7997exit0 and final44513exit0;07-11-SUMMARY |
+| 07-11-2 | `node --test tools/release-coverage/collection.test.mjs && node tools/release-coverage/run.mjs --suite adapters-11-middle --report-only` | Declared predecessor plus prior task; task creates named adapters/validators before use | Complete;5047exit0;07-11-SUMMARY |
+| 07-11-3 | `node --test tools/release-coverage/collection.test.mjs && node tools/release-coverage/run.mjs --suite adapters-11 --report-only && git diff --exit-code a310a81ed6c76df4b265c9012c23b8c83f4802e5 -- pnpm-lock.yaml` | Declared predecessor plus prior task; task creates named adapters/validators before use | Complete;44513exit0,eight jobs/56payloads;metadata55318exit0;07-11-SUMMARY |
+| 07-12-1 | `node --test tools/release-coverage/collection.test.mjs && node tools/release-coverage/run.mjs --suite adapters-12-tracer --report-only && node tools/release-coverage/run.mjs --suite adapters-12-audio --report-only` | Declared predecessor plus prior task; task creates named adapters/validators before use | Complete;50321/44409exit0;actual PCM jobs;07-12-SUMMARY |
+| 07-12-2 | `node --test tools/release-coverage/attribution.test.mjs tools/release-coverage/collection.test.mjs && node tools/release-coverage/run.mjs --suite modes-12 --report-only` | Declared predecessor plus prior task; task creates named adapters/validators before use | Complete;31084exit0,six exclusive-mode public journeys;07-12-SUMMARY |
+| 07-12-3 | `node --test tools/release-coverage/collection.test.mjs tools/release-coverage/attribution.test.mjs tools/release-coverage/policy.test.mjs && node tools/release-coverage/run.mjs --report-only && git diff --exit-code a310a81ed6c76df4b265c9012c23b8c83f4802e5 -- pnpm-lock.yaml && git diff --check` | Declared predecessor plus prior task; task creates named adapters/validators before use | Complete report-only initial collection68162exit0;initial47shortfalls later closed in03 |
 
-Dependency order:01 →02 →07 →08 →09 seven canonical adapters →10 eight package component owners →11 seven package built owners/variants →12 audio jobs, exclusive mode attribution and complete initial report →03 gaps →04 conformance →05 evidence →06 final runner/PR. Named groups execute entire owner files/jobs, never substitute for12 full collection.09 has proven its amended scope but awaits independent approval. Full invocation remains fail-closed until12 reconciles the mechanically resolved package/canonical/import graph, including variables/globs, and every required realm.133 entries/138 closure paths are checkpoint discovery counts, not executed-suite claims.
+Dependency order:01 →02 →07 →08 →09 seven canonical adapters →10 eight package component owners →11 seven package built owners/variants →12 audio jobs, exclusive mode attribution and complete initial report →03 gaps →04 conformance →05 evidence →06 final runner/PR. Named groups execute entire owner files/jobs, never substitute for12 full collection.09 scope was accepted by independent continuation-plan approval d35ca47. Plan12 completed the mechanically resolved package/canonical/import graph and initial report;03 subsequently closed its exact floor shortfalls. Historical133/138 checkpoint discovery counts are superseded by the actual inventory in07-12-SUMMARY, not relabelled execution counts.
 
 ## Wave0 and feedback
 
@@ -57,7 +67,7 @@ Dependency order:01 →02 →07 →08 →09 seven canonical adapters →10 eight
 - [x] Known semantic counts and declaration-only/unimported/glob fixtures.
 - [x] Real opaque browser calibration and Node worker/realm completeness.
 - [x] Hash/schema/path identity, duplicate/missing/mismatch negative controls.
-- [ ] New conformance/evidence/runner validators implemented before their results are relied on.
+- [x] Conformance3/3,evidence12/12 and runner7/7 controls passed before their corresponding accepted results;actual partial calibration46/46 remains explicitly partial.
 
 Measured calibration final tier:07-01 exact10/10 took approximately1.3seconds. Shared-tracer collection checks are focused feedback; complete browser owner groups and full reports are acceptance tiers, timed separately. Fast tier: `node --test tools/release-coverage/calibration.test.mjs tools/release-coverage/policy.test.mjs` after their creation; measure elapsed time in execution and report actual seconds. Target under30seconds is not a measured fact. Browser calibration and full coverage are separately timed; no hidden arbitrary timeouts. After each meaningful change run the exact affected task check; no watch mode, no simultaneous build/browser commands. Poll actual handles to terminal with durable logs.
 
@@ -84,7 +94,7 @@ Inspect current committed representative full-size images and regenerated sheets
 
 ## Sign-off
 
-Task bindings are planned; implementation and independent verification remain pending. Set wave_0_complete and nyquist_compliant only from actual execution evidence. No tests, installs or commits were performed during planning.
+Execution reconciliation2026-10-18:wave_0_complete is supported by actual calibration,collection,identity,conformance,evidence and runner negative-control receipts. nyquist_compliant remains false until the final frozen chain,original-clause closure and actual PR delivery/readback complete. Existing07-03/04/05 summaries and proofs retain actual commands,scope,deviations and limitations. The revision sections below are historical planning records,not present execution status.
 
 
 ## Review revision1: concrete transport and feedback boundaries
