@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Fresh full05 enforcing collection live; semantic audit remains active
-last_updated: "2026-10-18T01:36:15.951Z"
+last_updated: "2026-10-18T01:41:36.159Z"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,25 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Full05 confirmed live exec70321;19 controls/102 production jobs pass;solo-parity-test active. Audio/mob review adds30 counted cases;index387 reviewed/443 pending in main/market/hand/inventory. All410 frozen paths unchanged. Remaining audit,standalone scene cases,07-04/05/06 and PR remain.
+last_activity_desc: Full05 confirmed live exec70321;19 controls/106 production jobs pass;sound-firefox active. Completed-payload compression02 preserves153 payloads/105 terminal jobs,original pre-action ledger and410 frozen inputs;691994624 allocation bytes saved. Semantic review remains active;no final result/PR.
 ---
 
 # Project State
 
 ## Current work
+
+Lossless completed-payload compression batch02 verified:153 immutable files
+owned by105 terminal exit0 production jobs,all content hashes and410 source/
+test/tool/config/build/lock hashes unchanged. New script saves original raw
+job-ledger snapshot bytes before selecting/replacing;SHA and live append-only
+prefix independently match. Unique Node/config/model/browser owner checks,
+independent temp inode/SHA/size/source identity,compressed flag and atomic
+replacement preserve all paths/content. No active outputs/config/build/log/
+ledger/report selected. Per-file allocated savings691994624 bytes;whole-volume
+free movement is separately observed/volatile. Prior batch01 unchanged.
+Full05 same70321 still live,106 production jobs/19 controls pass;
+sound-firefox active after sound-chromium passed01:39:30UTC. No new execution,
+hits,exclusion or threshold from maintenance. Reviews and final gates remain.
 
 Audio/scene/mob residual review binds30 original zeros:audio19,soundscape5,
 mobs6. Explicit consequences/behavior limits cover synthesis and voice cleanup,

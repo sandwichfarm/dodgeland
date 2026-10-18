@@ -1,0 +1,24 @@
+{
+  "purpose": "Independent verification of lossless batch02 completed-payload compression;no execution/counter/source change",
+  "runId": "cb52774e-975e-4388-a064-5162ef3807d8",
+  "completedJobsAtSelection": 105,
+  "payloadsReverified": 153,
+  "originalLedgerBytesSavedBeforeSelection": true,
+  "originalLedgerShaMatches": true,
+  "currentAppendOnlyPrefixMatchesOriginal": true,
+  "frozenFilesVerified": 410,
+  "sourceFreezeChanges": [],
+  "activeOutputsUntouched": true,
+  "allocatedBytesSaved": 691994624,
+  "observedFreeBytesBefore": 3201368064,
+  "observedFreeBytesAfter": 3886714880,
+  "freeSpaceLimit": "Shared volume changes independently;per-file allocation savings are separate from whole-volume free-space movement",
+  "hashes": {
+    "artifacts/release-coverage/storage-maintenance/closed-full05-33cb12482e064fcb9de42bf5a15c97f4.json": "125156860dfd4701886c66a644dfd140fc254cb8edf48853b8b635542a20131e",
+    "artifacts/release-coverage/storage-maintenance/closed-full05-33cb12482e064fcb9de42bf5a15c97f4.ledger-snapshot.json": "f9837974a7401617a37b945a205b7b791ac68cf1dc7eae4e69c8dc88996f864b",
+    "artifacts/release-coverage/storage-maintenance/compress-closed-full05-02.py": "3f8a43827d5e32a3a3fd34a464c25f52e1bc659325159e6c50bd7db179fc383c",
+    "artifacts/release-coverage/storage-maintenance/compress-closed-full05-02.log": "8a39aee87de63cf53cd379116371a35122f991cd681715887f2f2e36308249c9",
+    "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/storage-maintenance/verify-closed-full05-02.py": "bf0301c9d76edddf6f38d3e1ecf7b5da22e363a84a25468d4a6d649c44f69968",
+    "artifacts/release-coverage/current-full-05-proof/freeze.json": "c72459fff67275b20c5b67c1076d781f825a00cec405fada8743cb2f350111a3"
+  }
+}
