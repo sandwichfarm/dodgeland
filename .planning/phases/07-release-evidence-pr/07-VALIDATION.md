@@ -12,12 +12,12 @@ The command column preserves the planned task commands. Result cells now refer t
 actual execution records, including explicitly amended task scopes; they do not
 assert that every historical command string ran unchanged. Plans01–05 and07–12
 are complete. Plan06 Task1 is complete; its frozen full chain and actual PR remain
-pending. The current run is exec11882/PID10879;revalidate that handle before
-relying on this dated observation. No phase or whole-release pass is claimed.
+pending. The first final run11882 terminated1 after a disk-pressure hold crossed a timed
+Race case. See07-06-FAILED-01;the unchanged whole-worker diagnostic36485 is active. No phase or whole-release pass is claimed.
 
 The original Node26.11.1/node:test and Playwright1.61.0 infrastructure remains.
-The inherited gate and calibration passed in the active run;fresh production
-coverage enforcement is still running. Root lock and solo oracle are unchanged.
+The inherited gate and calibration passed in the failed run;fresh final coverage
+enforcement and the remaining final stages still require a successful new run. Root lock and solo oracle are unchanged.
 The earlier full05 enforcing pass is separately preserved in07-03 evidence.
 
 ## Per-task verification and creation dependencies
@@ -47,7 +47,7 @@ The earlier full05 enforcing pass is separately preserved in07-03 evidence.
 | 07-05-2 | `node tools/release-coverage/evidence.mjs --capture-required && node --test tests/release-evidence.test.mjs && node tools/release-coverage/evidence.mjs --check` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Complete;fresh72182exit0,94images/8sheets,12/12controls;07-05-CLAUSE-PROOF |
 | 07-05-3 | `node --test tests/release-evidence.test.mjs && node tools/release-coverage/evidence.mjs --check-clauses` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Complete;51original/47requirement rows mapped;--check-clauses0;only final gate/PR pending |
 | 07-06-1 | `node --test tests/release-gate.test.mjs && node tests/release-gate.mjs --calibration-only` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Complete;7/7controls and actual14142exit0 partial calibration46/46;07-06-CONTROLS-PROOF |
-| 07-06-2 | `node tests/release-gate.mjs && git diff --exit-code a310a81ed6c76df4b265c9012c23b8c83f4802e5 -- pnpm-lock.yaml && git diff --check` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | RUNNING;exec11882/PID10879;inherited/calibration passed;fresh enforcement pending;PR not open |
+| 07-06-2 | `node tests/release-gate.mjs && git diff --exit-code a310a81ed6c76df4b265c9012c23b8c83f4802e5 -- pnpm-lock.yaml && git diff --check` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Failed canonical11882exit1 after external hold crossed a45s Race timeout;unchanged whole-worker diagnostic36485 running;new full gate/PR required |
 
 | 07-10-1 | `node --test tools/release-coverage/collection.test.mjs && node tools/release-coverage/run.mjs --suite adapters-10-tracer --report-only` | Declared predecessor plus prior task; task creates named adapters/validators before use | Complete;46599exit0;07-10-SUMMARY |
 | 07-10-2 | `node --test tools/release-coverage/collection.test.mjs && node tools/release-coverage/run.mjs --suite adapters-10-middle --report-only` | Declared predecessor plus prior task; task creates named adapters/validators before use | Complete;43583exit0;07-10-SUMMARY |

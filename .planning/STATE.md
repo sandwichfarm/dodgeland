@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-06 final run11882/PID10879; inherited and calibration passed; enforcing coverage live
-last_updated: "2026-10-18T03:50:19.636164+00:00"
+stopped_at: 07-06 first final run failed after disk hold/test deadline; whole Race diagnostic36485 active
+last_updated: "2026-10-18T04:30:15.175767+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -19,21 +19,25 @@ last_activity_desc: 07-05 complete;all51original clauses/47requirements mapped,6
 
 ## Current work
 
-FINAL FULL RUN IS LIVE:exec11882,actualparent10879,runUUID
-88465003-ebf6-477f-b091-71a79781afe2,started03:28:27UTC. Inherited-phase6
-passed03:47:26UTC (Relay, Race, health runtime and33/33 cross-mode cases),then
-calibration passed03:47:52UTC. Fresh enforcing coverage is running with all19
-controls passed;see07-06-RUNNING.json for the dated terminal production count.
-All417 technical inputs and normal e9800fc8 artifact rehash unchanged. Follow
-same handle/PID toterminal;neverrestartforsilence. No technical input may change.
-Next after enforcing producer exits0:execute the prepared read-only raw-zero
-reconciliation underartifacts/release-final-launch-01/audit/reconcile.mjs.
-Conformance andevidence stages remain inthis same sequential parent chain.
-No terminal full-release pass orPR isclaimed;44/45plans remain. Codefreeze58f63a3;
-later checkpoint commits are documentation only. Primaryreferences unchanged.
-Monitorowned disk/memory,do not modify unrelated user processes/artifacts.
-Canonical log underartifacts/release-final-launch-01. Older paragraphs below
-are dated lineage,not thecurrent stage.
+FIRST FINAL RUN TERMINATED1:exec11882/PID10879,run88465003-ebf6-477f-b091-
+71a79781afe2. Inherited and calibration passed,but enforcing collection failed
+on one45s Race test deadline after the root-owned55.42478s disk-pressure process
+hold. All15 other Race cases passed;this partial run isnot final acceptance.
+See07-06-FAILED-01.json for actual terminal ledger,hold,resume and hash proof.
+Storagecompression reclaimed649203712bytes from170 closed passed payloads;
+independent verification confirmed exactbytes,ownerledger and417 frozen inputs.
+At722MiBfree,the ownedtree was held then resumed unchanged after8GiB recovered.
+All technical inputs and normal e9800fc8 remain unchanged. No controller/gameplay/
+assertion/timeout/floor was altered. No PR opened.44/45plans remain.
+
+Whole unchanged canonical Race diagnostic is now actualsession36485:
+node --max-old-space-size=24576 tools/release-coverage/run.mjs --suite
+race-public-03 --report-only --output artifacts/release-final-launch-01/
+race-after-hold-01. Log israce-after-hold-01.log inthat launchdirectory.
+Follow same handle toterminal;this diagnostic isnot full-release proof. Then a
+fresh exactfull final chain is mandatory. Do not suspend timed workers again;
+monitor resourcepressure and use only proven closed-payload compression.
+Earlier live-run paragraphs below are dated lineage,superseded here.
 
 07-06 Task1 controls are accepted:actual units7/7 andcalibration-only14142exit0,
 46/46 cases,zero skips. Actual report statuspartial-calibration-pass,technical/

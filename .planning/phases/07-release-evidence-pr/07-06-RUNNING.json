@@ -1,20 +1,20 @@
 {
-  "status": "running-not-accepted",
-  "observedAt": "2026-10-18T03:50:19.636164+00:00",
+  "status": "failed-not-accepted",
+  "observedAt": "2026-10-18T04:30:15.175767+00:00",
   "runId": "88465003-ebf6-477f-b091-71a79781afe2",
   "directory": "artifacts/release-final/88465003-ebf6-477f-b091-71a79781afe2",
   "sessionId": 11882,
   "actualLiveParentPid": 10879,
   "actualCommand": "node tests/release-gate.mjs",
   "inheritedChildPid": null,
-  "stage": "enforcing-coverage",
+  "stage": "enforcing-coverage-failed",
   "codeFreezeHead": "58f63a3",
   "normalArtifactRawSha256": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
   "referenceHashes": {
     "docs/release-evidence/reference/nip-5d.md": "7d716e8ec9f1737b070f4716b998f52fd6e189d5bb1bc4c2efe6c1dae35b9f37",
     "docs/release-evidence/reference/reference.json": "a8d13df59b6b2be2da2b22a5c4d8b2f37c845d07121b845d67883c1451749a12"
   },
-  "terminalExit": null,
+  "terminalExit": 1,
   "canonicalLog": "artifacts/release-final-launch-01/canonical.log",
   "limits": [
     "This actual live-process observation isnot terminal release acceptance",
@@ -43,6 +43,8 @@
   },
   "frozenInputsVerified": 417,
   "normalArtifactUnchanged": true,
-  "parentObservation": "10879 Ss   21:52 node tests/release-gate.mjs",
-  "priorObservationPath": "artifacts/release-final-launch-01/launch.json"
+  "parentObservation": "Canonical unified session11882 returned actual exit1;PIDs10879/52267 no longer present",
+  "priorObservationPath": "artifacts/release-final-launch-01/launch.json",
+  "failureProof": ".planning/phases/07-release-evidence-pr/07-06-FAILED-01.json",
+  "replacementDiagnosticSession": 36485
 }
