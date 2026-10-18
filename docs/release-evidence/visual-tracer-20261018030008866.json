@@ -1,0 +1,18 @@
+{
+  "commandId": "visual-tracer-20261018030008866",
+  "executable": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+  "argv": [
+    "/Users/sandwich/Develop/crossy-road-clone/tools/release-coverage/evidence.mjs",
+    "--capture-worker",
+    "tracer",
+    "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/visual-tracer-20261018030008866/pending.json"
+  ],
+  "pid": 56319,
+  "startedAt": "2026-10-18T03:00:08.868Z",
+  "finishedAt": "2026-10-18T03:00:10.338Z",
+  "terminalExit": 0,
+  "signal": null,
+  "logPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/visual-tracer-20261018030008866/capture.log",
+  "logSha256": "eabef82f60b16a51750711d3baad0dd64219b68922fe81b06de2a6bda5c6144a",
+  "outputText": "Captured survive-flow-hud-900x600-dark-reduced-all\n"
+}

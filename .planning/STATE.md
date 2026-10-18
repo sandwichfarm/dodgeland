@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-04 complete;actual wire and negative controls pass;07-05 visual evidence next
+stopped_at: 07-05 Task1 actual visual tracer complete;full matrix/clauses next
 last_updated: "2026-10-18T02:58:06.392666+00:00"
 progress:
   total_phases: 7
@@ -18,6 +18,15 @@ last_activity_desc: 07-03 complete;canonical70321exit0,all201jobs,525parents,121
 # Project State
 
 ## Current work
+
+07-05 Task1 is now complete:9/9 integrity/receipt controls,actual normal-build
+four-player Flow tracer,terminal child receipt,--check-tracer andguidance all0.
+Full-size900x600 dark/reduced screenshot inspected;inclusive8px full body/packed
+label/status versus visibleDOM passes. Durable index/tracer/PNG/receipt under
+docs/release-evidence;07-05-TRACER-PROOF.json bindsactual logs/digests/inspection.
+Task2 full required states/sheets andTask3 all51clauses/47requirements remain.
+The required worker currently captures HUD matrix only;extend with existing
+actual lifecycle/result journeys before full --check. No07-05 complete mark.
 
 07-04 is complete. Actual supplement26814exit0:five opaque-frame scenarios,
 real official-shim promises/receiver traffic and scoped repeated teardown.
