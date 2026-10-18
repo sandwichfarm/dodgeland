@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Full05 still live; retained snapshot semantic review complete; conformance draft unexecuted
-last_updated: "2026-10-18T02:25:27.030865Z"
+stopped_at: All201 jobs passed;same canonical report active;fresh global810zeros all reviewed
+last_updated: "2026-10-18T02:47:58.900921Z"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,53 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Same full05 exec70321 live;180 production jobs/19 controls pass,last race-reclaim-transactions-test. All410 frozen paths unchanged. Gate draft01 has two syntax-checked unexecuted modules;earlier conformance/evidence drafts remain pending activation. Existing05/06UAT and security closure confirmed complete. Full terminal/fresh reconciliation,scene cases,07-04/05/06 and PR remain.
+last_activity_desc: Full05 exec70321/PID1821 active after same-process SIGSTOP/SIGCONT disk-pressure hold;all182 production jobs and19 controls pass. Completed global map has810 raw zeros,all reviewed,20 old zeros now positive and0 new unreviewed sites;all410 inputs unchanged. No terminal profile/floor result yet. Fresh reference pin unchanged;conformance/evidence/gate drafts unexecuted. Scene cases,07-04/05/06 and PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+Full05 has completed all182 production jobs and19 controls with exit0. Same
+exec70321/PID1821 remains active in reporting/profile enforcement. At severe
+disk pressure251/233MiB free,the same process was SIGSTOP-held then SIGCONT-
+resumed after space recovered;it was not terminated/restarted and no collection
+repeated. Last observed resumed process is Rs,reporting with about2.4GiB free.
+Do not mistake the historical solo-reward-journey-03-proof/canonical.log RED for
+the current current-full-05-proof/canonical.log. All201 current jobs passed.
+Root global report JSON,text andLCOV are complete;profile enforcement remains
+pending. Read-only reconcile-raw-01.mjs verifies all830 original reviewed sites
+against fresh source/map/type/locations.20 now positive;810 remainzero,all810
+already reviewed;0 new unreviewed sites. All410 frozen inputs match. Raw JSON
+inode/mtime/size stable. This audit is not another coverage/report/test chain
+and supplies no counter/exclusion/threshold credit. Full terminal reconciliation
+still uses the separately preserved current-full-05-proof/reconcile.mjs after
+actual terminal exit.07-03 cannot complete until enforcing floors and the
+pending standalone market-scene cases/type-check obligations actually pass.
+Batch06 compressed67 immutable payloads selected from181 terminal exit0 owners;
+independent verification confirms contents,original ledger prefix and410frozen
+inputs. Allocation savings304,635,904bytes. No active outputs/config/build/log/
+ledger/report selected. Prior batches remain intact. No outside-workspace files
+were modified;temporary-directory/old-run scans were metadata-only.
+Fresh primary reference is artifacts/release-coverage/conformance-reference-
+2026-10-18-01/{reference.json,nip-5d.md,pr.json},retrieved02:33:45UTC. GitHub PR
+head remains5560820fa4f37f45b8ab742a11aeb3001b17dc67,text SHA7d716e8e,20617bytes.
+Web tool API open failed;direct primary HTTPS retrieval succeeded. This is
+reference preparation,not07-04 execution. Use these actual bytes/metadata when
+activating conformance after07-03;refresh again if delayed materially.
+Latest drafts:conformance-draft-02 needs raw candidate text preservation on
+activation;evidence-draft-01 integrity foundation lacks capture CLI/actual
+receipt binding/clause content;gate-draft-01 has full sequential/control draft.
+All syntax-only,zero actual unit/browser/final-stage execution. Do not overwrite
+pinned draft sources;copy/review into planned paths at activation. Visual scope
+correction e1b9b36/07-05-DRAFT-SCOPE-CORRECTION is authoritative:mandatory8px is
+full traveler bodies/nameplate/status versus opaque/actionable UI. A world-
+pickup-text debugger extension is optional,not a newly invented release gate.
+Existing05/06UAT/security closure is complete;do not reask user acceptance.
+Remaining actual work:canonical terminal/floors,fresh final reconciliation,
+standalone scene cases,07-04 conformance,07-05 normal visuals/all clauses,
+07-06 exact final chain and real open PR. Goal remains active.
+
 
 Final-gate draft01 is isolated under artifacts/release-coverage/gate-draft-01;
 two modules independently pass node --check. No unit/control/final stage or
