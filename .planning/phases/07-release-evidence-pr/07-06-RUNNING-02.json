@@ -1,12 +1,12 @@
 {
   "status": "running-not-accepted",
-  "observedAt": "2026-10-18T04:57:30.177673+00:00",
+  "observedAt": "2026-10-18T05:41:53.324649+00:00",
   "runId": "56748255-a473-4788-953e-484abc34a082",
   "directory": "artifacts/release-final/56748255-a473-4788-953e-484abc34a082",
   "sessionId": 96020,
   "actualLiveParentPid": 13528,
   "actualCommand": "node tests/release-gate.mjs",
-  "stage": "inherited-phase6",
+  "stage": "enforcing-coverage",
   "sourceHead": "5a9350a126a544529d9ba90df73233e918ba7802",
   "normalArtifactRawSha256": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
   "referenceHashes": {
@@ -21,5 +21,91 @@
     "After actual enforcing stage exits0,refresh executed-input receipts andclause bindings fromthisactualrun,before finalclause gate. Documentation-only proof writes do not change417frozen technicalinputs.",
     "Never suspend timed workers;compressonlyclosed terminal-ownedpayloads ifactual pressure needs it."
   ],
-  "normalMatchesPrior": true
+  "normalMatchesPrior": true,
+  "completedStages": [
+    {
+      "id": "inherited-phase6",
+      "executable": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+      "args": [
+        "tests/phase6-gate.mjs"
+      ],
+      "pid": 13597,
+      "startedMs": 1792299433515,
+      "finishedMs": 1792300616112,
+      "durationMs": 1182597,
+      "exitCode": 0,
+      "signal": null,
+      "processError": null,
+      "durabilityError": null,
+      "stdoutPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/inherited-phase6.stdout.log",
+      "stderrPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/inherited-phase6.stderr.log",
+      "stdoutSha256": "31dfb5172b3fa35c982ff7c032a17dad87fd2680cf3a865f10012f3334d5d3ab",
+      "stderrSha256": "f2c20ef7a649e2e6ce22c7dfdeb438d03159ddde347ee3e072d66ea1b2e07a24",
+      "pass": true
+    },
+    {
+      "id": "calibration",
+      "executable": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+      "args": [
+        "tests/strict-node-tests.mjs",
+        "tools/release-coverage/calibration.test.mjs",
+        "tools/release-coverage/browser-calibration.test.mjs",
+        "tools/release-coverage/collection.test.mjs",
+        "tools/release-coverage/policy.test.mjs",
+        "tools/release-coverage/attribution.test.mjs"
+      ],
+      "pid": 49802,
+      "startedMs": 1792300616240,
+      "finishedMs": 1792300640543,
+      "durationMs": 24303,
+      "exitCode": 0,
+      "signal": null,
+      "processError": null,
+      "durabilityError": null,
+      "stdoutPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/calibration.stdout.log",
+      "stderrPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/calibration.stderr.log",
+      "stdoutSha256": "8e4d95e285f1610e734e810229d2ce6dcfca4004b5da61d73ec98559026aeb1f",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pass": true
+    }
+  ],
+  "coverageObservation": {
+    "runId": "c39c0fee-a277-47ec-b276-95f5e6b26932",
+    "terminalControls": 19,
+    "terminalProduction": 52,
+    "nonzeroTerminalJobs": 0,
+    "expectedProduction": 182,
+    "enforcementTerminal": false
+  },
+  "frozenInputsVerified": 417,
+  "parentObservation": "13528 Ss   44:40 node tests/release-gate.mjs",
+  "closedPayloadCompression": {
+    "purpose": "Independent verification of lossless final batch01 completed-payload compression;no execution/counter/source change",
+    "runId": "c39c0fee-a277-47ec-b276-95f5e6b26932",
+    "completedJobsAtSelection": 51,
+    "payloadsReverified": 119,
+    "originalLedgerBytesSavedBeforeSelection": true,
+    "originalLedgerShaMatches": true,
+    "currentAppendOnlyPrefixMatchesOriginal": true,
+    "frozenFilesVerified": 417,
+    "sourceFreezeChanges": [],
+    "activeOutputsUntouched": true,
+    "allocatedBytesSaved": 344903680,
+    "observedFreeBytesBefore": 2427588608,
+    "observedFreeBytesAfter": 2763911168,
+    "freeSpaceLimit": "Shared volume changes independently;per-file allocation savings are separate from whole-volume free-space movement",
+    "hashes": {
+      "artifacts/release-final-launch-02/storage-maintenance/closed-final-61903813a5bf4b9885dc3e1200aa3667.json": "e390bb7b50592dd1dd36830eae00973448ff99e89e9e046bf5407abacec75714",
+      "artifacts/release-final-launch-02/storage-maintenance/closed-final-61903813a5bf4b9885dc3e1200aa3667.ledger-snapshot.json": "a6f4cfeb702b23c7f58c507c21a0c93609d65a5925ed16651af9b7a9f4cc0f8a",
+      "artifacts/release-final-launch-02/storage-maintenance/compress-closed-final-01.py": "bafe9f8b4e6266590f70985544876aab9ac7cf52ada647786836cc80a2c0c702",
+      "artifacts/release-final-launch-02/storage-maintenance/compress-closed-final-01.log": "157b116fefb4e5e209d05552df9719ff30eeac17bd9e0233b6f0e73bda861b28",
+      "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final-launch-02/storage-maintenance/verify-closed-final-01.py": "01d77b5e53af8138a0a8f77f0bd5a7ef314ef4afffd337d2395baa60454a65f6",
+      "artifacts/release-final-launch-02/launch.json": "0ba7802c573979a1575e951e4d0bc5f8ff92288adb704a438b9848e5abcb1fd1"
+    }
+  },
+  "receiptHandoff": {
+    "session": 65644,
+    "statusPath": "artifacts/release-final-launch-02/audit/receipt-handoff.json",
+    "status": "waiting-for-actual-enforcing-stage-terminal"
+  }
 }

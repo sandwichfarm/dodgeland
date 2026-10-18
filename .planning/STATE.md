@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: 07-06 second full release run96020/PID13528 active; route repaired and visual refresh passed
-last_updated: "2026-10-18T04:59:00.028935+00:00"
+last_updated: "2026-10-18T05:41:53.324649+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -25,7 +25,12 @@ Started after actual route repair652323a and visual evidence commit5a9350a.
 Log: artifacts/release-final-launch-02/canonical.log. Freeze417 technical inputs
 and references are in launch.json there; all rehashed unchanged. Normal e980
 artifact, immutable root lock/oracle and inherited phase6 runner are unchanged.
-Latest observation: inherited solo-parity21/21 passed; solo regression active.
+Latest observation: inherited-phase6 and calibration stages both terminal0.
+Fresh coverage run c39c0fee-a277-47ec-b276-95f5e6b26932 is active;all19 controls
+and52 production jobs passed so far,0 failed. See07-06-RUNNING-02 for actual stage
+receipts and current PID observation. Closed-payload compression batch01 saved
+344903680bytes;119 payloads independently reverified byte-identical,all417
+frozen inputs unchanged. Timed workers were never suspended in this run.
 Revalidate actual same handle/PID and never restart merely for silence.
 
 A guarded documentation handoff is active as session65644:
