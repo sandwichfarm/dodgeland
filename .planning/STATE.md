@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Fresh full05 enforcing collection live; semantic audit remains active
-last_updated: "2026-10-18T01:41:36.159Z"
+last_updated: "2026-10-18T01:41:52.660Z"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,28 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Full05 confirmed live exec70321;19 controls/106 production jobs pass;sound-firefox active. Completed-payload compression02 preserves153 payloads/105 terminal jobs,original pre-action ledger and410 frozen inputs;691994624 allocation bytes saved. Semantic review remains active;no final result/PR.
+last_activity_desc: Full05 live exec70321;19 controls/106 production jobs pass;sound-firefox active. Hand/inventory/market review adds121 counted cases;index508 reviewed/322 pending,only main. All410 frozen inputs unchanged. Remaining audit,standalone scene cases,07-04/05/06 and PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+Hand/inventory/market UI residual review binds121 original zeros:run-hand39,
+market/run10,market-ui72. Explicit consequences/behavior boundaries retain all
+as counted. Main's literal owner/mutation/reason/sale/transaction callbacks and
+sole currentEntries(run,all) call are verified with159-source/seven-target
+audit. Fourteen hand/inventory and15 market registered behavior sources retain
+arranged/public provenance:paid full-hand drafts,marks only on confirmation,
+skip/no refund,no rerolls,per-owner wallet,ghost/stale controls and persistent
+hand sale preserving the current page. All72 market table identities checked.
+No execution/hits/exclusions/floor/app change. All410 frozen paths unchanged.
+Current-semantic-ledger-12 verifies508 reviewed/322 pending,18 existing witnesses
+and490 counted residuals. Main is the only remaining raw file group.
+Full05 same70321 remains active;106 production jobs/19 controls pass,last
+observed sound-firefox after sound-chromium passed01:39:30UTC. Continue same
+chain. Remaining main semantic review,standalone scene cases after terminal,
+07-04/05/06 and PR remain unfinished.
 
 Lossless completed-payload compression batch02 verified:153 immutable files
 owned by105 terminal exit0 production jobs,all content hashes and410 source/

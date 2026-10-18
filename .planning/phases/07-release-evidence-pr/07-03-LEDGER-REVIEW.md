@@ -488,3 +488,24 @@ link establish use. No absence-based exclusion is inferred.
 frozen paths. No new audio playback,execution,counters,exclusions or floor
 change. Current partial index387 reviewed/443 pending;only main,market-ui,
 run-hand andmarket/run remain in this original raw snapshot.
+
+## Persistent hand,inventory and market UI residual conditions
+
+**ARCH-03,SOLO-01,COOP-04/05,ITEM-05,RELAY-03,RACE-03,UI-02/03/04/05,
+INPUT-02/04/05,TEST-02/03/04/05.** Another121 original zeros have explicit
+consequences and behavior limits:market/run10,run-hand39,market-ui72.
+Per-owner policy/companion debit/income and empty death recovery retain actual
+authority. Main supplies owner/mutation/reason/transaction callbacks;generic
+fallbacks stay counted. Paid drafts retain exact choices,payment and replacement
+marks until valid final claim. Persistent hand owns sales without leaving the
+current offer/draft. Legacy owned-card/power market tiles are outside current
+view filters;animated-close generations and stale-input guards remain visible.
+[Hand/inventory review](07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md) and
+[proof](07-03-HAND-INVENTORY-RESIDUAL-PROOF.json) bind49 sites,14 registered
+behavior sources and159-source/seven-target caller/literal-options audit.
+[Market UI review](07-03-MARKET-UI-RESIDUAL-REVIEW.md) and
+[proof](07-03-MARKET-UI-RESIDUAL-PROOF.json) bind72 sites,15 registered behavior
+sources,the same construction audit and sole explicit currentEntries(run,all)
+call. All72 market table sites are mechanically accounted for in the document.
+All410 frozen paths unchanged;no execution,hits,exclusions or threshold changes.
+Current partial index508 reviewed/322 pending;main is the remaining raw group.

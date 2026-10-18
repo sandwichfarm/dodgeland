@@ -3,10 +3,10 @@
   "sourceRun": "0b8f818d-62a2-4922-ab83-242886778c0c",
   "sourceInventoryRawSha256": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
   "rawZeroArms": 830,
-  "reviewed": 387,
-  "pending": 443,
+  "reviewed": 508,
+  "pending": 322,
   "existingPositiveWitnessLinks": 18,
-  "reviewedCountedResiduals": 369,
+  "reviewedCountedResiduals": 490,
   "freshFullRun": "cb52774e-975e-4388-a064-5162ef3807d8",
   "freshFullStatus": "active;no final result inferred",
   "sourceTestToolConfigBuildLockFrozenPathsVerified": 410,
@@ -55,6 +55,16 @@
       "proofPath": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-PROOF.json",
       "docPath": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
       "rows": 30
+    },
+    {
+      "proofPath": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-PROOF.json",
+      "docPath": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "rows": 49
+    },
+    {
+      "proofPath": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-PROOF.json",
+      "docPath": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "rows": 72
     },
     {
       "proofPath": ".planning/phases/07-release-evidence-pr/07-03-SCHEMA-RECOVERY-SEMANTIC-PROOF.json",
@@ -145,8 +155,8 @@
     },
     "src/market-ui.ts": {
       "total": 72,
-      "reviewed": 0,
-      "pending": 72
+      "reviewed": 72,
+      "pending": 0
     },
     "src/mob-models.ts": {
       "total": 1,
@@ -210,8 +220,8 @@
     },
     "src/run-hand.ts": {
       "total": 39,
-      "reviewed": 0,
-      "pending": 39
+      "reviewed": 39,
+      "pending": 0
     },
     "src/run-menu.ts": {
       "total": 20,
@@ -290,8 +300,8 @@
     },
     "src/market/run.ts": {
       "total": 10,
-      "reviewed": 0,
-      "pending": 10
+      "reviewed": 10,
+      "pending": 0
     }
   },
   "hashes": {
@@ -316,12 +326,16 @@
     ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md": "ca66ab270e7c15e4ddc9e341847262a0a4e17324f4d79143ff3e8ae3b03f6b72",
     ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-PROOF.json": "99695b8b47ed42ec029aa155fbd8cceb4a908c8064a0d801f4340711dd233afc",
     ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md": "97767dea89a8456c8ea3f94cedd7d5358db4a2bca04e350ceb1a6fe4890dd7ff",
+    ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-PROOF.json": "cd02cd35ee61c4a66a506c94a79dac03b1b713cd8321c52051bcc9b167b48c39",
+    ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md": "4f24b7d57de36cd63feed1334aa64c35980a8e518678ef6855f3e90666004896",
+    ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-PROOF.json": "cb7fa42e470da19f0d6ab9c2388f683e2f6828e0cf1b26a7def2dd5436e3e0e9",
+    ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md": "b6e340a2ff0aa3cd46f4ea7781e73a078fa4bad1ab3faa219bb48d90a6aadffd",
     ".planning/phases/07-release-evidence-pr/07-03-SCHEMA-RECOVERY-SEMANTIC-REVIEW.md": "efaa7eb7fef452a7185ca31b1070c937c4d5a6eed5ae8d76c650118eef410b43",
     ".planning/phases/07-release-evidence-pr/07-03-CONTROLLER-GUARD-PROOF.json": "367f6f7ef0d82dbe47fd9db380ef459fba6c401e937df61ab79c20d62b6850c5",
     "artifacts/release-coverage/current-semantic-ledger-04/context-audit.json": "5436beb822098d9cc675d8d2ad501f2f7401e681160def7edde3c0091830c5ce",
     ".planning/phases/07-release-evidence-pr/07-03-CONTROLLER-GUARD-REVIEW.md": "594c426b40a5d64f3ecb6b9851095d90ae2d7e6cafc9c408a7a2cc27a13f18ac",
     "artifacts/release-coverage/current-semantic-ledger-04/context-audit.mjs": "751f8c20541e4af621eff61d2c1fb74a0b7ed0bf825644a840ec8574c4559ed0",
     "artifacts/release-coverage/current-semantic-ledger-04/context-audit.log": "6ba8f72e9097b786661f0dfd8f45f1f9f842de5fed26d8c73b91c3b6feadc0cd",
-    "artifacts/release-coverage/current-semantic-ledger-10/assemble.mjs": "0b9077e63af18a76801560d7ff1acf69adc382a6720d6507938fdc758586f1cf"
+    "artifacts/release-coverage/current-semantic-ledger-12/assemble.mjs": "471af109536d63cba4d69b6f76c75d62af19e36d17032226638268b847d92b9c"
   }
 }
