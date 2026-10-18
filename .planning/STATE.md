@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Fresh full05 enforcing collection live; semantic audit remains active
-last_updated: "2026-10-18T01:28:50.424Z"
+last_updated: "2026-10-18T01:31:18.251Z"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,29 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Full05 confirmed live exec70321;19 controls/80 production jobs pass;relay-tracer active. Shared setup/Relay/Race UI review adds57 counted cases;current index293 reviewed/537 pending. All410 frozen paths unchanged. Remaining audit,standalone scene cases,07-04/05/06 and PR remain.
+last_activity_desc: Full05 confirmed live exec70321;19 controls/87 production jobs pass;run-menu-layout active. Game review adds28 counted cases;current index321 reviewed/509 pending. All410 frozen paths unchanged. Remaining audit,standalone scene cases,07-04/05/06 and PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+Game residual review binds28 original current-full zeros with explicit
+geometry/receiver/world-lifecycle/terminal/innate/coin consequences and actual
+behavior boundaries. Three geometry helper function texts match immutable
+oraclea310 byte-for-byte;this is narrow source-preservation evidence,not
+whole-Game execution or parity. Read-only159-source/seven-target audit and
+14 registered behavior sources bind owned receiver/clock/collection contracts.
+Eight solo pickup-owner remnants remain behind const sessionSeat=undefined;
+actual sessions use collectSessionCoins/arbitration. Generic authored zero
+gravity,empty platforms and stale releases remain counted. All410 frozen paths
+unchanged. No new execution/hits/exclusions/floors/app change.
+Current-semantic-ledger-08 verifies321 reviewed/509 pending,18 existing positive
+witness links and303 counted residuals. Full05 exec70321 confirmed live by poll;
+87 production jobs/19 controls pass,no failures observed;run-menu-layout active
+after run-hand-runtime passed01:30:53UTC. Continue same chain. Remaining
+main/market/audio/input/render review,standalone scene cases after terminal,
+07-04/05/06 and PR remain unfinished.
 
 Shared setup/turn-mode UI review binds57 original zero arms:session-ui18,
 relay-ui20,race-ui19. Explicit consequences and behavior boundaries retain all

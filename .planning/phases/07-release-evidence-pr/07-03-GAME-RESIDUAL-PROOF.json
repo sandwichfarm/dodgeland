@@ -1,0 +1,2146 @@
+{
+  "audit": {
+    "sources": 159,
+    "targets": 7,
+    "limit": "Resolved callers supplement explicit value/order arguments;generic authored APIs remain counted"
+  },
+  "geometry": {
+    "purpose": "Three specific geometry function texts match immutable oracle;this is source preservation evidence,not execution or all-Game parity",
+    "oracle": "a310a81ed6c76df4b265c9012c23b8c83f4802e5",
+    "currentGameSourceSha256": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+    "oracleGameSourceSha256": "25868e88950a96960a8f29d5d039daded7ef9ec638b6f3e95cb2cb02192a8b22",
+    "functions": [
+      {
+        "name": "vehicleBounds",
+        "oracleTextSha256": "c60605f1b732d4e3bbec552c8931402d9bc1b846b1ac725d1f276e189366390a",
+        "currentTextSha256": "c60605f1b732d4e3bbec552c8931402d9bc1b846b1ac725d1f276e189366390a",
+        "byteIdenticalFunctionText": true
+      },
+      {
+        "name": "sweptVehicleContact",
+        "oracleTextSha256": "3fff5baf79edce6cdb8774967bb00d1f5ea7bcb57862e003e8841cea17161a2e",
+        "currentTextSha256": "3fff5baf79edce6cdb8774967bb00d1f5ea7bcb57862e003e8841cea17161a2e",
+        "byteIdenticalFunctionText": true
+      },
+      {
+        "name": "platformBounds",
+        "oracleTextSha256": "452e8b2c564d3e88f13448e3a967a4929e0248a7191d17d86c43123ca4c984fc",
+        "currentTextSha256": "452e8b2c564d3e88f13448e3a967a4929e0248a7191d17d86c43123ca4c984fc",
+        "byteIdenticalFunctionText": true
+      }
+    ]
+  },
+  "purpose": "Manual consequence/behavior-boundary review of28 counted Game residuals;source inspection only,no execution,hit,exclusion or threshold credit",
+  "sourceRun": "0b8f818d-62a2-4922-ab83-242886778c0c",
+  "currentInventoryRawSha256": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+  "freshFullRun": "cb52774e-975e-4388-a064-5162ef3807d8",
+  "freshFullStatus": "active;result not inferred",
+  "frozenPathsVerified": 410,
+  "behaviorSources": [
+    {
+      "path": "tests/solo-parity.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/solo-parity-actors.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/solo-parity-economy.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/health.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/character-powers.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/local-session.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/session-world.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/consumable-world.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/consumable-world-boundaries.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/log-coin-gravity.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/turn-log-coin-capture.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/death-spill.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/mobs.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/relay-results.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    }
+  ],
+  "limits": [
+    "Three unchanged geometry functions are not whole-Game execution or parity proof",
+    "All28 raw zeros remain counted;related test assertions do not create their hits",
+    "Generic authored zero gravity,empty platforms,custom receivers or stale releases are not globally excluded",
+    "Fresh complete enforcement and remaining audits remain required"
+  ],
+  "rows": [
+    {
+      "path": "src/game.ts",
+      "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+      "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+      "id": "21",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 112,
+          "column": 86
+        },
+        "end": {
+          "line": 112,
+          "column": 91
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 112,
+          "column": 48
+        },
+        "end": {
+          "line": 112,
+          "column": 98
+        }
+      },
+      "sourceText": "voxel",
+      "owner": "vehicleBounds.callback@112",
+      "sourceContext": "voxel",
+      "scopeProofs": [],
+      "status": "reviewed-counted-gameplay-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "SOLO-02",
+        "ARCH-02",
+        "ARCH-03",
+        "COOP-01",
+        "COOP-02",
+        "COOP-05",
+        "ITEM-02",
+        "ITEM-06",
+        "RELAY-02",
+        "RACE-04",
+        "TEST-01",
+        "TEST-02",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/game.ts",
+      "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+      "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+      "id": "33",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 134,
+          "column": 4
+        },
+        "end": {
+          "line": 134,
+          "column": 64
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 134,
+          "column": 4
+        },
+        "end": {
+          "line": 134,
+          "column": 64
+        }
+      },
+      "sourceText": "if (enter < 0 || enter >= 1 || leave <= 0) return undefined;",
+      "owner": "sweptVehicleContact",
+      "sourceContext": "if (enter < 0 || enter >= 1 || leave <= 0) return undefined;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-gameplay-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "SOLO-02",
+        "ARCH-02",
+        "ARCH-03",
+        "COOP-01",
+        "COOP-02",
+        "COOP-05",
+        "ITEM-02",
+        "ITEM-06",
+        "RELAY-02",
+        "RACE-04",
+        "TEST-01",
+        "TEST-02",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/game.ts",
+      "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+      "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+      "id": "43",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 145,
+          "column": 122
+        },
+        "end": {
+          "line": 145,
+          "column": 131
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 145,
+          "column": 9
+        },
+        "end": {
+          "line": 145,
+          "column": 131
+        }
+      },
+      "sourceText": "undefined",
+      "owner": "platformBounds",
+      "sourceContext": "undefined",
+      "scopeProofs": [],
+      "status": "reviewed-counted-gameplay-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "SOLO-02",
+        "ARCH-02",
+        "ARCH-03",
+        "COOP-01",
+        "COOP-02",
+        "COOP-05",
+        "ITEM-02",
+        "ITEM-06",
+        "RELAY-02",
+        "RACE-04",
+        "TEST-01",
+        "TEST-02",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/game.ts",
+      "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+      "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+      "id": "69",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 243,
+          "column": 67
+        },
+        "end": {
+          "line": 243,
+          "column": 71
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 243,
+          "column": 41
+        },
+        "end": {
+          "line": 243,
+          "column": 71
+        }
+      },
+      "sourceText": "true",
+      "owner": "Game.operationFor",
+      "sourceContext": "true",
+      "scopeProofs": [
+        {
+          "mode": "solo-arcade",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Reviewed Game session adapter: complete callers are session services or guarded by world.sessionActive. Strict owned solo rejects session attachment and staging; ordinary Game functions and dispatch guards remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Reviewed Game session adapter: complete callers are session services or guarded by world.sessionActive. Strict owned solo rejects session attachment and staging; ordinary Game functions and dispatch guards remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        }
+      ],
+      "status": "reviewed-counted-gameplay-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "SOLO-02",
+        "ARCH-02",
+        "ARCH-03",
+        "COOP-01",
+        "COOP-02",
+        "COOP-05",
+        "ITEM-02",
+        "ITEM-06",
+        "RELAY-02",
+        "RACE-04",
+        "TEST-01",
+        "TEST-02",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/game.ts",
+      "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+      "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+      "id": "71",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 245,
+          "column": 77
+        },
+        "end": {
+          "line": 245,
+          "column": 97
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 245,
+          "column": 24
+        },
+        "end": {
+          "line": 245,
+          "column": 97
+        }
+      },
+      "sourceText": "host[field] = value;",
+      "owner": "Game.operationFor.callback@245",
+      "sourceContext": "host[field] = value;",
+      "scopeProofs": [
+        {
+          "mode": "solo-arcade",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Reviewed Game session adapter: complete callers are session services or guarded by world.sessionActive. Strict owned solo rejects session attachment and staging; ordinary Game functions and dispatch guards remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Reviewed Game session adapter: complete callers are session services or guarded by world.sessionActive. Strict owned solo rejects session attachment and staging; ordinary Game functions and dispatch guards remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        }
+      ],
+      "status": "reviewed-counted-gameplay-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "SOLO-02",
+        "ARCH-02",
+        "ARCH-03",
+        "COOP-01",
+        "COOP-02",
+        "COOP-05",
+        "ITEM-02",
+        "ITEM-06",
+        "RELAY-02",
+        "RACE-04",
+        "TEST-01",
+        "TEST-02",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/game.ts",
+      "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+      "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+      "id": "78",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 290,
+          "column": 6
+        },
+        "end": {
+          "line": 290,
+          "column": 43
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 290,
+          "column": 6
+        },
+        "end": {
+          "line": 290,
+          "column": 43
+        }
+      },
+      "sourceText": "if (context.state === 'dead') return;",
+      "owner": "Game.updateSessionPlayer.callback@289",
+      "sourceContext": "if (context.state === 'dead') return;",
+      "scopeProofs": [
+        {
+          "mode": "solo-arcade",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Reviewed Game session adapter: complete callers are session services or guarded by world.sessionActive. Strict owned solo rejects session attachment and staging; ordinary Game functions and dispatch guards remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Reviewed Game session adapter: complete callers are session services or guarded by world.sessionActive. Strict owned solo rejects session attachment and staging; ordinary Game functions and dispatch guards remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        }
+      ],
+      "status": "reviewed-counted-gameplay-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "SOLO-02",
+        "ARCH-02",
+        "ARCH-03",
+        "COOP-01",
+        "COOP-02",
+        "COOP-05",
+        "ITEM-02",
+        "ITEM-06",
+        "RELAY-02",
+        "RACE-04",
+        "TEST-01",
+        "TEST-02",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/game.ts",
+      "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+      "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+      "id": "89",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 323,
+          "column": 4
+        },
+        "end": {
+          "line": 323,
+          "column": 43
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 323,
+          "column": 4
+        },
+        "end": {
+          "line": 323,
+          "column": 43
+        }
+      },
+      "sourceText": "if (!this.world?.sessionActive) return;",
+      "owner": "Game.syncSharedWorldEffects",
+      "sourceContext": "if (!this.world?.sessionActive) return;",
+      "scopeProofs": [
+        {
+          "mode": "solo-arcade",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Reviewed Game session adapter: complete callers are session services or guarded by world.sessionActive. Strict owned solo rejects session attachment and staging; ordinary Game functions and dispatch guards remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Reviewed Game session adapter: complete callers are session services or guarded by world.sessionActive. Strict owned solo rejects session attachment and staging; ordinary Game functions and dispatch guards remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        }
+      ],
+      "status": "reviewed-counted-gameplay-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "SOLO-02",
+        "ARCH-02",
+        "ARCH-03",
+        "COOP-01",
+        "COOP-02",
+        "COOP-05",
+        "ITEM-02",
+        "ITEM-06",
+        "RELAY-02",
+        "RACE-04",
+        "TEST-01",
+        "TEST-02",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/game.ts",
+      "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+      "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+      "id": "106",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 352,
+          "column": 124
+        },
+        "end": {
+          "line": 352,
+          "column": 125
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 352,
+          "column": 74
+        },
+        "end": {
+          "line": 352,
+          "column": 125
+        }
+      },
+      "sourceText": "0",
+      "owner": "Game.sessionProtected",
+      "sourceContext": "0",
+      "scopeProofs": [
+        {
+          "mode": "solo-arcade",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Strict owned solo has no session or operation context. Source-bound assignment/caller closure proves only this dispatch body or operand unavailable; predicate evaluation and ordinary fallback remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Strict owned solo has no session or operation context. Source-bound assignment/caller closure proves only this dispatch body or operand unavailable; predicate evaluation and ordinary fallback remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        }
+      ],
+      "status": "reviewed-counted-gameplay-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "SOLO-02",
+        "ARCH-02",
+        "ARCH-03",
+        "COOP-01",
+        "COOP-02",
+        "COOP-05",
+        "ITEM-02",
+        "ITEM-06",
+        "RELAY-02",
+        "RACE-04",
+        "TEST-01",
+        "TEST-02",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/game.ts",
+      "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+      "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+      "id": "108",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 360,
+          "column": 4
+        },
+        "end": {
+          "line": 360,
+          "column": 86
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 360,
+          "column": 4
+        },
+        "end": {
+          "line": 360,
+          "column": 86
+        }
+      },
+      "sourceText": "if (this.worldExtension) throw new Error('A Game already has a world extension.');",
+      "owner": "Game.installWorldExtension",
+      "sourceContext": "if (this.worldExtension) throw new Error('A Game already has a world extension.');",
+      "scopeProofs": [
+        {
+          "mode": "solo-arcade",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Reviewed Game session adapter: complete callers are session services or guarded by world.sessionActive. Strict owned solo rejects session attachment and staging; ordinary Game functions and dispatch guards remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Reviewed Game session adapter: complete callers are session services or guarded by world.sessionActive. Strict owned solo rejects session attachment and staging; ordinary Game functions and dispatch guards remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "relay",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-CALL-CLOSURE-REVIEW.md",
+          "callReason": "Relay installs consumables:false; no ConsumableWorld or captured item policy exists. Shared bootstrap registration and absent-extension guards remain applicable.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope."
+        }
+      ],
+      "status": "reviewed-counted-gameplay-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "SOLO-02",
+        "ARCH-02",
+        "ARCH-03",
+        "COOP-01",
+        "COOP-02",
+        "COOP-05",
+        "ITEM-02",
+        "ITEM-06",
+        "RELAY-02",
+        "RACE-04",
+        "TEST-01",
+        "TEST-02",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/game.ts",
+      "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+      "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+      "id": "109",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 365,
+          "column": 6
+        },
+        "end": {
+          "line": 365,
+          "column": 52
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 365,
+          "column": 6
+        },
+        "end": {
+          "line": 365,
+          "column": 52
+        }
+      },
+      "sourceText": "if (this.worldExtension !== extension) return;",
+      "owner": "Game.installWorldExtension.callback@364",
+      "sourceContext": "if (this.worldExtension !== extension) return;",
+      "scopeProofs": [
+        {
+          "mode": "solo-arcade",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Reviewed Game session adapter: complete callers are session services or guarded by world.sessionActive. Strict owned solo rejects session attachment and staging; ordinary Game functions and dispatch guards remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Reviewed Game session adapter: complete callers are session services or guarded by world.sessionActive. Strict owned solo rejects session attachment and staging; ordinary Game functions and dispatch guards remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "relay",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-CALL-CLOSURE-REVIEW.md",
+          "callReason": "Relay installs consumables:false; no ConsumableWorld or captured item policy exists. Shared bootstrap registration and absent-extension guards remain applicable.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope."
+        }
+      ],
+      "status": "reviewed-counted-gameplay-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "SOLO-02",
+        "ARCH-02",
+        "ARCH-03",
+        "COOP-01",
+        "COOP-02",
+        "COOP-05",
+        "ITEM-02",
+        "ITEM-06",
+        "RELAY-02",
+        "RACE-04",
+        "TEST-01",
+        "TEST-02",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/game.ts",
+      "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+      "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+      "id": "137",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 411,
+          "column": 94
+        },
+        "end": {
+          "line": 411,
+          "column": 98
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 411,
+          "column": 10
+        },
+        "end": {
+          "line": 411,
+          "column": 98
+        }
+      },
+      "sourceText": "null",
+      "owner": "Game.ensureRows",
+      "sourceContext": "null",
+      "scopeProofs": [],
+      "status": "reviewed-counted-gameplay-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "SOLO-02",
+        "ARCH-02",
+        "ARCH-03",
+        "COOP-01",
+        "COOP-02",
+        "COOP-05",
+        "ITEM-02",
+        "ITEM-06",
+        "RELAY-02",
+        "RACE-04",
+        "TEST-01",
+        "TEST-02",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/game.ts",
+      "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+      "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+      "id": "173",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 474,
+          "column": 50
+        },
+        "end": {
+          "line": 474,
+          "column": 52
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 474,
+          "column": 13
+        },
+        "end": {
+          "line": 474,
+          "column": 52
+        }
+      },
+      "sourceText": "[]",
+      "owner": "Game.end.callback@472",
+      "sourceContext": "[]",
+      "scopeProofs": [],
+      "status": "reviewed-counted-gameplay-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "SOLO-02",
+        "ARCH-02",
+        "ARCH-03",
+        "COOP-01",
+        "COOP-02",
+        "COOP-05",
+        "ITEM-02",
+        "ITEM-06",
+        "RELAY-02",
+        "RACE-04",
+        "TEST-01",
+        "TEST-02",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/game.ts",
+      "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+      "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+      "id": "189",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 519,
+          "column": 8
+        },
+        "end": {
+          "line": 519,
+          "column": 124
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 519,
+          "column": 8
+        },
+        "end": {
+          "line": 519,
+          "column": 124
+        }
+      },
+      "sourceText": "if (this.mobHazard(column, lane.index, column, lane.index, this.time, landingTime, PLAYER_VEHICLE_RADIUS)) continue;",
+      "owner": "Game.tryCharacterPower",
+      "sourceContext": "if (this.mobHazard(column, lane.index, column, lane.index, this.time, landingTime, PLAYER_VEHICLE_RADIUS)) continue;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-gameplay-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "SOLO-02",
+        "ARCH-02",
+        "ARCH-03",
+        "COOP-01",
+        "COOP-02",
+        "COOP-05",
+        "ITEM-02",
+        "ITEM-06",
+        "RELAY-02",
+        "RACE-04",
+        "TEST-01",
+        "TEST-02",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/game.ts",
+      "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+      "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+      "id": "258",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 679,
+          "column": 59
+        },
+        "end": {
+          "line": 679,
+          "column": 68
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 679,
+          "column": 25
+        },
+        "end": {
+          "line": 679,
+          "column": 68
+        }
+      },
+      "sourceText": "this.time",
+      "owner": "Game.sessionPickupContact",
+      "sourceContext": "this.time",
+      "scopeProofs": [
+        {
+          "mode": "solo-arcade",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Reviewed Game session adapter: complete callers are session services or guarded by world.sessionActive. Strict owned solo rejects session attachment and staging; ordinary Game functions and dispatch guards remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Reviewed Game session adapter: complete callers are session services or guarded by world.sessionActive. Strict owned solo rejects session attachment and staging; ordinary Game functions and dispatch guards remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        }
+      ],
+      "status": "reviewed-counted-gameplay-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "SOLO-02",
+        "ARCH-02",
+        "ARCH-03",
+        "COOP-01",
+        "COOP-02",
+        "COOP-05",
+        "ITEM-02",
+        "ITEM-06",
+        "RELAY-02",
+        "RACE-04",
+        "TEST-01",
+        "TEST-02",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/game.ts",
+      "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+      "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+      "id": "259",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 680,
+          "column": 64
+        },
+        "end": {
+          "line": 680,
+          "column": 68
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 680,
+          "column": 22
+        },
+        "end": {
+          "line": 680,
+          "column": 68
+        }
+      },
+      "sourceText": "coin",
+      "owner": "Game.sessionPickupContact",
+      "sourceContext": "coin",
+      "scopeProofs": [
+        {
+          "mode": "solo-arcade",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Reviewed Game session adapter: complete callers are session services or guarded by world.sessionActive. Strict owned solo rejects session attachment and staging; ordinary Game functions and dispatch guards remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Reviewed Game session adapter: complete callers are session services or guarded by world.sessionActive. Strict owned solo rejects session attachment and staging; ordinary Game functions and dispatch guards remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        }
+      ],
+      "status": "reviewed-counted-gameplay-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "SOLO-02",
+        "ARCH-02",
+        "ARCH-03",
+        "COOP-01",
+        "COOP-02",
+        "COOP-05",
+        "ITEM-02",
+        "ITEM-06",
+        "RELAY-02",
+        "RACE-04",
+        "TEST-01",
+        "TEST-02",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/game.ts",
+      "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+      "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+      "id": "260",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 681,
+          "column": 35
+        },
+        "end": {
+          "line": 681,
+          "column": 36
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 681,
+          "column": 20
+        },
+        "end": {
+          "line": 681,
+          "column": 36
+        }
+      },
+      "sourceText": "x",
+      "owner": "Game.sessionPickupContact",
+      "sourceContext": "x",
+      "scopeProofs": [
+        {
+          "mode": "solo-arcade",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Reviewed Game session adapter: complete callers are session services or guarded by world.sessionActive. Strict owned solo rejects session attachment and staging; ordinary Game functions and dispatch guards remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Reviewed Game session adapter: complete callers are session services or guarded by world.sessionActive. Strict owned solo rejects session attachment and staging; ordinary Game functions and dispatch guards remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        }
+      ],
+      "status": "reviewed-counted-gameplay-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "SOLO-02",
+        "ARCH-02",
+        "ARCH-03",
+        "COOP-01",
+        "COOP-02",
+        "COOP-05",
+        "ITEM-02",
+        "ITEM-06",
+        "RELAY-02",
+        "RACE-04",
+        "TEST-01",
+        "TEST-02",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/game.ts",
+      "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+      "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+      "id": "261",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 681,
+          "column": 78
+        },
+        "end": {
+          "line": 681,
+          "column": 79
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 681,
+          "column": 63
+        },
+        "end": {
+          "line": 681,
+          "column": 79
+        }
+      },
+      "sourceText": "y",
+      "owner": "Game.sessionPickupContact",
+      "sourceContext": "y",
+      "scopeProofs": [
+        {
+          "mode": "solo-arcade",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Reviewed Game session adapter: complete callers are session services or guarded by world.sessionActive. Strict owned solo rejects session attachment and staging; ordinary Game functions and dispatch guards remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Reviewed Game session adapter: complete callers are session services or guarded by world.sessionActive. Strict owned solo rejects session attachment and staging; ordinary Game functions and dispatch guards remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        }
+      ],
+      "status": "reviewed-counted-gameplay-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "SOLO-02",
+        "ARCH-02",
+        "ARCH-03",
+        "COOP-01",
+        "COOP-02",
+        "COOP-05",
+        "ITEM-02",
+        "ITEM-06",
+        "RELAY-02",
+        "RACE-04",
+        "TEST-01",
+        "TEST-02",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/game.ts",
+      "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+      "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+      "id": "268",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 696,
+          "column": 6
+        },
+        "end": {
+          "line": 696,
+          "column": 111
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 696,
+          "column": 6
+        },
+        "end": {
+          "line": 696,
+          "column": 111
+        }
+      },
+      "sourceText": "if (rewardLane.coinPull && rewardLane.coinPull.y < this.maxY - this.rules.retention.rowsBehind) continue;",
+      "owner": "Game.collectSessionCoins",
+      "sourceContext": "if (rewardLane.coinPull && rewardLane.coinPull.y < this.maxY - this.rules.retention.rowsBehind) continue;",
+      "scopeProofs": [
+        {
+          "mode": "solo-arcade",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Reviewed Game session adapter: complete callers are session services or guarded by world.sessionActive. Strict owned solo rejects session attachment and staging; ordinary Game functions and dispatch guards remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Reviewed Game session adapter: complete callers are session services or guarded by world.sessionActive. Strict owned solo rejects session attachment and staging; ordinary Game functions and dispatch guards remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        }
+      ],
+      "status": "reviewed-counted-gameplay-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "SOLO-02",
+        "ARCH-02",
+        "ARCH-03",
+        "COOP-01",
+        "COOP-02",
+        "COOP-05",
+        "ITEM-02",
+        "ITEM-06",
+        "RELAY-02",
+        "RACE-04",
+        "TEST-01",
+        "TEST-02",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/game.ts",
+      "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+      "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+      "id": "276",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 708,
+          "column": 6
+        },
+        "end": {
+          "line": 708,
+          "column": 33
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 708,
+          "column": 6
+        },
+        "end": {
+          "line": 708,
+          "column": 33
+        }
+      },
+      "sourceText": "if (gravity <= 0) continue;",
+      "owner": "Game.collectSessionCoins",
+      "sourceContext": "if (gravity <= 0) continue;",
+      "scopeProofs": [
+        {
+          "mode": "solo-arcade",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Reviewed Game session adapter: complete callers are session services or guarded by world.sessionActive. Strict owned solo rejects session attachment and staging; ordinary Game functions and dispatch guards remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Reviewed Game session adapter: complete callers are session services or guarded by world.sessionActive. Strict owned solo rejects session attachment and staging; ordinary Game functions and dispatch guards remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        }
+      ],
+      "status": "reviewed-counted-gameplay-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "SOLO-02",
+        "ARCH-02",
+        "ARCH-03",
+        "COOP-01",
+        "COOP-02",
+        "COOP-05",
+        "ITEM-02",
+        "ITEM-06",
+        "RELAY-02",
+        "RACE-04",
+        "TEST-01",
+        "TEST-02",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/game.ts",
+      "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+      "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+      "id": "287",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 730,
+          "column": 40
+        },
+        "end": {
+          "line": 730,
+          "column": 85
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 730,
+          "column": 26
+        },
+        "end": {
+          "line": 730,
+          "column": 97
+        }
+      },
+      "sourceText": "this.world.pickupOwners.get(rewardLane.index)",
+      "owner": "Game.collectCoins",
+      "sourceContext": "this.world.pickupOwners.get(rewardLane.index)",
+      "scopeProofs": [
+        {
+          "mode": "solo-arcade",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Strict owned solo has no session or operation context. Source-bound assignment/caller closure proves only this dispatch body or operand unavailable; predicate evaluation and ordinary fallback remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Strict owned solo has no session or operation context. Source-bound assignment/caller closure proves only this dispatch body or operand unavailable; predicate evaluation and ordinary fallback remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "relay",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-UPDATE-CLOSURE.md",
+          "callReason": "All pinned collectCoins calls occur inside finishPlayerUpdate during resolvePlayer with the same active world. collectSessionCoins returns before this solo-only remainder. Shared dispatch and every shared contact/claim guard remain accountable.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope."
+        },
+        {
+          "mode": "race",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-UPDATE-CLOSURE.md",
+          "callReason": "All pinned collectCoins calls occur inside finishPlayerUpdate during resolvePlayer with the same active world. collectSessionCoins returns before this solo-only remainder. Shared dispatch and every shared contact/claim guard remain accountable.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope."
+        },
+        {
+          "mode": "browser-presentation-owner-lifecycle",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-APPLICATION-CONSTRUCTION-CLOSURE.md",
+          "callReason": "The unchanged solo remainder binds const sessionSeat=undefined and pickupOwner is consequently undefined. Owner-only then/RHS paths cannot execute; evaluated reads/guards/false outcomes and all real coin behavior remain counted.",
+          "stateReason": "Exact current application entry/build and independent complete158-module source authorities. Global/per-file and public authoring/API callers are unaffected. No hitcount-based inference."
+        },
+        {
+          "mode": "development",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-APPLICATION-CONSTRUCTION-CLOSURE.md",
+          "callReason": "The unchanged solo remainder binds const sessionSeat=undefined and pickupOwner is consequently undefined. Owner-only then/RHS paths cannot execute; evaluated reads/guards/false outcomes and all real coin behavior remain counted.",
+          "stateReason": "Exact current application entry/build and independent complete158-module source authorities. Global/per-file and public authoring/API callers are unaffected. No hitcount-based inference."
+        }
+      ],
+      "status": "reviewed-counted-gameplay-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "SOLO-02",
+        "ARCH-02",
+        "ARCH-03",
+        "COOP-01",
+        "COOP-02",
+        "COOP-05",
+        "ITEM-02",
+        "ITEM-06",
+        "RELAY-02",
+        "RACE-04",
+        "TEST-01",
+        "TEST-02",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/game.ts",
+      "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+      "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+      "id": "288",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 731,
+          "column": 6
+        },
+        "end": {
+          "line": 731,
+          "column": 63
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 731,
+          "column": 6
+        },
+        "end": {
+          "line": 731,
+          "column": 63
+        }
+      },
+      "sourceText": "if (pickupOwner && pickupOwner !== sessionSeat) continue;",
+      "owner": "Game.collectCoins",
+      "sourceContext": "if (pickupOwner && pickupOwner !== sessionSeat) continue;",
+      "scopeProofs": [
+        {
+          "mode": "solo-arcade",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Strict owned solo has no session or operation context. Source-bound assignment/caller closure proves only this dispatch body or operand unavailable; predicate evaluation and ordinary fallback remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Strict owned solo has no session or operation context. Source-bound assignment/caller closure proves only this dispatch body or operand unavailable; predicate evaluation and ordinary fallback remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "relay",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-UPDATE-CLOSURE.md",
+          "callReason": "All pinned collectCoins calls occur inside finishPlayerUpdate during resolvePlayer with the same active world. collectSessionCoins returns before this solo-only remainder. Shared dispatch and every shared contact/claim guard remain accountable.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope."
+        },
+        {
+          "mode": "race",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-UPDATE-CLOSURE.md",
+          "callReason": "All pinned collectCoins calls occur inside finishPlayerUpdate during resolvePlayer with the same active world. collectSessionCoins returns before this solo-only remainder. Shared dispatch and every shared contact/claim guard remain accountable.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope."
+        },
+        {
+          "mode": "browser-presentation-owner-lifecycle",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-APPLICATION-CONSTRUCTION-CLOSURE.md",
+          "callReason": "The unchanged solo remainder binds const sessionSeat=undefined and pickupOwner is consequently undefined. Owner-only then/RHS paths cannot execute; evaluated reads/guards/false outcomes and all real coin behavior remain counted.",
+          "stateReason": "Exact current application entry/build and independent complete158-module source authorities. Global/per-file and public authoring/API callers are unaffected. No hitcount-based inference."
+        },
+        {
+          "mode": "development",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-APPLICATION-CONSTRUCTION-CLOSURE.md",
+          "callReason": "The unchanged solo remainder binds const sessionSeat=undefined and pickupOwner is consequently undefined. Owner-only then/RHS paths cannot execute; evaluated reads/guards/false outcomes and all real coin behavior remain counted.",
+          "stateReason": "Exact current application entry/build and independent complete158-module source authorities. Global/per-file and public authoring/API callers are unaffected. No hitcount-based inference."
+        }
+      ],
+      "status": "reviewed-counted-gameplay-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "SOLO-02",
+        "ARCH-02",
+        "ARCH-03",
+        "COOP-01",
+        "COOP-02",
+        "COOP-05",
+        "ITEM-02",
+        "ITEM-06",
+        "RELAY-02",
+        "RACE-04",
+        "TEST-01",
+        "TEST-02",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/game.ts",
+      "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+      "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+      "id": "289",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 731,
+          "column": 25
+        },
+        "end": {
+          "line": 731,
+          "column": 52
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 731,
+          "column": 10
+        },
+        "end": {
+          "line": 731,
+          "column": 52
+        }
+      },
+      "sourceText": "pickupOwner !== sessionSeat",
+      "owner": "Game.collectCoins",
+      "sourceContext": "pickupOwner !== sessionSeat",
+      "scopeProofs": [
+        {
+          "mode": "solo-arcade",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Strict owned solo has no session or operation context. Source-bound assignment/caller closure proves only this dispatch body or operand unavailable; predicate evaluation and ordinary fallback remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Strict owned solo has no session or operation context. Source-bound assignment/caller closure proves only this dispatch body or operand unavailable; predicate evaluation and ordinary fallback remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "relay",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-UPDATE-CLOSURE.md",
+          "callReason": "All pinned collectCoins calls occur inside finishPlayerUpdate during resolvePlayer with the same active world. collectSessionCoins returns before this solo-only remainder. Shared dispatch and every shared contact/claim guard remain accountable.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope."
+        },
+        {
+          "mode": "race",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-UPDATE-CLOSURE.md",
+          "callReason": "All pinned collectCoins calls occur inside finishPlayerUpdate during resolvePlayer with the same active world. collectSessionCoins returns before this solo-only remainder. Shared dispatch and every shared contact/claim guard remain accountable.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope."
+        },
+        {
+          "mode": "browser-presentation-owner-lifecycle",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-APPLICATION-CONSTRUCTION-CLOSURE.md",
+          "callReason": "The unchanged solo remainder binds const sessionSeat=undefined and pickupOwner is consequently undefined. Owner-only then/RHS paths cannot execute; evaluated reads/guards/false outcomes and all real coin behavior remain counted.",
+          "stateReason": "Exact current application entry/build and independent complete158-module source authorities. Global/per-file and public authoring/API callers are unaffected. No hitcount-based inference."
+        },
+        {
+          "mode": "development",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-APPLICATION-CONSTRUCTION-CLOSURE.md",
+          "callReason": "The unchanged solo remainder binds const sessionSeat=undefined and pickupOwner is consequently undefined. Owner-only then/RHS paths cannot execute; evaluated reads/guards/false outcomes and all real coin behavior remain counted.",
+          "stateReason": "Exact current application entry/build and independent complete158-module source authorities. Global/per-file and public authoring/API callers are unaffected. No hitcount-based inference."
+        }
+      ],
+      "status": "reviewed-counted-gameplay-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "SOLO-02",
+        "ARCH-02",
+        "ARCH-03",
+        "COOP-01",
+        "COOP-02",
+        "COOP-05",
+        "ITEM-02",
+        "ITEM-06",
+        "RELAY-02",
+        "RACE-04",
+        "TEST-01",
+        "TEST-02",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/game.ts",
+      "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+      "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+      "id": "292",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 737,
+          "column": 8
+        },
+        "end": {
+          "line": 737,
+          "column": 74
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 737,
+          "column": 8
+        },
+        "end": {
+          "line": 737,
+          "column": 74
+        }
+      },
+      "sourceText": "if (sessionSeat) this.world.pickupOwners.delete(rewardLane.index);",
+      "owner": "Game.collectCoins",
+      "sourceContext": "if (sessionSeat) this.world.pickupOwners.delete(rewardLane.index);",
+      "scopeProofs": [
+        {
+          "mode": "solo-arcade",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Strict owned solo has no session or operation context. Source-bound assignment/caller closure proves only this dispatch body or operand unavailable; predicate evaluation and ordinary fallback remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Strict owned solo has no session or operation context. Source-bound assignment/caller closure proves only this dispatch body or operand unavailable; predicate evaluation and ordinary fallback remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "relay",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-UPDATE-CLOSURE.md",
+          "callReason": "All pinned collectCoins calls occur inside finishPlayerUpdate during resolvePlayer with the same active world. collectSessionCoins returns before this solo-only remainder. Shared dispatch and every shared contact/claim guard remain accountable.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope."
+        },
+        {
+          "mode": "race",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-UPDATE-CLOSURE.md",
+          "callReason": "All pinned collectCoins calls occur inside finishPlayerUpdate during resolvePlayer with the same active world. collectSessionCoins returns before this solo-only remainder. Shared dispatch and every shared contact/claim guard remain accountable.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope."
+        },
+        {
+          "mode": "browser-presentation-owner-lifecycle",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-APPLICATION-CONSTRUCTION-CLOSURE.md",
+          "callReason": "The unchanged solo remainder binds const sessionSeat=undefined and pickupOwner is consequently undefined. Owner-only then/RHS paths cannot execute; evaluated reads/guards/false outcomes and all real coin behavior remain counted.",
+          "stateReason": "Exact current application entry/build and independent complete158-module source authorities. Global/per-file and public authoring/API callers are unaffected. No hitcount-based inference."
+        },
+        {
+          "mode": "development",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-APPLICATION-CONSTRUCTION-CLOSURE.md",
+          "callReason": "The unchanged solo remainder binds const sessionSeat=undefined and pickupOwner is consequently undefined. Owner-only then/RHS paths cannot execute; evaluated reads/guards/false outcomes and all real coin behavior remain counted.",
+          "stateReason": "Exact current application entry/build and independent complete158-module source authorities. Global/per-file and public authoring/API callers are unaffected. No hitcount-based inference."
+        }
+      ],
+      "status": "reviewed-counted-gameplay-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "SOLO-02",
+        "ARCH-02",
+        "ARCH-03",
+        "COOP-01",
+        "COOP-02",
+        "COOP-05",
+        "ITEM-02",
+        "ITEM-06",
+        "RELAY-02",
+        "RACE-04",
+        "TEST-01",
+        "TEST-02",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/game.ts",
+      "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+      "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+      "id": "294",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 744,
+          "column": 6
+        },
+        "end": {
+          "line": 744,
+          "column": 77
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 744,
+          "column": 6
+        },
+        "end": {
+          "line": 744,
+          "column": 77
+        }
+      },
+      "sourceText": "if (rewardLane.coinPull && gravity <= 0) rewardLane.coinPull.speed = 0;",
+      "owner": "Game.collectCoins",
+      "sourceContext": "if (rewardLane.coinPull && gravity <= 0) rewardLane.coinPull.speed = 0;",
+      "scopeProofs": [
+        {
+          "mode": "relay",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-UPDATE-CLOSURE.md",
+          "callReason": "All pinned collectCoins calls occur inside finishPlayerUpdate during resolvePlayer with the same active world. collectSessionCoins returns before this solo-only remainder. Shared dispatch and every shared contact/claim guard remain accountable.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope."
+        },
+        {
+          "mode": "race",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-UPDATE-CLOSURE.md",
+          "callReason": "All pinned collectCoins calls occur inside finishPlayerUpdate during resolvePlayer with the same active world. collectSessionCoins returns before this solo-only remainder. Shared dispatch and every shared contact/claim guard remain accountable.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope."
+        }
+      ],
+      "status": "reviewed-counted-gameplay-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "SOLO-02",
+        "ARCH-02",
+        "ARCH-03",
+        "COOP-01",
+        "COOP-02",
+        "COOP-05",
+        "ITEM-02",
+        "ITEM-06",
+        "RELAY-02",
+        "RACE-04",
+        "TEST-01",
+        "TEST-02",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/game.ts",
+      "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+      "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+      "id": "303",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 757,
+          "column": 10
+        },
+        "end": {
+          "line": 757,
+          "column": 86
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 757,
+          "column": 10
+        },
+        "end": {
+          "line": 757,
+          "column": 86
+        }
+      },
+      "sourceText": "if (sessionSeat) this.world.pickupOwners.set(rewardLane.index, sessionSeat);",
+      "owner": "Game.collectCoins",
+      "sourceContext": "if (sessionSeat) this.world.pickupOwners.set(rewardLane.index, sessionSeat);",
+      "scopeProofs": [
+        {
+          "mode": "solo-arcade",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Strict owned solo has no session or operation context. Source-bound assignment/caller closure proves only this dispatch body or operand unavailable; predicate evaluation and ordinary fallback remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Strict owned solo has no session or operation context. Source-bound assignment/caller closure proves only this dispatch body or operand unavailable; predicate evaluation and ordinary fallback remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "relay",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-UPDATE-CLOSURE.md",
+          "callReason": "All pinned collectCoins calls occur inside finishPlayerUpdate during resolvePlayer with the same active world. collectSessionCoins returns before this solo-only remainder. Shared dispatch and every shared contact/claim guard remain accountable.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope."
+        },
+        {
+          "mode": "race",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-UPDATE-CLOSURE.md",
+          "callReason": "All pinned collectCoins calls occur inside finishPlayerUpdate during resolvePlayer with the same active world. collectSessionCoins returns before this solo-only remainder. Shared dispatch and every shared contact/claim guard remain accountable.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope."
+        },
+        {
+          "mode": "browser-presentation-owner-lifecycle",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-APPLICATION-CONSTRUCTION-CLOSURE.md",
+          "callReason": "The unchanged solo remainder binds const sessionSeat=undefined and pickupOwner is consequently undefined. Owner-only then/RHS paths cannot execute; evaluated reads/guards/false outcomes and all real coin behavior remain counted.",
+          "stateReason": "Exact current application entry/build and independent complete158-module source authorities. Global/per-file and public authoring/API callers are unaffected. No hitcount-based inference."
+        },
+        {
+          "mode": "development",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-APPLICATION-CONSTRUCTION-CLOSURE.md",
+          "callReason": "The unchanged solo remainder binds const sessionSeat=undefined and pickupOwner is consequently undefined. Owner-only then/RHS paths cannot execute; evaluated reads/guards/false outcomes and all real coin behavior remain counted.",
+          "stateReason": "Exact current application entry/build and independent complete158-module source authorities. Global/per-file and public authoring/API callers are unaffected. No hitcount-based inference."
+        }
+      ],
+      "status": "reviewed-counted-gameplay-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "SOLO-02",
+        "ARCH-02",
+        "ARCH-03",
+        "COOP-01",
+        "COOP-02",
+        "COOP-05",
+        "ITEM-02",
+        "ITEM-06",
+        "RELAY-02",
+        "RACE-04",
+        "TEST-01",
+        "TEST-02",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/game.ts",
+      "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+      "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+      "id": "304",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 761,
+          "column": 8
+        },
+        "end": {
+          "line": 761,
+          "column": 100
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 761,
+          "column": 8
+        },
+        "end": {
+          "line": 761,
+          "column": 100
+        }
+      },
+      "sourceText": "if (sessionSeat && !pickupOwner) this.world.pickupOwners.set(rewardLane.index, sessionSeat);",
+      "owner": "Game.collectCoins",
+      "sourceContext": "if (sessionSeat && !pickupOwner) this.world.pickupOwners.set(rewardLane.index, sessionSeat);",
+      "scopeProofs": [
+        {
+          "mode": "solo-arcade",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Strict owned solo has no session or operation context. Source-bound assignment/caller closure proves only this dispatch body or operand unavailable; predicate evaluation and ordinary fallback remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Strict owned solo has no session or operation context. Source-bound assignment/caller closure proves only this dispatch body or operand unavailable; predicate evaluation and ordinary fallback remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "relay",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-UPDATE-CLOSURE.md",
+          "callReason": "All pinned collectCoins calls occur inside finishPlayerUpdate during resolvePlayer with the same active world. collectSessionCoins returns before this solo-only remainder. Shared dispatch and every shared contact/claim guard remain accountable.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope."
+        },
+        {
+          "mode": "race",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-UPDATE-CLOSURE.md",
+          "callReason": "All pinned collectCoins calls occur inside finishPlayerUpdate during resolvePlayer with the same active world. collectSessionCoins returns before this solo-only remainder. Shared dispatch and every shared contact/claim guard remain accountable.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope."
+        },
+        {
+          "mode": "browser-presentation-owner-lifecycle",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-APPLICATION-CONSTRUCTION-CLOSURE.md",
+          "callReason": "The unchanged solo remainder binds const sessionSeat=undefined and pickupOwner is consequently undefined. Owner-only then/RHS paths cannot execute; evaluated reads/guards/false outcomes and all real coin behavior remain counted.",
+          "stateReason": "Exact current application entry/build and independent complete158-module source authorities. Global/per-file and public authoring/API callers are unaffected. No hitcount-based inference."
+        },
+        {
+          "mode": "development",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-APPLICATION-CONSTRUCTION-CLOSURE.md",
+          "callReason": "The unchanged solo remainder binds const sessionSeat=undefined and pickupOwner is consequently undefined. Owner-only then/RHS paths cannot execute; evaluated reads/guards/false outcomes and all real coin behavior remain counted.",
+          "stateReason": "Exact current application entry/build and independent complete158-module source authorities. Global/per-file and public authoring/API callers are unaffected. No hitcount-based inference."
+        }
+      ],
+      "status": "reviewed-counted-gameplay-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "SOLO-02",
+        "ARCH-02",
+        "ARCH-03",
+        "COOP-01",
+        "COOP-02",
+        "COOP-05",
+        "ITEM-02",
+        "ITEM-06",
+        "RELAY-02",
+        "RACE-04",
+        "TEST-01",
+        "TEST-02",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/game.ts",
+      "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+      "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+      "id": "305",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 761,
+          "column": 27
+        },
+        "end": {
+          "line": 761,
+          "column": 39
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 761,
+          "column": 12
+        },
+        "end": {
+          "line": 761,
+          "column": 39
+        }
+      },
+      "sourceText": "!pickupOwner",
+      "owner": "Game.collectCoins",
+      "sourceContext": "!pickupOwner",
+      "scopeProofs": [
+        {
+          "mode": "solo-arcade",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Strict owned solo has no session or operation context. Source-bound assignment/caller closure proves only this dispatch body or operand unavailable; predicate evaluation and ordinary fallback remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Strict owned solo has no session or operation context. Source-bound assignment/caller closure proves only this dispatch body or operand unavailable; predicate evaluation and ordinary fallback remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "relay",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-UPDATE-CLOSURE.md",
+          "callReason": "All pinned collectCoins calls occur inside finishPlayerUpdate during resolvePlayer with the same active world. collectSessionCoins returns before this solo-only remainder. Shared dispatch and every shared contact/claim guard remain accountable.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope."
+        },
+        {
+          "mode": "race",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-UPDATE-CLOSURE.md",
+          "callReason": "All pinned collectCoins calls occur inside finishPlayerUpdate during resolvePlayer with the same active world. collectSessionCoins returns before this solo-only remainder. Shared dispatch and every shared contact/claim guard remain accountable.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope."
+        },
+        {
+          "mode": "browser-presentation-owner-lifecycle",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-APPLICATION-CONSTRUCTION-CLOSURE.md",
+          "callReason": "The unchanged solo remainder binds const sessionSeat=undefined and pickupOwner is consequently undefined. Owner-only then/RHS paths cannot execute; evaluated reads/guards/false outcomes and all real coin behavior remain counted.",
+          "stateReason": "Exact current application entry/build and independent complete158-module source authorities. Global/per-file and public authoring/API callers are unaffected. No hitcount-based inference."
+        },
+        {
+          "mode": "development",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-APPLICATION-CONSTRUCTION-CLOSURE.md",
+          "callReason": "The unchanged solo remainder binds const sessionSeat=undefined and pickupOwner is consequently undefined. Owner-only then/RHS paths cannot execute; evaluated reads/guards/false outcomes and all real coin behavior remain counted.",
+          "stateReason": "Exact current application entry/build and independent complete158-module source authorities. Global/per-file and public authoring/API callers are unaffected. No hitcount-based inference."
+        }
+      ],
+      "status": "reviewed-counted-gameplay-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "SOLO-02",
+        "ARCH-02",
+        "ARCH-03",
+        "COOP-01",
+        "COOP-02",
+        "COOP-05",
+        "ITEM-02",
+        "ITEM-06",
+        "RELAY-02",
+        "RACE-04",
+        "TEST-01",
+        "TEST-02",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/game.ts",
+      "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+      "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+      "id": "310",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 771,
+          "column": 6
+        },
+        "end": {
+          "line": 771,
+          "column": 72
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 771,
+          "column": 6
+        },
+        "end": {
+          "line": 771,
+          "column": 72
+        }
+      },
+      "sourceText": "if (sessionSeat) this.world.pickupOwners.delete(rewardLane.index);",
+      "owner": "Game.collectCoins",
+      "sourceContext": "if (sessionSeat) this.world.pickupOwners.delete(rewardLane.index);",
+      "scopeProofs": [
+        {
+          "mode": "solo-arcade",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Strict owned solo has no session or operation context. Source-bound assignment/caller closure proves only this dispatch body or operand unavailable; predicate evaluation and ordinary fallback remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-DISPATCH-ARMS.md",
+          "callReason": "Strict owned solo has no session or operation context. Source-bound assignment/caller closure proves only this dispatch body or operand unavailable; predicate evaluation and ordinary fallback remain applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "relay",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-UPDATE-CLOSURE.md",
+          "callReason": "All pinned collectCoins calls occur inside finishPlayerUpdate during resolvePlayer with the same active world. collectSessionCoins returns before this solo-only remainder. Shared dispatch and every shared contact/claim guard remain accountable.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope."
+        },
+        {
+          "mode": "race",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-UPDATE-CLOSURE.md",
+          "callReason": "All pinned collectCoins calls occur inside finishPlayerUpdate during resolvePlayer with the same active world. collectSessionCoins returns before this solo-only remainder. Shared dispatch and every shared contact/claim guard remain accountable.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope."
+        },
+        {
+          "mode": "browser-presentation-owner-lifecycle",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-APPLICATION-CONSTRUCTION-CLOSURE.md",
+          "callReason": "The unchanged solo remainder binds const sessionSeat=undefined and pickupOwner is consequently undefined. Owner-only then/RHS paths cannot execute; evaluated reads/guards/false outcomes and all real coin behavior remain counted.",
+          "stateReason": "Exact current application entry/build and independent complete158-module source authorities. Global/per-file and public authoring/API callers are unaffected. No hitcount-based inference."
+        },
+        {
+          "mode": "development",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-APPLICATION-CONSTRUCTION-CLOSURE.md",
+          "callReason": "The unchanged solo remainder binds const sessionSeat=undefined and pickupOwner is consequently undefined. Owner-only then/RHS paths cannot execute; evaluated reads/guards/false outcomes and all real coin behavior remain counted.",
+          "stateReason": "Exact current application entry/build and independent complete158-module source authorities. Global/per-file and public authoring/API callers are unaffected. No hitcount-based inference."
+        }
+      ],
+      "status": "reviewed-counted-gameplay-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "SOLO-02",
+        "ARCH-02",
+        "ARCH-03",
+        "COOP-01",
+        "COOP-02",
+        "COOP-05",
+        "ITEM-02",
+        "ITEM-06",
+        "RELAY-02",
+        "RACE-04",
+        "TEST-01",
+        "TEST-02",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    }
+  ],
+  "hashes": {
+    "artifacts/release-coverage/semantic-current-03/raw-zero-review.json": "c8297f9591dcbe604c1ff06f2e67ca6575ac9570a94838dec747530dcfda5fc4",
+    ".planning/phases/07-release-evidence-pr/07-03-SCHEMA-RECOVERY-SEMANTIC-PROOF.json": "8a5bfe67e7b38a5b107cef1ab65e13a01131247c05265c0d68bd57e471a83a09",
+    "artifacts/release-coverage/current-full-05-proof/freeze.json": "c72459fff67275b20c5b67c1076d781f825a00cec405fada8743cb2f350111a3",
+    "tools/release-coverage/suites.json": "02e81d3e4320ed8a2d0901fd0eee532e051d1c0b27b606c011fedbc3674ab88d",
+    "tests/solo-parity.test.mjs": "8ae2428e461845ca2a1d8a1aad9f757122c4268bee10e4ef87ce7e9954e5439d",
+    "tests/solo-parity-actors.test.mjs": "5fba030c52b73c640158b9d169de1eb8a605d21ebfe2442c50a472a20c072ce7",
+    "tests/solo-parity-economy.test.mjs": "ac3dd4b12598caba1f8977968009c19d43dc2b413feb04616b52c55e8d4ae083",
+    "tests/health.test.mjs": "8160e8be1eaa247ed57681eb876fb8022a9700f3f3815996826ead0126c8330a",
+    "tests/character-powers.test.mjs": "487203a1b29fcfb9240b19d747cd21f065f6b35611b47c79c6373c398ad89eae",
+    "tests/local-session.test.mjs": "06fbf37da24dd6b85d290b8ce04489e734d7c33947b2d7bb398966a6c6aebb69",
+    "tests/session-world.test.mjs": "73e80711532abb050a9144c16cf277d288236beb34f9ba9a7e5f5ee623921408",
+    "tests/consumable-world.test.mjs": "66c06dd50c4811d668424e489174ab2e704e396dd1dbccfedc4f9bdc3ecb3ecf",
+    "tests/consumable-world-boundaries.test.mjs": "5aa76f1b029a0efa90a6f585b2464dd5eead9067a867999a5a2528b5c41e330b",
+    "tests/log-coin-gravity.test.mjs": "2e281b1f7070cc65a3a50b5c1c31b919dad1fec467f0ba658552758bde30719a",
+    "tests/turn-log-coin-capture.test.mjs": "887caa26ce4863e9d32ff869d9ce73191ef457ad20d440307c684861a804fa2d",
+    "tests/death-spill.test.mjs": "1a437172d44c7e7076c27209bb6c20975dac759e6799965f454e076741f47a33",
+    "tests/mobs.test.mjs": "f64569f2380ad5c4fe56545c64768a2241812416fe3aeeded3f3a2ddf9db9776",
+    "tests/relay-results.test.mjs": "ad435a9d8be4c0056241c2299f203a6e5d2030b0c473bd1771c41d842efa89df",
+    ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md": "48307684b9152df3b479bd211027e3654ad6ec2ebc6deffea3f7575f57dbaa93",
+    "artifacts/release-coverage/game-residual-semantic-07/verify.mjs": "89394a2659ddc5f5c911d77cf352ff81e1df75078291a2f6a891b78d555e8505",
+    "src/game.ts": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+    "src/session.ts": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+    "src/market/run.ts": "ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f",
+    "src/market/items/magnet.ts": "b1edeb4a20a5115892ef949c00e5433ed57ab168166eaf2fa7029284f9001aa4",
+    "src/market/items/pocket-change.ts": "1fc84ec5c54fde27c55ec802ec3e4e0607f3812d46a0f5b58b6714b9650dc771",
+    "src/market/items/tow-rope.ts": "585a97ca245c62809cb831832869761727caee8f032a7e7cc8420f68a60c3413",
+    "src/market/items/power-coin-rush.ts": "9df3d7726644696167b75eefbd75e11b711c8cdaf8133de39152147ee809ec53",
+    "src/mode-rules.ts": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+    "src/content.ts": "56d4423a4d6c7bddd21be800353156487d46c5f5fe0a9ff4f550b4dadc14ea99",
+    "artifacts/release-coverage/game-residual-semantic-07/reference-audit.mjs": "69f8fccac2bb315ce93ea7700cd09597c62bfb1903bbd8f729cd8c516146dfe5",
+    "artifacts/release-coverage/game-residual-semantic-07/reference-audit.log": "b8d59605e3e54a0db9413a1157fdf709eccc552bb9cc4da3ff2a97c7487133da",
+    "artifacts/release-coverage/game-residual-semantic-07/geometry-parity.mjs": "8209c4dcdc9d55a517eaaf7e3b5d8bbb1d2bd7a8493ef5b8bea8e560a679d212",
+    "artifacts/release-coverage/game-residual-semantic-07/geometry-parity.log": "3b7bf83d5e9a2917e6e9a26639a67fa9828bbf0310ac67494235cc90c0ec7888",
+    ".planning/phases/07-release-evidence-pr/07-03-APPLICATION-CONSTRUCTION-CLOSURE.md": "972b2f803b5d4fb712806e8f6d180847c2d90a833546d0a5ed504533b77f5d2d",
+    ".planning/phases/07-release-evidence-pr/07-03-APPLICATION-CONSTRUCTION-PROOF.json": "8431c70dd07d30e278d746006de3fa227954f54a908d55c52d0a6746877a2750",
+    "artifacts/release-coverage/game-residual-semantic-07/reference-audit.json": "9446550009433cf523ecdda1b7c3019328c3794b5c465a7039e1021a6d5b5ec1",
+    "artifacts/release-coverage/game-residual-semantic-07/geometry-parity.json": "3721579e4ba07fc52efafd12a87b39d9a21799f60185728a2a07202a244e7d6f"
+  }
+}

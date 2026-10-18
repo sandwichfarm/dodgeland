@@ -436,3 +436,20 @@ generic custom callbacks or roots impossible.
 159-source/eight-target audit,11 registered behavior sources and410 unchanged
 frozen paths. No execution,counters,exclusions or floor changes. The current
 partial ledger is293 reviewed/537 pending;final visual inspection is separate.
+
+## Remaining Game branch conditions
+
+**SOLO-01/02,ARCH-02/03,COOP-01/02/05,ITEM-02/06,RELAY-02,
+RACE-04,TEST-01/02/05.** Twenty-eight original current-full Game zero arms
+have explicit consequence/behavior and value/order dispositions. The three
+geometry helper texts match oraclea310 exactly;this is narrow source preservation,
+not whole-Game execution/parity. Receiver ownership,dead-player filtering,
+extension lifecycle,terminal spill,innate safety and physical collection remain
+linked to actual Game/session tests. Eight solo pickup-owner remnants are behind
+a literal const undefined;actual sessions use their separate arbitration path.
+Generic authored zero-gravity,empty-model and stale-release APIs remain counted.
+[Review](07-03-GAME-RESIDUAL-REVIEW.md) and
+[proof](07-03-GAME-RESIDUAL-PROOF.json) bind28 exact source/map sites,
+159-source/seven-method reference audit,14 registered behavior sources and410
+unchanged frozen paths. All28 remain counted;no execution,hits,exclusions or
+threshold changes. Current partial index is321 reviewed/509 pending.
