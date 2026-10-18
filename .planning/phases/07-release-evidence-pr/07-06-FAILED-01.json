@@ -13,7 +13,6 @@
   "failedStage": "enforcing-coverage",
   "terminalControls": 19,
   "passedProduction": 71,
-  "nonzeroJobs": [],
   "observation": "One Race test canceled by 45000ms deadline,reported64043ms;external process-tree hold lasted55.42478seconds during that worker. Other15worker cases passed. No game/assertion/timeout change. Entire failed run retained.",
   "hold": {
     "observedAt": "2026-10-18T04:26:59.098419+00:00",
@@ -127,5 +126,18 @@
     "artifacts/release-final-launch-01/canonical.log": "7561517875c0b9ce5147863ac65f81dbbe76b9648c211ee43d390c1bda95ae5f",
     "artifacts/release-final-launch-01/storage-maintenance/hold-01.json": "d8e41676ab56530bd70dec5f7f18257d5b5b461f22d9888aceb095ad65eeb004",
     "artifacts/release-final-launch-01/storage-maintenance/closed-final-01-verified.json": "d9fd5a25723fccb7dd6e368656cbd6bcb6331e8da0e261385f3af9195226eaf4"
+  },
+  "recordedNonzeroLedgerEntries": [],
+  "ledgerScope": "Collector appends successfully closed jobs before advancing;the failed Race command is evidenced by the actual parent stage failure and retained stderr,not a fabricated ledger row.",
+  "failedWorker": {
+    "id": "race-runtime",
+    "file": "tests/race-runtime.mjs",
+    "actualRunnerReportedCommandExit": 1,
+    "passedCases": 15,
+    "canceledCases": 1,
+    "failedCase": "Mud Splash out-of-range and departed targets preserve charges; owner switch is isolated from selection",
+    "testFailureType": "testTimeoutFailure",
+    "deadlineMs": 45000,
+    "reportedDurationMs": 64043.153833
   }
 }
