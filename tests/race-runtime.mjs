@@ -26,6 +26,24 @@ async function finishPublicInterval(app,before,id) {
  if(before?.buildScope==='production')recordInterval(before,after,id);
 }
 
+// Regression from a timed public-route diagnostic: log carry leaves the duck
+// fractional. A coin detour followed by obstacle avoidance must not cycle.
+test('earned-market driver escapes the captured fractional coin detour cycle',async()=>{
+ const player={x:-4.116699022119694,y:190,groundY:190,earnedDistance:190,state:'playing',health:3,hop:0};
+ const lane=(index,blocked,coin=null)=>({index,kind:'meadow',blocked,coin});
+ const session={players:[player],world:{time:82.55816666666549,rules:{simulation:{worldTimeScale:1}},rows:new Map([[190,lane(190,[-2],0)],[191,lane(191,[-3,5])]]),host:{mobHazard:()=>false}}};
+ const inputs=[];
+ const app={onSession:async fn=>fn.call(session),frame:{locator:()=>({focus:async()=>{}})},page:{keyboard:{press:async key=>{
+  inputs.push(key);assert.ok(inputs.length<=8,'route repeated a coin/obstacle cycle');
+  const dx=key==='a'?-1:key==='d'?1:0,dy=key==='w'?1:0;
+  assert.ok(!session.world.rows.get(player.y+dy).blocked.includes(Math.round(player.x+dx)),'driver sent a blocked hop');
+  player.x+=dx;player.y+=dy;player.groundY=player.y;player.earnedDistance=Math.max(player.earnedDistance,player.y);
+ }}},advance:async ms=>{session.world.time+=ms/1000;}};
+ const reached=await earnTogether(app,191);
+ assert.equal(reached.players[0].earned,191);assert.deepEqual(inputs,['d','a','w']);
+ assert.equal(player.x,-4.116699022119694,'driver preserves the carried fractional grid');
+});
+
 test('camera fog ribbon edge marker HUD and reduced motion retain authoritative observations',{timeout:30000},async()=>{
  const evidence={errors:[],external:[]},app=await createMarketGameFixture(evidence,{auditBoundary:true,initialIntent:intent});
  try{await app.page.emulateMedia({reducedMotion:'reduce'});const f=await start(app);const interval=await publicSnapshot(app);assert.equal(await f.locator('[data-race-fog]').count(),2);await sessionHudAction(app,'p1','revive',{click:false});assert.match(await f.locator('[data-seat="p1"] [data-session-hud="revive"]').innerText(),/Personal revive.*250/);await f.getByRole('button',{name:'Previous details',exact:true}).click();assert.match(await f.locator('[data-seat="p1"] [data-session-hud="power"]').innerText(),/Power.*100/);await f.getByRole('button',{name:'Close details',exact:true}).click();assert.equal(await f.locator('[data-race-boundary]').count(),1);await f.locator('#scene').focus();await app.page.keyboard.press('w');await app.advance(300);const state=await app.onSession(function(){return {frontier:this.result?.leaderFrontier,earned:this.players[0].earnedDistance};});assert.equal(state.earned,1);assert.deepEqual(await app.onRenderer(function(){return {reduced:this.reduced,camera:this.camera};}),{reduced:true,camera:1});await app.page.keyboard.press('s');await app.advance(300);assert.equal(await app.onRenderer(function(){return this.camera;}),1);assert.match(await f.locator('[data-race-lead]').innerText(),/Lead 1/);await finishPublicInterval(app,interval,'race-camera-forward-back');assert.deepEqual(evidence.errors,[]);assert.deepEqual(evidence.external,[]);}finally{await app.close();}

@@ -1,0 +1,66 @@
+{
+  "status": "focused-red-green-and-whole-instrumented-worker-pass;not-full-release",
+  "createdAt": "2026-10-18T04:49:21.077473+00:00",
+  "cause": "Optional coin detour and blocked-next-lane avoidance alternate d/a indefinitely from a platform-carried fractional grid. Player stays alive on meadow at190;the1500attempt limit eventually expires.",
+  "capturedState": {
+    "x": -4.116699022119694,
+    "y": 190,
+    "earned": 190,
+    "currentBlocked": [
+      -2
+    ],
+    "currentCoin": 0,
+    "nextBlocked": [
+      -3,
+      5
+    ],
+    "ui": "playing,no dialogs"
+  },
+  "repair": "Track optional detours by row and exact carried x within one earnTogether call. Do not repeat the same coin detour;fallback prioritizes existing safe forward path. No normalization or product source change.",
+  "regression": {
+    "permanentFile": "tests/race-runtime.mjs",
+    "name": "earned-market driver escapes the captured fractional coin detour cycle",
+    "exactBodyMatchesIsolatedRunner": true,
+    "redExit": 1,
+    "greenExit": 0,
+    "expectedKeys": [
+      "d",
+      "a",
+      "w"
+    ],
+    "preservesExactFractionalGrid": true,
+    "scope": "Arranged driver model;not public input acquisition or product coverage"
+  },
+  "productionChanges": false,
+  "assertionRemoval": false,
+  "timeoutOrFloorChanges": false,
+  "wholeWorker": {
+    "session": 56914,
+    "status": "terminal-pass",
+    "command": "node --max-old-space-size=24576 tools/release-coverage/run.mjs --suite race-public-03 --report-only --output artifacts/release-final-launch-01/race-route-fixed-01",
+    "log": "artifacts/release-final-launch-01/race-route-fixed-01.log",
+    "terminalExit": 0,
+    "passedCases": 17,
+    "failedCases": 0,
+    "canceledCases": 0,
+    "skippedCases": 0,
+    "runId": "672dd6b3-8d10-47da-91ce-6f3743e153c9",
+    "completedAt": "2026-10-18T04:52:07.080Z",
+    "thresholdsEvaluated": false
+  },
+  "hashes": {
+    "artifacts/release-final-launch-01/race-route-cycle-red-01.log": "5a5f1b3129d240251403d1c03961e917ee34d87052911e832dc11d5aaa05ae68",
+    "artifacts/release-final-launch-01/race-route-cycle-green-01.log": "37937e5b7cb02a8701941c142172abc44dc1e3565ef317f8977efba9183f5c04",
+    "artifacts/release-final-launch-01/race-route-cycle-regression-01.mjs": "b625d1be5d307d7d6130c3c5568c29fa9b659c3e617240807cf9a64270b2fc11",
+    "artifacts/release-final-launch-01/race-route-diagnostic-03.json": "b244acf972094f9694c0026e225efcb335e63310db2fb92ccc4fad7eda68aa51",
+    "tests/race-browser-fixture.mjs": "085ea78d2a214cb53f89b5595a28e45e9b7d4b27406e08fed6dedea082bb357a",
+    "tests/race-runtime.mjs": "fb49549b752f03ed2d1a87c7cd28ef42b28433b2cfab7a8c5b01cdccac0ce5e7",
+    "artifacts/release-final-launch-01/race-route-fixed-01.log": "10bcb08ce69e3220b49a1d185ff629f227e42633228603433b6deb24d10c463d"
+  },
+  "limits": [
+    "Five-second public idle reproduced the cycle. Ten-second idle exposed a separate unsafe crossing by the simple driver;not claimed fixed by this change.",
+    "Technical source freeze invalidated by two test-file changes. Refresh affected receipts and visual provenance before final release run.",
+    "No release completion or PR claimed."
+  ],
+  "observedAt": "2026-10-18T04:52:24.653452+00:00"
+}
