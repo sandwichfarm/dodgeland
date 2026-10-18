@@ -46,5 +46,7 @@
   "parentObservation": "Canonical unified session11882 returned actual exit1;PIDs10879/52267 no longer present",
   "priorObservationPath": "artifacts/release-final-launch-01/launch.json",
   "failureProof": ".planning/phases/07-release-evidence-pr/07-06-FAILED-01.json",
-  "replacementDiagnosticSession": 36485
+  "replacementDiagnosticSession": 67698,
+  "replacementDiagnosticStatus": "Read-only instrumented route diagnostic;whole Race36485 terminated1 on case5",
+  "investigationProof": ".planning/phases/07-release-evidence-pr/07-06-ROUTE-INVESTIGATION.json"
 }

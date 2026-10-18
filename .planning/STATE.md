@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-06 first final run failed after disk hold/test deadline; whole Race diagnostic36485 active
-last_updated: "2026-10-18T04:30:15.175767+00:00"
+stopped_at: 07-06 investigating intermittent Race route helper; preserved instrumented diagnostic67698 active
+last_updated: "2026-10-18T04:38:49.909758+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -19,25 +19,36 @@ last_activity_desc: 07-05 complete;all51original clauses/47requirements mapped,6
 
 ## Current work
 
-FIRST FINAL RUN TERMINATED1:exec11882/PID10879,run88465003-ebf6-477f-b091-
-71a79781afe2. Inherited and calibration passed,but enforcing collection failed
-on one45s Race test deadline after the root-owned55.42478s disk-pressure process
-hold. All15 other Race cases passed;this partial run isnot final acceptance.
-See07-06-FAILED-01.json for actual terminal ledger,hold,resume and hash proof.
-Storagecompression reclaimed649203712bytes from170 closed passed payloads;
-independent verification confirmed exactbytes,ownerledger and417 frozen inputs.
-At722MiBfree,the ownedtree was held then resumed unchanged after8GiB recovered.
-All technical inputs and normal e9800fc8 remain unchanged. No controller/gameplay/
-assertion/timeout/floor was altered. No PR opened.44/45plans remain.
+FINAL ACCEPTANCE IS NOT PROVEN. Firstfinal11882exit1 ispreserved in07-06-
+FAILED-01 (71production and19controls passed;45s Race case canceled during55s
+external disk-pressure hold;all samePIDs resumed;170 closed payloads losslessly
+compressed/independently reverified;417technical inputs unchanged).
 
-Whole unchanged canonical Race diagnostic is now actualsession36485:
-node --max-old-space-size=24576 tools/release-coverage/run.mjs --suite
-race-public-03 --report-only --output artifacts/release-final-launch-01/
-race-after-hold-01. Log israce-after-hold-01.log inthat launchdirectory.
-Follow same handle toterminal;this diagnostic isnot full-release proof. Then a
-fresh exactfull final chain is mandatory. Do not suspend timed workers again;
-monitor resourcepressure and use only proven closed-payload compression.
-Earlier live-run paragraphs below are dated lineage,superseded here.
+Unchanged whole canonical Race diagnostic36485 also exited1,with a different
+failure:case5 actual earned gear route exhausted earnTogether's1500 attempts
+while trying forgoal200 after inspecting/leaving thefirstmarket.15 othercases
+passed,includingthe previously timed-out case. Thisis not explained bythehold.
+See07-06-ROUTE-INVESTIGATION.json. Do not blindlyretry or weaken assertions/
+timeouts/floors. Investigate exact endstate first. No production or technical
+source has changed;all417 frozen paths andnormal e980remain asbefore.
+
+Read-only normal artifact diagnostic35300 exited0:three independent visible-input
+routes each reached100then200 after theactual market inspection/Escape sequence.
+Now active67698:node artifacts/release-final-launch-01/race-route-diagnostic-02.mjs
+runs the identical read-only diagnostic againstthepreserved instrumented
+artifact fromrace-after-hold-01 run3a45959b-1761-41d8-bba5-7ff07bb92ef4.
+It writesrace-route-diagnostic-02.json/log inartifacts/release-final-launch-01.
+Followactualhandle toterminal. Capture helper failure position/lane/game/menu
+state before choosing anyrepair. No collection/floor/release pass isclaimed by
+these diagnostics. Onlyone owned app/test chain mayrun. Preserve otheruser
+processes (a separatepnpm test:ui-guardrails:browser wasobserved;not ours).
+
+The mandatory fresh exactfinal chain and actualopen PR remain required;44/45
+plans. Do not suspend timed workers again. If a technicalfixture fix isneeded,
+refresh affected source-bound evidence/captures/clauses before finalfreeze.
+The preparedraw-zeroaudit currently namesFAILED firstfinal88465003;copy/adapt
+toitsexplicit successful future run directory afteractualterminal0,never reuse
+that failed run asfinalproof. Earlier paragraphs below aredatedlineage.
 
 07-06 Task1 controls are accepted:actual units7/7 andcalibration-only14142exit0,
 46/46 cases,zero skips. Actual report statuspartial-calibration-pass,technical/
