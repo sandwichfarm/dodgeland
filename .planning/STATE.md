@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Fresh full05 enforcing collection live; semantic audit remains active
-last_updated: "2026-10-18T00:48:44.216652+00:00"
+last_updated: "2026-10-18T00:53:21.424150+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,27 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Full05 cb52774e live session70321/PID1821;all19 controls and cross-mode presentation pass,production continues. Read-only legacy audit binds94 retained zero arms/18 oracle-identical files;market-scene standalone source not registered in full and explicitly pending after chain. Source/test/tool freeze unchanged. Semantic audit/07-04/05/06/PR remain.
+last_activity_desc: Full05 still live session70321/PID1821;all19 controls and cross-mode pass,local-session suites active. Turn residual review binds33 arms:4 prior reclaim witnesses/29 counted guards or fallbacks,159-source11-target audit. No new exclusion/hits/source change. Other semantic audit,market-scene standalone,07-04/05/06/PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+Latest turn residual semantic review:33 Race/Relay owner/item/ledger arms,
+four existing reclaim witnesses plus29 retained counted guards/fallbacks.
+TURN-RESIDUAL-REVIEW/PROOF records exact preconditions,cause/consequence and
+actual behavior suites. Fresh159-source/11-method resolved audit finds only
+owned direct calls,no resolved extraction/computed access;full pinned closure
+and manual temporal/value proof remain explicit. safeReturn is behind existing-
+player validation;Fog protection has sole literal3 call after atomic eligibility/
+debit;ledger histories/generations are retained;private duplicate/terminal/default
+fallbacks remain globally accountable. No new counters,scope,denominator,floor
+or app changes. Current source/test hashes still match full05's410-path freeze.
+Full05 remains live exec70321,parent1821,last observed local-session-layout at
+00:52:37UTC;all19 controls,cross-mode presentation and prior production jobs pass.
+Do not start a second test/build chain. Other semantic review,standalone two-case
+market-scene execution after this chain,07-04/05/06 and PR remain.
 
 Full05 remains live on exec70321,parent PID1821;cross-mode-presentation passed
 at00:47:48UTC after425s and production continues with death-spill-audio-runtime.
