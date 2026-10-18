@@ -2,6 +2,19 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Latest schema and recovery semantic evidence
+
+SCHEMA-RECOVERY-SEMANTIC-REVIEW/PROOF:18 ordinary/18 canonical component cases,
+2 independent Node parents,no browser/mode credit. Eight source/map/site-identical
+initial/current zero arms now have actual positive assertions for rejected
+schema identity/registration/bucket requests and invalid recovery clocks/cells.
+Private draw omitted-salt default is reviewed with exact local AST call proof;
+raw zero retained,no exclusion. Collection controls6/6;registry182/20 and all
+previous groups/source/build/lock unchanged. Complete current830 raw candidates
+are extracted with source context;this addendum reviews nine,not all830.
+Original full remains failed. Full semantic audit/fresh full gate and07-04/05/06/
+PR remain required.
+
 ## Latest application construction and constant scope
 
 APPLICATION-CONSTRUCTION-CLOSURE/PROOF:17 focused/all129 controls,159-file
@@ -718,12 +731,12 @@ Source `2fc4a1c55dc7f37dbcac2b7091661e3a284d3292eddf1460da423a39520dec4a`; schem
 
 | Branch | Source line | Zero arms | Baseline counts | Disposition |
 |---|---:|---|---|---|
-|4|30|0|[0]|pending|
-|10|43|0|[0, 1]|pending|
-|11|43|1,2|[1, 0, 0]|pending|
-|13|51|0|[0, 260]|pending|
-|18|58|1|[464154, 0]|pending|
-|19|63|0|[0, 1250]|pending|
+|4|30|0|[0]|[private omitted-salt default; raw zero retained](07-03-SCHEMA-RECOVERY-SEMANTIC-REVIEW.md#conditions-consequences-and-actual-assertions)|
+|10|43|0|[0, 1]|[covered arm 0](07-03-SCHEMA-RECOVERY-SEMANTIC-REVIEW.md#conditions-consequences-and-actual-assertions)|
+|11|43|1,2|[1, 0, 0]|[covered arms 1,2](07-03-SCHEMA-RECOVERY-SEMANTIC-REVIEW.md#conditions-consequences-and-actual-assertions)|
+|13|51|0|[0, 260]|[covered arm 0](07-03-SCHEMA-RECOVERY-SEMANTIC-REVIEW.md#conditions-consequences-and-actual-assertions)|
+|18|58|1|[464154, 0]|[covered arm 1](07-03-SCHEMA-RECOVERY-SEMANTIC-REVIEW.md#conditions-consequences-and-actual-assertions)|
+|19|63|0|[0, 1250]|[covered arm 0](07-03-SCHEMA-RECOVERY-SEMANTIC-REVIEW.md#conditions-consequences-and-actual-assertions)|
 
 ### src/consumables.ts
 
@@ -1432,8 +1445,8 @@ Source `835df7ab867c3421e7d295778c864ceba83f0ea10e588c4c6f4d95cdc2c1702b`; schem
 
 | Branch | Source line | Zero arms | Baseline counts | Disposition |
 |---|---:|---|---|---|
-|1|51|0|[0, 262]|pending|
-|22|67|0|[0, 295]|pending|
+|1|51|0|[0, 262]|[covered arm 0](07-03-SCHEMA-RECOVERY-SEMANTIC-REVIEW.md#conditions-consequences-and-actual-assertions)|
+|22|67|0|[0, 295]|[covered arm 0](07-03-SCHEMA-RECOVERY-SEMANTIC-REVIEW.md#conditions-consequences-and-actual-assertions)|
 
 ### src/relay-results.ts
 

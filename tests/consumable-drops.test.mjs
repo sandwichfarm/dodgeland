@@ -9,6 +9,11 @@ const {
   classifyConsumableBucket,
   consumablePickupId,
   sampleConsumableDrop,
+  DEFAULT_ITEM_SCHEMA,
+  registerConsumableSchema,
+  consumableSchema,
+  classifyItemBucket,
+  validateConsumableSchema,
 } = await source.import('consumable-drops');
 const { createRunSeed, encodeRunSeed, decodeRunSeed } = await source.import('run-seed');
 const { generateSeedLane } = await source.import('levels/index');
@@ -55,6 +60,35 @@ test('all buckets have the exact requested counts with no overlap', () => {
   const counts = { revival: 0, flare: 0, none: 0 };
   for (let bucket = 0; bucket < 2500; bucket++) counts[classifyConsumableBucket(bucket) ?? 'none']++;
   assert.deepEqual(counts, { revival: 1, flare: 2, none: 2497 });
+});
+
+test('unknown legacy pickup identities reject without changing seeded drop identity', () => {
+  const before = sampleConsumableDrop(anchor);
+  for (const itemId of ['unknown', 'mud-splash', 'fog-lantern', undefined, 0]) {
+    assert.throws(() => consumablePickupId(anchor, itemId), /Unknown consumable drop/);
+    assert.deepEqual(sampleConsumableDrop(anchor), before);
+  }
+  assert.equal(consumablePickupId(anchor, null), before.pickupId);
+});
+
+test('duplicate schema registration cannot replace a pinned drop definition', () => {
+  const before = sampleConsumableDrop(anchor);
+  assert.throws(() => registerConsumableSchema({ ...DEFAULT_ITEM_SCHEMA, salt: DEFAULT_ITEM_SCHEMA.salt + 1 }), /already registered/);
+  assert.equal(consumableSchema(ITEM_DROP_SCHEMA), DEFAULT_ITEM_SCHEMA);
+  assert.deepEqual(sampleConsumableDrop(anchor), before);
+});
+
+test('general item schema rejects invalid buckets and missing item names without changing its definition', () => {
+  const before = structuredClone(DEFAULT_ITEM_SCHEMA);
+  for (const bucket of [-1, 2500, .5, NaN, Infinity]) {
+    assert.throws(() => classifyItemBucket(bucket, DEFAULT_ITEM_SCHEMA), /Invalid item bucket/);
+  }
+  for (const itemId of [undefined, null, 'unknown']) {
+    assert.throws(() => validateConsumableSchema({ ...DEFAULT_ITEM_SCHEMA, items: { 0: itemId } }), /Invalid consumable schema/);
+  }
+  assert.deepEqual(DEFAULT_ITEM_SCHEMA, before);
+  assert.equal(classifyItemBucket(0, DEFAULT_ITEM_SCHEMA), 'revival');
+  assert.equal(classifyItemBucket(2499, DEFAULT_ITEM_SCHEMA), null);
 });
 
 test('anchor sampling is pure across duplicate, reverse, sparse, and pruning-style calls', () => {

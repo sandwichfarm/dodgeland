@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: All diagnostic floors met; semantic audit and fresh enforcing full collection remain
-last_updated: "2026-10-18T00:21:28.571181+00:00"
+last_updated: "2026-10-18T00:31:17.872271+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,27 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Bounded app construction/constant scope passes17 focused/all129 controls and8 fresh runtime cases. Raw/numerators/old dispositions unchanged;DEV2345/2751 and browser8370/9784 pass. All diagnostic floors met;semantic audit,fresh full gate,07-04/05/06,PR remain.
+last_activity_desc: Schema/recovery semantic audit adds8 source-identical branch witnesses in18 ordinary/18 canonical component cases;private salt default reviewed with raw zero retained. Collection6/6;182 jobs/20 controls and source/build/lock unchanged. Current830 raw candidates extracted. Full semantic audit/fresh full gate/07-04/05/06/PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+Schema/recovery semantic review:18 ordinary/18 canonical cases,two independent
+Node parents,no browser/mode intervals. Eight initial/current source/map/site-
+identical zero arms gain proof for schema identity/registration/bucket rejection
+and invalid recovery clocks/cells without mutations/debit/application. Corrected
+requests retain valid/fractional positions. Private draw omitted-salt default
+reviewed by exact AST declaration/sole explicit-three-argument call;raw zero
+retained,no exclusion. SCHEMA-RECOVERY-SEMANTIC-REVIEW/PROOF binds artifacts.
+Collection controls6/6;182 production jobs/20 control paths and all previous
+groups/source/build/lock unchanged. Current full830 raw zero arms extracted with
+source context and existing bounded scope candidates;reader attempt01 assumed
+Survive projections which intentionally do not exist,corrected attempt retained.
+This addendum reviews nine arms,not all830. No product defect or repair. Original
+full report stays failed;full semantic ledger,fresh enforcing complete run,
+07-04/05/06 and PR remain. All test/collection processes terminal.
 
 Latest application construction/constant scope:20c6099 retains17-control RED
 14 pass/three failures;implementation passes17 focused/all129 tool controls,

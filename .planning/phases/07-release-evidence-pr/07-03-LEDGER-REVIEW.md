@@ -343,3 +343,16 @@ an unpulled river reward) gains3113 focused hits from zero. The new eight-browse
 cohort is run-scoped in RIVER-REWARDS/PROOF;no old counters are merged or source
 identity relabelled. This is one additional reviewed original candidate,not
 complete semantic or release acceptance.
+
+## Schema and recovery validation
+
+**ARCH-01/04,SOLO-02,ITEM-02/05/06,COOP-04,TEST-02/05.** Unknown pickup
+kinds,duplicate version registration,invalid schema names/buckets and invalid
+recovery clock/placement requests reject without mutating inputs,registry,
+charges or positions. Corrected requests remain usable and fractional cells
+are preserved. Two whole production component suites pass18/18 in canonical
+run166980f0-9159-45e0-9324-69a47c0ebd92;two Node parents,zero browser/mode credit.
+Eight initial/current source/map/site-identical zero arms gain actual witnesses.
+Private draw omitted-salt default remains raw zero:unexported declaration and
+sole direct caller always supplying schema.salt are verified in AST.
+[Exact conditions,consequences,identities,hits and limits](07-03-SCHEMA-RECOVERY-SEMANTIC-REVIEW.md).

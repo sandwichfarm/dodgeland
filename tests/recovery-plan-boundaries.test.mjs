@@ -72,3 +72,44 @@ test('stale validation and refused debit both prevent any recovery application',
     assert.deepEqual(calls, valid ? ['validate', 'debit'] : ['validate']);
   }
 });
+
+test('invalid recovery clocks reject before validation, spending or relocation', () => {
+  const base = request('revival', [dead('p2')]);
+  for (const patch of [{ now: NaN }, { now: Infinity }, { tick: -1 }, { tick: .5 },
+    { protectionSeconds: 0 }, { protectionSeconds: -1 }, { protectionSeconds: Infinity }]) {
+    const input = { ...base, ...patch }, before = structuredClone(input), calls = [];
+    const plan = planRecovery(input);
+    assert.deepEqual(plan, { ok: false, reason: 'invalid-clock' });
+    assert.equal(commitRecoveryPlan(plan, {
+      valid: () => { calls.push('valid'); return true; },
+      debit: () => { calls.push('debit'); return true; },
+      apply: () => calls.push('apply'),
+    }), false);
+    assert.deepEqual(calls, []);
+    assert.deepEqual(input, before);
+  }
+  assert.equal(planRecovery(base).ok, true, 'a rejected clock cannot poison a subsequent valid plan');
+});
+
+test('a Flare rejects duplicate or nonfinite placement before spending and preserves fractional cells', () => {
+  const base = request('flare', [dead('p2')]);
+  const validCells = [{ x: .375, y: 0 }, { x: 1.375, y: 0 }];
+  for (const cells of [[validCells[0], { ...validCells[0] }],
+    [{ x: NaN, y: 0 }, validCells[1]], [validCells[0], { x: 1.375, y: Infinity }]]) {
+    const input = { ...base, cells }, before = structuredClone(input), calls = [];
+    const plan = planRecovery(input);
+    assert.deepEqual(plan, { ok: false, reason: 'duplicate-placement' });
+    assert.equal(commitRecoveryPlan(plan, {
+      valid: () => { calls.push('valid'); return true; },
+      debit: () => { calls.push('debit'); return true; },
+      apply: () => calls.push('apply'),
+    }), false);
+    assert.deepEqual(calls, []);
+    assert.deepEqual(input, before);
+  }
+  const corrected = planRecovery({ ...base, cells: validCells });
+  assert.equal(corrected.ok, true);
+  assert.deepEqual(corrected.placements.map(p => p.cell), validCells);
+  assert.deepEqual(corrected.placements.map(p => p.seat), ['p1', 'p2']);
+  assert.deepEqual(validCells, [{ x: .375, y: 0 }, { x: 1.375, y: 0 }]);
+});

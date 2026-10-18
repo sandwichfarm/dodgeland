@@ -1,0 +1,415 @@
+{
+  "purpose": "Requirement-linked component validation;no app-source repair or mode/browser/full-release claim",
+  "runId": "166980f0-9159-45e0-9324-69a47c0ebd92",
+  "ordinaryCases": 18,
+  "canonicalCases": 18,
+  "collectionControls": 6,
+  "nodeParents": 2,
+  "browserRealms": 0,
+  "modeIntervals": 0,
+  "initialSourceIdenticalNewWitnesses": [
+    {
+      "path": "src/consumable-drops.ts",
+      "sourceHash": "2fc4a1c55dc7f37dbcac2b7091661e3a284d3292eddf1460da423a39520dec4a",
+      "mapHash": "37a6bde1687a109d55b8a1dba3c4ed37b2e51f9732a4ed91033f031c73b7ae27",
+      "id": "10",
+      "arm": 0,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 43,
+            "column": 2
+          },
+          "end": {
+            "line": 43,
+            "column": 118
+          }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": {
+              "line": 43,
+              "column": 2
+            },
+            "end": {
+              "line": 43,
+              "column": 118
+            }
+          },
+          {
+            "start": {},
+            "end": {}
+          }
+        ]
+      },
+      "before": 0,
+      "hits": 5,
+      "sameInitialSourceMapAndSchema": true
+    },
+    {
+      "path": "src/consumable-drops.ts",
+      "sourceHash": "2fc4a1c55dc7f37dbcac2b7091661e3a284d3292eddf1460da423a39520dec4a",
+      "mapHash": "37a6bde1687a109d55b8a1dba3c4ed37b2e51f9732a4ed91033f031c73b7ae27",
+      "id": "11",
+      "arm": 1,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 43,
+            "column": 6
+          },
+          "end": {
+            "line": 43,
+            "column": 67
+          }
+        },
+        "type": "binary-expr",
+        "locations": [
+          {
+            "start": {
+              "line": 43,
+              "column": 6
+            },
+            "end": {
+              "line": 43,
+              "column": 21
+            }
+          },
+          {
+            "start": {
+              "line": 43,
+              "column": 25
+            },
+            "end": {
+              "line": 43,
+              "column": 45
+            }
+          },
+          {
+            "start": {
+              "line": 43,
+              "column": 49
+            },
+            "end": {
+              "line": 43,
+              "column": 67
+            }
+          }
+        ]
+      },
+      "before": 0,
+      "hits": 5,
+      "sameInitialSourceMapAndSchema": true
+    },
+    {
+      "path": "src/consumable-drops.ts",
+      "sourceHash": "2fc4a1c55dc7f37dbcac2b7091661e3a284d3292eddf1460da423a39520dec4a",
+      "mapHash": "37a6bde1687a109d55b8a1dba3c4ed37b2e51f9732a4ed91033f031c73b7ae27",
+      "id": "11",
+      "arm": 2,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 43,
+            "column": 6
+          },
+          "end": {
+            "line": 43,
+            "column": 67
+          }
+        },
+        "type": "binary-expr",
+        "locations": [
+          {
+            "start": {
+              "line": 43,
+              "column": 6
+            },
+            "end": {
+              "line": 43,
+              "column": 21
+            }
+          },
+          {
+            "start": {
+              "line": 43,
+              "column": 25
+            },
+            "end": {
+              "line": 43,
+              "column": 45
+            }
+          },
+          {
+            "start": {
+              "line": 43,
+              "column": 49
+            },
+            "end": {
+              "line": 43,
+              "column": 67
+            }
+          }
+        ]
+      },
+      "before": 0,
+      "hits": 5,
+      "sameInitialSourceMapAndSchema": true
+    },
+    {
+      "path": "src/consumable-drops.ts",
+      "sourceHash": "2fc4a1c55dc7f37dbcac2b7091661e3a284d3292eddf1460da423a39520dec4a",
+      "mapHash": "37a6bde1687a109d55b8a1dba3c4ed37b2e51f9732a4ed91033f031c73b7ae27",
+      "id": "13",
+      "arm": 0,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 51,
+            "column": 2
+          },
+          "end": {
+            "line": 51,
+            "column": 98
+          }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": {
+              "line": 51,
+              "column": 2
+            },
+            "end": {
+              "line": 51,
+              "column": 98
+            }
+          },
+          {
+            "start": {},
+            "end": {}
+          }
+        ]
+      },
+      "before": 0,
+      "hits": 1,
+      "sameInitialSourceMapAndSchema": true
+    },
+    {
+      "path": "src/consumable-drops.ts",
+      "sourceHash": "2fc4a1c55dc7f37dbcac2b7091661e3a284d3292eddf1460da423a39520dec4a",
+      "mapHash": "37a6bde1687a109d55b8a1dba3c4ed37b2e51f9732a4ed91033f031c73b7ae27",
+      "id": "18",
+      "arm": 1,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 58,
+            "column": 353
+          },
+          "end": {
+            "line": 58,
+            "column": 360
+          }
+        },
+        "type": "binary-expr",
+        "locations": [
+          {
+            "start": {
+              "line": 58,
+              "column": 353
+            },
+            "end": {
+              "line": 58,
+              "column": 354
+            }
+          },
+          {
+            "start": {
+              "line": 58,
+              "column": 358
+            },
+            "end": {
+              "line": 58,
+              "column": 360
+            }
+          }
+        ]
+      },
+      "before": 0,
+      "hits": 2,
+      "sameInitialSourceMapAndSchema": true
+    },
+    {
+      "path": "src/consumable-drops.ts",
+      "sourceHash": "2fc4a1c55dc7f37dbcac2b7091661e3a284d3292eddf1460da423a39520dec4a",
+      "mapHash": "37a6bde1687a109d55b8a1dba3c4ed37b2e51f9732a4ed91033f031c73b7ae27",
+      "id": "19",
+      "arm": 0,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 63,
+            "column": 2
+          },
+          "end": {
+            "line": 63,
+            "column": 120
+          }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": {
+              "line": 63,
+              "column": 2
+            },
+            "end": {
+              "line": 63,
+              "column": 120
+            }
+          },
+          {
+            "start": {},
+            "end": {}
+          }
+        ]
+      },
+      "before": 0,
+      "hits": 5,
+      "sameInitialSourceMapAndSchema": true
+    },
+    {
+      "path": "src/recovery.ts",
+      "sourceHash": "835df7ab867c3421e7d295778c864ceba83f0ea10e588c4c6f4d95cdc2c1702b",
+      "mapHash": "63ba039e4df5558e6201010aa53187e64090a30ee28d09f923497891c27257c3",
+      "id": "1",
+      "arm": 0,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 51,
+            "column": 2
+          },
+          "end": {
+            "line": 51,
+            "column": 204
+          }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": {
+              "line": 51,
+              "column": 2
+            },
+            "end": {
+              "line": 51,
+              "column": 204
+            }
+          },
+          {
+            "start": {},
+            "end": {}
+          }
+        ]
+      },
+      "before": 0,
+      "hits": 7,
+      "sameInitialSourceMapAndSchema": true
+    },
+    {
+      "path": "src/recovery.ts",
+      "sourceHash": "835df7ab867c3421e7d295778c864ceba83f0ea10e588c4c6f4d95cdc2c1702b",
+      "mapHash": "63ba039e4df5558e6201010aa53187e64090a30ee28d09f923497891c27257c3",
+      "id": "22",
+      "arm": 0,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 67,
+            "column": 4
+          },
+          "end": {
+            "line": 67,
+            "column": 116
+          }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": {
+              "line": 67,
+              "column": 4
+            },
+            "end": {
+              "line": 67,
+              "column": 116
+            }
+          },
+          {
+            "start": {},
+            "end": {}
+          }
+        ]
+      },
+      "before": 0,
+      "hits": 3,
+      "sameInitialSourceMapAndSchema": true
+    }
+  ],
+  "privateDefault": {
+    "path": "src/consumable-drops.ts",
+    "id": "4",
+    "arm": 0,
+    "sourceHash": "2fc4a1c55dc7f37dbcac2b7091661e3a284d3292eddf1460da423a39520dec4a",
+    "mapHash": "37a6bde1687a109d55b8a1dba3c4ed37b2e51f9732a4ed91033f031c73b7ae27",
+    "hits": 0,
+    "reason": "Unexported draw has exactly declaration and sole direct three-argument call; schema.salt supplied. No source change or global exclusion."
+  },
+  "productionJobs": 182,
+  "controlPaths": 20,
+  "priorJobsAndGroupsPreserved": true,
+  "sourceInventoryUnchanged": true,
+  "normalBuildUnchanged": true,
+  "rootLockUnchanged": true,
+  "currentRawZerosExtracted": 830,
+  "currentRawZeroOwners": 384,
+  "currentRawZeroScopedCandidates": 131,
+  "extractionCorrection": "Attempt01 incorrectly required Survive exclusions; both Survive strata intentionally have no applicability projection. Corrected reader lists six existing projected modes only; no Survive/global exclusions invented.",
+  "hashes": {
+    "artifacts/release-coverage/current-full-03/0b8f818d-62a2-4922-ab83-242886778c0c/inventory.json": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+    "artifacts/release-coverage/semantic-boundaries-runtime-03/manifest.json": "6e34a9633c8b578f008c38dbf67ba043145f50f4254d897ca8dfa303c6816127",
+    "artifacts/release-coverage/semantic-boundaries-runtime-03/166980f0-9159-45e0-9324-69a47c0ebd92/inventory.json": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+    "artifacts/release-coverage/semantic-boundaries-runtime-03/166980f0-9159-45e0-9324-69a47c0ebd92/job-ledger.json": "905609f0f1901a4fc6d11ed9eaf4e36f3f0f0248eee3387aa91015db54a92c26",
+    "artifacts/release-coverage/semantic-boundaries-runtime-03/report/coverage-final.json": "51b74a72685c2a401d7d11d2e575a3bd6c3ac06e7e639d182296249c831e55e5",
+    "artifacts/release-coverage/current-full-03/recovered-report-02/report/coverage-final.json": "99ce960b1ad9f2ff822762d38566fd2ee47191eaf497cc3e893782d064e97766",
+    ".planning/phases/07-release-evidence-pr/07-03-CURRENT-FULL-PROOF.json": "ae59bbba7cc34b1e14babc0c3c80c978748728ce253a32fe5745362294e20192",
+    "artifacts/release-coverage/current-full-03/initial-current-branch-comparison.json": "3f89097ac9ab32b69156a8b4a4e447b53abc7a0acff50028dedd3d01b2a37b72",
+    "src/consumable-drops.ts": "2fc4a1c55dc7f37dbcac2b7091661e3a284d3292eddf1460da423a39520dec4a",
+    "src/recovery.ts": "835df7ab867c3421e7d295778c864ceba83f0ea10e588c4c6f4d95cdc2c1702b",
+    "artifacts/release-coverage/semantic-boundaries-runtime-03/166980f0-9159-45e0-9324-69a47c0ebd92/tests__consumable-drops.test.mjs.json": "0995c668cc8127d0687855216554f64b9b84bca58e5aa09626d76809838eba1d",
+    "artifacts/release-coverage/semantic-boundaries-runtime-03/166980f0-9159-45e0-9324-69a47c0ebd92/tests__recovery-plan-boundaries.test.mjs.json": "caf4d9e5c8beeb943dfe2b180633f6814ea53015b55a0151da21c1788b3849b6",
+    "artifacts/release-coverage/semantic-boundaries-runtime-03/166980f0-9159-45e0-9324-69a47c0ebd92/job-consumable-drops-test.json": "06866dc60c45df481179825ca95d1aab466712b3317277c754ab87f140043cb2",
+    "artifacts/release-coverage/semantic-boundaries-runtime-03/166980f0-9159-45e0-9324-69a47c0ebd92/job-recovery-plan-boundaries-test.json": "5b16cdde2666ce0118f4b2f8e0af802344869442445f83282c6150c52b212130",
+    "artifacts/release-coverage/semantic-boundaries-runtime-03/166980f0-9159-45e0-9324-69a47c0ebd92/config.json": "262cbbf0f2a46766a05fe95acd448c1bba3e9e7810df41240bd703872302e897",
+    "tools/release-coverage/suites.json": "dc41725b2798bfa134fb568ae06ba50b0c7c777becf77630c2264dfc847cafd8",
+    "artifacts/release-coverage/semantic-boundaries-03/suites-before.json": "e8c9f0ef17113f16c10a47f97cb381feeeed8505000de273acb5ea2db602954a",
+    "artifacts/release-coverage/semantic-boundaries-03/execution-audit.json": "8f73f70d6204380628cda9171f3099ef6c9d1cd9977335a6464fb1747dfcedb4",
+    "artifacts/release-coverage/semantic-boundaries-03/ordinary.log": "cfd15af253f2030cf7f15ffb7756944baaafa065cc4f9f3dbd16060d786f3fd0",
+    "artifacts/release-coverage/semantic-boundaries-03/canonical.log": "ab3f4c4de094100c630aa5f70b34e87c7f20fdcd3e6d759b2a6635b249f65235",
+    "artifacts/release-coverage/semantic-boundaries-03/collection-controls.log": "28084725899ddbe412ba8ab6b3e70e1be16ee01cfc5815fc8032c3296c12fb6f",
+    "tests/consumable-drops.test.mjs": "e59e8876945e104edaf98c2fed42a3369d6f864b9da86048ececa8e0aaa55f4b",
+    "tests/recovery-plan-boundaries.test.mjs": "cfe0cb395791a289d86c327a26f50dfb79580e9aaabf85b7df10e8b7d0119d8e",
+    "dist/index.html": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
+    "pnpm-lock.yaml": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+    "artifacts/release-coverage/semantic-boundaries-03/verify.mjs": "7ae1ba6b81a61a9beea3c2a196b9d1fad78ebbbfc007999af9b67f7f147aac0e",
+    "artifacts/release-coverage/semantic-current-03/extract.mjs": "372b75c79656a104474652205f3c1d794f65f785777c40d29aa745f18913bafe",
+    "artifacts/release-coverage/semantic-current-03/extract.log": "e28d5429919e8f9f3746a38d7d5e9111472e79260bab64354b04e362e61209c2",
+    "artifacts/release-coverage/semantic-current-03/extract-attempt-01.mjs": "9127f2f86eececa40a6ad32478822625630fce4eaa76311a17c43c5b2e772104",
+    "artifacts/release-coverage/semantic-current-03/extract-attempt-01.log": "7f1714b31cce630377508308ce732b3a68546e97300b3f852e6571d52777b8b5",
+    "artifacts/release-coverage/semantic-current-03/raw-zero-review.json": "c8297f9591dcbe604c1ff06f2e67ca6575ac9570a94838dec747530dcfda5fc4",
+    "artifacts/release-coverage/semantic-current-03/owner-groups.json": "2e138564e5f9ab0b917aa1b473735f8392195cd75baf96efd9d58d2db6f668e8"
+  }
+}

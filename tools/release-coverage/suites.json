@@ -9297,6 +9297,36 @@
       "buildScopes": [
         "development"
       ]
+    },
+    "semantic-boundaries-03": {
+      "files": [
+        "tests/consumable-drops.test.mjs",
+        "tests/recovery-plan-boundaries.test.mjs"
+      ],
+      "role": "node",
+      "jobs": [
+        {
+          "id": "consumable-drops-test",
+          "file": "tests/consumable-drops.test.mjs",
+          "role": "node",
+          "requiredRealms": [
+            "node"
+          ],
+          "defaultBuildScope": "modules",
+          "artifactPatterns": []
+        },
+        {
+          "id": "recovery-plan-boundaries-test",
+          "file": "tests/recovery-plan-boundaries.test.mjs",
+          "role": "node",
+          "requiredRealms": [
+            "node"
+          ],
+          "defaultBuildScope": "modules",
+          "artifactPatterns": []
+        }
+      ],
+      "provenance": "Whole existing component suites. Invalid recovery clocks and overlapping/nonfinite Flare placements cannot validate, spend or apply; corrected fractional cells remain unchanged. Duplicate drop schema registration and invalid identity/bucket requests preserve pinned seeded drop definitions. No public gameplay or per-mode attribution claim."
     }
   },
   "pendingAdapters": [
