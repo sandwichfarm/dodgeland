@@ -1,13 +1,13 @@
 {
   "status": "running-not-accepted",
-  "observedAt": "2026-10-18T03:29:29.073063+00:00",
+  "observedAt": "2026-10-18T03:50:19.636164+00:00",
   "runId": "88465003-ebf6-477f-b091-71a79781afe2",
   "directory": "artifacts/release-final/88465003-ebf6-477f-b091-71a79781afe2",
   "sessionId": 11882,
   "actualLiveParentPid": 10879,
   "actualCommand": "node tests/release-gate.mjs",
-  "inheritedChildPid": 10947,
-  "stage": "inherited-phase6",
+  "inheritedChildPid": null,
+  "stage": "enforcing-coverage",
   "codeFreezeHead": "58f63a3",
   "normalArtifactRawSha256": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
   "referenceHashes": {
@@ -20,5 +20,29 @@
     "This actual live-process observation isnot terminal release acceptance",
     "Revalidate same handle/PID;do not restart on silence",
     "No PR opened yet"
-  ]
+  ],
+  "completedStages": [
+    {
+      "id": "inherited-phase6",
+      "terminalExit": 0,
+      "completedAt": "2026-10-18T03:47:26.721Z"
+    },
+    {
+      "id": "calibration",
+      "terminalExit": 0,
+      "completedAt": "2026-10-18T03:47:52.905Z"
+    }
+  ],
+  "coverageObservation": {
+    "runId": "cb76efa3-480d-4696-a210-69639596307e",
+    "terminalControls": 19,
+    "terminalProduction": 11,
+    "expectedProduction": 182,
+    "nonzeroTerminalEntries": 0,
+    "enforcementTerminal": false
+  },
+  "frozenInputsVerified": 417,
+  "normalArtifactUnchanged": true,
+  "parentObservation": "10879 Ss   21:52 node tests/release-gate.mjs",
+  "priorObservationPath": "artifacts/release-final-launch-01/launch.json"
 }
