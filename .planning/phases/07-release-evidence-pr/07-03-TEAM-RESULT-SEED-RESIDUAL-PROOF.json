@@ -1,0 +1,837 @@
+{
+  "purpose": "Manual consequence/behavior-boundary review of18 counted team-result/seed-copy residuals;source inspection only,no execution,hit,exclusion or threshold credit",
+  "sourceRun": "0b8f818d-62a2-4922-ab83-242886778c0c",
+  "currentInventoryRawSha256": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+  "freshFullRun": "cb52774e-975e-4388-a064-5162ef3807d8",
+  "freshFullStatus": "active;result not inferred",
+  "frozenPathsVerified": 410,
+  "behaviorSources": [
+    {
+      "path": "tests/survive-results-ui.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/survive-results-seed-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/seed-copy-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    }
+  ],
+  "limits": [
+    "Local textarea Enter/Space dispatch is not claimed executed by the existing shell Enter route",
+    "Denied-after-focus-loss feedback is not claimed covered by pending-success focus preservation",
+    "Source review does not replace final current-build visual proof or full enforcement"
+  ],
+  "rows": [
+    {
+      "path": "src/seed-copy.ts",
+      "sourceHash": "aac727c112e31063fab0c3d2e9d841d703be3f7e9ecb9d9cd2b32421357d0f47",
+      "mapHash": "e22efc81c19f1d759c25bdc368678cb93c2fa4ffd5a6c965579e4783ad77ca48",
+      "id": "0",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 20,
+          "column": 4
+        },
+        "end": {
+          "line": 20,
+          "column": 53
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 20,
+          "column": 4
+        },
+        "end": {
+          "line": 20,
+          "column": 53
+        }
+      },
+      "sourceText": "if (disposed || !code || button.disabled) return;",
+      "owner": "createSeedCopyControls.copy",
+      "sourceContext": "if (disposed || !code || button.disabled) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-04",
+        "UI-05",
+        "SOLO-01",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TEAM-RESULT-SEED-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/seed-copy.ts",
+      "sourceHash": "aac727c112e31063fab0c3d2e9d841d703be3f7e9ecb9d9cd2b32421357d0f47",
+      "mapHash": "e22efc81c19f1d759c25bdc368678cb93c2fa4ffd5a6c965579e4783ad77ca48",
+      "id": "7",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 43,
+          "column": 8
+        },
+        "end": {
+          "line": 43,
+          "column": 50
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 41,
+          "column": 51
+        },
+        "end": {
+          "line": 43,
+          "column": 50
+        }
+      },
+      "sourceText": "'Select the seed. Use your device’s Copy.'",
+      "owner": "createSeedCopyControls.copy",
+      "sourceContext": "'Select the seed. Use your device’s Copy.'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-04",
+        "UI-05",
+        "SOLO-01",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TEAM-RESULT-SEED-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/seed-copy.ts",
+      "sourceHash": "aac727c112e31063fab0c3d2e9d841d703be3f7e9ecb9d9cd2b32421357d0f47",
+      "mapHash": "e22efc81c19f1d759c25bdc368678cb93c2fa4ffd5a6c965579e4783ad77ca48",
+      "id": "11",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 53,
+          "column": 53
+        },
+        "end": {
+          "line": 53,
+          "column": 100
+        }
+      },
+      "sourceText": "if (event.button === 0) event.preventDefault();",
+      "owner": "createSeedCopyControls.callback@53",
+      "sourceContext": "if (event.button === 0) event.preventDefault();",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-04",
+        "UI-05",
+        "SOLO-01",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TEAM-RESULT-SEED-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/seed-copy.ts",
+      "sourceHash": "aac727c112e31063fab0c3d2e9d841d703be3f7e9ecb9d9cd2b32421357d0f47",
+      "mapHash": "e22efc81c19f1d759c25bdc368678cb93c2fa4ffd5a6c965579e4783ad77ca48",
+      "id": "12",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 55,
+          "column": 4
+        },
+        "end": {
+          "line": 55,
+          "column": 92
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 55,
+          "column": 4
+        },
+        "end": {
+          "line": 55,
+          "column": 92
+        }
+      },
+      "sourceText": "if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); void copy(); }",
+      "owner": "createSeedCopyControls.callback@54",
+      "sourceContext": "if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); void copy(); }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-04",
+        "UI-05",
+        "SOLO-01",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TEAM-RESULT-SEED-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/survive-results-ui.ts",
+      "sourceHash": "813b4b3414b19870e980ed6c1fc96ba028ae8e9e31a7e5b9d52d9d26c7b83d1b",
+      "mapHash": "f94c57c196f048865b71eb481579a8344dfce7e124e470c68c74fb51e9cf571b",
+      "id": "2",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 17,
+          "column": 97
+        },
+        "end": {
+          "line": 17,
+          "column": 105
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 17,
+          "column": 58
+        },
+        "end": {
+          "line": 17,
+          "column": 105
+        }
+      },
+      "sourceText": "'Active'",
+      "owner": "callback@16",
+      "sourceContext": "'Active'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-04",
+        "UI-05",
+        "SOLO-01",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TEAM-RESULT-SEED-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/survive-results-ui.ts",
+      "sourceHash": "813b4b3414b19870e980ed6c1fc96ba028ae8e9e31a7e5b9d52d9d26c7b83d1b",
+      "mapHash": "f94c57c196f048865b71eb481579a8344dfce7e124e470c68c74fb51e9cf571b",
+      "id": "6",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 41,
+          "column": 4
+        },
+        "end": {
+          "line": 41,
+          "column": 36
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 41,
+          "column": 4
+        },
+        "end": {
+          "line": 41,
+          "column": 36
+        }
+      },
+      "sourceText": "if (!result || disposed) return;",
+      "owner": "createSurviveResultsBoard.render",
+      "sourceContext": "if (!result || disposed) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-04",
+        "UI-05",
+        "SOLO-01",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TEAM-RESULT-SEED-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/survive-results-ui.ts",
+      "sourceHash": "813b4b3414b19870e980ed6c1fc96ba028ae8e9e31a7e5b9d52d9d26c7b83d1b",
+      "mapHash": "f94c57c196f048865b71eb481579a8344dfce7e124e470c68c74fb51e9cf571b",
+      "id": "15",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 62,
+          "column": 6
+        },
+        "end": {
+          "line": 62,
+          "column": 40
+        }
+      },
+      "sourceText": "if (focused) focusAction(focused);",
+      "owner": "createSurviveResultsBoard.render",
+      "sourceContext": "if (focused) focusAction(focused);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-04",
+        "UI-05",
+        "SOLO-01",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TEAM-RESULT-SEED-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/survive-results-ui.ts",
+      "sourceHash": "813b4b3414b19870e980ed6c1fc96ba028ae8e9e31a7e5b9d52d9d26c7b83d1b",
+      "mapHash": "f94c57c196f048865b71eb481579a8344dfce7e124e470c68c74fb51e9cf571b",
+      "id": "18",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 79,
+          "column": 95
+        },
+        "end": {
+          "line": 79,
+          "column": 98
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 79,
+          "column": 71
+        },
+        "end": {
+          "line": 79,
+          "column": 98
+        }
+      },
+      "sourceText": "'◆'",
+      "owner": "createSurviveResultsBoard.render",
+      "sourceContext": "'◆'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-04",
+        "UI-05",
+        "SOLO-01",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TEAM-RESULT-SEED-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/survive-results-ui.ts",
+      "sourceHash": "813b4b3414b19870e980ed6c1fc96ba028ae8e9e31a7e5b9d52d9d26c7b83d1b",
+      "mapHash": "f94c57c196f048865b71eb481579a8344dfce7e124e470c68c74fb51e9cf571b",
+      "id": "26",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 106,
+          "column": 4
+        },
+        "end": {
+          "line": 106,
+          "column": 120
+        }
+      },
+      "sourceText": "if (seedCode) footer.append(button('Seed', 'seed', () => { seedPage = true; render(); focusAction('seed-copy'); }));",
+      "owner": "createSurviveResultsBoard.render",
+      "sourceContext": "if (seedCode) footer.append(button('Seed', 'seed', () => { seedPage = true; render(); focusAction('seed-copy'); }));",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-04",
+        "UI-05",
+        "SOLO-01",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TEAM-RESULT-SEED-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/survive-results-ui.ts",
+      "sourceHash": "813b4b3414b19870e980ed6c1fc96ba028ae8e9e31a7e5b9d52d9d26c7b83d1b",
+      "mapHash": "f94c57c196f048865b71eb481579a8344dfce7e124e470c68c74fb51e9cf571b",
+      "id": "33",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 114,
+          "column": 40
+        },
+        "end": {
+          "line": 114,
+          "column": 72
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 114,
+          "column": 18
+        },
+        "end": {
+          "line": 114,
+          "column": 73
+        }
+      },
+      "sourceText": "seedPage ? 'seed-copy' : 'again'",
+      "owner": "createSurviveResultsBoard.callback@110",
+      "sourceContext": "seedPage ? 'seed-copy' : 'again'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-04",
+        "UI-05",
+        "SOLO-01",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TEAM-RESULT-SEED-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/survive-results-ui.ts",
+      "sourceHash": "813b4b3414b19870e980ed6c1fc96ba028ae8e9e31a7e5b9d52d9d26c7b83d1b",
+      "mapHash": "f94c57c196f048865b71eb481579a8344dfce7e124e470c68c74fb51e9cf571b",
+      "id": "34",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 114,
+          "column": 51
+        },
+        "end": {
+          "line": 114,
+          "column": 62
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 114,
+          "column": 40
+        },
+        "end": {
+          "line": 114,
+          "column": 72
+        }
+      },
+      "sourceText": "'seed-copy'",
+      "owner": "createSurviveResultsBoard.callback@110",
+      "sourceContext": "'seed-copy'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-04",
+        "UI-05",
+        "SOLO-01",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TEAM-RESULT-SEED-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/survive-results-ui.ts",
+      "sourceHash": "813b4b3414b19870e980ed6c1fc96ba028ae8e9e31a7e5b9d52d9d26c7b83d1b",
+      "mapHash": "f94c57c196f048865b71eb481579a8344dfce7e124e470c68c74fb51e9cf571b",
+      "id": "34",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 114,
+          "column": 65
+        },
+        "end": {
+          "line": 114,
+          "column": 72
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 114,
+          "column": 40
+        },
+        "end": {
+          "line": 114,
+          "column": 72
+        }
+      },
+      "sourceText": "'again'",
+      "owner": "createSurviveResultsBoard.callback@110",
+      "sourceContext": "'again'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-04",
+        "UI-05",
+        "SOLO-01",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TEAM-RESULT-SEED-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/survive-results-ui.ts",
+      "sourceHash": "813b4b3414b19870e980ed6c1fc96ba028ae8e9e31a7e5b9d52d9d26c7b83d1b",
+      "mapHash": "f94c57c196f048865b71eb481579a8344dfce7e124e470c68c74fb51e9cf571b",
+      "id": "36",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 115,
+          "column": 73
+        },
+        "end": {
+          "line": 115,
+          "column": 84
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 115,
+          "column": 62
+        },
+        "end": {
+          "line": 115,
+          "column": 94
+        }
+      },
+      "sourceText": "'seed-copy'",
+      "owner": "createSurviveResultsBoard.callback@110",
+      "sourceContext": "'seed-copy'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-04",
+        "UI-05",
+        "SOLO-01",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TEAM-RESULT-SEED-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/survive-results-ui.ts",
+      "sourceHash": "813b4b3414b19870e980ed6c1fc96ba028ae8e9e31a7e5b9d52d9d26c7b83d1b",
+      "mapHash": "f94c57c196f048865b71eb481579a8344dfce7e124e470c68c74fb51e9cf571b",
+      "id": "41",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 124,
+          "column": 4
+        },
+        "end": {
+          "line": 124,
+          "column": 61
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 124,
+          "column": 4
+        },
+        "end": {
+          "line": 124,
+          "column": 61
+        }
+      },
+      "sourceText": "if (!controls.length) { event.preventDefault(); return; }",
+      "owner": "createSurviveResultsBoard.callback@121",
+      "sourceContext": "if (!controls.length) { event.preventDefault(); return; }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-04",
+        "UI-05",
+        "SOLO-01",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TEAM-RESULT-SEED-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/survive-results-ui.ts",
+      "sourceHash": "813b4b3414b19870e980ed6c1fc96ba028ae8e9e31a7e5b9d52d9d26c7b83d1b",
+      "mapHash": "f94c57c196f048865b71eb481579a8344dfce7e124e470c68c74fb51e9cf571b",
+      "id": "48",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 141,
+          "column": 28
+        },
+        "end": {
+          "line": 141,
+          "column": 37
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 141,
+          "column": 19
+        },
+        "end": {
+          "line": 141,
+          "column": 37
+        }
+      },
+      "sourceText": "undefined",
+      "owner": "createSurviveResultsBoard.show",
+      "sourceContext": "undefined",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-04",
+        "UI-05",
+        "SOLO-01",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TEAM-RESULT-SEED-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/survive-results-ui.ts",
+      "sourceHash": "813b4b3414b19870e980ed6c1fc96ba028ae8e9e31a7e5b9d52d9d26c7b83d1b",
+      "mapHash": "f94c57c196f048865b71eb481579a8344dfce7e124e470c68c74fb51e9cf571b",
+      "id": "51",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 143,
+          "column": 6
+        },
+        "end": {
+          "line": 146,
+          "column": 7
+        }
+      },
+      "sourceText": "if (root.hidden) {\n        returnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : undefined;\n        for (const node of root.parentElement?.children ?? []) if (node !== root && node instanceof HTMLElement) { previousInert.set(node, node.inert); node.inert = true; }\n      }",
+      "owner": "createSurviveResultsBoard.show",
+      "sourceContext": "if (root.hidden) {\n        returnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : undefined;\n        for (const node of root.parentElement?.children ?? []) if (node !== root && node instanceof HTMLElement) { previousInert.set(node, node.inert); node.inert = true; }\n      }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-04",
+        "UI-05",
+        "SOLO-01",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TEAM-RESULT-SEED-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/survive-results-ui.ts",
+      "sourceHash": "813b4b3414b19870e980ed6c1fc96ba028ae8e9e31a7e5b9d52d9d26c7b83d1b",
+      "mapHash": "f94c57c196f048865b71eb481579a8344dfce7e124e470c68c74fb51e9cf571b",
+      "id": "52",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 144,
+          "column": 95
+        },
+        "end": {
+          "line": 144,
+          "column": 104
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 144,
+          "column": 22
+        },
+        "end": {
+          "line": 144,
+          "column": 104
+        }
+      },
+      "sourceText": "undefined",
+      "owner": "createSurviveResultsBoard.show",
+      "sourceContext": "undefined",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-04",
+        "UI-05",
+        "SOLO-01",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TEAM-RESULT-SEED-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/survive-results-ui.ts",
+      "sourceHash": "813b4b3414b19870e980ed6c1fc96ba028ae8e9e31a7e5b9d52d9d26c7b83d1b",
+      "mapHash": "f94c57c196f048865b71eb481579a8344dfce7e124e470c68c74fb51e9cf571b",
+      "id": "53",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 145,
+          "column": 59
+        },
+        "end": {
+          "line": 145,
+          "column": 61
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 145,
+          "column": 27
+        },
+        "end": {
+          "line": 145,
+          "column": 61
+        }
+      },
+      "sourceText": "[]",
+      "owner": "createSurviveResultsBoard.show",
+      "sourceContext": "[]",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-04",
+        "UI-05",
+        "SOLO-01",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TEAM-RESULT-SEED-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    }
+  ],
+  "hashes": {
+    "artifacts/release-coverage/semantic-current-03/raw-zero-review.json": "c8297f9591dcbe604c1ff06f2e67ca6575ac9570a94838dec747530dcfda5fc4",
+    ".planning/phases/07-release-evidence-pr/07-03-SCHEMA-RECOVERY-SEMANTIC-PROOF.json": "8a5bfe67e7b38a5b107cef1ab65e13a01131247c05265c0d68bd57e471a83a09",
+    "artifacts/release-coverage/current-full-05-proof/freeze.json": "c72459fff67275b20c5b67c1076d781f825a00cec405fada8743cb2f350111a3",
+    "tools/release-coverage/suites.json": "02e81d3e4320ed8a2d0901fd0eee532e051d1c0b27b606c011fedbc3674ab88d",
+    "tests/survive-results-ui.test.mjs": "0273d86df8b7b0161caa0e3e10fcb68d629a0d3c13a5f5ef4941d12f0619f43e",
+    "tests/survive-results-seed-runtime.mjs": "79e614f93ca07f2e6e445c2839ed086d297f96b5a34586f9836d3ad2799a9a49",
+    "tests/seed-copy-runtime.mjs": "5bb07eac9334a6c241eef09fbdc438e4a25c9221b9cf266af5cbb46b51faec3d",
+    ".planning/phases/07-release-evidence-pr/07-03-TEAM-RESULT-SEED-RESIDUAL-REVIEW.md": "96327b315447a4cc0e4421009c9f1fa6b42712b92f19fbf7d714c09fd4f6ddd0",
+    "artifacts/release-coverage/team-result-seed-residual-05/verify.mjs": "b057bfc65928e82a812bf51d6ee6a27fa5f9cad8c5744c65353609febc83ceae",
+    "src/survive-results-ui.ts": "813b4b3414b19870e980ed6c1fc96ba028ae8e9e31a7e5b9d52d9d26c7b83d1b",
+    "src/seed-copy.ts": "aac727c112e31063fab0c3d2e9d841d703be3f7e9ecb9d9cd2b32421357d0f47",
+    "src/main.ts": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+    "src/survive-results.ts": "ddb87a075703bac459ecb91c6bf4e039affbfe69c7882ec64d45f65662909537",
+    "src/survive-results-ui.css": "9200aee33eacdf89673c5d6fc2171ab90e91b577d7830ab00f11d0d2c5f0a32e"
+  }
+}

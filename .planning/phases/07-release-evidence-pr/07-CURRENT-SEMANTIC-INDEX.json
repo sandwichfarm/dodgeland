@@ -3,10 +3,10 @@
   "sourceRun": "0b8f818d-62a2-4922-ab83-242886778c0c",
   "sourceInventoryRawSha256": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
   "rawZeroArms": 830,
-  "reviewed": 218,
-  "pending": 612,
+  "reviewed": 236,
+  "pending": 594,
   "existingPositiveWitnessLinks": 18,
-  "reviewedCountedResiduals": 200,
+  "reviewedCountedResiduals": 218,
   "freshFullRun": "cb52774e-975e-4388-a064-5162ef3807d8",
   "freshFullStatus": "active;no final result inferred",
   "sourceTestToolConfigBuildLockFrozenPathsVerified": 410,
@@ -30,6 +30,11 @@
       "proofPath": ".planning/phases/07-release-evidence-pr/07-03-RECOVERY-MARKET-RESIDUAL-PROOF.json",
       "docPath": ".planning/phases/07-release-evidence-pr/07-03-RECOVERY-MARKET-RESIDUAL-REVIEW.md",
       "rows": 10
+    },
+    {
+      "proofPath": ".planning/phases/07-release-evidence-pr/07-03-TEAM-RESULT-SEED-RESIDUAL-PROOF.json",
+      "docPath": ".planning/phases/07-release-evidence-pr/07-03-TEAM-RESULT-SEED-RESIDUAL-REVIEW.md",
+      "rows": 18
     },
     {
       "proofPath": ".planning/phases/07-release-evidence-pr/07-03-SCHEMA-RECOVERY-SEMANTIC-PROOF.json",
@@ -200,8 +205,8 @@
     },
     "src/seed-copy.ts": {
       "total": 4,
-      "reviewed": 0,
-      "pending": 4
+      "reviewed": 4,
+      "pending": 0
     },
     "src/session-input.ts": {
       "total": 1,
@@ -240,8 +245,8 @@
     },
     "src/survive-results-ui.ts": {
       "total": 14,
-      "reviewed": 0,
-      "pending": 14
+      "reviewed": 14,
+      "pending": 0
     },
     "src/survive-together.ts": {
       "total": 1,
@@ -281,12 +286,14 @@
     ".planning/phases/07-release-evidence-pr/07-03-SESSION-RESIDUAL-REVIEW.md": "8dc105f03d86bcd0bf11424dedd5a54e755714bd5f67010a17334c00a212a169",
     ".planning/phases/07-release-evidence-pr/07-03-RECOVERY-MARKET-RESIDUAL-PROOF.json": "c72dca02c7c29b561c46219db4ccf7d11ba488600c1bc942ae4f1ce4aa0e2db8",
     ".planning/phases/07-release-evidence-pr/07-03-RECOVERY-MARKET-RESIDUAL-REVIEW.md": "952e8259d815de70f8166aca777c06787dec055c0d625ed07ea9a3072ead822f",
+    ".planning/phases/07-release-evidence-pr/07-03-TEAM-RESULT-SEED-RESIDUAL-PROOF.json": "992d9cc615b575d85af3b86549324a4c3eaa4e088dd49597dc96f16bcd84a758",
+    ".planning/phases/07-release-evidence-pr/07-03-TEAM-RESULT-SEED-RESIDUAL-REVIEW.md": "96327b315447a4cc0e4421009c9f1fa6b42712b92f19fbf7d714c09fd4f6ddd0",
     ".planning/phases/07-release-evidence-pr/07-03-SCHEMA-RECOVERY-SEMANTIC-REVIEW.md": "efaa7eb7fef452a7185ca31b1070c937c4d5a6eed5ae8d76c650118eef410b43",
     ".planning/phases/07-release-evidence-pr/07-03-CONTROLLER-GUARD-PROOF.json": "367f6f7ef0d82dbe47fd9db380ef459fba6c401e937df61ab79c20d62b6850c5",
     "artifacts/release-coverage/current-semantic-ledger-04/context-audit.json": "5436beb822098d9cc675d8d2ad501f2f7401e681160def7edde3c0091830c5ce",
     ".planning/phases/07-release-evidence-pr/07-03-CONTROLLER-GUARD-REVIEW.md": "594c426b40a5d64f3ecb6b9851095d90ae2d7e6cafc9c408a7a2cc27a13f18ac",
     "artifacts/release-coverage/current-semantic-ledger-04/context-audit.mjs": "751f8c20541e4af621eff61d2c1fb74a0b7ed0bf825644a840ec8574c4559ed0",
     "artifacts/release-coverage/current-semantic-ledger-04/context-audit.log": "6ba8f72e9097b786661f0dfd8f45f1f9f842de5fed26d8c73b91c3b6feadc0cd",
-    "artifacts/release-coverage/current-semantic-ledger-05/assemble.mjs": "eddb8c40579ecbcceb5a0f4521da1a7dd327faec5de790ca93c363b3f4ab7894"
+    "artifacts/release-coverage/current-semantic-ledger-06/assemble.mjs": "6c675010c548a60fc399bb43a374d358b08d11c1faf95c3aac51ca31ccc3ea88"
   }
 }

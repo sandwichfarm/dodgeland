@@ -405,3 +405,17 @@ counted,with no execution or exclusion credit.
 [proof](07-03-RECOVERY-MARKET-RESIDUAL-PROOF.json) bind ten exact raw identities,
 nine registered test sources,the159-source/six-target audit and410 unchanged
 frozen paths. Current partial index is218 reviewed/612 pending.
+
+## Team results and seed-copy residual conditions
+
+**UI-04/05,SOLO-01,TEST-03/04/05.** Eighteen current raw zero arms have
+explicit presentation consequences and behavior evidence boundaries:immutable
+team snapshots,optional seed/default markers,focus/inert restoration,minimum
+frame behavior,clipboard-denial selection and stale completion. Existing local
+textarea keydown and denied-after-focus-loss strings are not claimed executed
+by shell Enter or pending-success tests. All18 remain counted;source review
+does not replace final visual inspection or the complete enforcing result.
+[Review](07-03-TEAM-RESULT-SEED-RESIDUAL-REVIEW.md) and
+[proof](07-03-TEAM-RESULT-SEED-RESIDUAL-PROOF.json) bind three registered
+behavior sources,main/result-producer/CSS hashes and410 unchanged frozen paths.
+Current partial index is236 reviewed/594 pending.

@@ -1,9 +1,9 @@
 # Partial current-source semantic index
 
 The retained complete current-source enforcing-fail report0b8f818d has830 raw
-zero arms. This index records218 reviewed arms and612 pending. Eighteen reviewed
+zero arms. This index records236 reviewed arms and594 pending. Eighteen reviewed
 arms have source/schema-identical positive witnesses from later passing cohorts;
-200 are retained counted residuals. These counts are a semantic review partition,
+218 are retained counted residuals. These counts are a semantic review partition,
 not coverage percentages,additional execution or whole-release progress.
 
 | Review | Arms | Scope |
@@ -13,6 +13,7 @@ not coverage percentages,additional execution or whole-release progress.
 |SESSION-RESIDUAL-REVIEW|71|Shared construction/identity,item transactions,safe placement,progress and lifecycle;five existing Flare andone reclaim witness,65 counted residuals.|
 |SCHEMA-RECOVERY-SEMANTIC-REVIEW|9|Eight actual invalid-schema/clock/cell witnesses andone private omitted-salt default;source identities match initial/current schemas.|
 |RECOVERY-MARKET-RESIDUAL-REVIEW|10|Owner market defaults and duplicated pack refusal;recovery binding,death notification and synchronous apply guards. All remain counted.|
+|TEAM-RESULT-SEED-RESIDUAL-REVIEW|18|Team snapshot/paging/focus defaults and clipboard gesture/fallback boundaries;source review preserves all counters. Final visual signoff separate.|
 |CONTROLLER-GUARD-REVIEW private52/0|1|Private omitted context remains raw zero;fresh159-file/2-target audit revalidates the existing exact application value-flow proof.|
 
 The refreshed router audit independently finds one main constructor with a
@@ -25,13 +26,13 @@ frozen sources;it does not claim all arbitrary external callbacks behave so.
 
 `07-CURRENT-SEMANTIC-INDEX.json` binds review proof/doc hashes,raw inventory,
 current410-path freeze and router audit. Detailed per-arm index and assembly
-script are retained under `artifacts/release-coverage/current-semantic-ledger-05`.
+script are retained under `artifacts/release-coverage/current-semantic-ledger-06`.
 Assembly checks source/map identity and a unique nonoverlapping key for every
 reviewed row. It cannot supply the human condition/consequence review or turn a
 zero counter positive. Raw/global/per-file reports and all floors are unchanged.
 
 The largest pending groups are main322,market-ui72,run-hand39,game28,Relay UI20,
-audio19,Race UI19,gamepad18,renderer18,session UI18 andSurvive results14. The
+audio19,Race UI19,gamepad18,renderer18,session UI18. The
 remaining small groups are explicitly enumerated in the JSON. Historical initial
 1051-row source identities/statuses in07-UNCOVERED remain intact;changed sources
 are not mechanically renumbered or relabeled. This current index is separate.

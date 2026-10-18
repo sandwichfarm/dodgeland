@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Fresh full05 enforcing collection live; semantic audit remains active
-last_updated: "2026-10-18T01:24:55.955Z"
+last_updated: "2026-10-18T01:26:11.865Z"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,25 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Full05 confirmed live exec70321;19 controls/78 production jobs pass;relay-results-test active. Recovery/market residual review adds10 exact source-bound cases;current index218 reviewed/612 pending. All410 frozen paths unchanged. Remaining audit,standalone scene cases,07-04/05/06 and PR remain.
+last_activity_desc: Full05 live exec70321;19 controls/79 production jobs pass;relay-runtime active. Team-result/seed review adds18 exact counted residuals;current index236 reviewed/594 pending. All410 frozen paths unchanged. Remaining semantic audit,standalone scene cases,07-04/05/06 and PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+Team-result/seed residual review binds18 original zero arms,three registered
+behavior source files and the main/result/CSS sources. Explicit distinctions:
+local textarea keydown is not shell Enter evidence;denied-after-focus-loss is
+not pending-success focus evidence;minimum frame/no-control defenses remain
+counted. Real component/built seed tests own snapshot/page/focus/inert/clipboard
+behavior;final visual signoff remains separate. No new execution/hits/exclusions.
+All410 frozen paths rechecked unchanged. Current-semantic-ledger-06 verifies
+236 reviewed/594 pending,18 existing witnesses and218 counted residuals.
+Full05 remains active;79 production jobs/19 controls pass,last observed
+relay-runtime after relay-results-test passed01:25:17UTC. Continue same70321
+chain,with remaining semantic audit,standalone scene cases after terminal,
+07-04/05/06 and PR still unfinished.
 
 Recovery/market residual review binds10 original zero arms across co-op-market,
 session-recovery and survive-together to explicit consequence/value/order and
