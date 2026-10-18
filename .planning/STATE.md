@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Actual solo reward journeys pass; all gameplay floors met; remaining DEV22 and release gates
-last_updated: "2026-10-18T00:03:05.036956+00:00"
+stopped_at: All diagnostic floors met; semantic audit and fresh enforcing full collection remain
+last_updated: "2026-10-18T00:21:28.571181+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,29 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Actual DEV solo rewards4 journeys/480 hops/14 purchases pass;30 new witnesses yield2345/2784(needs22). Scope configuration RED/fix and126 controls pass. All gameplay mode floors met;semantic review/full gates/PR remain.
+last_activity_desc: Bounded app construction/constant scope passes17 focused/all129 controls and8 fresh runtime cases. Raw/numerators/old dispositions unchanged;DEV2345/2751 and browser8370/9784 pass. All diagnostic floors met;semantic audit,fresh full gate,07-04/05/06,PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+Latest application construction/constant scope:20c6099 retains17-control RED
+14 pass/three failures;implementation passes17 focused/all129 tool controls,
+159-file resolved audit andeight actual runtime cases/eight iframe realms/two
+independent Node parents/no mode intervals. APPLICATION-CONSTRUCTION-CLOSURE/
+PROOF binds owned Game/stage/placement arguments,unused stage wrapper and
+literal solo ownership constant. Actual reads/guards/false outcomes,live Survive
+admission/start/emit,terrain validation,constructors and coin behavior remain
+counted. Adds16S/4F/33B per app scope;raw/all covered numerators and all old
+dispositions unchanged. DEV2345/2751 and browser8370/9784 pass;all diagnostic
+floors now met. No app/build/lock/floor or mode/global/per-file change. All17
+coverage-tool control files are mandatory in full runner:20 paths/19 executable
+controls;all182 production jobs/groups preserved. Static165-entry/173-closure
+audit passes. Original full report remains failed. Next complete semantic
+ledger review and fresh enforcing full collection with sufficient heap/storage,
+then07-04/05/06 and PR. No whole-release success claim.
+
 
 Latest solo reward journeys:normal02 four cases and independent DEV four cases
 pass. Actual UI buys three cards/optional timed power,collects five denominations

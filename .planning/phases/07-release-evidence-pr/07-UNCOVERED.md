@@ -2,6 +2,19 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Latest application construction and constant scope
+
+APPLICATION-CONSTRUCTION-CLOSURE/PROOF:17 focused/all129 controls,159-file
+resolved source audit andeight fresh PROD/DEV runtime cases/eight iframe realms/
+two Node parents. Owned arguments,unused stage wrapper and literal solo owner
+prove exact unavailable fallbacks/then/RHS paths. Actual guards,live admission,
+terrain failures,constructor work and coin behavior retained. Adds16S/4F/33B
+per app scope;raw/all covered numerators and every old disposition unchanged.
+DEV2345/2751 and browser8370/9784 pass;all diagnostic floors now met. All17 tool
+control files required in full runner,182 previous production jobs unchanged.
+Original full report remains failed. Full semantic review,fresh enforcing full
+collection,07-04/05/06 and PR remain mandatory.
+
 ## Latest actual solo reward and income journeys
 
 SOLO-REWARD-JOURNEY/PROOF:four normal/four fresh DEV journeys,480 actual DEV

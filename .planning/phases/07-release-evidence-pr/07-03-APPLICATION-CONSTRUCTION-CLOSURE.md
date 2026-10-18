@@ -70,3 +70,32 @@ Reproject all source/schema-identical diagnostic app cohorts with raw/covered
 numerators unchanged. Fresh actual PROD/DEV runtime integration must pass before
 acceptance. Full semantic ledger,fresh enforcing full run,07-04/05/06 and PR
 remain required. Executed results will be bound in APPLICATION-CONSTRUCTION-PROOF.
+
+## Executed evidence
+
+20c6099 retains17-control RED14 pass/three expected failures. Implementation
+passes17 focused/all129 tool controls. The fresh159-file symbol audit and
+reviewed value paths above supplement the incomplete graph. An initial probe
+was refined to inspect a method's function-entry/default counters rather than
+expecting a statement counter on its declaration line; combined RED/green use
+the corrected probes. Global/per-file and gameplay-mode scope remain unchanged.
+
+Each app stratum adds53 bounded dispositions:16 statements,four functions and
+33 branch arms. Raw and every covered numerator stay unchanged. Every old
+application disposition is byte-equivalent. Browser8370/9784 and DEV2345/2751
+branches meet85%; DEV lines2082/2102 and functions646/675 also pass. All source-
+identical diagnostic floors now pass. This is not a fresh enforcing full gate.
+
+Fresh current run069bcc60-f386-41fc-b432-55a8293f5fef passesfour PROD/four DEV
+actual river-reward cases,eight verified iframe realms/two independent Node
+parents,no gameplay-mode intervals. Every newly excluded site is zero in its
+actual app cohort. Existing runtime behavior/ownership/collection assertions
+remain passing; no new gameplay-hit credit is inferred. Source f46f,normal raw
+e980 and root lock5ac3 remain verified. APPLICATION-CONSTRUCTION-PROOF binds
+controls,audit,old input maps,projections and actual raw realms/artifacts.
+
+All17 coverage-tool control files are now mandatory in the full runner,alongside
+existing strict/guidance tests:20 control paths,19 executable control files.
+All182 production jobs and existing groups are unchanged. Static165-entry/
+173-closure dispatch audit passes. Original full report stays enforced-fail;
+full semantic review,fresh enforcing full collection,07-04/05/06 and PR remain.

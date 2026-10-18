@@ -2,6 +2,7 @@ import { createRequire } from 'node:module';
 import { applicabilityIdentity } from './applicability.mjs';
 import { builtinRuleDispositions } from './builtin-rule-applicability.mjs';
 import { applicationUnusedApplicabilityDispositions } from './application-unused-applicability.mjs';
+import { applicationConstructionApplicabilityDispositions } from './application-construction-applicability.mjs';
 const ts=createRequire(new URL('../../package.json',import.meta.url))('typescript');
 export const BROWSER_STRATUM='browser-presentation-owner-lifecycle';
 export const BROWSER_APPLICABILITY_SOURCES=Object.freeze({
@@ -33,5 +34,5 @@ export function browserApplicabilityDispositions({mode,sources,closureSources,ca
  for(const[id,site]of Object.entries(source.coverage.statementMap))if(ranges.some(r=>contains(r,site)))emit('statement',id);
  for(const[id,site]of Object.entries(source.coverage.fnMap))if([...ranges,...functions].some(r=>contains(r,site.loc)&&contains(r,site.decl)))emit('function',id);
  for(const[id,site]of Object.entries(source.coverage.branchMap))for(const[arm,loc]of site.locations.entries())if(ranges.some(r=>contains(r,loc)))emit('branch',id,arm);
- return [...output,...builtinRuleDispositions({mode,source:selected.get('src/mode-rules.ts').source,closureSources,canonicalSources,appConfigSources:configSources}),...applicationUnusedApplicabilityDispositions({mode,sources,authoritySources:closureSources,canonicalSources,configSources})];
+ return [...output,...builtinRuleDispositions({mode,source:selected.get('src/mode-rules.ts').source,closureSources,canonicalSources,appConfigSources:configSources}),...applicationUnusedApplicabilityDispositions({mode,sources,authoritySources:closureSources,canonicalSources,configSources}),...applicationConstructionApplicabilityDispositions({mode,sources,authoritySources:closureSources,canonicalSources,configSources})];
 }

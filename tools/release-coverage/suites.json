@@ -17583,7 +17583,16 @@
       "tools/release-coverage/builtin-rule-applicability.test.mjs",
       "tools/release-coverage/solo-applicability.test.mjs",
       "tools/release-coverage/turn-applicability.test.mjs",
-      "tools/release-coverage/collection.test.mjs"
+      "tools/release-coverage/collection.test.mjs",
+      "tools/release-coverage/applicability.test.mjs",
+      "tools/release-coverage/attribution.test.mjs",
+      "tools/release-coverage/browser-applicability.test.mjs",
+      "tools/release-coverage/browser-calibration.test.mjs",
+      "tools/release-coverage/calibration.test.mjs",
+      "tools/release-coverage/model-attribution.test.mjs",
+      "tools/release-coverage/policy.test.mjs",
+      "tools/release-coverage/solo-bootstrap-attribution.test.mjs",
+      "tools/release-coverage/solo-model-attribution.test.mjs"
     ],
     "dynamicImports": {
       "tests/consumable-drops.test.mjs": [
