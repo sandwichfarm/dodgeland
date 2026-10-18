@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Full05 still live; retained snapshot semantic review complete; conformance draft unexecuted
-last_updated: "2026-10-18T02:04:25.951335Z"
+last_updated: "2026-10-18T02:12:48.036234Z"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,29 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Same full05 exec70321 live;151 production jobs/19 controls pass,last pack-owner-development;pack-replacement-development active. Original830 snapshot reviewed. Isolated conformance draft02 has three syntax-checked modules,host store/ack source correction,zero execution. All410 frozen inputs unchanged. Full terminal/fresh reconciliation,scene cases,07-04/05/06 and PR remain.
+last_activity_desc: Same full05 exec70321 live;168 production jobs/19 controls pass,last race-mud-movement-test. Original830 snapshot reviewed. Conformance draft02 and visual/clause integrity draft01 remain unexecuted outside frozen inputs. All410 frozen paths unchanged;batch04 compression independently verified. Full terminal/fresh reconciliation,scene cases,07-04/05/06 and PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+Visual/clause integrity foundation draft01 is isolated under artifacts/release-
+coverage/evidence-draft-01;two modules pass independent node --check. No unit,
+capture,browser,build or image inspection ran. Negative fixtures cover missing/
+stale/reused image paths,recorded geometry with inclusive8px boundary,complete
+verbatim clause inventory and actual named evidence references. Capture CLI,
+source/terminal receipt binding,actual clause content and semantic review remain
+pending. Current draw observer lacks world pickup text;renderer313/339 are
+known source targets for read-only extension. Race1-tile setup is a legitimate
+candidate tie route,not an executed result. All410 frozen inputs still match.
+Batch04 compressed63 completed payloads selected from161 terminal exit0 jobs;
+independent verification confirms every hash,original ledger prefix and410
+frozen paths. Per-file allocation savings608,051,200bytes;active outputs untouched.
+Full05 same70321 remains live;168 production jobs/19 controls pass,no failures
+observed,last race-mud-movement-test. Continue this same run. Terminal report/fresh raw
+reconciliation,standalone scene cases,07-04/05/06 and actual PR remain unfinished.
+
 
 Conformance draft02 is isolated under artifacts/release-coverage/conformance-
 draft-02;three planned modules exist and pass independent node --check.

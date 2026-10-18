@@ -1,0 +1,47 @@
+{
+  "purpose": "Unexecuted visual/clause integrity foundation outside the frozen full run;not07-05 acceptance",
+  "createdAt": "2026-10-18T02:12:48.036234+00:00",
+  "draftSources": {
+    "artifacts/release-coverage/evidence-draft-01/evidence.mjs": "f3dcca93c0b7de0c064e1ddb60d5725d2f79e4cb57a883b8201218046347a297",
+    "artifacts/release-coverage/evidence-draft-01/release-evidence.test.mjs": "aa904da7e750f5025b19daf287bdc75fc9e51c5277227eb23bdb0475c8a231e6"
+  },
+  "sourceSyntaxChecks": [
+    {
+      "command": "node --check artifacts/release-coverage/evidence-draft-01/evidence.mjs",
+      "exitCode": 0,
+      "runtimeOrTestExecution": false
+    },
+    {
+      "command": "node --check artifacts/release-coverage/evidence-draft-01/release-evidence.test.mjs",
+      "exitCode": 0,
+      "runtimeOrTestExecution": false
+    }
+  ],
+  "frozenPathsVerified": 410,
+  "freezeSha256": "c72459fff67275b20c5b67c1076d781f825a00cec405fada8743cb2f350111a3",
+  "sourceReferences": {
+    "tests/cross-mode-presentation.mjs": "6509e8280d737f24ec41d3be89ab56aa859593bd85e1ac4a4b1046d8824355f2",
+    "tests/market-game-fixture.mjs": "e7bb47711cd9d079f39a0b486a1630e9d850f6e73d406893ced24ef5e4b49536",
+    "src/render.ts": "b6b5ae2ff1a4af8e3f6a0bf2c96bfcc3e83b11e95e38892ccaa6f33f3c2122c2",
+    "src/race.ts": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+    ".planning/phases/07-release-evidence-pr/07-CLAUSE-PREPARATION.json": "c626070056064d3e9db9a1f9144fe8ee60d049f00953c50f0cc8358ef95de1d0",
+    ".planning/phases/07-release-evidence-pr/07-CLAUSE-OBLIGATIONS.md": "7908f96b7c37e334df7d4030e8c62a9f1037a339061269f5e58fbb79f7613738"
+  },
+  "executedUnitCases": 0,
+  "actualCaptureCount": 0,
+  "limits": [
+    "No capture CLI,normal image acquisition,contact sheet or image inspection yet",
+    "Source/terminal/capture receipt bindings must be implemented before accepting real rows",
+    "No51-clause/47-requirement completion mapping populated",
+    "Integrity fixtures are not production images,test exits or PR observations",
+    "OnlySHIP-01 and exact original PR Opened clause may remain pending before07-06;other source obligations cannot disappear"
+  ],
+  "next": [
+    "After07-04,review/copy foundation into planned tooling/test paths",
+    "Implement actual normal production-input capture and receipt readers",
+    "Reuse current cross-mode setup,Hud matrices and read-only production draw observer without world/camera writes",
+    "Extend read-only observation for actual world pickup text",
+    "Acquire and inspect required frames/themes/motion and lifecycle/result states",
+    "Bind real execution/source/build receipts and every original clause;run all positive/negative checks"
+  ]
+}
