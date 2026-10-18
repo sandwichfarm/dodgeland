@@ -2,6 +2,17 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Latest Flare anchor safety evidence
+
+FLARE-SAFETY-SEMANTIC-REVIEW/PROOF:24 ordinary/24 canonical component cases,
+including10 new cases across both bases. Real item collection/terrain death/log
+carry/bank hop;unsafe exact water/car/train/mob anchors and insufficient distinct
+space reject unchanged. Same action succeeds after clearing hazard,retains owner
+fractional grid and rejects replay. Five current Session arms gain witnesses,
+one Node parent,no browser/mode credit. Historical changed-source Session rows
+remain intact. Source/build/lock/182 jobs/20 controls unchanged;static audit passes.
+Complete semantic audit/fresh full collection/07-04/05/06/PR remain.
+
 ## Latest schema and recovery semantic evidence
 
 SCHEMA-RECOVERY-SEMANTIC-REVIEW/PROOF:18 ordinary/18 canonical component cases,

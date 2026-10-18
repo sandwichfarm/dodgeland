@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: All diagnostic floors met; semantic audit and fresh enforcing full collection remain
-last_updated: "2026-10-18T00:31:17.872271+00:00"
+last_updated: "2026-10-18T00:33:25.098164+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,24 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Schema/recovery semantic audit adds8 source-identical branch witnesses in18 ordinary/18 canonical component cases;private salt default reviewed with raw zero retained. Collection6/6;182 jobs/20 controls and source/build/lock unchanged. Current830 raw candidates extracted. Full semantic audit/fresh full gate/07-04/05/06/PR remain.
+last_activity_desc: Flare exact-anchor safety24 ordinary/24 canonical cases including10 new both-base cases;5 current branch witnesses. Real log carry/bank hop,unsafe terrain/mob/space rejection then same-action success. Source/build/lock and182 jobs/20 controls unchanged. Semantic audit/fresh full gate/07-04/05/06/PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+Latest Flare exact-anchor safety:24 ordinary/24 canonical component cases,
+including14 previous and10 new both-base cases. Real sampled items,terrain death,
+platform carry0.375 and bank hop;unsafe water/car/train/mob/exhausted distinct
+space reject without debit or movement. Clearing hazard permits same action once,
+preserves owner fractional x and gives teammate distinct cell;spawning mob control
+passes. Five current Session branch witnesses;one Node parent,no browser/mode
+credit. FLARE-SAFETY-SEMANTIC-REVIEW/PROOF binds raw/current schemas and all158
+source bytes. Changed historical Session rows not relabeled. No product defect
+or repair. Same182 jobs/20 controls,all previous groups,source/build/lock unchanged;
+static165-entry/173-closure audit passes. All chains terminal. Full semantic
+review,fresh enforcing collection,07-04/05/06 and PR remain.
 
 Schema/recovery semantic review:18 ordinary/18 canonical cases,two independent
 Node parents,no browser/mode intervals. Eight initial/current source/map/site-

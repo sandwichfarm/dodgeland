@@ -1,0 +1,418 @@
+{
+  "purpose": "Actual component Flare safety and fractional owner-anchor proof;no product repair,public UI,mode attribution or complete-release claim",
+  "runId": "2caf61a0-cf98-4548-8edc-96036be71228",
+  "ordinaryCases": 24,
+  "canonicalCases": 24,
+  "newCases": 10,
+  "priorCasesRetained": 14,
+  "nodeParents": 1,
+  "browserRealms": 0,
+  "modeIntervals": 0,
+  "sourceInventoryUnchanged": true,
+  "normalBuildUnchanged": true,
+  "rootLockUnchanged": true,
+  "priorJobsAndGroupsPreserved": true,
+  "productionJobs": 182,
+  "controlPaths": 20,
+  "auditEntries": 165,
+  "closure": 173,
+  "currentSourceNewBranchWitnesses": [
+    {
+      "path": "src/session.ts",
+      "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+      "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+      "id": "227",
+      "arm": 5,
+      "before": 0,
+      "hits": 2,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 818,
+            "column": 25
+          },
+          "end": {
+            "line": 821,
+            "column": 114
+          }
+        },
+        "type": "binary-expr",
+        "locations": [
+          {
+            "start": {
+              "line": 818,
+              "column": 25
+            },
+            "end": {
+              "line": 818,
+              "column": 31
+            }
+          },
+          {
+            "start": {
+              "line": 818,
+              "column": 35
+            },
+            "end": {
+              "line": 818,
+              "column": 48
+            }
+          },
+          {
+            "start": {
+              "line": 818,
+              "column": 52
+            },
+            "end": {
+              "line": 818,
+              "column": 64
+            }
+          },
+          {
+            "start": {
+              "line": 818,
+              "column": 68
+            },
+            "end": {
+              "line": 818,
+              "column": 111
+            }
+          },
+          {
+            "start": {
+              "line": 819,
+              "column": 12
+            },
+            "end": {
+              "line": 819,
+              "column": 33
+            }
+          },
+          {
+            "start": {
+              "line": 819,
+              "column": 37
+            },
+            "end": {
+              "line": 819,
+              "column": 85
+            }
+          },
+          {
+            "start": {
+              "line": 820,
+              "column": 13
+            },
+            "end": {
+              "line": 820,
+              "column": 33
+            }
+          },
+          {
+            "start": {
+              "line": 820,
+              "column": 37
+            },
+            "end": {
+              "line": 820,
+              "column": 57
+            }
+          },
+          {
+            "start": {
+              "line": 820,
+              "column": 62
+            },
+            "end": {
+              "line": 820,
+              "column": 163
+            }
+          },
+          {
+            "start": {
+              "line": 821,
+              "column": 11
+            },
+            "end": {
+              "line": 821,
+              "column": 114
+            }
+          }
+        ]
+      }
+    },
+    {
+      "path": "src/session.ts",
+      "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+      "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+      "id": "227",
+      "arm": 8,
+      "before": 0,
+      "hits": 4,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 818,
+            "column": 25
+          },
+          "end": {
+            "line": 821,
+            "column": 114
+          }
+        },
+        "type": "binary-expr",
+        "locations": [
+          {
+            "start": {
+              "line": 818,
+              "column": 25
+            },
+            "end": {
+              "line": 818,
+              "column": 31
+            }
+          },
+          {
+            "start": {
+              "line": 818,
+              "column": 35
+            },
+            "end": {
+              "line": 818,
+              "column": 48
+            }
+          },
+          {
+            "start": {
+              "line": 818,
+              "column": 52
+            },
+            "end": {
+              "line": 818,
+              "column": 64
+            }
+          },
+          {
+            "start": {
+              "line": 818,
+              "column": 68
+            },
+            "end": {
+              "line": 818,
+              "column": 111
+            }
+          },
+          {
+            "start": {
+              "line": 819,
+              "column": 12
+            },
+            "end": {
+              "line": 819,
+              "column": 33
+            }
+          },
+          {
+            "start": {
+              "line": 819,
+              "column": 37
+            },
+            "end": {
+              "line": 819,
+              "column": 85
+            }
+          },
+          {
+            "start": {
+              "line": 820,
+              "column": 13
+            },
+            "end": {
+              "line": 820,
+              "column": 33
+            }
+          },
+          {
+            "start": {
+              "line": 820,
+              "column": 37
+            },
+            "end": {
+              "line": 820,
+              "column": 57
+            }
+          },
+          {
+            "start": {
+              "line": 820,
+              "column": 62
+            },
+            "end": {
+              "line": 820,
+              "column": 163
+            }
+          },
+          {
+            "start": {
+              "line": 821,
+              "column": 11
+            },
+            "end": {
+              "line": 821,
+              "column": 114
+            }
+          }
+        ]
+      }
+    },
+    {
+      "path": "src/session.ts",
+      "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+      "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+      "id": "228",
+      "arm": 0,
+      "before": 0,
+      "hits": 6,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 821,
+            "column": 40
+          },
+          "end": {
+            "line": 821,
+            "column": 113
+          }
+        },
+        "type": "binary-expr",
+        "locations": [
+          {
+            "start": {
+              "line": 821,
+              "column": 40
+            },
+            "end": {
+              "line": 821,
+              "column": 64
+            }
+          },
+          {
+            "start": {
+              "line": 821,
+              "column": 68
+            },
+            "end": {
+              "line": 821,
+              "column": 113
+            }
+          }
+        ]
+      }
+    },
+    {
+      "path": "src/session.ts",
+      "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+      "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+      "id": "228",
+      "arm": 1,
+      "before": 0,
+      "hits": 2,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 821,
+            "column": 40
+          },
+          "end": {
+            "line": 821,
+            "column": 113
+          }
+        },
+        "type": "binary-expr",
+        "locations": [
+          {
+            "start": {
+              "line": 821,
+              "column": 40
+            },
+            "end": {
+              "line": 821,
+              "column": 64
+            }
+          },
+          {
+            "start": {
+              "line": 821,
+              "column": 68
+            },
+            "end": {
+              "line": 821,
+              "column": 113
+            }
+          }
+        ]
+      }
+    },
+    {
+      "path": "src/session.ts",
+      "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+      "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+      "id": "231",
+      "arm": 0,
+      "before": 0,
+      "hits": 2,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 825,
+            "column": 6
+          },
+          "end": {
+            "line": 825,
+            "column": 74
+          }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": {
+              "line": 825,
+              "column": 6
+            },
+            "end": {
+              "line": 825,
+              "column": 74
+            }
+          },
+          {
+            "start": {},
+            "end": {}
+          }
+        ]
+      }
+    }
+  ],
+  "historicalInitialSessionRowsReclassified": false,
+  "hashes": {
+    "artifacts/release-coverage/flare-safety-semantic-runtime-03/manifest.json": "ad70015a3cacb5ae64b162b27465db2302e5cd69469a228e8f0e25000331624a",
+    "artifacts/release-coverage/flare-safety-semantic-runtime-03/2caf61a0-cf98-4548-8edc-96036be71228/job-ledger.json": "7274abc398050e0f280c945b064aabbeeefaf62f039049db050b5485fdf6c429",
+    "artifacts/release-coverage/current-full-03/0b8f818d-62a2-4922-ab83-242886778c0c/inventory.json": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+    "artifacts/release-coverage/flare-safety-semantic-runtime-03/2caf61a0-cf98-4548-8edc-96036be71228/inventory.json": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+    "artifacts/release-coverage/current-full-03/recovered-report-02/report/coverage-final.json": "99ce960b1ad9f2ff822762d38566fd2ee47191eaf497cc3e893782d064e97766",
+    ".planning/phases/07-release-evidence-pr/07-03-CURRENT-FULL-PROOF.json": "ae59bbba7cc34b1e14babc0c3c80c978748728ce253a32fe5745362294e20192",
+    "artifacts/release-coverage/flare-safety-semantic-runtime-03/report/coverage-final.json": "dce69afc091dded4bd99ecee0e88c6fb77c6dc0fa107e2434ba9b22c4fbe03a1",
+    "tools/release-coverage/suites.json": "02e81d3e4320ed8a2d0901fd0eee532e051d1c0b27b606c011fedbc3674ab88d",
+    "artifacts/release-coverage/flare-safety-semantic-03/suites-before.json": "dc41725b2798bfa134fb568ae06ba50b0c7c777becf77630c2264dfc847cafd8",
+    "artifacts/release-coverage/flare-safety-semantic-03/execution-audit.json": "062e4c6589c32c35c1015aa8cf14afdbe69d4e280c5501848dbe230758d42f7b",
+    "artifacts/release-coverage/flare-safety-semantic-03/ordinary.log": "0163046ffa20a0b8d1efd74b532480aee65fb08b3d344d7ac22057051fec6c38",
+    "artifacts/release-coverage/flare-safety-semantic-03/canonical.log": "d00ac6800339431b913a2216c4f83a087f906335683f44052a0940ccd2b5b05e",
+    "artifacts/release-coverage/flare-safety-semantic-runtime-03/2caf61a0-cf98-4548-8edc-96036be71228/tests__consumable-world-boundaries.test.mjs.json": "2ebed4666fdd0058f09628522b5966018c557c5eb84e2274f50aaacbd59061f8",
+    "artifacts/release-coverage/flare-safety-semantic-runtime-03/2caf61a0-cf98-4548-8edc-96036be71228/job-consumable-world-boundaries-test.json": "a85b375796c06ecde3bbcfbf3b88241647d45f5209224f2306ed7a5b87aec2fc",
+    "artifacts/release-coverage/flare-safety-semantic-runtime-03/2caf61a0-cf98-4548-8edc-96036be71228/config.json": "a4fb9048f02809e30d91141882a9b728f063793c21c76a6a29f8d31c180d1bbb",
+    "src/session.ts": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+    "tests/consumable-world-boundaries.test.mjs": "5aa76f1b029a0efa90a6f585b2464dd5eead9067a867999a5a2528b5c41e330b",
+    "dist/index.html": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
+    "pnpm-lock.yaml": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+    "artifacts/release-coverage/flare-safety-semantic-03/verify.mjs": "53eff5f9b9d958f847e9dacd55238836822f94c30a7d148b434772853547c844"
+  }
+}

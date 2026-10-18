@@ -9327,6 +9327,25 @@
         }
       ],
       "provenance": "Whole existing component suites. Invalid recovery clocks and overlapping/nonfinite Flare placements cannot validate, spend or apply; corrected fractional cells remain unchanged. Duplicate drop schema registration and invalid identity/bucket requests preserve pinned seeded drop definitions. No public gameplay or per-mode attribution claim."
+    },
+    "flare-safety-semantic-03": {
+      "files": [
+        "tests/consumable-world-boundaries.test.mjs"
+      ],
+      "role": "node",
+      "jobs": [
+        {
+          "id": "consumable-world-boundaries-test",
+          "file": "tests/consumable-world-boundaries.test.mjs",
+          "role": "node",
+          "requiredRealms": [
+            "node"
+          ],
+          "defaultBuildScope": "modules",
+          "artifactPatterns": []
+        }
+      ],
+      "provenance": "Whole existing component suite. Real fractional platform carry and settled hop;actual owned Flare collection and terrain death. Both bases reject unsafe exact water/road/rail/mob anchors and insufficient distinct landing space without spending or relocation;cleared terrain/spawning mob permits the same action once. Explicit starting poses/terrain;no full public UI or per-mode attribution claim."
     }
   },
   "pendingAdapters": [

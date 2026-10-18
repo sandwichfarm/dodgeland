@@ -110,9 +110,9 @@ test('coin magnet cards alter neither item pull range nor its frame-by-frame mot
   }
 });
 
-function twoOwnedItems() {
+function twoOwnedItems(mode = 'stroll') {
   // The real sampler yields Revival on row1 and Flare on row2 for this seed.
-  const context = fixture({ seed: 0xb4184ed2, mode: 'stroll' });
+  const context = fixture({ seed: 0xb4184ed2, mode });
   assert.equal(sampleConsumableDrop({ courseSeed: context.game.seed, row: 2, slot: 0 }).itemId, 'flare');
   for (const [index, player] of context.session.players.entries()) {
     player.x = player.fromX = 0;
@@ -187,6 +187,59 @@ function observableState(session) {
       x: player.x, y: player.y, health: player.health, wallet: player.run.wallet,
       recovery: player.recovery, statistics: player.statistics,
     })),
+  });
+}
+
+for (const mode of ['arcade', 'stroll']) for (const hazard of ['river', 'road', 'rail', 'mob', 'space']) {
+  test(`${mode}/Flare/${hazard}: unsafe exact anchor retains the charge and retries on the personal log grid`, () => {
+    const { game, session } = twoOwnedItems(mode);
+    const owner = session.players.find(player => player.seat === 'p2');
+    const target = session.players.find(player => player.seat === 'p1');
+    killOnWater(game, session, target);
+    // Real platform carry followed by a real hop creates the owner's grid.
+    Object.assign(game.rows.get(owner.y), { kind: 'river', phase: 0, speed: 1, length: 4, spacing: 20 });
+    advance(session, .375 / game.rules.simulation.worldTimeScale);
+    assert.ok(Math.abs(owner.x - .375) < 1e-8);
+    const anchorX = owner.x;
+    hop(session, owner, 'forward');
+    assert.equal(owner.x, anchorX);
+    const row = owner.groundY, lane = game.rows.get(row);
+    const chargeBefore = session.consumableSnapshot().charges.find(value => value.seat === owner.seat);
+    const action = { actionId: `unsafe-flare-${mode}-${hazard}`, ownerSeat: owner.seat, itemId: 'flare',
+      expectedInventoryGeneration: chargeBefore.inventoryGeneration,
+      expectedOwnerGeneration: chargeBefore.ownerGeneration };
+    if (hazard === 'river') Object.assign(lane, { kind: 'river', phase: 10, speed: 0, length: 1, spacing: 20 });
+    if (hazard === 'road') Object.assign(lane, { kind: 'road', actors: undefined, phase: anchorX, speed: 0, length: 3, spacing: 20 });
+    if (hazard === 'rail') Object.assign(lane, { kind: 'rail', actors: undefined, phase: 1.5 + .875 - game.time,
+      period: 50, warning: 1.5, speed: 1, length: 30 });
+    if (hazard === 'mob') game.mobs.push({ id: 900, kind: 'crab', phase: 'rest', phaseLeft: 100,
+      phaseDuration: 100, x: anchorX, y: row, fromX: anchorX, fromY: row, targetX: anchorX, targetY: row });
+    if (hazard === 'space') for (const y of [row, row - 1, row - 2]) {
+      Object.assign(game.rows.get(y), { kind: 'meadow', blocked: Array.from({ length: 11 }, (_, i) => i - 5)
+        .filter(x => !(y === row && x === Math.round(anchorX))) });
+    }
+    const before = observableState(session), clock = session.world.time, tick = session.world.simulationTick;
+    assert.equal(session.useConsumable(action), false);
+    assert.deepEqual(observableState(session), before, 'unsafe anchor cannot consume or partly restore the team');
+    assert.equal(session.world.time, clock);
+    assert.equal(session.world.simulationTick, tick);
+    assert.equal(target.state, 'dead');
+    assert.equal(charge(session, owner.seat, 'flare'), 1);
+    for (const y of [row, row - 1, row - 2]) Object.assign(game.rows.get(y), { kind: 'meadow', blocked: [] });
+    // Spawning mobs are visibly telegraphed and have no collision yet.
+    if (hazard === 'mob') game.mobs[0].phase = 'spawning';
+    assert.equal(session.useConsumable(action), true, 'clearing the hazard must leave the same action/charge usable');
+    assert.equal(owner.x, anchorX, 'Flare preserves its exact owner anchor without normalization');
+    assert.equal(owner.y, row);
+    assert.equal(target.state, 'playing');
+    assert.equal(target.participation, 'active');
+    assert.ok(Math.abs(target.x - owner.x) >= .5 || target.y !== owner.y, 'revived teammate receives a distinct cell');
+    assert.equal(charge(session, owner.seat, 'flare'), 0);
+    assert.equal(session.world.time, clock);
+    assert.equal(session.world.simulationTick, tick);
+    const completed = observableState(session);
+    assert.equal(session.useConsumable(action), false);
+    assert.deepEqual(observableState(session), completed, 'the successful retry still spends exactly once');
   });
 }
 

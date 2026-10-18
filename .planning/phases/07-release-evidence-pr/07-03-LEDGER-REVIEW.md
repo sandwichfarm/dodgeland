@@ -356,3 +356,16 @@ Eight initial/current source/map/site-identical zero arms gain actual witnesses.
 Private draw omitted-salt default remains raw zero:unexported declaration and
 sole direct caller always supplying schema.salt are verified in AST.
 [Exact conditions,consequences,identities,hits and limits](07-03-SCHEMA-RECOVERY-SEMANTIC-REVIEW.md).
+
+## Current Flare exact-anchor safety
+
+**COOP-01/04,ITEM-02/04/06,SOLO-02,TEST-02/05.** Current Session source
+e90f/map verified in FLARE-SAFETY-SEMANTIC-PROOF:water/vehicle/mob checks at
+the exact fractional Flare anchor and insufficient distinct remaining cells reject
+without spending or partial relocation. Both bases use actual sampled item
+collection,terrain death,0.375 platform carry and settled bank hop. Same action
+works after hazard clearing,retains owner grid,gives target a distinct cell and
+cannot replay. Existing whole component suite24/24 canonical run
+2caf61a0-cf98-4548-8edc-96036be71228;five current zero arms227/5,227/8,228/0,
+228/1,231/0 gain witnesses. Initial changed Session rows are not reclassified.
+[Exact conditions,assertions,source binding and component limits](07-03-FLARE-SAFETY-SEMANTIC-REVIEW.md).
