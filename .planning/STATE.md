@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Fresh full05 enforcing collection live; semantic audit remains active
-last_updated: "2026-10-18T00:53:21.424150+00:00"
+last_updated: "2026-10-18T00:59:08.303766+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,27 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Full05 still live session70321/PID1821;all19 controls and cross-mode pass,local-session suites active. Turn residual review binds33 arms:4 prior reclaim witnesses/29 counted guards or fallbacks,159-source11-target audit. No new exclusion/hits/source change. Other semantic audit,market-scene standalone,07-04/05/06/PR remain.
+last_activity_desc: Full05 still live exec70321;all19 controls and51 production jobs passed,market-layout active.119 completed-owner payloads losslessly compressed with terminal receipts/unique names/source-destination-final SHA;all410 freeze hashes unchanged. No live outputs or counters changed. Semantic audit,standalone scene,07-04/05/06/PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+Full05 storage maintenance:119 immutable payloads from51 terminal exit0 jobs
+compressed transparently while market-layout remained active. No active outputs/
+config/inventory/build/log/ledger/report selected. Unique Node filenames and
+browser collected/run/job ownership checked;each owner receipt rechecked before
+independent temp inode/source-destination SHA/original identity verification and
+atomic replacement. All119 final SHA plus410 source/test/tool/config/build/lock
+hashes reverified. Pre-action ledger SHA authenticated reconstructed append-only
+prefix bytes;receipt/snapshot/scripts retained in storage-maintenance.
+CLOSED-PAYLOAD-COMPRESSION/PROOF documents this narrower completed-input protocol;
+no content/path deletion or new counters/coverage. Free afterward3.94GiB as
+observed,shared volume. First script/receipt remain immutable;use a new script
+version if another batch is needed. Full05 exec70321,parent1821 remains live,
+all19 controls and51 production jobs passed,last observed market-layout at
+00:58UTC. Continue same chain,read-only source audit only;no restart.
 
 Latest turn residual semantic review:33 Race/Relay owner/item/ledger arms,
 four existing reclaim witnesses plus29 retained counted guards/fallbacks.

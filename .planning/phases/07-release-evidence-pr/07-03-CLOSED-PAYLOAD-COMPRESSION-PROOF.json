@@ -1,0 +1,16 @@
+{
+  "purpose": "Reverify terminal-owner,original ledger-prefix SHA,119 payload content hashes and all410 frozen source/test/tool/config/build/lock paths after lossless compression",
+  "runId": "cb52774e-975e-4388-a064-5162ef3807d8",
+  "completedJobsAtSelection": 51,
+  "payloadsReverified": 119,
+  "ledgerPrefixReconstruction": "append-only current prefix serialized byte-identically to pre-compression ledger SHA;no synthetic test outcome",
+  "sourceFreezeChanges": [],
+  "activeOutputsUntouched": true,
+  "hashes": {
+    "artifacts/release-coverage/storage-maintenance/closed-full05-06619afb28ed4aafb481c7be92b338e4.json": "063e13bce0116bae2878abfe6b43df5d43db05dbd55ba7a3b254421e2eafdb8a",
+    "artifacts/release-coverage/storage-maintenance/closed-full05-06619afb28ed4aafb481c7be92b338e4.ledger-snapshot.json": "a6f4cfeb702b23c7f58c507c21a0c93609d65a5925ed16651af9b7a9f4cc0f8a",
+    "artifacts/release-coverage/storage-maintenance/compress-closed-full05.py": "7b79aee5915df6fdcbd52ee2867012850020cbc8e7b2b30fb31128c3ad09ce5a",
+    "artifacts/release-coverage/storage-maintenance/compress-closed-full05-01.log": "648488ba79fa5e7aa15dcab0bbeab71281101ec1fb37b924711870ccede22f74",
+    "artifacts/release-coverage/storage-maintenance/verify-closed-full05-01.py": "0e47cae6872f50300101165cd4fd03593f5f9034386c199085c00e998d4485d2"
+  }
+}
