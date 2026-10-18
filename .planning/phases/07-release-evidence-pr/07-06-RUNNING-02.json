@@ -1,6 +1,6 @@
 {
   "status": "running-not-accepted",
-  "observedAt": "2026-10-18T05:41:53.324649+00:00",
+  "observedAt": "2026-10-18T06:00:51.801261+00:00",
   "runId": "56748255-a473-4788-953e-484abc34a082",
   "directory": "artifacts/release-final/56748255-a473-4788-953e-484abc34a082",
   "sessionId": 96020,
@@ -72,7 +72,7 @@
   "coverageObservation": {
     "runId": "c39c0fee-a277-47ec-b276-95f5e6b26932",
     "terminalControls": 19,
-    "terminalProduction": 52,
+    "terminalProduction": 76,
     "nonzeroTerminalJobs": 0,
     "expectedProduction": 182,
     "enforcementTerminal": false
@@ -107,5 +107,28 @@
     "session": 65644,
     "statusPath": "artifacts/release-final-launch-02/audit/receipt-handoff.json",
     "status": "waiting-for-actual-enforcing-stage-terminal"
+  },
+  "coverageMilestones": {
+    "raceLayout": {
+      "tests": 10,
+      "passed": 10,
+      "failed": 0,
+      "completedAt": "2026-10-18T05:52:27.719Z"
+    },
+    "raceResults": {
+      "tests": 44,
+      "passed": 44,
+      "failed": 0,
+      "completedAt": "2026-10-18T05:55:30.396Z"
+    },
+    "raceRuntime": {
+      "tests": 17,
+      "passed": 17,
+      "failed": 0,
+      "skipped": 0,
+      "canceled": 0,
+      "completedAt": "2026-10-18T05:59:36.302Z",
+      "includesRepairedEarnedMarketJourney": true
+    }
   }
 }

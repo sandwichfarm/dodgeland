@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: 07-06 second full release run96020/PID13528 active; route repaired and visual refresh passed
-last_updated: "2026-10-18T05:41:53.324649+00:00"
+last_updated: "2026-10-18T06:00:51.801261+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -26,8 +26,10 @@ Log: artifacts/release-final-launch-02/canonical.log. Freeze417 technical inputs
 and references are in launch.json there; all rehashed unchanged. Normal e980
 artifact, immutable root lock/oracle and inherited phase6 runner are unchanged.
 Latest observation: inherited-phase6 and calibration stages both terminal0.
-Fresh coverage run c39c0fee-a277-47ec-b276-95f5e6b26932 is active;all19 controls
-and52 production jobs passed so far,0 failed. See07-06-RUNNING-02 for actual stage
+Fresh coverage run c39c0fee-a277-47ec-b276-95f5e6b26932 is active;Race layout10/10,
+results44/44 and runtime17/17 all passed,including repaired earned-market route.
+Current Relay layout is active;all19 controls
+and76 production jobs passed so far,0 failed. See07-06-RUNNING-02 for actual stage
 receipts and current PID observation. Closed-payload compression batch01 saved
 344903680bytes;119 payloads independently reverified byte-identical,all417
 frozen inputs unchanged. Timed workers were never suspended in this run.
