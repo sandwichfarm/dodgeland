@@ -453,3 +453,21 @@ Generic authored zero-gravity,empty-model and stale-release APIs remain counted.
 159-source/seven-method reference audit,14 registered behavior sources and410
 unchanged frozen paths. All28 remain counted;no execution,hits,exclusions or
 threshold changes. Current partial index is321 reviewed/509 pending.
+
+## Controller and renderer residual conditions
+
+**INPUT-01/03/04/05/06,UI-02/04/05/06,SOLO-01,COOP-01,RACE-02/03,
+TEST-01/02/03/04/05.** Thirty-six original current-full zero arms now have
+explicit consequences and behavior limits. Main's five-argument bridge call
+supplies the fifth snapshot-consumer arrow to GamepadRouter;legacy GamepadInput
+construction is gated by absent consumer. Legacy adapter and router assertions
+remain separate. Render alternatives retain exact omitted-lift argument identity,
+physical positions,effect/occlusion layers and planned labels without claiming
+new visual inspection or unexecuted fallback hits.
+[Review](07-03-INPUT-RENDER-RESIDUAL-REVIEW.md) and
+[proof](07-03-INPUT-RENDER-RESIDUAL-PROOF.json) bind36 source/map sites,
+159-source/eight-target audit,12 registered behavior sources,literal argument
+checks and410 unchanged frozen paths. Initial reader's incorrect six-argument
+assumption failed and is retained;corrected reader verifies actual five-argument
+signature. No product/test mutation or coverage result arose from that reader.
+All36 remain counted;current partial index357 reviewed/473 pending.

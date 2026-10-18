@@ -3,10 +3,10 @@
   "sourceRun": "0b8f818d-62a2-4922-ab83-242886778c0c",
   "sourceInventoryRawSha256": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
   "rawZeroArms": 830,
-  "reviewed": 321,
-  "pending": 509,
+  "reviewed": 357,
+  "pending": 473,
   "existingPositiveWitnessLinks": 18,
-  "reviewedCountedResiduals": 303,
+  "reviewedCountedResiduals": 339,
   "freshFullRun": "cb52774e-975e-4388-a064-5162ef3807d8",
   "freshFullStatus": "active;no final result inferred",
   "sourceTestToolConfigBuildLockFrozenPathsVerified": 410,
@@ -45,6 +45,11 @@
       "proofPath": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-PROOF.json",
       "docPath": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md",
       "rows": 28
+    },
+    {
+      "proofPath": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-PROOF.json",
+      "docPath": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "rows": 36
     },
     {
       "proofPath": ".planning/phases/07-release-evidence-pr/07-03-SCHEMA-RECOVERY-SEMANTIC-PROOF.json",
@@ -110,8 +115,8 @@
     },
     "src/gamepad.ts": {
       "total": 18,
-      "reviewed": 0,
-      "pending": 18
+      "reviewed": 18,
+      "pending": 0
     },
     "src/main.ts": {
       "total": 322,
@@ -195,8 +200,8 @@
     },
     "src/render.ts": {
       "total": 18,
-      "reviewed": 0,
-      "pending": 18
+      "reviewed": 18,
+      "pending": 0
     },
     "src/run-hand.ts": {
       "total": 39,
@@ -302,12 +307,14 @@
     ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md": "200f7e102c04f6ac07c8a66e81c941185188584681efabfb67497bbaa15c5b6b",
     ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-PROOF.json": "1336e129294fb77822505e12f3e949047871c22a8f105f976d39bed6557b0295",
     ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md": "48307684b9152df3b479bd211027e3654ad6ec2ebc6deffea3f7575f57dbaa93",
+    ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-PROOF.json": "3bd519945c4c870b3ffbd82449e14a9ca543ee9148692b989b331d6e54781c78",
+    ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md": "ca66ab270e7c15e4ddc9e341847262a0a4e17324f4d79143ff3e8ae3b03f6b72",
     ".planning/phases/07-release-evidence-pr/07-03-SCHEMA-RECOVERY-SEMANTIC-REVIEW.md": "efaa7eb7fef452a7185ca31b1070c937c4d5a6eed5ae8d76c650118eef410b43",
     ".planning/phases/07-release-evidence-pr/07-03-CONTROLLER-GUARD-PROOF.json": "367f6f7ef0d82dbe47fd9db380ef459fba6c401e937df61ab79c20d62b6850c5",
     "artifacts/release-coverage/current-semantic-ledger-04/context-audit.json": "5436beb822098d9cc675d8d2ad501f2f7401e681160def7edde3c0091830c5ce",
     ".planning/phases/07-release-evidence-pr/07-03-CONTROLLER-GUARD-REVIEW.md": "594c426b40a5d64f3ecb6b9851095d90ae2d7e6cafc9c408a7a2cc27a13f18ac",
     "artifacts/release-coverage/current-semantic-ledger-04/context-audit.mjs": "751f8c20541e4af621eff61d2c1fb74a0b7ed0bf825644a840ec8574c4559ed0",
     "artifacts/release-coverage/current-semantic-ledger-04/context-audit.log": "6ba8f72e9097b786661f0dfd8f45f1f9f842de5fed26d8c73b91c3b6feadc0cd",
-    "artifacts/release-coverage/current-semantic-ledger-08/assemble.mjs": "815ca12efa601888a8669bfe55bcb754735616f29374d910cb27f6e447f0156e"
+    "artifacts/release-coverage/current-semantic-ledger-09/assemble.mjs": "c97fbc27f1a912f8f50680d049e05ba8ebc75d048b87252ccecbadab23cb3ffc"
   }
 }

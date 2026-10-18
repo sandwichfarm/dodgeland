@@ -1,0 +1,2258 @@
+{
+  "audit": {
+    "sources": 159,
+    "targets": 8,
+    "explicitMainConsumer": true,
+    "legacyConstructorGatedByAbsentConsumer": true,
+    "turnedLiftAndYawReducedArgumentsExplicit": true,
+    "limit": "Resolved callers and bounded literal/argument checks supplement manual source/consequence review;generic API behavior remains counted"
+  },
+  "purpose": "Manual consequence/behavior-boundary review of36 counted controller/renderer residuals;source inspection only,no execution,hit,exclusion or threshold credit",
+  "sourceRun": "0b8f818d-62a2-4922-ab83-242886778c0c",
+  "currentInventoryRawSha256": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+  "freshFullRun": "cb52774e-975e-4388-a064-5162ef3807d8",
+  "freshFullStatus": "active;result not inferred",
+  "frozenPathsVerified": 410,
+  "behaviorSources": [
+    {
+      "path": "tests/gamepad.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/session-input.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/gamepad-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/local-session-gamepad-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/render.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/session-labels-render.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/wearables-render.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/mob-render.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/character-power-render.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/consumable-world-render.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/magnet-render.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/cross-mode-presentation.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    }
+  ],
+  "limits": [
+    "Legacy GamepadInput assertions are separate from actual GamepadRouter lease evidence",
+    "Injected gamepad protocol fixtures are separate from official conformance",
+    "Related visual/model assertions do not create a hit for an unexecuted raw arm",
+    "Source review does not replace final current-build visual proof or full enforcement"
+  ],
+  "rows": [
+    {
+      "path": "src/gamepad.ts",
+      "sourceHash": "be02cdecae3683f9f0b8a5698d90eec393759ce91ea40b24bc18128e7da479e5",
+      "mapHash": "d6eb95b236ae98fcba7a229aa8696e4f913a83ad434985035b68e7f2de572887",
+      "id": "10",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 60,
+          "column": 6
+        },
+        "end": {
+          "line": 60,
+          "column": 149
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 60,
+          "column": 6
+        },
+        "end": {
+          "line": 60,
+          "column": 149
+        }
+      },
+      "sourceText": "if (!record(button) || !inRange(button.value, 0, 1) || typeof button.pressed !== 'boolean' || typeof button.touched !== 'boolean') return null;",
+      "owner": "parseGamepadState",
+      "sourceContext": "if (!record(button) || !inRange(button.value, 0, 1) || typeof button.pressed !== 'boolean' || typeof button.touched !== 'boolean') return null;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/gamepad.ts",
+      "sourceHash": "be02cdecae3683f9f0b8a5698d90eec393759ce91ea40b24bc18128e7da479e5",
+      "mapHash": "d6eb95b236ae98fcba7a229aa8696e4f913a83ad434985035b68e7f2de572887",
+      "id": "17",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 75,
+          "column": 4
+        },
+        "end": {
+          "line": 75,
+          "column": 134
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 75,
+          "column": 4
+        },
+        "end": {
+          "line": 75,
+          "column": 134
+        }
+      },
+      "sourceText": "if (horizontal && vertical && previous && (previous === 'left' || previous === 'right')) return horizontal < 0 ? 'left' : 'right';",
+      "owner": "directionOf",
+      "sourceContext": "if (horizontal && vertical && previous && (previous === 'left' || previous === 'right')) return horizontal < 0 ? 'left' : 'right';",
+      "scopeProofs": [
+        {
+          "mode": "browser-presentation-owner-lifecycle",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-BROWSER-SCOPE-FINDING.md",
+          "callReason": "The sole pinned shipped main factory call always supplies onSnapshot; createGamepadControls therefore never constructs GamepadInput. Private pressed/directionOf are called only from that instance closure.",
+          "stateReason": "Production browser application payloads only. Exported compatibility API remains in Node, global, per-file and shared-input accounting. Module allocation, factory guards/transport, router and main callbacks remain applicable."
+        }
+      ],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/gamepad.ts",
+      "sourceHash": "be02cdecae3683f9f0b8a5698d90eec393759ce91ea40b24bc18128e7da479e5",
+      "mapHash": "d6eb95b236ae98fcba7a229aa8696e4f913a83ad434985035b68e7f2de572887",
+      "id": "18",
+      "arm": 2,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 75,
+          "column": 34
+        },
+        "end": {
+          "line": 75,
+          "column": 42
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 75,
+          "column": 8
+        },
+        "end": {
+          "line": 75,
+          "column": 91
+        }
+      },
+      "sourceText": "previous",
+      "owner": "directionOf",
+      "sourceContext": "previous",
+      "scopeProofs": [
+        {
+          "mode": "browser-presentation-owner-lifecycle",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-BROWSER-SCOPE-FINDING.md",
+          "callReason": "The sole pinned shipped main factory call always supplies onSnapshot; createGamepadControls therefore never constructs GamepadInput. Private pressed/directionOf are called only from that instance closure.",
+          "stateReason": "Production browser application payloads only. Exported compatibility API remains in Node, global, per-file and shared-input accounting. Module allocation, factory guards/transport, router and main callbacks remain applicable."
+        }
+      ],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/gamepad.ts",
+      "sourceHash": "be02cdecae3683f9f0b8a5698d90eec393759ce91ea40b24bc18128e7da479e5",
+      "mapHash": "d6eb95b236ae98fcba7a229aa8696e4f913a83ad434985035b68e7f2de572887",
+      "id": "18",
+      "arm": 3,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 75,
+          "column": 47
+        },
+        "end": {
+          "line": 75,
+          "column": 66
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 75,
+          "column": 8
+        },
+        "end": {
+          "line": 75,
+          "column": 91
+        }
+      },
+      "sourceText": "previous === 'left'",
+      "owner": "directionOf",
+      "sourceContext": "previous === 'left'",
+      "scopeProofs": [
+        {
+          "mode": "browser-presentation-owner-lifecycle",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-BROWSER-SCOPE-FINDING.md",
+          "callReason": "The sole pinned shipped main factory call always supplies onSnapshot; createGamepadControls therefore never constructs GamepadInput. Private pressed/directionOf are called only from that instance closure.",
+          "stateReason": "Production browser application payloads only. Exported compatibility API remains in Node, global, per-file and shared-input accounting. Module allocation, factory guards/transport, router and main callbacks remain applicable."
+        }
+      ],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/gamepad.ts",
+      "sourceHash": "be02cdecae3683f9f0b8a5698d90eec393759ce91ea40b24bc18128e7da479e5",
+      "mapHash": "d6eb95b236ae98fcba7a229aa8696e4f913a83ad434985035b68e7f2de572887",
+      "id": "18",
+      "arm": 4,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 75,
+          "column": 70
+        },
+        "end": {
+          "line": 75,
+          "column": 90
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 75,
+          "column": 8
+        },
+        "end": {
+          "line": 75,
+          "column": 91
+        }
+      },
+      "sourceText": "previous === 'right'",
+      "owner": "directionOf",
+      "sourceContext": "previous === 'right'",
+      "scopeProofs": [
+        {
+          "mode": "browser-presentation-owner-lifecycle",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-BROWSER-SCOPE-FINDING.md",
+          "callReason": "The sole pinned shipped main factory call always supplies onSnapshot; createGamepadControls therefore never constructs GamepadInput. Private pressed/directionOf are called only from that instance closure.",
+          "stateReason": "Production browser application payloads only. Exported compatibility API remains in Node, global, per-file and shared-input accounting. Module allocation, factory guards/transport, router and main callbacks remain applicable."
+        }
+      ],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/gamepad.ts",
+      "sourceHash": "be02cdecae3683f9f0b8a5698d90eec393759ce91ea40b24bc18128e7da479e5",
+      "mapHash": "d6eb95b236ae98fcba7a229aa8696e4f913a83ad434985035b68e7f2de572887",
+      "id": "19",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 75,
+          "column": 117
+        },
+        "end": {
+          "line": 75,
+          "column": 123
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 75,
+          "column": 100
+        },
+        "end": {
+          "line": 75,
+          "column": 133
+        }
+      },
+      "sourceText": "'left'",
+      "owner": "directionOf",
+      "sourceContext": "'left'",
+      "scopeProofs": [
+        {
+          "mode": "browser-presentation-owner-lifecycle",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-BROWSER-SCOPE-FINDING.md",
+          "callReason": "The sole pinned shipped main factory call always supplies onSnapshot; createGamepadControls therefore never constructs GamepadInput. Private pressed/directionOf are called only from that instance closure.",
+          "stateReason": "Production browser application payloads only. Exported compatibility API remains in Node, global, per-file and shared-input accounting. Module allocation, factory guards/transport, router and main callbacks remain applicable."
+        }
+      ],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/gamepad.ts",
+      "sourceHash": "be02cdecae3683f9f0b8a5698d90eec393759ce91ea40b24bc18128e7da479e5",
+      "mapHash": "d6eb95b236ae98fcba7a229aa8696e4f913a83ad434985035b68e7f2de572887",
+      "id": "19",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 75,
+          "column": 126
+        },
+        "end": {
+          "line": 75,
+          "column": 133
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 75,
+          "column": 100
+        },
+        "end": {
+          "line": 75,
+          "column": 133
+        }
+      },
+      "sourceText": "'right'",
+      "owner": "directionOf",
+      "sourceContext": "'right'",
+      "scopeProofs": [
+        {
+          "mode": "browser-presentation-owner-lifecycle",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-BROWSER-SCOPE-FINDING.md",
+          "callReason": "The sole pinned shipped main factory call always supplies onSnapshot; createGamepadControls therefore never constructs GamepadInput. Private pressed/directionOf are called only from that instance closure.",
+          "stateReason": "Production browser application payloads only. Exported compatibility API remains in Node, global, per-file and shared-input accounting. Module allocation, factory guards/transport, router and main callbacks remain applicable."
+        }
+      ],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/gamepad.ts",
+      "sourceHash": "be02cdecae3683f9f0b8a5698d90eec393759ce91ea40b24bc18128e7da479e5",
+      "mapHash": "d6eb95b236ae98fcba7a229aa8696e4f913a83ad434985035b68e7f2de572887",
+      "id": "21",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 76,
+          "column": 49
+        },
+        "end": {
+          "line": 76,
+          "column": 55
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 76,
+          "column": 22
+        },
+        "end": {
+          "line": 76,
+          "column": 55
+        }
+      },
+      "sourceText": "'back'",
+      "owner": "directionOf",
+      "sourceContext": "'back'",
+      "scopeProofs": [
+        {
+          "mode": "browser-presentation-owner-lifecycle",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-BROWSER-SCOPE-FINDING.md",
+          "callReason": "The sole pinned shipped main factory call always supplies onSnapshot; createGamepadControls therefore never constructs GamepadInput. Private pressed/directionOf are called only from that instance closure.",
+          "stateReason": "Production browser application payloads only. Exported compatibility API remains in Node, global, per-file and shared-input accounting. Module allocation, factory guards/transport, router and main callbacks remain applicable."
+        }
+      ],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/gamepad.ts",
+      "sourceHash": "be02cdecae3683f9f0b8a5698d90eec393759ce91ea40b24bc18128e7da479e5",
+      "mapHash": "d6eb95b236ae98fcba7a229aa8696e4f913a83ad434985035b68e7f2de572887",
+      "id": "27",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 82,
+          "column": 2
+        },
+        "end": {
+          "line": 82,
+          "column": 147
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 82,
+          "column": 2
+        },
+        "end": {
+          "line": 82,
+          "column": 147
+        }
+      },
+      "sourceText": "if (Math.abs(x) > Math.abs(y) || (Math.abs(x) === Math.abs(y) && (previous === 'left' || previous === 'right'))) return x < 0 ? 'left' : 'right';",
+      "owner": "directionOf",
+      "sourceContext": "if (Math.abs(x) > Math.abs(y) || (Math.abs(x) === Math.abs(y) && (previous === 'left' || previous === 'right'))) return x < 0 ? 'left' : 'right';",
+      "scopeProofs": [
+        {
+          "mode": "browser-presentation-owner-lifecycle",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-BROWSER-SCOPE-FINDING.md",
+          "callReason": "The sole pinned shipped main factory call always supplies onSnapshot; createGamepadControls therefore never constructs GamepadInput. Private pressed/directionOf are called only from that instance closure.",
+          "stateReason": "Production browser application payloads only. Exported compatibility API remains in Node, global, per-file and shared-input accounting. Module allocation, factory guards/transport, router and main callbacks remain applicable."
+        }
+      ],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/gamepad.ts",
+      "sourceHash": "be02cdecae3683f9f0b8a5698d90eec393759ce91ea40b24bc18128e7da479e5",
+      "mapHash": "d6eb95b236ae98fcba7a229aa8696e4f913a83ad434985035b68e7f2de572887",
+      "id": "29",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 82,
+          "column": 130
+        },
+        "end": {
+          "line": 82,
+          "column": 136
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 82,
+          "column": 122
+        },
+        "end": {
+          "line": 82,
+          "column": 146
+        }
+      },
+      "sourceText": "'left'",
+      "owner": "directionOf",
+      "sourceContext": "'left'",
+      "scopeProofs": [
+        {
+          "mode": "browser-presentation-owner-lifecycle",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-BROWSER-SCOPE-FINDING.md",
+          "callReason": "The sole pinned shipped main factory call always supplies onSnapshot; createGamepadControls therefore never constructs GamepadInput. Private pressed/directionOf are called only from that instance closure.",
+          "stateReason": "Production browser application payloads only. Exported compatibility API remains in Node, global, per-file and shared-input accounting. Module allocation, factory guards/transport, router and main callbacks remain applicable."
+        }
+      ],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/gamepad.ts",
+      "sourceHash": "be02cdecae3683f9f0b8a5698d90eec393759ce91ea40b24bc18128e7da479e5",
+      "mapHash": "d6eb95b236ae98fcba7a229aa8696e4f913a83ad434985035b68e7f2de572887",
+      "id": "29",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 82,
+          "column": 139
+        },
+        "end": {
+          "line": 82,
+          "column": 146
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 82,
+          "column": 122
+        },
+        "end": {
+          "line": 82,
+          "column": 146
+        }
+      },
+      "sourceText": "'right'",
+      "owner": "directionOf",
+      "sourceContext": "'right'",
+      "scopeProofs": [
+        {
+          "mode": "browser-presentation-owner-lifecycle",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-BROWSER-SCOPE-FINDING.md",
+          "callReason": "The sole pinned shipped main factory call always supplies onSnapshot; createGamepadControls therefore never constructs GamepadInput. Private pressed/directionOf are called only from that instance closure.",
+          "stateReason": "Production browser application payloads only. Exported compatibility API remains in Node, global, per-file and shared-input accounting. Module allocation, factory guards/transport, router and main callbacks remain applicable."
+        }
+      ],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/gamepad.ts",
+      "sourceHash": "be02cdecae3683f9f0b8a5698d90eec393759ce91ea40b24bc18128e7da479e5",
+      "mapHash": "d6eb95b236ae98fcba7a229aa8696e4f913a83ad434985035b68e7f2de572887",
+      "id": "30",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 83,
+          "column": 29
+        },
+        "end": {
+          "line": 83,
+          "column": 35
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 83,
+          "column": 9
+        },
+        "end": {
+          "line": 83,
+          "column": 35
+        }
+      },
+      "sourceText": "'back'",
+      "owner": "directionOf",
+      "sourceContext": "'back'",
+      "scopeProofs": [
+        {
+          "mode": "browser-presentation-owner-lifecycle",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-BROWSER-SCOPE-FINDING.md",
+          "callReason": "The sole pinned shipped main factory call always supplies onSnapshot; createGamepadControls therefore never constructs GamepadInput. Private pressed/directionOf are called only from that instance closure.",
+          "stateReason": "Production browser application payloads only. Exported compatibility API remains in Node, global, per-file and shared-input accounting. Module allocation, factory guards/transport, router and main callbacks remain applicable."
+        }
+      ],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/gamepad.ts",
+      "sourceHash": "be02cdecae3683f9f0b8a5698d90eec393759ce91ea40b24bc18128e7da479e5",
+      "mapHash": "d6eb95b236ae98fcba7a229aa8696e4f913a83ad434985035b68e7f2de572887",
+      "id": "46",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 119,
+          "column": 6
+        },
+        "end": {
+          "line": 119,
+          "column": 63
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 119,
+          "column": 6
+        },
+        "end": {
+          "line": 119,
+          "column": 63
+        }
+      },
+      "sourceText": "if (this.context !== this.actions.context()) this.seed();",
+      "owner": "GamepadInput.update",
+      "sourceContext": "if (this.context !== this.actions.context()) this.seed();",
+      "scopeProofs": [
+        {
+          "mode": "browser-presentation-owner-lifecycle",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-BROWSER-SCOPE-FINDING.md",
+          "callReason": "The sole pinned shipped main factory call always supplies onSnapshot; createGamepadControls therefore never constructs GamepadInput. Private pressed/directionOf are called only from that instance closure.",
+          "stateReason": "Production browser application payloads only. Exported compatibility API remains in Node, global, per-file and shared-input accounting. Module allocation, factory guards/transport, router and main callbacks remain applicable."
+        }
+      ],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/gamepad.ts",
+      "sourceHash": "be02cdecae3683f9f0b8a5698d90eec393759ce91ea40b24bc18128e7da479e5",
+      "mapHash": "d6eb95b236ae98fcba7a229aa8696e4f913a83ad434985035b68e7f2de572887",
+      "id": "51",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 133,
+          "column": 62
+        },
+        "end": {
+          "line": 133,
+          "column": 66
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 133,
+          "column": 21
+        },
+        "end": {
+          "line": 133,
+          "column": 66
+        }
+      },
+      "sourceText": "null",
+      "owner": "GamepadInput.seed",
+      "sourceContext": "null",
+      "scopeProofs": [
+        {
+          "mode": "browser-presentation-owner-lifecycle",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-BROWSER-SCOPE-FINDING.md",
+          "callReason": "The sole pinned shipped main factory call always supplies onSnapshot; createGamepadControls therefore never constructs GamepadInput. Private pressed/directionOf are called only from that instance closure.",
+          "stateReason": "Production browser application payloads only. Exported compatibility API remains in Node, global, per-file and shared-input accounting. Module allocation, factory guards/transport, router and main callbacks remain applicable."
+        }
+      ],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/gamepad.ts",
+      "sourceHash": "be02cdecae3683f9f0b8a5698d90eec393759ce91ea40b24bc18128e7da479e5",
+      "mapHash": "d6eb95b236ae98fcba7a229aa8696e4f913a83ad434985035b68e7f2de572887",
+      "id": "56",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 152,
+          "column": 4
+        },
+        "end": {
+          "line": 152,
+          "column": 61
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 152,
+          "column": 4
+        },
+        "end": {
+          "line": 152,
+          "column": 61
+        }
+      },
+      "sourceText": "if (this.context !== this.actions.context()) this.seed();",
+      "owner": "GamepadInput.process",
+      "sourceContext": "if (this.context !== this.actions.context()) this.seed();",
+      "scopeProofs": [
+        {
+          "mode": "browser-presentation-owner-lifecycle",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-BROWSER-SCOPE-FINDING.md",
+          "callReason": "The sole pinned shipped main factory call always supplies onSnapshot; createGamepadControls therefore never constructs GamepadInput. Private pressed/directionOf are called only from that instance closure.",
+          "stateReason": "Production browser application payloads only. Exported compatibility API remains in Node, global, per-file and shared-input accounting. Module allocation, factory guards/transport, router and main callbacks remain applicable."
+        }
+      ],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/gamepad.ts",
+      "sourceHash": "be02cdecae3683f9f0b8a5698d90eec393759ce91ea40b24bc18128e7da479e5",
+      "mapHash": "d6eb95b236ae98fcba7a229aa8696e4f913a83ad434985035b68e7f2de572887",
+      "id": "67",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 188,
+          "column": 58
+        },
+        "end": {
+          "line": 188,
+          "column": 103
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 188,
+          "column": 17
+        },
+        "end": {
+          "line": 188,
+          "column": 103
+        }
+      },
+      "sourceText": "{ available: true, focused: false, pads: [] }",
+      "owner": "createGamepadControls.callback@186",
+      "sourceContext": "{ available: true, focused: false, pads: [] }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/gamepad.ts",
+      "sourceHash": "be02cdecae3683f9f0b8a5698d90eec393759ce91ea40b24bc18128e7da479e5",
+      "mapHash": "d6eb95b236ae98fcba7a229aa8696e4f913a83ad434985035b68e7f2de572887",
+      "id": "70",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 192,
+          "column": 68
+        },
+        "end": {
+          "line": 192,
+          "column": 96
+        }
+      },
+      "sourceText": "if (latest) receive(latest);",
+      "owner": "createGamepadControls.callback@192",
+      "sourceContext": "if (latest) receive(latest);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/gamepad.ts",
+      "sourceHash": "be02cdecae3683f9f0b8a5698d90eec393759ce91ea40b24bc18128e7da479e5",
+      "mapHash": "d6eb95b236ae98fcba7a229aa8696e4f913a83ad434985035b68e7f2de572887",
+      "id": "76",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 212,
+          "column": 11
+        },
+        "end": {
+          "line": 215,
+          "column": 5
+        }
+      },
+      "sourceText": "if (host.parent !== host) {\n      host.addEventListener('message', message);\n      try { host.parent.postMessage({ type: 'gamepad.subscribe' }, '*'); wire = true; } catch { close(); }\n    }",
+      "owner": "createGamepadControls",
+      "sourceContext": "if (host.parent !== host) {\n      host.addEventListener('message', message);\n      try { host.parent.postMessage({ type: 'gamepad.subscribe' }, '*'); wire = true; } catch { close(); }\n    }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/render.ts",
+      "sourceHash": "b6b5ae2ff1a4af8e3f6a0bf2c96bfcc3e83b11e95e38892ccaa6f33f3c2122c2",
+      "mapHash": "6a08518dab13de2e56cf750dd86d607d766b2caf9ca4f3bdbb9570dfde6ac67a",
+      "id": "2",
+      "arm": 0,
+      "type": "default-arg",
+      "location": {
+        "start": {
+          "line": 41,
+          "column": 84
+        },
+        "end": {
+          "line": 41,
+          "column": 89
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 41,
+          "column": 74
+        },
+        "end": {
+          "line": 41,
+          "column": 89
+        }
+      },
+      "sourceText": "false",
+      "owner": "characterYaw",
+      "sourceContext": "false",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/render.ts",
+      "sourceHash": "b6b5ae2ff1a4af8e3f6a0bf2c96bfcc3e83b11e95e38892ccaa6f33f3c2122c2",
+      "mapHash": "6a08518dab13de2e56cf750dd86d607d766b2caf9ca4f3bdbb9570dfde6ac67a",
+      "id": "9",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 62,
+          "column": 153
+        },
+        "end": {
+          "line": 62,
+          "column": 154
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 62,
+          "column": 133
+        },
+        "end": {
+          "line": 62,
+          "column": 154
+        }
+      },
+      "sourceText": "1",
+      "owner": "Renderer.resize",
+      "sourceContext": "1",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/render.ts",
+      "sourceHash": "b6b5ae2ff1a4af8e3f6a0bf2c96bfcc3e83b11e95e38892ccaa6f33f3c2122c2",
+      "mapHash": "6a08518dab13de2e56cf750dd86d607d766b2caf9ca4f3bdbb9570dfde6ac67a",
+      "id": "15",
+      "arm": 0,
+      "type": "default-arg",
+      "location": {
+        "start": {
+          "line": 73,
+          "column": 59
+        },
+        "end": {
+          "line": 73,
+          "column": 60
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 73,
+          "column": 52
+        },
+        "end": {
+          "line": 73,
+          "column": 60
+        }
+      },
+      "sourceText": "0",
+      "owner": "Renderer.turnedModel",
+      "sourceContext": "0",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/render.ts",
+      "sourceHash": "b6b5ae2ff1a4af8e3f6a0bf2c96bfcc3e83b11e95e38892ccaa6f33f3c2122c2",
+      "mapHash": "6a08518dab13de2e56cf750dd86d607d766b2caf9ca4f3bdbb9570dfde6ac67a",
+      "id": "20",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 90,
+          "column": 8
+        },
+        "end": {
+          "line": 90,
+          "column": 54
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 90,
+          "column": 8
+        },
+        "end": {
+          "line": 90,
+          "column": 54
+        }
+      },
+      "sourceText": "if (Math.abs(view[axis]!) < .000001) continue;",
+      "owner": "Renderer.turnedModel",
+      "sourceContext": "if (Math.abs(view[axis]!) < .000001) continue;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/render.ts",
+      "sourceHash": "b6b5ae2ff1a4af8e3f6a0bf2c96bfcc3e83b11e95e38892ccaa6f33f3c2122c2",
+      "mapHash": "6a08518dab13de2e56cf750dd86d607d766b2caf9ca4f3bdbb9570dfde6ac67a",
+      "id": "38",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 149,
+          "column": 6
+        },
+        "end": {
+          "line": 155,
+          "column": 7
+        }
+      },
+      "sourceText": "if (length > .08) {\n        const ux = dx / length, uy = dy / length;\n        for (let distance = .5; distance < length - .2; distance += .65) {\n          const x = mob.fromX + ux * distance, y = mob.fromY + uy * distance;\n          polygon(ctx, [this.project(x + ux * .12, y + uy * .12, .014), this.project(x - ux * .10 - uy * .11, y - uy * .10 + ux * .11, .014), this.project(x - ux * .10 + uy * .11, y - uy * .10 - ux * .11, .014)], '#fff4cc');\n        }\n      }",
+      "owner": "Renderer.mobMarker",
+      "sourceContext": "if (length > .08) {\n        const ux = dx / length, uy = dy / length;\n        for (let distance = .5; distance < length - .2; distance += .65) {\n          const x = mob.fromX + ux * distance, y = mob.fromY + uy * distance;\n          polygon(ctx, [this.project(x + ux * .12, y + uy * .12, .014), this.project(x - ux * .10 - uy * .11, y - uy * .10 + ux * .11, .014), this.project(x - ux * .10 + uy * .11, y - uy * .10 - ux * .11, .014)], '#fff4cc');\n        }\n      }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/render.ts",
+      "sourceHash": "b6b5ae2ff1a4af8e3f6a0bf2c96bfcc3e83b11e95e38892ccaa6f33f3c2122c2",
+      "mapHash": "6a08518dab13de2e56cf750dd86d607d766b2caf9ca4f3bdbb9570dfde6ac67a",
+      "id": "41",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 170,
+          "column": 4
+        },
+        "end": {
+          "line": 170,
+          "column": 96
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 170,
+          "column": 4
+        },
+        "end": {
+          "line": 170,
+          "column": 96
+        }
+      },
+      "sourceText": "if (x + size < 0 || x - size > this.width || y + size < 0 || y - size > this.height) return;",
+      "owner": "Renderer.mobWindupWarning",
+      "sourceContext": "if (x + size < 0 || x - size > this.width || y + size < 0 || y - size > this.height) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/render.ts",
+      "sourceHash": "b6b5ae2ff1a4af8e3f6a0bf2c96bfcc3e83b11e95e38892ccaa6f33f3c2122c2",
+      "mapHash": "6a08518dab13de2e56cf750dd86d607d766b2caf9ca4f3bdbb9570dfde6ac67a",
+      "id": "57",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 229,
+          "column": 4
+        },
+        "end": {
+          "line": 229,
+          "column": 120
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 229,
+          "column": 4
+        },
+        "end": {
+          "line": 229,
+          "column": 120
+        }
+      },
+      "sourceText": "if (this.viewport) { this.viewport = undefined; this.scale = Math.min(this.width / 15.5, this.height / 10.2, 100); }",
+      "owner": "Renderer.draw",
+      "sourceContext": "if (this.viewport) { this.viewport = undefined; this.scale = Math.min(this.width / 15.5, this.height / 10.2, 100); }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/render.ts",
+      "sourceHash": "b6b5ae2ff1a4af8e3f6a0bf2c96bfcc3e83b11e95e38892ccaa6f33f3c2122c2",
+      "mapHash": "6a08518dab13de2e56cf750dd86d607d766b2caf9ca4f3bdbb9570dfde6ac67a",
+      "id": "71",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 264,
+          "column": 58
+        },
+        "end": {
+          "line": 264,
+          "column": 67
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 264,
+          "column": 36
+        },
+        "end": {
+          "line": 264,
+          "column": 67
+        }
+      },
+      "sourceText": "game.seed",
+      "owner": "Renderer.drawScene",
+      "sourceContext": "game.seed",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/render.ts",
+      "sourceHash": "b6b5ae2ff1a4af8e3f6a0bf2c96bfcc3e83b11e95e38892ccaa6f33f3c2122c2",
+      "mapHash": "6a08518dab13de2e56cf750dd86d607d766b2caf9ca4f3bdbb9570dfde6ac67a",
+      "id": "84",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 298,
+          "column": 97
+        },
+        "end": {
+          "line": 298,
+          "column": 118
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 298,
+          "column": 73
+        },
+        "end": {
+          "line": 298,
+          "column": 122
+        }
+      },
+      "sourceText": "platformSurface(lane)",
+      "owner": "Renderer.drawScene",
+      "sourceContext": "platformSurface(lane)",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/render.ts",
+      "sourceHash": "b6b5ae2ff1a4af8e3f6a0bf2c96bfcc3e83b11e95e38892ccaa6f33f3c2122c2",
+      "mapHash": "6a08518dab13de2e56cf750dd86d607d766b2caf9ca4f3bdbb9570dfde6ac67a",
+      "id": "129",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 467,
+          "column": 4
+        },
+        "end": {
+          "line": 470,
+          "column": 5
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 467,
+          "column": 4
+        },
+        "end": {
+          "line": 470,
+          "column": 5
+        }
+      },
+      "sourceText": "if (cosmetic?.appearance.style === 'trail') for (let i = 1; i <= 3; i++) {\n      const tx = px + (i % 2 ? -.12 : .12), ty = py - .35 * i;\n      markers.push({ x: tx, y: ty, draw: () => { ctx.save(); ctx.globalAlpha = .65 - .13 * i; this.tile(tx, ty, .16, .22, cosmetic.appearance.color); ctx.restore(); } });\n    }",
+      "owner": "Renderer.appendTraveler",
+      "sourceContext": "if (cosmetic?.appearance.style === 'trail') for (let i = 1; i <= 3; i++) {\n      const tx = px + (i % 2 ? -.12 : .12), ty = py - .35 * i;\n      markers.push({ x: tx, y: ty, draw: () => { ctx.save(); ctx.globalAlpha = .65 - .13 * i; this.tile(tx, ty, .16, .22, cosmetic.appearance.color); ctx.restore(); } });\n    }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/render.ts",
+      "sourceHash": "b6b5ae2ff1a4af8e3f6a0bf2c96bfcc3e83b11e95e38892ccaa6f33f3c2122c2",
+      "mapHash": "6a08518dab13de2e56cf750dd86d607d766b2caf9ca4f3bdbb9570dfde6ac67a",
+      "id": "130",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 468,
+          "column": 31
+        },
+        "end": {
+          "line": 468,
+          "column": 35
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 468,
+          "column": 23
+        },
+        "end": {
+          "line": 468,
+          "column": 41
+        }
+      },
+      "sourceText": "-.12",
+      "owner": "Renderer.appendTraveler",
+      "sourceContext": "-.12",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/render.ts",
+      "sourceHash": "b6b5ae2ff1a4af8e3f6a0bf2c96bfcc3e83b11e95e38892ccaa6f33f3c2122c2",
+      "mapHash": "6a08518dab13de2e56cf750dd86d607d766b2caf9ca4f3bdbb9570dfde6ac67a",
+      "id": "130",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 468,
+          "column": 38
+        },
+        "end": {
+          "line": 468,
+          "column": 41
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 468,
+          "column": 23
+        },
+        "end": {
+          "line": 468,
+          "column": 41
+        }
+      },
+      "sourceText": ".12",
+      "owner": "Renderer.appendTraveler",
+      "sourceContext": ".12",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/render.ts",
+      "sourceHash": "b6b5ae2ff1a4af8e3f6a0bf2c96bfcc3e83b11e95e38892ccaa6f33f3c2122c2",
+      "mapHash": "6a08518dab13de2e56cf750dd86d607d766b2caf9ca4f3bdbb9570dfde6ac67a",
+      "id": "133",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 476,
+          "column": 68
+        },
+        "end": {
+          "line": 476,
+          "column": 69
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 476,
+          "column": 46
+        },
+        "end": {
+          "line": 476,
+          "column": 69
+        }
+      },
+      "sourceText": "0",
+      "owner": "Renderer.appendTraveler.callback@471",
+      "sourceContext": "0",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/render.ts",
+      "sourceHash": "b6b5ae2ff1a4af8e3f6a0bf2c96bfcc3e83b11e95e38892ccaa6f33f3c2122c2",
+      "mapHash": "6a08518dab13de2e56cf750dd86d607d766b2caf9ca4f3bdbb9570dfde6ac67a",
+      "id": "140",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 496,
+          "column": 13
+        },
+        "end": {
+          "line": 503,
+          "column": 7
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 496,
+          "column": 13
+        },
+        "end": {
+          "line": 503,
+          "column": 7
+        }
+      },
+      "sourceText": "if (cosmetic?.appearance.style === 'sparkles') {\n        for (let i = 0; i < 4; i++) {\n          const angle = i * Math.PI / 2 + (this.reduced ? 0 : game.time * .7);\n          const [x, y] = this.project(px + Math.cos(angle) * .48, py + Math.sin(angle) * .35, lift + .5 + i * .08), size = this.scale * .08;\n          ctx.strokeStyle = cosmetic.appearance.color; ctx.lineWidth = Math.max(1.5, this.scale * .025); ctx.beginPath();\n          ctx.moveTo(x - size, y); ctx.lineTo(x + size, y); ctx.moveTo(x, y - size); ctx.lineTo(x, y + size); ctx.stroke();\n        }\n      }",
+      "owner": "Renderer.appendTraveler.callback@471",
+      "sourceContext": "if (cosmetic?.appearance.style === 'sparkles') {\n        for (let i = 0; i < 4; i++) {\n          const angle = i * Math.PI / 2 + (this.reduced ? 0 : game.time * .7);\n          const [x, y] = this.project(px + Math.cos(angle) * .48, py + Math.sin(angle) * .35, lift + .5 + i * .08), size = this.scale * .08;\n          ctx.strokeStyle = cosmetic.appearance.color; ctx.lineWidth = Math.max(1.5, this.scale * .025); ctx.beginPath();\n          ctx.moveTo(x - size, y); ctx.lineTo(x + size, y); ctx.moveTo(x, y - size); ctx.lineTo(x, y + size); ctx.stroke();\n        }\n      }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/render.ts",
+      "sourceHash": "b6b5ae2ff1a4af8e3f6a0bf2c96bfcc3e83b11e95e38892ccaa6f33f3c2122c2",
+      "mapHash": "6a08518dab13de2e56cf750dd86d607d766b2caf9ca4f3bdbb9570dfde6ac67a",
+      "id": "141",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 498,
+          "column": 58
+        },
+        "end": {
+          "line": 498,
+          "column": 59
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 498,
+          "column": 43
+        },
+        "end": {
+          "line": 498,
+          "column": 76
+        }
+      },
+      "sourceText": "0",
+      "owner": "Renderer.appendTraveler.callback@471",
+      "sourceContext": "0",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/render.ts",
+      "sourceHash": "b6b5ae2ff1a4af8e3f6a0bf2c96bfcc3e83b11e95e38892ccaa6f33f3c2122c2",
+      "mapHash": "6a08518dab13de2e56cf750dd86d607d766b2caf9ca4f3bdbb9570dfde6ac67a",
+      "id": "141",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 498,
+          "column": 62
+        },
+        "end": {
+          "line": 498,
+          "column": 76
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 498,
+          "column": 43
+        },
+        "end": {
+          "line": 498,
+          "column": 76
+        }
+      },
+      "sourceText": "game.time * .7",
+      "owner": "Renderer.appendTraveler.callback@471",
+      "sourceContext": "game.time * .7",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/render.ts",
+      "sourceHash": "b6b5ae2ff1a4af8e3f6a0bf2c96bfcc3e83b11e95e38892ccaa6f33f3c2122c2",
+      "mapHash": "6a08518dab13de2e56cf750dd86d607d766b2caf9ca4f3bdbb9570dfde6ac67a",
+      "id": "146",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 515,
+          "column": 12
+        },
+        "end": {
+          "line": 515,
+          "column": 46
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 513,
+          "column": 23
+        },
+        "end": {
+          "line": 515,
+          "column": 46
+        }
+      },
+      "sourceText": "[x, y - this.scale * .46] as Point",
+      "owner": "Renderer.appendTraveler.callback@471",
+      "sourceContext": "[x, y - this.scale * .46] as Point",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/render.ts",
+      "sourceHash": "b6b5ae2ff1a4af8e3f6a0bf2c96bfcc3e83b11e95e38892ccaa6f33f3c2122c2",
+      "mapHash": "6a08518dab13de2e56cf750dd86d607d766b2caf9ca4f3bdbb9570dfde6ac67a",
+      "id": "150",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 531,
+          "column": 40
+        },
+        "end": {
+          "line": 531,
+          "column": 72
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 531,
+          "column": 23
+        },
+        "end": {
+          "line": 531,
+          "column": 72
+        }
+      },
+      "sourceText": "this.project(px, py, lift + 1.1)",
+      "owner": "Renderer.appendTraveler.callback@521",
+      "sourceContext": "this.project(px, py, lift + 1.1)",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "SOLO-01",
+        "COOP-01",
+        "RACE-02",
+        "RACE-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    }
+  ],
+  "hashes": {
+    "artifacts/release-coverage/semantic-current-03/raw-zero-review.json": "c8297f9591dcbe604c1ff06f2e67ca6575ac9570a94838dec747530dcfda5fc4",
+    ".planning/phases/07-release-evidence-pr/07-03-SCHEMA-RECOVERY-SEMANTIC-PROOF.json": "8a5bfe67e7b38a5b107cef1ab65e13a01131247c05265c0d68bd57e471a83a09",
+    "artifacts/release-coverage/current-full-05-proof/freeze.json": "c72459fff67275b20c5b67c1076d781f825a00cec405fada8743cb2f350111a3",
+    "tools/release-coverage/suites.json": "02e81d3e4320ed8a2d0901fd0eee532e051d1c0b27b606c011fedbc3674ab88d",
+    "tests/gamepad.test.mjs": "89a6b0f73fc561c84d6b8a4cceff3334a83f3e22428b4591804cf56739648024",
+    "tests/session-input.test.mjs": "667164b6114709f91e924902b062f4b9de76c33fdee4f9cce2494ba972d44f2d",
+    "tests/gamepad-runtime.mjs": "e3424b10ad9c306aafe01c125aed1449962dde4f43386e1b9b845a5a148dc822",
+    "tests/local-session-gamepad-runtime.mjs": "a84c70fbe8a8ddc26b3f49c8eba27ec7232b76b776ff290ee977f14616af32f2",
+    "tests/render.test.mjs": "706d43e80f7944c591f9a604118f811d9ff02c55517e7e5868b3bf9ecdc0106c",
+    "tests/session-labels-render.test.mjs": "7d6c418475ae98e98d421e3b6f883b77480e4ae8e24e03961131d0cfdafec50e",
+    "tests/wearables-render.test.mjs": "74f70522bcc7f55ed278fe1c5b6e70ea6d6a900e09918175c263437ba3c18fdc",
+    "tests/mob-render.test.mjs": "6a2dd26c43fa328218010d32e4bf7d5cd54964d7c9a6bc9f54de3f3742827b8f",
+    "tests/character-power-render.test.mjs": "3c621d60be3ddc25bbf2ee235082e314c0310a6ab2e8ab6c6cfadef8b01028bb",
+    "tests/consumable-world-render.test.mjs": "be8c9c348e8f7ac0131f3e37871d61a1fd6db3099ad0b7781e19be3a2f82e9cb",
+    "tests/magnet-render.test.mjs": "adb643830a4ca5e3f25815669ef494e4599409abfd42feeaf47512996ac430ca",
+    "tests/cross-mode-presentation.mjs": "6509e8280d737f24ec41d3be89ab56aa859593bd85e1ac4a4b1046d8824355f2",
+    ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md": "ca66ab270e7c15e4ddc9e341847262a0a4e17324f4d79143ff3e8ae3b03f6b72",
+    "artifacts/release-coverage/input-render-residual-08/verify.mjs": "52ac29e4459427329c22e60cf06a09db8bce9774e9c39ace1e5aaa3f3be312ef",
+    "src/gamepad.ts": "be02cdecae3683f9f0b8a5698d90eec393759ce91ea40b24bc18128e7da479e5",
+    "src/render.ts": "b6b5ae2ff1a4af8e3f6a0bf2c96bfcc3e83b11e95e38892ccaa6f33f3c2122c2",
+    "src/main.ts": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+    "src/session-input.ts": "e42c0af885310c699a275aa819c7d66d6902e20164db08cacacf5aee7017da9f",
+    "src/market-preview.ts": "ef246b766e0421245bbd962b2119203ce20e22f0bcacdb6aa688600885864a3f",
+    "artifacts/release-coverage/input-render-residual-08/reference-audit.mjs": "c2ea9c5e1e09e1b15d81b23178495cdfe0b2ec8bf7b9dc17b04f3c6c71a5ca71",
+    "artifacts/release-coverage/input-render-residual-08/reference-audit.log": "13e46bbe4e2d5fbb7a97dba67f2994ab113b101c9db8a2d7a00feccf07d2b01e",
+    "artifacts/release-coverage/input-render-residual-08/reference-audit.json": "e1dc6ff692d5f4d419b1bbd734071eb1f1337d4ee5fb92e0bd980d5e249f5b60"
+  }
+}
