@@ -369,3 +369,23 @@ cannot replay. Existing whole component suite24/24 canonical run
 2caf61a0-cf98-4548-8edc-96036be71228;five current zero arms227/5,227/8,228/0,
 228/1,231/0 gain witnesses. Initial changed Session rows are not reclassified.
 [Exact conditions,assertions,source binding and component limits](07-03-FLARE-SAFETY-SEMANTIC-REVIEW.md).
+
+## Race leave and reclaim semantic linkage
+
+**INPUT-04/05,RACE-04,TEST-02/05.** Existing canonical four-case/twelve-interval
+run13bcb243-ec98-49ba-8404-eab75cee1a87 supplies the following independently
+checked initial/current source/map/site-identical witnesses in src/race.ts:
+26/0 at89(12hits),28/1 at94(4),39/0 at113(8),49/0 at127(4).
+`tests/race-reclaim-transactions.test.mjs` asserts respectively:no leave/cancel
+without the matching pending owner;no reclaim token after grace recovery;direct
+replacement without coordinator authorization rejects;controller loss clears the
+pending leave before stale confirmation can apply. The same real transaction
+then reclaims safely,keeps peer devices/wallets/earned movement,allows a fresh
+leave/cancel,and dispatches a real hop on the new device. Both bases and blocked/
+safe return variants execute. Explicit terrain/funds fixtures remain identified
+in [RACE-RECLAIM-EVIDENCE](07-03-RACE-RECLAIM-EVIDENCE.md).
+[RECLAIM-SEMANTIC-PROOF](07-03-RECLAIM-SEMANTIC-PROOF.json) verifies original
+artifact hashes,current test bytes,complete report schemas and all four initial
+identities. This adds semantic annotations,not execution or coverage credit.
+The same current cohort also proves Session299/0,whose changed historical
+initial Session source remains unmodified.

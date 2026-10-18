@@ -1,0 +1,178 @@
+{
+  "purpose": "Semantic linkage of four already-proven source-identical initial/current Race zero arms to actual existing reclaim assertions;no new execution,scope or floor credit",
+  "canonicalRun": "13bcb243-ec98-49ba-8404-eab75cee1a87",
+  "cases": 4,
+  "intervals": 12,
+  "nodeParents": 1,
+  "browserRealms": 0,
+  "rows": [
+    {
+      "path": "src/race.ts",
+      "sourceHash": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+      "mapHash": "359d1befb5381d2a2df7d84e71de36101ec61193601e694e8af77ddd2f617fb8",
+      "id": "26",
+      "arm": 0,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 89,
+            "column": 4
+          },
+          "end": {
+            "line": 89,
+            "column": 46
+          }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": {
+              "line": 89,
+              "column": 4
+            },
+            "end": {
+              "line": 89,
+              "column": 46
+            }
+          },
+          {
+            "start": {},
+            "end": {}
+          }
+        ]
+      },
+      "before": 0,
+      "hits": 12
+    },
+    {
+      "path": "src/race.ts",
+      "sourceHash": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+      "mapHash": "359d1befb5381d2a2df7d84e71de36101ec61193601e694e8af77ddd2f617fb8",
+      "id": "28",
+      "arm": 1,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 94,
+            "column": 66
+          },
+          "end": {
+            "line": 94,
+            "column": 144
+          }
+        },
+        "type": "cond-expr",
+        "locations": [
+          {
+            "start": {
+              "line": 94,
+              "column": 97
+            },
+            "end": {
+              "line": 94,
+              "column": 134
+            }
+          },
+          {
+            "start": {
+              "line": 94,
+              "column": 135
+            },
+            "end": {
+              "line": 94,
+              "column": 144
+            }
+          }
+        ]
+      },
+      "before": 0,
+      "hits": 4
+    },
+    {
+      "path": "src/race.ts",
+      "sourceHash": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+      "mapHash": "359d1befb5381d2a2df7d84e71de36101ec61193601e694e8af77ddd2f617fb8",
+      "id": "39",
+      "arm": 0,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 113,
+            "column": 6
+          },
+          "end": {
+            "line": 113,
+            "column": 165
+          }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": {
+              "line": 113,
+              "column": 6
+            },
+            "end": {
+              "line": 113,
+              "column": 165
+            }
+          },
+          {
+            "start": {},
+            "end": {}
+          }
+        ]
+      },
+      "before": 0,
+      "hits": 8
+    },
+    {
+      "path": "src/race.ts",
+      "sourceHash": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+      "mapHash": "359d1befb5381d2a2df7d84e71de36101ec61193601e694e8af77ddd2f617fb8",
+      "id": "49",
+      "arm": 0,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 127,
+            "column": 4
+          },
+          "end": {
+            "line": 127,
+            "column": 75
+          }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": {
+              "line": 127,
+              "column": 4
+            },
+            "end": {
+              "line": 127,
+              "column": 75
+            }
+          },
+          {
+            "start": {},
+            "end": {}
+          }
+        ]
+      },
+      "before": 0,
+      "hits": 4
+    }
+  ],
+  "previousArtifactBindingsRevalidated": true,
+  "hashes": {
+    ".planning/phases/07-release-evidence-pr/07-03-RACE-RECLAIM-PROOF.json": "7345349edcd56bb45926b7e1ef15ff1d521b3dbfdb0112d2289067abb0d8dd98",
+    "artifacts/release-coverage/race-reclaim-03/13bcb243-ec98-49ba-8404-eab75cee1a87/inventory.json": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+    "artifacts/release-coverage/race-reclaim-03/report/coverage-final.json": "9c07b5656f4ddd5e60a3a79487e807f96c403f65700e13c914eab605b49289a7",
+    "artifacts/release-coverage/current-full-03/initial-current-branch-comparison.json": "3f89097ac9ab32b69156a8b4a4e447b53abc7a0acff50028dedd3d01b2a37b72",
+    "artifacts/release-coverage/current-full-03/recovered-report-02/report/coverage-final.json": "99ce960b1ad9f2ff822762d38566fd2ee47191eaf497cc3e893782d064e97766",
+    "tests/race-reclaim-transactions.test.mjs": "2bfef124f5af845415076c15ee113ec4f611786f76e91f0d1c76c0c3d4d8614e",
+    "artifacts/release-coverage/reclaim-semantic-review-04/verify.mjs": "540939f576c0129be9543fbd414878c158e87170f3bc485ff5b0b8018f54004e"
+  }
+}

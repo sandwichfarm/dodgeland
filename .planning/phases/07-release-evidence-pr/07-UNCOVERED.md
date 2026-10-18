@@ -1431,13 +1431,13 @@ Source `d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da`; schem
 | Branch | Source line | Zero arms | Baseline counts | Disposition |
 |---|---:|---|---|---|
 |22|84|1|[94, 0]|pending|
-|26|89|0|[0, 22]|pending|
-|28|94|1|[12, 0]|pending|
+|26|89|0|[0, 22]|[covered arm 0](07-03-LEDGER-REVIEW.md#race-leave-and-reclaim-semantic-linkage)|
+|28|94|1|[12, 0]|[covered arm 1](07-03-LEDGER-REVIEW.md#race-leave-and-reclaim-semantic-linkage)|
 |31|101|0|[0, 13]|pending|
 |33|106|1|[13, 0]|[covered arm 1](07-03-LEDGER-REVIEW.md#race-safe-reclaim)|
-|39|113|0|[0, 14]|pending|
+|39|113|0|[0, 14]|[covered arm 0](07-03-LEDGER-REVIEW.md#race-leave-and-reclaim-semantic-linkage)|
 |44|114|0|[0, 13]|[covered arm 0](07-03-LEDGER-REVIEW.md#race-safe-reclaim)|
-|49|127|0|[0, 197]|pending|
+|49|127|0|[0, 197]|[covered arm 0](07-03-LEDGER-REVIEW.md#race-leave-and-reclaim-semantic-linkage)|
 |52|134|1|[48, 0]|[covered arm 1](07-03-LEDGER-REVIEW.md#turn-authority)|
 |54|145|0|[0, 9]|pending|
 |56|151|0|[0, 11373416]|pending|

@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: All diagnostic floors met; semantic audit and fresh enforcing full collection remain
-last_updated: "2026-10-18T00:36:23.871073+00:00"
+stopped_at: Fresh full05 enforcing collection live; semantic audit remains active
+last_updated: "2026-10-18T00:41:00.254528+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,32 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Fresh full04 failed guidance control before production jobs:external upstream PR response quoted retired APIs. Exact-file scanner repair retains RED7 tests5/2;GREEN7/7,all410 freeze paths except guidance unchanged. Failed run preserved;next fresh full retry plus semantic audit/07-04/05/06/PR.
+last_activity_desc: Full05 cb52774e live session70321/PID1821;all19 controls pass,production jobs active at cross-mode-presentation. Frozen b3a9ff4 with410 file hashes,app f46 unchanged. Four existing Race witnesses semantically linked with source/site verification. No final gate/07-03 completion or PR.
 ---
 
 # Project State
 
 ## Current work
+
+Fresh enforcing full05 is live:run cb52774e-975e-4388-a064-5162ef3807d8,
+exec session70321,parent PID1821 as observed at00:40UTC. All19 executable controls
+passed;production jobs are active(last observed cross-mode-presentation). Frozen
+head b3a9ff4,410 source/test/tool/config/build/lock hashes in
+artifacts/release-coverage/current-full-05-proof/freeze.json;canonical.log there.
+Run output artifacts/release-coverage/current-full-05. Heap24576MB,normal build/
+root lock/app158-source inventory f46 unchanged. No tests/tools/app edits while
+this run is active;read-only semantic audit/docs only. Revalidate actual live
+handle/process before any restart. No final report/floor or completion claim.
+Prior full04 remains terminal1 in guidance;its exact-file fix is committed.
+
+Semantic linkage verified:existing Race reclaim run13bcb243 supplies four
+initial/current source/map/site-identical positive arms26/0,28/1,39/0,49/0.
+Actual assertions prove cross-seat leave safety,token expiry,unauthorized rebind
+rejection and stale leave clearing on loss,followed by safe real reclaim/hop.
+RECLAIM-SEMANTIC-PROOF revalidates original artifact bindings and test source;
+initial ledger gains four semantic annotations,no new execution/counter credit.
+Existing current Session299/0 remains separately described;changed historical
+Session rows untouched. Full semantic audit and07-04/05/06/PR still pending.
 
 Fresh full04 terminal1 before production jobs:run9a0ca825 reached second control,
 guidance rejected historical API quotations in saved upstream PR JSON. Exact
