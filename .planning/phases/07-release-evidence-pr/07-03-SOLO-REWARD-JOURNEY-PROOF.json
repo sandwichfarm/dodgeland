@@ -1,0 +1,3592 @@
+{
+  "purpose": "Actual solo reward/paid-income/power-expiry journeys;fresh verified DEV diagnostic witnesses. Failed paired run retained without coverage credit.",
+  "runId": "f6ee0e63-751e-4b12-bc28-98fd717f587e",
+  "ordinaryCases": 4,
+  "ordinaryExit": 0,
+  "freshDevelopmentCases": 4,
+  "freshDevelopmentExit": 0,
+  "actualFreshDevelopmentForwardHops": 480,
+  "paidFreshDevelopmentPurchases": 14,
+  "actualFreshDevelopmentRewards": 20,
+  "browserRealms": 4,
+  "retainedProductionCases": 4,
+  "failedPairedAttemptExit": 1,
+  "failedPairedAttemptCoverageCredited": false,
+  "collectionControls": 6,
+  "allToolControls": 126,
+  "nodeParents": 0,
+  "modeIntervals": 0,
+  "all180PriorJobsPreserved": true,
+  "productionSourceChanged": false,
+  "newProductRed": false,
+  "registryCorrection": "Paired group omitted buildScopes development. Production4/4 passed;development could not launch. Added explicit paired scopes,an independent DEV-only alias,and a required full-release collection-scope control. Scope RED6 tests5pass/1fail;green6/6. Failed first run remains failed and supplies no coverage credit.",
+  "ordinaryRefinement": "First ordinary4/4 passed. Strengthened offset-coin physical pull/unpaid observation and exact intermediate income receipts;second ordinary4/4 passed. Original first attempt and screenshots retained.",
+  "inventoryRawSha256": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+  "results": {
+    "development": {
+      "before": {
+        "covered": 2315,
+        "total": 2784
+      },
+      "newUniqueBranchWitnesses": 30,
+      "diagnosticCovered": 2345,
+      "total": 2784,
+      "remainingAt85": 22,
+      "rows": [
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "142",
+          "arm": 1,
+          "hits": 3788,
+          "location": {
+            "start": {
+              "line": 421,
+              "column": 122
+            },
+            "end": {
+              "line": 421,
+              "column": 123
+            }
+          },
+          "line": 421,
+          "text": "const speed = motion.base * (lane.kind === 'road' ? this.run.effects.trafficSpeed : this.run.effects.riverSpeed) || 0;"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "291",
+          "arm": 1,
+          "hits": 110,
+          "location": {
+            "start": {
+              "line": 734,
+              "column": 33
+            },
+            "end": {
+              "line": 734,
+              "column": 100
+            }
+          },
+          "line": 734,
+          "text": "if (rewardLane.coinPull && rewardLane.coinPull.y < this.maxY - this.rules.retention.rowsBehind) {"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "295",
+          "arm": 1,
+          "hits": 110,
+          "location": {
+            "start": {
+              "line": 744,
+              "column": 33
+            },
+            "end": {
+              "line": 744,
+              "column": 45
+            }
+          },
+          "line": 744,
+          "text": "if (rewardLane.coinPull && gravity <= 0) rewardLane.coinPull.speed = 0;"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "296",
+          "arm": 2,
+          "hits": 192,
+          "location": {
+            "start": {
+              "line": 749,
+              "column": 62
+            },
+            "end": {
+              "line": 749,
+              "column": 83
+            }
+          },
+          "line": 749,
+          "text": "const contactSafe = landed || lane.kind !== 'river' || (this.fromY === this.y && platformSupports(lane, x, this.time));"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "297",
+          "arm": 2,
+          "hits": 110,
+          "location": {
+            "start": {
+              "line": 750,
+              "column": 63
+            },
+            "end": {
+              "line": 750,
+              "column": 75
+            }
+          },
+          "line": 750,
+          "text": "const ordinary = contactSafe && (!rewardLane.coinPull || gravity <= 0) && touchesCoin(rewardLane.coinDenomination, coin.x - x, coin.y - y);"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "298",
+          "arm": 1,
+          "hits": 16,
+          "location": {
+            "start": {},
+            "end": {}
+          },
+          "line": 751,
+          "text": "if (!ordinary) {"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "300",
+          "arm": 1,
+          "hits": 110,
+          "location": {
+            "start": {},
+            "end": {}
+          },
+          "line": 753,
+          "text": "if (!rewardLane.coinPull) {"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "301",
+          "arm": 1,
+          "hits": 4,
+          "location": {
+            "start": {},
+            "end": {}
+          },
+          "line": 754,
+          "text": "if (!landed || Math.hypot(coin.x - x, coin.y - y) > this.rules.retention.captureDistance + gravity) continue;"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "303",
+          "arm": 1,
+          "hits": 4,
+          "location": {
+            "start": {},
+            "end": {}
+          },
+          "line": 757,
+          "text": "if (sessionSeat) this.world.pickupOwners.set(rewardLane.index, sessionSeat);"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "304",
+          "arm": 1,
+          "hits": 114,
+          "location": {
+            "start": {},
+            "end": {}
+          },
+          "line": 761,
+          "text": "if (sessionSeat && !pickupOwner) this.world.pickupOwners.set(rewardLane.index, sessionSeat);"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "305",
+          "arm": 0,
+          "hits": 114,
+          "location": {
+            "start": {
+              "line": 761,
+              "column": 12
+            },
+            "end": {
+              "line": 761,
+              "column": 23
+            }
+          },
+          "line": 761,
+          "text": "if (sessionSeat && !pickupOwner) this.world.pickupOwners.set(rewardLane.index, sessionSeat);"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "306",
+          "arm": 0,
+          "hits": 110,
+          "location": {
+            "start": {
+              "line": 763,
+              "column": 8
+            },
+            "end": {
+              "line": 763,
+              "column": 144
+            }
+          },
+          "line": 763,
+          "text": "if (!landed || Math.hypot(rewardLane.coinPull.x - x, rewardLane.coinPull.y - y) > this.rules.retention.pullCompletionDistance) continue;"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "306",
+          "arm": 1,
+          "hits": 4,
+          "location": {
+            "start": {},
+            "end": {}
+          },
+          "line": 763,
+          "text": "if (!landed || Math.hypot(rewardLane.coinPull.x - x, rewardLane.coinPull.y - y) > this.rules.retention.pullCompletionDistance) continue;"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "307",
+          "arm": 0,
+          "hits": 114,
+          "location": {
+            "start": {
+              "line": 763,
+              "column": 12
+            },
+            "end": {
+              "line": 763,
+              "column": 19
+            }
+          },
+          "line": 763,
+          "text": "if (!landed || Math.hypot(rewardLane.coinPull.x - x, rewardLane.coinPull.y - y) > this.rules.retention.pullCompletionDistance) continue;"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "307",
+          "arm": 1,
+          "hits": 114,
+          "location": {
+            "start": {
+              "line": 763,
+              "column": 23
+            },
+            "end": {
+              "line": 763,
+              "column": 133
+            }
+          },
+          "line": 763,
+          "text": "if (!landed || Math.hypot(rewardLane.coinPull.x - x, rewardLane.coinPull.y - y) > this.rules.retention.pullCompletionDistance) continue;"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "308",
+          "arm": 0,
+          "hits": 8,
+          "location": {
+            "start": {
+              "line": 766,
+              "column": 43
+            },
+            "end": {
+              "line": 766,
+              "column": 73
+            }
+          },
+          "line": 766,
+          "text": "const bonus = lane.kind === 'road' ? this.run.effects.roadCoinBonus : lane.kind === 'river' ? this.run.effects.riverCoinBonus : 0;"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "308",
+          "arm": 1,
+          "hits": 12,
+          "location": {
+            "start": {
+              "line": 766,
+              "column": 76
+            },
+            "end": {
+              "line": 766,
+              "column": 135
+            }
+          },
+          "line": 766,
+          "text": "const bonus = lane.kind === 'road' ? this.run.effects.roadCoinBonus : lane.kind === 'river' ? this.run.effects.riverCoinBonus : 0;"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "309",
+          "arm": 0,
+          "hits": 8,
+          "location": {
+            "start": {
+              "line": 766,
+              "column": 100
+            },
+            "end": {
+              "line": 766,
+              "column": 131
+            }
+          },
+          "line": 766,
+          "text": "const bonus = lane.kind === 'road' ? this.run.effects.roadCoinBonus : lane.kind === 'river' ? this.run.effects.riverCoinBonus : 0;"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "309",
+          "arm": 1,
+          "hits": 4,
+          "location": {
+            "start": {
+              "line": 766,
+              "column": 134
+            },
+            "end": {
+              "line": 766,
+              "column": 135
+            }
+          },
+          "line": 766,
+          "text": "const bonus = lane.kind === 'road' ? this.run.effects.roadCoinBonus : lane.kind === 'river' ? this.run.effects.riverCoinBonus : 0;"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "310",
+          "arm": 1,
+          "hits": 20,
+          "location": {
+            "start": {},
+            "end": {}
+          },
+          "line": 771,
+          "text": "if (sessionSeat) this.world.pickupOwners.delete(rewardLane.index);"
+        },
+        {
+          "path": "src/market/run.ts",
+          "sourceHash": "ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f",
+          "mapHash": "ad818814e8ce4d89d771a2b069dd5596a7f2bdd32f4267c7948959b6bde29acd",
+          "id": "48",
+          "arm": 0,
+          "hits": 10,
+          "location": {
+            "start": {
+              "line": 170,
+              "column": 6
+            },
+            "end": {
+              "line": 170,
+              "column": 66
+            }
+          },
+          "line": 170,
+          "text": "if (Number.isFinite(amount) && amount > 0) income += amount;"
+        },
+        {
+          "path": "src/market/run.ts",
+          "sourceHash": "ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f",
+          "mapHash": "ad818814e8ce4d89d771a2b069dd5596a7f2bdd32f4267c7948959b6bde29acd",
+          "id": "50",
+          "arm": 1,
+          "hits": 46,
+          "location": {
+            "start": {},
+            "end": {}
+          },
+          "line": 174,
+          "text": "if (definition?.kind !== 'power' || !this.itemEligible(definition.id) || power.remaining <= 0) continue;"
+        },
+        {
+          "path": "src/market/run.ts",
+          "sourceHash": "ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f",
+          "mapHash": "ad818814e8ce4d89d771a2b069dd5596a7f2bdd32f4267c7948959b6bde29acd",
+          "id": "51",
+          "arm": 0,
+          "hits": 46,
+          "location": {
+            "start": {
+              "line": 174,
+              "column": 10
+            },
+            "end": {
+              "line": 174,
+              "column": 38
+            }
+          },
+          "line": 174,
+          "text": "if (definition?.kind !== 'power' || !this.itemEligible(definition.id) || power.remaining <= 0) continue;"
+        },
+        {
+          "path": "src/market/run.ts",
+          "sourceHash": "ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f",
+          "mapHash": "ad818814e8ce4d89d771a2b069dd5596a7f2bdd32f4267c7948959b6bde29acd",
+          "id": "51",
+          "arm": 1,
+          "hits": 46,
+          "location": {
+            "start": {
+              "line": 174,
+              "column": 42
+            },
+            "end": {
+              "line": 174,
+              "column": 75
+            }
+          },
+          "line": 174,
+          "text": "if (definition?.kind !== 'power' || !this.itemEligible(definition.id) || power.remaining <= 0) continue;"
+        },
+        {
+          "path": "src/market/run.ts",
+          "sourceHash": "ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f",
+          "mapHash": "ad818814e8ce4d89d771a2b069dd5596a7f2bdd32f4267c7948959b6bde29acd",
+          "id": "51",
+          "arm": 2,
+          "hits": 46,
+          "location": {
+            "start": {
+              "line": 174,
+              "column": 79
+            },
+            "end": {
+              "line": 174,
+              "column": 99
+            }
+          },
+          "line": 174,
+          "text": "if (definition?.kind !== 'power' || !this.itemEligible(definition.id) || power.remaining <= 0) continue;"
+        },
+        {
+          "path": "src/market/run.ts",
+          "sourceHash": "ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f",
+          "mapHash": "ad818814e8ce4d89d771a2b069dd5596a7f2bdd32f4267c7948959b6bde29acd",
+          "id": "52",
+          "arm": 0,
+          "hits": 46,
+          "location": {
+            "start": {
+              "line": 175,
+              "column": 21
+            },
+            "end": {
+              "line": 175,
+              "column": 83
+            }
+          },
+          "line": 175,
+          "text": "const amount = definition.scoreCoins?.({ previous, score: this.maxScore }, 1) ?? 0;"
+        },
+        {
+          "path": "src/market/run.ts",
+          "sourceHash": "ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f",
+          "mapHash": "ad818814e8ce4d89d771a2b069dd5596a7f2bdd32f4267c7948959b6bde29acd",
+          "id": "52",
+          "arm": 1,
+          "hits": 46,
+          "location": {
+            "start": {
+              "line": 175,
+              "column": 87
+            },
+            "end": {
+              "line": 175,
+              "column": 88
+            }
+          },
+          "line": 175,
+          "text": "const amount = definition.scoreCoins?.({ previous, score: this.maxScore }, 1) ?? 0;"
+        },
+        {
+          "path": "src/market/run.ts",
+          "sourceHash": "ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f",
+          "mapHash": "ad818814e8ce4d89d771a2b069dd5596a7f2bdd32f4267c7948959b6bde29acd",
+          "id": "53",
+          "arm": 1,
+          "hits": 46,
+          "location": {
+            "start": {},
+            "end": {}
+          },
+          "line": 176,
+          "text": "if (Number.isFinite(amount) && amount > 0) income += amount;"
+        },
+        {
+          "path": "src/market/run.ts",
+          "sourceHash": "ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f",
+          "mapHash": "ad818814e8ce4d89d771a2b069dd5596a7f2bdd32f4267c7948959b6bde29acd",
+          "id": "54",
+          "arm": 0,
+          "hits": 46,
+          "location": {
+            "start": {
+              "line": 176,
+              "column": 10
+            },
+            "end": {
+              "line": 176,
+              "column": 33
+            }
+          },
+          "line": 176,
+          "text": "if (Number.isFinite(amount) && amount > 0) income += amount;"
+        },
+        {
+          "path": "src/market/run.ts",
+          "sourceHash": "ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f",
+          "mapHash": "ad818814e8ce4d89d771a2b069dd5596a7f2bdd32f4267c7948959b6bde29acd",
+          "id": "54",
+          "arm": 1,
+          "hits": 46,
+          "location": {
+            "start": {
+              "line": 176,
+              "column": 37
+            },
+            "end": {
+              "line": 176,
+              "column": 47
+            }
+          },
+          "line": 176,
+          "text": "if (Number.isFinite(amount) && amount > 0) income += amount;"
+        }
+      ]
+    }
+  },
+  "scenarios": {
+    "solo-reward-journey-runtime-development": {
+      "provenance": "Actual built solo UI purchases and120 forward hops,including moving-log rewards and fractional bank landings. Funds,market eligibility/stock and approach/reward terrain are explicit fixtures. No player pose,clock,inventory cards,effects,power duration or callback replacement.",
+      "scenarios": [
+        {
+          "base": "arcade",
+          "recipe": "lane-bonuses",
+          "paid": {
+            "base": "arcade",
+            "state": "paused",
+            "x": 0,
+            "y": 0,
+            "score": 0,
+            "hop": 0,
+            "health": 3,
+            "wallet": 956,
+            "cards": [
+              [
+                "road-coins"
+              ],
+              [
+                "river-coins"
+              ],
+              [
+                "coin-multiplier"
+              ]
+            ],
+            "effects": {
+              "coinRadius": 0.1,
+              "coinMultiplier": 1.125,
+              "roadCoinBonus": 1,
+              "riverCoinBonus": 1,
+              "trafficSpeed": 1,
+              "trafficSpacing": 1,
+              "riverSpeed": 1,
+              "platformLength": 1,
+              "trainPeriod": 1,
+              "trainWarning": 0,
+              "rearDamage": 1,
+              "sideDamage": 1,
+              "hurtRecovery": 1,
+              "regenBonus": 0,
+              "waveSpeed": 1,
+              "waveTrail": 0,
+              "mobSpeed": 1,
+              "mobWindup": 1,
+              "mobRecovery": 1,
+              "mobSpawnDelay": 0,
+              "coinChance": 0,
+              "sceneryClear": 0,
+              "shield": 0,
+              "cardSlots": 0
+            },
+            "powers": [],
+            "sessionActive": false,
+            "playerSession": false
+          },
+          "firstPull": {
+            "pull": {
+              "x": 0.39972035715110654,
+              "y": 1,
+              "z": 0,
+              "speed": 1.2123313283293728
+            },
+            "x": 0,
+            "y": 1,
+            "wallet": 956
+          },
+          "checkpoints": [
+            {
+              "hop": 0,
+              "base": "arcade",
+              "state": "playing",
+              "x": 0,
+              "y": 1,
+              "score": 1,
+              "health": 3,
+              "wallet": 957,
+              "cards": [
+                [
+                  "road-coins"
+                ],
+                [
+                  "river-coins"
+                ],
+                [
+                  "coin-multiplier"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1.125,
+                "roadCoinBonus": 1,
+                "riverCoinBonus": 1,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0,
+                "sceneryClear": 0,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "arcade",
+              "state": "playing",
+              "x": 0,
+              "y": 2,
+              "score": 2,
+              "health": 3,
+              "wallet": 960,
+              "cards": [
+                [
+                  "road-coins"
+                ],
+                [
+                  "river-coins"
+                ],
+                [
+                  "coin-multiplier"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1.125,
+                "roadCoinBonus": 1,
+                "riverCoinBonus": 1,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0,
+                "sceneryClear": 0,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "arcade",
+              "state": "playing",
+              "x": 0.024999999999999915,
+              "y": 3,
+              "score": 3,
+              "health": 3,
+              "wallet": 967,
+              "cards": [
+                [
+                  "road-coins"
+                ],
+                [
+                  "river-coins"
+                ],
+                [
+                  "coin-multiplier"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1.125,
+                "roadCoinBonus": 1,
+                "riverCoinBonus": 1,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0,
+                "sceneryClear": 0,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "arcade",
+              "state": "playing",
+              "x": 0.024999999999999915,
+              "y": 4,
+              "score": 4,
+              "health": 3,
+              "wallet": 979,
+              "cards": [
+                [
+                  "road-coins"
+                ],
+                [
+                  "river-coins"
+                ],
+                [
+                  "coin-multiplier"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1.125,
+                "roadCoinBonus": 1,
+                "riverCoinBonus": 1,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0,
+                "sceneryClear": 0,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "arcade",
+              "state": "playing",
+              "x": 0.049999999999999815,
+              "y": 5,
+              "score": 5,
+              "health": 3,
+              "wallet": 1008,
+              "cards": [
+                [
+                  "road-coins"
+                ],
+                [
+                  "river-coins"
+                ],
+                [
+                  "coin-multiplier"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1.125,
+                "roadCoinBonus": 1,
+                "riverCoinBonus": 1,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0,
+                "sceneryClear": 0,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "arcade",
+              "state": "playing",
+              "x": 0.049999999999999815,
+              "y": 39,
+              "score": 39,
+              "health": 3,
+              "wallet": 1008,
+              "cards": [
+                [
+                  "road-coins"
+                ],
+                [
+                  "river-coins"
+                ],
+                [
+                  "coin-multiplier"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1.125,
+                "roadCoinBonus": 1,
+                "riverCoinBonus": 1,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0,
+                "sceneryClear": 0,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "arcade",
+              "state": "playing",
+              "x": 0.049999999999999815,
+              "y": 40,
+              "score": 40,
+              "health": 3,
+              "wallet": 1008,
+              "cards": [
+                [
+                  "road-coins"
+                ],
+                [
+                  "river-coins"
+                ],
+                [
+                  "coin-multiplier"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1.125,
+                "roadCoinBonus": 1,
+                "riverCoinBonus": 1,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0,
+                "sceneryClear": 0,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "arcade",
+              "state": "playing",
+              "x": 0.049999999999999815,
+              "y": 49,
+              "score": 49,
+              "health": 3,
+              "wallet": 1008,
+              "cards": [
+                [
+                  "road-coins"
+                ],
+                [
+                  "river-coins"
+                ],
+                [
+                  "coin-multiplier"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1.125,
+                "roadCoinBonus": 1,
+                "riverCoinBonus": 1,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0,
+                "sceneryClear": 0,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "arcade",
+              "state": "playing",
+              "x": 0.049999999999999815,
+              "y": 50,
+              "score": 50,
+              "health": 3,
+              "wallet": 1008,
+              "cards": [
+                [
+                  "road-coins"
+                ],
+                [
+                  "river-coins"
+                ],
+                [
+                  "coin-multiplier"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1.125,
+                "roadCoinBonus": 1,
+                "riverCoinBonus": 1,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0,
+                "sceneryClear": 0,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "arcade",
+              "state": "playing",
+              "x": 0.049999999999999815,
+              "y": 80,
+              "score": 80,
+              "health": 3,
+              "wallet": 1008,
+              "cards": [
+                [
+                  "road-coins"
+                ],
+                [
+                  "river-coins"
+                ],
+                [
+                  "coin-multiplier"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1.125,
+                "roadCoinBonus": 1,
+                "riverCoinBonus": 1,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0,
+                "sceneryClear": 0,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "arcade",
+              "state": "playing",
+              "x": 0.049999999999999815,
+              "y": 100,
+              "score": 100,
+              "health": 3,
+              "wallet": 1008,
+              "cards": [
+                [
+                  "road-coins"
+                ],
+                [
+                  "river-coins"
+                ],
+                [
+                  "coin-multiplier"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1.125,
+                "roadCoinBonus": 1,
+                "riverCoinBonus": 1,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0,
+                "sceneryClear": 0,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "arcade",
+              "state": "playing",
+              "x": 0.049999999999999815,
+              "y": 120,
+              "score": 120,
+              "health": 3,
+              "wallet": 1008,
+              "cards": [
+                [
+                  "road-coins"
+                ],
+                [
+                  "river-coins"
+                ],
+                [
+                  "coin-multiplier"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1.125,
+                "roadCoinBonus": 1,
+                "riverCoinBonus": 1,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0,
+                "sceneryClear": 0,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            }
+          ],
+          "final": {
+            "base": "arcade",
+            "state": "playing",
+            "x": 0.049999999999999815,
+            "y": 120,
+            "score": 120,
+            "hop": 0,
+            "health": 3,
+            "wallet": 1008,
+            "cards": [
+              [
+                "road-coins"
+              ],
+              [
+                "river-coins"
+              ],
+              [
+                "coin-multiplier"
+              ]
+            ],
+            "effects": {
+              "coinRadius": 0.1,
+              "coinMultiplier": 1.125,
+              "roadCoinBonus": 1,
+              "riverCoinBonus": 1,
+              "trafficSpeed": 1,
+              "trafficSpacing": 1,
+              "riverSpeed": 1,
+              "platformLength": 1,
+              "trainPeriod": 1,
+              "trainWarning": 0,
+              "rearDamage": 1,
+              "sideDamage": 1,
+              "hurtRecovery": 1,
+              "regenBonus": 0,
+              "waveSpeed": 1,
+              "waveTrail": 0,
+              "mobSpeed": 1,
+              "mobWindup": 1,
+              "mobRecovery": 1,
+              "mobSpawnDelay": 0,
+              "coinChance": 0,
+              "sceneryClear": 0,
+              "shield": 0,
+              "cardSlots": 0
+            },
+            "powers": [],
+            "sessionActive": false,
+            "playerSession": false
+          },
+          "rewardTotal": 52.875,
+          "earnedIncome": 0,
+          "errors": [],
+          "external": []
+        },
+        {
+          "base": "arcade",
+          "recipe": "income-and-rush",
+          "paid": {
+            "base": "arcade",
+            "state": "paused",
+            "x": 0,
+            "y": 0,
+            "score": 0,
+            "hop": 0,
+            "health": 3,
+            "wallet": 940,
+            "cards": [
+              [
+                "toll-pouch"
+              ],
+              [
+                "river-dividend"
+              ],
+              [
+                "stepping-stones"
+              ]
+            ],
+            "effects": {
+              "coinRadius": 1.25,
+              "coinMultiplier": 1.5,
+              "roadCoinBonus": 0.5,
+              "riverCoinBonus": 0.5,
+              "trafficSpeed": 1,
+              "trafficSpacing": 1,
+              "riverSpeed": 1,
+              "platformLength": 1,
+              "trainPeriod": 1,
+              "trainWarning": 0,
+              "rearDamage": 1,
+              "sideDamage": 1,
+              "hurtRecovery": 1,
+              "regenBonus": 0,
+              "waveSpeed": 1,
+              "waveTrail": 0,
+              "mobSpeed": 1,
+              "mobWindup": 1,
+              "mobRecovery": 1,
+              "mobSpawnDelay": 0,
+              "coinChance": 0.02,
+              "sceneryClear": 0.05,
+              "shield": 0,
+              "cardSlots": 0
+            },
+            "powers": [
+              {
+                "itemId": "power-coin-rush",
+                "remaining": 8
+              }
+            ],
+            "sessionActive": false,
+            "playerSession": false
+          },
+          "firstPull": {
+            "pull": {
+              "x": 0.39972035715110643,
+              "y": 1,
+              "z": 0,
+              "speed": 1.2123313283293737
+            },
+            "x": 0,
+            "y": 1,
+            "wallet": 940
+          },
+          "checkpoints": [
+            {
+              "hop": 0,
+              "base": "arcade",
+              "state": "playing",
+              "x": 0,
+              "y": 1,
+              "score": 1,
+              "health": 3,
+              "wallet": 941,
+              "cards": [
+                [
+                  "toll-pouch"
+                ],
+                [
+                  "river-dividend"
+                ],
+                [
+                  "stepping-stones"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 1.25,
+                "coinMultiplier": 1.5,
+                "roadCoinBonus": 0.5,
+                "riverCoinBonus": 0.5,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0.02,
+                "sceneryClear": 0.05,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [
+                {
+                  "itemId": "power-coin-rush",
+                  "remaining": 7.366666666666635
+                }
+              ],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "arcade",
+              "state": "playing",
+              "x": 0,
+              "y": 2,
+              "score": 2,
+              "health": 3,
+              "wallet": 945,
+              "cards": [
+                [
+                  "toll-pouch"
+                ],
+                [
+                  "river-dividend"
+                ],
+                [
+                  "stepping-stones"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 1.25,
+                "coinMultiplier": 1.5,
+                "roadCoinBonus": 0.5,
+                "riverCoinBonus": 0.5,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0.02,
+                "sceneryClear": 0.05,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [
+                {
+                  "itemId": "power-coin-rush",
+                  "remaining": 7.0249999999999515
+                }
+              ],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "arcade",
+              "state": "playing",
+              "x": 0.024999999999999915,
+              "y": 3,
+              "score": 3,
+              "health": 3,
+              "wallet": 953,
+              "cards": [
+                [
+                  "toll-pouch"
+                ],
+                [
+                  "river-dividend"
+                ],
+                [
+                  "stepping-stones"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 1.25,
+                "coinMultiplier": 1.5,
+                "roadCoinBonus": 0.5,
+                "riverCoinBonus": 0.5,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0.02,
+                "sceneryClear": 0.05,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [
+                {
+                  "itemId": "power-coin-rush",
+                  "remaining": 6.674999999999934
+                }
+              ],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "arcade",
+              "state": "playing",
+              "x": 0.024999999999999915,
+              "y": 4,
+              "score": 4,
+              "health": 3,
+              "wallet": 969,
+              "cards": [
+                [
+                  "toll-pouch"
+                ],
+                [
+                  "river-dividend"
+                ],
+                [
+                  "stepping-stones"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 1.25,
+                "coinMultiplier": 1.5,
+                "roadCoinBonus": 0.5,
+                "riverCoinBonus": 0.5,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0.02,
+                "sceneryClear": 0.05,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [
+                {
+                  "itemId": "power-coin-rush",
+                  "remaining": 6.324999999999917
+                }
+              ],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "arcade",
+              "state": "playing",
+              "x": 0.049999999999999815,
+              "y": 5,
+              "score": 5,
+              "health": 3,
+              "wallet": 1007,
+              "cards": [
+                [
+                  "toll-pouch"
+                ],
+                [
+                  "river-dividend"
+                ],
+                [
+                  "stepping-stones"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 1.25,
+                "coinMultiplier": 1.5,
+                "roadCoinBonus": 0.5,
+                "riverCoinBonus": 0.5,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0.02,
+                "sceneryClear": 0.05,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [
+                {
+                  "itemId": "power-coin-rush",
+                  "remaining": 5.974999999999899
+                }
+              ],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "arcade",
+              "state": "playing",
+              "x": 0.049999999999999815,
+              "y": 39,
+              "score": 39,
+              "health": 3,
+              "wallet": 1007,
+              "cards": [
+                [
+                  "toll-pouch"
+                ],
+                [
+                  "river-dividend"
+                ],
+                [
+                  "stepping-stones"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1,
+                "roadCoinBonus": 0.5,
+                "riverCoinBonus": 0.5,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0.02,
+                "sceneryClear": 0.05,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "arcade",
+              "state": "playing",
+              "x": 0.049999999999999815,
+              "y": 40,
+              "score": 40,
+              "health": 3,
+              "wallet": 1008,
+              "cards": [
+                [
+                  "toll-pouch"
+                ],
+                [
+                  "river-dividend"
+                ],
+                [
+                  "stepping-stones"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1,
+                "roadCoinBonus": 0.5,
+                "riverCoinBonus": 0.5,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0.02,
+                "sceneryClear": 0.05,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "arcade",
+              "state": "playing",
+              "x": 0.049999999999999815,
+              "y": 49,
+              "score": 49,
+              "health": 3,
+              "wallet": 1008,
+              "cards": [
+                [
+                  "toll-pouch"
+                ],
+                [
+                  "river-dividend"
+                ],
+                [
+                  "stepping-stones"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1,
+                "roadCoinBonus": 0.5,
+                "riverCoinBonus": 0.5,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0.02,
+                "sceneryClear": 0.05,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "arcade",
+              "state": "playing",
+              "x": 0.049999999999999815,
+              "y": 50,
+              "score": 50,
+              "health": 3,
+              "wallet": 1009,
+              "cards": [
+                [
+                  "toll-pouch"
+                ],
+                [
+                  "river-dividend"
+                ],
+                [
+                  "stepping-stones"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1,
+                "roadCoinBonus": 0.5,
+                "riverCoinBonus": 0.5,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0.02,
+                "sceneryClear": 0.05,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "arcade",
+              "state": "playing",
+              "x": 0.049999999999999815,
+              "y": 80,
+              "score": 80,
+              "health": 3,
+              "wallet": 1010,
+              "cards": [
+                [
+                  "toll-pouch"
+                ],
+                [
+                  "river-dividend"
+                ],
+                [
+                  "stepping-stones"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1,
+                "roadCoinBonus": 0.5,
+                "riverCoinBonus": 0.5,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0.02,
+                "sceneryClear": 0.05,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "arcade",
+              "state": "playing",
+              "x": 0.049999999999999815,
+              "y": 100,
+              "score": 100,
+              "health": 3,
+              "wallet": 1011,
+              "cards": [
+                [
+                  "toll-pouch"
+                ],
+                [
+                  "river-dividend"
+                ],
+                [
+                  "stepping-stones"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1,
+                "roadCoinBonus": 0.5,
+                "riverCoinBonus": 0.5,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0.02,
+                "sceneryClear": 0.05,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "arcade",
+              "state": "playing",
+              "x": 0.049999999999999815,
+              "y": 120,
+              "score": 120,
+              "health": 3,
+              "wallet": 1012,
+              "cards": [
+                [
+                  "toll-pouch"
+                ],
+                [
+                  "river-dividend"
+                ],
+                [
+                  "stepping-stones"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1,
+                "roadCoinBonus": 0.5,
+                "riverCoinBonus": 0.5,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0.02,
+                "sceneryClear": 0.05,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            }
+          ],
+          "final": {
+            "base": "arcade",
+            "state": "playing",
+            "x": 0.049999999999999815,
+            "y": 120,
+            "score": 120,
+            "hop": 0,
+            "health": 3,
+            "wallet": 1012,
+            "cards": [
+              [
+                "toll-pouch"
+              ],
+              [
+                "river-dividend"
+              ],
+              [
+                "stepping-stones"
+              ]
+            ],
+            "effects": {
+              "coinRadius": 0.1,
+              "coinMultiplier": 1,
+              "roadCoinBonus": 0.5,
+              "riverCoinBonus": 0.5,
+              "trafficSpeed": 1,
+              "trafficSpacing": 1,
+              "riverSpeed": 1,
+              "platformLength": 1,
+              "trainPeriod": 1,
+              "trainWarning": 0,
+              "rearDamage": 1,
+              "sideDamage": 1,
+              "hurtRecovery": 1,
+              "regenBonus": 0,
+              "waveSpeed": 1,
+              "waveTrail": 0,
+              "mobSpeed": 1,
+              "mobWindup": 1,
+              "mobRecovery": 1,
+              "mobSpawnDelay": 0,
+              "coinChance": 0.02,
+              "sceneryClear": 0.05,
+              "shield": 0,
+              "cardSlots": 0
+            },
+            "powers": [],
+            "sessionActive": false,
+            "playerSession": false
+          },
+          "rewardTotal": 67.5,
+          "earnedIncome": 5,
+          "errors": [],
+          "external": []
+        },
+        {
+          "base": "stroll",
+          "recipe": "lane-bonuses",
+          "paid": {
+            "base": "stroll",
+            "state": "paused",
+            "x": 0,
+            "y": 0,
+            "score": 0,
+            "hop": 0,
+            "health": 3,
+            "wallet": 956,
+            "cards": [
+              [
+                "road-coins"
+              ],
+              [
+                "river-coins"
+              ],
+              [
+                "coin-multiplier"
+              ]
+            ],
+            "effects": {
+              "coinRadius": 0.1,
+              "coinMultiplier": 1.125,
+              "roadCoinBonus": 1,
+              "riverCoinBonus": 1,
+              "trafficSpeed": 1,
+              "trafficSpacing": 1,
+              "riverSpeed": 1,
+              "platformLength": 1,
+              "trainPeriod": 1,
+              "trainWarning": 0,
+              "rearDamage": 1,
+              "sideDamage": 1,
+              "hurtRecovery": 1,
+              "regenBonus": 0,
+              "waveSpeed": 1,
+              "waveTrail": 0,
+              "mobSpeed": 1,
+              "mobWindup": 1,
+              "mobRecovery": 1,
+              "mobSpawnDelay": 0,
+              "coinChance": 0,
+              "sceneryClear": 0,
+              "shield": 0,
+              "cardSlots": 0
+            },
+            "powers": [],
+            "sessionActive": false,
+            "playerSession": false
+          },
+          "firstPull": {
+            "pull": {
+              "x": 0.4331489658555089,
+              "y": 1,
+              "z": 0,
+              "speed": 0.6983429110583516
+            },
+            "x": 0,
+            "y": 1,
+            "wallet": 956
+          },
+          "checkpoints": [
+            {
+              "hop": 0,
+              "base": "stroll",
+              "state": "playing",
+              "x": 0,
+              "y": 1,
+              "score": 1,
+              "health": 3,
+              "wallet": 957,
+              "cards": [
+                [
+                  "road-coins"
+                ],
+                [
+                  "river-coins"
+                ],
+                [
+                  "coin-multiplier"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1.125,
+                "roadCoinBonus": 1,
+                "riverCoinBonus": 1,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0,
+                "sceneryClear": 0,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "stroll",
+              "state": "playing",
+              "x": 0,
+              "y": 2,
+              "score": 2,
+              "health": 3,
+              "wallet": 960,
+              "cards": [
+                [
+                  "road-coins"
+                ],
+                [
+                  "river-coins"
+                ],
+                [
+                  "coin-multiplier"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1.125,
+                "roadCoinBonus": 1,
+                "riverCoinBonus": 1,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0,
+                "sceneryClear": 0,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "stroll",
+              "state": "playing",
+              "x": 0.014500000000000063,
+              "y": 3,
+              "score": 3,
+              "health": 3,
+              "wallet": 967,
+              "cards": [
+                [
+                  "road-coins"
+                ],
+                [
+                  "river-coins"
+                ],
+                [
+                  "coin-multiplier"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1.125,
+                "roadCoinBonus": 1,
+                "riverCoinBonus": 1,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0,
+                "sceneryClear": 0,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "stroll",
+              "state": "playing",
+              "x": 0.014500000000000063,
+              "y": 4,
+              "score": 4,
+              "health": 3,
+              "wallet": 979,
+              "cards": [
+                [
+                  "road-coins"
+                ],
+                [
+                  "river-coins"
+                ],
+                [
+                  "coin-multiplier"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1.125,
+                "roadCoinBonus": 1,
+                "riverCoinBonus": 1,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0,
+                "sceneryClear": 0,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "stroll",
+              "state": "playing",
+              "x": 0.028999999999999818,
+              "y": 5,
+              "score": 5,
+              "health": 3,
+              "wallet": 1008,
+              "cards": [
+                [
+                  "road-coins"
+                ],
+                [
+                  "river-coins"
+                ],
+                [
+                  "coin-multiplier"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1.125,
+                "roadCoinBonus": 1,
+                "riverCoinBonus": 1,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0,
+                "sceneryClear": 0,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "stroll",
+              "state": "playing",
+              "x": 0.028999999999999818,
+              "y": 39,
+              "score": 39,
+              "health": 3,
+              "wallet": 1008,
+              "cards": [
+                [
+                  "road-coins"
+                ],
+                [
+                  "river-coins"
+                ],
+                [
+                  "coin-multiplier"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1.125,
+                "roadCoinBonus": 1,
+                "riverCoinBonus": 1,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0,
+                "sceneryClear": 0,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "stroll",
+              "state": "playing",
+              "x": 0.028999999999999818,
+              "y": 40,
+              "score": 40,
+              "health": 3,
+              "wallet": 1008,
+              "cards": [
+                [
+                  "road-coins"
+                ],
+                [
+                  "river-coins"
+                ],
+                [
+                  "coin-multiplier"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1.125,
+                "roadCoinBonus": 1,
+                "riverCoinBonus": 1,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0,
+                "sceneryClear": 0,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "stroll",
+              "state": "playing",
+              "x": 0.028999999999999818,
+              "y": 49,
+              "score": 49,
+              "health": 3,
+              "wallet": 1008,
+              "cards": [
+                [
+                  "road-coins"
+                ],
+                [
+                  "river-coins"
+                ],
+                [
+                  "coin-multiplier"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1.125,
+                "roadCoinBonus": 1,
+                "riverCoinBonus": 1,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0,
+                "sceneryClear": 0,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "stroll",
+              "state": "playing",
+              "x": 0.028999999999999818,
+              "y": 50,
+              "score": 50,
+              "health": 3,
+              "wallet": 1008,
+              "cards": [
+                [
+                  "road-coins"
+                ],
+                [
+                  "river-coins"
+                ],
+                [
+                  "coin-multiplier"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1.125,
+                "roadCoinBonus": 1,
+                "riverCoinBonus": 1,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0,
+                "sceneryClear": 0,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "stroll",
+              "state": "playing",
+              "x": 0.028999999999999818,
+              "y": 80,
+              "score": 80,
+              "health": 3,
+              "wallet": 1008,
+              "cards": [
+                [
+                  "road-coins"
+                ],
+                [
+                  "river-coins"
+                ],
+                [
+                  "coin-multiplier"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1.125,
+                "roadCoinBonus": 1,
+                "riverCoinBonus": 1,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0,
+                "sceneryClear": 0,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "stroll",
+              "state": "playing",
+              "x": 0.028999999999999818,
+              "y": 100,
+              "score": 100,
+              "health": 3,
+              "wallet": 1008,
+              "cards": [
+                [
+                  "road-coins"
+                ],
+                [
+                  "river-coins"
+                ],
+                [
+                  "coin-multiplier"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1.125,
+                "roadCoinBonus": 1,
+                "riverCoinBonus": 1,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0,
+                "sceneryClear": 0,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "stroll",
+              "state": "playing",
+              "x": 0.028999999999999818,
+              "y": 120,
+              "score": 120,
+              "health": 3,
+              "wallet": 1008,
+              "cards": [
+                [
+                  "road-coins"
+                ],
+                [
+                  "river-coins"
+                ],
+                [
+                  "coin-multiplier"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1.125,
+                "roadCoinBonus": 1,
+                "riverCoinBonus": 1,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0,
+                "sceneryClear": 0,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            }
+          ],
+          "final": {
+            "base": "stroll",
+            "state": "playing",
+            "x": 0.028999999999999818,
+            "y": 120,
+            "score": 120,
+            "hop": 0,
+            "health": 3,
+            "wallet": 1008,
+            "cards": [
+              [
+                "road-coins"
+              ],
+              [
+                "river-coins"
+              ],
+              [
+                "coin-multiplier"
+              ]
+            ],
+            "effects": {
+              "coinRadius": 0.1,
+              "coinMultiplier": 1.125,
+              "roadCoinBonus": 1,
+              "riverCoinBonus": 1,
+              "trafficSpeed": 1,
+              "trafficSpacing": 1,
+              "riverSpeed": 1,
+              "platformLength": 1,
+              "trainPeriod": 1,
+              "trainWarning": 0,
+              "rearDamage": 1,
+              "sideDamage": 1,
+              "hurtRecovery": 1,
+              "regenBonus": 0,
+              "waveSpeed": 1,
+              "waveTrail": 0,
+              "mobSpeed": 1,
+              "mobWindup": 1,
+              "mobRecovery": 1,
+              "mobSpawnDelay": 0,
+              "coinChance": 0,
+              "sceneryClear": 0,
+              "shield": 0,
+              "cardSlots": 0
+            },
+            "powers": [],
+            "sessionActive": false,
+            "playerSession": false
+          },
+          "rewardTotal": 52.875,
+          "earnedIncome": 0,
+          "errors": [],
+          "external": []
+        },
+        {
+          "base": "stroll",
+          "recipe": "income-and-rush",
+          "paid": {
+            "base": "stroll",
+            "state": "paused",
+            "x": 0,
+            "y": 0,
+            "score": 0,
+            "hop": 0,
+            "health": 3,
+            "wallet": 940,
+            "cards": [
+              [
+                "toll-pouch"
+              ],
+              [
+                "river-dividend"
+              ],
+              [
+                "stepping-stones"
+              ]
+            ],
+            "effects": {
+              "coinRadius": 1.25,
+              "coinMultiplier": 1.5,
+              "roadCoinBonus": 0.5,
+              "riverCoinBonus": 0.5,
+              "trafficSpeed": 1,
+              "trafficSpacing": 1,
+              "riverSpeed": 1,
+              "platformLength": 1,
+              "trainPeriod": 1,
+              "trainWarning": 0,
+              "rearDamage": 1,
+              "sideDamage": 1,
+              "hurtRecovery": 1,
+              "regenBonus": 0,
+              "waveSpeed": 1,
+              "waveTrail": 0,
+              "mobSpeed": 1,
+              "mobWindup": 1,
+              "mobRecovery": 1,
+              "mobSpawnDelay": 0,
+              "coinChance": 0.02,
+              "sceneryClear": 0.05,
+              "shield": 0,
+              "cardSlots": 0
+            },
+            "powers": [
+              {
+                "itemId": "power-coin-rush",
+                "remaining": 8
+              }
+            ],
+            "sessionActive": false,
+            "playerSession": false
+          },
+          "firstPull": {
+            "pull": {
+              "x": 0.43314896585550894,
+              "y": 1,
+              "z": 0,
+              "speed": 0.6983429110583511
+            },
+            "x": 0,
+            "y": 1,
+            "wallet": 940
+          },
+          "checkpoints": [
+            {
+              "hop": 0,
+              "base": "stroll",
+              "state": "playing",
+              "x": 0,
+              "y": 1,
+              "score": 1,
+              "health": 3,
+              "wallet": 941,
+              "cards": [
+                [
+                  "toll-pouch"
+                ],
+                [
+                  "river-dividend"
+                ],
+                [
+                  "stepping-stones"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 1.25,
+                "coinMultiplier": 1.5,
+                "roadCoinBonus": 0.5,
+                "riverCoinBonus": 0.5,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0.02,
+                "sceneryClear": 0.05,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [
+                {
+                  "itemId": "power-coin-rush",
+                  "remaining": 7.366666666666635
+                }
+              ],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "stroll",
+              "state": "playing",
+              "x": 0,
+              "y": 2,
+              "score": 2,
+              "health": 3,
+              "wallet": 945,
+              "cards": [
+                [
+                  "toll-pouch"
+                ],
+                [
+                  "river-dividend"
+                ],
+                [
+                  "stepping-stones"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 1.25,
+                "coinMultiplier": 1.5,
+                "roadCoinBonus": 0.5,
+                "riverCoinBonus": 0.5,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0.02,
+                "sceneryClear": 0.05,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [
+                {
+                  "itemId": "power-coin-rush",
+                  "remaining": 7.0249999999999515
+                }
+              ],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "stroll",
+              "state": "playing",
+              "x": 0.014500000000000063,
+              "y": 3,
+              "score": 3,
+              "health": 3,
+              "wallet": 953,
+              "cards": [
+                [
+                  "toll-pouch"
+                ],
+                [
+                  "river-dividend"
+                ],
+                [
+                  "stepping-stones"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 1.25,
+                "coinMultiplier": 1.5,
+                "roadCoinBonus": 0.5,
+                "riverCoinBonus": 0.5,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0.02,
+                "sceneryClear": 0.05,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [
+                {
+                  "itemId": "power-coin-rush",
+                  "remaining": 6.674999999999934
+                }
+              ],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "stroll",
+              "state": "playing",
+              "x": 0.014500000000000063,
+              "y": 4,
+              "score": 4,
+              "health": 3,
+              "wallet": 969,
+              "cards": [
+                [
+                  "toll-pouch"
+                ],
+                [
+                  "river-dividend"
+                ],
+                [
+                  "stepping-stones"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 1.25,
+                "coinMultiplier": 1.5,
+                "roadCoinBonus": 0.5,
+                "riverCoinBonus": 0.5,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0.02,
+                "sceneryClear": 0.05,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [
+                {
+                  "itemId": "power-coin-rush",
+                  "remaining": 6.324999999999917
+                }
+              ],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "stroll",
+              "state": "playing",
+              "x": 0.028999999999999818,
+              "y": 5,
+              "score": 5,
+              "health": 3,
+              "wallet": 1007,
+              "cards": [
+                [
+                  "toll-pouch"
+                ],
+                [
+                  "river-dividend"
+                ],
+                [
+                  "stepping-stones"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 1.25,
+                "coinMultiplier": 1.5,
+                "roadCoinBonus": 0.5,
+                "riverCoinBonus": 0.5,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0.02,
+                "sceneryClear": 0.05,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [
+                {
+                  "itemId": "power-coin-rush",
+                  "remaining": 5.974999999999899
+                }
+              ],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "stroll",
+              "state": "playing",
+              "x": 0.028999999999999818,
+              "y": 39,
+              "score": 39,
+              "health": 3,
+              "wallet": 1007,
+              "cards": [
+                [
+                  "toll-pouch"
+                ],
+                [
+                  "river-dividend"
+                ],
+                [
+                  "stepping-stones"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1,
+                "roadCoinBonus": 0.5,
+                "riverCoinBonus": 0.5,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0.02,
+                "sceneryClear": 0.05,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "stroll",
+              "state": "playing",
+              "x": 0.028999999999999818,
+              "y": 40,
+              "score": 40,
+              "health": 3,
+              "wallet": 1008,
+              "cards": [
+                [
+                  "toll-pouch"
+                ],
+                [
+                  "river-dividend"
+                ],
+                [
+                  "stepping-stones"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1,
+                "roadCoinBonus": 0.5,
+                "riverCoinBonus": 0.5,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0.02,
+                "sceneryClear": 0.05,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "stroll",
+              "state": "playing",
+              "x": 0.028999999999999818,
+              "y": 49,
+              "score": 49,
+              "health": 3,
+              "wallet": 1008,
+              "cards": [
+                [
+                  "toll-pouch"
+                ],
+                [
+                  "river-dividend"
+                ],
+                [
+                  "stepping-stones"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1,
+                "roadCoinBonus": 0.5,
+                "riverCoinBonus": 0.5,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0.02,
+                "sceneryClear": 0.05,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "stroll",
+              "state": "playing",
+              "x": 0.028999999999999818,
+              "y": 50,
+              "score": 50,
+              "health": 3,
+              "wallet": 1009,
+              "cards": [
+                [
+                  "toll-pouch"
+                ],
+                [
+                  "river-dividend"
+                ],
+                [
+                  "stepping-stones"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1,
+                "roadCoinBonus": 0.5,
+                "riverCoinBonus": 0.5,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0.02,
+                "sceneryClear": 0.05,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "stroll",
+              "state": "playing",
+              "x": 0.028999999999999818,
+              "y": 80,
+              "score": 80,
+              "health": 3,
+              "wallet": 1010,
+              "cards": [
+                [
+                  "toll-pouch"
+                ],
+                [
+                  "river-dividend"
+                ],
+                [
+                  "stepping-stones"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1,
+                "roadCoinBonus": 0.5,
+                "riverCoinBonus": 0.5,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0.02,
+                "sceneryClear": 0.05,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "stroll",
+              "state": "playing",
+              "x": 0.028999999999999818,
+              "y": 100,
+              "score": 100,
+              "health": 3,
+              "wallet": 1011,
+              "cards": [
+                [
+                  "toll-pouch"
+                ],
+                [
+                  "river-dividend"
+                ],
+                [
+                  "stepping-stones"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1,
+                "roadCoinBonus": 0.5,
+                "riverCoinBonus": 0.5,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0.02,
+                "sceneryClear": 0.05,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            },
+            {
+              "hop": 0,
+              "base": "stroll",
+              "state": "playing",
+              "x": 0.028999999999999818,
+              "y": 120,
+              "score": 120,
+              "health": 3,
+              "wallet": 1012,
+              "cards": [
+                [
+                  "toll-pouch"
+                ],
+                [
+                  "river-dividend"
+                ],
+                [
+                  "stepping-stones"
+                ]
+              ],
+              "effects": {
+                "coinRadius": 0.1,
+                "coinMultiplier": 1,
+                "roadCoinBonus": 0.5,
+                "riverCoinBonus": 0.5,
+                "trafficSpeed": 1,
+                "trafficSpacing": 1,
+                "riverSpeed": 1,
+                "platformLength": 1,
+                "trainPeriod": 1,
+                "trainWarning": 0,
+                "rearDamage": 1,
+                "sideDamage": 1,
+                "hurtRecovery": 1,
+                "regenBonus": 0,
+                "waveSpeed": 1,
+                "waveTrail": 0,
+                "mobSpeed": 1,
+                "mobWindup": 1,
+                "mobRecovery": 1,
+                "mobSpawnDelay": 0,
+                "coinChance": 0.02,
+                "sceneryClear": 0.05,
+                "shield": 0,
+                "cardSlots": 0
+              },
+              "powers": [],
+              "sessionActive": false,
+              "playerSession": false
+            }
+          ],
+          "final": {
+            "base": "stroll",
+            "state": "playing",
+            "x": 0.028999999999999818,
+            "y": 120,
+            "score": 120,
+            "hop": 0,
+            "health": 3,
+            "wallet": 1012,
+            "cards": [
+              [
+                "toll-pouch"
+              ],
+              [
+                "river-dividend"
+              ],
+              [
+                "stepping-stones"
+              ]
+            ],
+            "effects": {
+              "coinRadius": 0.1,
+              "coinMultiplier": 1,
+              "roadCoinBonus": 0.5,
+              "riverCoinBonus": 0.5,
+              "trafficSpeed": 1,
+              "trafficSpacing": 1,
+              "riverSpeed": 1,
+              "platformLength": 1,
+              "trainPeriod": 1,
+              "trainWarning": 0,
+              "rearDamage": 1,
+              "sideDamage": 1,
+              "hurtRecovery": 1,
+              "regenBonus": 0,
+              "waveSpeed": 1,
+              "waveTrail": 0,
+              "mobSpeed": 1,
+              "mobWindup": 1,
+              "mobRecovery": 1,
+              "mobSpawnDelay": 0,
+              "coinChance": 0.02,
+              "sceneryClear": 0.05,
+              "shield": 0,
+              "cardSlots": 0
+            },
+            "powers": [],
+            "sessionActive": false,
+            "playerSession": false
+          },
+          "rewardTotal": 67.5,
+          "earnedIncome": 5,
+          "errors": [],
+          "external": []
+        }
+      ]
+    }
+  },
+  "images": {
+    "artifacts/release-coverage/solo-reward-development-03/f6ee0e63-751e-4b12-bc28-98fd717f587e/suite-artifacts/solo-reward-journey-runtime-development/arcade-lane-bonuses-paid.png": "5a25054b4efd3564190b23d87fdd2880d417ee6cfaa9fdd71879413219ea9701",
+    "artifacts/release-coverage/solo-reward-development-03/f6ee0e63-751e-4b12-bc28-98fd717f587e/suite-artifacts/solo-reward-journey-runtime-development/arcade-lane-bonuses-earned.png": "33b87f15a3e11cc2ff3495a5c939c47d04bb525ac1e6360dc643ac2d417163fe",
+    "artifacts/release-coverage/solo-reward-development-03/f6ee0e63-751e-4b12-bc28-98fd717f587e/suite-artifacts/solo-reward-journey-runtime-development/arcade-income-and-rush-paid.png": "17929a11f00f220d61d6be560949623b4eae67a51a0e2c318e33798117c5c79d",
+    "artifacts/release-coverage/solo-reward-development-03/f6ee0e63-751e-4b12-bc28-98fd717f587e/suite-artifacts/solo-reward-journey-runtime-development/arcade-income-and-rush-earned.png": "623b2a39e024eb7e29b93a934b12a035376378af236e57786dc46fa89bcf0371",
+    "artifacts/release-coverage/solo-reward-development-03/f6ee0e63-751e-4b12-bc28-98fd717f587e/suite-artifacts/solo-reward-journey-runtime-development/stroll-lane-bonuses-paid.png": "7e7cfac23b5dca7906ba7f0dce669f51af79836fc96e8e7ae8aef43da20153f1",
+    "artifacts/release-coverage/solo-reward-development-03/f6ee0e63-751e-4b12-bc28-98fd717f587e/suite-artifacts/solo-reward-journey-runtime-development/stroll-lane-bonuses-earned.png": "97a01b41fd16e9509c8433874155a7046ffcfaa1d4e1ab1d9fa577c2e463d07f",
+    "artifacts/release-coverage/solo-reward-development-03/f6ee0e63-751e-4b12-bc28-98fd717f587e/suite-artifacts/solo-reward-journey-runtime-development/stroll-income-and-rush-paid.png": "b00c1ac8368a8a225f5dc4caad41d4a526654c514f59e038498e14dcf9cbcab5",
+    "artifacts/release-coverage/solo-reward-development-03/f6ee0e63-751e-4b12-bc28-98fd717f587e/suite-artifacts/solo-reward-journey-runtime-development/stroll-income-and-rush-earned.png": "80ea08ddb78d9725f4baa3c90434ec17565e2b17c4afdcf1131417ea43f000e3"
+  },
+  "inputMapHashes": {
+    "artifacts/release-coverage/current-full-03/recovered-report-02/strata/development/coverage-final.json": "c46fe2479538027aba856b3f2b883cab5d3f2eb27409f8300ef02c180b86a9f5",
+    "artifacts/release-coverage/flare-anchor-03/strata/development/coverage-final.json": "c16c2eeb637cc9ae504ac435e77046c2ed50ec9ec053c75b20feebc8b29aef48",
+    "artifacts/release-coverage/relay-development-03/strata/development/coverage-final.json": "0053872410f3882d9b186fc43ba269a490981711076a4d15bf331ab6e396c31b",
+    "artifacts/release-coverage/river-rewards-03/strata/development/coverage-final.json": "bb007efebb9245beb6d316dcf0736d2916fa49507a4e18242bedcce5c0ade5a2",
+    "artifacts/release-coverage/preference-hydration-03/strata/development/coverage-final.json": "ab6ba13b6390ada0238f566bfec1e5418b7cb68dc7bfdb27d9fb68eeb278d213",
+    "artifacts/release-coverage/app-builtin-rules-runtime-03/strata/development/coverage-final.json": "3063cab6824cc1c78f9bf7a09d5dea52513ed00025ab99be645ea62e125d1bd8",
+    "artifacts/release-coverage/app-unused-runtime-03/strata/development/coverage-final.json": "607a7e7b9351aca0183adb7616e86729f409d993d43b97dee6a7e337ccf7187a",
+    "artifacts/release-coverage/relay-generation-runtime-03/strata/development/coverage-final.json": "a09c0f71c8cee8f710a595d81f123185e4afd17d6b99304efdd62831780ad09a",
+    "artifacts/release-coverage/solo-reward-development-03/strata/development/coverage-final.json": "bbf13330bf9e8e71ff721ebd905a5efd6101ed3311d7a500df58c2872723765a"
+  },
+  "hashes": {
+    "artifacts/release-coverage/solo-reward-development-03/attribution.json": "413136dec311118a69a28f37f5f7d843309be53cb0ee5a5ca51db4dcde307208",
+    "artifacts/release-coverage/solo-reward-development-03/f6ee0e63-751e-4b12-bc28-98fd717f587e/browser-0dd85148776e7d947fe95579167d936282c05d49ed0073526c643c578fc95618.json": "11a94afb946fa9c69a5a351ed12d90f916747f0a6d524d1a38360057c8a1c035",
+    "artifacts/release-coverage/solo-reward-development-03/f6ee0e63-751e-4b12-bc28-98fd717f587e/browser-2035e12f37067583a6bfecd8e6351f5f21635644ef8d27e0abf893c185eb45a8.json": "db05df5b3b710e75ffcfcabff1441eed4bc4e94c4b0050165ccbcd3f0d076e53",
+    "artifacts/release-coverage/solo-reward-development-03/f6ee0e63-751e-4b12-bc28-98fd717f587e/browser-554ec98a85ea4cc04847ff2ea6c0aa88af2bb70a6d00def68725345bfcb3740f.json": "0f442f63a3a3c2767c257bc3c7dc248b11bc19bb0eb489135cda2a98f840ee71",
+    "artifacts/release-coverage/solo-reward-development-03/f6ee0e63-751e-4b12-bc28-98fd717f587e/browser-66a925293ceb0887cbc98ca9a7e9e2efea4375bb059ff0731cb972d2f4440af5.json": "78cdfca9957612e3377523bb1b818011ca2b1b82dc1bd009125afb8168d18b3a",
+    "artifacts/release-coverage/solo-reward-development-03/f6ee0e63-751e-4b12-bc28-98fd717f587e/inventory.json": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+    "artifacts/release-coverage/solo-reward-development-03/f6ee0e63-751e-4b12-bc28-98fd717f587e/job-ledger.json": "5a467382f11b37aa8cf2c81d9e8d27e748a5c2b3b1fa99f1d8ed0c7a906b67dd",
+    "artifacts/release-coverage/solo-reward-development-03/manifest.json": "12043ff57a012d93c54bd5694532be353f3763ccf26cafbfc726cb9714ec2ff6",
+    "artifacts/release-coverage/solo-reward-development-03/strata/development/coverage-final.json": "bbf13330bf9e8e71ff721ebd905a5efd6101ed3311d7a500df58c2872723765a",
+    "artifacts/release-coverage/solo-reward-journey-03-proof/all-controls-fixed.log": "c26ab6e41ff6dc3326e8b5fc43d076ab3b0bee4515426f644dcbc7c0c0ee56c5",
+    "artifacts/release-coverage/solo-reward-journey-03-proof/all-controls.log": "3279baab897c483348009816fe9317e2a03c9c95b5fe09270621ba0bcf8a2022",
+    "artifacts/release-coverage/solo-reward-journey-03-proof/canonical.log": "9aeac5d36616bb27029e17b7744d8bd440ec8e8e9a87a3087b12d0d3365930d1",
+    "artifacts/release-coverage/solo-reward-journey-03-proof/compare-development.py": "7e63fba8be6a605d2966a6e13b2735fa5215ddf180dc7b8e4edc8e06bcb1b1f4",
+    "artifacts/release-coverage/solo-reward-journey-03-proof/compare.py": "f491b8df4f05854b30a9ae5be45344db2888b67093f82f36505271051bb35815",
+    "artifacts/release-coverage/solo-reward-journey-03-proof/development.log": "075d75bbc77cebc0a4beea241136b4f96cec6dd889721ab20d3a66361883dbc4",
+    "artifacts/release-coverage/solo-reward-journey-03-proof/dispatch-audit-fixed.json": "5d4381b91b3ab2b21047f4130549b6a354f8f4fce58574748956c03fd2cf91b7",
+    "artifacts/release-coverage/solo-reward-journey-03-proof/dispatch-audit.json": "29565f5ed6eb262fa5478a6a552c62c7bd7603f23cd322166776c5250aae5ad8",
+    "artifacts/release-coverage/solo-reward-journey-03-proof/ordinary-01.log": "2b95cae4bca50fa0a9a2bbc2498f33e295ba851c050bd4e4df599cbbf2a3765d",
+    "artifacts/release-coverage/solo-reward-journey-03-proof/ordinary-02.log": "cc7edb58306a29f674a4e56c7bdfd45a2b4fc546ea21cebd423879b359a38d13",
+    "artifacts/release-coverage/solo-reward-journey-03-proof/ordinary-attempt-01.mjs": "f6b1d775185fae93269c14f71eb6c0d4d9cd2fb104d5ec9c898e605c69ea79b2",
+    "artifacts/release-coverage/solo-reward-journey-03-proof/scope-green.log": "67e8fa51aec194d99854b3b92aa28e5f5ea27225f585558b08d9f21b704944dc",
+    "artifacts/release-coverage/solo-reward-journey-03-proof/scope-red-proof.json": "053e20cf72bbc3a512a5fdf12e46eb77b608c1e1f141d7710dc8dd699a4884e5",
+    "artifacts/release-coverage/solo-reward-journey-03-proof/scope-red.log": "435ad58e79700eac92c82a164456ea148f6c2aba0b46f63fed27eb4f94092cee",
+    "dist/index.html": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
+    "package.json": "d232c4d5c539c00d03f0259cc28c09a4038dd0dc2894161e9d0166064bba7316",
+    "pnpm-lock.yaml": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+    "tests/solo-reward-journey-runtime.mjs": "6fb6e80b74fddb0fd314f40b3f06fefa277eb9cb20d8f97ca720e629d3a25170",
+    "tools/release-coverage/suites.json": "61b1d4310ef24a9d06d7fe4ce84486a773af9ac501603e16ac77d2475eef0ebe"
+  },
+  "limitations": [
+    "Funds,market eligibility/stock and upcoming terrain/reward geometry are fixtures;no pose,clock,inventory cards,effects,power duration or callback mutation.",
+    "No mode attribution,physical hardware,full conformance or final visual-matrix credit. Screenshots retained,not separately inspected as visual proof.",
+    "Original full report remains enforced-fail;remaining DEV/semantic review/fresh full enforcement/07-04/05/06/PR required."
+  ]
+}

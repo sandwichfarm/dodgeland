@@ -2,6 +2,19 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Latest actual solo reward and income journeys
+
+SOLO-REWARD-JOURNEY/PROOF:four normal/four fresh DEV journeys,480 actual DEV
+hops/14 paid purchases/20 rewards/four iframe realms. Physical offset-coin pull,
+exact fractional wallet receipts,income milestones,timed-power expiry and
+fractional bank/final grid are verified. Explicit funds/market/terrain fixtures;
+no pose/cards/effects/time hooks.30 new actual DEV branches yield2345/2784
+(needs22). Denominator/floors unchanged. All gameplay mode floors remain met.
+First paired run's production4/4 passed but DEV scope declaration was missing;
+it stays failed and supplies no coverage credit. Six scope controls/all126
+controls now pass;scope check added to full controls. Registry182 preserves180
+prior jobs. Full semantic ledger,fresh enforcing collection,07-04/05/06/PR remain.
+
 ## Latest Race tactical target-policy closure
 
 RACE-TARGET-POLICY-CLOSURE/PROOF binds159-file caller/value audit,24 focused/

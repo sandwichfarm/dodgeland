@@ -9262,7 +9262,41 @@
           "artifactPatterns": []
         }
       ],
-      "provenance": "Actual opaque built solo purchase/coin collection/passive-income/power-expiry journeys,120 forward hops per case on both bases. Funds,market eligibility/stock and terrain/reward geometry are fixtures;no pose,clock,cards,effects,power duration or callback mutation. PROD/DEV remain independent verified realms."
+      "provenance": "Actual opaque built solo purchase/coin collection/passive-income/power-expiry journeys,120 forward hops per case on both bases. Funds,market eligibility/stock and terrain/reward geometry are fixtures;no pose,clock,cards,effects,power duration or callback mutation. PROD/DEV remain independent verified realms.",
+      "buildScopes": [
+        "production",
+        "development"
+      ]
+    },
+    "solo-reward-development-03": {
+      "files": [
+        "tests/solo-reward-journey-runtime.mjs"
+      ],
+      "roles": {
+        "tests/solo-reward-journey-runtime.mjs": "browser"
+      },
+      "browser": true,
+      "jobs": [
+        {
+          "id": "solo-reward-journey-runtime-development",
+          "file": "tests/solo-reward-journey-runtime.mjs",
+          "role": "browser",
+          "requiredRealms": [
+            "browser"
+          ],
+          "minimumBrowserRealms": 4,
+          "defaultBuildScope": "development",
+          "requiredBuildScopes": [
+            "development"
+          ],
+          "verifyArtifactScope": true,
+          "artifactPatterns": []
+        }
+      ],
+      "provenance": "Independent current DEV-only execution of the unchanged solo reward journeys. Same actual verified DEV job as the paired/full registry;separate cohort,not rehabilitation of failed paired scope setup.",
+      "buildScopes": [
+        "development"
+      ]
     }
   },
   "pendingAdapters": [
@@ -17548,7 +17582,8 @@
       "tools/release-coverage/turn-reuse-attribution.test.mjs",
       "tools/release-coverage/builtin-rule-applicability.test.mjs",
       "tools/release-coverage/solo-applicability.test.mjs",
-      "tools/release-coverage/turn-applicability.test.mjs"
+      "tools/release-coverage/turn-applicability.test.mjs",
+      "tools/release-coverage/collection.test.mjs"
     ],
     "dynamicImports": {
       "tests/consumable-drops.test.mjs": [

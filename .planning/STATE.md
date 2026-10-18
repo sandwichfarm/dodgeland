@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: All gameplay diagnostic floors met; remaining DEV52 and release gates
-last_updated: "2026-10-17T23:41:44.203628+00:00"
+stopped_at: Actual solo reward journeys pass; all gameplay floors met; remaining DEV22 and release gates
+last_updated: "2026-10-18T00:03:05.036956+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,31 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Race target-policy scope passes24 focused/all125 controls and36 fresh tests/81 intervals. Race2502/2943 and Relay2291/2695 meet diagnostic floors;DEV52,semantic review,full enforcing collection and07-04/05/06/PR remain.
+last_activity_desc: Actual DEV solo rewards4 journeys/480 hops/14 purchases pass;30 new witnesses yield2345/2784(needs22). Scope configuration RED/fix and126 controls pass. All gameplay mode floors met;semantic review/full gates/PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+Latest solo reward journeys:normal02 four cases and independent DEV four cases
+pass. Actual UI buys three cards/optional timed power,collects five denominations
+on meadow/road/moving logs,and completes120 forward hops per case. Offset coin
+physically pulls before payment; exact wallet/income boundaries,power expiry,
+sole-owner flags and fractional bank/final positions are verified. Funds/market
+eligibility/stock/terrain are explicit fixtures;no pose/cards/effects/time hooks.
+Fresh DEV runf6ee0e63 supplies480 hops/14 purchases/20 rewards/four iframe realms,
+30 unique branch witnesses:DEV2345/2784 needs22. All gameplay mode floors met.
+First paired production4/4 passed,but missing development scope made its group
+fail;no credit borrowed.17a11ea retains6-control RED5/1. Registry declares both
+scopes,adds an independent DEV-only alias,and makes the scope check required
+in full controls. Six focused/all126 controls and165-entry/173-closure static
+audit pass. Registry182 preserves180 prior jobs;11 control paths. Source/build/
+lock/denominators/floors unchanged. SOLO-REWARD-JOURNEY/PROOF records exact facts.
+Original full report still failed;DEV22,semantic ledger,fresh full collection,
+07-04/05/06 and PR remain. Read-only application-construction-03 source audit is
+prepared for further investigation;it supplies no coverage or scope credit.
+
 
 Evidence storage prepared:997 retained JSON artifacts transparently compressed
 with source/destination/final SHA256 and unchanged-original identity checks.
