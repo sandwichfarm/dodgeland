@@ -471,3 +471,20 @@ checks and410 unchanged frozen paths. Initial reader's incorrect six-argument
 assumption failed and is retained;corrected reader verifies actual five-argument
 signature. No product/test mutation or coverage result arose from that reader.
 All36 remain counted;current partial index357 reviewed/473 pending.
+
+## Audio,scene and mob residual conditions
+
+**UI-06,INPUT-03,SOLO-01,COOP-01,ITEM-03/04,RACE-02/03,ARCH-03,
+TEST-01/02/03/05.** Thirty original zero arms now have explicit consequence/
+behavior limits:audio19,soundscape5,mobs6. Voice/set consistency,stale PCM work,
+material/pack fallback,scene palettes and musical ranges,shared mob tuning,
+blocked charges and escape/target guards all remain counted. The typed audit
+resolves zero concrete GameAudio.syncLoops calls because Soundscape dispatches
+through AudioSink;Main's Soundscape(audio) and actual this.audio.syncLoops source
+link establish use. No absence-based exclusion is inferred.
+[Review](07-03-AUDIO-MOB-RESIDUAL-REVIEW.md) and
+[proof](07-03-AUDIO-MOB-RESIDUAL-PROOF.json) bind30 exact source/map sites,
+159-source/13-target audit,11 registered behavior sources and410 unchanged
+frozen paths. No new audio playback,execution,counters,exclusions or floor
+change. Current partial index387 reviewed/443 pending;only main,market-ui,
+run-hand andmarket/run remain in this original raw snapshot.

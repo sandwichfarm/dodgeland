@@ -3,10 +3,10 @@
   "sourceRun": "0b8f818d-62a2-4922-ab83-242886778c0c",
   "sourceInventoryRawSha256": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
   "rawZeroArms": 830,
-  "reviewed": 357,
-  "pending": 473,
+  "reviewed": 387,
+  "pending": 443,
   "existingPositiveWitnessLinks": 18,
-  "reviewedCountedResiduals": 339,
+  "reviewedCountedResiduals": 369,
   "freshFullRun": "cb52774e-975e-4388-a064-5162ef3807d8",
   "freshFullStatus": "active;no final result inferred",
   "sourceTestToolConfigBuildLockFrozenPathsVerified": 410,
@@ -52,6 +52,11 @@
       "rows": 36
     },
     {
+      "proofPath": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-PROOF.json",
+      "docPath": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "rows": 30
+    },
+    {
       "proofPath": ".planning/phases/07-release-evidence-pr/07-03-SCHEMA-RECOVERY-SEMANTIC-PROOF.json",
       "docPath": ".planning/phases/07-release-evidence-pr/07-03-SCHEMA-RECOVERY-SEMANTIC-REVIEW.md",
       "rows": 9
@@ -70,8 +75,8 @@
     },
     "src/audio.ts": {
       "total": 19,
-      "reviewed": 0,
-      "pending": 19
+      "reviewed": 19,
+      "pending": 0
     },
     "src/character-power-ui.ts": {
       "total": 1,
@@ -150,8 +155,8 @@
     },
     "src/mobs.ts": {
       "total": 6,
-      "reviewed": 0,
-      "pending": 6
+      "reviewed": 6,
+      "pending": 0
     },
     "src/pause-ui.ts": {
       "total": 12,
@@ -255,8 +260,8 @@
     },
     "src/soundscape.ts": {
       "total": 5,
-      "reviewed": 0,
-      "pending": 5
+      "reviewed": 5,
+      "pending": 0
     },
     "src/survive-results-ui.ts": {
       "total": 14,
@@ -309,12 +314,14 @@
     ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md": "48307684b9152df3b479bd211027e3654ad6ec2ebc6deffea3f7575f57dbaa93",
     ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-PROOF.json": "3bd519945c4c870b3ffbd82449e14a9ca543ee9148692b989b331d6e54781c78",
     ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md": "ca66ab270e7c15e4ddc9e341847262a0a4e17324f4d79143ff3e8ae3b03f6b72",
+    ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-PROOF.json": "99695b8b47ed42ec029aa155fbd8cceb4a908c8064a0d801f4340711dd233afc",
+    ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md": "97767dea89a8456c8ea3f94cedd7d5358db4a2bca04e350ceb1a6fe4890dd7ff",
     ".planning/phases/07-release-evidence-pr/07-03-SCHEMA-RECOVERY-SEMANTIC-REVIEW.md": "efaa7eb7fef452a7185ca31b1070c937c4d5a6eed5ae8d76c650118eef410b43",
     ".planning/phases/07-release-evidence-pr/07-03-CONTROLLER-GUARD-PROOF.json": "367f6f7ef0d82dbe47fd9db380ef459fba6c401e937df61ab79c20d62b6850c5",
     "artifacts/release-coverage/current-semantic-ledger-04/context-audit.json": "5436beb822098d9cc675d8d2ad501f2f7401e681160def7edde3c0091830c5ce",
     ".planning/phases/07-release-evidence-pr/07-03-CONTROLLER-GUARD-REVIEW.md": "594c426b40a5d64f3ecb6b9851095d90ae2d7e6cafc9c408a7a2cc27a13f18ac",
     "artifacts/release-coverage/current-semantic-ledger-04/context-audit.mjs": "751f8c20541e4af621eff61d2c1fb74a0b7ed0bf825644a840ec8574c4559ed0",
     "artifacts/release-coverage/current-semantic-ledger-04/context-audit.log": "6ba8f72e9097b786661f0dfd8f45f1f9f842de5fed26d8c73b91c3b6feadc0cd",
-    "artifacts/release-coverage/current-semantic-ledger-09/assemble.mjs": "c97fbc27f1a912f8f50680d049e05ba8ebc75d048b87252ccecbadab23cb3ffc"
+    "artifacts/release-coverage/current-semantic-ledger-10/assemble.mjs": "0b9077e63af18a76801560d7ff1acf69adc382a6720d6507938fdc758586f1cf"
   }
 }

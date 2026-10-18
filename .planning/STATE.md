@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Fresh full05 enforcing collection live; semantic audit remains active
-last_updated: "2026-10-18T01:33:46.509Z"
+last_updated: "2026-10-18T01:36:15.951Z"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,27 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Full05 confirmed live exec70321/PID1821;19 controls/88 production jobs pass;runtime-smoke active. Controller/render review adds36 counted cases;index357 reviewed/473 pending. All410 frozen paths unchanged. Remaining audit,standalone scene cases,07-04/05/06 and PR remain.
+last_activity_desc: Full05 confirmed live exec70321;19 controls/102 production jobs pass;solo-parity-test active. Audio/mob review adds30 counted cases;index387 reviewed/443 pending in main/market/hand/inventory. All410 frozen paths unchanged. Remaining audit,standalone scene cases,07-04/05/06 and PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+Audio/scene/mob residual review binds30 original zeros:audio19,soundscape5,
+mobs6. Explicit consequences/behavior limits cover synthesis and voice cleanup,
+stale async work,scene palette/musical fallbacks,shared tuning and mob safety.
+All remain counted. Read-only159-source/13-target audit plus11 registered
+behavior sources;zero resolved concrete GameAudio.syncLoops calls are structural
+AudioSink dispatch,not unused code. Main Soundscape(audio) -> this.audio.syncLoops
+is retained applicable. No new audio playback,execution/hits/exclusions/floors.
+All410 frozen paths unchanged. Current-semantic-ledger-10 verifies387 reviewed/
+443 pending,18 existing witnesses and369 counted residuals. Pending raw groups
+now only main322,market-ui72,run-hand39,market/run10. Full05 exec70321 confirmed
+live by poll;102 production jobs/19 controls pass,no failures observed;
+solo-parity-test active after solo-parity-economy passed01:35:22UTC. Continue
+same chain. Remaining semantic review,standalone scene cases after terminal,
+07-04/05/06 and PR remain unfinished.
 
 Controller/render residual review binds36 original zeros:gamepad18/render18.
 Read-only159-source/eight-target audit and literal argument checks distinguish

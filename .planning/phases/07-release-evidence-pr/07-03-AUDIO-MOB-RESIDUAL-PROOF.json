@@ -1,0 +1,1689 @@
+{
+  "audit": {
+    "sources": 159,
+    "targets": 13,
+    "structuralSyncLoopsDispatch": "Main Soundscape(audio) -> AudioSink this.audio.syncLoops;zero concrete typed calls does not mean unused",
+    "limit": "Resolved caller audit supplements manual value/order and structural dispatch review;no absence-derived exclusion"
+  },
+  "purpose": "Manual consequence/behavior-boundary review of30 counted audio/soundscape/mob residuals;source inspection only,no execution,hit,exclusion or threshold credit",
+  "sourceRun": "0b8f818d-62a2-4922-ab83-242886778c0c",
+  "currentInventoryRawSha256": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+  "freshFullRun": "cb52774e-975e-4388-a064-5162ef3807d8",
+  "freshFullStatus": "active;result not inferred",
+  "frozenPathsVerified": 410,
+  "behaviorSources": [
+    {
+      "path": "tests/sound.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/release-sound-loader-gaps.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/soundscape.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/audio-demo.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/audio-zones.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/local-session-audio-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/death-spill-audio.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/mobs.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/session-world.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/survive-economy.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/relay-world-effects.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    }
+  ],
+  "limits": [
+    "No new audio playback or subjective listening verdict",
+    "Related lifecycle/PCM tests do not create hits for specific unexecuted cleanup interleavings",
+    "Structural AudioSink dispatch remains applicable despite zero resolved concrete method calls",
+    "Source review does not replace complete enforcement or current-build visual/clause proof"
+  ],
+  "rows": [
+    {
+      "path": "src/audio.ts",
+      "sourceHash": "f9d23f3e4f80f1414c854b93c4665cb49d185e34d1ebea901f4f795d81782102",
+      "mapHash": "0c9fbd4e1947ef15c1ac49ecb96dcc183389de0c223f41f726a2437f4c46a2dc",
+      "id": "28",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 239,
+          "column": 2
+        },
+        "end": {
+          "line": 239,
+          "column": 23
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 239,
+          "column": 2
+        },
+        "end": {
+          "line": 239,
+          "column": 23
+        }
+      },
+      "sourceText": "if (!maximum) return;",
+      "owner": "normalize",
+      "sourceContext": "if (!maximum) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-audio-scene-mob-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-06",
+        "INPUT-03",
+        "SOLO-01",
+        "COOP-01",
+        "ITEM-03",
+        "ITEM-04",
+        "RACE-02",
+        "RACE-03",
+        "ARCH-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/audio.ts",
+      "sourceHash": "f9d23f3e4f80f1414c854b93c4665cb49d185e34d1ebea901f4f795d81782102",
+      "mapHash": "0c9fbd4e1947ef15c1ac49ecb96dcc183389de0c223f41f726a2437f4c46a2dc",
+      "id": "30",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 263,
+          "column": 38
+        },
+        "end": {
+          "line": 263,
+          "column": 53
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 263,
+          "column": 20
+        },
+        "end": {
+          "line": 263,
+          "column": 53
+        }
+      },
+      "sourceText": "[1, 0.18, 0.04]",
+      "owner": "addNote",
+      "sourceContext": "[1, 0.18, 0.04]",
+      "scopeProofs": [],
+      "status": "reviewed-counted-audio-scene-mob-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-06",
+        "INPUT-03",
+        "SOLO-01",
+        "COOP-01",
+        "ITEM-03",
+        "ITEM-04",
+        "RACE-02",
+        "RACE-03",
+        "ARCH-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/audio.ts",
+      "sourceHash": "f9d23f3e4f80f1414c854b93c4665cb49d185e34d1ebea901f4f795d81782102",
+      "mapHash": "0c9fbd4e1947ef15c1ac49ecb96dcc183389de0c223f41f726a2437f4c46a2dc",
+      "id": "35",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 270,
+          "column": 4
+        },
+        "end": {
+          "line": 270,
+          "column": 38
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 270,
+          "column": 4
+        },
+        "end": {
+          "line": 270,
+          "column": 38
+        }
+      },
+      "sourceText": "if (index >= buffer.length) break;",
+      "owner": "addNote",
+      "sourceContext": "if (index >= buffer.length) break;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-audio-scene-mob-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-06",
+        "INPUT-03",
+        "SOLO-01",
+        "COOP-01",
+        "ITEM-03",
+        "ITEM-04",
+        "RACE-02",
+        "RACE-03",
+        "ARCH-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/audio.ts",
+      "sourceHash": "f9d23f3e4f80f1414c854b93c4665cb49d185e34d1ebea901f4f795d81782102",
+      "mapHash": "0c9fbd4e1947ef15c1ac49ecb96dcc183389de0c223f41f726a2437f4c46a2dc",
+      "id": "106",
+      "arm": 0,
+      "type": "default-arg",
+      "location": {
+        "start": {
+          "line": 552,
+          "column": 102
+        },
+        "end": {
+          "line": 552,
+          "column": 104
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 552,
+          "column": 79
+        },
+        "end": {
+          "line": 552,
+          "column": 104
+        }
+      },
+      "sourceText": "{}",
+      "owner": "eventBuffer.callback@552",
+      "sourceContext": "{}",
+      "scopeProofs": [],
+      "status": "reviewed-counted-audio-scene-mob-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-06",
+        "INPUT-03",
+        "SOLO-01",
+        "COOP-01",
+        "ITEM-03",
+        "ITEM-04",
+        "RACE-02",
+        "RACE-03",
+        "ARCH-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/audio.ts",
+      "sourceHash": "f9d23f3e4f80f1414c854b93c4665cb49d185e34d1ebea901f4f795d81782102",
+      "mapHash": "0c9fbd4e1947ef15c1ac49ecb96dcc183389de0c223f41f726a2437f4c46a2dc",
+      "id": "159",
+      "arm": 0,
+      "type": "default-arg",
+      "location": {
+        "start": {
+          "line": 789,
+          "column": 25
+        },
+        "end": {
+          "line": 789,
+          "column": 27
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 789,
+          "column": 2
+        },
+        "end": {
+          "line": 789,
+          "column": 27
+        }
+      },
+      "sourceText": "{}",
+      "owner": "playBuffer",
+      "sourceContext": "{}",
+      "scopeProofs": [],
+      "status": "reviewed-counted-audio-scene-mob-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-06",
+        "INPUT-03",
+        "SOLO-01",
+        "COOP-01",
+        "ITEM-03",
+        "ITEM-04",
+        "RACE-02",
+        "RACE-03",
+        "ARCH-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/audio.ts",
+      "sourceHash": "f9d23f3e4f80f1414c854b93c4665cb49d185e34d1ebea901f4f795d81782102",
+      "mapHash": "0c9fbd4e1947ef15c1ac49ecb96dcc183389de0c223f41f726a2437f4c46a2dc",
+      "id": "165",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 811,
+          "column": 4
+        },
+        "end": {
+          "line": 811,
+          "column": 25
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 811,
+          "column": 4
+        },
+        "end": {
+          "line": 811,
+          "column": 25
+        }
+      },
+      "sourceText": "if (finished) return;",
+      "owner": "playBuffer.callback@810",
+      "sourceContext": "if (finished) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-audio-scene-mob-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-06",
+        "INPUT-03",
+        "SOLO-01",
+        "COOP-01",
+        "ITEM-03",
+        "ITEM-04",
+        "RACE-02",
+        "RACE-03",
+        "ARCH-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/audio.ts",
+      "sourceHash": "f9d23f3e4f80f1414c854b93c4665cb49d185e34d1ebea901f4f795d81782102",
+      "mapHash": "0c9fbd4e1947ef15c1ac49ecb96dcc183389de0c223f41f726a2437f4c46a2dc",
+      "id": "166",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 822,
+          "column": 6
+        },
+        "end": {
+          "line": 822,
+          "column": 46
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 822,
+          "column": 6
+        },
+        "end": {
+          "line": 822,
+          "column": 46
+        }
+      },
+      "sourceText": "if (finished || fading || !loop) return;",
+      "owner": "playBuffer.update",
+      "sourceContext": "if (finished || fading || !loop) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-audio-scene-mob-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-06",
+        "INPUT-03",
+        "SOLO-01",
+        "COOP-01",
+        "ITEM-03",
+        "ITEM-04",
+        "RACE-02",
+        "RACE-03",
+        "ARCH-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/audio.ts",
+      "sourceHash": "f9d23f3e4f80f1414c854b93c4665cb49d185e34d1ebea901f4f795d81782102",
+      "mapHash": "0c9fbd4e1947ef15c1ac49ecb96dcc183389de0c223f41f726a2437f4c46a2dc",
+      "id": "171",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 839,
+          "column": 6
+        },
+        "end": {
+          "line": 839,
+          "column": 37
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 839,
+          "column": 6
+        },
+        "end": {
+          "line": 839,
+          "column": 37
+        }
+      },
+      "sourceText": "if (finished || fading) return;",
+      "owner": "playBuffer.fadeOut",
+      "sourceContext": "if (finished || fading) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-audio-scene-mob-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-06",
+        "INPUT-03",
+        "SOLO-01",
+        "COOP-01",
+        "ITEM-03",
+        "ITEM-04",
+        "RACE-02",
+        "RACE-03",
+        "ARCH-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/audio.ts",
+      "sourceHash": "f9d23f3e4f80f1414c854b93c4665cb49d185e34d1ebea901f4f795d81782102",
+      "mapHash": "0c9fbd4e1947ef15c1ac49ecb96dcc183389de0c223f41f726a2437f4c46a2dc",
+      "id": "190",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 950,
+          "column": 6
+        },
+        "end": {
+          "line": 950,
+          "column": 60
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 950,
+          "column": 6
+        },
+        "end": {
+          "line": 950,
+          "column": 60
+        }
+      },
+      "sourceText": "if (this.disposed || this.context !== context) return;",
+      "owner": "GameAudio.prepare.callback@942",
+      "sourceContext": "if (this.disposed || this.context !== context) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-audio-scene-mob-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-06",
+        "INPUT-03",
+        "SOLO-01",
+        "COOP-01",
+        "ITEM-03",
+        "ITEM-04",
+        "RACE-02",
+        "RACE-03",
+        "ARCH-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/audio.ts",
+      "sourceHash": "f9d23f3e4f80f1414c854b93c4665cb49d185e34d1ebea901f4f795d81782102",
+      "mapHash": "0c9fbd4e1947ef15c1ac49ecb96dcc183389de0c223f41f726a2437f4c46a2dc",
+      "id": "193",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 957,
+          "column": 8
+        },
+        "end": {
+          "line": 957,
+          "column": 62
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 957,
+          "column": 8
+        },
+        "end": {
+          "line": 957,
+          "column": 62
+        }
+      },
+      "sourceText": "if (this.disposed || this.context !== context) return;",
+      "owner": "GameAudio.prepare.callback@942",
+      "sourceContext": "if (this.disposed || this.context !== context) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-audio-scene-mob-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-06",
+        "INPUT-03",
+        "SOLO-01",
+        "COOP-01",
+        "ITEM-03",
+        "ITEM-04",
+        "RACE-02",
+        "RACE-03",
+        "ARCH-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/audio.ts",
+      "sourceHash": "f9d23f3e4f80f1414c854b93c4665cb49d185e34d1ebea901f4f795d81782102",
+      "mapHash": "0c9fbd4e1947ef15c1ac49ecb96dcc183389de0c223f41f726a2437f4c46a2dc",
+      "id": "195",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 964,
+          "column": 8
+        },
+        "end": {
+          "line": 964,
+          "column": 62
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 964,
+          "column": 8
+        },
+        "end": {
+          "line": 964,
+          "column": 62
+        }
+      },
+      "sourceText": "if (this.disposed || this.context !== context) return;",
+      "owner": "GameAudio.prepare.callback@942",
+      "sourceContext": "if (this.disposed || this.context !== context) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-audio-scene-mob-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-06",
+        "INPUT-03",
+        "SOLO-01",
+        "COOP-01",
+        "ITEM-03",
+        "ITEM-04",
+        "RACE-02",
+        "RACE-03",
+        "ARCH-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/audio.ts",
+      "sourceHash": "f9d23f3e4f80f1414c854b93c4665cb49d185e34d1ebea901f4f795d81782102",
+      "mapHash": "0c9fbd4e1947ef15c1ac49ecb96dcc183389de0c223f41f726a2437f4c46a2dc",
+      "id": "199",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 982,
+          "column": 6
+        },
+        "end": {
+          "line": 982,
+          "column": 97
+        }
+      },
+      "sourceText": "if (!this.disposed && this.context === context) builtinBuffer(context, cue, pack, variant);",
+      "owner": "GameAudio.prepareVariant.callback@981",
+      "sourceContext": "if (!this.disposed && this.context === context) builtinBuffer(context, cue, pack, variant);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-audio-scene-mob-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-06",
+        "INPUT-03",
+        "SOLO-01",
+        "COOP-01",
+        "ITEM-03",
+        "ITEM-04",
+        "RACE-02",
+        "RACE-03",
+        "ARCH-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/audio.ts",
+      "sourceHash": "f9d23f3e4f80f1414c854b93c4665cb49d185e34d1ebea901f4f795d81782102",
+      "mapHash": "0c9fbd4e1947ef15c1ac49ecb96dcc183389de0c223f41f726a2437f4c46a2dc",
+      "id": "215",
+      "arm": 0,
+      "type": "default-arg",
+      "location": {
+        "start": {
+          "line": 1033,
+          "column": 66
+        },
+        "end": {
+          "line": 1033,
+          "column": 71
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 1033,
+          "column": 59
+        },
+        "end": {
+          "line": 1033,
+          "column": 71
+        }
+      },
+      "sourceText": "false",
+      "owner": "GameAudio.source",
+      "sourceContext": "false",
+      "scopeProofs": [],
+      "status": "reviewed-counted-audio-scene-mob-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-06",
+        "INPUT-03",
+        "SOLO-01",
+        "COOP-01",
+        "ITEM-03",
+        "ITEM-04",
+        "RACE-02",
+        "RACE-03",
+        "ARCH-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/audio.ts",
+      "sourceHash": "f9d23f3e4f80f1414c854b93c4665cb49d185e34d1ebea901f4f795d81782102",
+      "mapHash": "0c9fbd4e1947ef15c1ac49ecb96dcc183389de0c223f41f726a2437f4c46a2dc",
+      "id": "238",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 1073,
+          "column": 12
+        },
+        "end": {
+          "line": 1073,
+          "column": 180
+        }
+      },
+      "sourceText": "if (this.context === request.context && this.builtin === request.pack && builtinBuffers.get(context)?.has(`${request.pack}:music`)) this.play('music', request.options);",
+      "owner": "GameAudio.play.callback@1070",
+      "sourceContext": "if (this.context === request.context && this.builtin === request.pack && builtinBuffers.get(context)?.has(`${request.pack}:music`)) this.play('music', request.options);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-audio-scene-mob-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-06",
+        "INPUT-03",
+        "SOLO-01",
+        "COOP-01",
+        "ITEM-03",
+        "ITEM-04",
+        "RACE-02",
+        "RACE-03",
+        "ARCH-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/audio.ts",
+      "sourceHash": "f9d23f3e4f80f1414c854b93c4665cb49d185e34d1ebea901f4f795d81782102",
+      "mapHash": "0c9fbd4e1947ef15c1ac49ecb96dcc183389de0c223f41f726a2437f4c46a2dc",
+      "id": "241",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 1082,
+          "column": 8
+        },
+        "end": {
+          "line": 1082,
+          "column": 27
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 1082,
+          "column": 8
+        },
+        "end": {
+          "line": 1082,
+          "column": 27
+        }
+      },
+      "sourceText": "if (!oldest) break;",
+      "owner": "GameAudio.play",
+      "sourceContext": "if (!oldest) break;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-audio-scene-mob-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-06",
+        "INPUT-03",
+        "SOLO-01",
+        "COOP-01",
+        "ITEM-03",
+        "ITEM-04",
+        "RACE-02",
+        "RACE-03",
+        "ARCH-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/audio.ts",
+      "sourceHash": "f9d23f3e4f80f1414c854b93c4665cb49d185e34d1ebea901f4f795d81782102",
+      "mapHash": "0c9fbd4e1947ef15c1ac49ecb96dcc183389de0c223f41f726a2437f4c46a2dc",
+      "id": "242",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 1087,
+          "column": 8
+        },
+        "end": {
+          "line": 1087,
+          "column": 27
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 1087,
+          "column": 8
+        },
+        "end": {
+          "line": 1087,
+          "column": 27
+        }
+      },
+      "sourceText": "if (!oldest) break;",
+      "owner": "GameAudio.play",
+      "sourceContext": "if (!oldest) break;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-audio-scene-mob-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-06",
+        "INPUT-03",
+        "SOLO-01",
+        "COOP-01",
+        "ITEM-03",
+        "ITEM-04",
+        "RACE-02",
+        "RACE-03",
+        "ARCH-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/audio.ts",
+      "sourceHash": "f9d23f3e4f80f1414c854b93c4665cb49d185e34d1ebea901f4f795d81782102",
+      "mapHash": "0c9fbd4e1947ef15c1ac49ecb96dcc183389de0c223f41f726a2437f4c46a2dc",
+      "id": "256",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 1133,
+          "column": 10
+        },
+        "end": {
+          "line": 1133,
+          "column": 29
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 1133,
+          "column": 10
+        },
+        "end": {
+          "line": 1133,
+          "column": 29
+        }
+      },
+      "sourceText": "if (!oldest) break;",
+      "owner": "GameAudio.syncLoops",
+      "sourceContext": "if (!oldest) break;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-audio-scene-mob-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-06",
+        "INPUT-03",
+        "SOLO-01",
+        "COOP-01",
+        "ITEM-03",
+        "ITEM-04",
+        "RACE-02",
+        "RACE-03",
+        "ARCH-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/audio.ts",
+      "sourceHash": "f9d23f3e4f80f1414c854b93c4665cb49d185e34d1ebea901f4f795d81782102",
+      "mapHash": "0c9fbd4e1947ef15c1ac49ecb96dcc183389de0c223f41f726a2437f4c46a2dc",
+      "id": "257",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 1136,
+          "column": 8
+        },
+        "end": {
+          "line": 1136,
+          "column": 51
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 1136,
+          "column": 8
+        },
+        "end": {
+          "line": 1136,
+          "column": 51
+        }
+      },
+      "sourceText": "if (this.loops.size >= MAX_LOOPS) continue;",
+      "owner": "GameAudio.syncLoops",
+      "sourceContext": "if (this.loops.size >= MAX_LOOPS) continue;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-audio-scene-mob-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-06",
+        "INPUT-03",
+        "SOLO-01",
+        "COOP-01",
+        "ITEM-03",
+        "ITEM-04",
+        "RACE-02",
+        "RACE-03",
+        "ARCH-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/audio.ts",
+      "sourceHash": "f9d23f3e4f80f1414c854b93c4665cb49d185e34d1ebea901f4f795d81782102",
+      "mapHash": "0c9fbd4e1947ef15c1ac49ecb96dcc183389de0c223f41f726a2437f4c46a2dc",
+      "id": "265",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 1150,
+          "column": 38
+        },
+        "end": {
+          "line": 1150,
+          "column": 101
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 1150,
+          "column": 38
+        },
+        "end": {
+          "line": 1150,
+          "column": 101
+        }
+      },
+      "sourceText": "if (this.loops.get(id)?.voice === voice) this.loops.delete(id);",
+      "owner": "GameAudio.syncLoops.callback@1150",
+      "sourceContext": "if (this.loops.get(id)?.voice === voice) this.loops.delete(id);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-audio-scene-mob-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-06",
+        "INPUT-03",
+        "SOLO-01",
+        "COOP-01",
+        "ITEM-03",
+        "ITEM-04",
+        "RACE-02",
+        "RACE-03",
+        "ARCH-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/mobs.ts",
+      "sourceHash": "6077ac4fd884ef16f9fe8ab3f3db77a431b2d2853adbeddc1d0d843b595018d1",
+      "mapHash": "33544cc6196823d1c65a2550c787828f797b72730a9f288686fc2084db1baebc",
+      "id": "9",
+      "arm": 0,
+      "type": "default-arg",
+      "location": {
+        "start": {
+          "line": 56,
+          "column": 56
+        },
+        "end": {
+          "line": 56,
+          "column": 72
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 56,
+          "column": 46
+        },
+        "end": {
+          "line": 56,
+          "column": 72
+        }
+      },
+      "sourceText": "game.run.effects",
+      "owner": "runTuning",
+      "sourceContext": "game.run.effects",
+      "scopeProofs": [],
+      "status": "reviewed-counted-audio-scene-mob-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-06",
+        "INPUT-03",
+        "SOLO-01",
+        "COOP-01",
+        "ITEM-03",
+        "ITEM-04",
+        "RACE-02",
+        "RACE-03",
+        "ARCH-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/mobs.ts",
+      "sourceHash": "6077ac4fd884ef16f9fe8ab3f3db77a431b2d2853adbeddc1d0d843b595018d1",
+      "mapHash": "33544cc6196823d1c65a2550c787828f797b72730a9f288686fc2084db1baebc",
+      "id": "10",
+      "arm": 0,
+      "type": "default-arg",
+      "location": {
+        "start": {
+          "line": 56,
+          "column": 82
+        },
+        "end": {
+          "line": 56,
+          "column": 91
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 56,
+          "column": 74
+        },
+        "end": {
+          "line": 56,
+          "column": 91
+        }
+      },
+      "sourceText": "game.maxY",
+      "owner": "runTuning",
+      "sourceContext": "game.maxY",
+      "scopeProofs": [],
+      "status": "reviewed-counted-audio-scene-mob-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-06",
+        "INPUT-03",
+        "SOLO-01",
+        "COOP-01",
+        "ITEM-03",
+        "ITEM-04",
+        "RACE-02",
+        "RACE-03",
+        "ARCH-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/mobs.ts",
+      "sourceHash": "6077ac4fd884ef16f9fe8ab3f3db77a431b2d2853adbeddc1d0d843b595018d1",
+      "mapHash": "33544cc6196823d1c65a2550c787828f797b72730a9f288686fc2084db1baebc",
+      "id": "12",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 79,
+          "column": 4
+        },
+        "end": {
+          "line": 79,
+          "column": 41
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 79,
+          "column": 4
+        },
+        "end": {
+          "line": 79,
+          "column": 41
+        }
+      },
+      "sourceText": "if (mob.kind === 'wasp') return true;",
+      "owner": "MobDirector.clearPath",
+      "sourceContext": "if (mob.kind === 'wasp') return true;",
+      "scopeProofs": [
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-FLOW-MOB-SCOPE.md",
+          "callReason": "Pinned SOLO_STROLL_MODE disables pursuers. Game.updateMobs still invokes MobDirector.update, whose first guard clears mobs and returns before this private AI closure. mobDefinition bootstrap stays applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        }
+      ],
+      "status": "reviewed-counted-audio-scene-mob-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-06",
+        "INPUT-03",
+        "SOLO-01",
+        "COOP-01",
+        "ITEM-03",
+        "ITEM-04",
+        "RACE-02",
+        "RACE-03",
+        "ARCH-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/mobs.ts",
+      "sourceHash": "6077ac4fd884ef16f9fe8ab3f3db77a431b2d2853adbeddc1d0d843b595018d1",
+      "mapHash": "33544cc6196823d1c65a2550c787828f797b72730a9f288686fc2084db1baebc",
+      "id": "19",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 98,
+          "column": 8
+        },
+        "end": {
+          "line": 98,
+          "column": 84
+        }
+      },
+      "sourceText": "if (this.clearPath(game, mob, candidate.x, candidate.y)) target = candidate;",
+      "owner": "MobDirector.plan",
+      "sourceContext": "if (this.clearPath(game, mob, candidate.x, candidate.y)) target = candidate;",
+      "scopeProofs": [
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-FLOW-MOB-SCOPE.md",
+          "callReason": "Pinned SOLO_STROLL_MODE disables pursuers. Game.updateMobs still invokes MobDirector.update, whose first guard clears mobs and returns before this private AI closure. mobDefinition bootstrap stays applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        }
+      ],
+      "status": "reviewed-counted-audio-scene-mob-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-06",
+        "INPUT-03",
+        "SOLO-01",
+        "COOP-01",
+        "ITEM-03",
+        "ITEM-04",
+        "RACE-02",
+        "RACE-03",
+        "ARCH-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/mobs.ts",
+      "sourceHash": "6077ac4fd884ef16f9fe8ab3f3db77a431b2d2853adbeddc1d0d843b595018d1",
+      "mapHash": "33544cc6196823d1c65a2550c787828f797b72730a9f288686fc2084db1baebc",
+      "id": "47",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 176,
+          "column": 6
+        },
+        "end": {
+          "line": 176,
+          "column": 122
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 176,
+          "column": 6
+        },
+        "end": {
+          "line": 176,
+          "column": 122
+        }
+      },
+      "sourceText": "if (!exits.some(([ex, ey]) => Math.hypot(ex! - x, ey! - y) > definition.radius + PLAYER_MOB_RADIUS + .15)) continue;",
+      "owner": "MobDirector.spawn",
+      "sourceContext": "if (!exits.some(([ex, ey]) => Math.hypot(ex! - x, ey! - y) > definition.radius + PLAYER_MOB_RADIUS + .15)) continue;",
+      "scopeProofs": [
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-FLOW-MOB-SCOPE.md",
+          "callReason": "Pinned SOLO_STROLL_MODE disables pursuers. Game.updateMobs still invokes MobDirector.update, whose first guard clears mobs and returns before this private AI closure. mobDefinition bootstrap stays applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        }
+      ],
+      "status": "reviewed-counted-audio-scene-mob-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-06",
+        "INPUT-03",
+        "SOLO-01",
+        "COOP-01",
+        "ITEM-03",
+        "ITEM-04",
+        "RACE-02",
+        "RACE-03",
+        "ARCH-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/mobs.ts",
+      "sourceHash": "6077ac4fd884ef16f9fe8ab3f3db77a431b2d2853adbeddc1d0d843b595018d1",
+      "mapHash": "33544cc6196823d1c65a2550c787828f797b72730a9f288686fc2084db1baebc",
+      "id": "55",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 203,
+          "column": 6
+        },
+        "end": {
+          "line": 203,
+          "column": 61
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 203,
+          "column": 6
+        },
+        "end": {
+          "line": 203,
+          "column": 61
+        }
+      },
+      "sourceText": "if (!eligible.length) { retained.push(mob); continue; }",
+      "owner": "MobDirector.update",
+      "sourceContext": "if (!eligible.length) { retained.push(mob); continue; }",
+      "scopeProofs": [
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-FLOW-MOB-SCOPE.md",
+          "callReason": "Pinned SOLO_STROLL_MODE disables pursuers. Game.updateMobs still invokes MobDirector.update, whose first guard clears mobs and returns before this private AI closure. mobDefinition bootstrap stays applicable.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        }
+      ],
+      "status": "reviewed-counted-audio-scene-mob-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-06",
+        "INPUT-03",
+        "SOLO-01",
+        "COOP-01",
+        "ITEM-03",
+        "ITEM-04",
+        "RACE-02",
+        "RACE-03",
+        "ARCH-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/soundscape.ts",
+      "sourceHash": "7dcfdb877477177f38fcc1b42add26be04961ed25b4133faf0ea0c696288c102",
+      "mapHash": "58b26384b84d2153597444e9a47083db0fbebcfae9e50413fbfffbf51cadf6aa",
+      "id": "15",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 65,
+          "column": 40
+        },
+        "end": {
+          "line": 65,
+          "column": 45
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 65,
+          "column": 15
+        },
+        "end": {
+          "line": 65,
+          "column": 45
+        }
+      },
+      "sourceText": "notes",
+      "owner": "hornNote",
+      "sourceContext": "notes",
+      "scopeProofs": [],
+      "status": "reviewed-counted-audio-scene-mob-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-06",
+        "INPUT-03",
+        "SOLO-01",
+        "COOP-01",
+        "ITEM-03",
+        "ITEM-04",
+        "RACE-02",
+        "RACE-03",
+        "ARCH-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/soundscape.ts",
+      "sourceHash": "7dcfdb877477177f38fcc1b42add26be04961ed25b4133faf0ea0c696288c102",
+      "mapHash": "58b26384b84d2153597444e9a47083db0fbebcfae9e50413fbfffbf51cadf6aa",
+      "id": "26",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 134,
+          "column": 61
+        },
+        "end": {
+          "line": 134,
+          "column": 79
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 134,
+          "column": 18
+        },
+        "end": {
+          "line": 134,
+          "column": 79
+        }
+      },
+      "sourceText": "game.lane.world.id",
+      "owner": "Soundscape.update",
+      "sourceContext": "game.lane.world.id",
+      "scopeProofs": [],
+      "status": "reviewed-counted-audio-scene-mob-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-06",
+        "INPUT-03",
+        "SOLO-01",
+        "COOP-01",
+        "ITEM-03",
+        "ITEM-04",
+        "RACE-02",
+        "RACE-03",
+        "ARCH-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/soundscape.ts",
+      "sourceHash": "7dcfdb877477177f38fcc1b42add26be04961ed25b4133faf0ea0c696288c102",
+      "mapHash": "58b26384b84d2153597444e9a47083db0fbebcfae9e50413fbfffbf51cadf6aa",
+      "id": "27",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 135,
+          "column": 39
+        },
+        "end": {
+          "line": 135,
+          "column": 53
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 135,
+          "column": 20
+        },
+        "end": {
+          "line": 135,
+          "column": 53
+        }
+      },
+      "sourceText": "palettes.pond!",
+      "owner": "Soundscape.update",
+      "sourceContext": "palettes.pond!",
+      "scopeProofs": [],
+      "status": "reviewed-counted-audio-scene-mob-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-06",
+        "INPUT-03",
+        "SOLO-01",
+        "COOP-01",
+        "ITEM-03",
+        "ITEM-04",
+        "RACE-02",
+        "RACE-03",
+        "ARCH-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/soundscape.ts",
+      "sourceHash": "7dcfdb877477177f38fcc1b42add26be04961ed25b4133faf0ea0c696288c102",
+      "mapHash": "58b26384b84d2153597444e9a47083db0fbebcfae9e50413fbfffbf51cadf6aa",
+      "id": "32",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 150,
+          "column": 83
+        },
+        "end": {
+          "line": 150,
+          "column": 96
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 150,
+          "column": 49
+        },
+        "end": {
+          "line": 150,
+          "column": 96
+        }
+      },
+      "sourceText": "palette.water",
+      "owner": "Soundscape.update",
+      "sourceContext": "palette.water",
+      "scopeProofs": [],
+      "status": "reviewed-counted-audio-scene-mob-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-06",
+        "INPUT-03",
+        "SOLO-01",
+        "COOP-01",
+        "ITEM-03",
+        "ITEM-04",
+        "RACE-02",
+        "RACE-03",
+        "ARCH-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/soundscape.ts",
+      "sourceHash": "7dcfdb877477177f38fcc1b42add26be04961ed25b4133faf0ea0c696288c102",
+      "mapHash": "58b26384b84d2153597444e9a47083db0fbebcfae9e50413fbfffbf51cadf6aa",
+      "id": "68",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 248,
+          "column": 46
+        },
+        "end": {
+          "line": 248,
+          "column": 48
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 248,
+          "column": 31
+        },
+        "end": {
+          "line": 248,
+          "column": 52
+        }
+      },
+      "sourceText": ".4",
+      "owner": "Soundscape.update",
+      "sourceContext": ".4",
+      "scopeProofs": [],
+      "status": "reviewed-counted-audio-scene-mob-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "UI-06",
+        "INPUT-03",
+        "SOLO-01",
+        "COOP-01",
+        "ITEM-03",
+        "ITEM-04",
+        "RACE-02",
+        "RACE-03",
+        "ARCH-03",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    }
+  ],
+  "hashes": {
+    "artifacts/release-coverage/semantic-current-03/raw-zero-review.json": "c8297f9591dcbe604c1ff06f2e67ca6575ac9570a94838dec747530dcfda5fc4",
+    ".planning/phases/07-release-evidence-pr/07-03-SCHEMA-RECOVERY-SEMANTIC-PROOF.json": "8a5bfe67e7b38a5b107cef1ab65e13a01131247c05265c0d68bd57e471a83a09",
+    "artifacts/release-coverage/current-full-05-proof/freeze.json": "c72459fff67275b20c5b67c1076d781f825a00cec405fada8743cb2f350111a3",
+    "tools/release-coverage/suites.json": "02e81d3e4320ed8a2d0901fd0eee532e051d1c0b27b606c011fedbc3674ab88d",
+    "tests/sound.test.mjs": "aaea2311b7e3a0d8ea6f2af0d86147a78a9f9a53d6cbe9b21ddc7a38b385c069",
+    "tests/release-sound-loader-gaps.test.mjs": "d8c0c2ef67a2676da53435ff93b2cf1307d0f52208184c8ba21e26a50e6777cc",
+    "tests/soundscape.test.mjs": "6793e3c5324806473ed7e7183a2dbba7445e2600937f139411664a73d20649a0",
+    "tests/audio-demo.mjs": "47d526bdf40d46d2cd1d126a895f0124f7525449b61e4437902fadcd2d4ad1af",
+    "tests/audio-zones.mjs": "6019ef2e49d0ad5b5c4bdb9b1da69b5ac711e7394eb057fc5f35a669457ab330",
+    "tests/local-session-audio-runtime.mjs": "9c2161a98a7ad109bfa91f8f569dd47d2bdb6ca4c3cb75b2fccf608e1490f3d5",
+    "tests/death-spill-audio.test.mjs": "3bdc1d809b395bf5cf79dde3c70e4c93a300a232d0df467f2b6b06d081cee18d",
+    "tests/mobs.test.mjs": "f64569f2380ad5c4fe56545c64768a2241812416fe3aeeded3f3a2ddf9db9776",
+    "tests/session-world.test.mjs": "73e80711532abb050a9144c16cf277d288236beb34f9ba9a7e5f5ee623921408",
+    "tests/survive-economy.test.mjs": "47de3c47477849cf7b182f5deea0a13f0d72514ad2067118063e1431230608ee",
+    "tests/relay-world-effects.test.mjs": "1caaf00fdafa84907f54d9e504ee22760572fe26fe93b5e66d05c11311dbd8db",
+    ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md": "97767dea89a8456c8ea3f94cedd7d5358db4a2bca04e350ceb1a6fe4890dd7ff",
+    "artifacts/release-coverage/audio-mob-residual-09/verify.mjs": "de8e575a1dfbcd005041b381353dd934dc9c7d2446c0fed4d6d5e6d91727e642",
+    "src/audio.ts": "f9d23f3e4f80f1414c854b93c4665cb49d185e34d1ebea901f4f795d81782102",
+    "src/soundscape.ts": "7dcfdb877477177f38fcc1b42add26be04961ed25b4133faf0ea0c696288c102",
+    "src/mobs.ts": "6077ac4fd884ef16f9fe8ab3f3db77a431b2d2853adbeddc1d0d843b595018d1",
+    "src/main.ts": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+    "src/harmony.ts": "3571b5700c43dbb32a1ebbc7b3698d0e70081061d22ab91aea6b479978178a6b",
+    "src/game.ts": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+    "src/session.ts": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+    "artifacts/release-coverage/audio-mob-residual-09/reference-audit.mjs": "c9005ef2a8ad571c5dad83cde1b41f20bf5b5ca07118003e117ee7956a166ede",
+    "artifacts/release-coverage/audio-mob-residual-09/reference-audit.log": "ed1a90da9125ab6665d4df38da38c7fd1be9758a31c1c62dc4bf54da754549e0",
+    "artifacts/release-coverage/audio-mob-residual-09/reference-audit.json": "b952b3438c14039f66aa2bd44b85a8df3615cebebfcbc717b0432a1170a34975"
+  }
+}
