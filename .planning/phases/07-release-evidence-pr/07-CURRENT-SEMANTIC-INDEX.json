@@ -3,10 +3,10 @@
   "sourceRun": "0b8f818d-62a2-4922-ab83-242886778c0c",
   "sourceInventoryRawSha256": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
   "rawZeroArms": 830,
-  "reviewed": 605,
-  "pending": 225,
+  "reviewed": 681,
+  "pending": 149,
   "existingPositiveWitnessLinks": 18,
-  "reviewedCountedResiduals": 587,
+  "reviewedCountedResiduals": 663,
   "freshFullRun": "cb52774e-975e-4388-a064-5162ef3807d8",
   "freshFullStatus": "active;no final result inferred",
   "sourceTestToolConfigBuildLockFrozenPathsVerified": 410,
@@ -70,6 +70,11 @@
       "proofPath": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-PROOF.json",
       "docPath": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
       "rows": 97
+    },
+    {
+      "proofPath": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-PROOF.json",
+      "docPath": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "rows": 76
     },
     {
       "proofPath": ".planning/phases/07-release-evidence-pr/07-03-SCHEMA-RECOVERY-SEMANTIC-PROOF.json",
@@ -140,8 +145,8 @@
     },
     "src/main.ts": {
       "total": 322,
-      "reviewed": 97,
-      "pending": 225
+      "reviewed": 173,
+      "pending": 149
     },
     "src/market-preview.ts": {
       "total": 4,
@@ -337,12 +342,14 @@
     ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md": "b6e340a2ff0aa3cd46f4ea7781e73a078fa4bad1ab3faa219bb48d90a6aadffd",
     ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-PROOF.json": "905a0ec584d5e585242b7ddb6f75fd1a10e70422f0f9ac86c8d2a595f26d74fe",
     ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md": "16f97f035ab2fbd281d1ef05793e840928b326c961341d59fdac68da1583828a",
+    ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-PROOF.json": "e316ac3309b52a1a7f0d7c3e1fcbe5b3401e76b672f3dbb358ca7851173027ac",
+    ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md": "340080fe0f9d4eeb88db3db1172a3e7c86962ec2218323b97e49a8e72ca524cb",
     ".planning/phases/07-release-evidence-pr/07-03-SCHEMA-RECOVERY-SEMANTIC-REVIEW.md": "efaa7eb7fef452a7185ca31b1070c937c4d5a6eed5ae8d76c650118eef410b43",
     ".planning/phases/07-release-evidence-pr/07-03-CONTROLLER-GUARD-PROOF.json": "367f6f7ef0d82dbe47fd9db380ef459fba6c401e937df61ab79c20d62b6850c5",
     "artifacts/release-coverage/current-semantic-ledger-04/context-audit.json": "5436beb822098d9cc675d8d2ad501f2f7401e681160def7edde3c0091830c5ce",
     ".planning/phases/07-release-evidence-pr/07-03-CONTROLLER-GUARD-REVIEW.md": "594c426b40a5d64f3ecb6b9851095d90ae2d7e6cafc9c408a7a2cc27a13f18ac",
     "artifacts/release-coverage/current-semantic-ledger-04/context-audit.mjs": "751f8c20541e4af621eff61d2c1fb74a0b7ed0bf825644a840ec8574c4559ed0",
     "artifacts/release-coverage/current-semantic-ledger-04/context-audit.log": "6ba8f72e9097b786661f0dfd8f45f1f9f842de5fed26d8c73b91c3b6feadc0cd",
-    "artifacts/release-coverage/current-semantic-ledger-13/assemble.mjs": "21bce97b8944856e97f9de9a39d0df6bffadbfdb9db2ea39aa23bde45dfd3973"
+    "artifacts/release-coverage/current-semantic-ledger-14/assemble.mjs": "690befa3c8c8ca44c7dc6d19fb9ff2ac20b2d81362b09519489b0981e900cd9d"
   }
 }

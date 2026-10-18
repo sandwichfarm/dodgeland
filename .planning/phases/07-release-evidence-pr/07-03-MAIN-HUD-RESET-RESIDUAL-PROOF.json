@@ -1,0 +1,5278 @@
+{
+  "range": {
+    "sourceLines": [
+      651,
+      1200
+    ],
+    "rawSites": 76,
+    "remainingMainRawSites": 149
+  },
+  "tableRawSitesBound": 76,
+  "audit": {
+    "sources": 159,
+    "targets": 20,
+    "structuralAndRegisteredCallbacksRemainApplicable": true,
+    "limit": "Resolved direct calls do not include option callbacks,Array.map registration or intent listener invocation;zero does not imply unused"
+  },
+  "purpose": "Manual consequence/behavior-boundary review of76 counted Main feedback/handoff/reset/HUD residuals;source inspection only,no execution,hit,exclusion or threshold credit",
+  "sourceRun": "0b8f818d-62a2-4922-ab83-242886778c0c",
+  "currentInventoryRawSha256": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+  "freshFullRun": "cb52774e-975e-4388-a064-5162ef3807d8",
+  "freshFullStatus": "active;result not inferred",
+  "frozenPathsVerified": 410,
+  "behaviorSources": [
+    {
+      "path": "tests/local-session-keyboard-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/local-session-gamepad-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/local-session-audio-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/local-session-layout.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/survive-hud-controller-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/relay-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/relay-layout.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/relay-lifecycle.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/relay-results.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/survive-recovery-outcomes-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/survive-recovery-terminal.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/game-intents-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/preference-hydration-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/devtools-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/turn-release.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/turn-setup-retry.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/health.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/character-powers.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/sound.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/solo-parity.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/render.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    }
+  ],
+  "limits": [
+    "Only76 main sites at651-1200 are reviewed here;149 later sites remain",
+    "Existing API/lease/authority tests do not supply hits to exact inner wrapper guards",
+    "Development source remains globally counted;no new production scope exclusion",
+    "Injected SDK fixtures do not establish official protocol conformance",
+    "Source review does not replace complete enforcement or final visual/clause proof"
+  ],
+  "rows": [
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "296",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 664,
+          "column": 2
+        },
+        "end": {
+          "line": 664,
+          "column": 60
+        }
+      },
+      "sourceText": "if (!localSession && !localStage) game.setCharacter(c.id);",
+      "owner": "readyPreview",
+      "sourceContext": "if (!localSession && !localStage) game.setCharacter(c.id);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "303",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 680,
+          "column": 2
+        },
+        "end": {
+          "line": 680,
+          "column": 54
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 680,
+          "column": 2
+        },
+        "end": {
+          "line": 680,
+          "column": 54
+        }
+      },
+      "sourceText": "if (import.meta.env.DEV && devTools?.isOpen) return;",
+      "owner": "callCharacter",
+      "sourceContext": "if (import.meta.env.DEV && devTools?.isOpen) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "306",
+      "arm": 2,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 681,
+          "column": 37
+        },
+        "end": {
+          "line": 681,
+          "column": 50
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 681,
+          "column": 6
+        },
+        "end": {
+          "line": 681,
+          "column": 255
+        }
+      },
+      "sourceText": "sessionPaused",
+      "owner": "callCharacter",
+      "sourceContext": "sessionPaused",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "308",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 687,
+          "column": 2
+        },
+        "end": {
+          "line": 687,
+          "column": 151
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 687,
+          "column": 2
+        },
+        "end": {
+          "line": 687,
+          "column": 151
+        }
+      },
+      "sourceText": "if (localSession && !(market.isOpen() || hand.isOpen() || hand.containsFocus() ? localSession.canTransact(seat) : localSession.canAct(seat))) return;",
+      "owner": "callSessionCharacter",
+      "sourceContext": "if (localSession && !(market.isOpen() || hand.isOpen() || hand.containsFocus() ? localSession.canTransact(seat) : localSession.canAct(seat))) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "312",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 688,
+          "column": 2
+        },
+        "end": {
+          "line": 688,
+          "column": 54
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 688,
+          "column": 2
+        },
+        "end": {
+          "line": 688,
+          "column": 54
+        }
+      },
+      "sourceText": "if (import.meta.env.DEV && devTools?.isOpen) return;",
+      "owner": "callSessionCharacter",
+      "sourceContext": "if (import.meta.env.DEV && devTools?.isOpen) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "316",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 691,
+          "column": 2
+        },
+        "end": {
+          "line": 691,
+          "column": 52
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 691,
+          "column": 2
+        },
+        "end": {
+          "line": 691,
+          "column": 52
+        }
+      },
+      "sourceText": "if (!player || player.state !== 'playing') return;",
+      "owner": "callSessionCharacter",
+      "sourceContext": "if (!player || player.state !== 'playing') return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "325",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 699,
+          "column": 2
+        },
+        "end": {
+          "line": 699,
+          "column": 120
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 699,
+          "column": 2
+        },
+        "end": {
+          "line": 699,
+          "column": 120
+        }
+      },
+      "sourceText": "if (recoveryBoard) { if (seat === recoveryBoardOwner?.seat) navigateModalControls(recoveryBoard, direction); return; }",
+      "owner": "moveSessionCharacter",
+      "sourceContext": "if (recoveryBoard) { if (seat === recoveryBoardOwner?.seat) navigateModalControls(recoveryBoard, direction); return; }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "326",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 699,
+          "column": 23
+        },
+        "end": {
+          "line": 699,
+          "column": 110
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 699,
+          "column": 23
+        },
+        "end": {
+          "line": 699,
+          "column": 110
+        }
+      },
+      "sourceText": "if (seat === recoveryBoardOwner?.seat) navigateModalControls(recoveryBoard, direction);",
+      "owner": "moveSessionCharacter",
+      "sourceContext": "if (seat === recoveryBoardOwner?.seat) navigateModalControls(recoveryBoard, direction);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "326",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 699,
+          "column": 23
+        },
+        "end": {
+          "line": 699,
+          "column": 110
+        }
+      },
+      "sourceText": "if (seat === recoveryBoardOwner?.seat) navigateModalControls(recoveryBoard, direction);",
+      "owner": "moveSessionCharacter",
+      "sourceContext": "if (seat === recoveryBoardOwner?.seat) navigateModalControls(recoveryBoard, direction);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "327",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 700,
+          "column": 2
+        },
+        "end": {
+          "line": 700,
+          "column": 135
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 700,
+          "column": 2
+        },
+        "end": {
+          "line": 700,
+          "column": 135
+        }
+      },
+      "sourceText": "if (lifecycleBoard) { if (seat === lifecycleBoard.dataset.lifecycleOwner) navigateModalControls(lifecycleBoard, direction); return; }",
+      "owner": "moveSessionCharacter",
+      "sourceContext": "if (lifecycleBoard) { if (seat === lifecycleBoard.dataset.lifecycleOwner) navigateModalControls(lifecycleBoard, direction); return; }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "328",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 700,
+          "column": 24
+        },
+        "end": {
+          "line": 700,
+          "column": 125
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 700,
+          "column": 24
+        },
+        "end": {
+          "line": 700,
+          "column": 125
+        }
+      },
+      "sourceText": "if (seat === lifecycleBoard.dataset.lifecycleOwner) navigateModalControls(lifecycleBoard, direction);",
+      "owner": "moveSessionCharacter",
+      "sourceContext": "if (seat === lifecycleBoard.dataset.lifecycleOwner) navigateModalControls(lifecycleBoard, direction);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "328",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 700,
+          "column": 24
+        },
+        "end": {
+          "line": 700,
+          "column": 125
+        }
+      },
+      "sourceText": "if (seat === lifecycleBoard.dataset.lifecycleOwner) navigateModalControls(lifecycleBoard, direction);",
+      "owner": "moveSessionCharacter",
+      "sourceContext": "if (seat === lifecycleBoard.dataset.lifecycleOwner) navigateModalControls(lifecycleBoard, direction);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "329",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 701,
+          "column": 2
+        },
+        "end": {
+          "line": 701,
+          "column": 99
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 701,
+          "column": 2
+        },
+        "end": {
+          "line": 701,
+          "column": 99
+        }
+      },
+      "sourceText": "if (!surviveResultsRoot.hidden) { navigateModalControls(surviveResultsRoot, direction); return; }",
+      "owner": "moveSessionCharacter",
+      "sourceContext": "if (!surviveResultsRoot.hidden) { navigateModalControls(surviveResultsRoot, direction); return; }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "333",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 703,
+          "column": 2
+        },
+        "end": {
+          "line": 703,
+          "column": 88
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 703,
+          "column": 2
+        },
+        "end": {
+          "line": 703,
+          "column": 88
+        }
+      },
+      "sourceText": "if (market.isOpen()) { if (seat === hudSelected) market.navigate(direction); return; }",
+      "owner": "moveSessionCharacter",
+      "sourceContext": "if (market.isOpen()) { if (seat === hudSelected) market.navigate(direction); return; }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "334",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 703,
+          "column": 25
+        },
+        "end": {
+          "line": 703,
+          "column": 78
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 703,
+          "column": 25
+        },
+        "end": {
+          "line": 703,
+          "column": 78
+        }
+      },
+      "sourceText": "if (seat === hudSelected) market.navigate(direction);",
+      "owner": "moveSessionCharacter",
+      "sourceContext": "if (seat === hudSelected) market.navigate(direction);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "334",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 703,
+          "column": 25
+        },
+        "end": {
+          "line": 703,
+          "column": 78
+        }
+      },
+      "sourceText": "if (seat === hudSelected) market.navigate(direction);",
+      "owner": "moveSessionCharacter",
+      "sourceContext": "if (seat === hudSelected) market.navigate(direction);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "335",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 704,
+          "column": 2
+        },
+        "end": {
+          "line": 704,
+          "column": 193
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 704,
+          "column": 2
+        },
+        "end": {
+          "line": 704,
+          "column": 193
+        }
+      },
+      "sourceText": "if (!frameAvailable() || !localSession?.running || localStage || hand.isOpen() || hand.containsFocus() || market.isOpen() || !el('drawer').hidden || displayedRunState() !== 'playing') return;",
+      "owner": "moveSessionCharacter",
+      "sourceContext": "if (!frameAvailable() || !localSession?.running || localStage || hand.isOpen() || hand.containsFocus() || market.isOpen() || !el('drawer').hidden || displayedRunState() !== 'playing') return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "338",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 712,
+          "column": 2
+        },
+        "end": {
+          "line": 712,
+          "column": 31
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 712,
+          "column": 2
+        },
+        "end": {
+          "line": 712,
+          "column": 31
+        }
+      },
+      "sourceText": "if (!controls.length) return;",
+      "owner": "navigateModalControls",
+      "sourceContext": "if (!controls.length) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "341",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 721,
+          "column": 7
+        },
+        "end": {
+          "line": 721,
+          "column": 51
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 720,
+          "column": 2
+        },
+        "end": {
+          "line": 721,
+          "column": 51
+        }
+      },
+      "sourceText": "controls[0]?.focus({ preventScroll: true });",
+      "owner": "confirmModal",
+      "sourceContext": "controls[0]?.focus({ preventScroll: true });",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "345",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 742,
+          "column": 2
+        },
+        "end": {
+          "line": 742,
+          "column": 104
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 742,
+          "column": 2
+        },
+        "end": {
+          "line": 742,
+          "column": 104
+        }
+      },
+      "sourceText": "if (nativeKeyboardActive) keyboardInput.resume([...observedNativeKeys]); else keyboardInput.suspend();",
+      "owner": "replaceKeyboardInput",
+      "sourceContext": "if (nativeKeyboardActive) keyboardInput.resume([...observedNativeKeys]); else keyboardInput.suspend();",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "347",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 747,
+          "column": 2
+        },
+        "end": {
+          "line": 747,
+          "column": 79
+        }
+      },
+      "sourceText": "if (localStage) return setupDraft.find(seat => seat.device === device)?.seat;",
+      "owner": "keyboardSeatForProfile",
+      "sourceContext": "if (localStage) return setupDraft.find(seat => seat.device === device)?.seat;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "348",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 748,
+          "column": 36
+        },
+        "end": {
+          "line": 748,
+          "column": 40
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 748,
+          "column": 9
+        },
+        "end": {
+          "line": 748,
+          "column": 47
+        }
+      },
+      "sourceText": "'p1'",
+      "owner": "keyboardSeatForProfile",
+      "sourceContext": "'p1'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "348",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 748,
+          "column": 43
+        },
+        "end": {
+          "line": 748,
+          "column": 47
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 748,
+          "column": 9
+        },
+        "end": {
+          "line": 748,
+          "column": 47
+        }
+      },
+      "sourceText": "'p2'",
+      "owner": "keyboardSeatForProfile",
+      "sourceContext": "'p2'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "349",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 751,
+          "column": 55
+        },
+        "end": {
+          "line": 751,
+          "column": 109
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 751,
+          "column": 24
+        },
+        "end": {
+          "line": 751,
+          "column": 109
+        }
+      },
+      "sourceText": "Promise.resolve({ ok: true, bindings: next } as const)",
+      "owner": "commitKeyboardBindings",
+      "sourceContext": "Promise.resolve({ ok: true, bindings: next } as const)",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "351",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 769,
+          "column": 128
+        },
+        "end": {
+          "line": 769,
+          "column": 191
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 769,
+          "column": 128
+        },
+        "end": {
+          "line": 769,
+          "column": 191
+        }
+      },
+      "sourceText": "if (index < 0 || next < 0 || next >= setupDraft.length) return;",
+      "owner": "callback@769",
+      "sourceContext": "if (index < 0 || next < 0 || next >= setupDraft.length) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "356",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 781,
+          "column": 2
+        },
+        "end": {
+          "line": 781,
+          "column": 59
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 781,
+          "column": 2
+        },
+        "end": {
+          "line": 781,
+          "column": 59
+        }
+      },
+      "sourceText": "if (!relayHandoff || !relay || !frameAvailable()) return;",
+      "owner": "confirmRelay",
+      "sourceContext": "if (!relayHandoff || !relay || !frameAvailable()) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "361",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 788,
+          "column": 2
+        },
+        "end": {
+          "line": 788,
+          "column": 42
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 788,
+          "column": 2
+        },
+        "end": {
+          "line": 788,
+          "column": 42
+        }
+      },
+      "sourceText": "if (!relay || !frameAvailable()) return;",
+      "owner": "relayAction",
+      "sourceContext": "if (!relay || !frameAvailable()) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "363",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 790,
+          "column": 2
+        },
+        "end": {
+          "line": 790,
+          "column": 181
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 790,
+          "column": 2
+        },
+        "end": {
+          "line": 790,
+          "column": 181
+        }
+      },
+      "sourceText": "if (captured && (captured.participantId !== token.participantId || captured.generation !== token.generation || captured.lifecycleGeneration !== token.lifecycleGeneration)) return;",
+      "owner": "relayAction",
+      "sourceContext": "if (captured && (captured.participantId !== token.participantId || captured.generation !== token.generation || captured.lifecycleGeneration !== token.lifecycleGeneration)) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "365",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 791,
+          "column": 2
+        },
+        "end": {
+          "line": 791,
+          "column": 46
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 791,
+          "column": 2
+        },
+        "end": {
+          "line": 791,
+          "column": 46
+        }
+      },
+      "sourceText": "if (kind === 'restart') { reset(); return; }",
+      "owner": "relayAction",
+      "sourceContext": "if (kind === 'restart') { reset(); return; }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "370",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 795,
+          "column": 7
+        },
+        "end": {
+          "line": 795,
+          "column": 158
+        }
+      },
+      "sourceText": "if (kind === 'skip' || kind === 'leave' || kind === 'cancel' || kind === 'confirm') relay.command({ ...(captured ?? relay.actionToken(actor)), kind });",
+      "owner": "relayAction",
+      "sourceContext": "if (kind === 'skip' || kind === 'leave' || kind === 'cancel' || kind === 'confirm') relay.command({ ...(captured ?? relay.actionToken(actor)), kind });",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "375",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 801,
+          "column": 101
+        },
+        "end": {
+          "line": 801,
+          "column": 156
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 801,
+          "column": 18
+        },
+        "end": {
+          "line": 801,
+          "column": 156
+        }
+      },
+      "sourceText": "relayHandoff.querySelector<HTMLButtonElement>('button')",
+      "owner": "relayConfirmControl",
+      "sourceContext": "relayHandoff.querySelector<HTMLButtonElement>('button')",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "377",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 802,
+          "column": 2
+        },
+        "end": {
+          "line": 802,
+          "column": 23
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 802,
+          "column": 2
+        },
+        "end": {
+          "line": 802,
+          "column": 23
+        }
+      },
+      "sourceText": "if (!control) return;",
+      "owner": "relayConfirmControl",
+      "sourceContext": "if (!control) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "379",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 805,
+          "column": 4
+        },
+        "end": {
+          "line": 805,
+          "column": 41
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 805,
+          "column": 4
+        },
+        "end": {
+          "line": 805,
+          "column": 41
+        }
+      },
+      "sourceText": "if (!state.connections[seat]) return;",
+      "owner": "relayConfirmControl",
+      "sourceContext": "if (!state.connections[seat]) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "385",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 814,
+          "column": 7
+        },
+        "end": {
+          "line": 814,
+          "column": 75
+        }
+      },
+      "sourceText": "if (control.dataset.actor === seat && kind) relayAction(kind, seat);",
+      "owner": "relayConfirmControl",
+      "sourceContext": "if (control.dataset.actor === seat && kind) relayAction(kind, seat);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "387",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 817,
+          "column": 2
+        },
+        "end": {
+          "line": 817,
+          "column": 38
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 817,
+          "column": 2
+        },
+        "end": {
+          "line": 817,
+          "column": 38
+        }
+      },
+      "sourceText": "if (!relay || !relayHandoff) return;",
+      "owner": "relayDirection",
+      "sourceContext": "if (!relay || !relayHandoff) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "390",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 819,
+          "column": 4
+        },
+        "end": {
+          "line": 819,
+          "column": 34
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 819,
+          "column": 4
+        },
+        "end": {
+          "line": 819,
+          "column": 34
+        }
+      },
+      "sourceText": "if (!frameAvailable()) return;",
+      "owner": "relayDirection",
+      "sourceContext": "if (!frameAvailable()) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "392",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 821,
+          "column": 9
+        },
+        "end": {
+          "line": 821,
+          "column": 96
+        }
+      },
+      "sourceText": "if (relay.snapshot().connections[seat]) navigateModalControls(relayHandoff, direction);",
+      "owner": "relayDirection",
+      "sourceContext": "if (relay.snapshot().connections[seat]) navigateModalControls(relayHandoff, direction);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "394",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 825,
+          "column": 7
+        },
+        "end": {
+          "line": 825,
+          "column": 173
+        }
+      },
+      "sourceText": "if (relay.snapshot().phase === 'ended' || relayHandoff.dataset.actor === seat || relay.snapshot().activeSeat === seat) navigateModalControls(relayHandoff, direction);",
+      "owner": "relayDirection",
+      "sourceContext": "if (relay.snapshot().phase === 'ended' || relayHandoff.dataset.actor === seat || relay.snapshot().activeSeat === seat) navigateModalControls(relayHandoff, direction);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "395",
+      "arm": 2,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 825,
+          "column": 88
+        },
+        "end": {
+          "line": 825,
+          "column": 124
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 825,
+          "column": 11
+        },
+        "end": {
+          "line": 825,
+          "column": 124
+        }
+      },
+      "sourceText": "relay.snapshot().activeSeat === seat",
+      "owner": "relayDirection",
+      "sourceContext": "relay.snapshot().activeSeat === seat",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "400",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 835,
+          "column": 2
+        },
+        "end": {
+          "line": 835,
+          "column": 101
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 835,
+          "column": 2
+        },
+        "end": {
+          "line": 835,
+          "column": 101
+        }
+      },
+      "sourceText": "if (marketWasOpen || handWasOpen) { sessionPaused = false; handPausedPlay = false; game.resume(); }",
+      "owner": "syncRelayHandoff",
+      "sourceContext": "if (marketWasOpen || handWasOpen) { sessionPaused = false; handPausedPlay = false; game.resume(); }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "408",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 866,
+          "column": 72
+        },
+        "end": {
+          "line": 866,
+          "column": 85
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 866,
+          "column": 49
+        },
+        "end": {
+          "line": 866,
+          "column": 101
+        }
+      },
+      "sourceText": "closeDrawer()",
+      "owner": "callback@866",
+      "sourceContext": "closeDrawer()",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "413",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 875,
+          "column": 4
+        },
+        "end": {
+          "line": 875,
+          "column": 180
+        }
+      },
+      "sourceText": "if (definition.id === 'play' && (document.activeElement === el('copy-seed') || document.activeElement === el('run-seed-code'))) (document.activeElement as HTMLElement).click();",
+      "owner": "guardedShellShortcut",
+      "sourceContext": "if (definition.id === 'play' && (document.activeElement === el('copy-seed') || document.activeElement === el('run-seed-code'))) (document.activeElement as HTMLElement).click();",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "415",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 879,
+          "column": 2
+        },
+        "end": {
+          "line": 880,
+          "column": 121
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 879,
+          "column": 2
+        },
+        "end": {
+          "line": 880,
+          "column": 121
+        }
+      },
+      "sourceText": "if (!el('drawer').hidden && definition.id !== 'back-menu' &&\n      ((focused instanceof HTMLInputElement && focused.type === 'text') || focused instanceof HTMLSelectElement)) return;",
+      "owner": "guardedShellShortcut",
+      "sourceContext": "if (!el('drawer').hidden && definition.id !== 'back-menu' &&\n      ((focused instanceof HTMLInputElement && focused.type === 'text') || focused instanceof HTMLSelectElement)) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "420",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 887,
+          "column": 4
+        },
+        "end": {
+          "line": 887,
+          "column": 115
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 887,
+          "column": 4
+        },
+        "end": {
+          "line": 887,
+          "column": 115
+        }
+      },
+      "sourceText": "if (disposed || (nativeKeyboardActive && overlappingShortcutIds.has(definition.id))) { lease.close(); return; }",
+      "owner": "registerShellShortcut",
+      "sourceContext": "if (disposed || (nativeKeyboardActive && overlappingShortcutIds.has(definition.id))) { lease.close(); return; }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "421",
+      "arm": 2,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 887,
+          "column": 45
+        },
+        "end": {
+          "line": 887,
+          "column": 86
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 887,
+          "column": 8
+        },
+        "end": {
+          "line": 887,
+          "column": 87
+        }
+      },
+      "sourceText": "overlappingShortcutIds.has(definition.id)",
+      "owner": "registerShellShortcut",
+      "sourceContext": "overlappingShortcutIds.has(definition.id)",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "423",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 889,
+          "column": 69
+        },
+        "end": {
+          "line": 889,
+          "column": 90
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 889,
+          "column": 52
+        },
+        "end": {
+          "line": 889,
+          "column": 90
+        }
+      },
+      "sourceText": "definition.defaultKey",
+      "owner": "registerShellShortcut",
+      "sourceContext": "definition.defaultKey",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "425",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 890,
+          "column": 73
+        },
+        "end": {
+          "line": 890,
+          "column": 94
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 890,
+          "column": 56
+        },
+        "end": {
+          "line": 890,
+          "column": 94
+        }
+      },
+      "sourceText": "definition.defaultKey",
+      "owner": "registerShellShortcut",
+      "sourceContext": "definition.defaultKey",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "429",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 912,
+          "column": 33
+        },
+        "end": {
+          "line": 912,
+          "column": 100
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 912,
+          "column": 33
+        },
+        "end": {
+          "line": 912,
+          "column": 100
+        }
+      },
+      "sourceText": "if (seat.device?.startsWith('gamepad-')) router.release(seat.seat);",
+      "owner": "reset",
+      "sourceContext": "if (seat.device?.startsWith('gamepad-')) router.release(seat.seat);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "429",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 912,
+          "column": 33
+        },
+        "end": {
+          "line": 912,
+          "column": 100
+        }
+      },
+      "sourceText": "if (seat.device?.startsWith('gamepad-')) router.release(seat.seat);",
+      "owner": "reset",
+      "sourceContext": "if (seat.device?.startsWith('gamepad-')) router.release(seat.seat);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "435",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 937,
+          "column": 4
+        },
+        "end": {
+          "line": 941,
+          "column": 5
+        }
+      },
+      "sourceText": "if (!introduced.has(mob.kind)) {\n      introduced.add(mob.kind);\n      const definition = mobDefinition(mob.kind);\n      notify(`${definition.name} spotted! ${definition.hint}`);\n    }",
+      "owner": "reset.callback@935",
+      "sourceContext": "if (!introduced.has(mob.kind)) {\n      introduced.add(mob.kind);\n      const definition = mobDefinition(mob.kind);\n      notify(`${definition.name} spotted! ${definition.hint}`);\n    }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "439",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 948,
+          "column": 140
+        },
+        "end": {
+          "line": 948,
+          "column": 142
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 948,
+          "column": 125
+        },
+        "end": {
+          "line": 948,
+          "column": 148
+        }
+      },
+      "sourceText": "''",
+      "owner": "reset.callback@948",
+      "sourceContext": "''",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "440",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 951,
+          "column": 43
+        },
+        "end": {
+          "line": 951,
+          "column": 59
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 951,
+          "column": 15
+        },
+        "end": {
+          "line": 951,
+          "column": 59
+        }
+      },
+      "sourceText": "'health.restore'",
+      "owner": "reset.callback@949",
+      "sourceContext": "'health.restore'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "441",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 956,
+          "column": 4
+        },
+        "end": {
+          "line": 956,
+          "column": 50
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 956,
+          "column": 4
+        },
+        "end": {
+          "line": 956,
+          "column": 50
+        }
+      },
+      "sourceText": "if (import.meta.env.DEV && sandboxRun) return;",
+      "owner": "reset.callback@954",
+      "sourceContext": "if (import.meta.env.DEV && sandboxRun) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "444",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 963,
+          "column": 57
+        },
+        "end": {
+          "line": 963,
+          "column": 70
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 963,
+          "column": 29
+        },
+        "end": {
+          "line": 963,
+          "column": 112
+        }
+      },
+      "sourceText": "'death.trail'",
+      "owner": "reset.callback@961",
+      "sourceContext": "'death.trail'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "445",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 963,
+          "column": 101
+        },
+        "end": {
+          "line": 963,
+          "column": 110
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 963,
+          "column": 82
+        },
+        "end": {
+          "line": 963,
+          "column": 110
+        }
+      },
+      "sourceText": "'traffic'",
+      "owner": "reset.callback@961",
+      "sourceContext": "'traffic'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "454",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 977,
+          "column": 75
+        },
+        "end": {
+          "line": 977,
+          "column": 77
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 977,
+          "column": 56
+        },
+        "end": {
+          "line": 977,
+          "column": 83
+        }
+      },
+      "sourceText": "''",
+      "owner": "reset.callback@961",
+      "sourceContext": "''",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "458",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 987,
+          "column": 2
+        },
+        "end": {
+          "line": 987,
+          "column": 23
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 987,
+          "column": 2
+        },
+        "end": {
+          "line": 987,
+          "column": 23
+        }
+      },
+      "sourceText": "if (disposed) return;",
+      "owner": "receiveGameIntent",
+      "sourceContext": "if (disposed) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "466",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 1000,
+          "column": 105
+        },
+        "end": {
+          "line": 1000,
+          "column": 113
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 1000,
+          "column": 80
+        },
+        "end": {
+          "line": 1000,
+          "column": 124
+        }
+      },
+      "sourceText": "'Arcade'",
+      "owner": "receiveGameIntent",
+      "sourceContext": "'Arcade'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "478",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 1017,
+          "column": 4
+        },
+        "end": {
+          "line": 1017,
+          "column": 45
+        }
+      },
+      "sourceText": "if (hudDetailsOpen) closeHudInspection();",
+      "owner": "updateHud",
+      "sourceContext": "if (hudDetailsOpen) closeHudInspection();",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "479",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 1019,
+          "column": 4
+        },
+        "end": {
+          "line": 1019,
+          "column": 62
+        }
+      },
+      "sourceText": "if (remaining) { selectHudOwner(remaining.seat); return; }",
+      "owner": "updateHud",
+      "sourceContext": "if (remaining) { selectHudOwner(remaining.seat); return; }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "488",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 1030,
+          "column": 4
+        },
+        "end": {
+          "line": 1033,
+          "column": 5
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 1030,
+          "column": 4
+        },
+        "end": {
+          "line": 1033,
+          "column": 5
+        }
+      },
+      "sourceText": "if (!owner || owner.participation !== 'active' || owner.participantId !== recoveryBoardOwner.participantId || !charge || charge.ownerGeneration !== recoveryBoardOwner.ownerGeneration || charge.inventoryGeneration !== recoveryBoardOwner.inventoryGeneration) {\n      const page = recoveryBoard?.dataset.recoveryPage, target = recoveryBoard?.dataset.recoveryTarget;\n      discardRecoveryBoard(page === 'revival' && target ? `${target.toUpperCase()} can’t return safely yet. Revival kept.` : page === 'flare' ? 'The flock can’t regroup safely yet. Flare kept.' : 'Recovery choice changed. Choose again.');\n    }",
+      "owner": "updateHud",
+      "sourceContext": "if (!owner || owner.participation !== 'active' || owner.participantId !== recoveryBoardOwner.participantId || !charge || charge.ownerGeneration !== recoveryBoardOwner.ownerGeneration || charge.inventoryGeneration !== recoveryBoardOwner.inventoryGeneration) {\n      const page = recoveryBoard?.dataset.recoveryPage, target = recoveryBoard?.dataset.recoveryTarget;\n      discardRecoveryBoard(page === 'revival' && target ? `${target.toUpperCase()} can’t return safely yet. Revival kept.` : page === 'flare' ? 'The flock can’t regroup safely yet. Flare kept.' : 'Recovery choice changed. Choose again.');\n    }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "490",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 1032,
+          "column": 58
+        },
+        "end": {
+          "line": 1032,
+          "column": 122
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 1032,
+          "column": 27
+        },
+        "end": {
+          "line": 1032,
+          "column": 236
+        }
+      },
+      "sourceText": "`${target.toUpperCase()} can’t return safely yet. Revival kept.`",
+      "owner": "updateHud",
+      "sourceContext": "`${target.toUpperCase()} can’t return safely yet. Revival kept.`",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "490",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 1032,
+          "column": 125
+        },
+        "end": {
+          "line": 1032,
+          "column": 236
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 1032,
+          "column": 27
+        },
+        "end": {
+          "line": 1032,
+          "column": 236
+        }
+      },
+      "sourceText": "page === 'flare' ? 'The flock can’t regroup safely yet. Flare kept.' : 'Recovery choice changed. Choose again.'",
+      "owner": "updateHud",
+      "sourceContext": "page === 'flare' ? 'The flock can’t regroup safely yet. Flare kept.' : 'Recovery choice changed. Choose again.'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "491",
+      "arm": 0,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 1032,
+          "column": 27
+        },
+        "end": {
+          "line": 1032,
+          "column": 45
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 1032,
+          "column": 27
+        },
+        "end": {
+          "line": 1032,
+          "column": 55
+        }
+      },
+      "sourceText": "page === 'revival'",
+      "owner": "updateHud",
+      "sourceContext": "page === 'revival'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "491",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 1032,
+          "column": 49
+        },
+        "end": {
+          "line": 1032,
+          "column": 55
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 1032,
+          "column": 27
+        },
+        "end": {
+          "line": 1032,
+          "column": 55
+        }
+      },
+      "sourceText": "target",
+      "owner": "updateHud",
+      "sourceContext": "target",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "492",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 1032,
+          "column": 144
+        },
+        "end": {
+          "line": 1032,
+          "column": 193
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 1032,
+          "column": 125
+        },
+        "end": {
+          "line": 1032,
+          "column": 236
+        }
+      },
+      "sourceText": "'The flock can’t regroup safely yet. Flare kept.'",
+      "owner": "updateHud",
+      "sourceContext": "'The flock can’t regroup safely yet. Flare kept.'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "492",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 1032,
+          "column": 196
+        },
+        "end": {
+          "line": 1032,
+          "column": 236
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 1032,
+          "column": 125
+        },
+        "end": {
+          "line": 1032,
+          "column": 236
+        }
+      },
+      "sourceText": "'Recovery choice changed. Choose again.'",
+      "owner": "updateHud",
+      "sourceContext": "'Recovery choice changed. Choose again.'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "505",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 1048,
+          "column": 114
+        },
+        "end": {
+          "line": 1048,
+          "column": 186
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 1048,
+          "column": 24
+        },
+        "end": {
+          "line": 1048,
+          "column": 198
+        }
+      },
+      "sourceText": "document.activeElement.closest<HTMLElement>('[data-seat]')?.dataset.seat",
+      "owner": "updateHud",
+      "sourceContext": "document.activeElement.closest<HTMLElement>('[data-seat]')?.dataset.seat",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "508",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 1055,
+          "column": 12
+        },
+        "end": {
+          "line": 1056,
+          "column": 187
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 1055,
+          "column": 12
+        },
+        "end": {
+          "line": 1056,
+          "column": 187
+        }
+      },
+      "sourceText": "if (hudDetailsOpen) closeHudInspection();\n            else { hudInspectWasPlaying = displayedRunState() === 'playing'; hudDetailsOpen = true; hudDetailsPage = 0; if (hudInspectWasPlaying) { sessionPaused = true; game.pause(); } }",
+      "owner": "updateHud.callback@1050.callback@1053",
+      "sourceContext": "if (hudDetailsOpen) closeHudInspection();\n            else { hudInspectWasPlaying = displayedRunState() === 'playing'; hudDetailsOpen = true; hudDetailsPage = 0; if (hudInspectWasPlaying) { sessionPaused = true; game.pause(); } }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "510",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 1057,
+          "column": 19
+        },
+        "end": {
+          "line": 1057,
+          "column": 60
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 1057,
+          "column": 19
+        },
+        "end": {
+          "line": 1057,
+          "column": 60
+        }
+      },
+      "sourceText": "if (hudDetailsOpen) closeHudInspection();",
+      "owner": "updateHud.callback@1050.callback@1053",
+      "sourceContext": "if (hudDetailsOpen) closeHudInspection();",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "518",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 1077,
+          "column": 6
+        },
+        "end": {
+          "line": 1077,
+          "column": 166
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 1077,
+          "column": 6
+        },
+        "end": {
+          "line": 1077,
+          "column": 166
+        }
+      },
+      "sourceText": "if (focusSeat) queueMicrotask(() => seats.querySelector<HTMLButtonElement>(`[data-seat=\"${focusSeat}\"] .session-hud-identity`)?.focus({ preventScroll: true }));",
+      "owner": "updateHud",
+      "sourceContext": "if (focusSeat) queueMicrotask(() => seats.querySelector<HTMLButtonElement>(`[data-seat=\"${focusSeat}\"] .session-hud-identity`)?.focus({ preventScroll: true }));",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "565",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 1135,
+          "column": 93
+        },
+        "end": {
+          "line": 1135,
+          "column": 152
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 1135,
+          "column": 72
+        },
+        "end": {
+          "line": 1135,
+          "column": 195
+        }
+      },
+      "sourceText": "!hudInspectWasPlaying || !localSession?.canAct(hudSelected)",
+      "owner": "updateHud",
+      "sourceContext": "!hudInspectWasPlaying || !localSession?.canAct(hudSelected)",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "566",
+      "arm": 0,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 1135,
+          "column": 93
+        },
+        "end": {
+          "line": 1135,
+          "column": 114
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 1135,
+          "column": 93
+        },
+        "end": {
+          "line": 1135,
+          "column": 152
+        }
+      },
+      "sourceText": "!hudInspectWasPlaying",
+      "owner": "updateHud",
+      "sourceContext": "!hudInspectWasPlaying",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "566",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 1135,
+          "column": 118
+        },
+        "end": {
+          "line": 1135,
+          "column": 152
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 1135,
+          "column": 93
+        },
+        "end": {
+          "line": 1135,
+          "column": 152
+        }
+      },
+      "sourceText": "!localSession?.canAct(hudSelected)",
+      "owner": "updateHud",
+      "sourceContext": "!localSession?.canAct(hudSelected)",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "569",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 1136,
+          "column": 66
+        },
+        "end": {
+          "line": 1136,
+          "column": 314
+        }
+      },
+      "sourceText": "if (owner) { const character = characterById(owner.characterId); el('character-call').textContent = character.callLabel; el('character-call').setAttribute('aria-label', `Make ${owner.seat.toUpperCase()} ${character.name} ${character.callLabel}`); }",
+      "owner": "updateHud",
+      "sourceContext": "if (owner) { const character = characterById(owner.characterId); el('character-call').textContent = character.callLabel; el('character-call').setAttribute('aria-label', `Make ${owner.seat.toUpperCase()} ${character.name} ${character.callLabel}`); }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "601",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 1177,
+          "column": 53
+        },
+        "end": {
+          "line": 1177,
+          "column": 73
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 1177,
+          "column": 53
+        },
+        "end": {
+          "line": 1177,
+          "column": 73
+        }
+      },
+      "sourceText": "if (!item) continue;",
+      "owner": "updateRunPowers",
+      "sourceContext": "if (!item) continue;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-hud-reset-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "SOLO-01",
+        "ARCH-02",
+        "ARCH-03",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-04",
+        "RACE-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    }
+  ],
+  "hashes": {
+    "artifacts/release-coverage/semantic-current-03/raw-zero-review.json": "c8297f9591dcbe604c1ff06f2e67ca6575ac9570a94838dec747530dcfda5fc4",
+    ".planning/phases/07-release-evidence-pr/07-03-SCHEMA-RECOVERY-SEMANTIC-PROOF.json": "8a5bfe67e7b38a5b107cef1ab65e13a01131247c05265c0d68bd57e471a83a09",
+    "artifacts/release-coverage/current-full-05-proof/freeze.json": "c72459fff67275b20c5b67c1076d781f825a00cec405fada8743cb2f350111a3",
+    "tools/release-coverage/suites.json": "02e81d3e4320ed8a2d0901fd0eee532e051d1c0b27b606c011fedbc3674ab88d",
+    "tests/local-session-keyboard-runtime.mjs": "f81fe32e824c6a9b8b110fc11662f474813c303e0a21f781ab1aad0ecb7e2fe4",
+    "tests/local-session-gamepad-runtime.mjs": "a84c70fbe8a8ddc26b3f49c8eba27ec7232b76b776ff290ee977f14616af32f2",
+    "tests/local-session-audio-runtime.mjs": "9c2161a98a7ad109bfa91f8f569dd47d2bdb6ca4c3cb75b2fccf608e1490f3d5",
+    "tests/local-session-layout.mjs": "37fe0b0e8d1be7f46d87bd19f1940fc03bbf85a42659a663b3c98a6c5c2587e2",
+    "tests/survive-hud-controller-runtime.mjs": "b62f73522a64a3fd415247ab206aee42ed7e04fd2ce70d2338c5f52b05e4ad56",
+    "tests/relay-runtime.mjs": "dd3ef8ceb85169540fa7e9f4a75326f65046ff6caefd59ae7eab5185c65c5e82",
+    "tests/relay-layout.mjs": "572602213e6fa1739b521d839124e5a87675f737fa7fd5429320784b588f2b4a",
+    "tests/relay-lifecycle.test.mjs": "ef899341d353adceaed4f0c0695f9a6d3038c1b0a8cea9debbf3f0486491e2e4",
+    "tests/relay-results.test.mjs": "ad435a9d8be4c0056241c2299f203a6e5d2030b0c473bd1771c41d842efa89df",
+    "tests/survive-recovery-outcomes-runtime.mjs": "241c5fa920a984331f5f60bc5a7ef3bfa5dc3e517e496ece909f4ec84a6c5e2c",
+    "tests/survive-recovery-terminal.test.mjs": "f9150b94eb6afe1e9e18bb7143f8d7604b72954be285875a9b9de17e0009f658",
+    "tests/game-intents-runtime.mjs": "79a0cf587737fee110604fb8decaadcc2d502ab8a0d4504bcb1d5150ac8331c3",
+    "tests/preference-hydration-runtime.mjs": "a90ff159ca8b12c3f25b8edb76acb9ca9ba4dc32e6f8d5eb545d14bd6e11a92f",
+    "tests/devtools-runtime.mjs": "f5ae206fa13cdb3f44dd20bcccdc9d595d27b1e22bfd510f6c73894e45329f62",
+    "tests/turn-release.test.mjs": "2992d08f461282faf31c26bb52d3f5052f4e6864b91a1dd699a8c88b5415a56d",
+    "tests/turn-setup-retry.test.mjs": "ea459ee556b720e9e70709add65eae6efc1c52960b25e7a2b001cb5864a89a94",
+    "tests/health.test.mjs": "8160e8be1eaa247ed57681eb876fb8022a9700f3f3815996826ead0126c8330a",
+    "tests/character-powers.test.mjs": "487203a1b29fcfb9240b19d747cd21f065f6b35611b47c79c6373c398ad89eae",
+    "tests/sound.test.mjs": "aaea2311b7e3a0d8ea6f2af0d86147a78a9f9a53d6cbe9b21ddc7a38b385c069",
+    "tests/solo-parity.test.mjs": "8ae2428e461845ca2a1d8a1aad9f757122c4268bee10e4ef87ce7e9954e5439d",
+    "tests/render.test.mjs": "706d43e80f7944c591f9a604118f811d9ff02c55517e7e5868b3bf9ecdc0106c",
+    ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md": "340080fe0f9d4eeb88db3db1172a3e7c86962ec2218323b97e49a8e72ca524cb",
+    "artifacts/release-coverage/main-hud-reset-residual-11/verify.mjs": "b82958848081f959965d0a1d0a8f69366d58f465c52cb07c13f5a18facc137c5",
+    "src/main.ts": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+    "src/session.ts": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+    "src/session-input.ts": "e42c0af885310c699a275aa819c7d66d6902e20164db08cacacf5aee7017da9f",
+    "src/keyboard-input.ts": "8e0d6a152777a497ea35f0f9cb09428945909e9ff08573833178eeea6da7c5f8",
+    "src/relay.ts": "e789deca92e5e17ec683cbbd3103b9b9b3d3e726d6e36712fa5aec4c755c7f89",
+    "src/relay-ui.ts": "b775194505201a55cc8f4377051e508674ba965d8e6eabc23eb490f14a5267cd",
+    "src/game.ts": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+    "src/game-intents.ts": "91b86898fd198f2d208c881233d35367726a372a8c962e87b5310e7921b7cf0c",
+    "artifacts/release-coverage/main-hud-reset-residual-11/reference-audit.mjs": "e5aebffbae91353967cd6cb56d098e7aaa3e7826215936262f6a5ea041c4070e",
+    "artifacts/release-coverage/main-hud-reset-residual-11/reference-audit.log": "ae83c85d7de5dc0f92d60a9e354fea42cbf8194e0358bcfc3b05585d6b3f8f26",
+    "artifacts/release-coverage/main-hud-reset-residual-11/reference-audit.json": "961513cf53ba441d36a7cd01a2a6b42867436058244af5e1584cb4056ce61166"
+  }
+}

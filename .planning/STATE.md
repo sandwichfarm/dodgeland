@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Fresh full05 enforcing collection live; semantic audit remains active
-last_updated: "2026-10-18T01:44:48.376Z"
+last_updated: "2026-10-18T01:47:28.615Z"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,28 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Full05 live exec70321;19 controls/118 production jobs pass;survive-market-fresh-context active. Main owner/modal review adds97 counted cases;index605 reviewed/225 pending after main line650. All410 frozen inputs unchanged. Remaining audit,standalone scene cases,07-04/05/06 and PR remain.
+last_activity_desc: Full05 confirmed live exec70321;19 controls/126 production jobs pass;survive-recovery-board-layout active. Main651-1200 review adds76 counted cases;index681 reviewed/149 pending after1200. All410 frozen inputs unchanged. Remaining audit,standalone scene cases,07-04/05/06 and PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+Main feedback/handoff/reset/HUD review binds76 original zero arms at651–1200.
+Explicit consequence/behavior limits cover assigned calls/native movement,
+keyboard replacement,Relay tickets/connection/focus,shortcut lease lifetime,
+reset/intent feedback and HUD observation invalidation. Actual model/browser
+proof remains separate from wrapper guard hits;structural registrations are
+not declared unused from zero typed direct calls. DEV guards stay counted.
+Read-only159-source/20-target audit,21 registered behavior sources,all76 table
+identities and410 unchanged frozen paths verified. No new execution/hits/
+exclusion/floor/app change. Current-semantic-ledger-14 verifies681 reviewed/
+149 pending,18 existing witnesses and663 counted residuals. Remainingmain is
+after1200:setup/join/reclaim/native/menu/frame/boot.
+Full05 exec70321 confirmed live by actual poll;126 production jobs/19 controls
+pass,no failures observed;survive-recovery-board-layout active after primary-
+departure passed01:45:44UTC. Continue same chain. Remaining main review,
+standalone scene cases after terminal,07-04/05/06 and PR remain unfinished.
 
 Main owner/modal/router review binds97 original zeros through source line650.
 Explicit consequences and19 registered behavior sources distinguish live

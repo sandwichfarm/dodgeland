@@ -526,3 +526,20 @@ remain applicable despite no directly resolved call,e.g.selectNextHudOwner.
 12-target audit,19 registered behavior sources and410 unchanged frozen paths.
 All97 table identities accounted for;all remain counted. No new execution,hits,
 exclusion or floor change. Current partial index605 reviewed/225 pending inmain.
+
+## Main handoff,feedback,reset and HUD conditions
+
+**SOLO-01,ARCH-02/03,INPUT-02/03/04/05,COOP-03/04/05,ITEM-03/04/05,
+RELAY-02/03/04/05,RACE-04/05,UI-02/03/04/05/06,TEST-01/02/03/04/05.**
+Seventy-six original main zero arms at651–1200 now have explicit consequence/
+behavior dispositions for assigned calls and movement,keyboard replacement,
+Relay tickets/focus/connection routing,late shortcut leases,reset callbacks,
+intent feedback and mutable HUD observations. None creates a player grant or
+changes a frozen result. Structural registrations remain applicable despite
+zero direct typed calls. DEV-only guards remain counted globally without new
+source scope.
+[Review](07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md) and
+[proof](07-03-MAIN-HUD-RESET-RESIDUAL-PROOF.json) bind76 exact table sites,
+159-source/20-target audit,21 registered behavior sources and410 unchanged
+frozen paths. No execution,hits,exclusion,floor or product changes. Current
+partial index681 reviewed/149 pending;remainingmain is after1200.
