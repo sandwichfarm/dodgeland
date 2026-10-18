@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Fresh full05 enforcing collection live; semantic audit remains active
-last_updated: "2026-10-18T01:17:48.208663+00:00"
+last_updated: "2026-10-18T01:19:54.152515+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,24 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Partial current semantic index208 reviewed/622 pending of830 retained raw zero arms:18 existing witnesses/190 counted residuals. Fresh159-file2-target router context flow revalidated;all410 freeze hashes unchanged. Full05 live exec70321;Race layout passed,production continues. No final gate/PR.
+last_activity_desc: Full05 verified live exec70321/PID1821:19 controls/76 production jobs pass;relay-layout active after01:19:07. All410 frozen paths unchanged. Current semantic208 reviewed/622 pending with18 existing witnesses/190 counted residuals. Separate scene cases,remaining semantic audit,07-04/05/06/PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+Latest verified full05 checkpoint:exec70321 still running,parent1821;
+19 executable controls and76 production jobs passed;relay-layout active after
+relay-boundary-test passed at01:19:07UTC. All410 frozen source/test/tool/config/
+build/lock paths rehashed withzero changes. Current semantic index is committed
+at50dc071:208 reviewed/622 pending of830 retained current-full zero arms,
+18 existing positive witnesses and190 counted residuals. No new execution or
+coverage credit from source review. Repository code/tests/tools remain frozen.
+Continue/poll this same live chain before any other test/build/report;never
+restart due to an observation timeout. After terminal full collection,run the
+two explicitly pending standalone market-scene cases. Remaining semantic audit,
+full enforcement result,07-04/05/06 and opening the PR are still required.
 
 CURRENT-SEMANTIC-INDEX now partitions830 original current-source zero arms:
 208 reviewed,622 pending. Eighteen have existing later passing-cohort witnesses;
