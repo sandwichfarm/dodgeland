@@ -20,6 +20,14 @@ const sources=Object.values(inventory).map(row=>({path:row.path,source:row.sourc
 const gamepad=sources.find(row=>row.path.endsWith('/gamepad.ts')),mode=BROWSER_STRATUM;
 const line=fragment=>{const offset=gamepad.source.indexOf(fragment);assert.ok(offset>=0);return gamepad.source.slice(0,offset).split('\n').length;};
 const functionIds=fragment=>{const at=line(fragment),ids=Object.entries(gamepad.coverage.fnMap).filter(([,site])=>site.decl.start.line===at).map(([id])=>id);assert.ok(ids.length,fragment);return ids;};
+test('production application uses the same bounded construction proof and rejects every excluded positive site',()=>{
+ const ds=browserApplicabilityDispositions({mode,sources}),added=ds.filter(d=>d.authority.endsWith('07-03-APPLICATION-CONSTRUCTION-CLOSURE.md'));assert.ok(added.length>20);
+ for(const kind of ['statement','function','branch'])assert.ok(added.some(d=>d.kind===kind),kind);
+ for(const d of added){const hits=structuredClone(attributed);if(d.kind==='branch')hits[d.path].b[d.id][d.arm]=1;else hits[d.path][d.kind==='statement'?'s':'f'][d.id]=1;assert.throws(()=>reportApplicability({mode,sources,attributed:hits,dispositions:ds}),/contradicted/);}
+ const positive=structuredClone(sources);for(const s of positive){for(const key of ['s','f'])for(const id of Object.keys(s.coverage[key]))s.coverage[key][id]=123;for(const id of Object.keys(s.coverage.b))s.coverage.b[id]=s.coverage.b[id].map(()=>123);}assert.deepEqual(browserApplicabilityDispositions({mode,sources:positive}),ds);
+ const source=sources.find(s=>s.path.endsWith('/session.ts')),at=source.source.slice(0,source.source.indexOf('commitAdmission(admission:')).split('\n').length,changed=structuredClone(sources),row=changed.find(s=>s.path===source.path),loc={start:{line:at+1,column:4},end:{line:at+1,column:8}};
+ row.coverage.branchMap['future-construction']={type:'future-branch',loc,locations:[loc]};row.coverage.b['future-construction']=[0];assert.equal(browserApplicabilityDispositions({mode,sources:changed}).some(d=>d.id==='future-construction'),false);
+});
 test('browser projection excludes only legacy instance/private helpers and retains factory/transport/parser',()=>{
  const before=structuredClone(sources),dispositions=browserApplicabilityDispositions({mode,sources}),excluded=new Set(dispositions.filter(d=>d.path===gamepad.path&&d.kind==='function').map(d=>d.id));
  for(const fragment of['function pressed(','function directionOf(','constructor(private readonly actions','receive(state: GamepadState','private seed():'])for(const id of functionIds(fragment))assert.ok(excluded.has(id),fragment);

@@ -19,6 +19,36 @@ const sources=Object.values(inventory).map(r=>({path:r.path,source:r.source,map:
 const attributed=Object.fromEntries(sources.map(s=>[s.path,structuredClone(s.coverage)]));
 const args={mode:'development',sources,authoritySources,canonicalSources:authoritySources,configSources};
 const line=(s,fragment)=>{const n=s.source.indexOf(fragment);assert.ok(n>=0,fragment);return s.source.slice(0,n).split('\n').length;};
+test('application-owned staging and constant solo coin ownership retain evaluated guards and real failures',()=>{
+ const ds=dispositions(args),session=sources.find(s=>s.path.endsWith('/session.ts')),game=sources.find(s=>s.path.endsWith('/game.ts'));
+ const reference='07-03-APPLICATION-CONSTRUCTION-CLOSURE.md',added=ds.filter(d=>d.authority.endsWith(reference));assert.ok(added.length>20);
+ for(const[source,fragment]of [[game,'if (pickupOwner && pickupOwner !== sessionSeat)'],[game,'if (sessionSeat) this.world.pickupOwners.set(rewardLane.index, sessionSeat);'],[session,"if (spawn === undefined) throw new Error('No safe distinct seat"]]){
+  const at=line(source,fragment),branch=Object.entries(source.coverage.branchMap).find(([,b])=>b.type==='if'&&b.loc.start.line===at);assert.ok(branch,fragment);
+  assert.ok(added.some(d=>d.path===source.path&&d.kind==='branch'&&d.id===branch[0]&&d.arm===0),fragment);
+  assert.equal(ds.some(d=>d.path===source.path&&d.kind==='branch'&&d.id===branch[0]&&d.arm===1),false,'actual false outcome '+fragment);
+  const guards=Object.entries(source.coverage.statementMap).filter(([,s])=>s.start.line===at);assert.ok(guards.some(([id])=>!ds.some(d=>d.path===source.path&&d.kind==='statement'&&d.id===id)),'evaluated guard retained');
+ }
+ for(const fragment of ['constructor(world: SharedWorld, seat:','static stage(game:','constructor(readonly game:']){
+  const at=line(session,fragment),branches=Object.entries(session.coverage.branchMap).filter(([,b])=>b.type==='default-arg'&&b.loc.start.line===at);assert.ok(branches.length,fragment);
+  for(const[id]of branches)assert.ok(added.some(d=>d.path===session.path&&d.kind==='branch'&&d.id===id),fragment);
+ }
+ for(const fragment of ["if (!plan || !session.admitPlan(plan, false, false))",'if (new Set(roster.map(spec => spec.seat))']){
+  const at=line(session,fragment),guards=Object.entries(session.coverage.statementMap).filter(([,s])=>s.start.line===at);assert.ok(guards.length);
+  for(const[id]of guards)assert.equal(added.some(d=>d.path===session.path&&d.kind==='statement'&&d.id===id),false,'live admission/terrain/validation remains counted');
+ }
+ const liveAt=line(session,'private admitPlan('),liveRoots=Object.entries(session.coverage.fnMap).filter(([,f])=>f.decl.start.line===liveAt);assert.ok(liveRoots.length);for(const[id]of liveRoots)assert.equal(added.some(d=>d.path===session.path&&d.kind==='function'&&d.id===id),false,'live admission method stays counted');
+ for(const[id,b]of Object.entries(session.coverage.branchMap).filter(([,b])=>b.type==='default-arg'&&b.loc.start.line===liveAt))for(let arm=0;arm<b.locations.length;arm++)assert.equal(added.some(d=>d.path===session.path&&d.kind==='branch'&&d.id===id&&d.arm===arm),false,'actual live start/emit defaults retained');
+ const wrapper=line(session,'commitAdmission(admission:'),root=Object.entries(session.coverage.fnMap).find(([,f])=>f.decl.start.line===wrapper);assert.ok(root);assert.ok(added.some(d=>d.path===session.path&&d.kind==='function'&&d.id===root[0]));
+});
+
+test('application construction proof rejects each positive excluded site and keeps scope independent of counters',()=>{
+ const ds=dispositions(args),added=ds.filter(d=>d.authority.endsWith('07-03-APPLICATION-CONSTRUCTION-CLOSURE.md'));assert.ok(added.length>20);
+ for(const kind of ['statement','function','branch'])assert.ok(added.some(d=>d.kind===kind),kind);
+ for(const d of added){const hits=structuredClone(attributed);if(d.kind==='branch')hits[d.path].b[d.id][d.arm]=1;else hits[d.path][d.kind==='statement'?'s':'f'][d.id]=1;assert.throws(()=>reportApplicability({mode:'development',sources,attributed:hits,dispositions:ds}),/contradicted/);}
+ const positive=structuredClone(sources);for(const s of positive){for(const key of ['s','f'])for(const id of Object.keys(s.coverage[key]))s.coverage[key][id]=123;for(const id of Object.keys(s.coverage.b))s.coverage.b[id]=s.coverage.b[id].map(()=>123);}assert.deepEqual(dispositions({...args,sources:positive}),ds);
+ const session=sources.find(s=>s.path.endsWith('/session.ts')),at=line(session,'commitAdmission(admission:'),cross={start:{line:at-1,column:0},end:{line:at+2,column:0}},changed=structuredClone(sources),row=changed.find(s=>s.path===session.path);
+ row.coverage.branchMap['cross-construction']={type:'cond-expr',loc:cross,locations:[cross,{start:{},end:{}}]};row.coverage.b['cross-construction']=[0,0];assert.equal(dispositions({...args,sources:changed}).some(d=>d.id==='cross-construction'),false);
+});
 test('DEV keeps successful built-in validation and rejects every excluded failure hit or stale compiled caller',()=>{
  const rules=sources.find(s=>s.path.endsWith('/mode-rules.ts')),ds=dispositions(args),selected=ds.filter(d=>d.path===rules.path);
  assert.ok(selected.length>20);assert.ok(selected.every(d=>d.authority.endsWith('07-03-APP-BUILTIN-RULE-CLOSURE.md')));
