@@ -1,6 +1,6 @@
 {
   "status": "running-not-accepted",
-  "observedAt": "2026-10-18T06:54:32.233372+00:00",
+  "observedAt": "2026-10-18T07:04:37.478539+00:00",
   "runId": "56748255-a473-4788-953e-484abc34a082",
   "directory": "artifacts/release-final/56748255-a473-4788-953e-484abc34a082",
   "sessionId": 96020,
@@ -72,13 +72,13 @@
   "coverageObservation": {
     "runId": "c39c0fee-a277-47ec-b276-95f5e6b26932",
     "terminalControls": 19,
-    "terminalProduction": 171,
+    "terminalProduction": 180,
     "nonzeroTerminalJobs": 0,
     "expectedProduction": 182,
     "enforcementTerminal": false
   },
   "frozenInputsVerified": 417,
-  "parentObservation": "PID STAT  ELAPSED COMM\n13528 Ss   01:57:19 node",
+  "parentObservation": "PID STAT  ELAPSED COMM\n13528 Ss   02:07:24 node",
   "closedPayloadCompression": {
     "purpose": "Independent verification of lossless final batch01 completed-payload compression;no execution/counter/source change",
     "runId": "c39c0fee-a277-47ec-b276-95f5e6b26932",
@@ -214,6 +214,35 @@
           "artifacts/release-final-launch-02/storage-maintenance/compress-closed-final-04.py": "bafe9f8b4e6266590f70985544876aab9ac7cf52ada647786836cc80a2c0c702",
           "artifacts/release-final-launch-02/storage-maintenance/compress-closed-final-04.log": "1bc62e104ac7da2b1802336ca72e1036f13235a51e707f7c52f4a996a199358d",
           "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final-launch-02/storage-maintenance/verify-closed-final-04.py": "89da7a8d52b8d521c9e1694183b8db0f5150bee8803637d38898dcfccd70eeeb",
+          "artifacts/release-final-launch-02/launch.json": "0ba7802c573979a1575e951e4d0bc5f8ff92288adb704a438b9848e5abcb1fd1"
+        }
+      },
+      "noTimedWorkerSuspended": true
+    },
+    {
+      "proofPath": "artifacts/release-final-launch-02/storage-maintenance/closed-final-05-verified.json",
+      "sha256": "edf160bfee620b08fd488eccf94b5d503ad6f557ad0267d9d2fa252cae9f3ef9",
+      "proof": {
+        "purpose": "Independent verification of lossless final batch05 completed-payload compression;no execution/counter/source change",
+        "runId": "c39c0fee-a277-47ec-b276-95f5e6b26932",
+        "completedJobsAtSelection": 180,
+        "payloadsReverified": 63,
+        "originalLedgerBytesSavedBeforeSelection": true,
+        "originalLedgerShaMatches": true,
+        "currentAppendOnlyPrefixMatchesOriginal": true,
+        "frozenFilesVerified": 417,
+        "sourceFreezeChanges": [],
+        "activeOutputsUntouched": true,
+        "allocatedBytesSaved": 289984512,
+        "observedFreeBytesBefore": 2111569920,
+        "observedFreeBytesAfter": 2401660928,
+        "freeSpaceLimit": "Shared volume changes independently;per-file allocation savings are separate from whole-volume free-space movement",
+        "hashes": {
+          "artifacts/release-final-launch-02/storage-maintenance/closed-final-5438cb5203bf425d806167cc4b2095fa.json": "5db6ba792e0336a620d77ee40a64e163c312d5b55fb539c7dae1adaf45361375",
+          "artifacts/release-final-launch-02/storage-maintenance/closed-final-5438cb5203bf425d806167cc4b2095fa.ledger-snapshot.json": "e768b7c8b2beae63e866c6b494ea0d1a3aa8dfcc1fbecde6f4f63fe49a1bde04",
+          "artifacts/release-final-launch-02/storage-maintenance/compress-closed-final-05.py": "bafe9f8b4e6266590f70985544876aab9ac7cf52ada647786836cc80a2c0c702",
+          "artifacts/release-final-launch-02/storage-maintenance/compress-closed-final-05.log": "96ed92a113a0b988b5a7f5d480c0177fb978a99b1a963428952669afd5d3a109",
+          "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final-launch-02/storage-maintenance/verify-closed-final-05.py": "f234f32a29b16fc8781aeb4e53b7d6d8f9ca4b7ce149e46298d90ed42c17c4fd",
           "artifacts/release-final-launch-02/launch.json": "0ba7802c573979a1575e951e4d0bc5f8ff92288adb704a438b9848e5abcb1fd1"
         }
       },

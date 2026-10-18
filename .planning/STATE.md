@@ -28,8 +28,8 @@ artifact, immutable root lock/oracle and inherited phase6 runner are unchanged.
 Latest observation: inherited-phase6 and calibration stages both terminal0.
 Fresh coverage run c39c0fee-a277-47ec-b276-95f5e6b26932 is active;Race layout10/10,
 results44/44 and runtime17/17 all passed,including repaired earned-market route.
-River reward development checks are active;all19 controls
-and171 production jobs passed so far,0 failed. See07-06-RUNNING-02 for actual stage
+Solo reward journey checks are active;all19 controls
+and180 production jobs passed so far,0 failed. See07-06-RUNNING-02 for actual stage
 receipts and current PID observation. Closed-payload compression batch01 saved
 344903680bytes;119 payloads independently reverified byte-identical,all417
 frozen inputs unchanged. Timed workers were never suspended in this run.
@@ -38,6 +38,8 @@ independent verifier confirmed exactbytes/ownership/prefix and417frozen inputs.
 Batch03 saved426643456bytes from50 additional closed passed payloads;independent
 verification again confirms exactbytes,ownership,ledger prefix and417inputs.
 Batch04 saved1190137856bytes from64 additional terminal-owned payloads;all
+bytes/ownership/ledger prefix and417inputs independently reverified unchanged.
+Batch05 saved289984512bytes from63 additional terminal-owned payloads;all
 bytes/ownership/ledger prefix and417inputs independently reverified unchanged.
 No active outputs,normal build,source or user processes were changed.
 Revalidate actual same handle/PID and never restart merely for silence.
