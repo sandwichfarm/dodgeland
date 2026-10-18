@@ -1,0 +1,113 @@
+{
+  "commandId": "clause-delivery-preflight-01",
+  "createdAt": "2026-10-18T03:14:29.121565+00:00",
+  "terminalExit": 0,
+  "commands": [
+    {
+      "argv": [
+        "git",
+        "branch",
+        "--show-current"
+      ],
+      "terminalExit": 0,
+      "stdout": "feat/local-multiplayer\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "cat-file",
+        "-t",
+        "a310a81ed6c76df4b265c9012c23b8c83f4802e5"
+      ],
+      "terminalExit": 0,
+      "stdout": "commit\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--exit-code",
+        "a310a81ed6c76df4b265c9012c23b8c83f4802e5",
+        "--",
+        "pnpm-lock.yaml"
+      ],
+      "terminalExit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "branch": "feat/local-multiplayer",
+  "oracleType": "commit",
+  "rootLockHash": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "gsdSummaryCount": 43,
+  "gsdArtifacts": {
+    ".planning/ROADMAP.md": "d692efdaed23cac846fe6ac27df6b97caad8edd3d87cd5632e36fa1bb30c134e",
+    ".planning/STATE.md": "c822ce79314c4174a0bea5b2970f5b0b72418beaee7105efdec631555fecb821",
+    ".planning/USER-REQUEST.md": "abf7219607ecd3e3933cd7b31d681c2ef937990fd126337dc065e57a288dac75",
+    ".planning/REQUIREMENTS.md": "c05ae02cd64e7f16846e51c64cc57844c80c44ed34eeb287881cdce83fabfa1a",
+    ".planning/phases/01-composable-solo-baseline/01-02-SUMMARY.md": "23f96bfc70b609e32c341cb29b8037beba7e0c60d086145fda8680a3fb2c7c45",
+    ".planning/phases/01-composable-solo-baseline/01-01-SUMMARY.md": "fded5d4ca6ea0ab9dfb0ab30cd8bdfeaadded8b43072ed80c4e4b581e524c2bc",
+    ".planning/phases/01-composable-solo-baseline/01-04-SUMMARY.md": "3b90ab7612f830d1d43079f08c8bf763b7fd4bb884e4b2e5856f5bb9e6aad430",
+    ".planning/phases/01-composable-solo-baseline/01-03-SUMMARY.md": "46813cdc6268fe346966afb3fe65311169acce76fdd77bb0907b309d850554b8",
+    ".planning/phases/07-release-evidence-pr/07-03-SUMMARY.md": "5fd4b977698f761ebeb5092140d54777612feb4f94096daf3a299937a6cfa976",
+    ".planning/phases/07-release-evidence-pr/07-12-SUMMARY.md": "f2ff81af4d5a2103470313628e7dd23054435f4dec36b81ae8c50940f2d780ca",
+    ".planning/phases/07-release-evidence-pr/07-01-SUMMARY.md": "67e94ab0b1e327cca70d207968aba96e85c153a129a7228ea6da00bbe0075adb",
+    ".planning/phases/07-release-evidence-pr/07-10-SUMMARY.md": "34babbc8d6e0bcf0cd2226779745eb98c2e172bfaf745dce218ec03b87489c6f",
+    ".planning/phases/07-release-evidence-pr/07-09-SUMMARY.md": "822cd575680bdd1bb32166fd2804b819edf87645f4a9c63c649ed9683a4d72b7",
+    ".planning/phases/07-release-evidence-pr/07-04-SUMMARY.md": "386fd0ab8453fd8d008f0d278e44a289406bef14c6a83830b64d9978b642348a",
+    ".planning/phases/07-release-evidence-pr/07-07-SUMMARY.md": "daa9bc2386b1897978d647431314f014458f3c445caf6c44ae06e89f8db2ff1c",
+    ".planning/phases/07-release-evidence-pr/07-02-SUMMARY.md": "108feb0e08cd19967feee3adaee03d9a8c4fa2a37f11ed16cbd6429a6cb410f2",
+    ".planning/phases/07-release-evidence-pr/07-08-SUMMARY.md": "a3616ed5c9beae428c989d4dbf1b659c6767a8a5fe83481d2ddc717cad76faec",
+    ".planning/phases/07-release-evidence-pr/07-11-SUMMARY.md": "654e0bc1b3436348db52f848d2a7e15615a861a1db79a519fe803154e4f22143",
+    ".planning/phases/05-race/05-05-SUMMARY.md": "fdc746a857becc7e0412b677596add34767accb0b85f41002a80a21ff0fd287d",
+    ".planning/phases/05-race/05-07-SUMMARY.md": "659a8ef15270ffd705205e9e95c16eb2de8fe322361f19b1b9d6c2e77e019816",
+    ".planning/phases/05-race/05-02-SUMMARY.md": "f3b0d87e525d973ce188ec5ee16e39d94325f617b807f5055bdcd05bfd7ff583",
+    ".planning/phases/05-race/05-01-SUMMARY.md": "ca0b965863fdb385d78b338c868f8b3a93abfb216483c30f6f6280937adde3f6",
+    ".planning/phases/05-race/05-04-SUMMARY.md": "977f69d90fd7f0d7d4a3bb34cdbe0a07ecd04574d81a70f00a322fa29bf785dd",
+    ".planning/phases/05-race/05-03-SUMMARY.md": "28b2df9f1ffe37d063f3266ecb8c8464e3a420ead2f65ca86de15c56ec4138b5",
+    ".planning/phases/05-race/05-06-SUMMARY.md": "f53973b3a9ee21203147c71b799b7965ea885fb7906b444dbdcd235961c20958",
+    ".planning/phases/03-survive-together-consumables/03-03-SUMMARY.md": "a9a6b9600f75d28dfc2e5e52c9c62f3ac9dfcae14a1fa95e3cb1c60937c5eae5",
+    ".planning/phases/03-survive-together-consumables/03-06-SUMMARY.md": "fc61ccb61e6bbf16a7b2651a4396725675965cae51259799d6edaa3651d8ba0a",
+    ".planning/phases/03-survive-together-consumables/03-01-SUMMARY.md": "444b9444580b9c484bc459cb658a30b1fde3e4c4fd39894cdd89969386848f36",
+    ".planning/phases/03-survive-together-consumables/03-04-SUMMARY.md": "04339824539f5d181264df0c67d1c0e444d25ed41be07846184bb4fbb9811ad2",
+    ".planning/phases/03-survive-together-consumables/03-07-SUMMARY.md": "8c3c38b3cb36d79e88f01ec5d724ec83d44dde6b5487eb7dff2d7445ce807701",
+    ".planning/phases/03-survive-together-consumables/03-02-SUMMARY.md": "cf54561667aff4c4991a9974280a9c9471c4ba876b6ccf7e2f8c227fda79a013",
+    ".planning/phases/03-survive-together-consumables/03-08-SUMMARY.md": "dda1a34d62b51e5244d8317475d4a794f335f2d5f7f94eb2ea2bdd0b3d001539",
+    ".planning/phases/03-survive-together-consumables/03-05-SUMMARY.md": "0aa4ea0afb5c23e2bf86e99aa0a2eb762660fe42d0ea818e4400d7688ffcb434",
+    ".planning/phases/02-shared-local-session/02-05-SUMMARY.md": "0713e563d016417fe511554a626ca0111f976ef4240fe645362f948bc7b24017",
+    ".planning/phases/02-shared-local-session/02-02-SUMMARY.md": "33643a3a7bbe858b3049ba17bb5dde16a0c67db7330d8b0bb4406965839db012",
+    ".planning/phases/02-shared-local-session/02-04-SUMMARY.md": "6ee97912d312d54e4b5668175de5a82ebd4420542dbfe64393c673b5286f0740",
+    ".planning/phases/02-shared-local-session/02-01-SUMMARY.md": "d21bf8dd8ed241661fdcb9f859ffa3c6a764fe16be31ec92d6e827df103cc229",
+    ".planning/phases/02-shared-local-session/02-06-SUMMARY.md": "5bae2fc3ec0c9028e505251a9fc24d442b21e18c7def01e79216de1f835b7483",
+    ".planning/phases/02-shared-local-session/02-03-SUMMARY.md": "039650324a033a92126ab186f03a27b2985cd7ebce0305ad3e327812c12398a0",
+    ".planning/phases/06-cross-mode-presentation/06-02-SUMMARY.md": "3166b3372abe5589962a9dd5e1163b22a463a64f18e277672d0da8310d97c738",
+    ".planning/phases/06-cross-mode-presentation/06-01-SUMMARY.md": "c8a9f77196244a6312f59bcc8ba7aa38f557b2071412c0f6bc6e5626a674b92b",
+    ".planning/phases/04-relay/04-06-SUMMARY.md": "aaec5777538bb17e923fc08b2f8f471b67f9660c5a301ca3129a76f35b4f6d4e",
+    ".planning/phases/04-relay/04-03-SUMMARY.md": "95aa25a62d67700018d3137ec4bbe4a1d9bf549e1b83c4644a6abfd26e661859",
+    ".planning/phases/04-relay/04-04-SUMMARY.md": "bbbaa598403cf6e6886fb12a9ff56ff436016f2f75d03052e29798ad2da63100",
+    ".planning/phases/04-relay/04-01-SUMMARY.md": "df154e2f0b5cd1c90e66cd6db34edbf7080af6c902135fb188bb28c1e75b5302",
+    ".planning/phases/04-relay/04-02-SUMMARY.md": "bc15ca9877169153bcd7d7b62627cf4758c60fba6ebf8fadd38bf2aa7b5561a1",
+    ".planning/phases/04-relay/04-05-SUMMARY.md": "272bbb4ad6728532db505c1d767e7898745f92283e8cea8c5c0d91dc25a92c82"
+  },
+  "userAcceptance": {
+    "received": true,
+    "date": "2026-10-16",
+    "uatHashes": {
+      ".planning/phases/05-race/05-UAT.md": "b94c66c2e669486ee8e5dbcd1fc6251d8b6e763ad34662e126287e0848bd2fe9",
+      ".planning/phases/06-cross-mode-presentation/06-UAT.md": "6657ea79137c7453a610587294fab06a9aab9037876110a5b86f4db80680cb6e"
+    }
+  },
+  "security": {
+    "rootClosureCommit": "cd1a05c",
+    "records": {
+      ".planning/phases/05-race/05-SECURITY.md": "6649cdb28db7b5508135b778ab783ff150feeb6cb3d12aca0a9fd6e753089188",
+      ".planning/phases/06-cross-mode-presentation/06-SECURITY.md": "ff9867184905a1caa567e1a3f34d2d30e0c9be36ffb0882fbd877cb46d7b0ac3"
+    }
+  },
+  "limits": [
+    "No actual PR exists in this receipt;SHIP-01 remains pending",
+    "Earlier technical acceptance/security records are not a new physical-hardware audit"
+  ]
+}

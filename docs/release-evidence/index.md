@@ -1,7 +1,7 @@
 # Multiplayer release evidence
 
-The normal-build visual matrix and supplemental conformance are verified. The
-complete original-clause audit, final canonical release gate and actual open PR
+The normal-build visual matrix, supplemental conformance andcomplete original
+clause audit are verified. The final canonical release gate andactual open PR
 remain pending. No release-completion claim is made.
 
 ## Visual proof
@@ -54,11 +54,15 @@ supplement:6 passed/4 unmeasured. No signing or publication occurred.
 their named actual passing cases, terminal ledger and unchanged410-input freeze.
 These coverage jobs execute instrumented production/development builds or compiled
 modules;their exact executed identities are separate from the normal companion
-artifact. These receipts do not substitute for the pending semantic clause audit.
+artifact. The [clause map](clauses.json) retains the original compound
+obligations andbinds them to684 distinct passing job/case references across77 jobs.
+[Measured visual integrity](visual-integrity.json) is independent of instrumented
+coverage. [Semantic review](../../.planning/phases/07-release-evidence-pr/07-05-CLAUSE-REVIEW.md)
+retains accepted lifecycle/results policy andexplicit hardware/protocol limits.
 
 ## Remaining release work
 
-Complete51 original-clause and47 requirement rows with each compound obligation,
-then run the unchanged inherited gate plus calibrated additive release checks.
+All51 original-clause and47 requirement rows are present;only the SHIP/PR rows
+remain pending. Run the unchanged inherited gate plus calibrated additive checks.
 Open and verify the actual PR against main after those pass. Human presentation
 acceptance was already received2026-10-16;physical hardware remains unmeasured.

@@ -195,7 +195,7 @@ Plans:
 - [x] 07-12-PLAN.md — Collect audio jobs, reconcile full inventory and produce valid attributed initial report.
 - [x] 07-03-PLAN.md — Close meaningful measured coverage and behavioral gaps.
 - [x] 07-04-PLAN.md — Measure scoped wire, teardown and current-manifest conformance.
-- [ ] 07-05-PLAN.md — Commit current visual proof and complete original-clause traceability.
+- [x] 07-05-PLAN.md — Commit current visual proof and complete original-clause traceability.
 - [ ] 07-06-PLAN.md — Run unchanged inherited plus additive gates and open the authorized PR.
 
 ## Progress

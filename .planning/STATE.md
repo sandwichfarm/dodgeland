@@ -3,21 +3,36 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-05 Tasks1/2 complete;94 images and8 sheets verified/inspected;clause audit next
-last_updated: "2026-10-18T03:13:07.577934+00:00"
+stopped_at: 07-05 complete;51-clause/47-requirement audit verified;07-06 final gate andPR next
+last_updated: "2026-10-18T03:24:51.553008+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
   total_plans: 45
-  completed_plans: 43
+  completed_plans: 44
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: 07-05 Tasks1/2 complete;actual94 normal images,8 sheets,10unit controls,full inspection;Task3 clause audit then final gate/PR remain.
+last_activity_desc: 07-05 complete;all51original clauses/47requirements mapped,684distinct positive job/cases,94normal images/8sheets inspected;only07-06 final chain andactual PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+07-05 is complete:51 verbatim original rows and47requirements,684 distinct
+positive job/case references across77 actual full05 jobs,plus measured coverage/
+conformance/visual/branch receipts. OnlySHIP-01 andexact PR Opened row pending.
+Fresh72182normal acquisition exits0 with94images/8sheets/42live HUD geometries;
+source includes final-runner modules andthe executable docs/mode-rules example.
+Changed7sheets/3critical full-size images actually reopened;other inspectedbytes
+rehash identical. Units12/12 andfull --check/--check-clauses pass. Root actual
+user acceptance/security closure retained. Primary NIPreference rechecked03:18,
+same5560820head;durable docs/release-evidence/reference defaults forfinalrunner.
+07-06 modules prepared from preserved draft;controlled subprocess units7/7pass
+(no app acceptance),but actual calibration-only/full chain still pending. Commit
+technical inputs,then exact07-06 controls/calibration/full chain.44/45plans.
+No browser/test/build chain remains live at this checkpoint. Older paragraphs
+below are dated lineage,superseded here. No goal/phase completion orPR claimed.
 
 07-05 Tasks1/2 are complete. Actual32475exit0 acquires94 normal-build images and
 8 sheets;90 required cells present. --check,units10/10,guidance all0. All eight

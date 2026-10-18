@@ -145,6 +145,11 @@ export function validateClauseRows(document, { inventory, sourceHashes, executio
           digest(execution.testSourceHash); digest(execution.artifactHash);
           assert.ok(['public-input', 'component-model', 'arranged-layout', 'supplemental-protocol'].includes(execution.kind));
           assert.ok(Array.isArray(execution.cases) && execution.cases.length > 0); execution.cases.forEach(nonempty);
+          if (document.caseReferencesRequired) {
+            const selected = obligation.caseRefs?.[id];
+            assert.ok(Array.isArray(selected) && selected.length > 0, 'Each behavioral obligation needs named executed assertions');
+            for (const name of selected) assert.ok(execution.cases.includes(name), `Unexecuted case reference ${name}`);
+          }
         }
         assert.ok(Array.isArray(obligation.visualIds));
         for (const id of obligation.visualIds) assert.ok(captureMap.has(id), `Unknown visual ${id}`);
@@ -155,6 +160,27 @@ export function validateClauseRows(document, { inventory, sourceHashes, executio
   }
   return { originalClauses: document.originalClauses.length, requirements: document.requirements.length,
     pendingShip, limit: 'Inventory/reference integrity;human semantic review and source/terminal verification remain necessary' };
+}
+
+export async function verifyMeasuredExecution(execution, readReceipt) {
+  assert.equal(execution.kind, 'measured-command');
+  const bytes = await readReceipt(execution.receiptPath);
+  assert.equal(sha(bytes), execution.receiptSha256, 'Measured receipt bytes changed');
+  const receipt = JSON.parse(bytes);
+  for (const binding of execution.sourceBindings ?? []) assert.equal(sha(await readReceipt(binding.path)), binding.sha256, `Stale measured source ${binding.path}`);
+  const at = path => {
+    assert.ok(Array.isArray(path) && path.length > 0);
+    let value = receipt;
+    for (const key of path) { assert.ok(value !== null && typeof value === 'object' && Object.hasOwn(value, key), `Missing receipt field ${key}`); value = value[key]; }
+    return value;
+  };
+  assert.equal(execution.terminalExit, 0); assert.equal(at(execution.terminalPath), 0, 'Actual measured command did not succeed');
+  assert.ok(execution.assertions.length > 0);
+  for (const assertion of execution.assertions) {
+    assert.deepEqual(at(assertion.receiptPath), assertion.actual, 'Assertion must be read from the literal receipt');
+    assert.deepEqual(assertion.actual, assertion.expected, assertion.name);
+  }
+  return true;
 }
 
 const root = resolve(fileURLToPath(new URL('../../', import.meta.url)));
@@ -203,7 +229,7 @@ export function validateCaptureReceipt(bytes, acquisition) {
 }
 
 async function currentSources() {
-  const paths = execFileSync('git', ['ls-files', '-z', 'src', 'tests', 'tools', 'examples', 'index.html', 'package.json', 'pnpm-lock.yaml', 'vite.config.ts', 'tsconfig.json'], { cwd: root }).toString().split('\0').filter(Boolean);
+  const paths = execFileSync('git', ['ls-files', '-z', 'src', 'tests', 'tools', 'examples', 'docs/mode-rules.md', 'index.html', 'package.json', 'pnpm-lock.yaml', 'vite.config.ts', 'tsconfig.json'], { cwd: root }).toString().split('\0').filter(Boolean);
   paths.push('tools/release-coverage/evidence.mjs', 'tests/release-evidence.test.mjs');
   const hashes = {};
   for (const path of [...new Set(paths)].sort()) hashes[path] = sha(await readFile(resolve(root, path)));
@@ -497,9 +523,15 @@ async function checkClauses(requirePr) {
   await checkCurrent(false);
   const document = JSON.parse(await readFile(resolve(evidenceRoot, 'clauses.json')));
   const inventory = JSON.parse(await readFile(resolve(root, '.planning/phases/07-release-evidence-pr/07-CLAUSE-PREPARATION.json')));
+  assert.equal(document.caseReferencesRequired, true);
+  const requestLines = (await readFile(resolve(root, '.planning/USER-REQUEST.md'), 'utf8')).split('\n');
+  for (const row of inventory.originalClauses) assert.equal(requestLines[row.line - 1].slice(row.startColumn - 1, row.endColumnExclusive - 1), row.text, 'Original request span changed');
+  const requirementText = await readFile(resolve(root, '.planning/REQUIREMENTS.md'), 'utf8');
+  for (const row of inventory.requirements) assert.ok(requirementText.includes(`**${row.id}**: ${row.text}`), `Original requirement changed ${row.id}`);
   for (const [path, expected] of Object.entries(document.sourceHashes)) assert.equal(sha(await readFile(resolve(root, path))), expected, `Stale clause authority ${path}`);
   const bytes = await readFile(resolve(root, document.executionsSource.path)); assert.equal(sha(bytes), document.executionsSource.sha256);
   const actual = JSON.parse(bytes);
+  for (const [path, expected] of Object.entries(actual.sourceHashes)) assert.equal(sha(await readFile(resolve(root, path))), expected, `Stale executed input ${path}`);
   assert.equal(actual.normalArtifactRawSha256, sha(await readFile(resolve(root, 'dist/index.html'))));
   assert.equal(sha(await readFile(resolve(root, actual.enforcingProof))), actual.enforcingProofSha256);
   for (const execution of actual.executions) {
@@ -510,6 +542,7 @@ async function checkClauses(requirePr) {
       for (const name of execution.cases) assert.ok(execution.outputText.split('\n').some(line => /^\s*ok \d+ - /.test(line) && line.trim().endsWith(`- ${name}`)), `Missing actual positive case ${name}`);
     }
   }
+  for (const execution of document.additionalExecutions ?? []) await verifyMeasuredExecution(execution, path => readFile(resolve(root, path)));
   assert.deepEqual(document.taxonomy.map(row => row.id).sort(), ['A07-E3', 'A07-E5', 'A07-ES']);
   assert.ok(document.taxonomy.every(row => row.status === 'unclassified-contract-retained' && row.contract && row.evidence));
   const manifest = JSON.parse(await readFile(resolve(evidenceRoot, 'manifest.json')));

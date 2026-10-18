@@ -1,12 +1,12 @@
 {
   "createdAt": "2026-10-18T03:12:40.157108+00:00",
-  "method": "Actual view_image calls,original detail;all eight complete contact sheets and nine selected full-size critical views",
-  "manifestSha256": "4dd87d5fca4ed8204d1dc7ae7e63e5c55e343a71d79f36a3b39daa63e6c68adc",
+  "method": "Seven changed sheets andthree changed critical full-size images actually reopened;other previously inspected bytes independently rehashed identical",
+  "manifestSha256": "6dac29672ca0916b77c23ff76e259e6d1fe1cc02f34d372b6bd5e4a4a3030089",
   "sheets": [
     {
       "id": "survive-arcade-dark",
       "image": "docs/release-evidence/images/sheet-survive-arcade-dark.png",
-      "sha256": "d9690a0b213ae97ea42260a99217eaa27bb501c1acb87007d9ec651897c6dc5e",
+      "sha256": "32128e27d58036755c324c5c204776dc15e7b714cd4da6291722dca1329b4bdc",
       "captureIds": [
         "survive-arcade-hud-240x240-dark-reduced-all",
         "survive-arcade-hud-320x560-dark-reduced-all",
@@ -20,12 +20,13 @@
         "survive-arcade-results-900x600-dark-reduced-all",
         "survive-arcade-setup-900x600-dark-reduced-all"
       ],
-      "inspected": true
+      "inspected": true,
+      "review": "Reopened current bytes with view_image original detail"
     },
     {
       "id": "survive-arcade-light",
       "image": "docs/release-evidence/images/sheet-survive-arcade-light.png",
-      "sha256": "0f49ef1a2a86eb458ade57a21b329cba5e31b4630539fd25f571579972d3f047",
+      "sha256": "268da970bff8fa2e1b63b52f68e7f301c229e4faa441be6704be27e18b91e5e8",
       "captureIds": [
         "survive-arcade-hud-240x240-light-reduced-all",
         "survive-arcade-hud-320x560-light-reduced-all",
@@ -39,12 +40,13 @@
         "survive-arcade-results-900x600-light-reduced-all",
         "survive-arcade-setup-900x600-light-reduced-all"
       ],
-      "inspected": true
+      "inspected": true,
+      "review": "Reopened current bytes with view_image original detail"
     },
     {
       "id": "survive-flow-dark",
       "image": "docs/release-evidence/images/sheet-survive-flow-dark.png",
-      "sha256": "d65937b7f0521ee52591d845c9359d6ec53fbb5aba9bb7a413447ba2962c7591",
+      "sha256": "96acf74966a4d23c0d54d4a2f9bd77096dd6afa945205cdd523a0931362df761",
       "captureIds": [
         "survive-flow-hud-240x240-dark-reduced-all",
         "survive-flow-hud-320x560-dark-reduced-all",
@@ -60,7 +62,8 @@
         "survive-flow-results-900x600-dark-reduced-all",
         "survive-flow-setup-900x600-dark-reduced-all"
       ],
-      "inspected": true
+      "inspected": true,
+      "review": "Reopened current bytes with view_image original detail"
     },
     {
       "id": "survive-flow-light",
@@ -81,12 +84,13 @@
         "survive-flow-results-900x600-light-reduced-all",
         "survive-flow-setup-900x600-light-reduced-all"
       ],
-      "inspected": true
+      "inspected": true,
+      "review": "Previously opened identical bytes;SHA256 equality rechecked"
     },
     {
       "id": "relay-dark",
       "image": "docs/release-evidence/images/sheet-relay-dark.png",
-      "sha256": "655e74b7f59c2ddd1ddd4d0847e0f3289dc89c53f10bd2044a2486f6c197053b",
+      "sha256": "6438a9f139eadd8bf8754e6489276fcf8e0c953350e963756892c9100dde7e7b",
       "captureIds": [
         "relay-disconnect-900x600-dark-full-all",
         "relay-handoff-900x600-dark-full-all",
@@ -100,12 +104,13 @@
         "relay-results-tie-900x600-dark-full-all",
         "relay-setup-900x600-dark-reduced-all"
       ],
-      "inspected": true
+      "inspected": true,
+      "review": "Reopened current bytes with view_image original detail"
     },
     {
       "id": "relay-light",
       "image": "docs/release-evidence/images/sheet-relay-light.png",
-      "sha256": "a85d1725cd84e14e3b6fe4bb8844c3dd1cea5dbbdba2ade8dcbeff97515e9555",
+      "sha256": "5448a455d0056709b1a922a7f2d6b6dee0723fc0ca4950c754d36826c350d667",
       "captureIds": [
         "relay-disconnect-900x600-light-full-all",
         "relay-handoff-900x600-light-full-all",
@@ -119,12 +124,13 @@
         "relay-results-tie-900x600-light-full-all",
         "relay-setup-900x600-light-reduced-all"
       ],
-      "inspected": true
+      "inspected": true,
+      "review": "Reopened current bytes with view_image original detail"
     },
     {
       "id": "race-dark",
       "image": "docs/release-evidence/images/sheet-race-dark.png",
-      "sha256": "3a58a07e261f0e8ec0277f78e41caa299ef7bac3f5293c9afd66e5f49b3bc560",
+      "sha256": "f88e5deeec51c0829575bdd02893b6eafed424b607d7efb8c2a20ff368f2b09d",
       "captureIds": [
         "race-fog-900x600-dark-full-all",
         "race-hud-240x240-dark-reduced-all",
@@ -139,12 +145,13 @@
         "race-results-tie-900x600-dark-full-all",
         "race-setup-900x600-dark-reduced-all"
       ],
-      "inspected": true
+      "inspected": true,
+      "review": "Reopened current bytes with view_image original detail"
     },
     {
       "id": "race-light",
       "image": "docs/release-evidence/images/sheet-race-light.png",
-      "sha256": "4d3ff5b4d5f828431843af7521d467d47c6230735a09c0a84990b88d9ca98399",
+      "sha256": "2c808d4c5a43ee900ad159b450d9cb036fbbde68623d5952d845af03d33bbcb1",
       "captureIds": [
         "race-fog-900x600-light-full-all",
         "race-hud-240x240-light-reduced-all",
@@ -159,7 +166,8 @@
         "race-results-tie-900x600-light-full-all",
         "race-setup-900x600-light-reduced-all"
       ],
-      "inspected": true
+      "inspected": true,
+      "review": "Reopened current bytes with view_image original detail"
     }
   ],
   "criticalFullSize": [
@@ -167,55 +175,64 @@
       "id": "survive-flow-owner-target-320x560-dark-reduced-all",
       "image": "docs/release-evidence/images/survive-flow-owner-target-320x560-dark-reduced-all.png",
       "sha256": "a690a0167e20f7d1216ea1c97bef66947e7986cf782b0e99aded3c47b53b9f73",
-      "inspected": true
+      "inspected": true,
+      "review": "Previously opened identical bytes;SHA256 equality rechecked"
     },
     {
       "id": "survive-arcade-results-900x600-dark-reduced-all",
       "image": "docs/release-evidence/images/survive-arcade-results-900x600-dark-reduced-all.png",
-      "sha256": "b378a5f33ccef01c1762b665ac8c8af415b26ed867896889d9f1d1fbf7905058",
-      "inspected": true
+      "sha256": "583f085deec47d7ee47d69fb276333890879b5d603fc9c11c2652bcbba8270a5",
+      "inspected": true,
+      "review": "Reopened current bytes with view_image original detail"
     },
     {
       "id": "relay-market-900x600-light-reduced-all",
       "image": "docs/release-evidence/images/relay-market-900x600-light-reduced-all.png",
       "sha256": "6a868f639763b10c3c098b6d23a8a8b936593fa213026177c5a306cf36004bf5",
-      "inspected": true
+      "inspected": true,
+      "review": "Previously opened identical bytes;SHA256 equality rechecked"
     },
     {
       "id": "survive-flow-recovery-1000x280-light-reduced-all",
       "image": "docs/release-evidence/images/survive-flow-recovery-1000x280-light-reduced-all.png",
       "sha256": "1c3a3c2937659181a3d7066ac05b3e6840938cec1389abbbfcd006edf8467030",
-      "inspected": true
+      "inspected": true,
+      "review": "Previously opened identical bytes;SHA256 equality rechecked"
     },
     {
       "id": "race-fog-900x600-dark-full-all",
       "image": "docs/release-evidence/images/race-fog-900x600-dark-full-all.png",
-      "sha256": "d97dab73be11aac95cc81891908a8b8ea0080b13562655d6d0e3781c3bf896d2",
-      "inspected": true
+      "sha256": "50666012b11224fb0effc1da39492e17db78ca583b3c95565ccac5af9d9ad0c8",
+      "inspected": true,
+      "review": "Reopened current bytes with view_image original detail"
     },
     {
       "id": "relay-handoff-900x600-dark-full-all",
       "image": "docs/release-evidence/images/relay-handoff-900x600-dark-full-all.png",
-      "sha256": "9865a6399a9b4abae3a4a4a67638af962e8e40ae3275f3958aafe9e51263e254",
-      "inspected": true
+      "sha256": "d2b4578e602e08ba0197d1557c2c3fe8f0f550e93a6186d4bda9e0658d0c00b6",
+      "inspected": true,
+      "review": "Reopened current bytes with view_image original detail"
     },
     {
       "id": "race-results-tie-900x600-light-full-all",
       "image": "docs/release-evidence/images/race-results-tie-900x600-light-full-all.png",
       "sha256": "9c6611901878fb580609e155172e446c30682c26e885763c5e58a3cdc529101e",
-      "inspected": true
+      "inspected": true,
+      "review": "Previously opened identical bytes;SHA256 equality rechecked"
     },
     {
       "id": "race-results-dnf-900x600-dark-full-all",
       "image": "docs/release-evidence/images/race-results-dnf-900x600-dark-full-all.png",
       "sha256": "29c6b60ffd0f084a5d2cc60bcf0f0ccc5c37c5dfb04b6411d9e08d62cc958af9",
-      "inspected": true
+      "inspected": true,
+      "review": "Previously opened identical bytes;SHA256 equality rechecked"
     },
     {
       "id": "race-hud-2400x1200-light-reduced-all",
       "image": "docs/release-evidence/images/race-hud-2400x1200-light-reduced-all.png",
       "sha256": "3f2a8d51d7fe9515ea89f0ca3a9d4ff911a1985e41c6d89c0af51d8a92ea2edc",
-      "inspected": true
+      "inspected": true,
+      "review": "Previously opened identical bytes;SHA256 equality rechecked"
     }
   ],
   "findings": [
@@ -233,5 +250,6 @@
     "Survive recovery/results and staged market views are explicitly component-model acquisition,not unassisted gameplay",
     "Only live HUD samples carry full voxel/packed-nameplate8px geometry;frozen lifecycle modals have separate DOM/focus/motion checks",
     "No physical controller or external target-shell persistence measurement"
-  ]
+  ],
+  "refreshedAt": "2026-10-18T03:23:24.011947+00:00"
 }

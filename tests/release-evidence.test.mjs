@@ -2,7 +2,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { clearanceAtLeast8, canonicalCaptures, validateVisualManifest, validateClauseRows, requiredVisualIds, validateCaptureReceipt, validateSheets } from '../tools/release-coverage/evidence.mjs';
+import { clearanceAtLeast8, canonicalCaptures, validateVisualManifest, validateClauseRows, requiredVisualIds, validateCaptureReceipt, validateSheets, verifyMeasuredExecution } from '../tools/release-coverage/evidence.mjs';
 
 const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aMxoAAAAASUVORK5CYII=', 'base64');
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
@@ -151,4 +151,27 @@ test('contact sheets require every current mode/base/theme image exactly once an
     row => { row.sheets[0].id = row.sheets[1].id; }]) {
     const changed = structuredClone(value); alter(changed); await assert.rejects(validateSheets(changed, async () => png));
   }
+});
+
+test('measured clause assertions must match the exact successful receipt fields', async () => {
+  const bytes = Buffer.from(JSON.stringify({ command: { exit: 0 }, observed: { branch: 'feature' } }));
+  const execution = { kind: 'measured-command', terminalExit: 0, receiptPath: 'receipt.json', receiptSha256: sha(bytes),
+    terminalPath: ['command', 'exit'], assertions: [{ name: 'actual branch', actual: 'feature', expected: 'feature', receiptPath: ['observed', 'branch'] }] };
+  assert.equal(await verifyMeasuredExecution(execution, async () => bytes), true);
+  for (const alter of [row => { row.receiptSha256 = 'c'.repeat(64); }, row => { row.terminalPath = ['missing']; },
+    row => { row.terminalPath = ['observed', 'branch']; }, row => { row.assertions[0].actual = row.assertions[0].expected = 'invented'; },
+    row => { row.assertions[0].receiptPath = ['missing']; }]) {
+    const changed = structuredClone(execution); alter(changed); await assert.rejects(verifyMeasuredExecution(changed, async () => bytes));
+  }
+  await assert.rejects(verifyMeasuredExecution(execution, async () => { throw Error('Missing receipt'); }));
+});
+
+test('clause obligations retain named positive assertions rather than an arbitrary suite label', () => {
+  const document = clauseRows(); document.caseReferencesRequired = true;
+  const obligation = document.originalClauses[0].obligations[0];
+  assert.throws(() => validateClauseRows(document, clauseOptions), /named executed assertions/);
+  obligation.caseRefs = { [execution.id]: ['invented passing case'] };
+  assert.throws(() => validateClauseRows(document, clauseOptions), /Unexecuted case reference/);
+  obligation.caseRefs[execution.id] = execution.cases;
+  assert.equal(validateClauseRows(document, clauseOptions).pendingShip, true);
 });
