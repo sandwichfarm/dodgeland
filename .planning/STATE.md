@@ -19,6 +19,13 @@ last_activity_desc: 07-05 complete;all51original clauses/47requirements mapped,6
 
 ## Current work
 
+07-06 Task1 controls are accepted:actual units7/7 andcalibration-only14142exit0,
+46/46 cases,zero skips. Actual report statuspartial-calibration-pass,technical/
+release acceptance bothfalse asrequired. Inherited phase6bytes/rootlock remain
+pinned. See07-06-CONTROLS-PROOF.json. Technicalsource is committed andfrozen;
+next runexact node tests/release-gate.mjs once. No other app/test chain is live.
+44/45plans remain;no whole release orPR completion claim.
+
 07-05 is complete:51 verbatim original rows and47requirements,684 distinct
 positive job/case references across77 actual full05 jobs,plus measured coverage/
 conformance/visual/branch receipts. OnlySHIP-01 andexact PR Opened row pending.
