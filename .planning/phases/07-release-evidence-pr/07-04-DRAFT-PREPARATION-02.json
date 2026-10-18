@@ -1,0 +1,47 @@
+{
+  "purpose": "Unexecuted conformance implementation draft outside all frozen inputs;not07-04 completion or protocol evidence",
+  "createdAt": "2026-10-18T02:04:25.951335+00:00",
+  "draftSources": {
+    "artifacts/release-coverage/conformance-draft-02/release-conformance-host.mjs": "ed158c41eccf1061c71cbf7402e3937a3199c1c56ff978bba241e9dadfffceec",
+    "artifacts/release-coverage/conformance-draft-02/release-conformance.mjs": "8903a1494b1156136346311f94388e9b482968ffe1ee9a39b0a08ce2048fd3ff",
+    "artifacts/release-coverage/conformance-draft-02/release-conformance.test.mjs": "080b3318c498596e5295b395790873cee1e986768abc5b20e823851c41c3eac0"
+  },
+  "sourceSyntaxChecks": [
+    {
+      "command": "node --check artifacts/release-coverage/conformance-draft-02/release-conformance-host.mjs",
+      "exitCode": 0,
+      "runtimeOrTestExecution": false
+    },
+    {
+      "command": "node --check artifacts/release-coverage/conformance-draft-02/release-conformance.mjs",
+      "exitCode": 0,
+      "runtimeOrTestExecution": false
+    },
+    {
+      "command": "node --check artifacts/release-coverage/conformance-draft-02/release-conformance.test.mjs",
+      "exitCode": 0,
+      "runtimeOrTestExecution": false
+    }
+  ],
+  "frozenPathsVerified": 410,
+  "freezePath": "artifacts/release-coverage/current-full-05-proof/freeze.json",
+  "freezeSha256": "c72459fff67275b20c5b67c1076d781f825a00cec405fada8743cb2f350111a3",
+  "frozenInputChanges": [],
+  "executedBrowserJourneys": 0,
+  "executedUnitCases": 0,
+  "executionDependency": "Terminal accepted07-03 enforcement and fresh raw reconciliation;then copy reviewed drafts into planned tests paths and run actual checks",
+  "sourceResolution": "Public SDK ESM entry via import.meta.resolve;installed SDK dependency context and ./storage/shim export;CJS root resolution was rejected by import-only exports",
+  "pending": [
+    "Review draft API/host behavior",
+    "Refresh current primary protocol reference at execution",
+    "Run unit negative controls and actual browser journeys sequentially",
+    "Validate/record actual wire,timeout,teardown,current manifest and installed-engine limitations",
+    "Retain exact terminal/source/build hashes and finish07-04 summary"
+  ],
+  "priorDraftPreserved": {
+    "path": "artifacts/release-coverage/conformance-draft-01/preparation.json",
+    "sha256": "554ce5acbc2a8a9fa31985272c58954898438330a6b6af38e86096ec1d6289ee",
+    "allPinnedSourcesUnchanged": true
+  },
+  "sourceReviewCorrection": "Held storage.set requests now commit their actual key/value into host memory once before the matching acknowledgement;receipt and acceptance assert exact observed request/id/value and stored value. Duplicate acknowledgement does not repeat commit. No invocation and timeout do not commit."
+}
