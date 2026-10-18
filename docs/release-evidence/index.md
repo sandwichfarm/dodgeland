@@ -1,8 +1,10 @@
 # Multiplayer release evidence
 
-The normal-build visual matrix, supplemental conformance andcomplete original
-clause audit are verified. The final canonical release gate andactual open PR
-remain pending. No release-completion claim is made.
+The normal-build visual matrix has been refreshed and inspected after the
+route-driver test fix. The complete instrumented Race worker passed17/17.
+Historical full05 execution receipts remain preserved;their test-input bindings
+must be refreshed from actual fresh collection before current clause acceptance.
+The final canonical release gate and actual open PR remain pending.
 
 ## Visual proof
 

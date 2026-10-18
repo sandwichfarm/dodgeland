@@ -211,21 +211,21 @@
     {
       "id": "actual-normal-visual-proof",
       "kind": "measured-command",
-      "commandId": "normal-visual-clause-freeze-01",
+      "commandId": "normal-visual-after-route-fix-01",
       "terminalExit": 0,
       "receiptPath": "docs/release-evidence/visual-integrity.json",
-      "receiptSha256": "69de0197363a20fb4e3c091bf9ac5a24872804c47eb9308ae2dfcdd81408ff54",
+      "receiptSha256": "02d7c31b43284a5aa736fa9f3f955c2050b9009cbf6539a2efb8e3958ae07a3a",
       "terminalPath": [
         "terminalExit"
       ],
       "sourceBindings": [
         {
           "path": "docs/release-evidence/manifest.json",
-          "sha256": "6dac29672ca0916b77c23ff76e259e6d1fe1cc02f34d372b6bd5e4a4a3030089"
+          "sha256": "1546459f215d76faedb05a0232a3f66b4fc9589dc59d25784c6e340abd4cd90a"
         },
         {
           "path": "docs/release-evidence/inspections.json",
-          "sha256": "64480c5e73c14256d8365b9693da3a00eb0486d9cc4ae088b0636b4831296b9e"
+          "sha256": "17458ad3210509c7f92ca1eba8782a066f6f8d997c0d8f5cb6472b968790df0a"
         }
       ],
       "assertions": [
@@ -13474,7 +13474,8 @@
     "No cryptographic signature/publication or physical hardware measurement",
     "Technical inspection is separate from already-received2026-10-16 human presentation acceptance",
     "Current full05 coverage jobs execute instrumented production/development/module graphs;normal companion andnormal visual builds remain explicitly separate",
-    "Final canonical technical release andverified actual open PR remain required"
+    "Final canonical technical release andverified actual open PR remain required",
+    "After test-only route-driver fix652323a,current visual acquisition is verified;historical full05 executed-input bindings require refresh from actual fresh final collection before clause acceptance. Do not relabel historical test hashes as current."
   ],
   "auditCounts": {
     "originalClauses": 51,

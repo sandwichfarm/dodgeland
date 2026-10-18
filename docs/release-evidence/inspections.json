@@ -1,7 +1,7 @@
 {
   "createdAt": "2026-10-18T03:12:40.157108+00:00",
-  "method": "Seven changed sheets andthree changed critical full-size images actually reopened;other previously inspected bytes independently rehashed identical",
-  "manifestSha256": "6dac29672ca0916b77c23ff76e259e6d1fe1cc02f34d372b6bd5e4a4a3030089",
+  "method": "Four changed sheets and two changed critical full-size images reopened with view_image original detail. Four other sheets and seven other critical views remain byte-identical to prior inspected images. No new visual defect observed. Full handoff modal intentionally obscures scenery;not a live-HUD clearance claim.",
+  "manifestSha256": "1546459f215d76faedb05a0232a3f66b4fc9589dc59d25784c6e340abd4cd90a",
   "sheets": [
     {
       "id": "survive-arcade-dark",
@@ -21,7 +21,7 @@
         "survive-arcade-setup-900x600-dark-reduced-all"
       ],
       "inspected": true,
-      "review": "Reopened current bytes with view_image original detail"
+      "review": "Previously inspected bytes independently rehashed identical after route-driver fix"
     },
     {
       "id": "survive-arcade-light",
@@ -41,7 +41,7 @@
         "survive-arcade-setup-900x600-light-reduced-all"
       ],
       "inspected": true,
-      "review": "Reopened current bytes with view_image original detail"
+      "review": "Previously inspected bytes independently rehashed identical after route-driver fix"
     },
     {
       "id": "survive-flow-dark",
@@ -63,7 +63,7 @@
         "survive-flow-setup-900x600-dark-reduced-all"
       ],
       "inspected": true,
-      "review": "Reopened current bytes with view_image original detail"
+      "review": "Previously inspected bytes independently rehashed identical after route-driver fix"
     },
     {
       "id": "survive-flow-light",
@@ -85,12 +85,12 @@
         "survive-flow-setup-900x600-light-reduced-all"
       ],
       "inspected": true,
-      "review": "Previously opened identical bytes;SHA256 equality rechecked"
+      "review": "Previously inspected bytes independently rehashed identical after route-driver fix"
     },
     {
       "id": "relay-dark",
       "image": "docs/release-evidence/images/sheet-relay-dark.png",
-      "sha256": "6438a9f139eadd8bf8754e6489276fcf8e0c953350e963756892c9100dde7e7b",
+      "sha256": "62305adb1567e1fd063482ec1508fb1733c53b05db75f274ada71561e549b6a6",
       "captureIds": [
         "relay-disconnect-900x600-dark-full-all",
         "relay-handoff-900x600-dark-full-all",
@@ -105,12 +105,12 @@
         "relay-setup-900x600-dark-reduced-all"
       ],
       "inspected": true,
-      "review": "Reopened current bytes with view_image original detail"
+      "review": "Reopened current bytes with view_image original detail after route-driver fix"
     },
     {
       "id": "relay-light",
       "image": "docs/release-evidence/images/sheet-relay-light.png",
-      "sha256": "5448a455d0056709b1a922a7f2d6b6dee0723fc0ca4950c754d36826c350d667",
+      "sha256": "35df3e5ed75440eefd904ee157b94c1fe16b7cb95e841d32d59a3c8d7b49c31d",
       "captureIds": [
         "relay-disconnect-900x600-light-full-all",
         "relay-handoff-900x600-light-full-all",
@@ -125,12 +125,12 @@
         "relay-setup-900x600-light-reduced-all"
       ],
       "inspected": true,
-      "review": "Reopened current bytes with view_image original detail"
+      "review": "Reopened current bytes with view_image original detail after route-driver fix"
     },
     {
       "id": "race-dark",
       "image": "docs/release-evidence/images/sheet-race-dark.png",
-      "sha256": "f88e5deeec51c0829575bdd02893b6eafed424b607d7efb8c2a20ff368f2b09d",
+      "sha256": "e191849ff100ccbb1793ffddc434a16e24794e4a7e58017311583adf6a706a55",
       "captureIds": [
         "race-fog-900x600-dark-full-all",
         "race-hud-240x240-dark-reduced-all",
@@ -146,12 +146,12 @@
         "race-setup-900x600-dark-reduced-all"
       ],
       "inspected": true,
-      "review": "Reopened current bytes with view_image original detail"
+      "review": "Reopened current bytes with view_image original detail after route-driver fix"
     },
     {
       "id": "race-light",
       "image": "docs/release-evidence/images/sheet-race-light.png",
-      "sha256": "2c808d4c5a43ee900ad159b450d9cb036fbbde68623d5952d845af03d33bbcb1",
+      "sha256": "b36f248ea67933d4488dacae98ab28b0fbdc47ff329043f01022a91732833413",
       "captureIds": [
         "race-fog-900x600-light-full-all",
         "race-hud-240x240-light-reduced-all",
@@ -167,7 +167,7 @@
         "race-setup-900x600-light-reduced-all"
       ],
       "inspected": true,
-      "review": "Reopened current bytes with view_image original detail"
+      "review": "Reopened current bytes with view_image original detail after route-driver fix"
     }
   ],
   "criticalFullSize": [
@@ -176,63 +176,63 @@
       "image": "docs/release-evidence/images/survive-flow-owner-target-320x560-dark-reduced-all.png",
       "sha256": "a690a0167e20f7d1216ea1c97bef66947e7986cf782b0e99aded3c47b53b9f73",
       "inspected": true,
-      "review": "Previously opened identical bytes;SHA256 equality rechecked"
+      "review": "Previously inspected bytes independently rehashed identical after route-driver fix"
     },
     {
       "id": "survive-arcade-results-900x600-dark-reduced-all",
       "image": "docs/release-evidence/images/survive-arcade-results-900x600-dark-reduced-all.png",
       "sha256": "583f085deec47d7ee47d69fb276333890879b5d603fc9c11c2652bcbba8270a5",
       "inspected": true,
-      "review": "Reopened current bytes with view_image original detail"
+      "review": "Previously inspected bytes independently rehashed identical after route-driver fix"
     },
     {
       "id": "relay-market-900x600-light-reduced-all",
       "image": "docs/release-evidence/images/relay-market-900x600-light-reduced-all.png",
       "sha256": "6a868f639763b10c3c098b6d23a8a8b936593fa213026177c5a306cf36004bf5",
       "inspected": true,
-      "review": "Previously opened identical bytes;SHA256 equality rechecked"
+      "review": "Previously inspected bytes independently rehashed identical after route-driver fix"
     },
     {
       "id": "survive-flow-recovery-1000x280-light-reduced-all",
       "image": "docs/release-evidence/images/survive-flow-recovery-1000x280-light-reduced-all.png",
       "sha256": "1c3a3c2937659181a3d7066ac05b3e6840938cec1389abbbfcd006edf8467030",
       "inspected": true,
-      "review": "Previously opened identical bytes;SHA256 equality rechecked"
+      "review": "Previously inspected bytes independently rehashed identical after route-driver fix"
     },
     {
       "id": "race-fog-900x600-dark-full-all",
       "image": "docs/release-evidence/images/race-fog-900x600-dark-full-all.png",
-      "sha256": "50666012b11224fb0effc1da39492e17db78ca583b3c95565ccac5af9d9ad0c8",
+      "sha256": "1644ea5633cb21e12d5bdfc16d5ffc4d62d4ca4e29878ab5210d6d942b10c5df",
       "inspected": true,
-      "review": "Reopened current bytes with view_image original detail"
+      "review": "Reopened current bytes with view_image original detail after route-driver fix"
     },
     {
       "id": "relay-handoff-900x600-dark-full-all",
       "image": "docs/release-evidence/images/relay-handoff-900x600-dark-full-all.png",
-      "sha256": "d2b4578e602e08ba0197d1557c2c3fe8f0f550e93a6186d4bda9e0658d0c00b6",
+      "sha256": "fc09fe9073f3ecbfd2157a4b5e52b2e9e2ad821ddc7fda24c85272e52e0a0a13",
       "inspected": true,
-      "review": "Reopened current bytes with view_image original detail"
+      "review": "Reopened current bytes with view_image original detail after route-driver fix"
     },
     {
       "id": "race-results-tie-900x600-light-full-all",
       "image": "docs/release-evidence/images/race-results-tie-900x600-light-full-all.png",
       "sha256": "9c6611901878fb580609e155172e446c30682c26e885763c5e58a3cdc529101e",
       "inspected": true,
-      "review": "Previously opened identical bytes;SHA256 equality rechecked"
+      "review": "Previously inspected bytes independently rehashed identical after route-driver fix"
     },
     {
       "id": "race-results-dnf-900x600-dark-full-all",
       "image": "docs/release-evidence/images/race-results-dnf-900x600-dark-full-all.png",
       "sha256": "29c6b60ffd0f084a5d2cc60bcf0f0ccc5c37c5dfb04b6411d9e08d62cc958af9",
       "inspected": true,
-      "review": "Previously opened identical bytes;SHA256 equality rechecked"
+      "review": "Previously inspected bytes independently rehashed identical after route-driver fix"
     },
     {
       "id": "race-hud-2400x1200-light-reduced-all",
       "image": "docs/release-evidence/images/race-hud-2400x1200-light-reduced-all.png",
       "sha256": "3f2a8d51d7fe9515ea89f0ca3a9d4ff911a1985e41c6d89c0af51d8a92ea2edc",
       "inspected": true,
-      "review": "Previously opened identical bytes;SHA256 equality rechecked"
+      "review": "Previously inspected bytes independently rehashed identical after route-driver fix"
     }
   ],
   "findings": [
@@ -251,5 +251,5 @@
     "Only live HUD samples carry full voxel/packed-nameplate8px geometry;frozen lifecycle modals have separate DOM/focus/motion checks",
     "No physical controller or external target-shell persistence measurement"
   ],
-  "refreshedAt": "2026-10-18T03:23:24.011947+00:00"
+  "refreshedAt": "2026-10-18T04:56:10.774820+00:00"
 }

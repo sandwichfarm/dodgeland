@@ -1,0 +1,30 @@
+{
+  "status": "actual-normal-visual-refresh-passed-not-final-release",
+  "session": 54615,
+  "terminalExit": 0,
+  "receipt": "docs/release-evidence/visual-required-20261018045242698.json",
+  "receiptSha256": "45a6a79004e4092b4f0299a74dae127595c98573089c60fecf37a82047d26c0f",
+  "captures": 94,
+  "sheets": 8,
+  "changedSheetsReopened": 4,
+  "changedCriticalViewsReopened": 2,
+  "otherInspectedImagesByteIdentical": true,
+  "manifestSha256": "1546459f215d76faedb05a0232a3f66b4fc9589dc59d25784c6e340abd4cd90a",
+  "inspectionsSha256": "17458ad3210509c7f92ca1eba8782a066f6f8d997c0d8f5cb6472b968790df0a",
+  "visualIntegritySha256": "02d7c31b43284a5aa736fa9f3f955c2050b9009cbf6539a2efb8e3958ae07a3a",
+  "visualCheck": {
+    "terminalExit": 0,
+    "log": "artifacts/release-final-launch-01/visual-after-route-fix-check-01.log",
+    "sha256": "62390fa0619771cefecfa53cbbf1f0941b0a6616cb728b0d85b8073e27d436db"
+  },
+  "tracerCheck": {
+    "terminalExit": 0,
+    "log": "artifacts/release-final-launch-01/tracer-after-route-fix-check-01.log",
+    "sha256": "8b628516bee5a3df6c5ae0743044b508f490c9c58c66dd5a90e24f28ca0293f1"
+  },
+  "limits": [
+    "Current executed-input clause refresh still pending actual fresh collection.",
+    "No new human acceptance inferred;existing2026-10-16 acceptance retained.",
+    "No whole release orPR accepted."
+  ]
+}

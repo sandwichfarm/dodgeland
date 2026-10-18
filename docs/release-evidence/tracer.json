@@ -1,6 +1,6 @@
 {
   "schema": "release-visual-evidence-1",
-  "createdAt": "2026-10-18T03:21:55.034Z",
+  "createdAt": "2026-10-18T04:55:40.949Z",
   "sourceHashes": {
     "docs/mode-rules.md": "a2eff4b296f0b016b7a2069b8ebb049d83af45d4f8f355988c2aa037c3520b2a",
     "index.html": "cb9773abc32939bdf61664b7e850eb044aa3f37aef79f61d50e9b69346ce7c0b",
@@ -257,7 +257,7 @@
     "tests/phase6-gate.mjs": "7bdba2abaf0346075ffe9a037eb02332c7cfc5a837a99387a4bb650f09e059e9",
     "tests/preference-hydration-runtime.mjs": "a90ff159ca8b12c3f25b8edb76acb9ca9ba4dc32e6f8d5eb545d14bd6e11a92f",
     "tests/race-balance.test.mjs": "03054f94ad2892f23c7bc611229541f4af9aec96295e5ad2cbc639a290951165",
-    "tests/race-browser-fixture.mjs": "293270c57a385f2ca5b87c3a447fe919f0b41ee8005ed89e15206cd63b1fd1b7",
+    "tests/race-browser-fixture.mjs": "085ea78d2a214cb53f89b5595a28e45e9b7d4b27406e08fed6dedea082bb357a",
     "tests/race-character-powers.test.mjs": "d09d523571cf89d52b9cbb87ef7d23c167dae4d44e002c995f8fcd05190ce1a4",
     "tests/race-items-runtime.mjs": "08fdfb5cb2296c1a2a91362ff53c50ad61d6cd82f87fc2ddfc23ebc7f6540b3f",
     "tests/race-items.test.mjs": "c89007a32af7ba777fdf2c9980b8d5715262201e3ff0a168295490cc918c3b0c",
@@ -268,7 +268,7 @@
     "tests/race-reclaim-transactions.test.mjs": "2bfef124f5af845415076c15ee113ec4f611786f76e91f0d1c76c0c3d4d8614e",
     "tests/race-results.test.mjs": "231892dd04cdcae02a520201796835e6ddc771a82b36127c1596d3688e0a9bc1",
     "tests/race-river-items.test.mjs": "ab6246e8b29370460b8ef23ee19ec2117bdc991467cba3290b3d9d408878ead3",
-    "tests/race-runtime.mjs": "97326c18c9e7c2291d1c428bd26f2f07ac8eb222d21c10ea328e9d83acb3a94e",
+    "tests/race-runtime.mjs": "fb49549b752f03ed2d1a87c7cd28ef42b28433b2cfab7a8c5b01cdccac0ce5e7",
     "tests/race-tracer.mjs": "876605f59cc3a662e958d5143f3e2d326ddcd6eb6d0bc673f0967e933d218d12",
     "tests/recovery-plan-boundaries.test.mjs": "cfe0cb395791a289d86c327a26f50dfb79580e9aaabf85b7df10e8b7d0119d8e",
     "tests/recovery-target-identity.test.mjs": "eeacc872dc981ea3763cc46ec693d719d82ce89998bca36fdf93d052da467df4",
@@ -691,7 +691,7 @@
         "tests/phase6-gate.mjs": "7bdba2abaf0346075ffe9a037eb02332c7cfc5a837a99387a4bb650f09e059e9",
         "tests/preference-hydration-runtime.mjs": "a90ff159ca8b12c3f25b8edb76acb9ca9ba4dc32e6f8d5eb545d14bd6e11a92f",
         "tests/race-balance.test.mjs": "03054f94ad2892f23c7bc611229541f4af9aec96295e5ad2cbc639a290951165",
-        "tests/race-browser-fixture.mjs": "293270c57a385f2ca5b87c3a447fe919f0b41ee8005ed89e15206cd63b1fd1b7",
+        "tests/race-browser-fixture.mjs": "085ea78d2a214cb53f89b5595a28e45e9b7d4b27406e08fed6dedea082bb357a",
         "tests/race-character-powers.test.mjs": "d09d523571cf89d52b9cbb87ef7d23c167dae4d44e002c995f8fcd05190ce1a4",
         "tests/race-items-runtime.mjs": "08fdfb5cb2296c1a2a91362ff53c50ad61d6cd82f87fc2ddfc23ebc7f6540b3f",
         "tests/race-items.test.mjs": "c89007a32af7ba777fdf2c9980b8d5715262201e3ff0a168295490cc918c3b0c",
@@ -702,7 +702,7 @@
         "tests/race-reclaim-transactions.test.mjs": "2bfef124f5af845415076c15ee113ec4f611786f76e91f0d1c76c0c3d4d8614e",
         "tests/race-results.test.mjs": "231892dd04cdcae02a520201796835e6ddc771a82b36127c1596d3688e0a9bc1",
         "tests/race-river-items.test.mjs": "ab6246e8b29370460b8ef23ee19ec2117bdc991467cba3290b3d9d408878ead3",
-        "tests/race-runtime.mjs": "97326c18c9e7c2291d1c428bd26f2f07ac8eb222d21c10ea328e9d83acb3a94e",
+        "tests/race-runtime.mjs": "fb49549b752f03ed2d1a87c7cd28ef42b28433b2cfab7a8c5b01cdccac0ce5e7",
         "tests/race-tracer.mjs": "876605f59cc3a662e958d5143f3e2d326ddcd6eb6d0bc673f0967e933d218d12",
         "tests/recovery-plan-boundaries.test.mjs": "cfe0cb395791a289d86c327a26f50dfb79580e9aaabf85b7df10e8b7d0119d8e",
         "tests/recovery-target-identity.test.mjs": "eeacc872dc981ea3763cc46ec693d719d82ce89998bca36fdf93d052da467df4",
@@ -889,10 +889,10 @@
         },
         "observer": "Read-only production draw arguments; no world,actor or camera writes",
         "setup": "Visible Play/Pause/Local Play/mode/Start; two keyboards and two authorized controller snapshots; visible Pause holds actual state",
-        "commandId": "visual-required-20261018031852293",
+        "commandId": "visual-required-20261018045242698",
         "terminalExit": 0,
-        "receiptPath": "docs/release-evidence/visual-required-20261018031852293.json",
-        "receiptSha256": "70bf74d289b7829bd321ce1e85a4febdf2464a3d8aee4b243ec34a1e5bb63dd2"
+        "receiptPath": "docs/release-evidence/visual-required-20261018045242698.json",
+        "receiptSha256": "45a6a79004e4092b4f0299a74dae127595c98573089c60fecf37a82047d26c0f"
       },
       "clearance": {
         "measured": true,
@@ -1168,13 +1168,13 @@
         "tests/strict-node-tests.mjs",
         "tests/relay-layout.mjs"
       ],
-      "pid": 93268,
-      "startedAt": "2026-10-18T03:19:18.442Z",
-      "finishedAt": "2026-10-18T03:20:12.785Z",
+      "pid": 2683,
+      "startedAt": "2026-10-18T04:53:09.220Z",
+      "finishedAt": "2026-10-18T04:53:59.467Z",
       "terminalExit": 0,
       "signal": null,
-      "outputText": "TAP version 13\n# layout start setup 2026-10-18T03:19:19.622Z\n# layout start setup-roster 2026-10-18T03:19:21.819Z\n# layout start invalid 2026-10-18T03:19:23.923Z\n# layout start order 2026-10-18T03:19:26.698Z\n# layout start live-hud 2026-10-18T03:19:29.124Z\n# layout start inactive-disconnected 2026-10-18T03:19:31.144Z\n# layout start owner-restriction 2026-10-18T03:19:33.285Z\n# Subtest: Relay visible controls preserve every layout state across frames, themes and motion preferences\n    # Subtest: setup, live HUD and owner restriction\n    ok 1 - setup, live HUD and owner restriction\n      ---\n      duration_ms: 17736.939625\n      type: 'test'\n      ...\n# layout start handoff 2026-10-18T03:19:36.641Z\n# layout start handoff-system-motion 2026-10-18T03:19:38.489Z\n# layout start roster 2026-10-18T03:19:40.355Z\n# layout start disconnected 2026-10-18T03:19:42.249Z\n# layout start skip 2026-10-18T03:19:44.100Z\n# layout start reclaim 2026-10-18T03:19:45.999Z\n# layout start leave 2026-10-18T03:19:47.792Z\n# layout start waiting 2026-10-18T03:19:50.239Z\n# layout start results 2026-10-18T03:19:52.174Z\n# layout start players 2026-10-18T03:19:53.979Z\n# layout start legs 2026-10-18T03:19:55.769Z\n    # Subtest: same-board handoff, lifecycle and results\n    ok 2 - same-board handoff, lifecycle and results\n      ---\n      duration_ms: 20992.646417\n      type: 'test'\n      ...\n# layout start tied-podium 2026-10-18T03:19:59.697Z\n# layout start result-system-motion 2026-10-18T03:20:01.511Z\n    # Subtest: second run tied result and system motion\n    ok 3 - second run tied result and system motion\n      ---\n      duration_ms: 5749.705625\n      type: 'test'\n      ...\n# layout start recovery-app-motion 2026-10-18T03:20:09.434Z\n    # Subtest: third run app motion and personal revival\n    ok 4 - third run app motion and personal revival\n      ---\n      duration_ms: 7988.638292\n      type: 'test'\n      ...\n    1..4\nok 1 - Relay visible controls preserve every layout state across frames, themes and motion preferences\n  ---\n  duration_ms: 53955.303959\n  type: 'test'\n  ...\n1..1\n# tests 5\n# suites 0\n# pass 5\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 54242.627583\n",
-      "outputSha256": "a798850dbb8acdf1ec7ac05a6cda276d6c428b60828cef25b38afa8198ffe712"
+      "outputText": "TAP version 13\n# layout start setup 2026-10-18T04:53:10.397Z\n# layout start setup-roster 2026-10-18T04:53:12.613Z\n# layout start invalid 2026-10-18T04:53:14.673Z\n# layout start order 2026-10-18T04:53:16.929Z\n# layout start live-hud 2026-10-18T04:53:19.145Z\n# layout start inactive-disconnected 2026-10-18T04:53:21.148Z\n# layout start owner-restriction 2026-10-18T04:53:23.264Z\n# Subtest: Relay visible controls preserve every layout state across frames, themes and motion preferences\n    # Subtest: setup, live HUD and owner restriction\n    ok 1 - setup, live HUD and owner restriction\n      ---\n      duration_ms: 16947.603459\n      type: 'test'\n      ...\n# layout start handoff 2026-10-18T04:53:26.634Z\n# layout start handoff-system-motion 2026-10-18T04:53:28.597Z\n# layout start roster 2026-10-18T04:53:30.593Z\n# layout start disconnected 2026-10-18T04:53:32.579Z\n# layout start skip 2026-10-18T04:53:34.672Z\n# layout start reclaim 2026-10-18T04:53:36.723Z\n# layout start leave 2026-10-18T04:53:38.633Z\n# layout start waiting 2026-10-18T04:53:41.150Z\n# layout start results 2026-10-18T04:53:43.159Z\n# layout start players 2026-10-18T04:53:44.967Z\n# layout start legs 2026-10-18T04:53:46.800Z\n    # Subtest: same-board handoff, lifecycle and results\n    ok 2 - same-board handoff, lifecycle and results\n      ---\n      duration_ms: 22029.73125\n      type: 'test'\n      ...\n# layout start tied-podium 2026-10-18T04:53:50.625Z\n# layout start result-system-motion 2026-10-18T04:53:52.427Z\n    # Subtest: second run tied result and system motion\n    ok 3 - second run tied result and system motion\n      ---\n      duration_ms: 5632.46825\n      type: 'test'\n      ...\n# layout start recovery-app-motion 2026-10-18T04:53:56.038Z\n    # Subtest: third run app motion and personal revival\n    ok 4 - third run app motion and personal revival\n      ---\n      duration_ms: 3693.205125\n      type: 'test'\n      ...\n    1..4\nok 1 - Relay visible controls preserve every layout state across frames, themes and motion preferences\n  ---\n  duration_ms: 49860.604625\n  type: 'test'\n  ...\n1..1\n# tests 5\n# suites 0\n# pass 5\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 50146.842208\n",
+      "outputSha256": "167588789a85bf28d3742849fe36224762ca70c6b08346559cbe424c912bdafb"
     },
     {
       "commandId": "normal-race-layout",
@@ -1183,13 +1183,13 @@
         "tests/strict-node-tests.mjs",
         "tests/race-layout.mjs"
       ],
-      "pid": 94766,
-      "startedAt": "2026-10-18T03:20:12.788Z",
-      "finishedAt": "2026-10-18T03:21:53.606Z",
+      "pid": 4768,
+      "startedAt": "2026-10-18T04:53:59.469Z",
+      "finishedAt": "2026-10-18T04:55:39.524Z",
       "terminalExit": 0,
       "signal": null,
-      "outputText": "TAP version 13\n# Race capture setup\n# Race capture rules\n# Race capture invalid\n# Race capture roster\n# Race capture four-racers\n# Race capture mud-target\n# Race capture target-motion\n# Race capture mud-effect\n# Race capture gear\n# Race capture wardrobe\n# Race capture owner-switch\n# Subtest: Race full frame theme motion matrix preserves authoritative state and accessible controls\n    # Subtest: setup, Mud and owner gear\n    ok 1 - setup, Mud and owner gear\n      ---\n      duration_ms: 22059.788\n      type: 'test'\n      ...\n# Race capture fog-line\n# Race capture fog-exposed\n# Race capture fog-landed\n    # Subtest: fog line, exposure and damage\n    ok 2 - fog line, exposure and damage\n      ---\n      duration_ms: 9898.534166\n      type: 'test'\n      ...\n# Race capture four-tie\n# Race capture participant-1\n# Race capture participant-2\n# Race capture participant-3\n# Race capture participant-4\n    # Subtest: four tied finishers and participant pages\n    ok 3 - four tied finishers and participant pages\n      ---\n      duration_ms: 9704.098625\n      type: 'test'\n      ...\n# Race capture lantern-confirm\n# Race capture lantern-effect\n# Race capture lantern-already-lit\n    # Subtest: Lantern confirmation, effect and rejection\n    ok 4 - Lantern confirmation, effect and rejection\n      ---\n      duration_ms: 6582.92525\n      type: 'test'\n      ...\n# Race capture stale-target-disconnected\n# Race capture no-target\n    # Subtest: stale Mud target and no target\n    ok 5 - stale Mud target and no target\n      ---\n      duration_ms: 4586.923375\n      type: 'test'\n      ...\n# Race capture disconnected\n# Race capture reclaim\n# Race capture leave\n# Race capture waiting\n# Race capture timeout-dnf\n    # Subtest: disconnect, reclaim, waiting and timeout\n    ok 6 - disconnect, reclaim, waiting and timeout\n      ---\n      duration_ms: 23945.822167\n      type: 'test'\n      ...\n# Race capture personal-recovery\n# Race capture recovery-actions\n# Race capture protected\n# Race capture forfeited-last-racer\n# Race capture left-forfeited-dnf\n    # Subtest: personal recovery, protection and forfeit\n    ok 7 - personal recovery, protection and forfeit\n      ---\n      duration_ms: 16623.147\n      type: 'test'\n      ...\n# Race capture app-motion\n    # Subtest: app reduced motion\n    ok 8 - app reduced motion\n      ---\n      duration_ms: 3303.153584\n      type: 'test'\n      ...\n    1..8\nok 1 - Race full frame theme motion matrix preserves authoritative state and accessible controls\n  ---\n  duration_ms: 99582.604125\n  type: 'test'\n  ...\n# Subtest: unchanged Race lifecycle notice does not repeat live announcements\nok 2 - unchanged Race lifecycle notice does not repeat live announcements\n  ---\n  duration_ms: 854.877458\n  type: 'test'\n  ...\n1..2\n# tests 10\n# suites 0\n# pass 10\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 100718.794542\n",
-      "outputSha256": "d83937c1776308a65d4efac0d52fda44ba3d7a18e9f6749366edb631e2efe3ce"
+      "outputText": "TAP version 13\n# Race capture setup\n# Race capture rules\n# Race capture invalid\n# Race capture roster\n# Race capture four-racers\n# Race capture mud-target\n# Race capture target-motion\n# Race capture mud-effect\n# Race capture gear\n# Race capture wardrobe\n# Race capture owner-switch\n# Subtest: Race full frame theme motion matrix preserves authoritative state and accessible controls\n    # Subtest: setup, Mud and owner gear\n    ok 1 - setup, Mud and owner gear\n      ---\n      duration_ms: 21934.22975\n      type: 'test'\n      ...\n# Race capture fog-line\n# Race capture fog-exposed\n# Race capture fog-landed\n    # Subtest: fog line, exposure and damage\n    ok 2 - fog line, exposure and damage\n      ---\n      duration_ms: 9180.486125\n      type: 'test'\n      ...\n# Race capture four-tie\n# Race capture participant-1\n# Race capture participant-2\n# Race capture participant-3\n# Race capture participant-4\n    # Subtest: four tied finishers and participant pages\n    ok 3 - four tied finishers and participant pages\n      ---\n      duration_ms: 9721.411917\n      type: 'test'\n      ...\n# Race capture lantern-confirm\n# Race capture lantern-effect\n# Race capture lantern-already-lit\n    # Subtest: Lantern confirmation, effect and rejection\n    ok 4 - Lantern confirmation, effect and rejection\n      ---\n      duration_ms: 6586.588042\n      type: 'test'\n      ...\n# Race capture stale-target-disconnected\n# Race capture no-target\n    # Subtest: stale Mud target and no target\n    ok 5 - stale Mud target and no target\n      ---\n      duration_ms: 4640.229\n      type: 'test'\n      ...\n# Race capture disconnected\n# Race capture reclaim\n# Race capture leave\n# Race capture waiting\n# Race capture timeout-dnf\n    # Subtest: disconnect, reclaim, waiting and timeout\n    ok 6 - disconnect, reclaim, waiting and timeout\n      ---\n      duration_ms: 23729.463541\n      type: 'test'\n      ...\n# Race capture personal-recovery\n# Race capture recovery-actions\n# Race capture protected\n# Race capture forfeited-last-racer\n# Race capture left-forfeited-dnf\n    # Subtest: personal recovery, protection and forfeit\n    ok 7 - personal recovery, protection and forfeit\n      ---\n      duration_ms: 16591.09375\n      type: 'test'\n      ...\n# Race capture app-motion\n    # Subtest: app reduced motion\n    ok 8 - app reduced motion\n      ---\n      duration_ms: 3370.127625\n      type: 'test'\n      ...\n    1..8\nok 1 - Race full frame theme motion matrix preserves authoritative state and accessible controls\n  ---\n  duration_ms: 98840.7035\n  type: 'test'\n  ...\n# Subtest: unchanged Race lifecycle notice does not repeat live announcements\nok 2 - unchanged Race lifecycle notice does not repeat live announcements\n  ---\n  duration_ms: 826.918458\n  type: 'test'\n  ...\n1..2\n# tests 10\n# suites 0\n# pass 10\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 99954.590208\n",
+      "outputSha256": "5066acad043d08990ced7408d33aa951e5c2c472e5d4f5e9d876dfa45b1b4bd9"
     }
   ],
   "sheets": [],
@@ -1197,5 +1197,5 @@
     "Test-host storage/theme/keys fixtures and authorized controller snapshots; no physical-device measurement",
     "No human visual acceptance supplied by integrity checks"
   ],
-  "scope": "Current tracer selected from complete frozen normal-build acquisition"
+  "scope": "Current tracer selected from complete normal-build acquisition after route-driver fix"
 }
