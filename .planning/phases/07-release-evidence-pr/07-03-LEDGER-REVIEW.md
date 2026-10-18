@@ -543,3 +543,23 @@ source scope.
 159-source/20-target audit,21 registered behavior sources and410 unchanged
 frozen paths. No execution,hits,exclusion,floor or product changes. Current
 partial index681 reviewed/149 pending;remainingmain is after1200.
+
+
+## Main setup,input,lifecycle and bootstrap conditions
+
+**SOLO-01,ARCH-02/03,INPUT-01/02/03/04/05/06,COOP-01/03/04/05,
+ITEM-03/04/05,RELAY-01/02/03/04/05,RACE-01/02/04/05,
+UI-02/03/04/05/06,TEST-01/02/03/04/05.** Final149 original main zero arms
+after1200 now have explicit condition/consequence/behavior limits. Draft edits
+and safe placement,owned device/epoch reclaim,disconnect policy,native held
+edges and focus,menu/pointer/resize precedence,and async hydration/late lease
+cleanup remain distinct from authorization and actual model/browser execution.
+[Review](07-03-MAIN-SETUP-INPUT-RESIDUAL-REVIEW.md) and
+[proof](07-03-MAIN-SETUP-INPUT-RESIDUAL-PROOF.json) bind149 exact sites,
+159-source/24-target reference audit,11 registered behavior sources and410
+unchanged frozen inputs. Event/option/RAF callbacks remain used despite zero
+resolved direct calls. All149 table identities verified and remain counted.
+No new execution,hits,exclusions,threshold or product changes. The original830
+snapshot now has830 reviewed/0 pending,18 existing witnesses and812 counted
+residuals. This is not a green enforcement result:full05 terminal/fresh raw
+reconciliation,standalone scene cases,07-04/05/06 and PR remain required.

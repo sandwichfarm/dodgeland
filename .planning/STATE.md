@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Fresh full05 enforcing collection live; semantic audit remains active
-last_updated: "2026-10-18T01:47:28.615Z"
+last_updated: "2026-10-18T01:51:02Z"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,26 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Full05 confirmed live exec70321;19 controls/126 production jobs pass;survive-recovery-board-layout active. Main651-1200 review adds76 counted cases;index681 reviewed/149 pending after1200. All410 frozen inputs unchanged. Remaining audit,standalone scene cases,07-04/05/06 and PR remain.
+last_activity_desc: Full05 confirmed live exec70321;last passed release-survive-mode-coverage,release-solo-mode-coverage active. Final149 Main setup/input/bootstrap sites reviewed;original snapshot830 reviewed/0 pending,18 existing witnesses and812 counted residuals. All410 frozen inputs unchanged. Full terminal/fresh reconciliation,scene cases,07-04/05/06 and PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+Final Main setup/input/lifecycle/bootstrap review binds149 original zero arms
+after1200. Explicit consequences/behavior limits retain all149 as counted.
+Read-only159-source/24-target audit,11 registered behavior sources,all149 table
+identities and410 unchanged frozen paths verified. No new execution,hits,
+exclusions,floor or app change. Current-semantic-ledger-15 verifies the complete
+original full03 snapshot partition:830 reviewed/0 pending,18 existing positive
+witnesses and812 counted residuals. This is not an enforcement pass or whole
+release completion. Preserve the original initial1051 ledger/source identities.
+Full05 exec70321 confirmed live by actual poll01:51UTC;release-survive-mode-
+coverage passed01:50:42UTC and release-solo-mode-coverage active. Continue same
+chain. On terminal,reconcile fresh raw/source-map/site identity and floors,
+then run the pending standalone scene cases.07-04/05/06 and PR remain unfinished.
+
 
 Main feedback/handoff/reset/HUD review binds76 original zero arms at651–1200.
 Explicit consequence/behavior limits cover assigned calls/native movement,

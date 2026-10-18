@@ -1,9 +1,9 @@
-# Partial current-source semantic index
+# Current-source semantic review partition
 
 The retained complete current-source enforcing-fail report0b8f818d has830 raw
-zero arms. This index records681 reviewed arms and149 pending. Eighteen reviewed
+zero arms. This index records830 reviewed arms and0 pending. Eighteen reviewed
 arms have source/schema-identical positive witnesses from later passing cohorts;
-663 are retained counted residuals. These counts are a semantic review partition,
+812 are retained counted residuals. These counts are a semantic review partition,
 not coverage percentages,additional execution or whole-release progress.
 
 | Review | Arms | Scope |
@@ -22,6 +22,7 @@ not coverage percentages,additional execution or whole-release progress.
 |MARKET-UI-RESIDUAL-REVIEW|72|Owner options,entry filters,draft/wardrobe/persistent-hand routing and animated-close lifetime;all remain counted.|
 |MAIN-OWNER-UI-RESIDUAL-REVIEW|97|Main lines1–650:owned transactions,item/recovery/lifecycle modals and router precedence;display key is not an authorization receipt. All remain counted.|
 |MAIN-HUD-RESET-RESIDUAL-REVIEW|76|Main lines651–1200:call/movement bridges,Relay wrappers,shortcut leases,reset,intents and HUD;all remain counted.|
+|MAIN-SETUP-INPUT-RESIDUAL-REVIEW|149|Main after1200:setup/join,owned reclaim,disconnect/native/menu/pointer/resize routing and async boot;all remain counted.|
 |CONTROLLER-GUARD-REVIEW private52/0|1|Private omitted context remains raw zero;fresh159-file/2-target audit revalidates the existing exact application value-flow proof.|
 
 The refreshed router audit independently finds one main constructor with a
@@ -34,13 +35,15 @@ frozen sources;it does not claim all arbitrary external callbacks behave so.
 
 `07-CURRENT-SEMANTIC-INDEX.json` binds review proof/doc hashes,raw inventory,
 current410-path freeze and router audit. Detailed per-arm index and assembly
-script are retained under `artifacts/release-coverage/current-semantic-ledger-14`.
+script are retained under `artifacts/release-coverage/current-semantic-ledger-15`.
 Assembly checks source/map identity and a unique nonoverlapping key for every
 reviewed row. It cannot supply the human condition/consequence review or turn a
 zero counter positive. Raw/global/per-file reports and all floors are unchanged.
 
-The remaining pending group is main149,after source line1200. All other files in this raw snapshot
-have reviewed dispositions. Historical initial
+Every arm in this original raw snapshot now has a reviewed disposition. This
+does not complete07-03:the active full05 run must reach a terminal passing
+enforcement result and its fresh raw counters must be reconciled by exact
+source/map/site identity. Standalone market-scene execution is still pending. Historical initial
 1051-row source identities/statuses in07-UNCOVERED remain intact;changed sources
 are not mechanically renumbered or relabeled. This current index is separate.
 
