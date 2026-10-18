@@ -8,18 +8,16 @@ created: 2026-10-16
 ---
 # Phase07 validation contract
 
-The command column preserves the planned task commands. Result cells now refer to
-actual execution records, including explicitly amended task scopes; they do not
-assert that every historical command string ran unchanged. Plans01–05 and07–12
-are complete. Plan06 Task1 is complete; its frozen full chain and actual PR remain
-pending. The first final run11882 terminated1 after a disk-pressure hold crossed a timed
-Race case. See07-06-FAILED-01;the whole-worker diagnostic36485 also failed a different route case;route cycle was reproduced and fixed652323a;whole instrumentedRace17/17passed.
-Visualrefresh54615passed;second fullrun96020/PID13528 isactive;PR pending. No phase or whole-release pass is claimed.
+All technical checks have actual terminal passes on417 unchanged inputs. The
+canonical invocation96020 ended1 at the final stale-documentation clause check;
+seven preceding stages passed,including all201 jobs andall coverage floors.
+After two documentation-only refresher corrections,exact integrity andclause
+checks passed separately. The canonical failure is retained;this is explicitly
+not a single successful runner invocation. See07-06-DOCUMENTATION-CONTINUATION.
+No technical input,normalbuild,oracle,rootlock,inheritedrunner orfloor changed.
+Actual openPR/readback andfinalSHIP closure remain. User UAT alreadyaccepted.
 
-The original Node26.11.1/node:test and Playwright1.61.0 infrastructure remains.
-The inherited gate and calibration passed in the failed run;fresh final coverage
-enforcement and the remaining final stages still require a successful new run. Root lock and solo oracle are unchanged.
-The earlier full05 enforcing pass is separately preserved in07-03 evidence.
+The task command column preserves planning history andeach row's actual receipt.
 
 ## Per-task verification and creation dependencies
 

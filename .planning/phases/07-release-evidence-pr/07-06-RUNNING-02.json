@@ -1,6 +1,6 @@
 {
-  "status": "running-not-accepted",
-  "observedAt": "2026-10-18T07:09:25.478218+00:00",
+  "status": "terminal-failed-last-documentation-check-repaired-separately-pr-pending",
+  "observedAt": "2026-10-18T07:20:56.828448+00:00",
   "runId": "56748255-a473-4788-953e-484abc34a082",
   "directory": "artifacts/release-final/56748255-a473-4788-953e-484abc34a082",
   "sessionId": 96020,
@@ -13,7 +13,7 @@
     "docs/release-evidence/reference/nip-5d.md": "7d716e8ec9f1737b070f4716b998f52fd6e189d5bb1bc4c2efe6c1dae35b9f37",
     "docs/release-evidence/reference/reference.json": "a8d13df59b6b2be2da2b22a5c4d8b2f37c845d07121b845d67883c1451749a12"
   },
-  "terminalExit": null,
+  "terminalExit": 1,
   "canonicalLog": "artifacts/release-final-launch-02/canonical.log",
   "limits": [
     "Second final attempt after actual route-helper fix652323a andcurrent visualrefresh;firstfailedrun retained",
@@ -67,6 +67,140 @@
       "stdoutSha256": "8e4d95e285f1610e734e810229d2ce6dcfca4004b5da61d73ec98559026aeb1f",
       "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "pass": true
+    },
+    {
+      "id": "enforcing-coverage",
+      "executable": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+      "args": [
+        "--max-old-space-size=24576",
+        "tools/release-coverage/run.mjs",
+        "--output",
+        "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/coverage"
+      ],
+      "pid": 50568,
+      "startedMs": 1792300640635,
+      "finishedMs": 1792307833000,
+      "durationMs": 7192365,
+      "exitCode": 0,
+      "signal": null,
+      "processError": null,
+      "durabilityError": null,
+      "stdoutPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/enforcing-coverage.stdout.log",
+      "stderrPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/enforcing-coverage.stderr.log",
+      "stdoutSha256": "6008db0fa10ea0165852ab9909bbe15f8bdd702448bc821460a1ca5197b560d8",
+      "stderrSha256": "ca576afad3571cd1282a3cbf6877bcbafcd0bb2510c6f45f88c791547f4969f5",
+      "pass": true
+    },
+    {
+      "id": "conformance-controls",
+      "executable": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+      "args": [
+        "tests/strict-node-tests.mjs",
+        "tests/release-conformance.test.mjs"
+      ],
+      "pid": 43638,
+      "startedMs": 1792307833166,
+      "finishedMs": 1792307833468,
+      "durationMs": 302,
+      "exitCode": 0,
+      "signal": null,
+      "processError": null,
+      "durabilityError": null,
+      "stdoutPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/conformance-controls.stdout.log",
+      "stderrPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/conformance-controls.stderr.log",
+      "stdoutSha256": "e37725a45aabc005b083b7c93313d8007d2c056c09f55605c7df76da035f5530",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pass": true
+    },
+    {
+      "id": "supplemental-conformance",
+      "executable": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+      "args": [
+        "tests/release-conformance.mjs",
+        "--reference",
+        "/Users/sandwich/Develop/crossy-road-clone/docs/release-evidence/reference/nip-5d.md",
+        "--reference-metadata",
+        "/Users/sandwich/Develop/crossy-road-clone/docs/release-evidence/reference/reference.json",
+        "--output",
+        "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/conformance.json"
+      ],
+      "pid": 43748,
+      "startedMs": 1792307833569,
+      "finishedMs": 1792307844176,
+      "durationMs": 10607,
+      "exitCode": 0,
+      "signal": null,
+      "processError": null,
+      "durabilityError": null,
+      "stdoutPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/supplemental-conformance.stdout.log",
+      "stderrPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/supplemental-conformance.stderr.log",
+      "stdoutSha256": "f76d5223509030ddaf65eb98ba394c3e3682c5ecaf8b0d3671d3e314bf582595",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pass": true
+    },
+    {
+      "id": "evidence-controls",
+      "executable": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+      "args": [
+        "tests/strict-node-tests.mjs",
+        "tests/release-evidence.test.mjs"
+      ],
+      "pid": 44068,
+      "startedMs": 1792307844280,
+      "finishedMs": 1792307844449,
+      "durationMs": 169,
+      "exitCode": 0,
+      "signal": null,
+      "processError": null,
+      "durabilityError": null,
+      "stdoutPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/evidence-controls.stdout.log",
+      "stderrPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/evidence-controls.stderr.log",
+      "stdoutSha256": "a3288bc9beffaf7ee253b5e5acdb6a8413a0fee41997befb4c9191321fda47d6",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pass": true
+    },
+    {
+      "id": "evidence-integrity",
+      "executable": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+      "args": [
+        "tools/release-coverage/evidence.mjs",
+        "--check"
+      ],
+      "pid": 44137,
+      "startedMs": 1792307844550,
+      "finishedMs": 1792307844684,
+      "durationMs": 134,
+      "exitCode": 0,
+      "signal": null,
+      "processError": null,
+      "durabilityError": null,
+      "stdoutPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/evidence-integrity.stdout.log",
+      "stderrPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/evidence-integrity.stderr.log",
+      "stdoutSha256": "62390fa0619771cefecfa53cbbf1f0941b0a6616cb728b0d85b8073e27d436db",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pass": true
+    },
+    {
+      "id": "original-clauses",
+      "executable": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+      "args": [
+        "tools/release-coverage/evidence.mjs",
+        "--check-clauses"
+      ],
+      "pid": 44215,
+      "startedMs": 1792307844783,
+      "finishedMs": 1792307844908,
+      "durationMs": 125,
+      "exitCode": 1,
+      "signal": null,
+      "processError": null,
+      "durabilityError": null,
+      "stdoutPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/original-clauses.stdout.log",
+      "stderrPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/original-clauses.stderr.log",
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "b44183603d9c2e38b399312f6e65242a5de9d3dea906e943fba79454ea2cc49d",
+      "pass": false,
+      "failure": "Exit 1"
     }
   ],
   "coverageObservation": {
@@ -75,8 +209,9 @@
     "terminalProduction": 182,
     "nonzeroTerminalJobs": 0,
     "expectedProduction": 182,
-    "enforcementTerminal": false,
-    "collectionComplete": true
+    "enforcementTerminal": true,
+    "collectionComplete": true,
+    "enforcementExit": 0
   },
   "frozenInputsVerified": 417,
   "parentObservation": "PID STAT  ELAPSED COMM\n13528 Ss   02:12:12 node",
@@ -106,8 +241,9 @@
   },
   "receiptHandoff": {
     "session": 65644,
-    "statusPath": "artifacts/release-final-launch-02/audit/receipt-handoff.json",
-    "status": "waiting-for-actual-enforcing-stage-terminal"
+    "terminalExit": 1,
+    "status": "failed then explicit documentation-only repair terminal0",
+    "proof": "docs/release-evidence/final-documentation-checks.json"
   },
   "coverageMilestones": {
     "raceLayout": {
@@ -278,5 +414,6 @@
       },
       "noTimedWorkerSuspended": true
     }
-  ]
+  ],
+  "technicalContinuation": "docs/release-evidence/release.json"
 }

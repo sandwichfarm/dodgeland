@@ -1,7 +1,7 @@
 {
   "schema": "release-clauses-1",
   "createdAt": "2026-10-18T03:20:59.084302+00:00",
-  "scope": "Current implementation and actual full05 behavior/normal visual proof;whole release awaits final07-06 gate andactual PR",
+  "scope": "Current production behavior,current normal visuals and actual fresh final-run execution receipts;actual full technical gate and PR delivery remain separate",
   "caseReferencesRequired": true,
   "sourceHashes": {
     ".planning/REQUIREMENTS.md": "c05ae02cd64e7f16846e51c64cc57844c80c44ed34eeb287881cdce83fabfa1a",
@@ -55,16 +55,16 @@
   },
   "executionsSource": {
     "path": "docs/release-evidence/executions-full05.json",
-    "sha256": "adec596b079d9ea92cf389496f084f89d9a9ce59ff69cbafe5c00626e064d132"
+    "sha256": "75ca0cb6bad0c63998acbd3272bd26bb7f010e091e3999cf9ec2cc06efd85d52"
   },
   "additionalExecutions": [
     {
       "id": "enforcing-full05",
       "kind": "measured-command",
-      "commandId": "enforcing-full05",
+      "commandId": "c39c0fee-a277-47ec-b276-95f5e6b26932",
       "terminalExit": 0,
-      "receiptPath": ".planning/phases/07-release-evidence-pr/07-03-CURRENT-FULL-05-PROOF.json",
-      "receiptSha256": "92964ee3f86d91ac6595faecd3e52b13b9c0863494f742426e9af7938d4a1733",
+      "receiptPath": ".planning/phases/07-release-evidence-pr/07-06-COVERAGE-PROOF.json",
+      "receiptSha256": "c461cfecef57dc42a9cef1641290212998d5f687a734e099b80e4c8f52de3464",
       "terminalPath": [
         "terminalExit"
       ],
@@ -13474,8 +13474,7 @@
     "No cryptographic signature/publication or physical hardware measurement",
     "Technical inspection is separate from already-received2026-10-16 human presentation acceptance",
     "Current full05 coverage jobs execute instrumented production/development/module graphs;normal companion andnormal visual builds remain explicitly separate",
-    "Final canonical technical release andverified actual open PR remain required",
-    "After test-only route-driver fix652323a,current visual acquisition is verified;historical full05 executed-input bindings require refresh from actual fresh final collection before clause acceptance. Do not relabel historical test hashes as current."
+    "Final canonical technical release andverified actual open PR remain required"
   ],
   "auditCounts": {
     "originalClauses": 51,
@@ -13484,5 +13483,19 @@
     "originalEvidenceGroups": 117,
     "distinctReferencedJobCases": 684,
     "distinctReferencedJobs": 77
+  },
+  "executionRefresh": {
+    "historicalReceipt": {
+      "path": "docs/release-evidence/executions-historical-full05.json",
+      "sha256": "adec596b079d9ea92cf389496f084f89d9a9ce59ff69cbafe5c00626e064d132"
+    },
+    "actualNewRunId": "c39c0fee-a277-47ec-b276-95f5e6b26932",
+    "retainedStableIds": true,
+    "replacedAllProductionJobReceipts": 182,
+    "failedRunExcluded": true,
+    "sourceChanges": [
+      "tests/race-browser-fixture.mjs",
+      "tests/race-runtime.mjs"
+    ]
   }
 }

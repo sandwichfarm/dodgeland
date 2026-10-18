@@ -1,0 +1,86 @@
+{
+  "purpose": "Actual fresh final-run enforcing coverage and source/map/raw-zero proof;not whole release or PR acceptance",
+  "createdAt": "2026-10-18T07:18:32.297016+00:00",
+  "runId": "c39c0fee-a277-47ec-b276-95f5e6b26932",
+  "releaseRunId": "56748255-a473-4788-953e-484abc34a082",
+  "terminalExit": 0,
+  "stage": {
+    "id": "enforcing-coverage",
+    "executable": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+    "args": [
+      "--max-old-space-size=24576",
+      "tools/release-coverage/run.mjs",
+      "--output",
+      "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/coverage"
+    ],
+    "pid": 50568,
+    "startedMs": 1792300640635,
+    "finishedMs": 1792307833000,
+    "durationMs": 7192365,
+    "exitCode": 0,
+    "signal": null,
+    "processError": null,
+    "durabilityError": null,
+    "stdoutPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/enforcing-coverage.stdout.log",
+    "stderrPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/enforcing-coverage.stderr.log",
+    "stdoutSha256": "6008db0fa10ea0165852ab9909bbe15f8bdd702448bc821460a1ca5197b560d8",
+    "stderrSha256": "ca576afad3571cd1282a3cbf6877bcbafcd0bb2510c6f45f88c791547f4969f5",
+    "pass": true
+  },
+  "status": "enforced-pass",
+  "policyResult": {
+    "pass": true,
+    "failures": []
+  },
+  "summary": {
+    "lines": {
+      "total": 7994,
+      "covered": 7913,
+      "skipped": 0,
+      "pct": 98.98
+    },
+    "statements": {
+      "total": 13888,
+      "covered": 13344,
+      "skipped": 0,
+      "pct": 96.08
+    },
+    "functions": {
+      "total": 2242,
+      "covered": 2196,
+      "skipped": 0,
+      "pct": 97.94
+    },
+    "branches": {
+      "total": 9998,
+      "covered": 9189,
+      "skipped": 0,
+      "pct": 91.9
+    },
+    "branchesTrue": {
+      "total": 0,
+      "covered": 0,
+      "skipped": 0,
+      "pct": "Unknown"
+    }
+  },
+  "terminalJobs": 201,
+  "frozenPathsVerified": 417,
+  "normalArtifactRawSha256": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
+  "reconciliation": {
+    "originalReviewedSnapshot": 830,
+    "originalZerosNowPositive": 21,
+    "freshRawZeros": 809,
+    "pendingNewZeros": 0
+  },
+  "hashes": {
+    "artifacts/release-final/56748255-a473-4788-953e-484abc34a082/coverage/manifest.json": "3fd96137d8066414ca8847960e4b7001c49c761c30732487f34e08cf73de87ff",
+    "artifacts/release-final/56748255-a473-4788-953e-484abc34a082/coverage/job-ledger.json": "e34f4aa4500e5f221fd8f11c5478613a860b6fc5c231621789929f66e638c0ab",
+    "artifacts/release-final-launch-02/audit/reconciliation.json": "fe00ae0707c12bd7d34eb1c6bcd72939270c706f258c71e4f3c25f04725e6c9f",
+    "artifacts/release-final-launch-02/launch.json": "0ba7802c573979a1575e951e4d0bc5f8ff92288adb704a438b9848e5abcb1fd1"
+  },
+  "limits": [
+    "Final conformance/evidence stages and actual open PR remain required",
+    "Physical hardware remains unmeasured"
+  ]
+}

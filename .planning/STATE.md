@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-06 second full release run96020/PID13528 active; route repaired and visual refresh passed
+stopped_at: 07-06 checks verified with documented receipt continuation; actual PR pending
 last_updated: "2026-10-18T06:00:51.801261+00:00"
 progress:
   total_phases: 7
@@ -18,6 +18,24 @@ last_activity_desc: 07-05 complete;all51original clauses/47requirements mapped,6
 # Project State
 
 ## Current work
+
+All required technical checks now have actual terminal passes on the same417
+frozen inputs. Canonical run96020/PID13528 terminated1 at the last original-
+clauses stage;seven preceding stages passed,including enforcing coverage and
+conformance. Actual documentation refresher wrongly compared separately pinned
+dist against source-only map,and then misread TAP todo0. Both documentation-only
+bugs repaired;actual fresh182 receipts preserved,allnamed references present;
+exact integrity/clause commands terminal0. Failed canonical command remains1.
+No single-invocation pass is claimed. No source/test/tool/build/floor edits.
+Explicit scope/proofs in07-06-DOCUMENTATION-CONTINUATION anddocs/release-evidence/
+release.json. All201 jobs pass,all global/file/profilefloors pass;rawzero830site
+reconciliation:21nowpositive,809reviewed freshzeros,0new. Coverage98.98L/97.94F/
+91.90B. All417 freeze andnormal/inherited/rootlock/artifactcoupling rechecked0.
+
+Next:commit current durable evidence,push intendedbranch,open authorizedactualPR,
+verifybase/head/remote andfinishSHIP/PR clauses+GSD closure. PRnotopenyet. User UAT
+alreadyaccepted;no additional approval needed. Hardware remainsunmeasured. No
+app/test/build chain live. Older observations below retain failed/live lineage.
 
 SECOND FINAL RUN IS LIVE: session96020, actual PID13528, run
 56748255-a473-4788-953e-484abc34a082. Exact command: node tests/release-gate.mjs.

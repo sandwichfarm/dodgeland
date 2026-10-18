@@ -1,10 +1,18 @@
 # Multiplayer release evidence
 
-The normal-build visual matrix has been refreshed and inspected after the
-route-driver test fix. The complete instrumented Race worker passed17/17.
-Historical full05 execution receipts remain preserved;their test-input bindings
-must be refreshed from actual fresh collection before current clause acceptance.
-The final canonical release gate and actual open PR remain pending.
+All 182 production jobs and 19 controls passed on the frozen source. Global
+coverage is 98.98% lines, 97.94% functions, and 91.90% branches; all declared
+file and mode thresholds passed. See [release evidence](release.json),
+[coverage](final-coverage.json), and [source audit](final-source-audit.json).
+
+The canonical runner exited 1 at its last clause check because a documentation
+refresher left historical test-input hashes in place. Its seven preceding stages
+passed, including conformance. The failed invocation is preserved in
+[stage receipts](final-stages.json). After repairing the documentation receipts,
+the exact clause check and integrity check passed; their actual outputs and
+repair history are [retained separately](final-documentation-checks.json).
+This does not claim a single successful runner invocation. All 417 technical
+inputs and the normal artifact remain unchanged. Actual PR delivery is pending.
 
 ## Visual proof
 
@@ -46,14 +54,15 @@ Nested Relay/Race execution receipts remain in the manifest. All browsers muted.
 
 ## Conformance and behavioral execution
 
-[Conformance report](conformance.json) records real official storage shim requests,
+[Current conformance report](final-conformance.json) ([prior report](conformance.json)) records real official storage shim requests,
 promise/reply correlation, missing/mismatched/wrong-source/duplicate controls and
 scoped teardown. The current unsigned public candidate field subset and normal
 artifact digest pass independently. Installed legacy CLI:5 passed/5 unmeasured;
 supplement:6 passed/4 unmeasured. No signing or publication occurred.
 
-[Full05 execution receipts](executions-full05.json) retain all182 production jobs,
-their named actual passing cases, terminal ledger and unchanged410-input freeze.
+[Current execution receipts](executions-full05.json) retain all182 production jobs,
+1280 positive per-job case names, terminal ledger and417-input freeze. Stable
+full05/ reference IDs point to fresh actual run receipts;the [historical receipt](executions-historical-full05.json) is preserved separately.
 These coverage jobs execute instrumented production/development builds or compiled
 modules;their exact executed identities are separate from the normal companion
 artifact. The [clause map](clauses.json) retains the original compound
@@ -65,6 +74,6 @@ retains accepted lifecycle/results policy andexplicit hardware/protocol limits.
 ## Remaining release work
 
 All51 original-clause and47 requirement rows are present;only the SHIP/PR rows
-remain pending. Run the unchanged inherited gate plus calibrated additive checks.
-Open and verify the actual PR against main after those pass. Human presentation
+remain pending. Technical checks and documentation continuation are complete as described above.
+Open and verify the actual PR against main. Human presentation
 acceptance was already received2026-10-16;physical hardware remains unmeasured.
