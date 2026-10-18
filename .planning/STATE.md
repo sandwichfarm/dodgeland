@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-03 complete;full05 enforcing pass;07-04 actual conformance next
-last_updated: "2026-10-18T02:52:59.758127Z"
+stopped_at: 07-04 complete;actual wire and negative controls pass;07-05 visual evidence next
+last_updated: "2026-10-18T02:58:06.392666+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
   total_plans: 45
-  completed_plans: 42
+  completed_plans: 43
 current_phase: 07
 current_phase_name: release-evidence-pr
 last_activity_desc: 07-03 complete;canonical70321exit0,all201jobs,525parents,1215mode intervals,zero exact floor shortfalls. Fresh810zeros all reviewed andall410inputs unchanged. Scene2/2 andtype-check pass. Activate07-04 from conformance-draft-02 with raw-candidate retention;07-05/06 and PR remain.
@@ -19,20 +19,18 @@ last_activity_desc: 07-03 complete;canonical70321exit0,all201jobs,525parents,121
 
 ## Current work
 
-07-03 is complete. Actual canonical full05 exec70321/PID1821 terminated0 with
-ENFORCED COVERAGE PASS:182 production jobs,19 controls,525 parents (423 browser,
-102 Node),1215 exclusive mode intervals,0 exact floor shortfalls. Global
-98.98L/97.94F/91.89B;all file/profile floors pass. All410 frozen inputs match.
-Terminal reconcile.mjs passes:20 former zeros now positive,810 freshzeros all
-reviewed,0 new pending. Standalone scene24919passed2/2 andtype-check50459exit0.
-07-03-SUMMARY and CURRENT-FULL-05-PROOF bind exact source/report/check hashes.
-Plan count42/45;the broader phase/goal is not complete.
-Next activate07-04:copy reviewed conformance-draft-02 modules into planned tests
-paths,retain raw public candidate text/bytes with digest,run actual unit and
-browser controls sequentially. Fresh reference metadata is under artifacts/
-release-coverage/conformance-reference-2026-10-18-01. Continue07-05 actual normal
-images/clauses and07-06 exact chain/actual PR. Earlier unexecuted drafts remain
-preparation only. No second test chain;current coverage process is terminal.
+07-04 is complete. Actual supplement26814exit0:five opaque-frame scenarios,
+real official-shim promises/receiver traffic and scoped repeated teardown.
+Units3/3exit0;CLI68244exit0 (5pass/5unmeasured). Normal artifact e9800fc8 matches
+full05 enforcing coverage. Durable docs/release-evidence/conformance.json retains
+raw public candidate,source/reference/engine provenance and actual command logs.
+Ready-modal HUD hiding required visible Play before visible sound click;failed
+attempts01–03 retained,product source unchanged. No fabricated wire acceptance.
+43/45plans complete. Next07-05 actual normal visual tracer,required frame/state
+matrix and complete clause rows;then07-06 exact final gate and actual open PR.
+No test/build/browser chain remains live. Full05 is terminal0,all201jobs and all
+exact floors pass;historical reporting-progress paragraphs below are dated
+lineage rather than current live status. Human UX acceptance already received.
 
 
 Full05 has completed all182 production jobs and19 controls with exit0. Same
