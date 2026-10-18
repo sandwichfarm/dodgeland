@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Full05 still live; retained snapshot semantic review complete; conformance draft unexecuted
-last_updated: "2026-10-18T02:12:48.036234Z"
+last_updated: "2026-10-18T02:25:27.030865Z"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,34 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Same full05 exec70321 live;168 production jobs/19 controls pass,last race-mud-movement-test. Original830 snapshot reviewed. Conformance draft02 and visual/clause integrity draft01 remain unexecuted outside frozen inputs. All410 frozen paths unchanged;batch04 compression independently verified. Full terminal/fresh reconciliation,scene cases,07-04/05/06 and PR remain.
+last_activity_desc: Same full05 exec70321 live;180 production jobs/19 controls pass,last race-reclaim-transactions-test. All410 frozen paths unchanged. Gate draft01 has two syntax-checked unexecuted modules;earlier conformance/evidence drafts remain pending activation. Existing05/06UAT and security closure confirmed complete. Full terminal/fresh reconciliation,scene cases,07-04/05/06 and PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+Final-gate draft01 is isolated under artifacts/release-coverage/gate-draft-01;
+two modules independently pass node --check. No unit/control/final stage or
+additional browser/build/test chain ran. It byte-pins inherited phase6 order,
+chains all planned additive stages,requires nonempty complete non-skipped TAP,
+records terminal/PID/log hashes,guards source/normal HTML per stage and rejects
+stale cross-report artifact/source coupling. Raw SHA versus collector
+JSON(Buffer) hashes remain distinct. Technical success keeps releaseAccepted
+false until actual PR delivery. Actual negative controls/final execution remain
+pending after07-05. Conformance activation must also retain exact raw public
+candidate bytes/text alongside its digest;do not mutate pinned draft02 files.
+Existing05/06UAT records are complete with the actual user pass;security records
+are SECURED with30/30 and7/7 threats closed;cd1a05c records formal closure.
+Historical pre-acceptance pending statements are dated evidence,not a new gate.
+This reconciliation adds no new current-build scan or hardware claim.
+Batch05 compressed16 payloads from169 terminal exit0 owners;independent
+verification checks all contents,original ledger prefix and410 unchanged
+frozen inputs. Per-file allocation savings637,497,344bytes;active outputs untouched.
+Full05 same70321 confirmed live;180 production jobs/19 controls pass,no failures
+observed,last race-reclaim-transactions-test. Terminal enforcement/fresh raw reconciliation,
+standalone scene cases,07-04/05/06 and actual PR remain unfinished.
+
 
 Visual/clause integrity foundation draft01 is isolated under artifacts/release-
 coverage/evidence-draft-01;two modules pass independent node --check. No unit,
