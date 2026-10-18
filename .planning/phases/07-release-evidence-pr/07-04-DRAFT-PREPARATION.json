@@ -1,0 +1,41 @@
+{
+  "purpose": "Unexecuted conformance implementation draft outside all frozen inputs;not07-04 completion or protocol evidence",
+  "createdAt": "2026-10-18T02:00:57.488810+00:00",
+  "draftSources": {
+    "artifacts/release-coverage/conformance-draft-01/release-conformance-host.mjs": "3fafc94654b47c0d4e691a6b90d32aafbb9c3209481db87088fef347be1c35b6",
+    "artifacts/release-coverage/conformance-draft-01/release-conformance.mjs": "689bb3ace6ee4616f221ecd241be6a04872a94da7b74d0fd63f887859330e301",
+    "artifacts/release-coverage/conformance-draft-01/release-conformance.test.mjs": "080b3318c498596e5295b395790873cee1e986768abc5b20e823851c41c3eac0"
+  },
+  "sourceSyntaxChecks": [
+    {
+      "command": "node --check artifacts/release-coverage/conformance-draft-01/release-conformance-host.mjs",
+      "exitCode": 0,
+      "runtimeOrTestExecution": false
+    },
+    {
+      "command": "node --check artifacts/release-coverage/conformance-draft-01/release-conformance.mjs",
+      "exitCode": 0,
+      "runtimeOrTestExecution": false
+    },
+    {
+      "command": "node --check artifacts/release-coverage/conformance-draft-01/release-conformance.test.mjs",
+      "exitCode": 0,
+      "runtimeOrTestExecution": false
+    }
+  ],
+  "frozenPathsVerified": 410,
+  "freezePath": "artifacts/release-coverage/current-full-05-proof/freeze.json",
+  "freezeSha256": "c72459fff67275b20c5b67c1076d781f825a00cec405fada8743cb2f350111a3",
+  "frozenInputChanges": [],
+  "executedBrowserJourneys": 0,
+  "executedUnitCases": 0,
+  "executionDependency": "Terminal accepted07-03 enforcement and fresh raw reconciliation;then copy reviewed drafts into planned tests paths and run actual checks",
+  "sourceResolution": "Public SDK ESM entry via import.meta.resolve;installed SDK dependency context and ./storage/shim export;CJS root resolution was rejected by import-only exports",
+  "pending": [
+    "Review draft API/host behavior",
+    "Refresh current primary protocol reference at execution",
+    "Run unit negative controls and actual browser journeys sequentially",
+    "Validate/record actual wire,timeout,teardown,current manifest and installed-engine limitations",
+    "Retain exact terminal/source/build hashes and finish07-04 summary"
+  ]
+}
