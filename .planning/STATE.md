@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Fresh full05 enforcing collection live; semantic audit remains active
-last_updated: "2026-10-18T01:06:30.295528+00:00"
+last_updated: "2026-10-18T01:17:48.208663+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,26 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Full05 remains live exec70321;Race item suite passed,production at race-layout. Session audit71 arms:6 prior real witnesses/65 counted residuals,159-source15-target audit and all410 frozen paths verified. No new hits/exclusions/source changes. Other semantic audit,standalone scene,07-04/05/06/PR remain.
+last_activity_desc: Partial current semantic index208 reviewed/622 pending of830 retained raw zero arms:18 existing witnesses/190 counted residuals. Fresh159-file2-target router context flow revalidated;all410 freeze hashes unchanged. Full05 live exec70321;Race layout passed,production continues. No final gate/PR.
 ---
 
 # Project State
 
 ## Current work
+
+CURRENT-SEMANTIC-INDEX now partitions830 original current-source zero arms:
+208 reviewed,622 pending. Eighteen have existing later passing-cohort witnesses;
+190 remain counted residuals. No new execution,counters,source exclusions or
+threshold changes. Five disjoint review groups are bound by source/map identity,
+proof/doc SHA and exact row keys. Fresh159-source/two-target GamepadRouter audit
+revalidates old private52/0 default:one main literal constructor/template-string
+context,one createLease call with explicit const snapshotContext argument,no
+resolved extraction/computed access. All410 frozen paths reverified. Largest
+pending main322/market-ui72/run-hand39/game28;full per-file list in indexJSON.
+Historical initial1051 rows untouched. Full05 still live exec70321,parent1821;
+Race layout passed at01:10:32UTC after354s,and race-lifecycle-test is active.
+Continue same chain,readonly audit/docs only. Two standalone scene cases after
+chain,remaining semantic review,07-04/05/06 and PR remain required.
 
 Session residual review now binds71 original current-full arms:five existing
 Flare safety witnesses plusone existing reclaim-offer witness;65 counted shared

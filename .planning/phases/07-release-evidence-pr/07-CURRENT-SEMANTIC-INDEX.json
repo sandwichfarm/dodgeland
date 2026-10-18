@@ -1,0 +1,285 @@
+{
+  "purpose": "Source-bound partial current semantic index. Human reviews remain distinct from counters;no new execution,numerator,exclusion,floor or final release claim.",
+  "sourceRun": "0b8f818d-62a2-4922-ab83-242886778c0c",
+  "sourceInventoryRawSha256": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+  "rawZeroArms": 830,
+  "reviewed": 208,
+  "pending": 622,
+  "existingPositiveWitnessLinks": 18,
+  "reviewedCountedResiduals": 190,
+  "freshFullRun": "cb52774e-975e-4388-a064-5162ef3807d8",
+  "freshFullStatus": "active;no final result inferred",
+  "sourceTestToolConfigBuildLockFrozenPathsVerified": 410,
+  "groups": [
+    {
+      "proofPath": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-PROOF.json",
+      "docPath": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "rows": 94
+    },
+    {
+      "proofPath": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-PROOF.json",
+      "docPath": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "rows": 33
+    },
+    {
+      "proofPath": ".planning/phases/07-release-evidence-pr/07-03-SESSION-RESIDUAL-PROOF.json",
+      "docPath": ".planning/phases/07-release-evidence-pr/07-03-SESSION-RESIDUAL-REVIEW.md",
+      "rows": 71
+    },
+    {
+      "proofPath": ".planning/phases/07-release-evidence-pr/07-03-SCHEMA-RECOVERY-SEMANTIC-PROOF.json",
+      "docPath": ".planning/phases/07-release-evidence-pr/07-03-SCHEMA-RECOVERY-SEMANTIC-REVIEW.md",
+      "rows": 9
+    },
+    {
+      "proofPath": ".planning/phases/07-release-evidence-pr/07-03-CONTROLLER-GUARD-PROOF.json",
+      "docPath": ".planning/phases/07-release-evidence-pr/07-03-CONTROLLER-GUARD-REVIEW.md",
+      "rows": 1
+    }
+  ],
+  "byFile": {
+    "src/actors.ts": {
+      "total": 3,
+      "reviewed": 3,
+      "pending": 0
+    },
+    "src/audio.ts": {
+      "total": 19,
+      "reviewed": 0,
+      "pending": 19
+    },
+    "src/character-power-ui.ts": {
+      "total": 1,
+      "reviewed": 1,
+      "pending": 0
+    },
+    "src/character-powers.ts": {
+      "total": 1,
+      "reviewed": 1,
+      "pending": 0
+    },
+    "src/co-op-market.ts": {
+      "total": 5,
+      "reviewed": 0,
+      "pending": 5
+    },
+    "src/coin-denominations.ts": {
+      "total": 1,
+      "reviewed": 1,
+      "pending": 0
+    },
+    "src/collection-ui.ts": {
+      "total": 27,
+      "reviewed": 27,
+      "pending": 0
+    },
+    "src/consumable-drops.ts": {
+      "total": 7,
+      "reviewed": 7,
+      "pending": 0
+    },
+    "src/devtools.ts": {
+      "total": 2,
+      "reviewed": 2,
+      "pending": 0
+    },
+    "src/game.ts": {
+      "total": 28,
+      "reviewed": 0,
+      "pending": 28
+    },
+    "src/gamepad.ts": {
+      "total": 18,
+      "reviewed": 0,
+      "pending": 18
+    },
+    "src/main.ts": {
+      "total": 322,
+      "reviewed": 0,
+      "pending": 322
+    },
+    "src/market-preview.ts": {
+      "total": 4,
+      "reviewed": 4,
+      "pending": 0
+    },
+    "src/market-scene.ts": {
+      "total": 8,
+      "reviewed": 8,
+      "pending": 0
+    },
+    "src/market-scenery.ts": {
+      "total": 1,
+      "reviewed": 1,
+      "pending": 0
+    },
+    "src/market-ui.ts": {
+      "total": 72,
+      "reviewed": 0,
+      "pending": 72
+    },
+    "src/mob-models.ts": {
+      "total": 1,
+      "reviewed": 1,
+      "pending": 0
+    },
+    "src/mobs.ts": {
+      "total": 6,
+      "reviewed": 0,
+      "pending": 6
+    },
+    "src/pause-ui.ts": {
+      "total": 12,
+      "reviewed": 12,
+      "pending": 0
+    },
+    "src/race-items.ts": {
+      "total": 3,
+      "reviewed": 3,
+      "pending": 0
+    },
+    "src/race-results.ts": {
+      "total": 2,
+      "reviewed": 2,
+      "pending": 0
+    },
+    "src/race-ui.ts": {
+      "total": 19,
+      "reviewed": 0,
+      "pending": 19
+    },
+    "src/race.ts": {
+      "total": 15,
+      "reviewed": 15,
+      "pending": 0
+    },
+    "src/recovery.ts": {
+      "total": 2,
+      "reviewed": 2,
+      "pending": 0
+    },
+    "src/relay-results.ts": {
+      "total": 1,
+      "reviewed": 1,
+      "pending": 0
+    },
+    "src/relay-ui.ts": {
+      "total": 20,
+      "reviewed": 0,
+      "pending": 20
+    },
+    "src/relay.ts": {
+      "total": 12,
+      "reviewed": 12,
+      "pending": 0
+    },
+    "src/render.ts": {
+      "total": 18,
+      "reviewed": 0,
+      "pending": 18
+    },
+    "src/run-hand.ts": {
+      "total": 39,
+      "reviewed": 0,
+      "pending": 39
+    },
+    "src/run-menu.ts": {
+      "total": 20,
+      "reviewed": 20,
+      "pending": 0
+    },
+    "src/run-seed.ts": {
+      "total": 2,
+      "reviewed": 2,
+      "pending": 0
+    },
+    "src/seed-copy.ts": {
+      "total": 4,
+      "reviewed": 0,
+      "pending": 4
+    },
+    "src/session-input.ts": {
+      "total": 1,
+      "reviewed": 1,
+      "pending": 0
+    },
+    "src/session-recovery.ts": {
+      "total": 4,
+      "reviewed": 0,
+      "pending": 4
+    },
+    "src/session-ui.ts": {
+      "total": 18,
+      "reviewed": 0,
+      "pending": 18
+    },
+    "src/session.ts": {
+      "total": 71,
+      "reviewed": 71,
+      "pending": 0
+    },
+    "src/sound-packs.ts": {
+      "total": 1,
+      "reviewed": 1,
+      "pending": 0
+    },
+    "src/sound-settings.ts": {
+      "total": 5,
+      "reviewed": 5,
+      "pending": 0
+    },
+    "src/soundscape.ts": {
+      "total": 5,
+      "reviewed": 0,
+      "pending": 5
+    },
+    "src/survive-results-ui.ts": {
+      "total": 14,
+      "reviewed": 0,
+      "pending": 14
+    },
+    "src/survive-together.ts": {
+      "total": 1,
+      "reviewed": 0,
+      "pending": 1
+    },
+    "src/vehicle-models.ts": {
+      "total": 1,
+      "reviewed": 1,
+      "pending": 0
+    },
+    "src/wearables.ts": {
+      "total": 1,
+      "reviewed": 1,
+      "pending": 0
+    },
+    "src/levels/v1.ts": {
+      "total": 3,
+      "reviewed": 3,
+      "pending": 0
+    },
+    "src/market/run.ts": {
+      "total": 10,
+      "reviewed": 0,
+      "pending": 10
+    }
+  },
+  "hashes": {
+    "artifacts/release-coverage/semantic-current-03/raw-zero-review.json": "c8297f9591dcbe604c1ff06f2e67ca6575ac9570a94838dec747530dcfda5fc4",
+    ".planning/phases/07-release-evidence-pr/07-03-SCHEMA-RECOVERY-SEMANTIC-PROOF.json": "8a5bfe67e7b38a5b107cef1ab65e13a01131247c05265c0d68bd57e471a83a09",
+    "artifacts/release-coverage/current-full-05-proof/freeze.json": "c72459fff67275b20c5b67c1076d781f825a00cec405fada8743cb2f350111a3",
+    ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-PROOF.json": "010916cd064cc59e02cc6103e271e6232a93ad3abd2f5ef335482d0decc0e0f2",
+    ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md": "c40d0adb72e85908cb9c4b0f023b73a3f0713066ff2ecc8e1275c9e99aeb00cf",
+    ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-PROOF.json": "5827142cc8bd45faf2e1a637874955873727c824b7ae98f3e0069f87c2a2c537",
+    ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md": "44a5ecfc792838719dcc7f7405086422b1a091824b14562a2e520f6a1b547d28",
+    ".planning/phases/07-release-evidence-pr/07-03-SESSION-RESIDUAL-PROOF.json": "f272a67b7fe9114ba17a508d257b54aa40b07cf53e0baaaadb8afda30ac46742",
+    ".planning/phases/07-release-evidence-pr/07-03-SESSION-RESIDUAL-REVIEW.md": "8dc105f03d86bcd0bf11424dedd5a54e755714bd5f67010a17334c00a212a169",
+    ".planning/phases/07-release-evidence-pr/07-03-SCHEMA-RECOVERY-SEMANTIC-REVIEW.md": "efaa7eb7fef452a7185ca31b1070c937c4d5a6eed5ae8d76c650118eef410b43",
+    ".planning/phases/07-release-evidence-pr/07-03-CONTROLLER-GUARD-PROOF.json": "367f6f7ef0d82dbe47fd9db380ef459fba6c401e937df61ab79c20d62b6850c5",
+    "artifacts/release-coverage/current-semantic-ledger-04/context-audit.json": "5436beb822098d9cc675d8d2ad501f2f7401e681160def7edde3c0091830c5ce",
+    ".planning/phases/07-release-evidence-pr/07-03-CONTROLLER-GUARD-REVIEW.md": "594c426b40a5d64f3ecb6b9851095d90ae2d7e6cafc9c408a7a2cc27a13f18ac",
+    "artifacts/release-coverage/current-semantic-ledger-04/context-audit.mjs": "751f8c20541e4af621eff61d2c1fb74a0b7ed0bf825644a840ec8574c4559ed0",
+    "artifacts/release-coverage/current-semantic-ledger-04/context-audit.log": "6ba8f72e9097b786661f0dfd8f45f1f9f842de5fed26d8c73b91c3b6feadc0cd",
+    "artifacts/release-coverage/current-semantic-ledger-04/assemble.mjs": "b1bb90bb116b69393c8f22224dbfe38c1042faa21806996c693747f7594b380d"
+  }
+}

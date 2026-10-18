@@ -2,6 +2,15 @@
 
 Baseline: accepted07-12 run6802bfd4-2d88-4d8e-a091-9733e4423b91, frozen68c3f42. Exact47 floor shortfalls remain in pinned initial-report/shortfalls.json; all-source zeros/global/file floors unchanged. Generic executor fallback. No07-03 completion claim.
 
+## Current-source semantic index
+
+[Partial current index](07-CURRENT-SEMANTIC-INDEX.md) separately tracks830
+retained current-full raw zero arms:208 reviewed/622 pending,18 existing positive
+witness links/190 counted residuals. Exact source/map/site keys and review proof
+bindings remain separate from raw counts and the historical initial1051 rows.
+No source exclusion,floor change,new execution or complete-release claim. Fresh
+full05 is active;final report reconciliation remains mandatory.
+
 ## Latest Flare anchor safety evidence
 
 FLARE-SAFETY-SEMANTIC-REVIEW/PROOF:24 ordinary/24 canonical component cases,
