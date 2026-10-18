@@ -1,9 +1,9 @@
 {
   "schema": "down-to-duck-release-evidence-1",
   "createdAt": "2026-10-18T07:20:16.257518+00:00",
-  "status": "checks-verified-after-documentation-only-continuation-pr-pending",
-  "releaseAccepted": false,
-  "prOpened": false,
+  "status": "delivered-open-pr-with-documented-receipt-continuation",
+  "releaseAccepted": true,
+  "prOpened": true,
   "canonicalRunnerExit": 1,
   "canonicalRunnerPassed": false,
   "canonicalRunId": "56748255-a473-4788-953e-484abc34a082",
@@ -66,7 +66,13 @@
   "limits": [
     "Physical gamepad hardware unmeasured;runtime snapshots exercised",
     "No merge,deployment,signing or manifest publication",
-    "Actual PR creation/readback still required",
     "Original user presentation acceptance received2026-10-16"
-  ]
+  ],
+  "prUrl": "https://github.com/sandwichfarm/down-to-duck/pull/1",
+  "deliveryReceipt": {
+    "path": "docs/release-evidence/pr.json",
+    "sha256": "df58f061a99f4571c6321f937ca8f2d5ccc92a370820a4541a64c57e2cbf27ae"
+  },
+  "planCompletion": "All original requirements have terminal evidence;canonical invocation exit1 and separate documentation continuation remain explicitly retained",
+  "documentationContinuationExit": 0
 }

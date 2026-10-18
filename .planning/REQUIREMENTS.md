@@ -69,11 +69,11 @@
 ## Verification and delivery
 
 - [x] **TEST-01**: Execute precise baseline-vs-composed-solo differential tests and retain all existing deterministic course and gameplay regressions.
-- [ ] **TEST-02**: Add broad model/state-machine/integration coverage for each mode, shared simulation, input/lifecycle, revival cooldown, item odds/range/ownership and results; tests exercise real production logic.
-- [ ] **TEST-03**: Exercise complete multiplayer user flows in built opaque-iframe browser fixtures through keyboard and injected runtime gamepad events; assert no runtime errors, native access or production-only test hooks.
-- [ ] **TEST-04**: Capture and inspect visual proofs of all modes, setup, HUD, items/revival, market, disconnect states and podiums across desktop/compact/short sizes and themes.
-- [ ] **TEST-05**: Run required type-check/build/guidance/conformance checks, relevant legacy suites and per-mode coverage with explicit thresholds and meaningful uncovered-branch review.
-- [ ] **SHIP-01**: Work on a new branch, retain GSD plans/summaries/verifications and requirement traceability, commit coherent changes, and open a reviewable PR against main with tests and visual evidence.
+- [x] **TEST-02**: Add broad model/state-machine/integration coverage for each mode, shared simulation, input/lifecycle, revival cooldown, item odds/range/ownership and results; tests exercise real production logic.
+- [x] **TEST-03**: Exercise complete multiplayer user flows in built opaque-iframe browser fixtures through keyboard and injected runtime gamepad events; assert no runtime errors, native access or production-only test hooks.
+- [x] **TEST-04**: Capture and inspect visual proofs of all modes, setup, HUD, items/revival, market, disconnect states and podiums across desktop/compact/short sizes and themes.
+- [x] **TEST-05**: Run required type-check/build/guidance/conformance checks, relevant legacy suites and per-mode coverage with explicit thresholds and meaningful uncovered-branch review.
+- [x] **SHIP-01**: Work on a new branch, retain GSD plans/summaries/verifications and requirement traceability, commit coherent changes, and open a reviewable PR against main with tests and visual evidence.
 
 ## Traceability
 
@@ -125,11 +125,11 @@ behavior is implemented, verified and committed.
 | UI-05 | Phase 6 | Complete |
 | UI-06 | Phase 5 | Complete (05-VERIFICATION, 05-UAT, 05-SECURITY) |
 | TEST-01 | Phase 1 | Complete |
-| TEST-02 | Phase 7 | Pending |
-| TEST-03 | Phase 7 | Pending |
-| TEST-04 | Phase 7 | Pending |
-| TEST-05 | Phase 7 | Pending |
-| SHIP-01 | Phase 7 | Pending |
+| TEST-02 | Phase 7 | Complete (07-VERIFICATION; documented receipt continuation; PR1) |
+| TEST-03 | Phase 7 | Complete (07-VERIFICATION; documented receipt continuation; PR1) |
+| TEST-04 | Phase 7 | Complete (07-VERIFICATION; documented receipt continuation; PR1) |
+| TEST-05 | Phase 7 | Complete (07-VERIFICATION; documented receipt continuation; PR1) |
+| SHIP-01 | Phase 7 | Complete (07-VERIFICATION; documented receipt continuation; PR1) |
 
 ## Release criteria
 

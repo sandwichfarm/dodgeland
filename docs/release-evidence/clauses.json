@@ -1,11 +1,11 @@
 {
   "schema": "release-clauses-1",
   "createdAt": "2026-10-18T03:20:59.084302+00:00",
-  "scope": "Current production behavior,current normal visuals and actual fresh final-run execution receipts;actual full technical gate and PR delivery remain separate",
+  "scope": "Delivered original51clauses/47requirements withfresh actual execution,visual,coverage,conformance andPRproof;canonicalrunnerexit1 anddocumentation-only continuation explicitlyretained",
   "caseReferencesRequired": true,
   "sourceHashes": {
-    ".planning/REQUIREMENTS.md": "c05ae02cd64e7f16846e51c64cc57844c80c44ed34eeb287881cdce83fabfa1a",
-    ".planning/ROADMAP.md": "656952d420dc597172fec32f91f911fe103fd33d291350332f6e1aefa4b87e9c",
+    ".planning/REQUIREMENTS.md": "f056d195b20857829501d581d02be7147ac89145e5858272a636f305676da1a4",
+    ".planning/ROADMAP.md": "581956a5a5fbe9ef817843e4179632dfe5c6da187bcbb8b1fc4094ae8a4871b4",
     ".planning/USER-REQUEST.md": "abf7219607ecd3e3933cd7b31d681c2ef937990fd126337dc065e57a288dac75",
     ".planning/phases/07-release-evidence-pr/07-CLAUSE-OBLIGATIONS.md": "7908f96b7c37e334df7d4030e8c62a9f1037a339061269f5e58fbb79f7613738",
     ".planning/phases/07-release-evidence-pr/07-CLAUSE-PREPARATION.json": "c626070056064d3e9db9a1f9144fe8ee60d049f00953c50f0cc8358ef95de1d0",
@@ -51,7 +51,11 @@
     ".planning/phases/05-race/05-UAT.md": "b94c66c2e669486ee8e5dbcd1fc6251d8b6e763ad34662e126287e0848bd2fe9",
     ".planning/phases/06-cross-mode-presentation/06-UAT.md": "6657ea79137c7453a610587294fab06a9aab9037876110a5b86f4db80680cb6e",
     ".planning/phases/05-race/05-SECURITY.md": "6649cdb28db7b5508135b778ab783ff150feeb6cb3d12aca0a9fd6e753089188",
-    ".planning/phases/06-cross-mode-presentation/06-SECURITY.md": "ff9867184905a1caa567e1a3f34d2d30e0c9be36ffb0882fbd877cb46d7b0ac3"
+    ".planning/phases/06-cross-mode-presentation/06-SECURITY.md": "ff9867184905a1caa567e1a3f34d2d30e0c9be36ffb0882fbd877cb46d7b0ac3",
+    ".planning/phases/07-release-evidence-pr/07-PR.md": "5d492056b671c2ea01cf3f9c1d60b5307787159c992d77b6249c3495adc3568c",
+    ".planning/phases/07-release-evidence-pr/07-VERIFICATION.md": "e4a61f9f1305783378569f7eaf07c6c33482c42c08b02b963d4451df10c502e8",
+    ".planning/phases/07-release-evidence-pr/07-SECURITY.md": "1b0c2a0f5ef77aeb947b9c125840c8a3ffa266d99b2ac54bfec1c8209b15bb12",
+    ".planning/phases/07-release-evidence-pr/07-06-DOCUMENTATION-CONTINUATION.md": "5af04d332b89b0c843c4ac65e8b86854c557dc1fe2d94e3786915e98e478191d"
   },
   "executionsSource": {
     "path": "docs/release-evidence/executions-full05.json",
@@ -268,6 +272,149 @@
           ],
           "actual": 9,
           "expected": 9
+        }
+      ]
+    },
+    {
+      "id": "actual-pr-delivery",
+      "kind": "measured-command",
+      "commandId": "actual-gh-pr-1-create-and-readback",
+      "terminalExit": 0,
+      "receiptPath": "docs/release-evidence/pr.json",
+      "receiptSha256": "df58f061a99f4571c6321f937ca8f2d5ccc92a370820a4541a64c57e2cbf27ae",
+      "terminalPath": [
+        "terminalExit"
+      ],
+      "assertions": [
+        {
+          "name": "PR is open",
+          "receiptPath": [
+            "pr",
+            "state"
+          ],
+          "actual": "OPEN",
+          "expected": "OPEN"
+        },
+        {
+          "name": "Base is main",
+          "receiptPath": [
+            "pr",
+            "baseRefName"
+          ],
+          "actual": "main",
+          "expected": "main"
+        },
+        {
+          "name": "Feature head",
+          "receiptPath": [
+            "pr",
+            "headRefName"
+          ],
+          "actual": "feat/local-multiplayer",
+          "expected": "feat/local-multiplayer"
+        },
+        {
+          "name": "Actual URL",
+          "receiptPath": [
+            "pr",
+            "url"
+          ],
+          "actual": "https://github.com/sandwichfarm/down-to-duck/pull/1",
+          "expected": "https://github.com/sandwichfarm/down-to-duck/pull/1"
+        },
+        {
+          "name": "Local remote and PR head match",
+          "receiptPath": [
+            "localRemotePrHeadMatch"
+          ],
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "No tracked secret/deployment paths",
+          "receiptPath": [
+            "secretOrIgnoredDeploymentPathsTracked"
+          ],
+          "actual": [],
+          "expected": []
+        }
+      ]
+    },
+    {
+      "id": "final-required-checks",
+      "kind": "measured-command",
+      "commandId": "frozen-final-run-plus-explicit-documentation-continuation",
+      "terminalExit": 0,
+      "receiptPath": "docs/release-evidence/release.json",
+      "receiptSha256": "f2fa8440cd243be5358821a32a9bbb383bfca21c92dcc486951209166b717e8b",
+      "terminalPath": [
+        "documentationContinuationExit"
+      ],
+      "assertions": [
+        {
+          "name": "Actual all required terminal checks",
+          "receiptPath": [
+            "allRequiredChecksNowHaveTerminalPass"
+          ],
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "Canonical failure honestly retained",
+          "receiptPath": [
+            "canonicalRunnerExit"
+          ],
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "name": "Not a single successful runner invocation",
+          "receiptPath": [
+            "canonicalRunnerPassed"
+          ],
+          "actual": false,
+          "expected": false
+        },
+        {
+          "name": "Actual enforcing coverage",
+          "receiptPath": [
+            "coverageStatus"
+          ],
+          "actual": "enforced-pass",
+          "expected": "enforced-pass"
+        },
+        {
+          "name": "Actual unchanged floor policy",
+          "receiptPath": [
+            "coveragePolicy",
+            "pass"
+          ],
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "Production jobs",
+          "receiptPath": [
+            "productionJobsPassed"
+          ],
+          "actual": 182,
+          "expected": 182
+        },
+        {
+          "name": "Controls",
+          "receiptPath": [
+            "controlsPassed"
+          ],
+          "actual": 19,
+          "expected": 19
+        },
+        {
+          "name": "PR delivered",
+          "receiptPath": [
+            "prOpened"
+          ],
+          "actual": true,
+          "expected": true
         }
       ]
     }
@@ -5429,7 +5576,7 @@
       "authority": [
         {
           "path": ".planning/ROADMAP.md",
-          "sha256": "656952d420dc597172fec32f91f911fe103fd33d291350332f6e1aefa4b87e9c"
+          "sha256": "581956a5a5fbe9ef817843e4179632dfe5c6da187bcbb8b1fc4094ae8a4871b4"
         }
       ],
       "obligations": [
@@ -5454,7 +5601,7 @@
       "authority": [
         {
           "path": ".planning/ROADMAP.md",
-          "sha256": "656952d420dc597172fec32f91f911fe103fd33d291350332f6e1aefa4b87e9c"
+          "sha256": "581956a5a5fbe9ef817843e4179632dfe5c6da187bcbb8b1fc4094ae8a4871b4"
         }
       ],
       "obligations": [
@@ -8803,11 +8950,28 @@
     {
       "id": "UR-L46-06",
       "text": "PR Opened",
-      "status": "pending-pr",
-      "authority": [],
-      "obligations": [],
+      "status": "verified",
+      "authority": [
+        {
+          "path": ".planning/USER-REQUEST.md",
+          "sha256": "abf7219607ecd3e3933cd7b31d681c2ef937990fd126337dc065e57a288dac75"
+        }
+      ],
+      "obligations": [
+        {
+          "description": "Actual open review PR againstmain on intendedfeaturebranch withlocal/remote/head readback",
+          "executionIds": [
+            "actual-pr-delivery"
+          ],
+          "caseRefs": {},
+          "visualIds": [],
+          "requiresVisual": false
+        }
+      ],
       "limits": [
-        "Actual PR not yet opened or verified."
+        "Observation precedes the final documentation-only delivery commit;final push/readback is retained separately to avoid a self-referential commit hash",
+        "No merge,deployment,signing or publication",
+        "Physical gamepad hardware unmeasured"
       ]
     }
   ],
@@ -12869,6 +13033,15 @@
           "caseRefs": {},
           "visualIds": [],
           "requiresVisual": false
+        },
+        {
+          "description": "Final unchanged-source terminalchecks andactualdelivery;canonical last-documentation failure andexact passingfollow-up distinguished",
+          "executionIds": [
+            "final-required-checks"
+          ],
+          "caseRefs": {},
+          "visualIds": [],
+          "requiresVisual": false
         }
       ],
       "limits": [
@@ -13099,6 +13272,15 @@
           "caseRefs": {},
           "visualIds": [],
           "requiresVisual": false
+        },
+        {
+          "description": "Final unchanged-source terminalchecks andactualdelivery;canonical last-documentation failure andexact passingfollow-up distinguished",
+          "executionIds": [
+            "final-required-checks"
+          ],
+          "caseRefs": {},
+          "visualIds": [],
+          "requiresVisual": false
         }
       ],
       "limits": [
@@ -13299,6 +13481,15 @@
           "caseRefs": {},
           "visualIds": [],
           "requiresVisual": false
+        },
+        {
+          "description": "Final unchanged-source terminalchecks andactualdelivery;canonical last-documentation failure andexact passingfollow-up distinguished",
+          "executionIds": [
+            "final-required-checks"
+          ],
+          "caseRefs": {},
+          "visualIds": [],
+          "requiresVisual": false
         }
       ],
       "limits": [
@@ -13408,6 +13599,15 @@
           "caseRefs": {},
           "visualIds": [],
           "requiresVisual": false
+        },
+        {
+          "description": "Final unchanged-source terminalchecks andactualdelivery;canonical last-documentation failure andexact passingfollow-up distinguished",
+          "executionIds": [
+            "final-required-checks"
+          ],
+          "caseRefs": {},
+          "visualIds": [],
+          "requiresVisual": false
         }
       ],
       "limits": [
@@ -13418,8 +13618,17 @@
     {
       "id": "SHIP-01",
       "text": "Work on a new branch, retain GSD plans/summaries/verifications and requirement traceability, commit coherent changes, and open a reviewable PR against main with tests and visual evidence.",
-      "status": "pending-pr",
-      "authority": [],
+      "status": "verified",
+      "authority": [
+        {
+          "path": ".planning/REQUIREMENTS.md",
+          "sha256": "f056d195b20857829501d581d02be7147ac89145e5858272a636f305676da1a4"
+        },
+        {
+          "path": ".planning/phases/07-release-evidence-pr/07-PR.md",
+          "sha256": "5d492056b671c2ea01cf3f9c1d60b5307787159c992d77b6249c3495adc3568c"
+        }
+      ],
       "obligations": [
         {
           "description": "Actual feature branch; Immutable oracle exists; GSD execution records present; Actual existing user acceptance",
@@ -13429,10 +13638,23 @@
           "caseRefs": {},
           "visualIds": [],
           "requiresVisual": false
+        },
+        {
+          "description": "Actual openPR delivery andallrequired checks onfrozen artifact,withcanonical documentation failure retained andseparate successful continuation",
+          "executionIds": [
+            "actual-pr-delivery",
+            "final-required-checks"
+          ],
+          "caseRefs": {},
+          "visualIds": [],
+          "requiresVisual": false
         }
       ],
       "limits": [
-        "Actual open PR/base/head/readback andfinal release gate remain07-06 obligations."
+        "Observation precedes the final documentation-only delivery commit;final push/readback is retained separately to avoid a self-referential commit hash",
+        "No merge,deployment,signing or publication",
+        "Physical gamepad hardware unmeasured",
+        "Canonical runner exit1 isretained;separate documentation continuation isnot a single successful invocation"
       ]
     }
   ],
@@ -13447,13 +13669,13 @@
       "id": "A07-E5",
       "status": "unclassified-contract-retained",
       "contract": "Exact inherited chain andcalibrated enforcing additive gates;taxonomy stays unclassified",
-      "evidence": "Full05 enforcing pass and07-04 conformance;final07-06 chain pending"
+      "evidence": "Allrequired checks terminalpassed onsame417frozen inputs;canonicalexit1 andseparate exactdocumentation follow-up0explicitlyretained"
     },
     {
       "id": "A07-ES",
       "status": "unclassified-contract-retained",
       "contract": "Actual PR URL/base/head/open state;taxonomy stays unclassified",
-      "evidence": "Branch/GSD preflight verified;actual PR remains pending"
+      "evidence": "ActualPR1OPEN main/feat/local-multiplayer;local/remote/PRhead verified inpr.json"
     }
   ],
   "reviewBasis": [
@@ -13474,7 +13696,8 @@
     "No cryptographic signature/publication or physical hardware measurement",
     "Technical inspection is separate from already-received2026-10-16 human presentation acceptance",
     "Current full05 coverage jobs execute instrumented production/development/module graphs;normal companion andnormal visual builds remain explicitly separate",
-    "Final canonical technical release andverified actual open PR remain required"
+    "Final canonical technical release andverified actual open PR remain required",
+    "Final documentation-only continuation is explicitly recorded;canonical runner itself exited1,no single successful whole-command claim. ActualPR1verifiedOPEN."
   ],
   "auditCounts": {
     "originalClauses": 51,
@@ -13497,5 +13720,12 @@
       "tests/race-browser-fixture.mjs",
       "tests/race-runtime.mjs"
     ]
+  },
+  "delivery": {
+    "prUrl": "https://github.com/sandwichfarm/down-to-duck/pull/1",
+    "receipt": "docs/release-evidence/pr.json",
+    "sha256": "df58f061a99f4571c6321f937ca8f2d5ccc92a370820a4541a64c57e2cbf27ae",
+    "canonicalRunnerPassed": false,
+    "documentationContinuationPassed": true
   }
 }

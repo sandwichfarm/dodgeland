@@ -12,7 +12,7 @@ passed, including conformance. The failed invocation is preserved in
 the exact clause check and integrity check passed; their actual outputs and
 repair history are [retained separately](final-documentation-checks.json).
 This does not claim a single successful runner invocation. All 417 technical
-inputs and the normal artifact remain unchanged. Actual PR delivery is pending.
+inputs and the normal artifact remain unchanged. [PR1](https://github.com/sandwichfarm/down-to-duck/pull/1) isOPEN againstmain;[actual readback](pr.json) verifies the initial delivery head.
 
 ## Visual proof
 
@@ -71,9 +71,9 @@ obligations andbinds them to684 distinct passing job/case references across77 jo
 coverage. [Semantic review](../../.planning/phases/07-release-evidence-pr/07-05-CLAUSE-REVIEW.md)
 retains accepted lifecycle/results policy andexplicit hardware/protocol limits.
 
-## Remaining release work
+## Delivery
 
-All51 original-clause and47 requirement rows are present;only the SHIP/PR rows
-remain pending. Technical checks and documentation continuation are complete as described above.
-Open and verify the actual PR against main. Human presentation
+All51 original-clause and47 requirement rows areverified,including actualSHIP/PR
+delivery. Technical checks anddocumentation continuation arecomplete asdescribed
+above. [PR1](https://github.com/sandwichfarm/down-to-duck/pull/1) isopen againstmain. Human presentation
 acceptance was already received2026-10-16;physical hardware remains unmeasured.

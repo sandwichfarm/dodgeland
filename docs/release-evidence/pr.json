@@ -1,0 +1,91 @@
+{
+  "schema": "verified-review-pr-1",
+  "createdAt": "2026-10-18T07:22:52.668888+00:00",
+  "terminalExit": 0,
+  "repository": "sandwichfarm/down-to-duck",
+  "pr": {
+    "baseRefName": "main",
+    "headRefName": "feat/local-multiplayer",
+    "headRefOid": "e4a67a173236fb3fe3af69cf2b5cb9b072da093d",
+    "number": 1,
+    "state": "OPEN",
+    "url": "https://github.com/sandwichfarm/down-to-duck/pull/1"
+  },
+  "localHeadAtObservation": "e4a67a173236fb3fe3af69cf2b5cb9b072da093d",
+  "remoteHeadAtObservation": "e4a67a173236fb3fe3af69cf2b5cb9b072da093d",
+  "verifiedOpen": true,
+  "baseMatchesMain": true,
+  "headMatchesIntendedBranch": true,
+  "localRemotePrHeadMatch": true,
+  "secretOrIgnoredDeploymentPathsTracked": [],
+  "publicExampleExcludedFromSecretPathCheck": ".napplet/config.example.json",
+  "sourceFreezeUnchanged": true,
+  "limits": [
+    "Observation precedes the final documentation-only delivery commit;final push/readback is retained separately to avoid a self-referential commit hash",
+    "No merge,deployment,signing or publication",
+    "Physical gamepad hardware unmeasured"
+  ],
+  "commands": [
+    {
+      "command": [
+        "git",
+        "push",
+        "-u",
+        "origin",
+        "feat/local-multiplayer"
+      ],
+      "terminalExit": 0,
+      "outputText": "remote: \nremote: Create a pull request for 'feat/local-multiplayer' on GitHub by visiting:        \nremote:      https://github.com/sandwichfarm/down-to-duck/pull/new/feat/local-multiplayer        \nremote: \nTo github.com:sandwichfarm/down-to-duck.git\n * [new branch]      feat/local-multiplayer -> feat/local-multiplayer\nbranch 'feat/local-multiplayer' set up to track 'origin/feat/local-multiplayer'.\n"
+    },
+    {
+      "command": [
+        "gh",
+        "pr",
+        "create",
+        "--repo",
+        "sandwichfarm/down-to-duck",
+        "--base",
+        "main",
+        "--head",
+        "feat/local-multiplayer",
+        "--title",
+        "Add local Survive Together, Relay, and Race multiplayer",
+        "--body-file",
+        "/tmp/down-to-duck-07-pr-body.md"
+      ],
+      "terminalExit": 0,
+      "outputText": "https://github.com/sandwichfarm/down-to-duck/pull/1\n"
+    },
+    {
+      "command": [
+        "gh",
+        "pr",
+        "view",
+        "--repo",
+        "sandwichfarm/down-to-duck",
+        "feat/local-multiplayer",
+        "--json",
+        "number,url,state,baseRefName,headRefName,headRefOid"
+      ],
+      "terminalExit": 0,
+      "actual": {
+        "baseRefName": "main",
+        "headRefName": "feat/local-multiplayer",
+        "headRefOid": "e4a67a173236fb3fe3af69cf2b5cb9b072da093d",
+        "number": 1,
+        "state": "OPEN",
+        "url": "https://github.com/sandwichfarm/down-to-duck/pull/1"
+      }
+    },
+    {
+      "command": [
+        "git",
+        "ls-remote",
+        "origin",
+        "refs/heads/feat/local-multiplayer"
+      ],
+      "terminalExit": 0,
+      "outputText": "e4a67a173236fb3fe3af69cf2b5cb9b072da093d\trefs/heads/feat/local-multiplayer\n"
+    }
+  ]
+}

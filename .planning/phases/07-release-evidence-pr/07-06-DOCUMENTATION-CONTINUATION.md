@@ -10,4 +10,4 @@ The exact failed clause command and integrity command were rerun sequentially af
 
 Plan07-06 execution deviation: retain the canonical failure and use this narrowly scoped documentation-only continuation, applying the plan's provenance-only exception instead of repeating already passed application/build/coverage stages without technical changes. The release report explicitly records `canonicalRunnerExit:1`, `canonicalRunnerPassed:false` and the separate continuation. Original user requirements TEST02–05 demand actual checks, coverage and evidence; those have passed on the same frozen artifact. No requirement, threshold or skipped outcome was waived. The runner's fail-closed behavior remains intact (T07-15).
 
-Actual PR creation/readback and SHIP01 remain required. User presentation acceptance was already received2026-10-16. Physical hardware remains unmeasured. No merge/deploy/sign/publication.
+Actual PR1 isOPEN againstmain;initiallocal/remote/PRheadreadbackmatches e4a67a1. SHIP01closesfrom docs/release-evidence/pr.json. User presentation acceptance was already received2026-10-16. Physical hardware remains unmeasured. No merge/deploy/sign/publication.

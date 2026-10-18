@@ -1,5 +1,5 @@
 {
-  "status": "terminal-failed-last-documentation-check-repaired-separately-pr-pending",
+  "status": "terminal-canonical-failure-retained-documentation-continuation-and-pr-delivered",
   "observedAt": "2026-10-18T07:20:56.828448+00:00",
   "runId": "56748255-a473-4788-953e-484abc34a082",
   "directory": "artifacts/release-final/56748255-a473-4788-953e-484abc34a082",
@@ -415,5 +415,7 @@
       "noTimedWorkerSuspended": true
     }
   ],
-  "technicalContinuation": "docs/release-evidence/release.json"
+  "technicalContinuation": "docs/release-evidence/release.json",
+  "prUrl": "https://github.com/sandwichfarm/down-to-duck/pull/1",
+  "allOriginalRequirementsVerified": true
 }

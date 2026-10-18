@@ -1,8 +1,8 @@
 ---
 phase: 07
 slug: release-evidence-pr
-status: in_progress
-nyquist_compliant: false
+status: complete
+nyquist_compliant: true
 wave_0_complete: true
 created: 2026-10-16
 ---
@@ -15,7 +15,8 @@ After two documentation-only refresher corrections,exact integrity andclause
 checks passed separately. The canonical failure is retained;this is explicitly
 not a single successful runner invocation. See07-06-DOCUMENTATION-CONTINUATION.
 No technical input,normalbuild,oracle,rootlock,inheritedrunner orfloor changed.
-Actual openPR/readback andfinalSHIP closure remain. User UAT alreadyaccepted.
+Actual PR1 isOPEN againstmain;local/remote/PRhead verified. FinalSHIP closure
+usesactualpr.json. UserUAT alreadyaccepted.
 
 The task command column preserves planning history andeach row's actual receipt.
 
@@ -46,7 +47,7 @@ The task command column preserves planning history andeach row's actual receipt.
 | 07-05-2 | `node tools/release-coverage/evidence.mjs --capture-required && node --test tests/release-evidence.test.mjs && node tools/release-coverage/evidence.mjs --check` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Complete;fresh72182exit0,94images/8sheets,12/12controls;07-05-CLAUSE-PROOF |
 | 07-05-3 | `node --test tests/release-evidence.test.mjs && node tools/release-coverage/evidence.mjs --check-clauses` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Complete;51original/47requirement rows mapped;--check-clauses0;only final gate/PR pending |
 | 07-06-1 | `node --test tests/release-gate.test.mjs && node tests/release-gate.mjs --calibration-only` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Complete;7/7controls and actual14142exit0 partial calibration46/46;07-06-CONTROLS-PROOF |
-| 07-06-2 | `node tests/release-gate.mjs && git diff --exit-code a310a81ed6c76df4b265c9012c23b8c83f4802e5 -- pnpm-lock.yaml && git diff --check` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Failed canonical11882exit1 after external hold crossed a45s Race timeout;route driver fixed652323a;wholeRace17/17 andvisualrefresh passed;second final96020 active;PR required |
+| 07-06-2 | `node tests/release-gate.mjs && git diff --exit-code a310a81ed6c76df4b265c9012c23b8c83f4802e5 -- pnpm-lock.yaml && git diff --check` | Prior task and declared predecessor SUMMARY; task creates listed adapters/validators | Canonical96020 exit1 only atstale last-clause documentation;seven preceding stages pass;exact integrity/clause follow-up0 on417unchanged inputs;PR1OPEN verified;07-06-SUMMARY/continuation |
 
 | 07-10-1 | `node --test tools/release-coverage/collection.test.mjs && node tools/release-coverage/run.mjs --suite adapters-10-tracer --report-only` | Declared predecessor plus prior task; task creates named adapters/validators before use | Complete;46599exit0;07-10-SUMMARY |
 | 07-10-2 | `node --test tools/release-coverage/collection.test.mjs && node tools/release-coverage/run.mjs --suite adapters-10-middle --report-only` | Declared predecessor plus prior task; task creates named adapters/validators before use | Complete;43583exit0;07-10-SUMMARY |
@@ -93,7 +94,7 @@ Inspect current committed representative full-size images and regenerated sheets
 
 ## Sign-off
 
-Execution reconciliation2026-10-18:wave_0_complete is supported by actual calibration,collection,identity,conformance,evidence and runner negative-control receipts. nyquist_compliant remains false until the final frozen chain,original-clause closure and actual PR delivery/readback complete. Existing07-03/04/05 summaries and proofs retain actual commands,scope,deviations and limitations. The revision sections below are historical planning records,not present execution status.
+Execution reconciliation2026-10-18:wave_0_complete is supported by actual calibration,collection,identity,conformance,evidence and runner negative-control receipts. nyquist_compliant is true for the actual required checks,documented source-identical receipt continuation,original-clause closure andverified openPR1. The canonical invocation remains exit1;this isnot a single successful whole-command claim. Existing07-03/04/05 summaries and proofs retain actual commands,scope,deviations and limitations. The revision sections below are historical planning records,not present execution status.
 
 
 ## Review revision1: concrete transport and feedback boundaries

@@ -19,7 +19,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 4: Relay** - Deliver locked-roster, turn-based continuity with mode-owned handoffs and results. (completed 2026-10-15)
 - [x] **Phase 5: Race** - Deliver a timed competitive race with leader-relative fog, contextual items, and deterministic standings. (completed 2026-10-16)
 - [x] **Phase 6: Cross-Mode Presentation** - Complete resilient mode-specific overlays, results, podiums, and responsive multiplayer views. (completed 2026-10-16)
-- [ ] **Phase 7: Release Evidence & PR** - Prove the complete milestone in production artifacts, preserve GSD evidence, and open the review PR.
+- [x] **Phase 7: Release Evidence & PR** - Prove the complete milestone in production artifacts, preserve GSD evidence, and open the review PR.
 
 ## Phase Details
 
@@ -196,7 +196,7 @@ Plans:
 - [x] 07-03-PLAN.md — Close meaningful measured coverage and behavioral gaps.
 - [x] 07-04-PLAN.md — Measure scoped wire, teardown and current-manifest conformance.
 - [x] 07-05-PLAN.md — Commit current visual proof and complete original-clause traceability.
-- [ ] 07-06-PLAN.md — Run unchanged inherited plus additive gates and open the authorized PR.
+- [x] 07-06-PLAN.md — Verify inherited/additive checks,retain documentation-only continuation,andopen verified PR1.
 
 ## Progress
 
@@ -211,4 +211,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 4. Relay | 6/6 | Complete    | 2026-10-15 |
 | 5. Race | 7/7 | Complete    | 2026-10-16 |
 | 6. Cross-Mode Presentation | 2/2 | Complete    | 2026-10-16 |
-| 7. Release Evidence & PR | 8/12 | In progress | - |
+| 7. Release Evidence & PR | 12/12 | Complete (documented receipt continuation) | 2026-10-18 |
