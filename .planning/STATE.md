@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-05 complete;51-clause/47-requirement audit verified;07-06 final gate andPR next
+stopped_at: 07-06 final full chain running11882/PID10879;inherited-phase6;no PR yet
 last_updated: "2026-10-18T03:24:51.553008+00:00"
 progress:
   total_phases: 7
@@ -18,6 +18,22 @@ last_activity_desc: 07-05 complete;all51original clauses/47requirements mapped,6
 # Project State
 
 ## Current work
+
+FINAL FULL RUN IS LIVE:exec11882,actualparent10879,phase6child10947,runUUID
+88465003-ebf6-477f-b091-71a79781afe2,started03:28:27UTC. Actual ps/kill0 confirms
+node tests/release-gate.mjs andall417 frozen technical inputs stillmatch. Follow
+same handle/PID toterminal;neverrestartforsilence. Stageinherited-phase6 isrunning
+exactRelayGate6→RaceGate7→health-once→cross-mode;then calibrated additives,
+fresh enforcingcoverage,conformance andevidence/clauses. Canonical log under
+artifacts/release-final-launch-01;stage logs underartifacts/release-final/UUID.
+Normal e9800fc8. Primaryreference pins unchanged. Technicalfreeze58f63a3;this
+launch checkpoint isdocumentation only. Do not edit technical inputs orrun any
+second test/build/browser/report chain. Monitorowned disk/memory asfullcoverage
+may needbyte-preserving allocation maintenance onclosed passed payloads only.
+No terminal pass,final releaseorPR isclaimed.44/45plans.07-06Task1controls7/7
+andactualpartialcalibration46/46passed,acceptanceflagsbothfalse. Source/captures/
+clauses fullycommitted. Next revalidate11882/PID10879,continue same chain,then
+actualverified PRonlyafter fullpass. Olderbelowparagraphsaredatedlineage.
 
 07-06 Task1 controls are accepted:actual units7/7 andcalibration-only14142exit0,
 46/46 cases,zero skips. Actual report statuspartial-calibration-pass,technical/
