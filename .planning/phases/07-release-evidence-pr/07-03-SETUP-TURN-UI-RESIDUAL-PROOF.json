@@ -1,0 +1,3438 @@
+{
+  "audit": {
+    "sources": 159,
+    "targets": 8,
+    "limit": "Resolved main calls supplement manual source/value/order review;not generic dynamic reachability proof"
+  },
+  "purpose": "Manual consequence/behavior-boundary review of57 counted setup/Relay/Race UI residuals;source inspection only,no execution,hit,exclusion or threshold credit",
+  "sourceRun": "0b8f818d-62a2-4922-ab83-242886778c0c",
+  "currentInventoryRawSha256": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+  "freshFullRun": "cb52774e-975e-4388-a064-5162ef3807d8",
+  "freshFullStatus": "active;result not inferred",
+  "frozenPathsVerified": 410,
+  "behaviorSources": [
+    {
+      "path": "tests/local-session-keyboard-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/local-session-layout.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/keyboard-input.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/relay-layout.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/relay-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/relay-results.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/race-layout.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/race-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/race-results.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/race-lifecycle.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/relay-lifecycle.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    }
+  ],
+  "limits": [
+    "No exact unexecuted label/focus alternative receives a hit from a related model or browser test",
+    "Generic callback/custom root behavior is not declared universally unreachable",
+    "Source review does not replace final current-build visual proof or full enforcement"
+  ],
+  "rows": [
+    {
+      "path": "src/race-ui.ts",
+      "sourceHash": "ffa44ebc604597faf01c872212cac97ea8ee5be4df913213776e05e27e2cc866",
+      "mapHash": "0257ff002f5a4a4381e5a9868842e42d447b357de5e4105e38a35adadf89bf45",
+      "id": "2",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 13,
+          "column": 180
+        },
+        "end": {
+          "line": 13,
+          "column": 187
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 13,
+          "column": 143
+        },
+        "end": {
+          "line": 13,
+          "column": 187
+        }
+      },
+      "sourceText": "'false'",
+      "owner": "pageRaceTargets",
+      "sourceContext": "'false'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race-ui.ts",
+      "sourceHash": "ffa44ebc604597faf01c872212cac97ea8ee5be4df913213776e05e27e2cc866",
+      "mapHash": "0257ff002f5a4a4381e5a9868842e42d447b357de5e4105e38a35adadf89bf45",
+      "id": "3",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 15,
+          "column": 255
+        },
+        "end": {
+          "line": 15,
+          "column": 262
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 15,
+          "column": 218
+        },
+        "end": {
+          "line": 15,
+          "column": 262
+        }
+      },
+      "sourceText": "'false'",
+      "owner": "pageRaceTargets.callback@15",
+      "sourceContext": "'false'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race-ui.ts",
+      "sourceHash": "ffa44ebc604597faf01c872212cac97ea8ee5be4df913213776e05e27e2cc866",
+      "mapHash": "0257ff002f5a4a4381e5a9868842e42d447b357de5e4105e38a35adadf89bf45",
+      "id": "9",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 25,
+          "column": 35
+        },
+        "end": {
+          "line": 25,
+          "column": 36
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 25,
+          "column": 6
+        },
+        "end": {
+          "line": 25,
+          "column": 36
+        }
+      },
+      "sourceText": "0",
+      "owner": "raceFogLabel",
+      "sourceContext": "0",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race-ui.ts",
+      "sourceHash": "ffa44ebc604597faf01c872212cac97ea8ee5be4df913213776e05e27e2cc866",
+      "mapHash": "0257ff002f5a4a4381e5a9868842e42d447b357de5e4105e38a35adadf89bf45",
+      "id": "14",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 32,
+          "column": 174
+        },
+        "end": {
+          "line": 32,
+          "column": 177
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 32,
+          "column": 170
+        },
+        "end": {
+          "line": 32,
+          "column": 211
+        }
+      },
+      "sourceText": "'↑'",
+      "owner": "renderRaceEdges.callback@32",
+      "sourceContext": "'↑'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race-ui.ts",
+      "sourceHash": "ffa44ebc604597faf01c872212cac97ea8ee5be4df913213776e05e27e2cc866",
+      "mapHash": "0257ff002f5a4a4381e5a9868842e42d447b357de5e4105e38a35adadf89bf45",
+      "id": "16",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 32,
+          "column": 204
+        },
+        "end": {
+          "line": 32,
+          "column": 207
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 32,
+          "column": 200
+        },
+        "end": {
+          "line": 32,
+          "column": 211
+        }
+      },
+      "sourceText": "'←'",
+      "owner": "renderRaceEdges.callback@32",
+      "sourceContext": "'←'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race-ui.ts",
+      "sourceHash": "ffa44ebc604597faf01c872212cac97ea8ee5be4df913213776e05e27e2cc866",
+      "mapHash": "0257ff002f5a4a4381e5a9868842e42d447b357de5e4105e38a35adadf89bf45",
+      "id": "17",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 33,
+          "column": 247
+        },
+        "end": {
+          "line": 33,
+          "column": 250
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 33,
+          "column": 214
+        },
+        "end": {
+          "line": 33,
+          "column": 253
+        }
+      },
+      "sourceText": "'+'",
+      "owner": "renderRaceEdges.callback@33",
+      "sourceContext": "'+'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race-ui.ts",
+      "sourceHash": "ffa44ebc604597faf01c872212cac97ea8ee5be4df913213776e05e27e2cc866",
+      "mapHash": "0257ff002f5a4a4381e5a9868842e42d447b357de5e4105e38a35adadf89bf45",
+      "id": "24",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 45,
+          "column": 205
+        },
+        "end": {
+          "line": 45,
+          "column": 269
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 45,
+          "column": 137
+        },
+        "end": {
+          "line": 45,
+          "column": 380
+        }
+      },
+      "sourceText": "'Everyone is down. Personal offers and the race clock continue.'",
+      "owner": "renderRaceHud",
+      "sourceContext": "'Everyone is down. Personal offers and the race clock continue.'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race-ui.ts",
+      "sourceHash": "ffa44ebc604597faf01c872212cac97ea8ee5be4df913213776e05e27e2cc866",
+      "mapHash": "0257ff002f5a4a4381e5a9868842e42d447b357de5e4105e38a35adadf89bf45",
+      "id": "33",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 53,
+          "column": 218
+        },
+        "end": {
+          "line": 53,
+          "column": 221
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 53,
+          "column": 187
+        },
+        "end": {
+          "line": 53,
+          "column": 221
+        }
+      },
+      "sourceText": "250",
+      "owner": "renderRaceHud",
+      "sourceContext": "250",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race-ui.ts",
+      "sourceHash": "ffa44ebc604597faf01c872212cac97ea8ee5be4df913213776e05e27e2cc866",
+      "mapHash": "0257ff002f5a4a4381e5a9868842e42d447b357de5e4105e38a35adadf89bf45",
+      "id": "34",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 53,
+          "column": 260
+        },
+        "end": {
+          "line": 53,
+          "column": 261
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 53,
+          "column": 224
+        },
+        "end": {
+          "line": 53,
+          "column": 261
+        }
+      },
+      "sourceText": "0",
+      "owner": "renderRaceHud",
+      "sourceContext": "0",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race-ui.ts",
+      "sourceHash": "ffa44ebc604597faf01c872212cac97ea8ee5be4df913213776e05e27e2cc866",
+      "mapHash": "0257ff002f5a4a4381e5a9868842e42d447b357de5e4105e38a35adadf89bf45",
+      "id": "40",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 57,
+          "column": 465
+        },
+        "end": {
+          "line": 57,
+          "column": 466
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 57,
+          "column": 441
+        },
+        "end": {
+          "line": 57,
+          "column": 466
+        }
+      },
+      "sourceText": "0",
+      "owner": "renderRaceHud",
+      "sourceContext": "0",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race-ui.ts",
+      "sourceHash": "ffa44ebc604597faf01c872212cac97ea8ee5be4df913213776e05e27e2cc866",
+      "mapHash": "0257ff002f5a4a4381e5a9868842e42d447b357de5e4105e38a35adadf89bf45",
+      "id": "41",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 57,
+          "column": 510
+        },
+        "end": {
+          "line": 57,
+          "column": 511
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 57,
+          "column": 485
+        },
+        "end": {
+          "line": 57,
+          "column": 511
+        }
+      },
+      "sourceText": "0",
+      "owner": "renderRaceHud",
+      "sourceContext": "0",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race-ui.ts",
+      "sourceHash": "ffa44ebc604597faf01c872212cac97ea8ee5be4df913213776e05e27e2cc866",
+      "mapHash": "0257ff002f5a4a4381e5a9868842e42d447b357de5e4105e38a35adadf89bf45",
+      "id": "53",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 66,
+          "column": 217
+        },
+        "end": {
+          "line": 66,
+          "column": 308
+        }
+      },
+      "sourceText": "if(race.status(player.seat)==='recovery-offered')race.session.declineRecovery(player.seat);",
+      "owner": "renderRaceHud.callback@66",
+      "sourceContext": "if(race.status(player.seat)==='recovery-offered')race.session.declineRecovery(player.seat);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race-ui.ts",
+      "sourceHash": "ffa44ebc604597faf01c872212cac97ea8ee5be4df913213776e05e27e2cc866",
+      "mapHash": "0257ff002f5a4a4381e5a9868842e42d447b357de5e4105e38a35adadf89bf45",
+      "id": "56",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 95,
+          "column": 4
+        },
+        "end": {
+          "line": 95,
+          "column": 34
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 95,
+          "column": 4
+        },
+        "end": {
+          "line": 95,
+          "column": 34
+        }
+      },
+      "sourceText": "if (!options.active()) return;",
+      "owner": "createRaceSetup.validate",
+      "sourceContext": "if (!options.active()) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race-ui.ts",
+      "sourceHash": "ffa44ebc604597faf01c872212cac97ea8ee5be4df913213776e05e27e2cc866",
+      "mapHash": "0257ff002f5a4a4381e5a9868842e42d447b357de5e4105e38a35adadf89bf45",
+      "id": "57",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 98,
+          "column": 132
+        },
+        "end": {
+          "line": 98,
+          "column": 139
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 98,
+          "column": 92
+        },
+        "end": {
+          "line": 98,
+          "column": 148
+        }
+      },
+      "sourceText": "seconds",
+      "owner": "createRaceSetup.validate",
+      "sourceContext": "seconds",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race-ui.ts",
+      "sourceHash": "ffa44ebc604597faf01c872212cac97ea8ee5be4df913213776e05e27e2cc866",
+      "mapHash": "0257ff002f5a4a4381e5a9868842e42d447b357de5e4105e38a35adadf89bf45",
+      "id": "59",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 102,
+          "column": 38
+        },
+        "end": {
+          "line": 102,
+          "column": 93
+        }
+      },
+      "sourceText": "if (currentBoard) delete currentBoard.dataset.racePage;",
+      "owner": "createRaceSetup.render",
+      "sourceContext": "if (currentBoard) delete currentBoard.dataset.racePage;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race-ui.ts",
+      "sourceHash": "ffa44ebc604597faf01c872212cac97ea8ee5be4df913213776e05e27e2cc866",
+      "mapHash": "0257ff002f5a4a4381e5a9868842e42d447b357de5e4105e38a35adadf89bf45",
+      "id": "61",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 104,
+          "column": 79
+        },
+        "end": {
+          "line": 104,
+          "column": 84
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 104,
+          "column": 32
+        },
+        "end": {
+          "line": 104,
+          "column": 84
+        }
+      },
+      "sourceText": "board",
+      "owner": "createRaceSetup.render",
+      "sourceContext": "board",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race-ui.ts",
+      "sourceHash": "ffa44ebc604597faf01c872212cac97ea8ee5be4df913213776e05e27e2cc866",
+      "mapHash": "0257ff002f5a4a4381e5a9868842e42d447b357de5e4105e38a35adadf89bf45",
+      "id": "64",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 107,
+          "column": 4
+        },
+        "end": {
+          "line": 107,
+          "column": 107
+        }
+      },
+      "sourceText": "if (currentBoard) currentBoard.dataset.racePage = active ? (page === 'rules' ? 'settings' : page) : '';",
+      "owner": "createRaceSetup.render",
+      "sourceContext": "if (currentBoard) currentBoard.dataset.racePage = active ? (page === 'rules' ? 'settings' : page) : '';",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race-ui.ts",
+      "sourceHash": "ffa44ebc604597faf01c872212cac97ea8ee5be4df913213776e05e27e2cc866",
+      "mapHash": "0257ff002f5a4a4381e5a9868842e42d447b357de5e4105e38a35adadf89bf45",
+      "id": "72",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 128,
+          "column": 4
+        },
+        "end": {
+          "line": 128,
+          "column": 21
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 128,
+          "column": 4
+        },
+        "end": {
+          "line": 128,
+          "column": 21
+        }
+      },
+      "sourceText": "if(!shown)return;",
+      "owner": "createRaceResultsBoard.render",
+      "sourceContext": "if(!shown)return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race-ui.ts",
+      "sourceHash": "ffa44ebc604597faf01c872212cac97ea8ee5be4df913213776e05e27e2cc866",
+      "mapHash": "0257ff002f5a4a4381e5a9868842e42d447b357de5e4105e38a35adadf89bf45",
+      "id": "99",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 173,
+          "column": 112
+        },
+        "end": {
+          "line": 173,
+          "column": 227
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 173,
+          "column": 112
+        },
+        "end": {
+          "line": 173,
+          "column": 227
+        }
+      },
+      "sourceText": "if(!previews.has(p.characterId))previews.set(p.characterId,modelThumbnail(characterById(p.characterId).model,240));",
+      "owner": "createRaceResultsBoard.render",
+      "sourceContext": "if(!previews.has(p.characterId))previews.set(p.characterId,modelThumbnail(characterById(p.characterId).model,240));",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay-ui.ts",
+      "sourceHash": "b775194505201a55cc8f4377051e508674ba965d8e6eabc23eb490f14a5267cd",
+      "mapHash": "a65b9d9246e0bef7b9899371fe4ca4c6d7a9c76a871b73693e788591c7377f91",
+      "id": "15",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 38,
+          "column": 208
+        },
+        "end": {
+          "line": 38,
+          "column": 211
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 38,
+          "column": 182
+        },
+        "end": {
+          "line": 38,
+          "column": 211
+        }
+      },
+      "sourceText": "250",
+      "owner": "renderRelayHud",
+      "sourceContext": "250",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay-ui.ts",
+      "sourceHash": "b775194505201a55cc8f4377051e508674ba965d8e6eabc23eb490f14a5267cd",
+      "mapHash": "a65b9d9246e0bef7b9899371fe4ca4c6d7a9c76a871b73693e788591c7377f91",
+      "id": "16",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 38,
+          "column": 247
+        },
+        "end": {
+          "line": 38,
+          "column": 248
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 38,
+          "column": 216
+        },
+        "end": {
+          "line": 38,
+          "column": 248
+        }
+      },
+      "sourceText": "0",
+      "owner": "renderRelayHud",
+      "sourceContext": "0",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay-ui.ts",
+      "sourceHash": "b775194505201a55cc8f4377051e508674ba965d8e6eabc23eb490f14a5267cd",
+      "mapHash": "a65b9d9246e0bef7b9899371fe4ca4c6d7a9c76a871b73693e788591c7377f91",
+      "id": "17",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 61,
+          "column": 4
+        },
+        "end": {
+          "line": 61,
+          "column": 34
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 61,
+          "column": 4
+        },
+        "end": {
+          "line": 61,
+          "column": 34
+        }
+      },
+      "sourceText": "if (!options.active()) return;",
+      "owner": "createRelaySetup.callback@59",
+      "sourceContext": "if (!options.active()) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay-ui.ts",
+      "sourceHash": "b775194505201a55cc8f4377051e508674ba965d8e6eabc23eb490f14a5267cd",
+      "mapHash": "a65b9d9246e0bef7b9899371fe4ca4c6d7a9c76a871b73693e788591c7377f91",
+      "id": "18",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 63,
+          "column": 79
+        },
+        "end": {
+          "line": 63,
+          "column": 102
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 63,
+          "column": 36
+        },
+        "end": {
+          "line": 63,
+          "column": 102
+        }
+      },
+      "sourceText": "'Choose ready players.'",
+      "owner": "createRelaySetup.callback@59",
+      "sourceContext": "'Choose ready players.'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay-ui.ts",
+      "sourceHash": "b775194505201a55cc8f4377051e508674ba965d8e6eabc23eb490f14a5267cd",
+      "mapHash": "a65b9d9246e0bef7b9899371fe4ca4c6d7a9c76a871b73693e788591c7377f91",
+      "id": "20",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 69,
+          "column": 40
+        },
+        "end": {
+          "line": 69,
+          "column": 82
+        }
+      },
+      "sourceText": "if (board) delete board.dataset.relayPage;",
+      "owner": "createRelaySetup.render",
+      "sourceContext": "if (board) delete board.dataset.relayPage;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay-ui.ts",
+      "sourceHash": "b775194505201a55cc8f4377051e508674ba965d8e6eabc23eb490f14a5267cd",
+      "mapHash": "a65b9d9246e0bef7b9899371fe4ca4c6d7a9c76a871b73693e788591c7377f91",
+      "id": "21",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 72,
+          "column": 6
+        },
+        "end": {
+          "line": 72,
+          "column": 62
+        }
+      },
+      "sourceText": "if (board) board.dataset.relayPage = active ? page : '';",
+      "owner": "createRelaySetup.render",
+      "sourceContext": "if (board) board.dataset.relayPage = active ? page : '';",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay-ui.ts",
+      "sourceHash": "b775194505201a55cc8f4377051e508674ba965d8e6eabc23eb490f14a5267cd",
+      "mapHash": "a65b9d9246e0bef7b9899371fe4ca4c6d7a9c76a871b73693e788591c7377f91",
+      "id": "26",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 76,
+          "column": 35
+        },
+        "end": {
+          "line": 76,
+          "column": 114
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 76,
+          "column": 35
+        },
+        "end": {
+          "line": 76,
+          "column": 114
+        }
+      },
+      "sourceText": "if (!all.some(seat => seat.seat === selected)) selected = all[0]?.seat ?? 'p1';",
+      "owner": "createRelaySetup.render",
+      "sourceContext": "if (!all.some(seat => seat.seat === selected)) selected = all[0]?.seat ?? 'p1';",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay-ui.ts",
+      "sourceHash": "b775194505201a55cc8f4377051e508674ba965d8e6eabc23eb490f14a5267cd",
+      "mapHash": "a65b9d9246e0bef7b9899371fe4ca4c6d7a9c76a871b73693e788591c7377f91",
+      "id": "27",
+      "arm": 0,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 76,
+          "column": 93
+        },
+        "end": {
+          "line": 76,
+          "column": 105
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 76,
+          "column": 93
+        },
+        "end": {
+          "line": 76,
+          "column": 113
+        }
+      },
+      "sourceText": "all[0]?.seat",
+      "owner": "createRelaySetup.render",
+      "sourceContext": "all[0]?.seat",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay-ui.ts",
+      "sourceHash": "b775194505201a55cc8f4377051e508674ba965d8e6eabc23eb490f14a5267cd",
+      "mapHash": "a65b9d9246e0bef7b9899371fe4ca4c6d7a9c76a871b73693e788591c7377f91",
+      "id": "27",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 76,
+          "column": 109
+        },
+        "end": {
+          "line": 76,
+          "column": 113
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 76,
+          "column": 93
+        },
+        "end": {
+          "line": 76,
+          "column": 113
+        }
+      },
+      "sourceText": "'p1'",
+      "owner": "createRelaySetup.render",
+      "sourceContext": "'p1'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay-ui.ts",
+      "sourceHash": "b775194505201a55cc8f4377051e508674ba965d8e6eabc23eb490f14a5267cd",
+      "mapHash": "a65b9d9246e0bef7b9899371fe4ca4c6d7a9c76a871b73693e788591c7377f91",
+      "id": "28",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 80,
+          "column": 205
+        },
+        "end": {
+          "line": 80,
+          "column": 222
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 80,
+          "column": 147
+        },
+        "end": {
+          "line": 80,
+          "column": 222
+        }
+      },
+      "sourceText": "'Choose traveler'",
+      "owner": "createRelaySetup.render.callback@77",
+      "sourceContext": "'Choose traveler'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay-ui.ts",
+      "sourceHash": "b775194505201a55cc8f4377051e508674ba965d8e6eabc23eb490f14a5267cd",
+      "mapHash": "a65b9d9246e0bef7b9899371fe4ca4c6d7a9c76a871b73693e788591c7377f91",
+      "id": "44",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 155,
+          "column": 4
+        },
+        "end": {
+          "line": 156,
+          "column": 66
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 155,
+          "column": 4
+        },
+        "end": {
+          "line": 156,
+          "column": 66
+        }
+      },
+      "sourceText": "if (runner.recovery?.offer) body.textContent = `Reclaim ${state.activeSeat.toUpperCase()} to resolve their personal revival.`;\n    else button(`Skip ${state.activeSeat.toUpperCase()}`, 'skip');",
+      "owner": "createRelayLifecycle",
+      "sourceContext": "if (runner.recovery?.offer) body.textContent = `Reclaim ${state.activeSeat.toUpperCase()} to resolve their personal revival.`;\n    else button(`Skip ${state.activeSeat.toUpperCase()}`, 'skip');",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay-ui.ts",
+      "sourceHash": "b775194505201a55cc8f4377051e508674ba965d8e6eabc23eb490f14a5267cd",
+      "mapHash": "a65b9d9246e0bef7b9899371fe4ca4c6d7a9c76a871b73693e788591c7377f91",
+      "id": "47",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 165,
+          "column": 9
+        },
+        "end": {
+          "line": 167,
+          "column": 3
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 161,
+          "column": 9
+        },
+        "end": {
+          "line": 167,
+          "column": 3
+        }
+      },
+      "sourceText": "{\n    title.textContent = 'No runner remains.'; body.textContent = 'Your relay has ended.'; button('Hop again', 'restart');\n  }",
+      "owner": "createRelayLifecycle",
+      "sourceContext": "{\n    title.textContent = 'No runner remains.'; body.textContent = 'Your relay has ended.'; button('Hop again', 'restart');\n  }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay-ui.ts",
+      "sourceHash": "b775194505201a55cc8f4377051e508674ba965d8e6eabc23eb490f14a5267cd",
+      "mapHash": "a65b9d9246e0bef7b9899371fe4ca4c6d7a9c76a871b73693e788591c7377f91",
+      "id": "53",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 196,
+          "column": 84
+        },
+        "end": {
+          "line": 196,
+          "column": 150
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 196,
+          "column": 19
+        },
+        "end": {
+          "line": 196,
+          "column": 150
+        }
+      },
+      "sourceText": "result.outcome === 'complete' ? 'Relay complete.' : result.outcome",
+      "owner": "createRelayResults",
+      "sourceContext": "result.outcome === 'complete' ? 'Relay complete.' : result.outcome",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay-ui.ts",
+      "sourceHash": "b775194505201a55cc8f4377051e508674ba965d8e6eabc23eb490f14a5267cd",
+      "mapHash": "a65b9d9246e0bef7b9899371fe4ca4c6d7a9c76a871b73693e788591c7377f91",
+      "id": "54",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 196,
+          "column": 116
+        },
+        "end": {
+          "line": 196,
+          "column": 133
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 196,
+          "column": 84
+        },
+        "end": {
+          "line": 196,
+          "column": 150
+        }
+      },
+      "sourceText": "'Relay complete.'",
+      "owner": "createRelayResults",
+      "sourceContext": "'Relay complete.'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay-ui.ts",
+      "sourceHash": "b775194505201a55cc8f4377051e508674ba965d8e6eabc23eb490f14a5267cd",
+      "mapHash": "a65b9d9246e0bef7b9899371fe4ca4c6d7a9c76a871b73693e788591c7377f91",
+      "id": "54",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 196,
+          "column": 136
+        },
+        "end": {
+          "line": 196,
+          "column": 150
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 196,
+          "column": 84
+        },
+        "end": {
+          "line": 196,
+          "column": 150
+        }
+      },
+      "sourceText": "result.outcome",
+      "owner": "createRelayResults",
+      "sourceContext": "result.outcome",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay-ui.ts",
+      "sourceHash": "b775194505201a55cc8f4377051e508674ba965d8e6eabc23eb490f14a5267cd",
+      "mapHash": "a65b9d9246e0bef7b9899371fe4ca4c6d7a9c76a871b73693e788591c7377f91",
+      "id": "59",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 212,
+          "column": 102
+        },
+        "end": {
+          "line": 212,
+          "column": 116
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 212,
+          "column": 85
+        },
+        "end": {
+          "line": 212,
+          "column": 163
+        }
+      },
+      "sourceText": "'Disconnected'",
+      "owner": "createRelayResults.pages.callback@211",
+      "sourceContext": "'Disconnected'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay-ui.ts",
+      "sourceHash": "b775194505201a55cc8f4377051e508674ba965d8e6eabc23eb490f14a5267cd",
+      "mapHash": "a65b9d9246e0bef7b9899371fe4ca4c6d7a9c76a871b73693e788591c7377f91",
+      "id": "60",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 212,
+          "column": 155
+        },
+        "end": {
+          "line": 212,
+          "column": 163
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 212,
+          "column": 119
+        },
+        "end": {
+          "line": 212,
+          "column": 163
+        }
+      },
+      "sourceText": "'Active'",
+      "owner": "createRelayResults.pages.callback@211",
+      "sourceContext": "'Active'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay-ui.ts",
+      "sourceHash": "b775194505201a55cc8f4377051e508674ba965d8e6eabc23eb490f14a5267cd",
+      "mapHash": "a65b9d9246e0bef7b9899371fe4ca4c6d7a9c76a871b73693e788591c7377f91",
+      "id": "61",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 217,
+          "column": 4
+        },
+        "end": {
+          "line": 217,
+          "column": 68
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 217,
+          "column": 4
+        },
+        "end": {
+          "line": 217,
+          "column": 68
+        }
+      },
+      "sourceText": "if (!all.length) return [{title: 'No legs opened', fields: []}];",
+      "owner": "createRelayResults.pages",
+      "sourceContext": "if (!all.length) return [{title: 'No legs opened', fields: []}];",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay-ui.ts",
+      "sourceHash": "b775194505201a55cc8f4377051e508674ba965d8e6eabc23eb490f14a5267cd",
+      "mapHash": "a65b9d9246e0bef7b9899371fe4ca4c6d7a9c76a871b73693e788591c7377f91",
+      "id": "63",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 218,
+          "column": 123
+        },
+        "end": {
+          "line": 218,
+          "column": 128
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 218,
+          "column": 38
+        },
+        "end": {
+          "line": 218,
+          "column": 128
+        }
+      },
+      "sourceText": "[row]",
+      "owner": "createRelayResults.pages.callback@218",
+      "sourceContext": "[row]",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay-ui.ts",
+      "sourceHash": "b775194505201a55cc8f4377051e508674ba965d8e6eabc23eb490f14a5267cd",
+      "mapHash": "a65b9d9246e0bef7b9899371fe4ca4c6d7a9c76a871b73693e788591c7377f91",
+      "id": "65",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 232,
+          "column": 47
+        },
+        "end": {
+          "line": 232,
+          "column": 86
+        }
+      },
+      "sourceText": "if (previous.disabled) section.focus();",
+      "owner": "createRelayResults.callback@232",
+      "sourceContext": "if (previous.disabled) section.focus();",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/session-ui.ts",
+      "sourceHash": "3f7144ef7840f9f6fe64829f37b0dd043367bb3c85875289a19604e2946dd280",
+      "mapHash": "9b49152492c89581c71d3ec942674c4a8a4ab6735913a87cd8f20b91ceed2e80",
+      "id": "0",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 31,
+          "column": 2
+        },
+        "end": {
+          "line": 31,
+          "column": 77
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 31,
+          "column": 2
+        },
+        "end": {
+          "line": 31,
+          "column": 77
+        }
+      },
+      "sourceText": "if (!launch || !back) throw new Error('Local setup controls are missing.');",
+      "owner": "createSessionKeyboardEditor",
+      "sourceContext": "if (!launch || !back) throw new Error('Local setup controls are missing.');",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/session-ui.ts",
+      "sourceHash": "3f7144ef7840f9f6fe64829f37b0dd043367bb3c85875289a19604e2946dd280",
+      "mapHash": "9b49152492c89581c71d3ec942674c4a8a4ab6735913a87cd8f20b91ceed2e80",
+      "id": "2",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 49,
+          "column": 40
+        },
+        "end": {
+          "line": 49,
+          "column": 52
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 49,
+          "column": 11
+        },
+        "end": {
+          "line": 49,
+          "column": 52
+        }
+      },
+      "sourceText": "'Unassigned'",
+      "owner": "createSessionKeyboardEditor.callback@47",
+      "sourceContext": "'Unassigned'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/session-ui.ts",
+      "sourceHash": "3f7144ef7840f9f6fe64829f37b0dd043367bb3c85875289a19604e2946dd280",
+      "mapHash": "9b49152492c89581c71d3ec942674c4a8a4ab6735913a87cd8f20b91ceed2e80",
+      "id": "3",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 59,
+          "column": 4
+        },
+        "end": {
+          "line": 59,
+          "column": 29
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 59,
+          "column": 4
+        },
+        "end": {
+          "line": 59,
+          "column": 29
+        }
+      },
+      "sourceText": "if (result.ok) return '';",
+      "owner": "createSessionKeyboardEditor.callback@58",
+      "sourceContext": "if (result.ok) return '';",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/session-ui.ts",
+      "sourceHash": "3f7144ef7840f9f6fe64829f37b0dd043367bb3c85875289a19604e2946dd280",
+      "mapHash": "9b49152492c89581c71d3ec942674c4a8a4ab6735913a87cd8f20b91ceed2e80",
+      "id": "4",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 61,
+          "column": 158
+        },
+        "end": {
+          "line": 61,
+          "column": 205
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 61,
+          "column": 11
+        },
+        "end": {
+          "line": 61,
+          "column": 205
+        }
+      },
+      "sourceText": "result.reason ?? 'Controls could not be saved.'",
+      "owner": "createSessionKeyboardEditor.callback@58",
+      "sourceContext": "result.reason ?? 'Controls could not be saved.'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/session-ui.ts",
+      "sourceHash": "3f7144ef7840f9f6fe64829f37b0dd043367bb3c85875289a19604e2946dd280",
+      "mapHash": "9b49152492c89581c71d3ec942674c4a8a4ab6735913a87cd8f20b91ceed2e80",
+      "id": "5",
+      "arm": 0,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 61,
+          "column": 158
+        },
+        "end": {
+          "line": 61,
+          "column": 171
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 61,
+          "column": 158
+        },
+        "end": {
+          "line": 61,
+          "column": 205
+        }
+      },
+      "sourceText": "result.reason",
+      "owner": "createSessionKeyboardEditor.callback@58",
+      "sourceContext": "result.reason",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/session-ui.ts",
+      "sourceHash": "3f7144ef7840f9f6fe64829f37b0dd043367bb3c85875289a19604e2946dd280",
+      "mapHash": "9b49152492c89581c71d3ec942674c4a8a4ab6735913a87cd8f20b91ceed2e80",
+      "id": "5",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 61,
+          "column": 175
+        },
+        "end": {
+          "line": 61,
+          "column": 205
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 61,
+          "column": 158
+        },
+        "end": {
+          "line": 61,
+          "column": 205
+        }
+      },
+      "sourceText": "'Controls could not be saved.'",
+      "owner": "createSessionKeyboardEditor.callback@58",
+      "sourceContext": "'Controls could not be saved.'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/session-ui.ts",
+      "sourceHash": "3f7144ef7840f9f6fe64829f37b0dd043367bb3c85875289a19604e2946dd280",
+      "mapHash": "9b49152492c89581c71d3ec942674c4a8a4ab6735913a87cd8f20b91ceed2e80",
+      "id": "7",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 69,
+          "column": 4
+        },
+        "end": {
+          "line": 69,
+          "column": 25
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 69,
+          "column": 4
+        },
+        "end": {
+          "line": 69,
+          "column": 25
+        }
+      },
+      "sourceText": "if (disposed) return;",
+      "owner": "createSessionKeyboardEditor.callback@68",
+      "sourceContext": "if (disposed) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/session-ui.ts",
+      "sourceHash": "3f7144ef7840f9f6fe64829f37b0dd043367bb3c85875289a19604e2946dd280",
+      "mapHash": "9b49152492c89581c71d3ec942674c4a8a4ab6735913a87cd8f20b91ceed2e80",
+      "id": "17",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 116,
+          "column": 137
+        },
+        "end": {
+          "line": 116,
+          "column": 208
+        }
+      },
+      "sourceText": "if (page < actionPages) focusBinding(KEYBOARD_ACTIONS[page * perPage]);",
+      "owner": "createSessionKeyboardEditor.callback@68.callback@116",
+      "sourceContext": "if (page < actionPages) focusBinding(KEYBOARD_ACTIONS[page * perPage]);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/session-ui.ts",
+      "sourceHash": "3f7144ef7840f9f6fe64829f37b0dd043367bb3c85875289a19604e2946dd280",
+      "mapHash": "9b49152492c89581c71d3ec942674c4a8a4ab6735913a87cd8f20b91ceed2e80",
+      "id": "27",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 139,
+          "column": 69
+        },
+        "end": {
+          "line": 139,
+          "column": 88
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 139,
+          "column": 11
+        },
+        "end": {
+          "line": 139,
+          "column": 88
+        }
+      },
+      "sourceText": "errorFor(committed)",
+      "owner": "createSessionKeyboardEditor.callback@126",
+      "sourceContext": "errorFor(committed)",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/session-ui.ts",
+      "sourceHash": "3f7144ef7840f9f6fe64829f37b0dd043367bb3c85875289a19604e2946dd280",
+      "mapHash": "9b49152492c89581c71d3ec942674c4a8a4ab6735913a87cd8f20b91ceed2e80",
+      "id": "35",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 244,
+          "column": 79
+        },
+        "end": {
+          "line": 244,
+          "column": 88
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 244,
+          "column": 26
+        },
+        "end": {
+          "line": 244,
+          "column": 88
+        }
+      },
+      "sourceText": "undefined",
+      "owner": "createLocalSessionBoard.callback@210",
+      "sourceContext": "undefined",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/session-ui.ts",
+      "sourceHash": "3f7144ef7840f9f6fe64829f37b0dd043367bb3c85875289a19604e2946dd280",
+      "mapHash": "9b49152492c89581c71d3ec942674c4a8a4ab6735913a87cd8f20b91ceed2e80",
+      "id": "37",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 246,
+          "column": 128
+        },
+        "end": {
+          "line": 246,
+          "column": 145
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 246,
+          "column": 109
+        },
+        "end": {
+          "line": 246,
+          "column": 145
+        }
+      },
+      "sourceText": "'Choose traveler'",
+      "owner": "createLocalSessionBoard.callback@210",
+      "sourceContext": "'Choose traveler'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/session-ui.ts",
+      "sourceHash": "3f7144ef7840f9f6fe64829f37b0dd043367bb3c85875289a19604e2946dd280",
+      "mapHash": "9b49152492c89581c71d3ec942674c4a8a4ab6735913a87cd8f20b91ceed2e80",
+      "id": "38",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 249,
+          "column": 64
+        },
+        "end": {
+          "line": 249,
+          "column": 106
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 249,
+          "column": 64
+        },
+        "end": {
+          "line": 249,
+          "column": 106
+        }
+      },
+      "sourceText": "if (compact() && seat) page = 'character';",
+      "owner": "createLocalSessionBoard.callback@210.callback@249",
+      "sourceContext": "if (compact() && seat) page = 'character';",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/session-ui.ts",
+      "sourceHash": "3f7144ef7840f9f6fe64829f37b0dd043367bb3c85875289a19604e2946dd280",
+      "mapHash": "9b49152492c89581c71d3ec942674c4a8a4ab6735913a87cd8f20b91ceed2e80",
+      "id": "39",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 249,
+          "column": 81
+        },
+        "end": {
+          "line": 249,
+          "column": 85
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 249,
+          "column": 68
+        },
+        "end": {
+          "line": 249,
+          "column": 85
+        }
+      },
+      "sourceText": "seat",
+      "owner": "createLocalSessionBoard.callback@210.callback@249",
+      "sourceContext": "seat",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/session-ui.ts",
+      "sourceHash": "3f7144ef7840f9f6fe64829f37b0dd043367bb3c85875289a19604e2946dd280",
+      "mapHash": "9b49152492c89581c71d3ec942674c4a8a4ab6735913a87cd8f20b91ceed2e80",
+      "id": "41",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 256,
+          "column": 131
+        },
+        "end": {
+          "line": 256,
+          "column": 191
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 256,
+          "column": 108
+        },
+        "end": {
+          "line": 256,
+          "column": 213
+        }
+      },
+      "sourceText": "'Controller disconnected — press a button after it returns.'",
+      "owner": "createLocalSessionBoard.callback@210",
+      "sourceContext": "'Controller disconnected — press a button after it returns.'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/session-ui.ts",
+      "sourceHash": "3f7144ef7840f9f6fe64829f37b0dd043367bb3c85875289a19604e2946dd280",
+      "mapHash": "9b49152492c89581c71d3ec942674c4a8a4ab6735913a87cd8f20b91ceed2e80",
+      "id": "43",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 259,
+          "column": 52
+        },
+        "end": {
+          "line": 259,
+          "column": 65
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 259,
+          "column": 24
+        },
+        "end": {
+          "line": 259,
+          "column": 65
+        }
+      },
+      "sourceText": "candidates[0]",
+      "owner": "createLocalSessionBoard.callback@210",
+      "sourceContext": "candidates[0]",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/session-ui.ts",
+      "sourceHash": "3f7144ef7840f9f6fe64829f37b0dd043367bb3c85875289a19604e2946dd280",
+      "mapHash": "9b49152492c89581c71d3ec942674c4a8a4ab6735913a87cd8f20b91ceed2e80",
+      "id": "44",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 264,
+          "column": 6
+        },
+        "end": {
+          "line": 273,
+          "column": 7
+        }
+      },
+      "sourceText": "if (candidate) {\n        const image = document.createElement('img'); image.src = modelThumbnail(candidate.model); image.alt = `${candidate.name} voxel preview`; image.className = 'session-preview';\n        const name = document.createElement('strong'); name.textContent = candidate.name;\n        choose.setAttribute('aria-pressed', String(candidate.id === current.characterId)); choose.append(image, name);\n        const selectOffset = (offset: number): void => {\n          const at = (currentIndex + offset + candidates.length) % candidates.length;\n          options.onCharacter(selected, candidates[at]!.id); page = 'character';\n        };\n        previous.addEventListener('click', () => selectOffset(-1)); next.addEventListener('click', () => selectOffset(1)); choose.addEventListener('click', () => options.onCharacter(selected, candidate.id));\n      }",
+      "owner": "createLocalSessionBoard.callback@210",
+      "sourceContext": "if (candidate) {\n        const image = document.createElement('img'); image.src = modelThumbnail(candidate.model); image.alt = `${candidate.name} voxel preview`; image.className = 'session-preview';\n        const name = document.createElement('strong'); name.textContent = candidate.name;\n        choose.setAttribute('aria-pressed', String(candidate.id === current.characterId)); choose.append(image, name);\n        const selectOffset = (offset: number): void => {\n          const at = (currentIndex + offset + candidates.length) % candidates.length;\n          options.onCharacter(selected, candidates[at]!.id); page = 'character';\n        };\n        previous.addEventListener('click', () => selectOffset(-1)); next.addEventListener('click', () => selectOffset(1)); choose.addEventListener('click', () => options.onCharacter(selected, candidate.id));\n      }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/session-ui.ts",
+      "sourceHash": "3f7144ef7840f9f6fe64829f37b0dd043367bb3c85875289a19604e2946dd280",
+      "mapHash": "9b49152492c89581c71d3ec942674c4a8a4ab6735913a87cd8f20b91ceed2e80",
+      "id": "45",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 277,
+          "column": 109
+        },
+        "end": {
+          "line": 277,
+          "column": 113
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 277,
+          "column": 57
+        },
+        "end": {
+          "line": 277,
+          "column": 113
+        }
+      },
+      "sourceText": "'p1'",
+      "owner": "createLocalSessionBoard.callback@210.callback@277",
+      "sourceContext": "'p1'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/session-ui.ts",
+      "sourceHash": "3f7144ef7840f9f6fe64829f37b0dd043367bb3c85875289a19604e2946dd280",
+      "mapHash": "9b49152492c89581c71d3ec942674c4a8a4ab6735913a87cd8f20b91ceed2e80",
+      "id": "56",
+      "arm": 4,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 299,
+          "column": 11
+        },
+        "end": {
+          "line": 299,
+          "column": 16
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 295,
+          "column": 22
+        },
+        "end": {
+          "line": 299,
+          "column": 16
+        }
+      },
+      "sourceText": "start",
+      "owner": "createLocalSessionBoard.callback@210.callback@294",
+      "sourceContext": "start",
+      "scopeProofs": [],
+      "status": "reviewed-counted-presentation-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "UI-01",
+        "UI-02",
+        "UI-04",
+        "UI-05",
+        "RELAY-01",
+        "RELAY-02",
+        "RELAY-03",
+        "RELAY-04",
+        "RELAY-05",
+        "RACE-01",
+        "RACE-02",
+        "RACE-03",
+        "RACE-04",
+        "RACE-05",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    }
+  ],
+  "hashes": {
+    "artifacts/release-coverage/semantic-current-03/raw-zero-review.json": "c8297f9591dcbe604c1ff06f2e67ca6575ac9570a94838dec747530dcfda5fc4",
+    ".planning/phases/07-release-evidence-pr/07-03-SCHEMA-RECOVERY-SEMANTIC-PROOF.json": "8a5bfe67e7b38a5b107cef1ab65e13a01131247c05265c0d68bd57e471a83a09",
+    "artifacts/release-coverage/current-full-05-proof/freeze.json": "c72459fff67275b20c5b67c1076d781f825a00cec405fada8743cb2f350111a3",
+    "tools/release-coverage/suites.json": "02e81d3e4320ed8a2d0901fd0eee532e051d1c0b27b606c011fedbc3674ab88d",
+    "tests/local-session-keyboard-runtime.mjs": "f81fe32e824c6a9b8b110fc11662f474813c303e0a21f781ab1aad0ecb7e2fe4",
+    "tests/local-session-layout.mjs": "37fe0b0e8d1be7f46d87bd19f1940fc03bbf85a42659a663b3c98a6c5c2587e2",
+    "tests/keyboard-input.test.mjs": "b09ab007b3d4af8e172f1e722dd227ceb6cab3cb0cc8f9c89328a57c78034297",
+    "tests/relay-layout.mjs": "572602213e6fa1739b521d839124e5a87675f737fa7fd5429320784b588f2b4a",
+    "tests/relay-runtime.mjs": "dd3ef8ceb85169540fa7e9f4a75326f65046ff6caefd59ae7eab5185c65c5e82",
+    "tests/relay-results.test.mjs": "ad435a9d8be4c0056241c2299f203a6e5d2030b0c473bd1771c41d842efa89df",
+    "tests/race-layout.mjs": "a80eac4b4e45e8aad38b3362739f47e71e634de46b0062f33514e8142c04f353",
+    "tests/race-runtime.mjs": "97326c18c9e7c2291d1c428bd26f2f07ac8eb222d21c10ea328e9d83acb3a94e",
+    "tests/race-results.test.mjs": "231892dd04cdcae02a520201796835e6ddc771a82b36127c1596d3688e0a9bc1",
+    "tests/race-lifecycle.test.mjs": "e906b72ba57f097447c9a573dd00934a112188878a7132dd50b450857d0e1a29",
+    "tests/relay-lifecycle.test.mjs": "ef899341d353adceaed4f0c0695f9a6d3038c1b0a8cea9debbf3f0486491e2e4",
+    ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md": "200f7e102c04f6ac07c8a66e81c941185188584681efabfb67497bbaa15c5b6b",
+    "artifacts/release-coverage/setup-turn-ui-residual-06/verify.mjs": "93c6309f840150b89572903483f26202a65a4d6ec32c44c1a25d69614d7d35a8",
+    "src/session-ui.ts": "3f7144ef7840f9f6fe64829f37b0dd043367bb3c85875289a19604e2946dd280",
+    "src/relay-ui.ts": "b775194505201a55cc8f4377051e508674ba965d8e6eabc23eb490f14a5267cd",
+    "src/race-ui.ts": "ffa44ebc604597faf01c872212cac97ea8ee5be4df913213776e05e27e2cc866",
+    "src/main.ts": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+    "src/keyboard-input.ts": "8e0d6a152777a497ea35f0f9cb09428945909e9ff08573833178eeea6da7c5f8",
+    "src/content.ts": "56d4423a4d6c7bddd21be800353156487d46c5f5fe0a9ff4f550b4dadc14ea99",
+    "src/relay.ts": "e789deca92e5e17ec683cbbd3103b9b9b3d3e726d6e36712fa5aec4c755c7f89",
+    "src/race.ts": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+    "src/relay-results.ts": "7b7295a4655082be30a81d590bb3e53db4f7b193b405509fb4944b3d7fb51a67",
+    "src/race-results.ts": "217f6d1f97fca22a03a13586b1b7dfe5cf609d2eb83ebc0c16c540b7e0ae5d02",
+    "src/session-ui.css": "50e981b8ce5f7e92fc1af4588aa66a7bb857553955a8895ac8929cda5c3883c8",
+    "src/relay-ui.css": "a308203a0ef84c03ee52658bd70118c7bd75c83406a1dacda6cba88ea89b1512",
+    "src/race-ui.css": "577ca43d6179f3fc865fe6755d9a0178c04fb7dadd87fddfefb7c3d985927208",
+    "artifacts/release-coverage/setup-turn-ui-residual-06/reference-audit.mjs": "7750213838e020f96b8ffc0c063a2881542f91259a83917d455f894d1bdc49de",
+    "artifacts/release-coverage/setup-turn-ui-residual-06/reference-audit.log": "125f8d52c103041eb1e6babc2deec3badaad2c57d09ae72744d5104c43cebc14",
+    "artifacts/release-coverage/setup-turn-ui-residual-06/reference-audit.json": "ba8f0fcadcc09a435d20e14ba5a429520cbe12790715ffb2397a3c7260ef2a12"
+  }
+}

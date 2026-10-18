@@ -419,3 +419,20 @@ does not replace final visual inspection or the complete enforcing result.
 [proof](07-03-TEAM-RESULT-SEED-RESIDUAL-PROOF.json) bind three registered
 behavior sources,main/result-producer/CSS hashes and410 unchanged frozen paths.
 Current partial index is236 reviewed/594 pending.
+
+## Shared setup and turn-mode UI residual conditions
+
+**INPUT-02/03/04,UI-01/02/04/05,RELAY-01/02/03/04/05,
+RACE-01/02/03/04/05,TEST-03/04/05.** Fifty-seven current zero arms now have
+explicit conditions,consequences and behavior authority limits. Shared setup
+retains draft-only unique-character/keyboard validation;Relay/Race UI reads
+owned status and immutable results rather than controlling progression.
+Optional defaults,duplicate validation,unused orientation/copy/focus choices
+remain counted. Eight factories/adapters each have one resolved main caller;
+manual order/value evidence bounds the shipped construction without claiming
+generic custom callbacks or roots impossible.
+[Review](07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md) and
+[proof](07-03-SETUP-TURN-UI-RESIDUAL-PROOF.json) bind57 exact source/map sites,
+159-source/eight-target audit,11 registered behavior sources and410 unchanged
+frozen paths. No execution,counters,exclusions or floor changes. The current
+partial ledger is293 reviewed/537 pending;final visual inspection is separate.

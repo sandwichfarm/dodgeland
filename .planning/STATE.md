@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Fresh full05 enforcing collection live; semantic audit remains active
-last_updated: "2026-10-18T01:26:11.865Z"
+last_updated: "2026-10-18T01:28:50.424Z"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,26 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Full05 live exec70321;19 controls/79 production jobs pass;relay-runtime active. Team-result/seed review adds18 exact counted residuals;current index236 reviewed/594 pending. All410 frozen paths unchanged. Remaining semantic audit,standalone scene cases,07-04/05/06 and PR remain.
+last_activity_desc: Full05 confirmed live exec70321;19 controls/80 production jobs pass;relay-tracer active. Shared setup/Relay/Race UI review adds57 counted cases;current index293 reviewed/537 pending. All410 frozen paths unchanged. Remaining audit,standalone scene cases,07-04/05/06 and PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+Shared setup/turn-mode UI review binds57 original zero arms:session-ui18,
+relay-ui20,race-ui19. Explicit consequences and behavior boundaries retain all
+as counted residuals. Reference audit159sources/eight factories/adapters finds
+one resolved main caller each;manual construction/value/order arguments and
+11 registered behavior source files distinguish actual public inputs from
+arranged models and generic defaults. No exact unexecuted label/focus/orientation
+arm receives counter credit. No new execution/exclusion/floor/app change.
+All410 frozen paths remain unchanged. Current-semantic-ledger-07 verifies
+293 reviewed/537 pending,18 existing witnesses and275 counted residuals.
+Full05 exec70321 confirmed live by poll;80 production jobs and19 controls pass,
+relay-tracer active after relay-runtime passed01:27:18UTC. Continue same chain.
+Other semantic review,standalone scene cases after terminal full run,07-04/05/06
+and PR remain unfinished.
 
 Team-result/seed residual review binds18 original zero arms,three registered
 behavior source files and the main/result/CSS sources. Explicit distinctions:
