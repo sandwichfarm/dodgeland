@@ -28,6 +28,16 @@ artifact, immutable root lock/oracle and inherited phase6 runner are unchanged.
 Latest observation: inherited solo-parity21/21 passed; solo regression active.
 Revalidate actual same handle/PID and never restart merely for silence.
 
+A guarded documentation handoff is active as session65644:
+python3 artifacts/release-final-launch-02/audit/watch-receipts.py.
+It polls the actual parent/stage ledger and runs only the two prepared audit/
+receipt commands after enforcing terminal0. It starts no app/test/build/report
+producer. Follow its actual handle too;do not execute duplicate receipt writers.
+Status: artifacts/release-final-launch-02/audit/receipt-handoff.json.
+Failure is explicit and cannot supply completion. Review actual terminal output
+and fresh documents before final acceptance. If it fails,inspect the retained
+handoff logs and repair documentation only from actual producer evidence.
+
 MANDATORY MID-RUN DOCUMENTATION STEP: after the actual enforcing-coverage stage
 is terminal0 in this run's stages.json, execute the prepared read-only
 artifacts/release-final-launch-02/audit/reconcile.mjs. It must show zero new
