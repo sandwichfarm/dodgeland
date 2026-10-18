@@ -1,0 +1,47 @@
+{
+  "purpose": "Retained terminal complete-run control failure and exact external-reference traversal repair;no gameplay/coverage credit",
+  "failedRunId": "9a0ca825-4eb6-4869-8644-a10a324a0151",
+  "completeRunExit": 1,
+  "completeRunStatus": "stopped in second control before production jobs;no final manifest or coverage report",
+  "controlsReached": 2,
+  "productionJobsExecuted": 0,
+  "red": {
+    "tests": 7,
+    "pass": 5,
+    "fail": 2
+  },
+  "green": {
+    "tests": 7,
+    "pass": 7,
+    "fail": 0
+  },
+  "exactExternalFile": "artifacts/release-conformance-prep/nip-5d-pr.json",
+  "neighborAndNestedApplicationFilesRemainInScope": true,
+  "freezeChangedPaths": [
+    "tests/guidance.test.mjs"
+  ],
+  "productionSourceBuildLockUnchanged": true,
+  "floorsAndCoverageApplicabilityUnchanged": true,
+  "closedEvidenceCompression": {
+    "files": 190,
+    "all190DestinationHashesReverified": true,
+    "method": "ditto --hfsCompression; independent inode,unchanged original identity/mtime and source/destination SHA256 verified before atomic replacement;final SHA256 reverified",
+    "freeBefore": 6048088064,
+    "freeAfter": 5945610240
+  },
+  "hashes": {
+    "artifacts/release-coverage/current-full-04-proof/freeze.json": "7e3c88209caee4f6c949a3ce8106659b555e66e7933afa7d545b1ab344ccb0a6",
+    "artifacts/release-coverage/current-full-04-proof/canonical.log": "5cb2711fdaaba8ac43dff6282e253e70500168e66f4d228742ebfe0a2160966d",
+    "artifacts/release-coverage/guidance-upstream-boundary-04/red.log": "23737aed216827c56b02512bc1e702a1e78965ab5c29068241042f20b01e2770",
+    "artifacts/release-coverage/guidance-upstream-boundary-04/green.log": "b18aa9f3a7580423f743206216f21d57bf908f03397f88951a20e7ceedfe462a",
+    "artifacts/release-coverage/guidance-upstream-boundary-04/red-test.mjs": "5a9847bd2c40c093301546005bdc0b960637f760fccd1acd831cc042284d3ea3",
+    "tests/guidance.test.mjs": "c16101b2634c0a36428d7712c71884237781a7fb2f40f731b7b302fe9f4843af",
+    "artifacts/release-conformance-prep/nip-5d-pr.json": "9e0bac87ba14a6b26fffd463a50f36b179e5a1f933630e3c9682252e1ec28607",
+    "artifacts/release-coverage/guidance-upstream-boundary-04/verify.mjs": "460425c9ce05d26c0e96566d7d39b1a5ce0d66d0b447ec03743abfe1f34976fa",
+    "artifacts/release-coverage/storage-maintenance/artifact-compression-full04-preflight.json": "3c4f4e7c0a170c1d35901a2c61de1cfbcd6e4dc06be72898771840a4021fbe07",
+    "artifacts/release-coverage/storage-maintenance/compress-full04-preflight.py": "e6c50d18601666f93c796a31f45c9972e5fcdb640701b40543217a9935f38795",
+    "artifacts/release-coverage/storage-maintenance/compress-full04-preflight.log": "fed62c21b3ea7866ffe89f80301ea8727694a8cb4b95be68de5aadba75ca7769",
+    "artifacts/release-coverage/current-full-04/9a0ca825-4eb6-4869-8644-a10a324a0151/execution-inventory.json": "90c74fb2c57cf965794b3f80495ac15af7af21411ea05171b423b9793ea6f24b",
+    "artifacts/release-coverage/current-full-04/9a0ca825-4eb6-4869-8644-a10a324a0151/inventory.json": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2"
+  }
+}

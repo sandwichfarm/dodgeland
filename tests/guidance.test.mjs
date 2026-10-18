@@ -17,6 +17,9 @@ async function collectTextFiles(directory = root, repositoryRoot = root) {
     if (entry.isDirectory() && skippedDirectories.has(entry.name)) continue;
     const path = join(directory, entry.name);
     if (entry.isDirectory() && relative(repositoryRoot, path) === join('artifacts', 'release-coverage')) continue;
+    // A saved upstream PR response quotes historical APIs; it is reference
+    // evidence, not app-owned code. Keep every neighboring config in scope.
+    if (entry.isFile() && relative(repositoryRoot, path) === join('artifacts', 'release-conformance-prep', 'nip-5d-pr.json')) continue;
     if (entry.isDirectory()) files.push(...await collectTextFiles(path, repositoryRoot));
     else if (entry.isFile() && textExtensions.has(extname(entry.name))) files.push(path);
   }
@@ -28,16 +31,22 @@ const sources = new Map(
   await Promise.all(files.map(async (path) => [relative(root, path), await readFile(path, 'utf8')])),
 );
 
-test('guidance traversal excludes only generated release coverage artifacts', async () => {
+test('guidance traversal retains application files around explicit generated and upstream evidence', async () => {
   const fixture = await mkdtemp(join(tmpdir(), 'guidance-scope-'));
   const included = [
     'src/main.ts', 'docs/boundaries.md', 'tests/example.mjs',
     'artifacts/ordinary/report.json', 'artifacts/release-coverage-other/report.json',
     'src/artifacts/release-coverage/example.ts',
     'docs/release-coverage/example.md',
+    'artifacts/release-conformance-prep/public-candidate.json',
+    'artifacts/release-conformance-prep/napplet.config.json',
+    'artifacts/release-conformance-prep/nip-5d-pr-other.json',
+    'src/artifacts/release-conformance-prep/nip-5d-pr.json',
+    'docs/release-conformance-prep/nip-5d-pr.json',
   ];
   try {
-    for (const path of [...included, 'artifacts/release-coverage/nested/generated.json']) {
+    for (const path of [...included, 'artifacts/release-coverage/nested/generated.json',
+      'artifacts/release-conformance-prep/nip-5d-pr.json']) {
       const destination = join(fixture, path);
       await mkdir(dirname(destination), { recursive: true });
       await writeFile(destination, 'fixture');

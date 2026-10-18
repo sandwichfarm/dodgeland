@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: All diagnostic floors met; semantic audit and fresh enforcing full collection remain
-last_updated: "2026-10-18T00:33:25.098164+00:00"
+last_updated: "2026-10-18T00:36:23.871073+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,23 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Flare exact-anchor safety24 ordinary/24 canonical cases including10 new both-base cases;5 current branch witnesses. Real log carry/bank hop,unsafe terrain/mob/space rejection then same-action success. Source/build/lock and182 jobs/20 controls unchanged. Semantic audit/fresh full gate/07-04/05/06/PR remain.
+last_activity_desc: Fresh full04 failed guidance control before production jobs:external upstream PR response quoted retired APIs. Exact-file scanner repair retains RED7 tests5/2;GREEN7/7,all410 freeze paths except guidance unchanged. Failed run preserved;next fresh full retry plus semantic audit/07-04/05/06/PR.
 ---
 
 # Project State
 
 ## Current work
+
+Fresh full04 terminal1 before production jobs:run9a0ca825 reached second control,
+guidance rejected historical API quotations in saved upstream PR JSON. Exact
+root-relative external file is excluded;neighbor/nested/lookalike app configs
+remain scanned. Strengthened traversal RED7 tests5pass/2fail;GREEN7/7. All410
+freeze paths rechecked;only tests/guidance.test.mjs differs. GUIDANCE-UPSTREAM-
+BOUNDARY/PROOF retains terminal log/source/inventory/build/lock pins. No product
+or coverage/floor change.190 closed evidence files transparently compressed,
+all190 destination SHA rechecked,no deletion. No full report/manifest/coverage
+credit. All chains terminal;next commit scanner repair and start a fresh full
+retry,continue semantic audit,then07-04/05/06/PR.
 
 Latest Flare exact-anchor safety:24 ordinary/24 canonical component cases,
 including14 previous and10 new both-base cases. Real sampled items,terrain death,
