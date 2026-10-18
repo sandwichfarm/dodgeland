@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: 07-06 investigating intermittent Race route helper; preserved instrumented diagnostic67698 active
-last_updated: "2026-10-18T04:38:49.909758+00:00"
+stopped_at: 07-06 route driver fixed652323a; whole instrumented Race17/17; visual refresh54615 active
+last_updated: "2026-10-18T04:53:07.710931+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -19,36 +19,39 @@ last_activity_desc: 07-05 complete;all51original clauses/47requirements mapped,6
 
 ## Current work
 
-FINAL ACCEPTANCE IS NOT PROVEN. Firstfinal11882exit1 ispreserved in07-06-
-FAILED-01 (71production and19controls passed;45s Race case canceled during55s
-external disk-pressure hold;all samePIDs resumed;170 closed payloads losslessly
-compressed/independently reverified;417technical inputs unchanged).
+FINAL ACCEPTANCE IS NOT PROVEN;44/45plans. Route driver fix652323a iscommitted.
+Actual regression RED1/GREEN0 proves optional coin seeking and scenery avoidance
+cycled fromfractionalx-4.116699 atrow190. Driver now tries optionaldetour onlyonce
+perexactrow/x before safeprogress. Game source,grid,thresholds andtimeouts unchanged.
+Theexact regression body is permanent inrace-runtime;an isolatedcopy executed
+it without skippedtests. Whole instrumented Race56914exit0:17/17pass,0skip/
+canceled/failed,run672dd6b3-8d10-47da-91ce-6f3743e153c9. See07-06-ROUTE-FIX-PROOF.
 
-Unchanged whole canonical Race diagnostic36485 also exited1,with a different
-failure:case5 actual earned gear route exhausted earnTogether's1500 attempts
-while trying forgoal200 after inspecting/leaving thefirstmarket.15 othercases
-passed,includingthe previously timed-out case. Thisis not explained bythehold.
-See07-06-ROUTE-INVESTIGATION.json. Do not blindlyretry or weaken assertions/
-timeouts/floors. Investigate exact endstate first. No production or technical
-source has changed;all417 frozen paths andnormal e980remain asbefore.
+NOW ACTIVE54615:node tools/release-coverage/evidence.mjs --capture-required
+logartifacts/release-final-launch-01/visual-after-route-fix-01.log. Followthis
+handle toterminal. All6prior evidenceJSONs arepreserved inpre-refresh-01 there.
+Freshcapture must finish94individuals/8sheets;reopenchangedimages,update actual
+inspections/visualintegrity/tracer. This test-onlypatch invalidates old417-input
+freezebindings,so do not claim oldwholeexecutions/captures arefresh source.
+Affectedhelper consumers:race-runtime,race-layout,cross-mode-presentation;
+developmentRace variant also requiresfresh evidence. Normal e980build isunchanged.
 
-Read-only normal artifact diagnostic35300 exited0:three independent visible-input
-routes each reached100then200 after theactual market inspection/Escape sequence.
-Now active67698:node artifacts/release-final-launch-01/race-route-diagnostic-02.mjs
-runs the identical read-only diagnostic againstthepreserved instrumented
-artifact fromrace-after-hold-01 run3a45959b-1761-41d8-bba5-7ff07bb92ef4.
-It writesrace-route-diagnostic-02.json/log inartifacts/release-final-launch-01.
-Followactualhandle toterminal. Capture helper failure position/lane/game/menu
-state before choosing anyrepair. No collection/floor/release pass isclaimed by
-these diagnostics. Onlyone owned app/test chain mayrun. Preserve otheruser
-processes (a separatepnpm test:ui-guardrails:browser wasobserved;not ours).
+Earlierfirstfinal11882exit1 isretained07-06-FAILED-01:71production+19controls
+passed before45sRacecase wascanceledduring55sroot-owned diskhold. Closedpayload
+compression exactbytesverified;all samePIDsresumed. Whole unchanged diagnostic
+36485thenfailed adifferent earned-market route(case5),15/16pass;its timeoutcase
+passed. Read-only normal35300 andinstrumented67698diagnostics each3/3 routes
+reached100/200;timingdiagnostic15745 reproducedthecycle after5sidle. Its10sidle
+unsafe crossing remains explicitdriver limitation,not fixedorclaimed bycyclefix.
+Allthosechainsareterminal. Do not suspend timedworkersagain;monitorowneddisk.
 
-The mandatory fresh exactfinal chain and actualopen PR remain required;44/45
-plans. Do not suspend timed workers again. If a technicalfixture fix isneeded,
-refresh affected source-bound evidence/captures/clauses before finalfreeze.
-The preparedraw-zeroaudit currently namesFAILED firstfinal88465003;copy/adapt
-toitsexplicit successful future run directory afteractualterminal0,never reuse
-that failed run asfinalproof. Earlier paragraphs below aredatedlineage.
+Aftercaptureandaffected execution/provenance refresh,afresh exactfull finalchain
+and actualopenPRremainmandatory. Could refresh currentexecution receipts from
+thatfull enforcing stage afterproducerterminal0andbeforeparentclause stage;
+preserve oldhistoricalreceipts,never justrewriteoldobservedhashes asfresh.
+Preparedrawzeroauditnamesfailed firstfinal88465003:copy/adapt explicitlytofuture
+successfulrun. Floors/oracle/rootlock/inheritedgate stayunchanged. Allbrowsers
+muted;preserveuserprocesses. Earlierparagraphsbelowaredatedlineage.
 
 07-06 Task1 controls are accepted:actual units7/7 andcalibration-only14142exit0,
 46/46 cases,zero skips. Actual report statuspartial-calibration-pass,technical/

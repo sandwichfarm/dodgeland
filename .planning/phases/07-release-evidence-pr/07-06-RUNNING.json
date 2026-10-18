@@ -1,6 +1,6 @@
 {
   "status": "failed-not-accepted",
-  "observedAt": "2026-10-18T04:30:15.175767+00:00",
+  "observedAt": "2026-10-18T04:53:07.710931+00:00",
   "runId": "88465003-ebf6-477f-b091-71a79781afe2",
   "directory": "artifacts/release-final/88465003-ebf6-477f-b091-71a79781afe2",
   "sessionId": 11882,
@@ -46,7 +46,10 @@
   "parentObservation": "Canonical unified session11882 returned actual exit1;PIDs10879/52267 no longer present",
   "priorObservationPath": "artifacts/release-final-launch-01/launch.json",
   "failureProof": ".planning/phases/07-release-evidence-pr/07-06-FAILED-01.json",
-  "replacementDiagnosticSession": 67698,
-  "replacementDiagnosticStatus": "Read-only instrumented route diagnostic;whole Race36485 terminated1 on case5",
-  "investigationProof": ".planning/phases/07-release-evidence-pr/07-06-ROUTE-INVESTIGATION.json"
+  "replacementDiagnosticSession": null,
+  "replacementDiagnosticStatus": "Whole fixedRace56914terminal0;17/17;proof07-06-ROUTE-FIX-PROOF",
+  "investigationProof": ".planning/phases/07-release-evidence-pr/07-06-ROUTE-INVESTIGATION.json",
+  "currentActiveSession": 54615,
+  "currentActiveCommand": "node tools/release-coverage/evidence.mjs --capture-required",
+  "currentScope": "Visual evidence refresh after two test-file changes;not final release pass"
 }
