@@ -20,10 +20,10 @@ select:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
 .hud-right { display: flex; gap: 6px; align-items: center; pointer-events: auto; }
 .hud-right button { width: 32px; padding: 0; font-size: 18px; }
 .hud-tools { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
-#pluck { display: flex; align-items: center; gap: 6px; height: 28px; padding: 2px 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); color: var(--primary); }
+#pluck { display: flex; align-items: center; gap: 6px; min-height: 28px; padding: 2px 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); color: var(--primary); }
 .pluck-label { color: var(--muted); font-size: 9px; font-weight: 800; letter-spacing: 1px; }
-#pluck-feathers { display: flex; gap: 3px; }
-.pluck-feather { display: block; width: 16px; height: 22px; overflow: visible; }
+#pluck-feathers { display: grid; grid-template-columns: repeat(var(--pluck-feather-columns, 3), var(--pluck-feather-size, 16px)); gap: 3px; }
+.pluck-feather { display: block; width: var(--pluck-feather-size, 16px); height: calc(var(--pluck-feather-size, 16px) * 1.375); overflow: visible; }
 .feather-empty { fill: var(--border); }
 .feather-fill { fill: currentColor; }
 .feather-outline { fill: none; stroke: currentColor; stroke-width: 1.2; stroke-linecap: round; }
@@ -55,6 +55,7 @@ h2 { font-size: 25px; line-height: 1.1; letter-spacing: -.7px; margin: 4px 0 6px
 .instructions { font-size: 12px; color: var(--muted); line-height: 1.65; }
 .primary { width: 100%; background: var(--primary); color: var(--bg); border-color: transparent; min-height: 36px; display: flex; justify-content: space-between; align-items: center; font-weight: 750; } .primary:hover { background: color-mix(in srgb, var(--primary) 88%, var(--fg)); }
 .panel-bottom { display: flex; gap: 8px; justify-content: space-between; margin-top: 8px; } .panel-bottom button { border: 0; background: transparent; font-size: 11px; padding: 2px 0; min-height: 24px; color: var(--muted); }
+.local-session-setup { display: grid; gap: 6px; margin-top: 8px; font-size: 12px; color: var(--muted); } .local-session-setup button { min-height: 28px; }
 .goal { font-size: 11px; border-top: 1px solid var(--border); padding-top: 10px; color: var(--muted); margin: 8px 0 0; } .reward { color: var(--primary); font-weight: 650; } #reason { color: var(--muted); font-size: 12px; }
 .bottom-bar { position: absolute; bottom: 12px; left: 16px; right: 12px; display: flex; justify-content: space-between; gap: 8px; align-items: center; }
 #hint { font-size: 10px; color: var(--fg); background: color-mix(in srgb, var(--bg) 88%, transparent); padding: 5px 8px; border-radius: 4px; }

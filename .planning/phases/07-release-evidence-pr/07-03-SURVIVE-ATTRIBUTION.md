@@ -1,0 +1,78 @@
+# Bounded Survive component attribution foundation
+
+Status: component foundation passed; canonical runner integration is implemented with focused execution pending. Full production collection, applicability dispositions and floors remain pending. Generic-agent implementation, not typed-role execution. No product, browser adapter, manifest or policy changes. The runner's existing parent validator received the narrow correction documented below; component collection is not yet wired into it.
+
+## Actual witnesses and limits
+
+`tests/release-survive-mode-coverage.test.mjs` runs both Arcade and Flow with imported production `Game`, `LocalSession.stage(...).commit()` and `createSurviveTogetherDefinition`. Source loading/import initialization and initial Game construction occur before acquisition measurement. Acquisition includes the real composed controller construction, staging and attach. Observations check exact composed definition and world-host object identity, production session lifetime ID and actual base.
+
+Each base records five intervals: acquisition; real unsupported-water death/pause/personal recovery/protection; device loss/reclaim/departure and all-dead pending offer; active-time expiry and immutable archived results; settled late-action rejection. The fixture arranges meadow/river terrain and positions to trigger real production collision death, advances a controlled simulation clock and invokes component APIs. This is **component-model evidence**, not public UI/controller acquisition, natural-course endurance or TEST-03 public-journey completion. No generic planner result is relabeled as a mode witness.
+
+Counter snapshots are never reset. Sequence numbers are shared across recorder instances; IDs are namespaced by real session ID. Runtime endpoints can change participant count and lifecycle phase, but cannot change mode/base/session. Acquisition starts with no session (`sessionId:null`, zero participants) and binds its end to the actually constructed session. Supported phases are acquiring, playing, paused, pending and settled; a paused boundary is supported, while this first fixture checks pause internally within its recovery interval. No stopped phase or boot attribution is claimed.
+
+## API and integration seam
+
+`createSurviveModelRecorder({inventory, identity, counters?})` accepts canonical instrumentation inventory and explicit run/realm/job/artifact identities. `acquire(game, createDefinition, commit)` synchronously creates and binds the actual composition; `interval(id, action)` brackets synchronous production component work; `finish()` validates and returns `{identity,payload,intervals}`. The optional counters reader exists for synthetic adapter tests. The production tracer uses `globalThis.__coverage__` populated by the unchanged source loader.
+
+`deriveInterval` and `validateIntervals` retain the existing strict playing/public-input contract. Component provenance uses explicit start and end lifecycle observations; payload/hash/schema/counter/order/overlap validation remains common. Unknown provenance, identity mismatch, session replacement, invalid phases/counts and counter decreases fail. This is evidence validation, not a runtime security boundary against deliberately forged fixtures.
+
+The tracer's sidecar is **one final full parent snapshot plus all ten intervals**, even though two base-mode lifetimes execute sequentially in one worker. The ordinary worker collector must continue to contribute its full parent exactly once globally. Never add interval deltas to global totals or count intermediate parent snapshots again.
+
+Required integration (outside this ownership):
+
+- Register the dedicated test worker with the ordinary canonical source-loader inventory. Supply `RELEASE_MODEL_INVENTORY`, `RELEASE_MODEL_INTERVAL_OUTPUT`, `RELEASE_MODEL_JOB`, `RELEASE_MODEL_ARTIFACT_HASH`, `RELEASE_COVERAGE_RUN` and `RELEASE_COVERAGE_REALM`; bind these to real runner metadata and its actual worker realm. `DOWN_TO_DUCK_COVERAGE_CONFIG` still selects source instrumentation. No root dependency or loader changes needed.
+- Archive/validate the sidecar, require both witnesses and all expected intervals, and bind its identity and counters to the independently collected final Node parent. Existing `validateModeRows` accepts this row shape and enforces summed deltas cannot exceed its parent. The current runner only supplies browser rows, so integration must explicitly include the Node row.
+- Preserve provenance-separated reporting (`component-model` versus `public-input`) even when merging actual matching deltas into mode strata. Module initialization and initial solo Game creation stay global/shared. Do not use component intervals as evidence for public input behavior.
+- Add this dedicated job to mechanical execution inventory, artifact obligations and focused/full equality before production measurement. No production floor claim is made here; unchanged policy and all-source zero inventory still apply.
+
+## Focused evidence
+
+Final serial command40770 exited0. `/tmp/down-to-duck-survive-model-final-unit.log` records7/7: existing attribution cases, new component lifecycle negative checks, synthetic recorder owner/sequence check, and both production lifecycle witnesses. Command: `node --test tools/release-coverage/attribution.test.mjs tools/release-coverage/model-attribution.test.mjs tests/release-survive-mode-coverage.test.mjs`.
+
+`/tmp/down-to-duck-survive-model-final-instrumented.log` records2/2 actual production witnesses with current canonical `buildInventory()` instrumentation. Temporary proof driver `/tmp/down-to-duck-survive-model-proof.mjs` used the unchanged source-loader config and checked all ten deltas using `validateIntervals` plus existing `validateModeRows` against a **single** final parent. Sidecar/inventory/config are in `/tmp/down-to-duck-survive-model-proof/`. This isolated proof uses an explicitly synthetic artifact label (`source-inventory-proof`), not a production build identity or release credit; integration must supply the actual identity.
+
+The first instrumented postcheck failed with duplicate interval IDs across the two lifetimes (retained `/tmp/down-to-duck-survive-model-instrumented.log`). Namespacing by actual session ID fixed this; final proof preserves that failure history and validates disjoint intervals. No full collection, browser/build command, coverage-floor acceptance or production applicability disposition was performed.
+
+## Parent-counter review correction
+
+Root review identified that the original `validateModeRows` checked each interval independently, not their sum. The preceding integration description states the required final guarantee; it was not true of the inherited implementation. The narrowly authorized correction now accumulates every statement, function and branch-arm counter across all intervals for a unique run/parent realm, validates the canonical parent once, rejects unsafe integer sums and rejects any aggregate exceeding that parent's exact site count. Two nonoverlapping intervals individually equal to their parent must fail. Component rows also now require an explicit end observation instead of silently reusing their start observation.
+
+Retained RED `/tmp/down-to-duck-survive-attribution-parent-red.log` exited1 with precisely these two missing-rejection failures. Synthetic tests are tooling calibration, not production behavior coverage. The recorder checks actual object bindings, but does not independently infer Survive kind from an arbitrary supplied factory: this dedicated witness explicitly supplies the imported production `createSurviveTogetherDefinition`.
+
+Final correction command5338 exited0: `/tmp/down-to-duck-survive-attribution-parent-green.log` records10/10 tests, including missing endpoint, aggregate overcredit, unsafe sum, invalid parent counters and ambiguous parent rejection. `/tmp/down-to-duck-survive-attribution-parent-instrumented.log` records2/2 production lifecycle witnesses and validates all10 intervals against one final parent under the corrected aggregate check. `git diff --check` passed. The execution slot was released to root; production integration and floors remain pending.
+
+
+## Canonical integration follow-up
+
+The runner now registers `release-survive-mode-coverage` as an additive Node job in full execution and focused `survive-model-03`. `mode-rules-03` points to the unchanged existing mode-rules job. All model identity is supplied by the existing per-job coverage configuration: run ID, job ID, canonical module graph artifact hash, worker realm, inventory and sidecar destination. The prototype RELEASE_MODEL_* environment variables are no longer used.
+
+The independent exit collector remains the sole source of the global Node parent. The runner requires sidecar payload equality to that collected parent, exact config identity, both declared modes, five ordered lifecycle transitions per mode and one session lifetime per mode. Missing sidecar, omitted transition, wrong job/hash/realm or differing parent fails collection. Sidecars are archived inside the run directory, separately from ordinary generated artifacts, and never appended as additional global payloads.
+
+Both full and focused model reporting now include `provenanceStrata` and separate report directories for each actual provenance. Full mode strata union matching public/component deltas; focused model reports include only the two measured modes and explicitly do not evaluate release thresholds. Global and per-file reporting still include the entire canonical source inventory, with zeros for unexecuted sources. No floors or applicability dispositions change.
+
+Public solo observations now require actual own-world/own-player references, false sessionActive, absent player session, zero live session bindings and zero staging bindings. Historical public intervals lacking this observation cannot be silently reused. The recorder's Survive kind remains justified by the dedicated fixture's named production factory and actual object bindings, not by generic factory introspection.
+
+Canonical integration proof22846 exited0: tooling tests9/9 (`/tmp/down-to-duck-survive-canonical-integration-unit.log`) and focused `node tools/release-coverage/run.mjs --suite survive-model-03 --report-only` production witnesses2/2 (`/tmp/down-to-duck-survive-canonical-integration.log`). Run `ec8f6794-d288-46f0-a7de-1241f0db33f0` under `artifacts/release-coverage/survive-model-03/` contains one independently collected Node parent, the config-bound model sidecar and ten validated intervals. `manifest.json` records payloadCount1 and thresholdsEvaluatedfalse. `attribution.json` records the following for **each** of Survive Arcade and Flow, all under `component-model`: lines80/89, functions50/65, branches102/165. These are real attributed counters, not copied shared-worker totals. The historical public-only observation was8/89,5/65,12/165; different collections are not summed here.
+
+At unchanged90/90/85 floors the current component observation still needs at least1 additional line,9 functions and39 arms. Actionable next witnesses: actual composed Revival/Flare requests and success/rejection debit paths (`session-recovery.ts:47–55`, `recovery.ts:53–61,83–84`); multiple current participants and multiple archived participants at settlement to exercise genuine sorting callbacks (`survive-results.ts:47–48`); real forward personal progress and pending-policy queries (`survive-together.ts:30–31`). Invalid-clock/malformed duplicate-participant defenses in the generic planner must not be called directly and relabeled Survive merely to fill a mode denominator. Reconcile each remaining miss against genuine owner reachability before adding cases or proposing explicit applicability; no automatic exclusion is made.
+
+`git diff --check` passed. Slot released to root after terminal evidence. Full collection, refreshed public-input observation, mode-floor enforcement and release acceptance remain separate pending work.
+
+## Stable-solo applicability integration
+
+Following root's independently exercised ownership observer, the runner now emits attribution for focused public intervals as well as model/full collections. For solo only, `projectSoloApplicability` requires public-input provenance and the exact stable ownership observation, uses current source text/maps and the actual remapped site schema, then invokes the reviewed source-pinned `soloApplicabilityDispositions` and pure `reportApplicability` validator. Positive attributed hits on omitted sites, stale source/schema identities, absent ownership and unknown sites fail rather than silently altering policy.
+
+`attribution.json` retains `rawStrata` and raw provenance-separated reports, adds the full `applicability` ledger (raw/applicable metrics, per-file hashes and every statement/function/branch-arm disposition with call/state reasons), and exposes `strata` as the actual policy input. Only solo mode strata use the applicable projection. Global/per-file summaries, source inventory, raw coverage maps and numerical floors remain unchanged. Unclassified sites stay applicable. Focused runs continue to mark thresholdsEvaluatedfalse; no release pass follows from an improved denominator.
+
+First integrated public run32212 retained a real failure after6/6 browser assertions: the historical `modes-12` focused group had no job records, so its browser collector did not enrich the parent with job/artifact identity. Newly enabled interval reporting correctly rejected this at parent binding. The correction uses the **exact existing full public-mode job** in the focused group; no legacy identity is invented and no validation is weakened. Failed log: `/tmp/down-to-duck-solo-applicability-integration-public.log`. Tooling tests17/17 passed separately in `/tmp/down-to-duck-solo-applicability-integration-unit.log`.
+
+Earlier focused public evidence exercised browser interval pair/schema validation and actual ownership observations. It did **not** exercise the runner's independent parent job/artifact binding because focused attribution reporting was absent. This distinction does not invalidate its behavioral assertions, but those historical rows are not reused as newly bound canonical mode attribution.
+
+Corrected canonical public command30556 exited0, six browser witnesses/six bound parent payloads, run `ff13e4eb-99ff-447a-8183-9ef7d86bea69`. Log `/tmp/down-to-duck-solo-applicability-integration-public-green.log`. Focused report at `artifacts/release-coverage/modes-12/attribution.json` retains these raw → applicable solo metrics:
+
+| Mode | Lines | Functions | Branch arms |
+|---|---|---|---|
+| Solo Arcade |168/2039 →168/1674|65/656 →65/492|182/2768 →182/2271|
+| Solo Flow |145/2039 →145/1674|61/656 →61/492|167/2768 →167/2271|
+
+Each mode exposes1282 individual omitted-site dispositions. No covered sites were removed. Other modes remain raw; this public-only run's Survive modes each measure8/89 lines,5/65 functions,12/165 arms, distinct from the earlier component-only80/89,50/65,102/165. Neither report fabricates a cross-run union. Full mode coverage remains substantially incomplete; applicability corrects unreachable ownership denominators, not missing execution. Global/per-file all-source totals and policy files are untouched. `git diff --check` passed and the serial execution slot was handed to the Survive fixture owner after terminal confirmation.

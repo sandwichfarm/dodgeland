@@ -1,0 +1,181 @@
+[
+  {
+    "id": "inherited-phase6",
+    "executable": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+    "args": [
+      "tests/phase6-gate.mjs"
+    ],
+    "pid": 13597,
+    "startedMs": 1792299433515,
+    "finishedMs": 1792300616112,
+    "durationMs": 1182597,
+    "exitCode": 0,
+    "signal": null,
+    "processError": null,
+    "durabilityError": null,
+    "stdoutPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/inherited-phase6.stdout.log",
+    "stderrPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/inherited-phase6.stderr.log",
+    "stdoutSha256": "31dfb5172b3fa35c982ff7c032a17dad87fd2680cf3a865f10012f3334d5d3ab",
+    "stderrSha256": "f2c20ef7a649e2e6ce22c7dfdeb438d03159ddde347ee3e072d66ea1b2e07a24",
+    "pass": true
+  },
+  {
+    "id": "calibration",
+    "executable": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+    "args": [
+      "tests/strict-node-tests.mjs",
+      "tools/release-coverage/calibration.test.mjs",
+      "tools/release-coverage/browser-calibration.test.mjs",
+      "tools/release-coverage/collection.test.mjs",
+      "tools/release-coverage/policy.test.mjs",
+      "tools/release-coverage/attribution.test.mjs"
+    ],
+    "pid": 49802,
+    "startedMs": 1792300616240,
+    "finishedMs": 1792300640543,
+    "durationMs": 24303,
+    "exitCode": 0,
+    "signal": null,
+    "processError": null,
+    "durabilityError": null,
+    "stdoutPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/calibration.stdout.log",
+    "stderrPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/calibration.stderr.log",
+    "stdoutSha256": "8e4d95e285f1610e734e810229d2ce6dcfca4004b5da61d73ec98559026aeb1f",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "pass": true
+  },
+  {
+    "id": "enforcing-coverage",
+    "executable": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+    "args": [
+      "--max-old-space-size=24576",
+      "tools/release-coverage/run.mjs",
+      "--output",
+      "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/coverage"
+    ],
+    "pid": 50568,
+    "startedMs": 1792300640635,
+    "finishedMs": 1792307833000,
+    "durationMs": 7192365,
+    "exitCode": 0,
+    "signal": null,
+    "processError": null,
+    "durabilityError": null,
+    "stdoutPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/enforcing-coverage.stdout.log",
+    "stderrPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/enforcing-coverage.stderr.log",
+    "stdoutSha256": "6008db0fa10ea0165852ab9909bbe15f8bdd702448bc821460a1ca5197b560d8",
+    "stderrSha256": "ca576afad3571cd1282a3cbf6877bcbafcd0bb2510c6f45f88c791547f4969f5",
+    "pass": true
+  },
+  {
+    "id": "conformance-controls",
+    "executable": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+    "args": [
+      "tests/strict-node-tests.mjs",
+      "tests/release-conformance.test.mjs"
+    ],
+    "pid": 43638,
+    "startedMs": 1792307833166,
+    "finishedMs": 1792307833468,
+    "durationMs": 302,
+    "exitCode": 0,
+    "signal": null,
+    "processError": null,
+    "durabilityError": null,
+    "stdoutPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/conformance-controls.stdout.log",
+    "stderrPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/conformance-controls.stderr.log",
+    "stdoutSha256": "e37725a45aabc005b083b7c93313d8007d2c056c09f55605c7df76da035f5530",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "pass": true
+  },
+  {
+    "id": "supplemental-conformance",
+    "executable": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+    "args": [
+      "tests/release-conformance.mjs",
+      "--reference",
+      "/Users/sandwich/Develop/crossy-road-clone/docs/release-evidence/reference/nip-5d.md",
+      "--reference-metadata",
+      "/Users/sandwich/Develop/crossy-road-clone/docs/release-evidence/reference/reference.json",
+      "--output",
+      "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/conformance.json"
+    ],
+    "pid": 43748,
+    "startedMs": 1792307833569,
+    "finishedMs": 1792307844176,
+    "durationMs": 10607,
+    "exitCode": 0,
+    "signal": null,
+    "processError": null,
+    "durabilityError": null,
+    "stdoutPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/supplemental-conformance.stdout.log",
+    "stderrPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/supplemental-conformance.stderr.log",
+    "stdoutSha256": "f76d5223509030ddaf65eb98ba394c3e3682c5ecaf8b0d3671d3e314bf582595",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "pass": true
+  },
+  {
+    "id": "evidence-controls",
+    "executable": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+    "args": [
+      "tests/strict-node-tests.mjs",
+      "tests/release-evidence.test.mjs"
+    ],
+    "pid": 44068,
+    "startedMs": 1792307844280,
+    "finishedMs": 1792307844449,
+    "durationMs": 169,
+    "exitCode": 0,
+    "signal": null,
+    "processError": null,
+    "durabilityError": null,
+    "stdoutPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/evidence-controls.stdout.log",
+    "stderrPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/evidence-controls.stderr.log",
+    "stdoutSha256": "a3288bc9beffaf7ee253b5e5acdb6a8413a0fee41997befb4c9191321fda47d6",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "pass": true
+  },
+  {
+    "id": "evidence-integrity",
+    "executable": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+    "args": [
+      "tools/release-coverage/evidence.mjs",
+      "--check"
+    ],
+    "pid": 44137,
+    "startedMs": 1792307844550,
+    "finishedMs": 1792307844684,
+    "durationMs": 134,
+    "exitCode": 0,
+    "signal": null,
+    "processError": null,
+    "durabilityError": null,
+    "stdoutPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/evidence-integrity.stdout.log",
+    "stderrPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/evidence-integrity.stderr.log",
+    "stdoutSha256": "62390fa0619771cefecfa53cbbf1f0941b0a6616cb728b0d85b8073e27d436db",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "pass": true
+  },
+  {
+    "id": "original-clauses",
+    "executable": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+    "args": [
+      "tools/release-coverage/evidence.mjs",
+      "--check-clauses"
+    ],
+    "pid": 44215,
+    "startedMs": 1792307844783,
+    "finishedMs": 1792307844908,
+    "durationMs": 125,
+    "exitCode": 1,
+    "signal": null,
+    "processError": null,
+    "durabilityError": null,
+    "stdoutPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/original-clauses.stdout.log",
+    "stderrPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/original-clauses.stderr.log",
+    "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderrSha256": "b44183603d9c2e38b399312f6e65242a5de9d3dea906e943fba79454ea2cc49d",
+    "pass": false,
+    "failure": "Exit 1"
+  }
+]

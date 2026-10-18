@@ -1,0 +1,162 @@
+{
+  "status": "Sixteen ordinary/canonical actual moving-platform reward journeys pass;not full release acceptance",
+  "runId": "77b03d95-4a30-458d-bcfb-ab3e2c5f9988",
+  "payloadCount": 1,
+  "lifetimes": 16,
+  "intervals": 64,
+  "modeCaseCounts": {
+    "relay": 8,
+    "race": 8
+  },
+  "thresholdsEvaluated": false,
+  "manifestSha256": "f36d9c025cfb8ca7a8a6cb6bf26bce1428b2a02edee939de154d2200965a1b3c",
+  "canonicalInventorySha256": "37f806f85a06a771ca5e1302b2e5aa996fd725c29e66175ef2d150a8c0f31404",
+  "currentDiagnosticModes": {
+    "relay": {
+      "raw": {
+        "statements": {
+          "covered": 2941,
+          "total": 3735
+        },
+        "functions": {
+          "covered": 659,
+          "total": 817
+        },
+        "branches": {
+          "covered": 2243,
+          "total": 3204
+        },
+        "lines": {
+          "covered": 1991,
+          "total": 2352
+        }
+      },
+      "applicable": {
+        "statements": {
+          "covered": 2941,
+          "total": 3271
+        },
+        "functions": {
+          "covered": 659,
+          "total": 708
+        },
+        "branches": {
+          "covered": 2243,
+          "total": 2744
+        },
+        "lines": {
+          "covered": 1991,
+          "total": 2079
+        }
+      },
+      "remaining": {
+        "lines": 0,
+        "functions": 0,
+        "branches": 90
+      },
+      "componentLifetimes": 94,
+      "componentIntervals": 329,
+      "publicIntervals": 2
+    },
+    "race": {
+      "raw": {
+        "statements": {
+          "covered": 3038,
+          "total": 3645
+        },
+        "functions": {
+          "covered": 702,
+          "total": 818
+        },
+        "branches": {
+          "covered": 2466,
+          "total": 3261
+        },
+        "lines": {
+          "covered": 2064,
+          "total": 2305
+        }
+      },
+      "applicable": {
+        "statements": {
+          "covered": 3038,
+          "total": 3406
+        },
+        "functions": {
+          "covered": 702,
+          "total": 758
+        },
+        "branches": {
+          "covered": 2466,
+          "total": 3032
+        },
+        "lines": {
+          "covered": 2064,
+          "total": 2163
+        }
+      },
+      "remaining": {
+        "lines": 0,
+        "functions": 0,
+        "branches": 112
+      },
+      "componentLifetimes": 127,
+      "componentIntervals": 450,
+      "publicIntervals": 8
+    }
+  },
+  "newBranchWitnesses": {
+    "relay": 22,
+    "race": 20
+  },
+  "executionInventory": {
+    "valid": true,
+    "entries": 152,
+    "closure": 159,
+    "jobs": 164,
+    "controls": 10
+  },
+  "normalArtifactRawSha256": "9036d9a1f179b136569a3b400c412d954d783987c751832afbbbfda287c63539",
+  "rootLockRawSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "unchangedPreviousDeclarations": {
+    "packageEntries": true,
+    "suiteDeclarations": true
+  },
+  "initialLedger": {
+    "newSourceIdenticalWitnesses": 0,
+    "reviewed": 186,
+    "covered": 185,
+    "privateDefault": 1,
+    "pending": 865
+  },
+  "gates": {
+    "type-check": 0,
+    "build": 0,
+    "guidance": {
+      "exit": 0,
+      "passed": 7
+    },
+    "conformance": {
+      "exit": 0,
+      "passed": 5,
+      "failed": 0,
+      "unmeasured": 5
+    }
+  },
+  "artifacts": {
+    "artifacts/release-coverage/turn-platform-rewards-review/canonical.log": "2e1bf67ef0092be5f1e3cdf497bca6faa1ec3408e743689bf19fc1bd6b215fe2",
+    "artifacts/release-coverage/turn-platform-rewards-review/conformance.log": "a09ae5cb13f690da04acd1655211f1843a65b5f7a44f3dd64beda565755acfc6",
+    "artifacts/release-coverage/turn-platform-rewards-review/mode-union.json": "eda9812e9afad82225253e61fed36c91d745d7c969ec6d601c3d88494869ef4c",
+    "artifacts/release-coverage/turn-platform-rewards-review/mode-union.log": "a6e0440e3828289c11ed49123488f89ae7da6f8583b138172b5e755970775f68",
+    "artifacts/release-coverage/turn-platform-rewards-review/mode-union.py": "955fbbebfb1bb28a31455cfba6a335b2681dee1379a6865a426f1c2747f185d1",
+    "artifacts/release-coverage/turn-platform-rewards-review/ordinary.log": "be8c32615f51748631dfcd8871132dc5ec17ba059a9f8f71d1b00e59066568e2"
+  },
+  "limits": [
+    "Explicit terrain/reward fixtures use legacy repeating logs and two-slot varied platforms;all poses,clocks,progress and pickups remain production-owned",
+    "Real world time binds near-approach rewards and brings outside-field rewards into view on a supported physical platform",
+    "Actual pause/resume freezes positions and rejects movement;actual landing pays one or25 coins once to one owner;carry and subsequent hop continue",
+    "onCoin is an observational payment recorder;no transaction callback or RNG is replaced",
+    "Initial Flow fixture underestimated elapsed world time;corrected tick count honors actual worldTimeScale;no product RED claimed",
+    "No public input-device,rendered image,physical controller,production source,scope,floor or complete release acceptance claim"
+  ]
+}

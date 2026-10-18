@@ -1,0 +1,34 @@
+{
+  "status": "diagnostic-failed-not-release-acceptance",
+  "observedAt": "2026-10-18T04:38:49.909758+00:00",
+  "command": "node --max-old-space-size=24576 tools/release-coverage/run.mjs --suite race-public-03 --report-only --output artifacts/release-final-launch-01/race-after-hold-01",
+  "session": 36485,
+  "pid": 42484,
+  "terminalExit": 1,
+  "passedCases": 15,
+  "failedCases": 1,
+  "canceledCases": 0,
+  "failedCase": "actual Race gear purchases follow earned market milestone without private state writes",
+  "error": "No safe input route reached earned goal",
+  "phase": "second earnTogether goal200,after market inspection and two Escape presses",
+  "priorTimeoutCaseNowPassed": true,
+  "priorTimeoutCauseDoesNotExplainThisFailure": true,
+  "productSourceChanged": false,
+  "normalDiagnostic": {
+    "session": 35300,
+    "terminalExit": 0,
+    "attempts": 3,
+    "reachedBothMarkets": 3,
+    "notReleaseAcceptance": true
+  },
+  "nextDiagnostic": {
+    "session": 67698,
+    "command": "node artifacts/release-final-launch-01/race-route-diagnostic-02.mjs",
+    "status": "running-revalidate-handle",
+    "scope": "same read-only route diagnostic on preserved instrumented artifact;not coverage/release acceptance"
+  },
+  "log": "artifacts/release-final-launch-01/race-after-hold-01.log",
+  "logSha256": "92a67a5a49e5e6de790386776944413f5676b3a832cdb06073073e677d7f5a39",
+  "releaseAccepted": false,
+  "prOpened": false
+}

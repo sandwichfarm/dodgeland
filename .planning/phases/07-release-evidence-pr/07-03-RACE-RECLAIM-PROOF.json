@@ -1,0 +1,235 @@
+{
+  "purpose": "Actual Race leave/disconnect/current-device and safe-reclaim transactions on both bases;no product source change",
+  "runId": "13bcb243-ec98-49ba-8404-eab75cee1a87",
+  "ordinaryCases": 4,
+  "canonicalCases": 4,
+  "independentNodeParents": 1,
+  "modeIntervals": 12,
+  "browserRealms": 0,
+  "registryJobs": 180,
+  "all179PriorJobsPreserved": true,
+  "newProductRed": false,
+  "fixtureCorrection": "Initial snapshot expected unchanged device aliases after successful replacement. Corrected expectation explicitly requires only the new device alias and otherwise exact resources/revival provenance;retained initial attempt. Failed test left the sequential recorder open,so remaining initial cases also failed.",
+  "results": {
+    "race": {
+      "before": {
+        "lines": {
+          "covered": 2076,
+          "total": 2159
+        },
+        "statements": {
+          "covered": 3084,
+          "total": 3390
+        },
+        "functions": {
+          "covered": 710,
+          "total": 754
+        },
+        "branches": {
+          "covered": 2497,
+          "total": 2994
+        }
+      },
+      "after": {
+        "lines": {
+          "covered": 2076,
+          "total": 2159
+        },
+        "statements": {
+          "covered": 3089,
+          "total": 3390
+        },
+        "functions": {
+          "covered": 710,
+          "total": 754
+        },
+        "branches": {
+          "covered": 2502,
+          "total": 2994
+        }
+      },
+      "newSites": [
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/race.ts",
+          "kind": "statement",
+          "id": "79",
+          "location": {
+            "start": {
+              "line": 89,
+              "column": 33
+            },
+            "end": {
+              "line": 89,
+              "column": 46
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/race.ts",
+          "kind": "statement",
+          "id": "113",
+          "location": {
+            "start": {
+              "line": 113,
+              "column": 152
+            },
+            "end": {
+              "line": 113,
+              "column": 165
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/race.ts",
+          "kind": "statement",
+          "id": "137",
+          "location": {
+            "start": {
+              "line": 127,
+              "column": 35
+            },
+            "end": {
+              "line": 127,
+              "column": 58
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/race.ts",
+          "kind": "statement",
+          "id": "138",
+          "location": {
+            "start": {
+              "line": 127,
+              "column": 58
+            },
+            "end": {
+              "line": 127,
+              "column": 74
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/race.ts",
+          "kind": "branch",
+          "id": "26",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 89,
+              "column": 4
+            },
+            "end": {
+              "line": 89,
+              "column": 46
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/race.ts",
+          "kind": "branch",
+          "id": "28",
+          "arm": 1,
+          "location": {
+            "start": {
+              "line": 94,
+              "column": 135
+            },
+            "end": {
+              "line": 94,
+              "column": 144
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/race.ts",
+          "kind": "branch",
+          "id": "39",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 113,
+              "column": 6
+            },
+            "end": {
+              "line": 113,
+              "column": 165
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/race.ts",
+          "kind": "branch",
+          "id": "49",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 127,
+              "column": 4
+            },
+            "end": {
+              "line": 127,
+              "column": 75
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "statement",
+          "id": "783",
+          "location": {
+            "start": {
+              "line": 964,
+              "column": 87
+            },
+            "end": {
+              "line": 964,
+              "column": 100
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "branch",
+          "id": "299",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 964,
+              "column": 4
+            },
+            "end": {
+              "line": 964,
+              "column": 100
+            }
+          }
+        }
+      ],
+      "remainingAt85": 43
+    }
+  },
+  "hashes": {
+    "artifacts/release-coverage/race-reclaim-03/13bcb243-ec98-49ba-8404-eab75cee1a87/tests__race-reclaim-transactions.test.mjs.json": "1c295a1780690da568348e395fa2a9bd6927117fd67013cb539eabadb83736cb",
+    "artifacts/release-coverage/race-reclaim-03/13bcb243-ec98-49ba-8404-eab75cee1a87/model-race-reclaim-transactions-test.json": "62104eb0fae899d2d1cd22952a2bc7e4a48dcf1c92bc98b36d3b73f6c29c1eb5",
+    "artifacts/release-coverage/race-reclaim-03/13bcb243-ec98-49ba-8404-eab75cee1a87/inventory.json": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+    "artifacts/release-coverage/race-reclaim-03/13bcb243-ec98-49ba-8404-eab75cee1a87/config.json": "ce794a63012161f2cab7a7476c16022ec1b766a3219b20bdbe4581d54ffef2d1",
+    "artifacts/release-coverage/race-reclaim-03/13bcb243-ec98-49ba-8404-eab75cee1a87/job-ledger.json": "6edba2ac5dcc150dff9f9aaaa40a2337e142b07c75b23bad800c19794074cb89",
+    "artifacts/release-coverage/race-reclaim-03/ordinary-01.log": "012168bcb8edebed9d3e4f87287dbe365552b42afc531e5a4e288b25f2993c89",
+    "artifacts/release-coverage/race-reclaim-03/ordinary-attempt-01.mjs": "30effcc31491dd903ea644d5e7fc23baff9e4aa5278fae1cc3de212d09842868",
+    "artifacts/release-coverage/race-reclaim-03/ordinary-02.log": "751b8ccf363b5b8c7d53792efb090b0f29ba8cd95ab760951cd547ec95214d36",
+    "artifacts/release-coverage/race-reclaim-03/canonical.log": "d664227e6467f91d8c4c358ff09986ac6022010f67cbd961cb746ed455848a30",
+    "artifacts/release-coverage/race-reclaim-03/dispatch-audit.json": "6746cd8973e573b6717431631d2a936e6ca863286e8818b058b87707f993df2f",
+    "artifacts/release-coverage/race-reclaim-03/measure-union.mjs": "c6bdefa4af9cf1fbe66a3bb1f189b9952d9e401dcd8a56bdf7b6ad480df7e8da",
+    "artifacts/release-coverage/race-reclaim-03/union-proof.json": "4e8002174fe276c2cbff856cf3d3737aae94e3f43b73746d64e05fe7a8336b45",
+    "tests/race-reclaim-transactions.test.mjs": "2bfef124f5af845415076c15ee113ec4f611786f76e91f0d1c76c0c3d4d8614e",
+    "package.json": "d2aef75e6fa14c0621d6e3e25ad02853cbb2a1e355a74db2f10ae1665f1da6f2",
+    "tools/release-coverage/suites.json": "018d75b518a1652e19dff4e78fa755817c3f1d044b83f178d7a99cea8cf4870c",
+    "pnpm-lock.yaml": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+    "dist/index.html": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542"
+  },
+  "limitations": [
+    "Terrain is arranged;no player pose,clock,ownership or recovery mutation.",
+    "No injected gamepad transport or physical hardware claim;actual coordinator/session device API proof only.",
+    "No new browser/DEV credit.Original full report remains failed;Race43 DEV52 witnesses,semantic review,fresh full gates and PR remain."
+  ]
+}

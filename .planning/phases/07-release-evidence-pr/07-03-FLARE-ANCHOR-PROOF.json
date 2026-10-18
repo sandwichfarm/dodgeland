@@ -1,0 +1,361 @@
+{
+  "purpose": "Source/schema-identical additional behavioral witnesses;diagnostic union only,no replacement of complete enforcing run",
+  "runId": "fa5c17fe-49c3-4011-bd68-658cb0a8cefb",
+  "ordinaryExit": 0,
+  "ordinaryCases": 6,
+  "canonicalExit": 0,
+  "canonicalJobs": 2,
+  "canonicalCases": 12,
+  "browserRealms": 12,
+  "allOriginalFiveTestsRetained": true,
+  "newTest": "Flare refuses an unsafe exact owner anchor atomically and the same charge works after clearance",
+  "productionSourceChanged": false,
+  "newProductRed": false,
+  "inventoryByteSha256": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+  "testSha256": "241c5fa920a984331f5f60bc5a7ef3bfa5dc3e517e496ece909f4ec84a6c5e2c",
+  "logs": {
+    "artifacts/release-coverage/flare-anchor-03-proof/ordinary.log": "9b91b4aa3165a812d39d4133fbdd2fb4794ee5290837384f94d9baad5100dc44",
+    "artifacts/release-coverage/flare-anchor-03-proof/canonical.log": "401dc0281b1bc1c2c356aa6836f508ba3d548576dfa3d619ca53f4904b4c4946"
+  },
+  "artifacts": {
+    "artifacts/release-coverage/flare-anchor-03/manifest.json": "fc426018a9165812cb7c3aaceecb0c5eb6dd43c5404ba9726b87a576b6a240e5",
+    "artifacts/release-coverage/flare-anchor-03/report/coverage-final.json": "baf742ee2131e0019c52a9861ebae2fa703bf24f25dc0db2f54cb4555a2a9ab1",
+    "artifacts/release-coverage/flare-anchor-03/attribution.json": "8425bb1dde9dd9e1d65a153d4594d74b2451889f03c31a4cda344b55fee63f55"
+  },
+  "results": {
+    "global": {
+      "newPreviouslyZeroBranches": 5,
+      "rows": [
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "227",
+          "arm": 5,
+          "location": {
+            "start": {
+              "line": 819,
+              "column": 37
+            },
+            "end": {
+              "line": 819,
+              "column": 85
+            }
+          },
+          "line": 819,
+          "newHits": 2,
+          "text": "&& (lane.kind !== 'river' || platformSupports(lane, exact.x, this.world.time))"
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "227",
+          "arm": 8,
+          "location": {
+            "start": {
+              "line": 820,
+              "column": 62
+            },
+            "end": {
+              "line": 820,
+              "column": 163
+            }
+          },
+          "line": 820,
+          "newHits": 4,
+          "text": "&& ((lane.kind !== 'road' && lane.kind !== 'rail') || laneActors(lane, this.world.time).every(actor => Math.abs(actor.x - exact.x) > actor.length / 2 + .2))"
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "228",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 821,
+              "column": 40
+            },
+            "end": {
+              "line": 821,
+              "column": 64
+            }
+          },
+          "line": 821,
+          "newHits": 6,
+          "text": "&& !this.world.mobs.some(mob => mob.phase !== 'spawning' && Math.hypot(mob.x - exact.x, mob.y - row) < .7);"
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "228",
+          "arm": 1,
+          "location": {
+            "start": {
+              "line": 821,
+              "column": 68
+            },
+            "end": {
+              "line": 821,
+              "column": 113
+            }
+          },
+          "line": 821,
+          "newHits": 2,
+          "text": "&& !this.world.mobs.some(mob => mob.phase !== 'spawning' && Math.hypot(mob.x - exact.x, mob.y - row) < .7);"
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "231",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 825,
+              "column": 6
+            },
+            "end": {
+              "line": 825,
+              "column": 74
+            }
+          },
+          "line": 825,
+          "newHits": 2,
+          "text": "if (remaining.length < ordered.length - 1) return Object.freeze([]);"
+        }
+      ],
+      "completeBaseline": {
+        "covered": 9168,
+        "total": 9998
+      },
+      "diagnosticUnionCovered": 9173,
+      "remainingAt85": 0
+    },
+    "browser-presentation-owner-lifecycle": {
+      "newPreviouslyZeroBranches": 5,
+      "rows": [
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "227",
+          "arm": 5,
+          "location": {
+            "start": {
+              "line": 819,
+              "column": 37
+            },
+            "end": {
+              "line": 819,
+              "column": 85
+            }
+          },
+          "line": 819,
+          "newHits": 1,
+          "text": "&& (lane.kind !== 'river' || platformSupports(lane, exact.x, this.world.time))"
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "227",
+          "arm": 8,
+          "location": {
+            "start": {
+              "line": 820,
+              "column": 62
+            },
+            "end": {
+              "line": 820,
+              "column": 163
+            }
+          },
+          "line": 820,
+          "newHits": 2,
+          "text": "&& ((lane.kind !== 'road' && lane.kind !== 'rail') || laneActors(lane, this.world.time).every(actor => Math.abs(actor.x - exact.x) > actor.length / 2 + .2))"
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "228",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 821,
+              "column": 40
+            },
+            "end": {
+              "line": 821,
+              "column": 64
+            }
+          },
+          "line": 821,
+          "newHits": 3,
+          "text": "&& !this.world.mobs.some(mob => mob.phase !== 'spawning' && Math.hypot(mob.x - exact.x, mob.y - row) < .7);"
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "228",
+          "arm": 1,
+          "location": {
+            "start": {
+              "line": 821,
+              "column": 68
+            },
+            "end": {
+              "line": 821,
+              "column": 113
+            }
+          },
+          "line": 821,
+          "newHits": 1,
+          "text": "&& !this.world.mobs.some(mob => mob.phase !== 'spawning' && Math.hypot(mob.x - exact.x, mob.y - row) < .7);"
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "231",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 825,
+              "column": 6
+            },
+            "end": {
+              "line": 825,
+              "column": 74
+            }
+          },
+          "line": 825,
+          "newHits": 1,
+          "text": "if (remaining.length < ordered.length - 1) return Object.freeze([]);"
+        }
+      ],
+      "completeBaseline": {
+        "covered": 8336,
+        "total": 9867
+      },
+      "diagnosticUnionCovered": 8341,
+      "remainingAt85": 46
+    },
+    "development": {
+      "newPreviouslyZeroBranches": 5,
+      "rows": [
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "227",
+          "arm": 5,
+          "location": {
+            "start": {
+              "line": 819,
+              "column": 37
+            },
+            "end": {
+              "line": 819,
+              "column": 85
+            }
+          },
+          "line": 819,
+          "newHits": 1,
+          "text": "&& (lane.kind !== 'river' || platformSupports(lane, exact.x, this.world.time))"
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "227",
+          "arm": 8,
+          "location": {
+            "start": {
+              "line": 820,
+              "column": 62
+            },
+            "end": {
+              "line": 820,
+              "column": 163
+            }
+          },
+          "line": 820,
+          "newHits": 2,
+          "text": "&& ((lane.kind !== 'road' && lane.kind !== 'rail') || laneActors(lane, this.world.time).every(actor => Math.abs(actor.x - exact.x) > actor.length / 2 + .2))"
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "228",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 821,
+              "column": 40
+            },
+            "end": {
+              "line": 821,
+              "column": 64
+            }
+          },
+          "line": 821,
+          "newHits": 3,
+          "text": "&& !this.world.mobs.some(mob => mob.phase !== 'spawning' && Math.hypot(mob.x - exact.x, mob.y - row) < .7);"
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "228",
+          "arm": 1,
+          "location": {
+            "start": {
+              "line": 821,
+              "column": 68
+            },
+            "end": {
+              "line": 821,
+              "column": 113
+            }
+          },
+          "line": 821,
+          "newHits": 1,
+          "text": "&& !this.world.mobs.some(mob => mob.phase !== 'spawning' && Math.hypot(mob.x - exact.x, mob.y - row) < .7);"
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "231",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 825,
+              "column": 6
+            },
+            "end": {
+              "line": 825,
+              "column": 74
+            }
+          },
+          "line": 825,
+          "newHits": 1,
+          "text": "if (remaining.length < ordered.length - 1) return Object.freeze([]);"
+        }
+      ],
+      "completeBaseline": {
+        "covered": 2253,
+        "total": 2805
+      },
+      "diagnosticUnionCovered": 2258,
+      "remainingAt85": 127
+    }
+  },
+  "limitations": "Explicit terrain/mob geometry and existing market/death component fixtures;actual public Flare confirmation,rejection,retry;no Relay/Race interval credit,physical hardware or complete release pass"
+}

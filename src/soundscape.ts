@@ -3,6 +3,7 @@ import { laneActors, trainPhase, wrap } from './game.js';
 import type { Game, Lane, LaneActor, Mode } from './game.js';
 import type { SoundCue } from './audio.js';
 import { HORN_MIN_MIDI, HORN_MAX_MIDI, HORN_REFERENCE_MIDI, musicHarmonyAt } from './harmony.js';
+import { soloModeDefinition } from './mode-rules.js';
 
 interface SoundOptions { gain?: number; pan?: number; rate?: number; variant?: string }
 interface SceneLoop extends SoundOptions { id: string; cue: SoundCue; gain: number; offset?: number }
@@ -16,11 +17,16 @@ const reach = (distance: number, radius: number): number => clamp(1 - distance /
 // Match the horizontal skew of the isometric camera, relative to the listener.
 const panAt = (dx: number, dy: number): number => clamp((dx + dy * .3) / 6, -.94, .94);
 
-/** The bell and crossing lamps share a clock, including the train's passage.
- * Stroll slows the vehicles, but the crossing bell still strikes every .5 s. */
+/** Compatibility entry point for callers using the released solo identities. */
 export function crossingSignal(lane: Lane, time: number, mode: Mode = 'arcade'): { active: boolean; lit: boolean; beat: number } {
+  return crossingSignalAtScale(lane, time, soloModeDefinition(mode).rules.simulation.worldTimeScale);
+}
+
+/** The bell and crossing lamps share a clock, including the train's passage.
+ * Vehicle speed can vary, but the crossing bell still strikes every .5 s. */
+export function crossingSignalAtScale(lane: Lane, time: number, worldTimeScale: number): { active: boolean; lit: boolean; beat: number } {
   const phase = trainPhase(lane, time);
-  const clock = wrap(time + lane.phase, lane.period) / (mode === 'stroll' ? .58 : 1);
+  const clock = wrap(time + lane.phase, lane.period) / worldTimeScale;
   const active = phase.warning || phase.x !== null;
   // Wrapping can put an exact boundary a few ulps below its intended beat.
   return { active, lit: active && (clock + 1e-9) % .5 < .25, beat: Math.floor((clock + 1e-9) / .5) };
@@ -120,8 +126,9 @@ export class Soundscape {
     }
 
     const px = game.groundX, py = game.groundY;
-    // Stroll slows simulation, not the music. Pauses freeze this shared clock.
-    const musicClock = game.time / (game.mode === 'stroll' ? .58 : 1);
+    // Simulation speed never detunes music. Pauses freeze this shared clock.
+    const worldTimeScale = game.rules.simulation.worldTimeScale;
+    const musicClock = game.time / worldTimeScale;
     // The destination changes at key-down; the listener crosses a biome only
     // when its visible ground position does. The audio mixer crossfades voices.
     const world = game.rows.get(Math.round(py))?.world.id ?? game.lane.world.id;
@@ -174,7 +181,7 @@ export class Soundscape {
       }
       if (lane.kind === 'rail') {
         const phase = trainPhase(lane, game.time);
-        const signal = crossingSignal(lane, game.time, game.mode);
+        const signal = crossingSignalAtScale(lane, game.time, worldTimeScale);
         if (signal.active && Math.abs(dy) < 4.5) {
           bells.push({ lane, gain: .20 + .58 * reach(Math.abs(dy), 4.5), pan: panAt(0, dy), beat: signal.beat, lit: signal.lit });
         }
@@ -211,7 +218,7 @@ export class Soundscape {
 
     if (game.warning && game.time >= this.nextWave) {
       this.audio.play('idle', { gain: .65 + .2 * reach(game.waveSeconds, 5) });
-      this.nextWave = game.time + (game.waveSeconds <= 2 ? .52 : .96) * (game.mode === 'stroll' ? .58 : 1);
+      this.nextWave = game.time + (game.waveSeconds <= 2 ? .52 : .96) * worldTimeScale;
     } else if (!game.warning) this.nextWave = game.time;
 
     const urgency = game.warning ? .35 : bell ? .6 : 1;

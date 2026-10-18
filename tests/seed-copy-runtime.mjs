@@ -1,3 +1,8 @@
+import { artifactForCoverage, artifactDirectoryForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
+import { spawn } from 'node:child_process';
+import { createServer as createPortProbe } from 'node:net';
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 // The unchanged production artifact in an opaque iframe. Clipboard fixtures
 // exercise browser permission outcomes; the run and death screen remain real.
 import assert from 'node:assert/strict';
@@ -5,8 +10,9 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { chromium } from 'playwright';
 
-const artifact = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
-const output = new URL('../artifacts/', import.meta.url);
+const selectedArtifact = artifactForCoverage(new URL('../dist/index.html', import.meta.url));
+const artifact = await readFile(selectedArtifact, 'utf8');
+const output = artifactDirectoryForCoverage(new URL('../artifacts/', import.meta.url), 'seed-copy-runtime');
 await mkdir(output, { recursive: true });
 
 function installFixture() {
@@ -45,6 +51,23 @@ const origin = `http://127.0.0.1:${server.address().port}`;
 const evidence = { artifact: 'dist/index.html', scenarios: [], frames: [], errors: [], external: [] };
 const browser = await chromium.launch({ args: ['--mute-audio'] });
 let phase = 'clipboard behavior';
+const coverageFrames = new Map();
+let runtime;
+async function isolatedPaja() {
+  const probe = createPortProbe();
+  await new Promise((resolve, reject) => { probe.once('error', reject); probe.listen(0, '127.0.0.1', resolve); });
+  const port = probe.address().port; await new Promise(resolve => probe.close(resolve));
+  const directory = dirname(selectedArtifact instanceof URL ? fileURLToPath(selectedArtifact) : selectedArtifact);
+  const command = process.env.DOWN_TO_DUCK_PAJA_CLI ? process.execPath : 'kehto';
+  const args = process.env.DOWN_TO_DUCK_PAJA_CLI ? [process.env.DOWN_TO_DUCK_PAJA_CLI] : ['paja'];
+  runtime = spawn(command, [...args, '--target-url', `http://127.0.0.1:${port}/`, '--port', '0', '--relay-mode', 'disabled', '--storage-mode', 'local', '--firewall-mode', 'observe', '--', 'pnpm', 'vite', 'preview', '--outDir', directory, '--host', '127.0.0.1', '--port', String(port), '--strictPort'], { stdio: ['ignore', 'pipe', 'pipe'] });
+  return await new Promise((resolve, reject) => {
+    let log = ''; const timer = setTimeout(() => reject(new Error('Paja readiness timeout: ' + log)), 15000);
+    const data = bytes => { log += bytes; const match = /Runtime URL: (http:\/\/127\.0\.0\.1:\d+\/)/.exec(log); if (match && log.includes('Local:')) { clearTimeout(timer); resolve(match[1]); } };
+    runtime.stdout.on('data', data); runtime.stderr.on('data', data);
+    runtime.once('error', error => { clearTimeout(timer); reject(error); }); runtime.once('exit', code => { clearTimeout(timer); reject(new Error(`Paja exited ${code}: ${log}`)); });
+  });
+}
 try {
   const context = await browser.newContext({ viewport: { width: 1100, height: 750 } });
   await context.grantPermissions(['clipboard-read'], { origin });
@@ -52,9 +75,12 @@ try {
   page.setDefaultTimeout(8000); await page.clock.install();
   page.on('pageerror', error => evidence.errors.push(error.message));
   await page.route('**/*', route => { if (new URL(route.request().url()).hostname === '127.0.0.1') return route.continue(); evidence.external.push(route.request().url()); return route.abort(); });
+  const identity = { suite: process.argv[1], scenario: 'seed-clipboard-fixture', frame: 'opaque-app', generation: 0, scope: 'current' };
+  registerRealm(page, identity);
   await page.goto(origin);
   const iframe = page.locator('iframe');
   const frame = await (await iframe.elementHandle()).contentFrame();
+  coverageFrames.set(frame, identity);
   await frame.waitForFunction(() => !!window.seedFixture?.handlers['puddlehop.play']);
   await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 50);
   const advance = ms => page.clock.runFor(ms);
@@ -219,16 +245,19 @@ try {
   evidence.scenarios.push('Retry clears the seed and invalidates delayed copy completion; teardown releases handler and ignores in-flight copy');
 
   // The local Paja preview exercises the real shell injection and sandbox too.
-  const pajaURL = process.env.DOWN_TO_DUCK_SEED_RUNTIME_URL ?? 'http://127.0.0.1:5197/';
+  const pajaURL = process.env.DOWN_TO_DUCK_COVERAGE_CONFIG ? await isolatedPaja() : process.env.DOWN_TO_DUCK_SEED_RUNTIME_URL ?? 'http://127.0.0.1:5197/';
   phase = 'actual Paja clipboard';
   const paja = await context.newPage();
   paja.setDefaultTimeout(10000); await paja.clock.install();
   paja.on('pageerror', error => evidence.errors.push(error.message));
   await context.grantPermissions(['clipboard-read'], { origin: new URL(pajaURL).origin });
+  const pajaIdentity = { suite: process.argv[1], scenario: 'seed-actual-paja', frame: 'opaque-paja-app', generation: 0, scope: 'current' };
+  registerRealm(paja, pajaIdentity);
   await paja.goto(pajaURL);
   const pajaIframe = paja.locator('iframe');
   await paja.frameLocator('iframe').locator('#copy-seed').waitFor({ state: 'attached' });
   const pajaFrame = await (await pajaIframe.elementHandle()).contentFrame();
+  coverageFrames.set(pajaFrame, pajaIdentity);
   assert.equal(await pajaIframe.getAttribute('sandbox'), 'allow-scripts');
   assert.equal(await pajaFrame.evaluate(() => location.origin), 'null');
   await paja.clock.pauseAt((await paja.evaluate(() => Date.now())) + 100);
@@ -252,4 +281,7 @@ try {
   await page?.locator('iframe').screenshot({ path: new URL('seed-copy-failure.png', output).pathname }).catch(() => {});
   await writeFile(new URL('seed-copy-runtime.json', output), JSON.stringify(evidence, null, 2));
   throw error;
-} finally { await browser.close(); await new Promise(resolve => server.close(resolve)); }
+} finally {
+  try { for (const [frame, identity] of coverageFrames) await collectRealm(frame, identity); }
+  finally { await browser.close(); await new Promise(resolve => server.close(resolve)); if (runtime && runtime.exitCode === null) { const closed = new Promise(resolve => runtime.once('exit', resolve)); runtime.kill('SIGINT'); await closed; } }
+}

@@ -1,3 +1,4 @@
+import { artifactForCoverage, artifactDirectoryForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 // SDK domain fixtures test the built napplet's integration. This is not a live
 // relay or Paja test; tests/runtime-smoke.mjs covers the actual shell separately.
 import assert from 'node:assert/strict';
@@ -6,7 +7,7 @@ import { createServer } from 'node:http';
 import { createHash } from 'node:crypto';
 import { chromium, firefox } from 'playwright';
 
-const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
+const built = await readFile(artifactForCoverage(new URL('../dist/index.html', import.meta.url)), 'utf8');
 assert.ok(built.includes('sound-address'), 'Build the current napplet before running this suite.');
 const author = 'a'.repeat(64);
 const address = name => `30063:${author}:${name}`;
@@ -28,7 +29,17 @@ const fixtures = {
 
 function installFixture(config) {
   const native = window.AudioContext;
-  const observed = window.fixture = { get effects() { return this.voices.filter(voice => !voice.loop); }, mount: config.mount, contexts: [], voices: [], queries: [], resources: [], decoded: [], writes: [], deferred: [], storagePending: [], actions: [], handlers: {}, saved: config.saved, hydrated: false };
+  const observed = window.fixture = { get effects() { return this.voices.filter(voice => !voice.loop); }, mount: config.mount, contexts: [], voices: [], queries: [], resources: [], decoded: [], writes: [], deferred: [], storagePending: [], packDeadlines: [], actions: [], handlers: {}, saved: config.saved, hydrated: false };
+  if (config.controlPackDeadline) {
+    const schedule = window.setTimeout.bind(window);
+    window.setTimeout = (callback, delay, ...args) => {
+      const id = schedule(callback, delay, ...args);
+      // Only the pack deadline is advanced by this host timing fixture. All
+      // normal timers still run; assertions explicitly trigger the real abort.
+      if (delay === 30_000) observed.packDeadlines.push(() => { clearTimeout(id); callback(...args); });
+      return id;
+    };
+  }
   window.AudioContext = class extends native {
     constructor(options) { super(options); observed.contexts.push(this); }
     createBufferSource() {
@@ -83,7 +94,8 @@ function installFixture(config) {
       unregisterAction() {},
     };
     window.napplet.storage = {
-      async getItem() {
+      async getItem(key) {
+        if (key !== 'puddlehop.progress.v1') return null;
         const snapshot = observed.saved;
         // Ordering assertions release this read explicitly after the user action;
         // browser/CI load must never decide whether hydration wins the race.
@@ -101,6 +113,7 @@ function installFixture(config) {
       const filter = filters[0];
       if (filter.kinds[0] === 30063) {
         const name = filter['#d'][0], id = config.ids[name];
+        if (name === 'untyped-error') throw 'Fixture host rejection without an Error object';
         const cues = name === 'music' ? ['music', 'hop'] : [name === 'calls' ? 'call.duck' : 'hop'];
         return { events: id ? [{ event: event(30063, 'f'.repeat(64), [['d', name], ['title', `Fixture ${name}`], ['puddlehop:sound-pack', '1'], ['e', id], ...cues.map(cue => ['puddlehop:cue', cue, id])]) }] : [] };
       }
@@ -121,6 +134,7 @@ function installFixture(config) {
       observed.decoded.push(value);
       return { ok: true, nip19Type: 'naddr', kind: 30063, pubkey: config.author, identifier: 'good', relays: ['wss://relay.fixture.invalid', 'https://ignored.fixture.invalid'] };
     } };
+    if (config.missingShared) { delete window.napplet.outbox; delete window.napplet.resource; }
   }
 }
 
@@ -142,11 +156,21 @@ const server = createServer((request, response) => {
   response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); response.end(harness);
 });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
-let browser;
+let browser, frame, identity, generation = 0;
+async function beginRealm(page) {
+  if (frame) await collectRealm(frame, identity);
+  frame = undefined;
+  identity = { suite: process.argv[1], scenario: 'sound-' + (process.env.DOWN_TO_DUCK_AUDIO_BROWSER ?? 'chromium'), frame: 'opaque-app', generation: generation++, scope: 'current' };
+  registerRealm(page, identity);
+}
 const errors = [], external = [];
 try {
   const browserType = process.env.DOWN_TO_DUCK_AUDIO_BROWSER === 'firefox' ? firefox : chromium;
-  browser = await browserType.launch();
+  browser = await browserType.launch(browserType === firefox
+    // Firefox applies this string preference at the device output, after the
+    // WebAudio graph, preserving live analysers and OfflineAudioContext PCM.
+    ? { firefoxUserPrefs: { 'media.volume_scale': '0.0' } }
+    : { args: ['--mute-audio'] });
   const page = await browser.newPage({ viewport: { width: 1000, height: 720 } });
   page.setDefaultTimeout(5_000);
   page.on('pageerror', error => errors.push(error.message));
@@ -155,15 +179,17 @@ try {
     if (new URL(route.request().url()).hostname === '127.0.0.1') return route.continue();
     external.push(route.request().url()); return route.abort();
   });
+  await beginRealm(page);
   await page.goto(`http://127.0.0.1:${server.address().port}`);
   async function currentFrame(mount) {
     const handle = await page.locator('#napplet').elementHandle();
-    const frame = await handle.contentFrame();
+    frame = await handle.contentFrame();
     if (mount) await frame.waitForFunction(expected => window.fixture?.mount === expected, mount);
     await frame.locator('#sound-pack option[value="arcade"]').waitFor({ state: 'attached' });
     return frame;
   }
   async function remount(options = {}) {
+    await beginRealm(page);
     const mount = await page.evaluate(options => window.mount(options), options);
     const frame = await currentFrame(mount);
     if (!options.deferStorage && !options.missing) await frame.waitForFunction(() => window.fixture.hydrated);
@@ -227,7 +253,7 @@ try {
     finally { await page.mouse.up(); }
   }
 
-  let frame = await currentFrame();
+  frame = await currentFrame();
   console.log(`Audio integration browser: ${browserType.name()}; cancelAndHoldAtTime=${await frame.evaluate(() => typeof AudioParam.prototype.cancelAndHoldAtTime)}`);
   assert.equal(await frame.evaluate(() => location.origin), 'null', 'iframe is opaque');
   assert.equal(await frame.evaluate(() => !!crypto.subtle), true, 'fixture retains secure-context hashing');
@@ -352,6 +378,71 @@ try {
   await persisted(() => JSON.parse(window.saved ?? '{}').soundAddress?.endsWith(':slow'));
   assert.equal(await frame.locator('#sound-muted').isChecked(), true, 'loading a different pack preserves saved mute');
   console.log('✓ Delayed loads and saved-preference hydration preserve the latest user intent');
+
+  // Finish the requested pack before hydration this time. The subsequent sync
+  // must reuse that exact decoded pack, and switching away/back uses its cache.
+  frame = await remount({ saved: JSON.stringify({ muted: true, soundPack: 'custom', soundAddress: address('saved') }), deferStorage: true });
+  await load(frame, 'good');
+  await frame.waitForFunction(() => document.querySelector('#sound-status').textContent.includes('Fixture good selected'));
+  const beforeHydrationResources = await frame.evaluate(() => [...window.fixture.resources]);
+  await releaseStorage(frame);
+  assert.equal(await frame.locator('#sound-pack').inputValue(), 'custom');
+  assert.equal(await frame.locator('#sound-address').inputValue(), address('good'));
+  assert.deepEqual(await frame.evaluate(() => window.fixture.resources), beforeHydrationResources, 'hydration reuses the completed user-selected pack');
+  await soundPage(frame, 'pack');
+  await frame.locator('#sound-pack').selectOption('arcade');
+  await frame.locator('#sound-pack').selectOption('custom');
+  assert.equal(await frame.locator('#sound-status').textContent(), 'Fixture good selected.');
+  assert.deepEqual(await frame.evaluate(() => window.fixture.resources), beforeHydrationResources, 'reselecting the loaded custom pack does not download it again');
+
+  // Restore a saved pack with a deliberately held resource. A pending Enter
+  // cannot create a second request. Its explicit deadline preserves fallback,
+  // and selecting the saved option again retries through the real loader.
+  frame = await remount({ saved: JSON.stringify({ muted: true, soundPack: 'custom', soundAddress: address('slow') }), controlPackDeadline: true });
+  await frame.waitForFunction(() => window.fixture.deferred.length === 1);
+  assert.equal(await frame.locator('#sound-pack').inputValue(), 'custom');
+  assert.equal(await frame.locator('#sound-pack option[value="custom"]').textContent(), 'Saved pack · Pond fallback');
+  await soundPage(frame, 'shared');
+  await frame.locator('#sound-address').press('Enter');
+  assert.equal(await frame.evaluate(() => window.fixture.resources.length), 1, 'repeated Enter cannot start another pending load');
+  await frame.evaluate(() => { window.fixture.packDeadlines.shift()(); window.fixture.deferred.splice(0).forEach(resolve => resolve()); });
+  await frame.waitForFunction(() => document.querySelector('#sound-status').textContent.includes('Loading timed out'));
+  assert.equal(await frame.locator('#sound-load').isEnabled(), true);
+  await soundPage(frame, 'pack');
+  await frame.locator('#sound-pack').selectOption('arcade');
+  await frame.locator('#sound-pack').selectOption('custom');
+  await frame.waitForFunction(() => window.fixture.deferred.length === 1 && window.fixture.resources.length === 2);
+  await frame.evaluate(() => window.fixture.deferred.splice(0).forEach(resolve => resolve()));
+  await frame.waitForFunction(() => document.querySelector('#sound-status').textContent.includes('Fixture slow selected'));
+  await soundPage(frame, 'shared');
+  await frame.locator('#sound-address').fill('   ');
+  await frame.locator('#sound-address').press('ArrowLeft');
+  await frame.locator('#sound-load').click();
+  assert.equal(await frame.locator('#sound-status').textContent(), 'Paste a sound-pack address first.');
+  assert.equal(await frame.evaluate(() => window.fixture.resources.length), 2, 'blank input does not query or replace the current pack');
+  await load(frame, 'untyped-error');
+  await frame.waitForFunction(() => document.querySelector('#sound-status').textContent === 'Could not load this pack. Try again.');
+  assert.equal(await frame.locator('#sound-pack').inputValue(), 'custom', 'host rejection preserves the current playable pack');
+
+  frame = await remount({ saved: JSON.stringify({ muted: true, soundPack: 'custom', soundAddress: address('saved') }), missingShared: true });
+  await sounds(frame);
+  assert.equal(await frame.locator('#sound-pack').inputValue(), 'custom', 'saved selection is retained without shared-pack domains');
+  assert.equal(await frame.locator('#sound-pack option[value="custom"]').textContent(), 'Saved pack · Pond fallback');
+  assert.deepEqual(await frame.evaluate(() => window.fixture.resources), []);
+  await soundPage(frame, 'shared');
+  assert.equal(await frame.locator('#sound-load').isDisabled(), true);
+  await soundPage(frame, 'pack');
+  await frame.locator('#sound-pack').selectOption('arcade');
+  assert.equal(await frame.locator('#sound-pack').inputValue(), 'arcade', 'built-in selection stays usable after an unavailable saved pack');
+  console.log('✓ Saved custom packs restore, cache, retry, preserve fallback and reject duplicate/empty loads');
+
+  // Keep the following existing playback/lifecycle assertions on their original
+  // loaded custom pack, not the missing-domain restoration fixture above.
+  frame = await remount({ saved: JSON.stringify({ muted: true, soundPack: 'custom', soundAddress: address('slow') }) });
+  await frame.waitForFunction(() => window.fixture.deferred.length === 1);
+  await frame.evaluate(() => window.fixture.deferred.splice(0).forEach(resolve => resolve()));
+  await frame.waitForFunction(() => document.querySelector('#sound-status').textContent.includes('Fixture slow selected'));
+  await sounds(frame);
 
   await soundPage(frame, 'mute');
   await frame.locator('#sound-muted').uncheck();
@@ -624,6 +715,5 @@ try {
   assert.deepEqual(errors, [], 'no uncaught page errors');
   console.log('Sound integration fixture suite passed (no live relay claims).');
 } finally {
-  await browser?.close();
-  await new Promise(resolve => server.close(resolve));
+  try { if (frame) await collectRealm(frame, identity); } finally { await browser?.close(); await new Promise(resolve => server.close(resolve)); }
 }

@@ -4,18 +4,30 @@ import { createServer } from 'node:http';
 import test, { after } from 'node:test';
 import { chromium } from 'playwright';
 import { compileSources } from './source-loader.mjs';
+import { extractPinnedBaseline } from './solo-baseline.mjs';
+import { registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 
 // A small independent Canvas fixture; no game server, shell, network assets, or timing luck.
 const modules = await compileSources('render', { sourceDirectory: process.env.DOWN_TO_DUCK_RENDER_SOURCE_DIR });
+// Keep the historical artifact option for legacy fixtures, but always compare
+// the real working tree against independently archived modules in the new gate.
+const currentModules = process.env.DOWN_TO_DUCK_RENDER_SOURCE_DIR ? await compileSources('render') : modules;
+const pinned = await extractPinnedBaseline();
+let baselineModules;
+try { baselineModules = await compileSources('render', { sourceDirectory: pinned.sourceDirectory }); }
+finally { await pinned.dispose(); }
 const server = createServer((request, response) => {
-  const source = modules.get(request.url);
+  const source = request.url.startsWith('/baseline/') ? baselineModules.get(request.url.slice('/baseline'.length))
+    : request.url.startsWith('/current/') ? currentModules.get(request.url.slice('/current'.length)) : modules.get(request.url);
   response.setHeader('Content-Type', source ? 'text/javascript' : 'text/html');
   response.end(source ?? '<!doctype html><style>body{margin:0;background:#f4f2df}canvas{display:block}</style><canvas id="scene" width="720" height="500"></canvas>');
 });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
-const browser = await chromium.launch();
-after(async () => { await browser.close(); await new Promise(resolve => server.close(resolve)); });
+const browser = await chromium.launch({ args: ['--mute-audio'] });
+after(async () => { try { await collectRealm(page, coverageIdentity); } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); } });
 const page = await browser.newPage({ viewport: { width: 720, height: 500 }, deviceScaleFactor: 1 });
+const coverageIdentity={suite:process.argv[1],scenario:'renderer-pixel-parity',frame:'component-current-and-uninstrumented-oracle',generation:0,scope:'current'};
+registerRealm(page,coverageIdentity);
 await page.goto(`http://127.0.0.1:${server.address().port}`);
 await page.evaluate(async () => {
   const [{ Renderer }, { Game, HOP_TIME }, { worldById, characterById, box }] = await Promise.all([
@@ -510,5 +522,252 @@ test('decorative hop lowers beside a car without moving the collision position',
     if (r.reduced) assert.equal(r.lift, 0);
     else if (r.carX === 0) assert.ok(r.lift > 0 && r.lift < .13, 'low arc keeps a glancing impact visually connected');
     else assert.equal(r.lift, .36, 'open-ground hop retains full bounce');
+  }
+});
+
+test('default Arcade and Stroll pixels exactly match the independently archived renderer', async () => {
+  const results = await page.evaluate(async () => {
+    const [beforeRender, beforeGame, afterRender, afterGame] = await Promise.all([
+      import('/baseline/render.js'), import('/baseline/game.js'),
+      import('/current/render.js'), import('/current/game.js'),
+    ]);
+    if (beforeGame.Game === afterGame.Game || beforeRender.Renderer === afterRender.Renderer) throw new Error('Pixel parity requires independent production modules.');
+    window.soloParityFrames = [];
+    const results = [];
+    for (const mode of ['arcade', 'stroll']) for (const state of ['ready', 'grounded', 'mid-hop']) {
+      for (const reduced of [false, true]) for (const theme of ['light', 'dark']) {
+        const draw = (gameModule, renderModule) => {
+          const canvas = document.createElement('canvas'); canvas.width = 720; canvas.height = 500;
+          const renderer = new renderModule.Renderer(canvas);
+          renderer.width = 720; renderer.height = 500; renderer.scale = 64; renderer.reduced = reduced;
+          renderer.backdrop = theme === 'dark' ? '#173b31' : '#f4f2df';
+          const game = new gameModule.Game(73, 'pond', mode);
+          // Preserve real generated scenery outside the controlled landing row.
+          for (const row of [0, 1]) Object.assign(game.rows.get(row), { kind: 'meadow', blocked: [], decorations: [], coin: null });
+          game.waveRow = -1.6;
+          if (state !== 'ready') {
+            game.move('forward');
+            game.update(state === 'mid-hop' ? .035 : .14);
+          }
+          renderer.draw(game, 'butter', 0);
+          return { canvas, pixels: renderer.ctx.getImageData(0, 0, 720, 500).data };
+        };
+        const before = draw(beforeGame, beforeRender), after = draw(afterGame, afterRender);
+        let differentBytes = 0, opaque = 0;
+        const colors = new Set();
+        for (let index = 0; index < before.pixels.length; index++) if (before.pixels[index] !== after.pixels[index]) differentBytes++;
+        for (let index = 0; index < after.pixels.length; index += 4) {
+          if (after.pixels[index + 3] === 255) opaque++;
+          colors.add(`${after.pixels[index]},${after.pixels[index + 1]},${after.pixels[index + 2]}`);
+        }
+        results.push({ mode, state, reduced, theme, differentBytes, opaque, colors: colors.size });
+        if (state === 'mid-hop' && !reduced) {
+          window.soloParityFrames.push(
+            { canvas: before.canvas, label: `${mode} / ${theme} / original a310a81` },
+            { canvas: after.canvas, label: `${mode} / ${theme} / working tree` },
+          );
+        }
+      }
+    }
+    return results;
+  });
+  assert.equal(results.length, 24);
+  for (const result of results) {
+    const label = `${result.mode}/${result.state}/${result.reduced}/${result.theme}`;
+    assert.equal(result.differentBytes, 0, `${label}: every RGBA byte equals the original renderer`);
+    assert.equal(result.opaque, 720 * 500, `${label}: the scene actually fills the canvas`);
+    assert.ok(result.colors > 30, `${label}: real terrain and character are drawn, not a uniform blank frame`);
+  }
+  await writeFile(new URL('solo-render-parity.json', artifacts), JSON.stringify({ baseline: pinned.sha, results }, null, 2));
+  const contactSheet = await page.evaluate(() => {
+    const canvas = document.createElement('canvas'); canvas.width = 720; canvas.height = 4 * 278;
+    const ctx = canvas.getContext('2d'); ctx.fillStyle = '#fff0c5'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    window.soloParityFrames.forEach((frame, index) => {
+      const x = index % 2 * 360, y = Math.floor(index / 2) * 278;
+      ctx.fillStyle = '#173b31'; ctx.font = '14px sans-serif'; ctx.fillText(frame.label, x + 8, y + 19);
+      ctx.drawImage(frame.canvas, x, y + 28, 360, 250);
+    });
+    return canvas.toDataURL('image/png').split(',')[1];
+  });
+  await writeFile(new URL('solo-render-parity.png', artifacts), Buffer.from(contactSheet, 'base64'));
+});
+
+test('custom hop duration and pursuit visibility drive the actual rendered character and wave', async () => {
+  const results = await page.evaluate(async () => {
+    const [{ Renderer }, { Game }, { composeModeDefinition }] = await Promise.all([
+      import('/current/render.js'), import('/current/game.js'), import('/current/mode-rules.js'),
+    ]);
+    return ['arcade', 'stroll'].flatMap(mode => [false, true].map(reduced => {
+      const visible = mode === 'stroll';
+      const definition = composeModeDefinition({ id: `render-${mode}`, movement: { hopDuration: .28 },
+        pursuit: { strategy: 'wave' }, presentation: { pursuitVisible: visible }, pursuers: { enabled: false } });
+      const game = new Game(73, 'pond', mode, false, [], 'butter', { definition });
+      for (const lane of game.rows.values()) Object.assign(lane, { kind: 'meadow', blocked: [], decorations: [], coin: null });
+      game.waveRow = -2;
+      const moved = game.move('forward'); game.update(.07);
+      const canvas = document.createElement('canvas'); canvas.width = 720; canvas.height = 500;
+      const renderer = new Renderer(canvas);
+      renderer.width = 720; renderer.height = 500; renderer.scale = 80; renderer.reduced = reduced;
+      let drawn, waves = 0;
+      const model = renderer.turnedModel.bind(renderer), wave = renderer.wave.bind(renderer);
+      renderer.turnedModel = (...args) => { drawn = { x: args[1], row: args[2], lift: args[3] }; return model(...args); };
+      renderer.wave = (...args) => { waves++; return wave(...args); };
+      renderer.draw(game, 'butter', 0);
+      const pixels = renderer.ctx.getImageData(0, 0, 720, 500).data;
+      return { mode, reduced, visible, moved, groundX: game.groundX, groundY: game.groundY, hop: game.hop,
+        drawn, waves, opaque: pixels.filter((value, index) => index % 4 === 3 && value === 255).length };
+    }));
+  });
+  for (const result of results) {
+    assert.equal(result.moved, true);
+    assert.ok(Math.abs(result.hop - .21) < 1e-12);
+    assert.equal(result.drawn.x, result.groundX);
+    assert.equal(result.drawn.row, result.groundY);
+    assert.ok(Math.abs(result.groundY - .25) < 1e-12);
+    const expectedLift = result.reduced ? 0 : Math.sin(.75 * Math.PI) * .36;
+    assert.ok(Math.abs(result.drawn.lift - expectedLift) < 1e-12, `${result.mode}: custom duration drives the visible hop arc`);
+    assert.equal(result.waves, Number(result.visible), `${result.mode}: visibility follows the definition, not the stored mode`);
+    assert.equal(result.opaque, 720 * 500);
+  }
+});
+
+test('rendered crossing lamps and actual bell events share a custom active-world clock', async () => {
+  const results = await page.evaluate(async () => {
+    const [{ Renderer }, { Game }, { Soundscape }, { composeModeDefinition }] = await Promise.all([
+      import('/current/render.js'), import('/current/game.js'),
+      import('/current/soundscape.js'), import('/current/mode-rules.js'),
+    ]);
+    return ['arcade', 'stroll'].flatMap(mode => [false, true].map(reduced => {
+      const definition = composeModeDefinition({ id: `crossing-${mode}`,
+        simulation: { worldTimeScale: .4 }, pursuers: { enabled: false } });
+      const game = new Game(73, 'pond', mode, false, [], 'butter', { definition });
+      for (const lane of game.rows.values()) Object.assign(lane, { kind: 'meadow', blocked: [], decorations: [], coin: null });
+      Object.assign(game.rows.get(1), { kind: 'rail', phase: 0, period: 8, warning: 3, speed: 1 });
+      game.state = 'playing';
+      const canvas = document.createElement('canvas'); canvas.width = 720; canvas.height = 500;
+      const renderer = new Renderer(canvas);
+      renderer.width = 720; renderer.height = 500; renderer.scale = 50; renderer.reduced = reduced;
+      let lamps = [];
+      const cube = renderer.cube.bind(renderer);
+      renderer.cube = (voxel, ...args) => {
+        if (voxel.z === .8 && voxel.w === .28 && voxel.d === .23 && voxel.h === .15) lamps.push(voxel.color);
+        return cube(voxel, ...args);
+      };
+      const bells = [], frames = [];
+      const scene = new Soundscape({ syncLoops() {}, play(cue) { if (cue === 'train') bells.push(game.time); } });
+      for (const time of [.08, .12, .2, .3, .4]) {
+        game.time = time; lamps = [];
+        scene.update(game); renderer.draw(game, 'butter', 0);
+        frames.push({ time, lamps: [...lamps] });
+      }
+      return { mode, reduced, frames, bells };
+    }));
+  });
+  for (const result of results) {
+    const lit = [true, false, true, false, true];
+    result.frames.forEach((frame, index) => {
+      const color = result.reduced || lit[index] ? '#f27459' : '#d6b972';
+      assert.deepEqual(frame.lamps, [color, color], `${result.mode}/${result.reduced}/${frame.time}: both actual lamps use the active clock`);
+    });
+    assert.deepEqual(result.bells, [.08, .2, .4], 'bells strike on lit beats; reduced motion changes only the lamps');
+  }
+});
+
+test('shared travelers use world depth ordering, platform height, and persistent identity labels', async () => {
+  const results = await page.evaluate(async () => {
+    const [{ Renderer }, { Game, platformSurface }, { LocalSession }, { worldById, characterById, box }] = await Promise.all([
+      import('/current/render.js'), import('/current/game.js'), import('/current/session.js'), import('/current/content.js'),
+    ]);
+    return ['foreground', 'river'].map(kind => {
+      const game = new Game(113, 'pond', 'stroll');
+      const scenery = [box(0, 0, 0, .58, .5, .9, '#cc4466')];
+      const world = { ...worldById('pond'), scenery: [scenery] };
+      for (const lane of game.rows.values()) Object.assign(lane, { world, kind: 'meadow', blocked: [], decorations: [], coin: null, coinPull: undefined });
+      const session = LocalSession.stage(game, { secondaryCharacterId: 'pip' }).commit();
+      const [first, second] = session.players;
+      Object.assign(first, { x: -2, fromX: -2, y: 0, fromY: 0, hop: 0 });
+      Object.assign(second, { x: 0, fromX: 0, y: 0, fromY: 0, hop: 0 });
+      const lane = game.rows.get(0);
+      if (kind === 'foreground') lane.decorations = [{ x: .23, variant: 0 }];
+      else Object.assign(lane, { kind: 'river', speed: 0, spacing: 20, length: 2, phase: .25, variant: 1, actors: undefined });
+      const canvas = document.querySelector('#scene');
+      const renderer = new Renderer(canvas);
+      renderer.width = 720; renderer.height = 500; renderer.scale = 120; renderer.reduced = true;
+      const calls = [], labels = [];
+      const model = renderer.model.bind(renderer), fillText = renderer.ctx.fillText.bind(renderer.ctx);
+      renderer.model = (parts, x, y, lift, ...rest) => {
+        if (parts === characterById('pip').model) calls.push({ kind: 'pip', x, y, lift });
+        if (parts === scenery) calls.push({ kind: 'scenery', x, y });
+        return model(parts, x, y, lift, ...rest);
+      };
+      renderer.ctx.fillText = (label, ...args) => { labels.push(label); return fillText(label, ...args); };
+      renderer.drawSession(session.world, session.views(), 0);
+      const pixels = renderer.ctx.getImageData(0, 0, 720, 500).data;
+      const expected = document.createElement('canvas'); expected.width = 720; expected.height = 500;
+      const reference = new Renderer(expected); reference.width = 720; reference.height = 500; reference.scale = 120;
+      const surface = kind === 'river' ? platformSurface(lane) : 0;
+      reference.model(characterById('pip').model, 0, 0, surface);
+      const mask = reference.ctx.getImageData(0, 0, 720, 500).data;
+      let opaque = 0, obscured = 0;
+      for (let y = 1; y < 499; y++) for (let x = 1; x < 719; x++) {
+        const i = (y * 720 + x) * 4;
+        if ([i, i - 4, i + 4, i - 720 * 4, i + 720 * 4].some(p => mask[p + 3] !== 255)) continue;
+        opaque++;
+        if ([0, 1, 2].some(channel => Math.abs(pixels[i + channel] - mask[i + channel]) > 2)) obscured++;
+      }
+      const image = canvas.toDataURL('image/png');
+      renderer.drawSession(session.world, session.views().reverse(), 0);
+      const reversed = renderer.ctx.getImageData(0, 0, 720, 500).data;
+      return { kind, calls, labels, surface, opaque, obscured, image, stable: pixels.every((value, index) => value === reversed[index]) };
+    });
+  });
+  await mkdir('artifacts', { recursive: true });
+  for (const result of results) {
+    assert.ok(result.opaque > 100, 'the independently rendered second character has a visible pixel mask');
+    assert.equal(result.stable, true, 'roster array order cannot change the scene');
+    assert.ok(result.labels.includes('▲ P1 · Butter'), 'first traveler keeps its shape, seat and character identity');
+    assert.ok(result.labels.includes('● P2 · Pip'), 'second traveler keeps its distinct shape, seat and character identity');
+    const pip = result.calls.find(call => call.kind === 'pip');
+    assert.ok(pip, 'the actual Pip voxel model enters the shared scene');
+    assert.equal(pip.lift, result.surface);
+    if (result.kind === 'foreground') {
+      assert.ok(result.calls.findIndex(call => call.kind === 'pip') < result.calls.findIndex(call => call.kind === 'scenery'), 'foreground scenery draws after the second player');
+      assert.ok(result.obscured > 100, 'foreground scenery visibly occludes the second player');
+    } else {
+      assert.ok(result.surface > 0, 'river case exercises a raised platform');
+      assert.equal(result.obscured, 0, 'the full second-player body appears at the platform surface');
+    }
+    await writeFile(`artifacts/local-session-render-${result.kind}.png`, Buffer.from(result.image.split(',')[1], 'base64'));
+  }
+});
+
+test('shared camera follows the leading active interpolated traveler once per frame', async () => {
+  const results = await page.evaluate(async () => {
+    const [{ Renderer }, { Game }, { LocalSession }] = await Promise.all([
+      import('/current/render.js'), import('/current/game.js'), import('/current/session.js'),
+    ]);
+    return [false, true].map(reduced => {
+      const game = new Game(113, 'pond', 'stroll');
+      for (const lane of game.rows.values()) Object.assign(lane, { kind: 'meadow', blocked: [], decorations: [], coin: null });
+      const session = LocalSession.stage(game, { secondaryCharacterId: 'pip' }).commit();
+      const [first, second] = session.players;
+      first.maxY = 100; // Historical frontier must not pull the multiplayer camera.
+      Object.assign(second, { y: 2, fromY: 1, hop: game.rules.movement.hopDuration / 2 });
+      const canvas = document.createElement('canvas'); canvas.width = 720; canvas.height = 500;
+      const renderer = new Renderer(canvas); renderer.width = 720; renderer.height = 500; renderer.scale = 60; renderer.reduced = reduced;
+      renderer.drawSession(session.world, session.views(), 1 / 16);
+      const leading = renderer.camera;
+      second.state = 'dead';
+      renderer.drawSession(session.world, session.views(), 1 / 16);
+      const surviving = renderer.camera;
+      first.state = 'dead';
+      renderer.drawSession(session.world, session.views(), 1 / 16);
+      return { reduced, leading, surviving, settled: renderer.camera };
+    });
+  });
+  for (const result of results) {
+    assert.equal(result.leading, result.reduced ? 1.5 : .75, 'one smoothing step follows the secondary player halfway through its hop');
+    assert.equal(result.surviving, result.reduced ? 0 : .375, 'a dead leader no longer controls the camera');
+    assert.equal(result.settled, result.surviving, 'all-terminal scene retains its last camera');
   }
 });

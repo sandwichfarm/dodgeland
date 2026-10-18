@@ -1,0 +1,2018 @@
+{
+  "status": "Repair,55 ordinary tests,95 controls, seven project gates and nine current-source cohorts pass; full release gates remain open",
+  "red": {
+    "commit": "2b64cdd",
+    "log": "/tmp/down-to-duck-safe-adoption-ordinary.log",
+    "gameplayPassed": 19,
+    "gameplayFailed": 2,
+    "aggregateHookFailed": true,
+    "cause": "Private safe plan selects supported-3 but independent secondary constructor search rejects all\u00b11/\u00b12 before using it"
+  },
+  "ordinary": {
+    "tests": 55,
+    "passed": 55,
+    "failed": 0,
+    "exitCode": 0,
+    "log": "/tmp/down-to-duck-safe-adoption-green.log"
+  },
+  "controls": {
+    "tests": 95,
+    "passed": 95,
+    "failed": 0,
+    "exitCode": 0,
+    "log": "/tmp/down-to-duck-safe-adoption-controls.log",
+    "scopeBeforeLog": "/tmp/down-to-duck-personal-closure-before.log",
+    "staleSourceRejectionLog": "/tmp/down-to-duck-safe-adoption-stale-source.log"
+  },
+  "sourceTransition": {
+    "sourceBefore": "bf1d769947cd7e251d47957abdc4238f36ab4583fd5f5d32d3900e7f4c39f16c",
+    "sourceAfter": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+    "inventoryBefore": "153de8d17a4715b118bdcbf5d813406b35dd44133a0572dc73a37a5e6e9fe7a1",
+    "inventoryAfter": "b550759a82d954b9d3572690179ebb0071a182843381dc23a84e697e6bc62583",
+    "developmentBefore": "f6a5623fb9db48fc1449b8b30400b6ad875a0e422f7ce6e94dcbf41c316276ba",
+    "developmentAfter": "52f2d4b828986b2cf0ae731b5a3d904040fdfea319f0a3a4685985f502a6ecec",
+    "changedSources": [
+      "src/session.ts"
+    ]
+  },
+  "originalCases": {
+    "originalFifteenCasesByteIdentical": true,
+    "prefixChanges": [
+      "aggregate counts15 to21",
+      "optional pre-acquisition course fixture hook"
+    ],
+    "beforeTest": "8756e919d2b9207fd5f72387293a55b4f4ee881d3799866d7a3126bc0685cb1b",
+    "afterTest": "7fbb39d95dc69e7d3fc52c60fb8ee9336e38db090309205d870ead347c1a1beb",
+    "metadataCopies": [
+      "turn-model-03",
+      "turn-director-03",
+      "turn-spawn-safety-03",
+      "full"
+    ]
+  },
+  "currentVerification": {
+    "status": "passed",
+    "started": "2026-10-17T14:10:13.664200+00:00",
+    "checks": [
+      {
+        "name": "solo-parity",
+        "log": "/tmp/down-to-duck-safe-adoption-solo-parity.log",
+        "status": "passed",
+        "started": "2026-10-17T14:10:14.286223+00:00",
+        "pid": 74429,
+        "exitCode": 0,
+        "finished": "2026-10-17T14:11:11.517183+00:00"
+      },
+      {
+        "name": "session-model",
+        "log": "/tmp/down-to-duck-safe-adoption-session-model.log",
+        "status": "passed",
+        "started": "2026-10-17T14:11:11.517465+00:00",
+        "pid": 77269,
+        "exitCode": 0,
+        "finished": "2026-10-17T14:11:12.474834+00:00"
+      },
+      {
+        "name": "survive-recovery",
+        "log": "/tmp/down-to-duck-safe-adoption-survive-recovery.log",
+        "status": "passed",
+        "started": "2026-10-17T14:11:12.475112+00:00",
+        "pid": 77301,
+        "exitCode": 0,
+        "finished": "2026-10-17T14:11:13.862000+00:00"
+      },
+      {
+        "name": "type-check",
+        "log": "/tmp/down-to-duck-safe-adoption-type-check.log",
+        "status": "passed",
+        "started": "2026-10-17T14:11:13.862421+00:00",
+        "pid": 77346,
+        "exitCode": 0,
+        "finished": "2026-10-17T14:11:15.107735+00:00"
+      },
+      {
+        "name": "build",
+        "log": "/tmp/down-to-duck-safe-adoption-build.log",
+        "status": "passed",
+        "started": "2026-10-17T14:11:15.108017+00:00",
+        "pid": 77378,
+        "exitCode": 0,
+        "finished": "2026-10-17T14:11:16.023818+00:00"
+      },
+      {
+        "name": "guidance",
+        "log": "/tmp/down-to-duck-safe-adoption-guidance.log",
+        "status": "passed",
+        "started": "2026-10-17T14:11:16.024107+00:00",
+        "pid": 77433,
+        "exitCode": 0,
+        "finished": "2026-10-17T14:11:16.665791+00:00"
+      },
+      {
+        "name": "conformance",
+        "log": "/tmp/down-to-duck-safe-adoption-conformance.log",
+        "status": "passed",
+        "started": "2026-10-17T14:11:16.666063+00:00",
+        "pid": 77501,
+        "exitCode": 0,
+        "finished": "2026-10-17T14:11:19.268801+00:00"
+      }
+    ],
+    "groups": [
+      {
+        "suite": "turn-model-03",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/adoption-turn-model-03",
+        "log": "/tmp/down-to-duck-adoption-turn-model-03.log",
+        "status": "passed",
+        "started": "2026-10-17T14:11:19.269645+00:00",
+        "pid": 77645,
+        "exitCode": 0,
+        "finished": "2026-10-17T14:12:40.532611+00:00"
+      },
+      {
+        "suite": "turn-reuse-03",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/adoption-turn-reuse-03",
+        "log": "/tmp/down-to-duck-adoption-turn-reuse-03.log",
+        "status": "passed",
+        "started": "2026-10-17T14:12:40.533052+00:00",
+        "pid": 80202,
+        "exitCode": 0,
+        "finished": "2026-10-17T14:14:50.930455+00:00"
+      },
+      {
+        "suite": "relay-lifecycle-03",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/adoption-relay-lifecycle-03",
+        "log": "/tmp/down-to-duck-adoption-relay-lifecycle-03.log",
+        "status": "passed",
+        "started": "2026-10-17T14:14:50.931001+00:00",
+        "pid": 84464,
+        "exitCode": 0,
+        "finished": "2026-10-17T14:16:40.644732+00:00"
+      },
+      {
+        "suite": "race-results-03",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/adoption-race-results-03",
+        "log": "/tmp/down-to-duck-adoption-race-results-03.log",
+        "status": "passed",
+        "started": "2026-10-17T14:16:40.645361+00:00",
+        "pid": 88013,
+        "exitCode": 0,
+        "finished": "2026-10-17T14:19:09.584731+00:00"
+      },
+      {
+        "suite": "solo-freeze-03",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/adoption-solo-model-03",
+        "log": "/tmp/down-to-duck-adoption-solo-model-03.log",
+        "status": "passed",
+        "started": "2026-10-17T14:19:09.585098+00:00",
+        "pid": 92672,
+        "exitCode": 0,
+        "finished": "2026-10-17T14:20:33.004241+00:00"
+      },
+      {
+        "suite": "solo-bootstrap-03",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/adoption-solo-bootstrap-03",
+        "log": "/tmp/down-to-duck-adoption-solo-bootstrap-03.log",
+        "status": "passed",
+        "started": "2026-10-17T14:20:33.004610+00:00",
+        "pid": 95878,
+        "exitCode": 0,
+        "finished": "2026-10-17T14:20:40.540208+00:00"
+      },
+      {
+        "suite": "modes-12",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/adoption-public-03",
+        "log": "/tmp/down-to-duck-adoption-public-03.log",
+        "status": "passed",
+        "started": "2026-10-17T14:20:40.540601+00:00",
+        "pid": 96208,
+        "exitCode": 0,
+        "finished": "2026-10-17T14:21:35.222627+00:00"
+      },
+      {
+        "suite": "turn-item-ownership-03",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/adoption-relay-public-03",
+        "log": "/tmp/down-to-duck-adoption-relay-public-03.log",
+        "status": "passed",
+        "started": "2026-10-17T14:21:35.223171+00:00",
+        "pid": 98368,
+        "exitCode": 0,
+        "finished": "2026-10-17T14:24:31.183085+00:00"
+      },
+      {
+        "suite": "shared-pickup-03",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/adoption-shared-runtime-03",
+        "log": "/tmp/down-to-duck-adoption-shared-runtime-03.log",
+        "status": "passed",
+        "started": "2026-10-17T14:24:31.183466+00:00",
+        "pid": 4698,
+        "exitCode": 0,
+        "finished": "2026-10-17T14:24:54.869613+00:00"
+      }
+    ],
+    "backup": "/var/folders/g8/w4qrj6k57hx_3lg6ltc1k70w0000gn/T/down-to-duck-safe-adoption-preserved-n03c5e41",
+    "temporaryOriginals": [
+      "relay-runtime-controller-market.png",
+      "relay-runtime-readonly-240x240-dark.png",
+      "race-05-03-reclaim-900x600-dark.png",
+      "relay-runtime-empty-900x600-dark.png",
+      "race-05-03-recovery-decline.png",
+      "relay-runtime-empty-2400x1200-dark.png",
+      "relay-runtime-readonly-200x160-light.png",
+      "relay-runtime-readonly-320x560-dark.png",
+      "relay-runtime-readonly-2400x1200-light.png",
+      "relay-runtime-empty-200x160-light.png",
+      "relay-runtime-empty-200x160-dark.png",
+      "race-05-03-departed-result.png",
+      "race-05-03-reclaim-900x600-light.png",
+      "relay-runtime-contact.png",
+      "relay-runtime-paid-pack-320x560-light.png",
+      "relay-runtime-paid-pack-1000x280-dark.png",
+      "relay-runtime-readonly-1000x280-light.png",
+      "relay-runtime-paid-pack-2400x1200-light.png",
+      "race-05-03-reclaim-320x560-dark.png",
+      "relay-runtime-empty-320x560-dark.png",
+      "relay-runtime-readonly-200x160-dark.png",
+      "relay-runtime-empty-240x240-dark.png",
+      "relay-runtime-empty-240x240-light.png",
+      "race-05-03-reclaim-1000x280-dark.png",
+      "race-05-03-reclaim-240x240-dark.png",
+      "relay-runtime-paid-pack-900x600-light.png",
+      "relay-runtime-readonly-900x600-dark.png",
+      "relay-runtime-readonly-240x240-light.png",
+      "relay-runtime-paid-pack-1000x280-light.png",
+      "race-05-03-reclaim-320x560-light.png",
+      "relay-runtime-readonly-1000x280-dark.png",
+      "race-05-03-recovery-expiry.png",
+      "relay-runtime-empty-320x560-light.png",
+      "relay-runtime-paid-pack-200x160-dark.png",
+      "relay-runtime-readonly-320x560-light.png",
+      "relay-runtime-empty-1000x280-light.png",
+      "race-05-03-reclaim-240x240-light.png",
+      "relay-runtime-empty-1000x280-dark.png",
+      "relay-runtime-empty-contact.png",
+      "relay-runtime-paid-pack-900x600-dark.png",
+      "race-05-03-reclaim-1000x280-light.png",
+      "relay-runtime-empty-2400x1200-light.png",
+      "relay-runtime-paid-pack-240x240-light.png",
+      "relay-runtime-readonly-900x600-light.png",
+      "race-05-03-waiting.png",
+      "relay-runtime-earned-51.png",
+      "relay-runtime-empty-900x600-light.png",
+      "relay-runtime-earned-continuity.json",
+      "relay-runtime-readonly-2400x1200-dark.png",
+      "race-05-03-recovery-accept.png",
+      "relay-runtime-paid-pack-200x160-light.png",
+      "relay-runtime-final-contact.png",
+      "relay-runtime-paid-pack-240x240-dark.png",
+      "relay-runtime-paid-pack-clip.png",
+      "relay-runtime-paid-pack-320x560-dark.png",
+      "relay-runtime-paid-pack-2400x1200-dark.png"
+    ],
+    "frozenFiles": {
+      "pnpm-lock.yaml": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+      "src/game.ts": "fb5d9224e46c19b3745099429f06bd141d9b738bb2d8786ed3266e1b6a7d95f6",
+      "src/session.ts": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+      "src/main.ts": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "src/mobs.ts": "6077ac4fd884ef16f9fe8ab3f3db77a431b2d2853adbeddc1d0d843b595018d1",
+      "tests/release-turn-mode-coverage.test.mjs": "7fbb39d95dc69e7d3fc52c60fb8ee9336e38db090309205d870ead347c1a1beb",
+      "tools/release-coverage/suites.json": "7ec314dbc814bdc51f45c85510cb531b4285b66fc70ac38b7f1dc2cee1e9c12a",
+      "tools/release-coverage/turn-applicability.mjs": "aa21e7c993855b61e04edd06554c0853b7994512405c3fae54975e80bbc4a558",
+      "tools/release-coverage/solo-applicability.mjs": "51fcebe8694ffa28dbb9a15d58bf6c39b7d44096a649475c0abe70204ff82b47",
+      "tools/release-coverage/development-applicability.mjs": "bd241191e24d04dcd503f695f634b8b817177e428fc8fbfadde0ccede236580f",
+      "dist/index.html": "c66d9f9bacd9881f3a6306e6c015e2e9b0a6d507bc316303a61c521a251f7d76"
+    },
+    "normalArtifactSha256": "c66d9f9bacd9881f3a6306e6c015e2e9b0a6d507bc316303a61c521a251f7d76",
+    "preserved": true,
+    "temporaryPreserved": true,
+    "finished": "2026-10-17T14:24:55.074990+00:00"
+  },
+  "scopeComparison": {
+    "purpose": "Same current399 source/raw parent/sites: reviewed scope delta only, no new counter hits or enforcing acceptance",
+    "runId": "1d4cdd05-dacc-4fbc-8c92-b78716b0bbcb",
+    "modes": {
+      "relay": {
+        "beforeScope": {
+          "lines": {
+            "covered": 1913,
+            "total": 2114
+          },
+          "statements": {
+            "covered": 2739,
+            "total": 3343
+          },
+          "functions": {
+            "covered": 617,
+            "total": 716
+          },
+          "branches": {
+            "covered": 1987,
+            "total": 2834
+          }
+        },
+        "afterScope": {
+          "lines": {
+            "covered": 1913,
+            "total": 2103
+          },
+          "statements": {
+            "covered": 2739,
+            "total": 3326
+          },
+          "functions": {
+            "covered": 617,
+            "total": 711
+          },
+          "branches": {
+            "covered": 1987,
+            "total": 2812
+          }
+        },
+        "denominatorDelta": {
+          "lines": 11,
+          "statements": 17,
+          "functions": 5,
+          "branches": 22
+        },
+        "newDispositions": [
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "623",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "624",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "625",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "626",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "627",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "628",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "629",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "630",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "631",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "632",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "633",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "634",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "635",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "636",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "637",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "638",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "639",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "function",
+            "id": "183",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "function",
+            "id": "184",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "function",
+            "id": "185",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "function",
+            "id": "186",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "function",
+            "id": "187",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "201",
+            "arm": 0,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "208",
+            "arm": 0,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "226",
+            "arm": 0,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "226",
+            "arm": 1,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "226",
+            "arm": 2,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "226",
+            "arm": 3,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "226",
+            "arm": 4,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "226",
+            "arm": 5,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "226",
+            "arm": 6,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "226",
+            "arm": 7,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "226",
+            "arm": 8,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "226",
+            "arm": 9,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "227",
+            "arm": 0,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "227",
+            "arm": 1,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "228",
+            "arm": 0,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "228",
+            "arm": 1,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "229",
+            "arm": 0,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "229",
+            "arm": 1,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "230",
+            "arm": 0,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "230",
+            "arm": 1,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "231",
+            "arm": 0,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "231",
+            "arm": 1,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          }
+        ]
+      },
+      "race": {
+        "beforeScope": {
+          "lines": {
+            "covered": 1958,
+            "total": 2177
+          },
+          "statements": {
+            "covered": 2791,
+            "total": 3446
+          },
+          "functions": {
+            "covered": 647,
+            "total": 767
+          },
+          "branches": {
+            "covered": 2156,
+            "total": 3082
+          }
+        },
+        "afterScope": {
+          "lines": {
+            "covered": 1958,
+            "total": 2162
+          },
+          "statements": {
+            "covered": 2791,
+            "total": 3422
+          },
+          "functions": {
+            "covered": 647,
+            "total": 759
+          },
+          "branches": {
+            "covered": 2156,
+            "total": 3051
+          }
+        },
+        "denominatorDelta": {
+          "lines": 15,
+          "statements": 24,
+          "functions": 8,
+          "branches": 31
+        },
+        "newDispositions": [
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "519",
+            "callReason": "Complete pinned caller inventory resolves this method only from Relay.confirm. Canonical Race never transfers a Relay baton; acquisition and personal/reclaim placement remain applicable.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "520",
+            "callReason": "Complete pinned caller inventory resolves this method only from Relay.confirm. Canonical Race never transfers a Relay baton; acquisition and personal/reclaim placement remain applicable.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "521",
+            "callReason": "Complete pinned caller inventory resolves this method only from Relay.confirm. Canonical Race never transfers a Relay baton; acquisition and personal/reclaim placement remain applicable.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "522",
+            "callReason": "Complete pinned caller inventory resolves this method only from Relay.confirm. Canonical Race never transfers a Relay baton; acquisition and personal/reclaim placement remain applicable.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "523",
+            "callReason": "Complete pinned caller inventory resolves this method only from Relay.confirm. Canonical Race never transfers a Relay baton; acquisition and personal/reclaim placement remain applicable.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "524",
+            "callReason": "Complete pinned caller inventory resolves this method only from Relay.confirm. Canonical Race never transfers a Relay baton; acquisition and personal/reclaim placement remain applicable.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "525",
+            "callReason": "Complete pinned caller inventory resolves this method only from Relay.confirm. Canonical Race never transfers a Relay baton; acquisition and personal/reclaim placement remain applicable.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "623",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "624",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "625",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "626",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "627",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "628",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "629",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "630",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "631",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "632",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "633",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "634",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "635",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "636",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "637",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "638",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "statement",
+            "id": "639",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "function",
+            "id": "156",
+            "callReason": "Complete pinned caller inventory resolves this method only from Relay.confirm. Canonical Race never transfers a Relay baton; acquisition and personal/reclaim placement remain applicable.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "function",
+            "id": "157",
+            "callReason": "Complete pinned caller inventory resolves this method only from Relay.confirm. Canonical Race never transfers a Relay baton; acquisition and personal/reclaim placement remain applicable.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "function",
+            "id": "158",
+            "callReason": "Complete pinned caller inventory resolves this method only from Relay.confirm. Canonical Race never transfers a Relay baton; acquisition and personal/reclaim placement remain applicable.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "function",
+            "id": "183",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "function",
+            "id": "184",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "function",
+            "id": "185",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "function",
+            "id": "186",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "function",
+            "id": "187",
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "178",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory resolves this method only from Relay.confirm. Canonical Race never transfers a Relay baton; acquisition and personal/reclaim placement remain applicable.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "178",
+            "arm": 1,
+            "callReason": "Complete pinned caller inventory resolves this method only from Relay.confirm. Canonical Race never transfers a Relay baton; acquisition and personal/reclaim placement remain applicable.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "179",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory resolves this method only from Relay.confirm. Canonical Race never transfers a Relay baton; acquisition and personal/reclaim placement remain applicable.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "179",
+            "arm": 1,
+            "callReason": "Complete pinned caller inventory resolves this method only from Relay.confirm. Canonical Race never transfers a Relay baton; acquisition and personal/reclaim placement remain applicable.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "179",
+            "arm": 2,
+            "callReason": "Complete pinned caller inventory resolves this method only from Relay.confirm. Canonical Race never transfers a Relay baton; acquisition and personal/reclaim placement remain applicable.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "179",
+            "arm": 3,
+            "callReason": "Complete pinned caller inventory resolves this method only from Relay.confirm. Canonical Race never transfers a Relay baton; acquisition and personal/reclaim placement remain applicable.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "179",
+            "arm": 4,
+            "callReason": "Complete pinned caller inventory resolves this method only from Relay.confirm. Canonical Race never transfers a Relay baton; acquisition and personal/reclaim placement remain applicable.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "179",
+            "arm": 5,
+            "callReason": "Complete pinned caller inventory resolves this method only from Relay.confirm. Canonical Race never transfers a Relay baton; acquisition and personal/reclaim placement remain applicable.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "179",
+            "arm": 6,
+            "callReason": "Complete pinned caller inventory resolves this method only from Relay.confirm. Canonical Race never transfers a Relay baton; acquisition and personal/reclaim placement remain applicable.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "201",
+            "arm": 0,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "208",
+            "arm": 0,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "226",
+            "arm": 0,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "226",
+            "arm": 1,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "226",
+            "arm": 2,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "226",
+            "arm": 3,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "226",
+            "arm": 4,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "226",
+            "arm": 5,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "226",
+            "arm": 6,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "226",
+            "arm": 7,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "226",
+            "arm": 8,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "226",
+            "arm": 9,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "227",
+            "arm": 0,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "227",
+            "arm": 1,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "228",
+            "arm": 0,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "228",
+            "arm": 1,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "229",
+            "arm": 0,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "229",
+            "arm": 1,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "230",
+            "arm": 0,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "230",
+            "arm": 1,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "231",
+            "arm": 0,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+            "sourceHash": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+            "mapHash": "9c62331f5dec357ad7bd450688d3a804b397dfff1142530bfb778492127616ba",
+            "schemaHash": "747785a91597e1fb3bb5ef2a032e0bab1f678dc1f8f4fa27d5098140c5667d54",
+            "kind": "branch",
+            "id": "231",
+            "arm": 1,
+            "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+            "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-PERSONAL-CALL-CLOSURE.md"
+          }
+        ]
+      }
+    }
+  },
+  "limitations": [
+    "No changed-source session counter merging",
+    "No new constructor fallback or authoring-rule exclusion",
+    "No fresh full enforcing report",
+    "CLI conformance5 pass0 fail5 unmeasured",
+    "Semantic ledger, normal visuals/clauses, final gate and PR remain open"
+  ],
+  "completedAt": "2026-10-17T14:26:43.499128+00:00",
+  "cohorts": [
+    {
+      "suite": "turn-model-03",
+      "directory": "artifacts/release-coverage/adoption-turn-model-03",
+      "runId": "1d4cdd05-dacc-4fbc-8c92-b78716b0bbcb",
+      "manifestSha256": "e832626319f17ba7b7c52619c531d4c616c25f4342777c49e3b47b7933f74296",
+      "payloads": 1,
+      "intervals": 85,
+      "exitCode": 0,
+      "thresholdsEvaluated": false
+    },
+    {
+      "suite": "turn-reuse-03",
+      "directory": "artifacts/release-coverage/adoption-turn-reuse-03",
+      "runId": "6d3cfcd2-e43b-44fb-9b2e-dbb72fbf8d5a",
+      "manifestSha256": "e4fba8eb5437912fc7fb8237fa18dde0b8049d346ae0527b1a581e44645d07c2",
+      "payloads": 7,
+      "intervals": 107,
+      "exitCode": 0,
+      "thresholdsEvaluated": false
+    },
+    {
+      "suite": "relay-lifecycle-03",
+      "directory": "artifacts/release-coverage/adoption-relay-lifecycle-03",
+      "runId": "85b730cb-2cc0-43ed-9db0-1789cdc80b80",
+      "manifestSha256": "611c6c101d94f904f5b7fb6d2a0cbd313d494d8035e1bc39163400a41a2e1005",
+      "payloads": 7,
+      "intervals": 30,
+      "exitCode": 0,
+      "thresholdsEvaluated": false
+    },
+    {
+      "suite": "race-results-03",
+      "directory": "artifacts/release-coverage/adoption-race-results-03",
+      "runId": "20ac27ac-0341-44ea-a205-fe2cba2bde25",
+      "manifestSha256": "bd28ed169aca971ae1936d154f62476195d3642e44829656db507c5943d8b5d0",
+      "payloads": 7,
+      "intervals": 40,
+      "exitCode": 0,
+      "thresholdsEvaluated": false
+    },
+    {
+      "suite": "solo-freeze-03",
+      "directory": "artifacts/release-coverage/adoption-solo-model-03",
+      "runId": "0711726a-b952-4a51-88c5-0fe1f6578a84",
+      "manifestSha256": "eaca9b5b8b8ed3d04fa6527d2a934084be765536985e20766d1c0fe953516c96",
+      "payloads": 1,
+      "intervals": 124,
+      "exitCode": 0,
+      "thresholdsEvaluated": false
+    },
+    {
+      "suite": "solo-bootstrap-03",
+      "directory": "artifacts/release-coverage/adoption-solo-bootstrap-03",
+      "runId": "8966b5be-edc3-4f88-a7a7-c491fa8a602e",
+      "manifestSha256": "9a5a7c682c9fd647c837c3c2c42a1f4a080cc97188b24697c01f61cb9ff99d30",
+      "payloads": 1,
+      "intervals": 4,
+      "exitCode": 0,
+      "thresholdsEvaluated": false
+    },
+    {
+      "suite": "modes-12",
+      "directory": "artifacts/release-coverage/adoption-public-03",
+      "runId": "c249c2fc-15a7-429e-9c3b-d840dc3246da",
+      "manifestSha256": "48a36e377b6a6c0eaf694d460f966035e08747ce0319cc06a9a9e276ad495cb1",
+      "payloads": 6,
+      "intervals": 6,
+      "exitCode": 0,
+      "thresholdsEvaluated": false
+    },
+    {
+      "suite": "turn-item-ownership-03",
+      "directory": "artifacts/release-coverage/adoption-relay-public-03",
+      "runId": "460e96a1-3ba0-4c4c-a7ca-fea29bac2b08",
+      "manifestSha256": "896d5e8b27e0f28e602935af2a5d0ec7e77a0be4d467680d50d7638a175bd2de",
+      "payloads": 16,
+      "intervals": 74,
+      "exitCode": 0,
+      "thresholdsEvaluated": false
+    },
+    {
+      "suite": "shared-pickup-03",
+      "directory": "artifacts/release-coverage/adoption-shared-runtime-03",
+      "runId": "cbcca995-7b5f-450f-a455-a8da63152977",
+      "manifestSha256": "53ca4a33e18e376de3335f49551df1623afd1e848cdecd2e6764a3bb3a417168",
+      "payloads": 2,
+      "intervals": 0,
+      "exitCode": 0,
+      "thresholdsEvaluated": false
+    }
+  ],
+  "canonicalMatrix": {
+    "runId": "1d4cdd05-dacc-4fbc-8c92-b78716b0bbcb",
+    "models": {
+      "relay": {
+        "lifetimes": 10,
+        "intervals": 36
+      },
+      "race": {
+        "lifetimes": 11,
+        "intervals": 49
+      }
+    },
+    "executionObservations": {
+      "sharedCalls": 17166,
+      "standaloneCalls": 0,
+      "violations": [],
+      "worlds": 21
+    }
+  },
+  "diagnostic": {
+    "exitCode": 0,
+    "purpose": "Current disk/canonical caller guard revalidation; fresh component/public diagnostic union, not an enforcing release report",
+    "groups": [
+      {
+        "group": "adoption-turn-model-03",
+        "runId": "1d4cdd05-dacc-4fbc-8c92-b78716b0bbcb",
+        "payloads": 1,
+        "collectedIntervals": 85,
+        "selectedIntervals": 85,
+        "selection": "all",
+        "modes": [
+          "relay",
+          "race"
+        ]
+      },
+      {
+        "group": "adoption-turn-reuse-03",
+        "runId": "6d3cfcd2-e43b-44fb-9b2e-dbb72fbf8d5a",
+        "payloads": 7,
+        "collectedIntervals": 107,
+        "selectedIntervals": 107,
+        "selection": "all",
+        "modes": [
+          "relay",
+          "race"
+        ]
+      },
+      {
+        "group": "adoption-relay-lifecycle-03",
+        "runId": "85b730cb-2cc0-43ed-9db0-1789cdc80b80",
+        "payloads": 7,
+        "collectedIntervals": 30,
+        "selectedIntervals": 30,
+        "selection": "all",
+        "modes": [
+          "relay"
+        ]
+      },
+      {
+        "group": "adoption-race-results-03",
+        "runId": "20ac27ac-0341-44ea-a205-fe2cba2bde25",
+        "payloads": 7,
+        "collectedIntervals": 40,
+        "selectedIntervals": 40,
+        "selection": "all",
+        "modes": [
+          "race"
+        ]
+      },
+      {
+        "group": "adoption-public-03",
+        "runId": "c249c2fc-15a7-429e-9c3b-d840dc3246da",
+        "payloads": 6,
+        "collectedIntervals": 6,
+        "selectedIntervals": 6,
+        "selection": "all",
+        "modes": [
+          "relay",
+          "race"
+        ]
+      },
+      {
+        "group": "adoption-relay-public-03",
+        "runId": "460e96a1-3ba0-4c4c-a7ca-fea29bac2b08",
+        "payloads": 16,
+        "collectedIntervals": 74,
+        "selectedIntervals": 1,
+        "selection": "Relay public interval only; repeated Race item model omitted",
+        "modes": [
+          "relay"
+        ]
+      }
+    ],
+    "modes": {
+      "relay": {
+        "componentLifetimes": 29,
+        "publicIntervals": 2,
+        "intervals": 76,
+        "raw": {
+          "lines": {
+            "covered": 1941,
+            "total": 2350
+          },
+          "statements": {
+            "covered": 2806,
+            "total": 3733
+          },
+          "functions": {
+            "covered": 641,
+            "total": 817
+          },
+          "branches": {
+            "covered": 2053,
+            "total": 3202
+          }
+        },
+        "applicable": {
+          "lines": {
+            "covered": 1941,
+            "total": 2103
+          },
+          "statements": {
+            "covered": 2806,
+            "total": 3326
+          },
+          "functions": {
+            "covered": 641,
+            "total": 711
+          },
+          "branches": {
+            "covered": 2053,
+            "total": 2812
+          }
+        },
+        "remaining": {
+          "lines": 0,
+          "functions": 0,
+          "branches": 338
+        }
+      },
+      "race": {
+        "componentLifetimes": 60,
+        "publicIntervals": 1,
+        "intervals": 189,
+        "raw": {
+          "lines": {
+            "covered": 2020,
+            "total": 2303
+          },
+          "statements": {
+            "covered": 2926,
+            "total": 3643
+          },
+          "functions": {
+            "covered": 681,
+            "total": 818
+          },
+          "branches": {
+            "covered": 2287,
+            "total": 3259
+          }
+        },
+        "applicable": {
+          "lines": {
+            "covered": 2020,
+            "total": 2162
+          },
+          "statements": {
+            "covered": 2926,
+            "total": 3422
+          },
+          "functions": {
+            "covered": 681,
+            "total": 759
+          },
+          "branches": {
+            "covered": 2287,
+            "total": 3051
+          }
+        },
+        "remaining": {
+          "lines": 0,
+          "functions": 3,
+          "branches": 307
+        }
+      }
+    },
+    "historicalChangedSessionCountersUsed": false
+  },
+  "normalArtifact": {
+    "path": "dist/index.html",
+    "sha256": "c66d9f9bacd9881f3a6306e6c015e2e9b0a6d507bc316303a61c521a251f7d76"
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "status": "failed-not-release-accepted",
+  "createdAt": "2026-10-18T04:30:15.175767+00:00",
+  "runId": "88465003-ebf6-477f-b091-71a79781afe2",
+  "canonicalSession": 11882,
+  "canonicalParentPid": 10879,
+  "actualTerminalExit": 1,
+  "failure": "FAIL enforcing-coverage: Exit 1",
+  "completedStages": [
+    "inherited-phase6",
+    "calibration"
+  ],
+  "failedStage": "enforcing-coverage",
+  "terminalControls": 19,
+  "passedProduction": 71,
+  "observation": "One Race test canceled by 45000ms deadline,reported64043ms;external process-tree hold lasted55.42478seconds during that worker. Other15worker cases passed. No game/assertion/timeout change. Entire failed run retained.",
+  "hold": {
+    "observedAt": "2026-10-18T04:26:59.098419+00:00",
+    "reason": "722MiB free and rapidly falling shared-volume space;temporary reversible hold,not termination or restart",
+    "rootPid": 10879,
+    "processes": [
+      {
+        "pid": 10879,
+        "ppid": 1611,
+        "beforeState": "Ss",
+        "command": "node"
+      },
+      {
+        "pid": 27807,
+        "ppid": 52267,
+        "beforeState": "S",
+        "command": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node"
+      },
+      {
+        "pid": 27817,
+        "ppid": 27807,
+        "beforeState": "S",
+        "command": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node"
+      },
+      {
+        "pid": 27854,
+        "ppid": 27817,
+        "beforeState": "S",
+        "command": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node"
+      },
+      {
+        "pid": 36577,
+        "ppid": 27854,
+        "beforeState": "Ss",
+        "command": "/Users/sandwich/Library/Caches/ms-playwright/chromium_headless_shell-1228/chrome-headless-shell-mac-arm64/chrome-headless-shell"
+      },
+      {
+        "pid": 36578,
+        "ppid": 36577,
+        "beforeState": "S",
+        "command": "/Users/sandwich/Library/Caches/ms-playwright/chromium_headless_shell-1228/chrome-headless-shell-mac-arm64/chrome-headless-shell"
+      },
+      {
+        "pid": 36579,
+        "ppid": 36577,
+        "beforeState": "S",
+        "command": "/Users/sandwich/Library/Caches/ms-playwright/chromium_headless_shell-1228/chrome-headless-shell-mac-arm64/chrome-headless-shell"
+      },
+      {
+        "pid": 36580,
+        "ppid": 36577,
+        "beforeState": "R",
+        "command": "/Users/sandwich/Library/Caches/ms-playwright/chromium_headless_shell-1228/chrome-headless-shell-mac-arm64/chrome-headless-shell"
+      },
+      {
+        "pid": 52267,
+        "ppid": 10879,
+        "beforeState": "S",
+        "command": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node"
+      }
+    ],
+    "signal": "SIGSTOP",
+    "resumed": true,
+    "resumedAt": "2026-10-18T04:27:54.523199+00:00",
+    "freeBytesAtResume": 8588976128,
+    "resumedSamePids": [
+      10879,
+      27807,
+      27817,
+      27854,
+      36577,
+      36578,
+      36579,
+      36580,
+      52267
+    ],
+    "frozenInputsVerifiedAfterResume": 417
+  },
+  "compressionVerification": {
+    "purpose": "Independent verification of lossless final batch01 completed-payload compression;no execution/counter/source change",
+    "runId": "cb76efa3-480d-4696-a210-69639596307e",
+    "completedJobsAtSelection": 71,
+    "payloadsReverified": 170,
+    "originalLedgerBytesSavedBeforeSelection": true,
+    "originalLedgerShaMatches": true,
+    "currentAppendOnlyPrefixMatchesOriginal": true,
+    "frozenFilesVerified": 417,
+    "sourceFreezeChanges": [],
+    "activeOutputsUntouched": true,
+    "allocatedBytesSaved": 649203712,
+    "observedFreeBytesBefore": 2304856064,
+    "observedFreeBytesAfter": 2774179840,
+    "freeSpaceLimit": "Shared volume changes independently;per-file allocation savings are separate from whole-volume free-space movement",
+    "hashes": {
+      "artifacts/release-final-launch-01/storage-maintenance/closed-final-db7798515fa54e73b519ea67d47bbcc4.json": "4d3bb8ea04c7418a654585b40e74b0077fad468ac3e093f68b4d81ee30a801c2",
+      "artifacts/release-final-launch-01/storage-maintenance/closed-final-db7798515fa54e73b519ea67d47bbcc4.ledger-snapshot.json": "e0d6d887a9ec49f431fdf8a5ede3b4334eb6e0b8fc8adf4ae6b57528492dc728",
+      "artifacts/release-final-launch-01/storage-maintenance/compress-closed-final-01.py": "332f624b5cb0bab9018ec0f088faefb3cbcf96981e6c9bda40ba0e720464d529",
+      "artifacts/release-final-launch-01/storage-maintenance/compress-closed-final-01.log": "5d6d600fa41d4c27b1ea3b3a4b0e536ec00f37db5953b640b2dfd2c49f3b5880",
+      "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final-launch-01/storage-maintenance/verify-closed-final-01.py": "32728f9311a284858653da526ac08c65c0a698d9c3ed43a83dae6502dfcd0953",
+      "artifacts/release-final-launch-01/launch.json": "2ac1e701f3da8d6a4cc17816f37fb8e8012198169c99707f6c4f95ae6a0f745e"
+    }
+  },
+  "frozenInputsVerified": 417,
+  "normalArtifactRawSha256": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
+  "releaseAccepted": false,
+  "prOpened": false,
+  "next": "Whole unchanged canonical race-public-03 diagnostic is running as36485;then a genuinely fresh full final chain is required. Do not reuse partial failed run as a full pass. Do not suspend timed workers in the next run.",
+  "hashes": {
+    "artifacts/release-final/88465003-ebf6-477f-b091-71a79781afe2/failure.json": "1903d5b772d0d51c2457921580452c47a336b2413d54b0b0fa1821a577c04af0",
+    "artifacts/release-final/88465003-ebf6-477f-b091-71a79781afe2/stages.json": "4117e8a90ae80dfb87136f3a13745879f66fc70dd0af6a4e6357ff7a3c9e9068",
+    "artifacts/release-final-launch-01/canonical.log": "7561517875c0b9ce5147863ac65f81dbbe76b9648c211ee43d390c1bda95ae5f",
+    "artifacts/release-final-launch-01/storage-maintenance/hold-01.json": "d8e41676ab56530bd70dec5f7f18257d5b5b461f22d9888aceb095ad65eeb004",
+    "artifacts/release-final-launch-01/storage-maintenance/closed-final-01-verified.json": "d9fd5a25723fccb7dd6e368656cbd6bcb6331e8da0e261385f3af9195226eaf4"
+  },
+  "recordedNonzeroLedgerEntries": [],
+  "ledgerScope": "Collector appends successfully closed jobs before advancing;the failed Race command is evidenced by the actual parent stage failure and retained stderr,not a fabricated ledger row.",
+  "failedWorker": {
+    "id": "race-runtime",
+    "file": "tests/race-runtime.mjs",
+    "actualRunnerReportedCommandExit": 1,
+    "passedCases": 15,
+    "canceledCases": 1,
+    "failedCase": "Mud Splash out-of-range and departed targets preserve charges; owner switch is isolated from selection",
+    "testFailureType": "testTimeoutFailure",
+    "deadlineMs": 45000,
+    "reportedDurationMs": 64043.153833
+  }
+}

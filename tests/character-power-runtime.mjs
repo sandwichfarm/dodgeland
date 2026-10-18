@@ -1,3 +1,4 @@
+import { artifactForCoverage, artifactDirectoryForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 // Built UI integration: CDP stages one rescue and distance milestones on the
 // real Game. No production debug API is added and this is not a natural run.
 import assert from 'node:assert/strict';
@@ -5,8 +6,9 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { chromium } from 'playwright';
 
-const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
+const built = await readFile(artifactForCoverage(new URL('../dist/index.html', import.meta.url)), 'utf8');
 assert.ok(built.includes('character-power-status') && built.includes('Chicken Out'), 'Build character powers before running this fixture.');
+const output = artifactDirectoryForCoverage(new URL('../artifacts/', import.meta.url), 'character-power-runtime');
 function installFixture() {
   Math.random = () => .125;
   const fixture = window.powerFixture = { writes: [], listeners: [] };
@@ -26,10 +28,11 @@ const harness = `<!doctype html><body style="margin:0"><iframe title="Character 
 const server = createServer((_request, response) => { response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); response.end(harness); });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const evidence = { artifact: 'Production artifact in an opaque allow-scripts iframe', scenarios: [], frames: [], errors: [] };
-await mkdir(new URL('../artifacts/', import.meta.url), { recursive: true });
-let browser;
+await mkdir(output, { recursive: true });
+let browser, frame;
+const identity = { suite: process.argv[1], scenario: 'character-power-runtime', frame: 'opaque-app', generation: 0, scope: 'current' };
 try {
-  browser = await chromium.launch();
+  browser = await chromium.launch({ args: ['--mute-audio'] });
   const page = await browser.newPage({ viewport: { width: 1000, height: 700 } });
   page.setDefaultTimeout(8000); await page.clock.install();
   page.on('pageerror', error => evidence.errors.push(error.message));
@@ -37,8 +40,9 @@ try {
   cdp.on('Runtime.executionContextCreated', ({ context }) => contexts.set(context.id, context));
   cdp.on('Runtime.executionContextDestroyed', ({ executionContextId }) => contexts.delete(executionContextId));
   await cdp.send('Runtime.enable');
+  registerRealm(page, identity);
   await page.goto(`http://127.0.0.1:${server.address().port}`);
-  const frame = await (await page.locator('iframe').elementHandle()).contentFrame();
+  frame = await (await page.locator('iframe').elementHandle()).contentFrame();
   await frame.waitForFunction(() => !!window.powerFixture?.listeners.length && document.querySelector('#character-power-name')?.textContent);
   await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 100);
   const advance = ms => page.clock.runFor(ms);
@@ -150,14 +154,14 @@ try {
           powerText = chunks.join(' '); await frame.locator(`#${prefix}-back`).click(); await advance(16);
         }
         assert.match(powerText.replace(/\s+/g, ' '), /Chicken Out.*Automatic.*100 new blocks/, 'Full power information remains reachable in each menu.');
-        if ((theme === 'dark' && (width === 900 || width === 240)) || (theme === 'light' && width === 320)) await page.locator('iframe').screenshot({ path: new URL(`../artifacts/character-power-${width}-${theme}-${state}.png`, import.meta.url).pathname });
+        if ((theme === 'dark' && (width === 900 || width === 240)) || (theme === 'light' && width === 320)) await page.locator('iframe').screenshot({ path: new URL(`character-power-${width}-${theme}-${state}.png`, output).pathname });
       }
       if (width >= 240) {
         await onGame(function () { Object.assign(this.lane, { kind: 'meadow', blocked: [], coin: null }); this.state = 'playing'; }); await advance(32);
         assert.equal(await frame.locator('#character-power').isVisible(), true, 'Power meter returns during play, including the smallest frame.');
         const active = await frame.locator('#character-power').evaluate(el => { const r = el.getBoundingClientRect(), pluck = document.querySelector('#pluck').getBoundingClientRect(); return { left: r.left, right: r.right, top: r.top, bottom: r.bottom, pluckBottom: pluck.bottom }; });
         assert.ok(active.left >= 0 && active.right <= width && active.top >= active.pluckBottom && active.bottom <= height, JSON.stringify(active));
-        if ((theme === 'dark' && width === 900) || (theme === 'light' && width === 320)) await page.locator('iframe').screenshot({ path: new URL(`../artifacts/character-power-${width}-${theme}-playing.png`, import.meta.url).pathname });
+        if ((theme === 'dark' && width === 900) || (theme === 'light' && width === 320)) await page.locator('iframe').screenshot({ path: new URL(`character-power-${width}-${theme}-playing.png`, output).pathname });
         await onGame(function () { this.pause(); }); await advance(16);
       }
       evidence.frames.push({ width, height, theme });
@@ -165,6 +169,6 @@ try {
   }
   evidence.scenarios.push('Both runtime themes, declared minimum, five frame sizes, centered menu boards with full power pages, gameplay HUD spacing and reduced-motion preference.');
   assert.deepEqual(evidence.errors, []);
-  await writeFile(new URL('../artifacts/character-power-runtime.json', import.meta.url), JSON.stringify(evidence, null, 2));
+  await writeFile(new URL('character-power-runtime.json', output), JSON.stringify(evidence, null, 2));
   console.log(JSON.stringify(evidence, null, 2));
-} finally { await browser?.close(); await new Promise(resolve => server.close(resolve)); }
+} finally { try { if (frame) await collectRealm(frame, identity); } finally { await browser?.close(); await new Promise(resolve => server.close(resolve)); } }

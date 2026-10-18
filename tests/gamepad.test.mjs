@@ -1,10 +1,8 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
 import test from 'node:test';
-import ts from 'typescript';
+import { compileSources } from './source-loader.mjs';
 
-const source = await readFile(new URL('../src/gamepad.ts', import.meta.url), 'utf8');
-const compiled = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText;
+const compiled = (await compileSources('gamepad')).get('/gamepad.js');
 const { parseGamepadState, GamepadInput, createGamepadControls } = await import(`data:text/javascript;base64,${Buffer.from(compiled).toString('base64')}`);
 const pad = (pressed = [], axes = [0, 0], index = 0, mapping = 'standard') => ({ index, id: `Controller ${index}`, mapping, connected: true, timestamp: 1, axes, buttons: Array.from({ length: 17 }, (_, i) => ({ value: pressed.includes(i) ? 1 : 0, pressed: pressed.includes(i), touched: pressed.includes(i) })) });
 const state = (pads = [pad()], focused = true, available = true) => ({ available, focused, pads });
@@ -165,6 +163,17 @@ test('complete injected binding wins over wire fallback and closes its subscript
   assert.equal(controls.supported, true); assert.deepEqual(env.sent, []);
   handler(state([pad([2])])); assert.equal(calls.at(-1), 'call');
   controls.close(); controls.close(); handler(state([pad([0])])); assert.equal(closed, 1); assert.equal(calls.at(-1), 'connected:false');
+});
+
+test('snapshot consumer receives every standard pad without changing the solo adapter', () => {
+  const received = [], env = environment({});
+  const { api } = actions();
+  const controls = createGamepadControls(api, env.host, env.page, () => 7, (state, now) => received.push({ state, now }));
+  env.send(state([pad([12], [], 4), pad([15], [], 9)]));
+  assert.equal(received.length, 1);
+  assert.deepEqual(received[0].state.pads.map(pad => pad?.index), [4, 9]);
+  assert.equal(received[0].now, 7);
+  controls.close();
 });
 
 test('blur and hidden documents cancel repeat and require fresh releases after returning', () => {

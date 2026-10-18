@@ -1,0 +1,634 @@
+[
+  {
+    "path": "src/actors.ts",
+    "sha256": "8802f29be9e39003f6cdbf46c8ba08d61d2a01aaac91206ed6f236b8c65a1394"
+  },
+  {
+    "path": "src/audio.ts",
+    "sha256": "f9d23f3e4f80f1414c854b93c4665cb49d185e34d1ebea901f4f795d81782102"
+  },
+  {
+    "path": "src/character-power-ui.ts",
+    "sha256": "3fa23675278d5782c16dc65c8358c7c5dd8ec28091a8021332cd1aa53d178945"
+  },
+  {
+    "path": "src/character-powers.ts",
+    "sha256": "d785823a0278b758edafc70e725e4cfa9c4ea32dd4e3e6d6be0a416c23042b8d"
+  },
+  {
+    "path": "src/co-op-market.ts",
+    "sha256": "037a96c9f9436346f06306cac74808aab5e92e205ce2c42bebb1dbd16ca24c22"
+  },
+  {
+    "path": "src/coin-denominations.ts",
+    "sha256": "707895fc6de79ad2cd7b71d45077655cc8a6a9af0a1b1f778863f6ad42c8ac14"
+  },
+  {
+    "path": "src/coin-models.ts",
+    "sha256": "9c79f7c09255d5b18bf48c0679a37c18b38c7cbda70b06931e84306614d75c1d"
+  },
+  {
+    "path": "src/coin-pull.ts",
+    "sha256": "449f260d15e6fb44a7ce997ca0ff91a05088593f9847877571440f8abf75bcfc"
+  },
+  {
+    "path": "src/collection-ui.ts",
+    "sha256": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10"
+  },
+  {
+    "path": "src/consumable-drops.ts",
+    "sha256": "2fc4a1c55dc7f37dbcac2b7091661e3a284d3292eddf1460da423a39520dec4a"
+  },
+  {
+    "path": "src/consumables.ts",
+    "sha256": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12"
+  },
+  {
+    "path": "src/content.ts",
+    "sha256": "56d4423a4d6c7bddd21be800353156487d46c5f5fe0a9ff4f550b4dadc14ea99"
+  },
+  {
+    "path": "src/cosmetic-model.ts",
+    "sha256": "df65d557ad5999be6f14f6ad07d7ade4bbb23c0c8db4e46b2e78139f1a12a5ae"
+  },
+  {
+    "path": "src/death-spill-audio.ts",
+    "sha256": "0c83ee2b3e172e4851e0bd6e959ec8f4c4c06fd20af2fdab9f1876526b80fdac"
+  },
+  {
+    "path": "src/death-spill.ts",
+    "sha256": "f9c3977907418c17b08c9d6af705b339a720fa9a096cdf7694760a4a74e53e26"
+  },
+  {
+    "path": "src/devtools-state.ts",
+    "sha256": "8ffff220d26c0a984f8159a18701b20d421a8d86708ee828f3d17634195c0e60"
+  },
+  {
+    "path": "src/devtools.ts",
+    "sha256": "717ad3568ee1cd1139f3650e1785f7aa4867cb4113b5417053b8677dd83f9e87"
+  },
+  {
+    "path": "src/domain-availability.ts",
+    "sha256": "053b7a9da9e523c0d35437ac5962229aa701da72462deeb56fcc2bc42d142cb9"
+  },
+  {
+    "path": "src/duck-sample.ts",
+    "sha256": "9a6c2d707b1f09da287c4fc16e4ecfd8594ec91d90497d917aaa892dfe5d9506"
+  },
+  {
+    "path": "src/game-intents.ts",
+    "sha256": "91b86898fd198f2d208c881233d35367726a372a8c962e87b5310e7921b7cf0c"
+  },
+  {
+    "path": "src/game.ts",
+    "sha256": "fb5d9224e46c19b3745099429f06bd141d9b738bb2d8786ed3266e1b6a7d95f6"
+  },
+  {
+    "path": "src/gamepad.ts",
+    "sha256": "be02cdecae3683f9f0b8a5698d90eec393759ce91ea40b24bc18128e7da479e5"
+  },
+  {
+    "path": "src/harmony.ts",
+    "sha256": "3571b5700c43dbb32a1ebbc7b3698d0e70081061d22ab91aea6b479978178a6b"
+  },
+  {
+    "path": "src/keyboard-input.ts",
+    "sha256": "8e0d6a152777a497ea35f0f9cb09428945909e9ff08573833178eeea6da7c5f8"
+  },
+  {
+    "path": "src/levels/index.ts",
+    "sha256": "6e8dd229e3369fc89cc5fbb5b51efeaa8ae139ea36461757e855f43a3a7b5ff6"
+  },
+  {
+    "path": "src/levels/v1-content.ts",
+    "sha256": "6999e23ef64b6289e1dd921556cf4d78f55d84a5a4160ad51f0045f11fb49536"
+  },
+  {
+    "path": "src/levels/v1.ts",
+    "sha256": "2528a12bdc80d8da5579dccf04cd64509a2ceeb7f3ff229b9cb970207c4f5c56"
+  },
+  {
+    "path": "src/levels/v2.ts",
+    "sha256": "997099875df8a1e313c4d978de4dce3207375ead716ee4dc04e003a8e58e4f57"
+  },
+  {
+    "path": "src/levels/v3.ts",
+    "sha256": "e2e87f0afb51b59b4fda24ee6a3a523fe29e3af22bcf5b00494c8a90382f061c"
+  },
+  {
+    "path": "src/main.ts",
+    "sha256": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4"
+  },
+  {
+    "path": "src/market-preview.ts",
+    "sha256": "ef246b766e0421245bbd962b2119203ce20e22f0bcacdb6aa688600885864a3f"
+  },
+  {
+    "path": "src/market-scene.ts",
+    "sha256": "d942e50e1eecd2685567eed8e58de49da3c648c91060362785e9875b5846c76e"
+  },
+  {
+    "path": "src/market-scenery.ts",
+    "sha256": "c9f726c0d42e8fb47cf15ca40d4f6242099f1abfef3050b8faa46e13fd83feff"
+  },
+  {
+    "path": "src/market-ui.ts",
+    "sha256": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a"
+  },
+  {
+    "path": "src/market/catalog.ts",
+    "sha256": "eb29b69dc1374e8b5e315ada8f8153f5964906729191883e8044958785e7ff20"
+  },
+  {
+    "path": "src/market/items/ballast.ts",
+    "sha256": "b2617dc397e247293fd849924a65b186aa50dcc421a6dc90f46e2cc986ff8b29"
+  },
+  {
+    "path": "src/market/items/broad-deck.ts",
+    "sha256": "f7fe02d2ac3956f9ff7f65fc5ffeeaaa97fec2d46b406e467ebea346752f244d"
+  },
+  {
+    "path": "src/market/items/coin-chance.ts",
+    "sha256": "5a282c671d7a1885e1a92741a91db54cd28bb495eeabce1efd463ede61316824"
+  },
+  {
+    "path": "src/market/items/coin-multiplier.ts",
+    "sha256": "71d92ad11aba08fdfa8718726cbd11e7ae181b641c8b0f736048beca80ba1487"
+  },
+  {
+    "path": "src/market/items/crossing-guard.ts",
+    "sha256": "4e9a99838dbd167ba18bde275e9eac2e9ec31c6b0954b589ca49dfc3cd72b6eb"
+  },
+  {
+    "path": "src/market/items/decoy-trail.ts",
+    "sha256": "07bcec401e68988a9f00774f4f43df8b0d9e57db0623ff23b2771e374309c08a"
+  },
+  {
+    "path": "src/market/items/dry-route.ts",
+    "sha256": "f8e283f82ebd828c70806c86eb31a706af69a9d5384f4241ccb2ca7ce9f1c3b1"
+  },
+  {
+    "path": "src/market/items/extra-pocket.ts",
+    "sha256": "d1c0a1211b952f307e29953f26576ea7e04e443e59322134f2279dcf6a92549c"
+  },
+  {
+    "path": "src/market/items/false-trail.ts",
+    "sha256": "103cba2e6d0d3e106b0076fefda6d97c35f3821a1d5058088f48e7bad543987f"
+  },
+  {
+    "path": "src/market/items/ferry-ticket.ts",
+    "sha256": "cae461c8e2bf1b28d34f98ed5623c70d7bde3013fc24da611a6ed0cbfb4789cd"
+  },
+  {
+    "path": "src/market/items/field-pack.ts",
+    "sha256": "28039575bb51b574161d4313835bcc39877a3b13a14463855798009fd6540362"
+  },
+  {
+    "path": "src/market/items/first-aid.ts",
+    "sha256": "f7ba90b7d78f7402f39073703b2f12aecff1c8fc328262c800a6100a6fcf59e0"
+  },
+  {
+    "path": "src/market/items/glass-purse.ts",
+    "sha256": "52d42c305335f5c501be82ad425e958c8fcd98fdefda30dfc28307e98469074a"
+  },
+  {
+    "path": "src/market/items/hurt-recovery.ts",
+    "sha256": "0691767ee229e79bb22173bbd195338d5ff9cf3c6eb15fc723b11e16c8b390cf"
+  },
+  {
+    "path": "src/market/items/long-haul.ts",
+    "sha256": "97befd988857e49a32855c57bb1b4b847e4865a3a3e866b8bae14a747ac4fd04"
+  },
+  {
+    "path": "src/market/items/look-halo.ts",
+    "sha256": "4a59ac953eec4c11d9f450398a207d80cf9c0b963737db318c10684bf9671454"
+  },
+  {
+    "path": "src/market/items/look-hat-aviator.ts",
+    "sha256": "5bf3af271fb8d3c3209464f8c0c94635e15788a30df64b34c2d838b4f4480f05"
+  },
+  {
+    "path": "src/market/items/look-hat-beanie.ts",
+    "sha256": "95e7468a5f6aee1d962cbd66e7fd47bbacd29bd184c0f22e87732502cbb223ce"
+  },
+  {
+    "path": "src/market/items/look-hat-boater.ts",
+    "sha256": "8f30c01eee1fcf60fb5c8304a32169cfcf46375fe3eb52db94d3dbbd2506de73"
+  },
+  {
+    "path": "src/market/items/look-hat-cap.ts",
+    "sha256": "a3d77177d41d6c92dadc10b76ec1c3635bd3a34204a09ffbc3bbd47ee1ab47ef"
+  },
+  {
+    "path": "src/market/items/look-hat-chef.ts",
+    "sha256": "6cdcd09d13cf3ebe79a74f71025fac041184149565e7e4a282929ef0c8558c93"
+  },
+  {
+    "path": "src/market/items/look-hat-crown.ts",
+    "sha256": "c8a793dce9b1dfe5e7ae12f037294d53695ea7979c5bf8fe77af47ff0d41aa87"
+  },
+  {
+    "path": "src/market/items/look-hat-firefighter.ts",
+    "sha256": "0516ad6450e35373ed310aa40ce12396a82a13591071fea0220b7066818c11e4"
+  },
+  {
+    "path": "src/market/items/look-hat-garden.ts",
+    "sha256": "53fe63bff6dab19318355cb9bef96898ace7cc3f7dbcacb7d4fc416295fecdaf"
+  },
+  {
+    "path": "src/market/items/look-hat-mushroom.ts",
+    "sha256": "ff10c17c6fef2655b0873697cf1879e39e0269ef31f28b806ea8403207cc5bd2"
+  },
+  {
+    "path": "src/market/items/look-hat-pirate.ts",
+    "sha256": "7d88213c4b8ddc943a64610bdfc93fb64421562a948a8a347f4735692c2c440c"
+  },
+  {
+    "path": "src/market/items/look-hat-propeller.ts",
+    "sha256": "9c28dda98245173c03e6cd65a1e16aecaf4d2be51a45c10c7ec46e91c1131887"
+  },
+  {
+    "path": "src/market/items/look-hat-ranger.ts",
+    "sha256": "00f770e6ab209935c72c1563f6004b1b42cb15d7ae30331c337fb9c3902656d1"
+  },
+  {
+    "path": "src/market/items/look-hat-tophat.ts",
+    "sha256": "30b1241119ca50965e8cc6fb5fb27f0ecab2617db7cc826e383132b7e7ab7381"
+  },
+  {
+    "path": "src/market/items/look-hat-viking.ts",
+    "sha256": "7ad0e32b1249462a53c28db521d9615b182d8c9475b749c00bf0f92a1f813fff"
+  },
+  {
+    "path": "src/market/items/look-hat-wizard.ts",
+    "sha256": "f09ec864013ad004458572935ba6ebc632d93ee0c1c1cb6f4dd9a91d3567198e"
+  },
+  {
+    "path": "src/market/items/look-shirt-lifeguard.ts",
+    "sha256": "c640747bbb7f86c2add40eb00e6edc74df94cf41cbe339e20678691423dd081d"
+  },
+  {
+    "path": "src/market/items/look-shirt-overalls.ts",
+    "sha256": "484175b5ec93599597a345ae97cfdd19ab388906719ae8a9c8a4005ce9ef6a83"
+  },
+  {
+    "path": "src/market/items/look-shirt-patchwork.ts",
+    "sha256": "1ad53a58d1e9169fe3256f12e7568f8b8454362ca358f06282041976d7685cbe"
+  },
+  {
+    "path": "src/market/items/look-shirt-poncho.ts",
+    "sha256": "ec6287d96d449d8ce705fda5a230c51a3759dfcd50b070c16f9b3eacc307293e"
+  },
+  {
+    "path": "src/market/items/look-shirt-raincoat.ts",
+    "sha256": "239308dae153b62905dd7e3c8c20751853ecbc54d90729bd7ba1b7259b39b38e"
+  },
+  {
+    "path": "src/market/items/look-shirt-rugby.ts",
+    "sha256": "c365d669c6c708e7a8add49a9621e091c496ef8ea5c42c302d6847eb2d8d4d93"
+  },
+  {
+    "path": "src/market/items/look-shirt-sailor.ts",
+    "sha256": "010029b00d6830e1056048057a3c3e673e18bed7893e49e84cc32b509c68e2bb"
+  },
+  {
+    "path": "src/market/items/look-shirt-space.ts",
+    "sha256": "7c04bbfd8dee8060954155a0312e37278c75e71c9e5ff748bdc9902e4160fe1c"
+  },
+  {
+    "path": "src/market/items/look-shirt-tuxedo.ts",
+    "sha256": "844f86acfbed6797da3fd52cd6d2bf63a9ce50cdff2517316495dff850c9ce53"
+  },
+  {
+    "path": "src/market/items/look-shirt-vest.ts",
+    "sha256": "a92e1c179e4ae495a1601cf81d44c75ece97769eeca76b6ac24e9be82f3f34ce"
+  },
+  {
+    "path": "src/market/items/look-sparkles.ts",
+    "sha256": "04716bede599395653f386337dbc751cbfa4c864ec8975f1ac29628393589136"
+  },
+  {
+    "path": "src/market/items/look-trail.ts",
+    "sha256": "2d0290ae52069d5a8eb09e0b794981766fd5008c502c2c639ecf0dc942cc51f7"
+  },
+  {
+    "path": "src/market/items/magnet.ts",
+    "sha256": "b1edeb4a20a5115892ef949c00e5433ed57ab168166eaf2fa7029284f9001aa4"
+  },
+  {
+    "path": "src/market/items/mob-recovery.ts",
+    "sha256": "69038876b7d147155d1ddf7faed099f7226e5c3d4481e172a15dec01c7626d41"
+  },
+  {
+    "path": "src/market/items/mob-spawn-delay.ts",
+    "sha256": "8d716a6a62fc2be94a722f4a7e92fbd55fa0e883de2ad60bf03583d7589b6154"
+  },
+  {
+    "path": "src/market/items/mob-speed.ts",
+    "sha256": "7df8051f776b9e25bfb018aa34849134e0753ec6cbe2a8f7cfba98abb8040c27"
+  },
+  {
+    "path": "src/market/items/mob-windup.ts",
+    "sha256": "4376ff5f515b59772239b9a0ef71e80c89bd41d44d8b74f7971b201b382ce6e2"
+  },
+  {
+    "path": "src/market/items/pack-pocket.ts",
+    "sha256": "533415e428f9f013d494cda816d569f9d36faf2daffaaf65b8ae973d916108b0"
+  },
+  {
+    "path": "src/market/items/pack-satchel.ts",
+    "sha256": "391632e9f63074d53ead87abb5534d8dd362ceb08195baaab8ecf3445409a27f"
+  },
+  {
+    "path": "src/market/items/padded-tail.ts",
+    "sha256": "adb347f723e0f01fbfbb098d1b2ddbfcbfc43455a83a9e5569a5f83d799ed206"
+  },
+  {
+    "path": "src/market/items/patient-paws.ts",
+    "sha256": "2cd600d84c7b1b4159f1354fa69b802756631b24b4eed1fbd096f0aebc9c3304"
+  },
+  {
+    "path": "src/market/items/platform-length.ts",
+    "sha256": "c5258566377b3e4e387cc7105a19a4dd8c447798cd162c60269deb18db7d793e"
+  },
+  {
+    "path": "src/market/items/pocket-change.ts",
+    "sha256": "1fc84ec5c54fde27c55ec802ec3e4e0607f3812d46a0f5b58b6714b9650dc771"
+  },
+  {
+    "path": "src/market/items/power-coin-rush.ts",
+    "sha256": "9df3d7726644696167b75eefbd75e11b711c8cdaf8133de39152147ee809ec53"
+  },
+  {
+    "path": "src/market/items/power-freeze.ts",
+    "sha256": "1f5586d32b15da47dea28a7b8ceadc8a8f0d0d0e6c49b6d287a59074f760084b"
+  },
+  {
+    "path": "src/market/items/power-shield.ts",
+    "sha256": "f40ce138fcdc2d96c12b86abee7c7c85293b3d4e1d4401029879438cea38a1e6"
+  },
+  {
+    "path": "src/market/items/railway-pass.ts",
+    "sha256": "d422d54987a3351fa52b888ba9a816cee93bd524918b6d70eff72633600eb4f9"
+  },
+  {
+    "path": "src/market/items/rear-resist.ts",
+    "sha256": "f27459c813991fd6b1c269d337a61a1e9dfe525da7376d03da5d5bba6486d6a9"
+  },
+  {
+    "path": "src/market/items/reed-bed.ts",
+    "sha256": "291403ba1f8babf40bb6c804e8d53014ac7d5ba2f750e00bcdfb0b14c6b16244"
+  },
+  {
+    "path": "src/market/items/regen-bonus.ts",
+    "sha256": "8cf622aed26374b7c7ead770555298f2707c47dcbe40374b22213ec7c6b596b4"
+  },
+  {
+    "path": "src/market/items/rest-stop.ts",
+    "sha256": "494031b5d66871370bdf1ef2a932f25d31b6c6bf7ffd2e6d9cf1decb56392a79"
+  },
+  {
+    "path": "src/market/items/river-coins.ts",
+    "sha256": "b08f0a967fcca797dce11d74d0bfb67ecd071fa09fc9fa84dabf5fe59999eb5f"
+  },
+  {
+    "path": "src/market/items/river-dividend.ts",
+    "sha256": "b0b13e69995971387dfc4a8949bd58425e3d1e433fc703b1ed6bab49aa4c69ab"
+  },
+  {
+    "path": "src/market/items/river-speed.ts",
+    "sha256": "bbba96cd6b18e98703cc7636e01ba37da3d5d8ba791c500c21ff8ca442400518"
+  },
+  {
+    "path": "src/market/items/river-toll.ts",
+    "sha256": "5738dc6262db7e1b6a3e59b6b68c3a99b2ad42bc15b5fe6c451fd57f6db4c3e1"
+  },
+  {
+    "path": "src/market/items/road-coins.ts",
+    "sha256": "8eb576d5bf2d1cc162a86fea0dbfca45d3ac144b69da072767e2706161d6e999"
+  },
+  {
+    "path": "src/market/items/scenery-clear.ts",
+    "sha256": "9f3a136360c42412402ecae65e81f51d8cb29acb0db9ec7aaf8053fb33c0791e"
+  },
+  {
+    "path": "src/market/items/score-income.ts",
+    "sha256": "d672e7b6c0aae6fbff32337174d5df69ee44ea78a81eb88a1c06592d9988d922"
+  },
+  {
+    "path": "src/market/items/service-road.ts",
+    "sha256": "d4807b27d1f036158c3e8eb973c06fc930d53da1b04b6ce443a75049d4886c53"
+  },
+  {
+    "path": "src/market/items/shoulder-check.ts",
+    "sha256": "8e3ef06c837abfd607ef4353822cdaeb0771bf6d0ec2c27ecac1fd9a82d10a09"
+  },
+  {
+    "path": "src/market/items/side-resist.ts",
+    "sha256": "db9af98061558a7f35db7cf31f080e2341bafbc6ef78e070a3592a160d4161c6"
+  },
+  {
+    "path": "src/market/items/signal-box.ts",
+    "sha256": "992c01faf744e0c80ec2b967e1475593fe7d7995ead1bfda918d99a55749fab3"
+  },
+  {
+    "path": "src/market/items/slack-tide.ts",
+    "sha256": "ab4994af4ad7312744d3905a40ee7d962cd9060eafed839c14df5c395374918d"
+  },
+  {
+    "path": "src/market/items/soft-landing.ts",
+    "sha256": "cebc973dbe1c0c5d663f361094cbd2e12549c9981fac1bf61d4f3ce84ea482ce"
+  },
+  {
+    "path": "src/market/items/steady-steps.ts",
+    "sha256": "e4dae5839f76bfc9a71473518505298035acc619822777657309bc22ecab0210"
+  },
+  {
+    "path": "src/market/items/stepping-stones.ts",
+    "sha256": "88cd1c60e0e50cd2c8fa863354c97d1d78daddd9c74f37880953510631df262d"
+  },
+  {
+    "path": "src/market/items/toll-pouch.ts",
+    "sha256": "1de1719612f3f189fa727e5f5cc50b4af6b22daa5041cd40dfb9b321ffa00c74"
+  },
+  {
+    "path": "src/market/items/tow-rope.ts",
+    "sha256": "585a97ca245c62809cb831832869761727caee8f032a7e7cc8420f68a60c3413"
+  },
+  {
+    "path": "src/market/items/traffic-spacing.ts",
+    "sha256": "bba487a1d7a1faf40d92f7f06b6582f2ae2bf1d5b5cfc064bed1f8047f15479a"
+  },
+  {
+    "path": "src/market/items/traffic-speed.ts",
+    "sha256": "6b489d3668cee255385b6b1d5a9e5830a540336bbd265294d8f2446dd6861124"
+  },
+  {
+    "path": "src/market/items/train-period.ts",
+    "sha256": "ba0b52420ce193140296bb0e23aaebaae025c44bea4027c0208480103e1df179"
+  },
+  {
+    "path": "src/market/items/train-warning.ts",
+    "sha256": "15bf2d4fb6df7fea4b087b76e4a694871835feb05ae328054199d37e1df2cc79"
+  },
+  {
+    "path": "src/market/items/travel-light.ts",
+    "sha256": "0f084a4459a0f59adb4966f809b415505b78adfa356f00fac26d671e3e0896ac"
+  },
+  {
+    "path": "src/market/items/treasure-map.ts",
+    "sha256": "85603dcdbfe7fd1dea45bf721aad18eeaad9b5011bd1869b6504f44584ee0829"
+  },
+  {
+    "path": "src/market/items/watchful-eye.ts",
+    "sha256": "ee6076bad8cff3ef13bc1d82a3b82e949ec6b238d1890326f629bb9b24a0c752"
+  },
+  {
+    "path": "src/market/items/wave-speed.ts",
+    "sha256": "073f764e6f539b0caa9e9b398465770e7073cfb717c8d8f997c60145371cee44"
+  },
+  {
+    "path": "src/market/items/wave-trail.ts",
+    "sha256": "d33353b37df9a61d087022e12206ffa8fc9fe77c4200f451bc1e76b2948f24b0"
+  },
+  {
+    "path": "src/market/run.ts",
+    "sha256": "ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f"
+  },
+  {
+    "path": "src/market/types.ts",
+    "sha256": "d1e216d95749be95069851fe36b38009e9b86e86931fd4590330f794b2b4bb4c"
+  },
+  {
+    "path": "src/mob-models.ts",
+    "sha256": "fce5e37b1e834b31296ae66cdd4a7ba177d0b11c1c09de977de92083675b7008"
+  },
+  {
+    "path": "src/mobs.ts",
+    "sha256": "6077ac4fd884ef16f9fe8ab3f3db77a431b2d2853adbeddc1d0d843b595018d1"
+  },
+  {
+    "path": "src/mode-rules.ts",
+    "sha256": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2"
+  },
+  {
+    "path": "src/pause-ui.ts",
+    "sha256": "e0f7d449c755077a98cf411b93fd209be8f8fbacbb21d005cd8e12c333d93dc2"
+  },
+  {
+    "path": "src/race-items.ts",
+    "sha256": "2a43c05772c1f641595ca9bee7cc2bb486e3b2a922ebab412fc65e189708432b"
+  },
+  {
+    "path": "src/race-results.ts",
+    "sha256": "217f6d1f97fca22a03a13586b1b7dfe5cf609d2eb83ebc0c16c540b7e0ae5d02"
+  },
+  {
+    "path": "src/race-ui.ts",
+    "sha256": "ffa44ebc604597faf01c872212cac97ea8ee5be4df913213776e05e27e2cc866"
+  },
+  {
+    "path": "src/race.ts",
+    "sha256": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da"
+  },
+  {
+    "path": "src/recovery.ts",
+    "sha256": "835df7ab867c3421e7d295778c864ceba83f0ea10e588c4c6f4d95cdc2c1702b"
+  },
+  {
+    "path": "src/relay-results.ts",
+    "sha256": "7b7295a4655082be30a81d590bb3e53db4f7b193b405509fb4944b3d7fb51a67"
+  },
+  {
+    "path": "src/relay-ui.ts",
+    "sha256": "b775194505201a55cc8f4377051e508674ba965d8e6eabc23eb490f14a5267cd"
+  },
+  {
+    "path": "src/relay.ts",
+    "sha256": "f5c1eea5b82e6e42d7b6bbc6a95f7f0d28aa7ad7468c4464e0217ab9f89e6c02"
+  },
+  {
+    "path": "src/render.ts",
+    "sha256": "b6b5ae2ff1a4af8e3f6a0bf2c96bfcc3e83b11e95e38892ccaa6f33f3c2122c2"
+  },
+  {
+    "path": "src/run-hand.ts",
+    "sha256": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a"
+  },
+  {
+    "path": "src/run-menu.ts",
+    "sha256": "1d02c36c6d47645e86795810c5b5eb0d20ee85601bec3d4746de42b21920f676"
+  },
+  {
+    "path": "src/run-seed.ts",
+    "sha256": "fdd556d8e1daca5dd85602fa8f8bde29dbb495f3c267a9dac9cd4b375560a524"
+  },
+  {
+    "path": "src/seed-copy.ts",
+    "sha256": "aac727c112e31063fab0c3d2e9d841d703be3f7e9ecb9d9cd2b32421357d0f47"
+  },
+  {
+    "path": "src/seed-ui.ts",
+    "sha256": "d0cefc48fbaef0f72b037f7d7ac1af074f126eb0dbb272754f437259aea81451"
+  },
+  {
+    "path": "src/session-input.ts",
+    "sha256": "e42c0af885310c699a275aa819c7d66d6902e20164db08cacacf5aee7017da9f"
+  },
+  {
+    "path": "src/session-recovery.ts",
+    "sha256": "35119abd8ac6551d253ec0ada320c934fd5a9cf20c142444e3afdb4094093b9c"
+  },
+  {
+    "path": "src/session-ui.ts",
+    "sha256": "3f7144ef7840f9f6fe64829f37b0dd043367bb3c85875289a19604e2946dd280"
+  },
+  {
+    "path": "src/session.ts",
+    "sha256": "f8ce62cdc5c87557636cce62f0b15005bfa5f9cde42c708d67915b4c1ebcec39"
+  },
+  {
+    "path": "src/shared-world-effects.ts",
+    "sha256": "715dce9a98a83c398aa3a3d43531568008a9cefaa9be8df766a921dd2eb43a45"
+  },
+  {
+    "path": "src/solo-ui.ts",
+    "sha256": "b4266648eed0e2463f421fb10f0122de6035f9c6d3ccb6cf345c5683e6e31b52"
+  },
+  {
+    "path": "src/sound-loader.ts",
+    "sha256": "9f9b114ae820a3a5f59d172c907593fae8455aef0358eabfb020dfc062f6d921"
+  },
+  {
+    "path": "src/sound-packs.ts",
+    "sha256": "8e670193500c2daef6afadf204100f0ab33fc143f6aa3e0bb3a52cf1c3ea9d8e"
+  },
+  {
+    "path": "src/sound-settings.ts",
+    "sha256": "82e413739bfe7bdc4f29dd555eddaa5849dbebed10d296a5a439041accddb352"
+  },
+  {
+    "path": "src/soundscape.ts",
+    "sha256": "7dcfdb877477177f38fcc1b42add26be04961ed25b4133faf0ea0c696288c102"
+  },
+  {
+    "path": "src/survive-results-ui.ts",
+    "sha256": "813b4b3414b19870e980ed6c1fc96ba028ae8e9e31a7e5b9d52d9d26c7b83d1b"
+  },
+  {
+    "path": "src/survive-results.ts",
+    "sha256": "ddb87a075703bac459ecb91c6bf4e039affbfe69c7882ec64d45f65662909537"
+  },
+  {
+    "path": "src/survive-together.ts",
+    "sha256": "dbc77f00e9c37ee845920c3b63da30f8f661582e37da4f30bb2d2f72c3c4b69b"
+  },
+  {
+    "path": "src/vehicle-models.ts",
+    "sha256": "a873102d70e8d257c15b26d3c2dcf67935956012e88c3c16d9db2c9828d291bc"
+  },
+  {
+    "path": "src/wearables.ts",
+    "sha256": "6ff040ceaed6a1fd4ff1dcf7e8b8bc9a773bcc4a3598fa6a83529a05d28b72e6"
+  }
+]

@@ -1,0 +1,336 @@
+{
+  "purpose": "Source-bound application accounting; not gameplay gains or full release acceptance",
+  "recordedAt": "2026-10-17T22:27:46.135102+00:00",
+  "red": {
+    "purpose": "Retained tool-contract RED for adding exact app scope and authority checks;not a product RED",
+    "exit": 1,
+    "tests": 18,
+    "pass": 11,
+    "fail": 7,
+    "logSha256": "d278f3d4cfb59c5b4e5728504f987fcbb88615571d77e400ed9459e64951adf4",
+    "beforeToolHashes": {
+      "tools/release-coverage/builtin-rule-applicability.mjs": "1fb088bcd381cafd014eadf45b4e47c9bf9451e4d8d7255b25963447dfab03d4",
+      "tools/release-coverage/browser-applicability.mjs": "723ae52ae3b14029949a6aa43c7d85d9adb39794687393771434e444c681171d",
+      "tools/release-coverage/development-applicability.mjs": "d3149a92d8ee65637712cefd0a9629ff3ae4a75032bd4a06911c56ea65c4b628",
+      "tools/release-coverage/run.mjs": "9d6e285d1bbe54d25aa5bae19a48470bc49ca2700195db5da700ac90f5682deb"
+    },
+    "testHashes": {
+      "tools/release-coverage/builtin-rule-applicability.test.mjs": "9f7a8621b16a42acf40bd8de3c9682dd01a21374d7620f43737fb2cabcfe5e99",
+      "tools/release-coverage/browser-applicability.test.mjs": "cbbb38c7e6d3c40d168718cb81bff4143303fb990452bf9206c0597c581bc62a",
+      "tools/release-coverage/development-applicability.test.mjs": "5ab002aab2622064553e10cbb867f78ab6371dd7d3ba9f16830f72270df5200b"
+    }
+  },
+  "green": {
+    "focused": 18,
+    "allControls": 113,
+    "failed": 0
+  },
+  "runtime": {
+    "runId": "a2b08c47-2220-4f45-98f4-684d1a0fd6a3",
+    "status": "report-only",
+    "terminalExit": 0,
+    "jobs": [
+      {
+        "id": "river-rewards-runtime",
+        "file": "tests/river-rewards-runtime.mjs",
+        "role": "mixed",
+        "exitCode": 0
+      },
+      {
+        "id": "river-rewards-runtime-development",
+        "file": "tests/river-rewards-runtime.mjs",
+        "role": "mixed",
+        "exitCode": 0
+      }
+    ],
+    "cases": {
+      "production": 4,
+      "development": 4
+    },
+    "browserRealms": 8,
+    "independentNodeParents": 2,
+    "modeIntervals": 0,
+    "scopeChecks": {
+      "browser-presentation-owner-lifecycle": {
+        "dispositions": {
+          "statement": 18,
+          "function": 1,
+          "branch": 21
+        },
+        "raw": {
+          "lines": {
+            "covered": 3279,
+            "total": 7911
+          },
+          "statements": {
+            "covered": 4912,
+            "total": 13730
+          },
+          "functions": {
+            "covered": 842,
+            "total": 2204
+          },
+          "branches": {
+            "covered": 2640,
+            "total": 9945
+          }
+        },
+        "applicable": {
+          "lines": {
+            "covered": 3279,
+            "total": 7851
+          },
+          "statements": {
+            "covered": 4912,
+            "total": 13604
+          },
+          "functions": {
+            "covered": 842,
+            "total": 2188
+          },
+          "branches": {
+            "covered": 2640,
+            "total": 9846
+          }
+        },
+        "excludedSitesHaveNoPositiveHits": true
+      },
+      "development": {
+        "dispositions": {
+          "statement": 18,
+          "function": 1,
+          "branch": 21
+        },
+        "raw": {
+          "lines": {
+            "covered": 1093,
+            "total": 2127
+          },
+          "statements": {
+            "covered": 1446,
+            "total": 3311
+          },
+          "functions": {
+            "covered": 320,
+            "total": 695
+          },
+          "branches": {
+            "covered": 984,
+            "total": 2834
+          }
+        },
+        "applicable": {
+          "lines": {
+            "covered": 1093,
+            "total": 2108
+          },
+          "statements": {
+            "covered": 1446,
+            "total": 3268
+          },
+          "functions": {
+            "covered": 320,
+            "total": 679
+          },
+          "branches": {
+            "covered": 984,
+            "total": 2784
+          }
+        },
+        "excludedSitesHaveNoPositiveHits": true
+      }
+    }
+  },
+  "reprojection": {
+    "existingFourModeSelectionsByteEquivalent": true,
+    "contexts": [
+      {
+        "dir": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/current-full-03/recovered-report-02",
+        "runId": "0b8f818d-62a2-4922-ab83-242886778c0c",
+        "status": "enforced-fail",
+        "manifestSha256": "29ebb6d51d2c7a56de195751e32eff9cb0f06dc49b63a29f786328757018f83c",
+        "attributionSha256": "1386cd1d47c8d30d266bd8315663e38d0238d3d5b1db8f4ba34c33e5d6d65cb9",
+        "browserRealms": 359
+      },
+      {
+        "dir": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/flare-anchor-03",
+        "runId": "fa5c17fe-49c3-4011-bd68-658cb0a8cefb",
+        "status": "report-only",
+        "manifestSha256": "fc426018a9165812cb7c3aaceecb0c5eb6dd43c5404ba9726b87a576b6a240e5",
+        "attributionSha256": "8425bb1dde9dd9e1d65a153d4594d74b2451889f03c31a4cda344b55fee63f55",
+        "browserRealms": 12
+      },
+      {
+        "dir": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/relay-development-03",
+        "runId": "ad72aa70-891c-4cb8-8c88-d755578dfae6",
+        "status": "report-only",
+        "manifestSha256": "5d79198728f78f8b9f31e8b0cb9b852e8b3c604de9a323c7070cea06c902d569",
+        "attributionSha256": "fe0438b4ac9e81e755dc4ab52a7c44655992df812d75ab2c4d93fb511a7bb2a5",
+        "browserRealms": 28
+      },
+      {
+        "dir": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/river-rewards-03",
+        "runId": "6ae1161c-8403-4ac1-b204-3ad39230807e",
+        "status": "report-only",
+        "manifestSha256": "c16da1eaf31fe7ecf32a54414e412a3b3ddeea37ccd3c6c8f0a654e715be90d5",
+        "attributionSha256": "f2feb3bef25eb29eefb06a29a3dde0599d5f75351dc5469fd40db2daa7c0d5c4",
+        "browserRealms": 8
+      }
+    ],
+    "results": {
+      "browser-presentation-owner-lifecycle": {
+        "stage": "cumulative-unique-witnesses",
+        "sourceContext": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/river-rewards-03",
+        "before": {
+          "lines": {
+            "covered": 7602,
+            "total": 7852
+          },
+          "statements": {
+            "covered": 12502,
+            "total": 13622
+          },
+          "functions": {
+            "covered": 2027,
+            "total": 2189
+          },
+          "branches": {
+            "covered": 8361,
+            "total": 9867
+          }
+        },
+        "after": {
+          "lines": {
+            "covered": 7602,
+            "total": 7851
+          },
+          "statements": {
+            "covered": 12502,
+            "total": 13604
+          },
+          "functions": {
+            "covered": 2027,
+            "total": 2188
+          },
+          "branches": {
+            "covered": 8361,
+            "total": 9846
+          }
+        },
+        "rawUnchanged": true,
+        "coveredNumeratorsUnchanged": true,
+        "sha256": "b482d221688a6782900186654bc3a9e6641e1db138f67084495e422e44b1483c",
+        "remainingAt85": 9
+      },
+      "development": {
+        "stage": "cumulative-unique-witnesses",
+        "sourceContext": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/river-rewards-03",
+        "before": {
+          "lines": {
+            "covered": 2059,
+            "total": 2109
+          },
+          "statements": {
+            "covered": 2957,
+            "total": 3286
+          },
+          "functions": {
+            "covered": 643,
+            "total": 680
+          },
+          "branches": {
+            "covered": 2296,
+            "total": 2805
+          }
+        },
+        "after": {
+          "lines": {
+            "covered": 2059,
+            "total": 2108
+          },
+          "statements": {
+            "covered": 2957,
+            "total": 3268
+          },
+          "functions": {
+            "covered": 643,
+            "total": 679
+          },
+          "branches": {
+            "covered": 2296,
+            "total": 2784
+          }
+        },
+        "rawUnchanged": true,
+        "coveredNumeratorsUnchanged": true,
+        "sha256": "feeb7f0f06170c181fc336e844225717dded43cfb68a869c44d87dfa69024a51",
+        "remainingAt85": 71
+      }
+    }
+  },
+  "remainingBranchWitnesses": {
+    "relay": 28,
+    "race": 75,
+    "browser": 9,
+    "development": 71
+  },
+  "normalRawSha256": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
+  "rootlockRawSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "artifacts": {
+    "artifacts/release-coverage/app-builtin-rules-03/all-controls.log": "078509fa3190217dc8eae5096846eacdeb6c5584395ea988c9fd8f2e96e48ca3",
+    "artifacts/release-coverage/app-builtin-rules-03/baseline-builtin.mjs": "433c603c818d084bab95f7ec569053a67176611f551dd7c76d165d90bca50bc8",
+    "artifacts/release-coverage/app-builtin-rules-03/baseline-copy.json": "5b4bbab4a46c32053b471c933db4985e3bc703c8a13383ebff0523231a7aa565",
+    "artifacts/release-coverage/app-builtin-rules-03/browser-presentation-owner-lifecycle-0.json": "dddcb206540374b9185b654074e8849b52c1431064c5caccacb52a722ffbd19e",
+    "artifacts/release-coverage/app-builtin-rules-03/browser-presentation-owner-lifecycle-1.json": "b4ad2dac9cd1dcc005913a588513abd21dfd303ff25d9a6c6ed801ee7d35a51a",
+    "artifacts/release-coverage/app-builtin-rules-03/browser-presentation-owner-lifecycle-2.json": "faf3a8a1754db1fbd21f3a8cd1c5061af5170b059bab61250ebefe80e7b36c55",
+    "artifacts/release-coverage/app-builtin-rules-03/browser-presentation-owner-lifecycle-3.json": "bac5bdabb89a110e1d9aa889e63d969ba3f3979506e81427f6e51814286c7a9e",
+    "artifacts/release-coverage/app-builtin-rules-03/browser-presentation-owner-lifecycle-union.json": "b482d221688a6782900186654bc3a9e6641e1db138f67084495e422e44b1483c",
+    "artifacts/release-coverage/app-builtin-rules-03/browser-unused-candidate-observation.json": "aaa58bf1be062eff97bcbe4b43125e10a28d1264dffc0847a3d5372db8176b90",
+    "artifacts/release-coverage/app-builtin-rules-03/development-0.json": "54aec9d952c03819c882fcf670b40e0d930b27f4b84e2eece9b0bc94fcbfbe38",
+    "artifacts/release-coverage/app-builtin-rules-03/development-1.json": "4c1b262419cad9b3c73dd7544bd8fde5857750f324546267c987176d89d1b8c6",
+    "artifacts/release-coverage/app-builtin-rules-03/development-2.json": "b95d99f03ac7d071984639c1a6e46bc8e776bccc9ebc8d762a7b7098f2e30e58",
+    "artifacts/release-coverage/app-builtin-rules-03/development-3.json": "ebb56b2772b07647a5bdf4e4b71fb808f8a72a5c8aff6faa96a02d03ccd652dd",
+    "artifacts/release-coverage/app-builtin-rules-03/development-union.json": "feeb7f0f06170c181fc336e844225717dded43cfb68a869c44d87dfa69024a51",
+    "artifacts/release-coverage/app-builtin-rules-03/finalize-proof.py": "a26dcaa34e1d795fdeee9ad532250eed1bec005be0ec7d2a130edad3fdc044e2",
+    "artifacts/release-coverage/app-builtin-rules-03/green.log": "b09b8e172581f40e686ae54160c85df4d92bc69ce7c6d2d60efe797df524419b",
+    "artifacts/release-coverage/app-builtin-rules-03/red-final.log": "d278f3d4cfb59c5b4e5728504f987fcbb88615571d77e400ed9459e64951adf4",
+    "artifacts/release-coverage/app-builtin-rules-03/red-proof.json": "788fe62b6ddb92fb67ab557b0317f09807ba85dea845b9ff85bf3753215d6f43",
+    "artifacts/release-coverage/app-builtin-rules-03/red.log": "cbe8eed2f0f9145f97d8e775c365d6abe72b1872ceb9128994b38912d2cd89c6",
+    "artifacts/release-coverage/app-builtin-rules-03/reference-audit.json": "77c096694aeb4f69ca5bd092765efe592877895d75c3e27942b255dfa75e905c",
+    "artifacts/release-coverage/app-builtin-rules-03/reference-audit.log": "6f1ea3c74bce2bef8a42f02dab048d4ed6855081464a0ee8ee0e20d1ff8b9b36",
+    "artifacts/release-coverage/app-builtin-rules-03/reference-audit.mjs": "01e22f618bb6800168e6996727e6f89833b957cac81c97534bd8bf5d42281ae2",
+    "artifacts/release-coverage/app-builtin-rules-03/reproject.mjs": "478886e1ab75bb9400951617b635de6da89bfa49e762b8397748643df0f407e1",
+    "artifacts/release-coverage/app-builtin-rules-03/reprojection-proof.json": "9b078a159d03b648bb5d3bc999fbda0199516af2cc3b57f841bca320285f855f",
+    "artifacts/release-coverage/app-builtin-rules-03/reprojection.log": "d6eacc38ba04fe3dbb97b606e38dca970847955e5712ffcca04f17937e171716",
+    "artifacts/release-coverage/app-builtin-rules-03/runtime.log": "f801444c86e489f75b2fc1633a9c1dba755ee776839f56228b2ed1c3e59b1c91",
+    "artifacts/release-coverage/app-builtin-rules-runtime-03/a2b08c47-2220-4f45-98f4-684d1a0fd6a3/browser-20a9a65a2f252dee353a67bec7133b800c6aa74a6a8f00a7304e0bb9c798eb83.json": "aee57a3ecb6ab458343322714211ff8f149c4608516f5857c1cf1d86b352a159",
+    "artifacts/release-coverage/app-builtin-rules-runtime-03/a2b08c47-2220-4f45-98f4-684d1a0fd6a3/browser-4bea28409191cccb898338d5a458943d989a6b2b93985e514856df5ebaed6c07.json": "5d155de29d144e60f0dce02c41447f6d7ffc5065cc73b7078e888c1ee9279cae",
+    "artifacts/release-coverage/app-builtin-rules-runtime-03/a2b08c47-2220-4f45-98f4-684d1a0fd6a3/browser-a0be32d755cb97bec76b017ef0b8f3b082a0180092b66140a23ff53bca6b07f3.json": "517b5b835d1e2100061a0e4122fb04b8cb3aecf26789064a8895edd1222ccf7b",
+    "artifacts/release-coverage/app-builtin-rules-runtime-03/a2b08c47-2220-4f45-98f4-684d1a0fd6a3/browser-a6bbd465f90c0ab01e8cdd77d55853550e77cbbb332ce7254ef62167ec1068d1.json": "a7bd42010b05b6e9be5b5f54d3c0201f2c1d1f8f3393799d08a9f5ac7b50429d",
+    "artifacts/release-coverage/app-builtin-rules-runtime-03/a2b08c47-2220-4f45-98f4-684d1a0fd6a3/browser-a874300bb1b27bdb763a42fb95260a61c36e38dd61fd6515a7d2d2681581debb.json": "b42736708bcc921421bada22ac4688e95576d02fe1f39bfc4bdf16f9fdb65533",
+    "artifacts/release-coverage/app-builtin-rules-runtime-03/a2b08c47-2220-4f45-98f4-684d1a0fd6a3/browser-b756de2c6fe7029e42a58ae92404d10b92d6e81b2145ab34d9e7e55f5d2ed5a4.json": "8d3d14a77c852fc40e0b96d2ca28c13c8becece41e964b8b387913082618bf06",
+    "artifacts/release-coverage/app-builtin-rules-runtime-03/a2b08c47-2220-4f45-98f4-684d1a0fd6a3/browser-dba34b40dbc3c77e3d05ce20e27a94952db254c7261d10b9d7b7780f7aed9bbf.json": "a15747960b78f16f33da153450b2557fc773a075b2e13607e10ce10c33877bd7",
+    "artifacts/release-coverage/app-builtin-rules-runtime-03/a2b08c47-2220-4f45-98f4-684d1a0fd6a3/browser-e5f02f9b2c1e46b3c1120e3af5f64a0c470d3d7f0ec1e723ffb157bfab2f319f.json": "b7f8048044f622247bacf3ad876da546b5d352246e8f5b19c740529a68840d38",
+    "artifacts/release-coverage/app-builtin-rules-runtime-03/a2b08c47-2220-4f45-98f4-684d1a0fd6a3/config.json": "fb10c3db105b99afbac81f0e65fb05695aaba8bcedf274e633060ef1884102fe",
+    "artifacts/release-coverage/app-builtin-rules-runtime-03/a2b08c47-2220-4f45-98f4-684d1a0fd6a3/inventory.json": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+    "artifacts/release-coverage/app-builtin-rules-runtime-03/a2b08c47-2220-4f45-98f4-684d1a0fd6a3/job-ledger.json": "1247a570c946b72f1c761b24d21867e9a213c25d25292c64a878dd508f90aba2",
+    "artifacts/release-coverage/app-builtin-rules-runtime-03/a2b08c47-2220-4f45-98f4-684d1a0fd6a3/tests__river-rewards-runtime.mjs#river-rewards-runtime-development.json": "41a8ca2715281b197171c414140abd579a587e0d538de342cc372d1111414b17",
+    "artifacts/release-coverage/app-builtin-rules-runtime-03/a2b08c47-2220-4f45-98f4-684d1a0fd6a3/tests__river-rewards-runtime.mjs.json": "8a00133aca049d81f23dd4a7ac064042211bea8ca8be58f1c66389aa63bb1c4e",
+    "artifacts/release-coverage/app-builtin-rules-runtime-03/attribution.json": "710c5eff96a7577226285b76739b67f5275081db0a8dad62323289a8e484505d",
+    "artifacts/release-coverage/app-builtin-rules-runtime-03/manifest.json": "60fc82c02365167e4ab042faf4b74fea34f328a18ba2424ecd85d502807a1ebd",
+    "artifacts/release-coverage/app-builtin-rules-runtime-03/strata/browser-presentation-owner-lifecycle/coverage-final.json": "86cd59bb45db4b02af83e0d350784a206fc19f8742609bc0807667586bd1d2dc",
+    "artifacts/release-coverage/app-builtin-rules-runtime-03/strata/development/coverage-final.json": "3063cab6824cc1c78f9bf7a09d5dea52513ed00025ab99be645ea62e125d1bd8",
+    "tools/release-coverage/browser-applicability.mjs": "684f0cabb848646b27680035656c7d6bed22a589c5d4b0236ffc200e902b68d1",
+    "tools/release-coverage/browser-applicability.test.mjs": "cbbb38c7e6d3c40d168718cb81bff4143303fb990452bf9206c0597c581bc62a",
+    "tools/release-coverage/builtin-rule-applicability.mjs": "8168e65414858eda3a3074b601d457ffdc4e800f9ed7d8c003efea58ef3d20c8",
+    "tools/release-coverage/builtin-rule-applicability.test.mjs": "9f7a8621b16a42acf40bd8de3c9682dd01a21374d7620f43737fb2cabcfe5e99",
+    "tools/release-coverage/development-applicability.mjs": "341e6ec07a67822f36f3596186925faf0db54b8fff7117eba4eb291dee118faa",
+    "tools/release-coverage/development-applicability.test.mjs": "5ab002aab2622064553e10cbb867f78ab6371dd7d3ba9f16830f72270df5200b",
+    "tools/release-coverage/run.mjs": "c7eefdd15f1ea5edb0e9888291c0a130b11b0cfdff2a627d7cd93287d82818bc"
+  },
+  "limitations": [
+    "Original full report remains enforced-fail; this focused run is report-only.",
+    "No additional gameplay or initial-ledger credit claimed for repeated river scenarios.",
+    "Remaining semantic review, fresh full enforcement,07-04/05/06 and PR required."
+  ]
+}

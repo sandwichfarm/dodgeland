@@ -1,0 +1,255 @@
+{
+  "createdAt": "2026-10-18T03:12:40.157108+00:00",
+  "method": "Four changed sheets and two changed critical full-size images reopened with view_image original detail. Four other sheets and seven other critical views remain byte-identical to prior inspected images. No new visual defect observed. Full handoff modal intentionally obscures scenery;not a live-HUD clearance claim.",
+  "manifestSha256": "1546459f215d76faedb05a0232a3f66b4fc9589dc59d25784c6e340abd4cd90a",
+  "sheets": [
+    {
+      "id": "survive-arcade-dark",
+      "image": "docs/release-evidence/images/sheet-survive-arcade-dark.png",
+      "sha256": "32128e27d58036755c324c5c204776dc15e7b714cd4da6291722dca1329b4bdc",
+      "captureIds": [
+        "survive-arcade-hud-240x240-dark-reduced-all",
+        "survive-arcade-hud-320x560-dark-reduced-all",
+        "survive-arcade-hud-900x600-dark-reduced-all",
+        "survive-arcade-hud-1000x280-dark-reduced-all",
+        "survive-arcade-hud-2400x1200-dark-reduced-all",
+        "survive-arcade-items-900x600-dark-reduced-all",
+        "survive-arcade-market-900x600-dark-reduced-all",
+        "survive-arcade-minimum-notice-200x160-dark-reduced-all",
+        "survive-arcade-recovery-900x600-dark-reduced-all",
+        "survive-arcade-results-900x600-dark-reduced-all",
+        "survive-arcade-setup-900x600-dark-reduced-all"
+      ],
+      "inspected": true,
+      "review": "Previously inspected bytes independently rehashed identical after route-driver fix"
+    },
+    {
+      "id": "survive-arcade-light",
+      "image": "docs/release-evidence/images/sheet-survive-arcade-light.png",
+      "sha256": "268da970bff8fa2e1b63b52f68e7f301c229e4faa441be6704be27e18b91e5e8",
+      "captureIds": [
+        "survive-arcade-hud-240x240-light-reduced-all",
+        "survive-arcade-hud-320x560-light-reduced-all",
+        "survive-arcade-hud-900x600-light-reduced-all",
+        "survive-arcade-hud-1000x280-light-reduced-all",
+        "survive-arcade-hud-2400x1200-light-reduced-all",
+        "survive-arcade-items-900x600-light-reduced-all",
+        "survive-arcade-market-900x600-light-reduced-all",
+        "survive-arcade-minimum-notice-200x160-light-reduced-all",
+        "survive-arcade-recovery-900x600-light-reduced-all",
+        "survive-arcade-results-900x600-light-reduced-all",
+        "survive-arcade-setup-900x600-light-reduced-all"
+      ],
+      "inspected": true,
+      "review": "Previously inspected bytes independently rehashed identical after route-driver fix"
+    },
+    {
+      "id": "survive-flow-dark",
+      "image": "docs/release-evidence/images/sheet-survive-flow-dark.png",
+      "sha256": "96acf74966a4d23c0d54d4a2f9bd77096dd6afa945205cdd523a0931362df761",
+      "captureIds": [
+        "survive-flow-hud-240x240-dark-reduced-all",
+        "survive-flow-hud-320x560-dark-reduced-all",
+        "survive-flow-hud-900x600-dark-reduced-all",
+        "survive-flow-hud-1000x280-dark-reduced-all",
+        "survive-flow-hud-2400x1200-dark-reduced-all",
+        "survive-flow-items-900x600-dark-reduced-all",
+        "survive-flow-market-900x600-dark-reduced-all",
+        "survive-flow-minimum-notice-200x160-dark-reduced-all",
+        "survive-flow-owner-target-320x560-dark-reduced-all",
+        "survive-flow-recovery-900x600-dark-reduced-all",
+        "survive-flow-recovery-1000x280-dark-reduced-all",
+        "survive-flow-results-900x600-dark-reduced-all",
+        "survive-flow-setup-900x600-dark-reduced-all"
+      ],
+      "inspected": true,
+      "review": "Previously inspected bytes independently rehashed identical after route-driver fix"
+    },
+    {
+      "id": "survive-flow-light",
+      "image": "docs/release-evidence/images/sheet-survive-flow-light.png",
+      "sha256": "c0781fed89f789e9b608b6141521f1faa094d773a69a87f3a462fcab89fc9cf8",
+      "captureIds": [
+        "survive-flow-hud-240x240-light-reduced-all",
+        "survive-flow-hud-320x560-light-reduced-all",
+        "survive-flow-hud-900x600-light-reduced-all",
+        "survive-flow-hud-1000x280-light-reduced-all",
+        "survive-flow-hud-2400x1200-light-reduced-all",
+        "survive-flow-items-900x600-light-reduced-all",
+        "survive-flow-market-900x600-light-reduced-all",
+        "survive-flow-minimum-notice-200x160-light-reduced-all",
+        "survive-flow-owner-target-320x560-light-reduced-all",
+        "survive-flow-recovery-900x600-light-reduced-all",
+        "survive-flow-recovery-1000x280-light-reduced-all",
+        "survive-flow-results-900x600-light-reduced-all",
+        "survive-flow-setup-900x600-light-reduced-all"
+      ],
+      "inspected": true,
+      "review": "Previously inspected bytes independently rehashed identical after route-driver fix"
+    },
+    {
+      "id": "relay-dark",
+      "image": "docs/release-evidence/images/sheet-relay-dark.png",
+      "sha256": "62305adb1567e1fd063482ec1508fb1733c53b05db75f274ada71561e549b6a6",
+      "captureIds": [
+        "relay-disconnect-900x600-dark-full-all",
+        "relay-handoff-900x600-dark-full-all",
+        "relay-hud-240x240-dark-reduced-all",
+        "relay-hud-320x560-dark-reduced-all",
+        "relay-hud-900x600-dark-reduced-all",
+        "relay-hud-1000x280-dark-reduced-all",
+        "relay-hud-2400x1200-dark-reduced-all",
+        "relay-market-900x600-dark-reduced-all",
+        "relay-minimum-notice-200x160-dark-reduced-all",
+        "relay-results-tie-900x600-dark-full-all",
+        "relay-setup-900x600-dark-reduced-all"
+      ],
+      "inspected": true,
+      "review": "Reopened current bytes with view_image original detail after route-driver fix"
+    },
+    {
+      "id": "relay-light",
+      "image": "docs/release-evidence/images/sheet-relay-light.png",
+      "sha256": "35df3e5ed75440eefd904ee157b94c1fe16b7cb95e841d32d59a3c8d7b49c31d",
+      "captureIds": [
+        "relay-disconnect-900x600-light-full-all",
+        "relay-handoff-900x600-light-full-all",
+        "relay-hud-240x240-light-reduced-all",
+        "relay-hud-320x560-light-reduced-all",
+        "relay-hud-900x600-light-reduced-all",
+        "relay-hud-1000x280-light-reduced-all",
+        "relay-hud-2400x1200-light-reduced-all",
+        "relay-market-900x600-light-reduced-all",
+        "relay-minimum-notice-200x160-light-reduced-all",
+        "relay-results-tie-900x600-light-full-all",
+        "relay-setup-900x600-light-reduced-all"
+      ],
+      "inspected": true,
+      "review": "Reopened current bytes with view_image original detail after route-driver fix"
+    },
+    {
+      "id": "race-dark",
+      "image": "docs/release-evidence/images/sheet-race-dark.png",
+      "sha256": "e191849ff100ccbb1793ffddc434a16e24794e4a7e58017311583adf6a706a55",
+      "captureIds": [
+        "race-fog-900x600-dark-full-all",
+        "race-hud-240x240-dark-reduced-all",
+        "race-hud-320x560-dark-reduced-all",
+        "race-hud-900x600-dark-full-all",
+        "race-hud-900x600-dark-reduced-all",
+        "race-hud-1000x280-dark-reduced-all",
+        "race-hud-2400x1200-dark-reduced-all",
+        "race-items-900x600-dark-full-all",
+        "race-minimum-notice-200x160-dark-reduced-all",
+        "race-results-dnf-900x600-dark-full-all",
+        "race-results-tie-900x600-dark-full-all",
+        "race-setup-900x600-dark-reduced-all"
+      ],
+      "inspected": true,
+      "review": "Reopened current bytes with view_image original detail after route-driver fix"
+    },
+    {
+      "id": "race-light",
+      "image": "docs/release-evidence/images/sheet-race-light.png",
+      "sha256": "b36f248ea67933d4488dacae98ab28b0fbdc47ff329043f01022a91732833413",
+      "captureIds": [
+        "race-fog-900x600-light-full-all",
+        "race-hud-240x240-light-reduced-all",
+        "race-hud-320x560-light-reduced-all",
+        "race-hud-900x600-light-full-all",
+        "race-hud-900x600-light-reduced-all",
+        "race-hud-1000x280-light-reduced-all",
+        "race-hud-2400x1200-light-reduced-all",
+        "race-items-900x600-light-full-all",
+        "race-minimum-notice-200x160-light-reduced-all",
+        "race-results-dnf-900x600-light-full-all",
+        "race-results-tie-900x600-light-full-all",
+        "race-setup-900x600-light-reduced-all"
+      ],
+      "inspected": true,
+      "review": "Reopened current bytes with view_image original detail after route-driver fix"
+    }
+  ],
+  "criticalFullSize": [
+    {
+      "id": "survive-flow-owner-target-320x560-dark-reduced-all",
+      "image": "docs/release-evidence/images/survive-flow-owner-target-320x560-dark-reduced-all.png",
+      "sha256": "a690a0167e20f7d1216ea1c97bef66947e7986cf782b0e99aded3c47b53b9f73",
+      "inspected": true,
+      "review": "Previously inspected bytes independently rehashed identical after route-driver fix"
+    },
+    {
+      "id": "survive-arcade-results-900x600-dark-reduced-all",
+      "image": "docs/release-evidence/images/survive-arcade-results-900x600-dark-reduced-all.png",
+      "sha256": "583f085deec47d7ee47d69fb276333890879b5d603fc9c11c2652bcbba8270a5",
+      "inspected": true,
+      "review": "Previously inspected bytes independently rehashed identical after route-driver fix"
+    },
+    {
+      "id": "relay-market-900x600-light-reduced-all",
+      "image": "docs/release-evidence/images/relay-market-900x600-light-reduced-all.png",
+      "sha256": "6a868f639763b10c3c098b6d23a8a8b936593fa213026177c5a306cf36004bf5",
+      "inspected": true,
+      "review": "Previously inspected bytes independently rehashed identical after route-driver fix"
+    },
+    {
+      "id": "survive-flow-recovery-1000x280-light-reduced-all",
+      "image": "docs/release-evidence/images/survive-flow-recovery-1000x280-light-reduced-all.png",
+      "sha256": "1c3a3c2937659181a3d7066ac05b3e6840938cec1389abbbfcd006edf8467030",
+      "inspected": true,
+      "review": "Previously inspected bytes independently rehashed identical after route-driver fix"
+    },
+    {
+      "id": "race-fog-900x600-dark-full-all",
+      "image": "docs/release-evidence/images/race-fog-900x600-dark-full-all.png",
+      "sha256": "1644ea5633cb21e12d5bdfc16d5ffc4d62d4ca4e29878ab5210d6d942b10c5df",
+      "inspected": true,
+      "review": "Reopened current bytes with view_image original detail after route-driver fix"
+    },
+    {
+      "id": "relay-handoff-900x600-dark-full-all",
+      "image": "docs/release-evidence/images/relay-handoff-900x600-dark-full-all.png",
+      "sha256": "fc09fe9073f3ecbfd2157a4b5e52b2e9e2ad821ddc7fda24c85272e52e0a0a13",
+      "inspected": true,
+      "review": "Reopened current bytes with view_image original detail after route-driver fix"
+    },
+    {
+      "id": "race-results-tie-900x600-light-full-all",
+      "image": "docs/release-evidence/images/race-results-tie-900x600-light-full-all.png",
+      "sha256": "9c6611901878fb580609e155172e446c30682c26e885763c5e58a3cdc529101e",
+      "inspected": true,
+      "review": "Previously inspected bytes independently rehashed identical after route-driver fix"
+    },
+    {
+      "id": "race-results-dnf-900x600-dark-full-all",
+      "image": "docs/release-evidence/images/race-results-dnf-900x600-dark-full-all.png",
+      "sha256": "29c6b60ffd0f084a5d2cc60bcf0f0ccc5c37c5dfb04b6411d9e08d62cc958af9",
+      "inspected": true,
+      "review": "Previously inspected bytes independently rehashed identical after route-driver fix"
+    },
+    {
+      "id": "race-hud-2400x1200-light-reduced-all",
+      "image": "docs/release-evidence/images/race-hud-2400x1200-light-reduced-all.png",
+      "sha256": "3f2a8d51d7fe9515ea89f0ca3a9d4ff911a1985e41c6d89c0af51d8a92ea2edc",
+      "inspected": true,
+      "review": "Previously inspected bytes independently rehashed identical after route-driver fix"
+    }
+  ],
+  "findings": [
+    "All94 required/extra selected images appear once across the eight sheets;both themes,all six frame sizes and motion representatives reviewed",
+    "Survive Arcade and Flow retain four distinguishable models,HUD identities and a clear live course across supported frames;the too-small cell exposes the size notice",
+    "Compact/short recovery retains explicit owner,selected teammate and large action/pager controls without scrollbars",
+    "Survive results use equal-height unranked team perches with paged per-character statistics",
+    "Relay handoff/disconnect boards identify next runner and recovery/skip actions;frozen modal intentionally covers world scenery",
+    "Race fog retains leader/boundary and off-screen trailer cues;four-way true tie and timeout/departed-DNF are visually distinct",
+    "Current wide Race frame retains all four actors and complete seat status without actor/HUD concealment"
+  ],
+  "limits": [
+    "This is agent technical image inspection;it does not invent new human play-feel approval",
+    "Sheets review every image at thumbnail scale;nine critical views were additionally opened full-size",
+    "Survive recovery/results and staged market views are explicitly component-model acquisition,not unassisted gameplay",
+    "Only live HUD samples carry full voxel/packed-nameplate8px geometry;frozen lifecycle modals have separate DOM/focus/motion checks",
+    "No physical controller or external target-shell persistence measurement"
+  ],
+  "refreshedAt": "2026-10-18T04:56:10.774820+00:00"
+}

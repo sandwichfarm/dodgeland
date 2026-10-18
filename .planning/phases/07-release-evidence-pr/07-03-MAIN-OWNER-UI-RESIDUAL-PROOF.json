@@ -1,0 +1,6086 @@
+{
+  "range": {
+    "sourceLines": [
+      1,
+      650
+    ],
+    "rawSites": 97,
+    "remainingMainRawSites": 225
+  },
+  "tableRawSitesBound": 97,
+  "audit": {
+    "sources": 159,
+    "targets": 12,
+    "structuralCallbacksRemainApplicable": true,
+    "limit": "Resolved direct calls do not include option callback invocation;manual literal registration and source/value/order review remain necessary"
+  },
+  "identityQualification": "selectedOwnerKey identifies session+seat only;RunInventory identity,captured participant IDs and authority generations independently reject reused-seat stale actions",
+  "purpose": "Manual consequence/behavior-boundary review of97 counted Main owner/modal/router residuals;source inspection only,no execution,hit,exclusion or threshold credit",
+  "sourceRun": "0b8f818d-62a2-4922-ab83-242886778c0c",
+  "currentInventoryRawSha256": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+  "freshFullRun": "cb52774e-975e-4388-a064-5162ef3807d8",
+  "freshFullStatus": "active;result not inferred",
+  "frozenPathsVerified": 410,
+  "behaviorSources": [
+    {
+      "path": "tests/survive-market-keyboard-owner-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/survive-market-controller-owner-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/survive-market-ghost-sale-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/survive-market-fresh-context-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/survive-market-pack-owner-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/survive-recovery-owner-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/survive-recovery-outcomes-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/survive-recovery-board-layout.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/survive-hud-controller-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/survive-hand-items-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/race-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/race-lifecycle.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/relay-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/relay-lifecycle.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/session-input.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/recovery-target-identity.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/consumable-boundaries.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/local-session-layout.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/run-hand-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    }
+  ],
+  "limits": [
+    "Only97 main sites through source line650 are reviewed here;225 remain",
+    "Display owner key alone is not a participant authorization receipt",
+    "Related planner/model behavior does not create exact UI wrapper hits",
+    "Arranged hazard/funds state is distinct from actual visible actions and protocol conformance",
+    "Source review does not replace complete enforcement or final visual/clause proof"
+  ],
+  "rows": [
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "17",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 111,
+          "column": 2
+        },
+        "end": {
+          "line": 111,
+          "column": 108
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 111,
+          "column": 2
+        },
+        "end": {
+          "line": 111,
+          "column": 108
+        }
+      },
+      "sourceText": "if (!session?.running || !owner) return { ok: false, message: 'That market interaction is unavailable.' };",
+      "owner": "coOpMarketTransaction",
+      "sourceContext": "if (!session?.running || !owner) return { ok: false, message: 'That market interaction is unavailable.' };",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "25",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 130,
+          "column": 2
+        },
+        "end": {
+          "line": 130,
+          "column": 43
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 130,
+          "column": 2
+        },
+        "end": {
+          "line": 130,
+          "column": 43
+        }
+      },
+      "sourceText": "if(raceItemContext)closeLifecycleBoard();",
+      "owner": "selectHudOwner",
+      "sourceContext": "if(raceItemContext)closeLifecycleBoard();",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "26",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 136,
+          "column": 2
+        },
+        "end": {
+          "line": 136,
+          "column": 45
+        }
+      },
+      "sourceText": "if (hudDetailsPage < 4) hudDetailsPage = 0;",
+      "owner": "selectHudOwner",
+      "sourceContext": "if (hudDetailsPage < 4) hudDetailsPage = 0;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "29",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 141,
+          "column": 2
+        },
+        "end": {
+          "line": 141,
+          "column": 37
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 141,
+          "column": 2
+        },
+        "end": {
+          "line": 141,
+          "column": 37
+        }
+      },
+      "sourceText": "if (!localSession?.running) return;",
+      "owner": "selectNextHudOwner",
+      "sourceContext": "if (!localSession?.running) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "30",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 144,
+          "column": 2
+        },
+        "end": {
+          "line": 144,
+          "column": 33
+        }
+      },
+      "sourceText": "if (next) selectHudOwner(next);",
+      "owner": "selectNextHudOwner",
+      "sourceContext": "if (next) selectHudOwner(next);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "31",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 146,
+          "column": 48
+        },
+        "end": {
+          "line": 146,
+          "column": 94
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 146,
+          "column": 48
+        },
+        "end": {
+          "line": 146,
+          "column": 94
+        }
+      },
+      "sourceText": "if (!el('drawer').hidden) return el('drawer');",
+      "owner": "inspectionRoot",
+      "sourceContext": "if (!el('drawer').hidden) return el('drawer');",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "32",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 146,
+          "column": 95
+        },
+        "end": {
+          "line": 146,
+          "column": 136
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 146,
+          "column": 95
+        },
+        "end": {
+          "line": 146,
+          "column": 136
+        }
+      },
+      "sourceText": "if (market.isOpen()) return el('market');",
+      "owner": "inspectionRoot",
+      "sourceContext": "if (market.isOpen()) return el('market');",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "33",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 146,
+          "column": 137
+        },
+        "end": {
+          "line": 146,
+          "column": 185
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 146,
+          "column": 137
+        },
+        "end": {
+          "line": 146,
+          "column": 185
+        }
+      },
+      "sourceText": "if (hand.isOpen()) return el('run-hand-detail');",
+      "owner": "inspectionRoot",
+      "sourceContext": "if (hand.isOpen()) return el('run-hand-detail');",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "39",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 158,
+          "column": 2
+        },
+        "end": {
+          "line": 158,
+          "column": 45
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 158,
+          "column": 2
+        },
+        "end": {
+          "line": 158,
+          "column": 45
+        }
+      },
+      "sourceText": "if (!recovery) return 'Personal revive: —';",
+      "owner": "personalProgress",
+      "sourceContext": "if (!recovery) return 'Personal revive: —';",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "42",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 163,
+          "column": 43
+        },
+        "end": {
+          "line": 163,
+          "column": 44
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 163,
+          "column": 7
+        },
+        "end": {
+          "line": 163,
+          "column": 44
+        }
+      },
+      "sourceText": "0",
+      "owner": "lifecycleLabel",
+      "sourceContext": "0",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "43",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 163,
+          "column": 77
+        },
+        "end": {
+          "line": 163,
+          "column": 85
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 163,
+          "column": 49
+        },
+        "end": {
+          "line": 163,
+          "column": 85
+        }
+      },
+      "sourceText": "Infinity",
+      "owner": "lifecycleLabel",
+      "sourceContext": "Infinity",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "49",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 172,
+          "column": 97
+        },
+        "end": {
+          "line": 172,
+          "column": 106
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 172,
+          "column": 24
+        },
+        "end": {
+          "line": 172,
+          "column": 106
+        }
+      },
+      "sourceText": "undefined",
+      "owner": "setRecoveryModalInert",
+      "sourceContext": "undefined",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "51",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 185,
+          "column": 2
+        },
+        "end": {
+          "line": 185,
+          "column": 31
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 185,
+          "column": 2
+        },
+        "end": {
+          "line": 185,
+          "column": 31
+        }
+      },
+      "sourceText": "if (message) notify(message);",
+      "owner": "discardRecoveryBoard",
+      "sourceContext": "if (message) notify(message);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "53",
+      "arm": 0,
+      "type": "default-arg",
+      "location": {
+        "start": {
+          "line": 188,
+          "column": 37
+        },
+        "end": {
+          "line": 188,
+          "column": 42
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 188,
+          "column": 28
+        },
+        "end": {
+          "line": 188,
+          "column": 42
+        }
+      },
+      "sourceText": "false",
+      "owner": "closeRecoveryBoard",
+      "sourceContext": "false",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "56",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 191,
+          "column": 2
+        },
+        "end": {
+          "line": 191,
+          "column": 126
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 191,
+          "column": 2
+        },
+        "end": {
+          "line": 191,
+          "column": 126
+        }
+      },
+      "sourceText": "if (resume && localSession?.running && frameAvailable()) { sessionPaused = false; game.resume(); activateNativeKeyboard(); }",
+      "owner": "closeRecoveryBoard",
+      "sourceContext": "if (resume && localSession?.running && frameAvailable()) { sessionPaused = false; game.resume(); activateNativeKeyboard(); }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "57",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 191,
+          "column": 16
+        },
+        "end": {
+          "line": 191,
+          "column": 37
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 191,
+          "column": 6
+        },
+        "end": {
+          "line": 191,
+          "column": 57
+        }
+      },
+      "sourceText": "localSession?.running",
+      "owner": "closeRecoveryBoard",
+      "sourceContext": "localSession?.running",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "57",
+      "arm": 2,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 191,
+          "column": 41
+        },
+        "end": {
+          "line": 191,
+          "column": 57
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 191,
+          "column": 6
+        },
+        "end": {
+          "line": 191,
+          "column": 57
+        }
+      },
+      "sourceText": "frameAvailable()",
+      "owner": "closeRecoveryBoard",
+      "sourceContext": "frameAvailable()",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "63",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 205,
+          "column": 2
+        },
+        "end": {
+          "line": 205,
+          "column": 44
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 205,
+          "column": 2
+        },
+        "end": {
+          "line": 205,
+          "column": 44
+        }
+      },
+      "sourceText": "if (lifecycleBoard) closeLifecycleBoard();",
+      "owner": "openLifecycleBoard",
+      "sourceContext": "if (lifecycleBoard) closeLifecycleBoard();",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "66",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 214,
+          "column": 42
+        },
+        "end": {
+          "line": 214,
+          "column": 65
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 214,
+          "column": 42
+        },
+        "end": {
+          "line": 214,
+          "column": 65
+        }
+      },
+      "sourceText": "if (!confirm()) return;",
+      "owner": "openLifecycleBoard.callback@214",
+      "sourceContext": "if (!confirm()) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "68",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 219,
+          "column": 4
+        },
+        "end": {
+          "line": 219,
+          "column": 32
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 219,
+          "column": 4
+        },
+        "end": {
+          "line": 219,
+          "column": 32
+        }
+      },
+      "sourceText": "if (!first || !last) return;",
+      "owner": "openLifecycleBoard.callback@216",
+      "sourceContext": "if (!first || !last) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "75",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 227,
+          "column": 50
+        },
+        "end": {
+          "line": 227,
+          "column": 146
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 227,
+          "column": 50
+        },
+        "end": {
+          "line": 227,
+          "column": 146
+        }
+      },
+      "sourceText": "if(!current||!owner||!ownerMutationsAvailable()||(id!=='mud-splash'&&id!=='fog-lantern'))return;",
+      "owner": "openRaceItem",
+      "sourceContext": "if(!current||!owner||!ownerMutationsAvailable()||(id!=='mud-splash'&&id!=='fog-lantern'))return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "77",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 228,
+          "column": 2
+        },
+        "end": {
+          "line": 228,
+          "column": 41
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 228,
+          "column": 2
+        },
+        "end": {
+          "line": 228,
+          "column": 41
+        }
+      },
+      "sourceText": "if(market.isOpen())market.close(false);",
+      "owner": "openRaceItem",
+      "sourceContext": "if(market.isOpen())market.close(false);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "79",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 230,
+          "column": 132
+        },
+        "end": {
+          "line": 230,
+          "column": 134
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 230,
+          "column": 87
+        },
+        "end": {
+          "line": 230,
+          "column": 134
+        }
+      },
+      "sourceText": "-1",
+      "owner": "openRaceItem",
+      "sourceContext": "-1",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "86",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 234,
+          "column": 4
+        },
+        "end": {
+          "line": 234,
+          "column": 437
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 234,
+          "column": 4
+        },
+        "end": {
+          "line": 234,
+          "column": 437
+        }
+      },
+      "sourceText": "if(raceItemContext!==context||race!==current||hudSelected!==owner.seat||!current.items.commit(plan)){const detail=lifecycleBoard?.querySelector<HTMLElement>('.survive-recovery-status');if(detail)detail.textContent=id==='mud-splash'?'Mud Splash needs an active racer within 16 tiles.':current.fogState(owner.seat).protectionUntil>current.elapsed?'Fog Lantern is already lit.':`${owner.seat.toUpperCase()} is protected.`;return false;}",
+      "owner": "openRaceItem.callback@233",
+      "sourceContext": "if(raceItemContext!==context||race!==current||hudSelected!==owner.seat||!current.items.commit(plan)){const detail=lifecycleBoard?.querySelector<HTMLElement>('.survive-recovery-status');if(detail)detail.textContent=id==='mud-splash'?'Mud Splash needs an active racer within 16 tiles.':current.fogState(owner.seat).protectionUntil>current.elapsed?'Fog Lantern is already lit.':`${owner.seat.toUpperCase()} is protected.`;return false;}",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "88",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 234,
+          "column": 189
+        },
+        "end": {
+          "line": 234,
+          "column": 423
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 234,
+          "column": 189
+        },
+        "end": {
+          "line": 234,
+          "column": 423
+        }
+      },
+      "sourceText": "if(detail)detail.textContent=id==='mud-splash'?'Mud Splash needs an active racer within 16 tiles.':current.fogState(owner.seat).protectionUntil>current.elapsed?'Fog Lantern is already lit.':`${owner.seat.toUpperCase()} is protected.`;",
+      "owner": "openRaceItem.callback@233",
+      "sourceContext": "if(detail)detail.textContent=id==='mud-splash'?'Mud Splash needs an active racer within 16 tiles.':current.fogState(owner.seat).protectionUntil>current.elapsed?'Fog Lantern is already lit.':`${owner.seat.toUpperCase()} is protected.`;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "88",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 234,
+          "column": 189
+        },
+        "end": {
+          "line": 234,
+          "column": 423
+        }
+      },
+      "sourceText": "if(detail)detail.textContent=id==='mud-splash'?'Mud Splash needs an active racer within 16 tiles.':current.fogState(owner.seat).protectionUntil>current.elapsed?'Fog Lantern is already lit.':`${owner.seat.toUpperCase()} is protected.`;",
+      "owner": "openRaceItem.callback@233",
+      "sourceContext": "if(detail)detail.textContent=id==='mud-splash'?'Mud Splash needs an active racer within 16 tiles.':current.fogState(owner.seat).protectionUntil>current.elapsed?'Fog Lantern is already lit.':`${owner.seat.toUpperCase()} is protected.`;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "89",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 234,
+          "column": 236
+        },
+        "end": {
+          "line": 234,
+          "column": 287
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 234,
+          "column": 218
+        },
+        "end": {
+          "line": 234,
+          "column": 422
+        }
+      },
+      "sourceText": "'Mud Splash needs an active racer within 16 tiles.'",
+      "owner": "openRaceItem.callback@233",
+      "sourceContext": "'Mud Splash needs an active racer within 16 tiles.'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "89",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 234,
+          "column": 288
+        },
+        "end": {
+          "line": 234,
+          "column": 422
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 234,
+          "column": 218
+        },
+        "end": {
+          "line": 234,
+          "column": 422
+        }
+      },
+      "sourceText": "current.fogState(owner.seat).protectionUntil>current.elapsed?'Fog Lantern is already lit.':`${owner.seat.toUpperCase()} is protected.`",
+      "owner": "openRaceItem.callback@233",
+      "sourceContext": "current.fogState(owner.seat).protectionUntil>current.elapsed?'Fog Lantern is already lit.':`${owner.seat.toUpperCase()} is protected.`",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "90",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 234,
+          "column": 349
+        },
+        "end": {
+          "line": 234,
+          "column": 378
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 234,
+          "column": 288
+        },
+        "end": {
+          "line": 234,
+          "column": 422
+        }
+      },
+      "sourceText": "'Fog Lantern is already lit.'",
+      "owner": "openRaceItem.callback@233",
+      "sourceContext": "'Fog Lantern is already lit.'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "90",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 234,
+          "column": 379
+        },
+        "end": {
+          "line": 234,
+          "column": 422
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 234,
+          "column": 288
+        },
+        "end": {
+          "line": 234,
+          "column": 422
+        }
+      },
+      "sourceText": "`${owner.seat.toUpperCase()} is protected.`",
+      "owner": "openRaceItem.callback@233",
+      "sourceContext": "`${owner.seat.toUpperCase()} is protected.`",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "93",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 241,
+          "column": 209
+        },
+        "end": {
+          "line": 241,
+          "column": 212
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 241,
+          "column": 182
+        },
+        "end": {
+          "line": 241,
+          "column": 215
+        }
+      },
+      "sourceText": "'+'",
+      "owner": "openRaceItem",
+      "sourceContext": "'+'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "96",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 249,
+          "column": 4
+        },
+        "end": {
+          "line": 249,
+          "column": 60
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 249,
+          "column": 4
+        },
+        "end": {
+          "line": 249,
+          "column": 60
+        }
+      },
+      "sourceText": "if(!race.command(race.actionToken(seat),'leave'))return;",
+      "owner": "openDepartureBoard",
+      "sourceContext": "if(!race.command(race.actionToken(seat),'leave'))return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "97",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 252,
+          "column": 6
+        },
+        "end": {
+          "line": 252,
+          "column": 54
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 252,
+          "column": 6
+        },
+        "end": {
+          "line": 252,
+          "column": 54
+        }
+      },
+      "sourceText": "if(!race?.command(token,'confirm'))return false;",
+      "owner": "openDepartureBoard.callback@251",
+      "sourceContext": "if(!race?.command(token,'confirm'))return false;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "99",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 258,
+          "column": 2
+        },
+        "end": {
+          "line": 258,
+          "column": 59
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 258,
+          "column": 2
+        },
+        "end": {
+          "line": 258,
+          "column": 59
+        }
+      },
+      "sourceText": "if (!player || player.participation !== 'active') return;",
+      "owner": "openDepartureBoard",
+      "sourceContext": "if (!player || player.participation !== 'active') return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "101",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 260,
+          "column": 4
+        },
+        "end": {
+          "line": 260,
+          "column": 50
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 260,
+          "column": 4
+        },
+        "end": {
+          "line": 260,
+          "column": 50
+        }
+      },
+      "sourceText": "if (!localSession?.depart(seat)) return false;",
+      "owner": "openDepartureBoard.callback@259",
+      "sourceContext": "if (!localSession?.depart(seat)) return false;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "102",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 266,
+          "column": 2
+        },
+        "end": {
+          "line": 266,
+          "column": 69
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 266,
+          "column": 2
+        },
+        "end": {
+          "line": 266,
+          "column": 69
+        }
+      },
+      "sourceText": "if (!session || !owner || owner.participation !== 'active') return;",
+      "owner": "openRecoveryBoard",
+      "sourceContext": "if (!session || !owner || owner.participation !== 'active') return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "105",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 268,
+          "column": 2
+        },
+        "end": {
+          "line": 268,
+          "column": 44
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 268,
+          "column": 2
+        },
+        "end": {
+          "line": 268,
+          "column": 44
+        }
+      },
+      "sourceText": "if (recoveryBoard) discardRecoveryBoard();",
+      "owner": "openRecoveryBoard",
+      "sourceContext": "if (recoveryBoard) discardRecoveryBoard();",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "106",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 270,
+          "column": 2
+        },
+        "end": {
+          "line": 270,
+          "column": 29
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 270,
+          "column": 2
+        },
+        "end": {
+          "line": 270,
+          "column": 29
+        }
+      },
+      "sourceText": "if (!initialCharge) return;",
+      "owner": "openRecoveryBoard",
+      "sourceContext": "if (!initialCharge) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "115",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 316,
+          "column": 74
+        },
+        "end": {
+          "line": 316,
+          "column": 152
+        }
+      },
+      "sourceText": "if (apply) apply.dataset.compactLabel = `Revive ${player.seat.toUpperCase()}`;",
+      "owner": "openRecoveryBoard.callback@289.callback@313",
+      "sourceContext": "if (apply) apply.dataset.compactLabel = `Revive ${player.seat.toUpperCase()}`;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "116",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 320,
+          "column": 6
+        },
+        "end": {
+          "line": 321,
+          "column": 136
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 320,
+          "column": 6
+        },
+        "end": {
+          "line": 321,
+          "column": 136
+        }
+      },
+      "sourceText": "if (compactView === 'people') compactSubject = (compactSubject + subjects.children.length - 1) % subjects.children.length;\n      else if (kind === 'revival') { const index = dead.indexOf(target); selectTarget(dead[(index + dead.length - 1) % dead.length]!); }",
+      "owner": "openRecoveryBoard.callback@289.callback@319",
+      "sourceContext": "if (compactView === 'people') compactSubject = (compactSubject + subjects.children.length - 1) % subjects.children.length;\n      else if (kind === 'revival') { const index = dead.indexOf(target); selectTarget(dead[(index + dead.length - 1) % dead.length]!); }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "116",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 321,
+          "column": 11
+        },
+        "end": {
+          "line": 321,
+          "column": 136
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 320,
+          "column": 6
+        },
+        "end": {
+          "line": 321,
+          "column": 136
+        }
+      },
+      "sourceText": "if (kind === 'revival') { const index = dead.indexOf(target); selectTarget(dead[(index + dead.length - 1) % dead.length]!); }",
+      "owner": "openRecoveryBoard.callback@289.callback@319",
+      "sourceContext": "if (kind === 'revival') { const index = dead.indexOf(target); selectTarget(dead[(index + dead.length - 1) % dead.length]!); }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "117",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 321,
+          "column": 11
+        },
+        "end": {
+          "line": 321,
+          "column": 136
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 321,
+          "column": 11
+        },
+        "end": {
+          "line": 321,
+          "column": 136
+        }
+      },
+      "sourceText": "if (kind === 'revival') { const index = dead.indexOf(target); selectTarget(dead[(index + dead.length - 1) % dead.length]!); }",
+      "owner": "openRecoveryBoard.callback@289.callback@319",
+      "sourceContext": "if (kind === 'revival') { const index = dead.indexOf(target); selectTarget(dead[(index + dead.length - 1) % dead.length]!); }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "117",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 321,
+          "column": 11
+        },
+        "end": {
+          "line": 321,
+          "column": 136
+        }
+      },
+      "sourceText": "if (kind === 'revival') { const index = dead.indexOf(target); selectTarget(dead[(index + dead.length - 1) % dead.length]!); }",
+      "owner": "openRecoveryBoard.callback@289.callback@319",
+      "sourceContext": "if (kind === 'revival') { const index = dead.indexOf(target); selectTarget(dead[(index + dead.length - 1) % dead.length]!); }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "119",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 326,
+          "column": 11
+        },
+        "end": {
+          "line": 326,
+          "column": 122
+        }
+      },
+      "sourceText": "if (kind === 'revival') { const index = dead.indexOf(target); selectTarget(dead[(index + 1) % dead.length]!); }",
+      "owner": "openRecoveryBoard.callback@289.callback@324",
+      "sourceContext": "if (kind === 'revival') { const index = dead.indexOf(target); selectTarget(dead[(index + 1) % dead.length]!); }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "126",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 339,
+          "column": 591
+        },
+        "end": {
+          "line": 339,
+          "column": 640
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 339,
+          "column": 498
+        },
+        "end": {
+          "line": 339,
+          "column": 640
+        }
+      },
+      "sourceText": "'The flock can’t regroup safely yet. Flare kept.'",
+      "owner": "openRecoveryBoard.callback@289.callback@337",
+      "sourceContext": "'The flock can’t regroup safely yet. Flare kept.'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "137",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 355,
+          "column": 4
+        },
+        "end": {
+          "line": 355,
+          "column": 33
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 355,
+          "column": 4
+        },
+        "end": {
+          "line": 355,
+          "column": 33
+        }
+      },
+      "sourceText": "if (!controls.length) return;",
+      "owner": "openRecoveryBoard.callback@352",
+      "sourceContext": "if (!controls.length) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "142",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 363,
+          "column": 32
+        },
+        "end": {
+          "line": 363,
+          "column": 53
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 363,
+          "column": 32
+        },
+        "end": {
+          "line": 363,
+          "column": 53
+        }
+      },
+      "sourceText": "if (!session) return;",
+      "owner": "usePersonalRevive",
+      "sourceContext": "if (!session) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "143",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 365,
+          "column": 60
+        },
+        "end": {
+          "line": 365,
+          "column": 105
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 365,
+          "column": 9
+        },
+        "end": {
+          "line": 365,
+          "column": 105
+        }
+      },
+      "sourceText": "`${seat.toUpperCase()}'s revive offer ended.`",
+      "owner": "usePersonalRevive",
+      "sourceContext": "`${seat.toUpperCase()}'s revive offer ended.`",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "146",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 398,
+          "column": 2
+        },
+        "end": {
+          "line": 398,
+          "column": 101
+        }
+      },
+      "sourceText": "if (event.target instanceof HTMLElement && event.target !== el('app')) lastAppFocus = event.target;",
+      "owner": "callback@397",
+      "sourceContext": "if (event.target instanceof HTMLElement && event.target !== el('app')) lastAppFocus = event.target;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "153",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 423,
+          "column": 123
+        },
+        "end": {
+          "line": 423,
+          "column": 124
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 423,
+          "column": 87
+        },
+        "end": {
+          "line": 423,
+          "column": 124
+        }
+      },
+      "sourceText": "0",
+      "owner": "callback@423.callback@423",
+      "sourceContext": "0",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "161",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 445,
+          "column": 144
+        },
+        "end": {
+          "line": 445,
+          "column": 153
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 445,
+          "column": 26
+        },
+        "end": {
+          "line": 445,
+          "column": 153
+        }
+      },
+      "sourceText": "undefined",
+      "owner": "callback@440",
+      "sourceContext": "undefined",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "167",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 454,
+          "column": 10
+        },
+        "end": {
+          "line": 454,
+          "column": 157
+        }
+      },
+      "sourceText": "if (!disposed && game.state === 'playing' && !hand.isOpen() && el('drawer').hidden && !market.isOpen()) el('scene').focus({ preventScroll: true });",
+      "owner": "callback@440.callback@453",
+      "sourceContext": "if (!disposed && game.state === 'playing' && !hand.isOpen() && el('drawer').hidden && !market.isOpen()) el('scene').focus({ preventScroll: true });",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "170",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 474,
+          "column": 2
+        },
+        "end": {
+          "line": 474,
+          "column": 58
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 474,
+          "column": 2
+        },
+        "end": {
+          "line": 474,
+          "column": 58
+        }
+      },
+      "sourceText": "if (!localSession?.running || !frameAvailable()) return;",
+      "owner": "callback@473",
+      "sourceContext": "if (!localSession?.running || !frameAvailable()) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "177",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 500,
+          "column": 144
+        },
+        "end": {
+          "line": 500,
+          "column": 153
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 500,
+          "column": 120
+        },
+        "end": {
+          "line": 500,
+          "column": 153
+        }
+      },
+      "sourceText": "'#e8b75b'",
+      "owner": "callback@500.callback@500",
+      "sourceContext": "'#e8b75b'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "181",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 515,
+          "column": 66
+        },
+        "end": {
+          "line": 515,
+          "column": 68
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 515,
+          "column": 47
+        },
+        "end": {
+          "line": 515,
+          "column": 68
+        }
+      },
+      "sourceText": "''",
+      "owner": "callback@512",
+      "sourceContext": "''",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "182",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 516,
+          "column": 4
+        },
+        "end": {
+          "line": 516,
+          "column": 71
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 516,
+          "column": 4
+        },
+        "end": {
+          "line": 516,
+          "column": 71
+        }
+      },
+      "sourceText": "if (request.kind === 'sell') return run.sell(request.cardId ?? '');",
+      "owner": "callback@512",
+      "sourceContext": "if (request.kind === 'sell') return run.sell(request.cardId ?? '');",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "183",
+      "arm": 0,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 516,
+          "column": 49
+        },
+        "end": {
+          "line": 516,
+          "column": 63
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 516,
+          "column": 49
+        },
+        "end": {
+          "line": 516,
+          "column": 69
+        }
+      },
+      "sourceText": "request.cardId",
+      "owner": "callback@512",
+      "sourceContext": "request.cardId",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "183",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 516,
+          "column": 67
+        },
+        "end": {
+          "line": 516,
+          "column": 69
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 516,
+          "column": 49
+        },
+        "end": {
+          "line": 516,
+          "column": 69
+        }
+      },
+      "sourceText": "''",
+      "owner": "callback@512",
+      "sourceContext": "''",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "185",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 517,
+          "column": 75
+        },
+        "end": {
+          "line": 517,
+          "column": 77
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 517,
+          "column": 60
+        },
+        "end": {
+          "line": 517,
+          "column": 77
+        }
+      },
+      "sourceText": "[]",
+      "owner": "callback@512",
+      "sourceContext": "[]",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "186",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 517,
+          "column": 101
+        },
+        "end": {
+          "line": 517,
+          "column": 103
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 517,
+          "column": 79
+        },
+        "end": {
+          "line": 517,
+          "column": 103
+        }
+      },
+      "sourceText": "[]",
+      "owner": "callback@512",
+      "sourceContext": "[]",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "188",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 519,
+          "column": 4
+        },
+        "end": {
+          "line": 519,
+          "column": 81
+        }
+      },
+      "sourceText": "if (request.kind === 'equip') return run.equipCosmetic(request.itemId ?? '');",
+      "owner": "callback@512",
+      "sourceContext": "if (request.kind === 'equip') return run.equipCosmetic(request.itemId ?? '');",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "189",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 519,
+          "column": 77
+        },
+        "end": {
+          "line": 519,
+          "column": 79
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 519,
+          "column": 59
+        },
+        "end": {
+          "line": 519,
+          "column": 79
+        }
+      },
+      "sourceText": "''",
+      "owner": "callback@512",
+      "sourceContext": "''",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "193",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 531,
+          "column": 4
+        },
+        "end": {
+          "line": 531,
+          "column": 41
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 531,
+          "column": 4
+        },
+        "end": {
+          "line": 531,
+          "column": 41
+        }
+      },
+      "sourceText": "if (!game.openMarket()) return false;",
+      "owner": "callback@523",
+      "sourceContext": "if (!game.openMarket()) return false;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "207",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 548,
+          "column": 180
+        },
+        "end": {
+          "line": 548,
+          "column": 182
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 548,
+          "column": 152
+        },
+        "end": {
+          "line": 548,
+          "column": 182
+        }
+      },
+      "sourceText": "''",
+      "owner": "callback@548",
+      "sourceContext": "''",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "208",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 548,
+          "column": 224
+        },
+        "end": {
+          "line": 548,
+          "column": 226
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 548,
+          "column": 186
+        },
+        "end": {
+          "line": 548,
+          "column": 226
+        }
+      },
+      "sourceText": "''",
+      "owner": "callback@548",
+      "sourceContext": "''",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "210",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 548,
+          "column": 302
+        },
+        "end": {
+          "line": 548,
+          "column": 304
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 548,
+          "column": 261
+        },
+        "end": {
+          "line": 548,
+          "column": 304
+        }
+      },
+      "sourceText": "''",
+      "owner": "callback@548",
+      "sourceContext": "''",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "212",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 548,
+          "column": 454
+        },
+        "end": {
+          "line": 548,
+          "column": 456
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 548,
+          "column": 348
+        },
+        "end": {
+          "line": 548,
+          "column": 456
+        }
+      },
+      "sourceText": "''",
+      "owner": "callback@548",
+      "sourceContext": "''",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "229",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 558,
+          "column": 4
+        },
+        "end": {
+          "line": 561,
+          "column": 5
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 558,
+          "column": 4
+        },
+        "end": {
+          "line": 561,
+          "column": 5
+        }
+      },
+      "sourceText": "if (lifecycleBoard) {\n      if (seat !== lifecycleBoard.dataset.lifecycleOwner) return false;\n      navigateModalControls(lifecycleBoard, direction); return true;\n    }",
+      "owner": "callback@549",
+      "sourceContext": "if (lifecycleBoard) {\n      if (seat !== lifecycleBoard.dataset.lifecycleOwner) return false;\n      navigateModalControls(lifecycleBoard, direction); return true;\n    }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "230",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 559,
+          "column": 6
+        },
+        "end": {
+          "line": 559,
+          "column": 71
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 559,
+          "column": 6
+        },
+        "end": {
+          "line": 559,
+          "column": 71
+        }
+      },
+      "sourceText": "if (seat !== lifecycleBoard.dataset.lifecycleOwner) return false;",
+      "owner": "callback@549",
+      "sourceContext": "if (seat !== lifecycleBoard.dataset.lifecycleOwner) return false;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "230",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 559,
+          "column": 6
+        },
+        "end": {
+          "line": 559,
+          "column": 71
+        }
+      },
+      "sourceText": "if (seat !== lifecycleBoard.dataset.lifecycleOwner) return false;",
+      "owner": "callback@549",
+      "sourceContext": "if (seat !== lifecycleBoard.dataset.lifecycleOwner) return false;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "233",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 565,
+          "column": 6
+        },
+        "end": {
+          "line": 565,
+          "column": 55
+        }
+      },
+      "sourceText": "if (tile) navigateModalControls(tile, direction);",
+      "owner": "callback@549",
+      "sourceContext": "if (tile) navigateModalControls(tile, direction);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "237",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 572,
+          "column": 4
+        },
+        "end": {
+          "line": 575,
+          "column": 5
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 572,
+          "column": 4
+        },
+        "end": {
+          "line": 575,
+          "column": 5
+        }
+      },
+      "sourceText": "if (market.isOpen()) {\n      if (seat !== hudSelected) return false;\n      market.navigate(direction); return true;\n    }",
+      "owner": "callback@549",
+      "sourceContext": "if (market.isOpen()) {\n      if (seat !== hudSelected) return false;\n      market.navigate(direction); return true;\n    }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "238",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 573,
+          "column": 6
+        },
+        "end": {
+          "line": 573,
+          "column": 45
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 573,
+          "column": 6
+        },
+        "end": {
+          "line": 573,
+          "column": 45
+        }
+      },
+      "sourceText": "if (seat !== hudSelected) return false;",
+      "owner": "callback@549",
+      "sourceContext": "if (seat !== hudSelected) return false;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "238",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 573,
+          "column": 6
+        },
+        "end": {
+          "line": 573,
+          "column": 45
+        }
+      },
+      "sourceText": "if (seat !== hudSelected) return false;",
+      "owner": "callback@549",
+      "sourceContext": "if (seat !== hudSelected) return false;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "240",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 577,
+          "column": 4
+        },
+        "end": {
+          "line": 577,
+          "column": 56
+        }
+      },
+      "sourceText": "if (seat === 'p1') { move(direction); return true; }",
+      "owner": "callback@549",
+      "sourceContext": "if (seat === 'p1') { move(direction); return true; }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "243",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 583,
+          "column": 11
+        },
+        "end": {
+          "line": 583,
+          "column": 84
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 583,
+          "column": 11
+        },
+        "end": {
+          "line": 583,
+          "column": 84
+        }
+      },
+      "sourceText": "if (action === 'back') navigateModalControls(surviveResultsRoot, 'back');",
+      "owner": "callback@580",
+      "sourceContext": "if (action === 'back') navigateModalControls(surviveResultsRoot, 'back');",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "245",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 586,
+          "column": 82
+        },
+        "end": {
+          "line": 586,
+          "column": 133
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 586,
+          "column": 24
+        },
+        "end": {
+          "line": 586,
+          "column": 133
+        }
+      },
+      "sourceText": "if (action === 'back') relayAction('cancel', seat);",
+      "owner": "callback@580",
+      "sourceContext": "if (action === 'back') relayAction('cancel', seat);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "246",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 586,
+          "column": 82
+        },
+        "end": {
+          "line": 586,
+          "column": 133
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 586,
+          "column": 82
+        },
+        "end": {
+          "line": 586,
+          "column": 133
+        }
+      },
+      "sourceText": "if (action === 'back') relayAction('cancel', seat);",
+      "owner": "callback@580",
+      "sourceContext": "if (action === 'back') relayAction('cancel', seat);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "246",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 586,
+          "column": 82
+        },
+        "end": {
+          "line": 586,
+          "column": 133
+        }
+      },
+      "sourceText": "if (action === 'back') relayAction('cancel', seat);",
+      "owner": "callback@580",
+      "sourceContext": "if (action === 'back') relayAction('cancel', seat);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "257",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 593,
+          "column": 11
+        },
+        "end": {
+          "line": 594,
+          "column": 42
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 592,
+          "column": 6
+        },
+        "end": {
+          "line": 594,
+          "column": 42
+        }
+      },
+      "sourceText": "if (action === 'back') closeRecoveryBoard(false);\n      else if (action === 'pause') return;",
+      "owner": "callback@580",
+      "sourceContext": "if (action === 'back') closeRecoveryBoard(false);\n      else if (action === 'pause') return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "258",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 593,
+          "column": 11
+        },
+        "end": {
+          "line": 594,
+          "column": 42
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 593,
+          "column": 11
+        },
+        "end": {
+          "line": 594,
+          "column": 42
+        }
+      },
+      "sourceText": "if (action === 'back') closeRecoveryBoard(false);\n      else if (action === 'pause') return;",
+      "owner": "callback@580",
+      "sourceContext": "if (action === 'back') closeRecoveryBoard(false);\n      else if (action === 'pause') return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "258",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 594,
+          "column": 11
+        },
+        "end": {
+          "line": 594,
+          "column": 42
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 593,
+          "column": 11
+        },
+        "end": {
+          "line": 594,
+          "column": 42
+        }
+      },
+      "sourceText": "if (action === 'pause') return;",
+      "owner": "callback@580",
+      "sourceContext": "if (action === 'pause') return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "259",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 594,
+          "column": 11
+        },
+        "end": {
+          "line": 594,
+          "column": 42
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 594,
+          "column": 11
+        },
+        "end": {
+          "line": 594,
+          "column": 42
+        }
+      },
+      "sourceText": "if (action === 'pause') return;",
+      "owner": "callback@580",
+      "sourceContext": "if (action === 'pause') return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "259",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 594,
+          "column": 11
+        },
+        "end": {
+          "line": 594,
+          "column": 42
+        }
+      },
+      "sourceText": "if (action === 'pause') return;",
+      "owner": "callback@580",
+      "sourceContext": "if (action === 'pause') return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "261",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 598,
+          "column": 6
+        },
+        "end": {
+          "line": 598,
+          "column": 65
+        }
+      },
+      "sourceText": "if (seat !== lifecycleBoard.dataset.lifecycleOwner) return;",
+      "owner": "callback@580",
+      "sourceContext": "if (seat !== lifecycleBoard.dataset.lifecycleOwner) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "262",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 599,
+          "column": 6
+        },
+        "end": {
+          "line": 600,
+          "column": 56
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 599,
+          "column": 6
+        },
+        "end": {
+          "line": 600,
+          "column": 56
+        }
+      },
+      "sourceText": "if (action === 'confirm') confirmModal(lifecycleBoard);\n      else if (action === 'back') closeLifecycleBoard();",
+      "owner": "callback@580",
+      "sourceContext": "if (action === 'confirm') confirmModal(lifecycleBoard);\n      else if (action === 'back') closeLifecycleBoard();",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "262",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 600,
+          "column": 11
+        },
+        "end": {
+          "line": 600,
+          "column": 56
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 599,
+          "column": 6
+        },
+        "end": {
+          "line": 600,
+          "column": 56
+        }
+      },
+      "sourceText": "if (action === 'back') closeLifecycleBoard();",
+      "owner": "callback@580",
+      "sourceContext": "if (action === 'back') closeLifecycleBoard();",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "263",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 600,
+          "column": 11
+        },
+        "end": {
+          "line": 600,
+          "column": 56
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 600,
+          "column": 11
+        },
+        "end": {
+          "line": 600,
+          "column": 56
+        }
+      },
+      "sourceText": "if (action === 'back') closeLifecycleBoard();",
+      "owner": "callback@580",
+      "sourceContext": "if (action === 'back') closeLifecycleBoard();",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "263",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 600,
+          "column": 11
+        },
+        "end": {
+          "line": 600,
+          "column": 56
+        }
+      },
+      "sourceText": "if (action === 'back') closeLifecycleBoard();",
+      "owner": "callback@580",
+      "sourceContext": "if (action === 'back') closeLifecycleBoard();",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "268",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 607,
+          "column": 11
+        },
+        "end": {
+          "line": 607,
+          "column": 220
+        }
+      },
+      "sourceText": "if (action === 'back' || action === 'pause') { if (hand.isOpen()) hand.close(); else if (market.isOpen()) market.close(); else if (!el('drawer').hidden) closeDrawer(); else closeHudInspection(); updateHud(); }",
+      "owner": "callback@580",
+      "sourceContext": "if (action === 'back' || action === 'pause') { if (hand.isOpen()) hand.close(); else if (market.isOpen()) market.close(); else if (!el('drawer').hidden) closeDrawer(); else closeHudInspection(); updateHud(); }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "269",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 607,
+          "column": 36
+        },
+        "end": {
+          "line": 607,
+          "column": 54
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 607,
+          "column": 15
+        },
+        "end": {
+          "line": 607,
+          "column": 54
+        }
+      },
+      "sourceText": "action === 'pause'",
+      "owner": "callback@580",
+      "sourceContext": "action === 'pause'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "270",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 607,
+          "column": 58
+        },
+        "end": {
+          "line": 607,
+          "column": 205
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 607,
+          "column": 58
+        },
+        "end": {
+          "line": 607,
+          "column": 205
+        }
+      },
+      "sourceText": "if (hand.isOpen()) hand.close(); else if (market.isOpen()) market.close(); else if (!el('drawer').hidden) closeDrawer(); else closeHudInspection();",
+      "owner": "callback@580",
+      "sourceContext": "if (hand.isOpen()) hand.close(); else if (market.isOpen()) market.close(); else if (!el('drawer').hidden) closeDrawer(); else closeHudInspection();",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "271",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 607,
+          "column": 96
+        },
+        "end": {
+          "line": 607,
+          "column": 205
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 607,
+          "column": 96
+        },
+        "end": {
+          "line": 607,
+          "column": 205
+        }
+      },
+      "sourceText": "if (market.isOpen()) market.close(); else if (!el('drawer').hidden) closeDrawer(); else closeHudInspection();",
+      "owner": "callback@580",
+      "sourceContext": "if (market.isOpen()) market.close(); else if (!el('drawer').hidden) closeDrawer(); else closeHudInspection();",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "272",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 607,
+          "column": 138
+        },
+        "end": {
+          "line": 607,
+          "column": 205
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 607,
+          "column": 138
+        },
+        "end": {
+          "line": 607,
+          "column": 205
+        }
+      },
+      "sourceText": "if (!el('drawer').hidden) closeDrawer(); else closeHudInspection();",
+      "owner": "callback@580",
+      "sourceContext": "if (!el('drawer').hidden) closeDrawer(); else closeHudInspection();",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "282",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 619,
+          "column": 77
+        },
+        "end": {
+          "line": 619,
+          "column": 93
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 619,
+          "column": 6
+        },
+        "end": {
+          "line": 619,
+          "column": 93
+        }
+      },
+      "sourceText": "move('forward');",
+      "owner": "callback@580",
+      "sourceContext": "move('forward');",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "286",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 624,
+          "column": 66
+        },
+        "end": {
+          "line": 624,
+          "column": 79
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 624,
+          "column": 29
+        },
+        "end": {
+          "line": 624,
+          "column": 79
+        }
+      },
+      "sourceText": "closeDrawer()",
+      "owner": "callback@580",
+      "sourceContext": "closeDrawer()",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/main.ts",
+      "sourceHash": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "mapHash": "4b3f0151670876bbcb732108cdbd409ba94825aba9bb2cc952573f8b32c9b886",
+      "id": "287",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 625,
+          "column": 4
+        },
+        "end": {
+          "line": 628,
+          "column": 5
+        }
+      },
+      "sourceText": "if (action === 'market') {\n      if (localSession?.running) { selectHudOwner(seat); updateHud(); return; }\n      market.toggle();\n    }",
+      "owner": "callback@580",
+      "sourceContext": "if (action === 'market') {\n      if (localSession?.running) { selectHudOwner(seat); updateHud(); return; }\n      market.toggle();\n    }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-main-owner-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-03",
+        "ITEM-04",
+        "ITEM-05",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06",
+        "RELAY-03",
+        "RELAY-04",
+        "RACE-03",
+        "RACE-04",
+        "SOLO-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    }
+  ],
+  "hashes": {
+    "artifacts/release-coverage/semantic-current-03/raw-zero-review.json": "c8297f9591dcbe604c1ff06f2e67ca6575ac9570a94838dec747530dcfda5fc4",
+    ".planning/phases/07-release-evidence-pr/07-03-SCHEMA-RECOVERY-SEMANTIC-PROOF.json": "8a5bfe67e7b38a5b107cef1ab65e13a01131247c05265c0d68bd57e471a83a09",
+    "artifacts/release-coverage/current-full-05-proof/freeze.json": "c72459fff67275b20c5b67c1076d781f825a00cec405fada8743cb2f350111a3",
+    "tools/release-coverage/suites.json": "02e81d3e4320ed8a2d0901fd0eee532e051d1c0b27b606c011fedbc3674ab88d",
+    "tests/survive-market-keyboard-owner-runtime.mjs": "2a54b2f871d5facdf47c7468b2d230c803e155851f6171cbf7e105d77873866c",
+    "tests/survive-market-controller-owner-runtime.mjs": "4672160a11598e841f867ad8540d678500c697f6f163da650a0c7722531fae35",
+    "tests/survive-market-ghost-sale-runtime.mjs": "b6536e356532ad2c556c1ddad9607b13ce3c9c7699cedefc002abf1658c004a5",
+    "tests/survive-market-fresh-context-runtime.mjs": "b4b77cde5fb049a79f41c10535953004e42389c4a1a677af7ebb7ceb7c612d93",
+    "tests/survive-market-pack-owner-runtime.mjs": "d1a0ddc754c47a7651f7379d76916446367baeb316c30f2724e52dc9b271570c",
+    "tests/survive-recovery-owner-runtime.mjs": "0dc3c6c922e3e7e559490abb4b89ccf64f8d087ef90d2981bac7453bb57d870a",
+    "tests/survive-recovery-outcomes-runtime.mjs": "241c5fa920a984331f5f60bc5a7ef3bfa5dc3e517e496ece909f4ec84a6c5e2c",
+    "tests/survive-recovery-board-layout.mjs": "19a645f9be98043aaff166c2e08a329b148427115fd007a94f3a05ff3c5da047",
+    "tests/survive-hud-controller-runtime.mjs": "b62f73522a64a3fd415247ab206aee42ed7e04fd2ce70d2338c5f52b05e4ad56",
+    "tests/survive-hand-items-runtime.mjs": "1728d0420008fb0a5d76d66dd9debcc68b0e72a19dd6bb48a4c9e3cba3917dff",
+    "tests/race-runtime.mjs": "97326c18c9e7c2291d1c428bd26f2f07ac8eb222d21c10ea328e9d83acb3a94e",
+    "tests/race-lifecycle.test.mjs": "e906b72ba57f097447c9a573dd00934a112188878a7132dd50b450857d0e1a29",
+    "tests/relay-runtime.mjs": "dd3ef8ceb85169540fa7e9f4a75326f65046ff6caefd59ae7eab5185c65c5e82",
+    "tests/relay-lifecycle.test.mjs": "ef899341d353adceaed4f0c0695f9a6d3038c1b0a8cea9debbf3f0486491e2e4",
+    "tests/session-input.test.mjs": "667164b6114709f91e924902b062f4b9de76c33fdee4f9cce2494ba972d44f2d",
+    "tests/recovery-target-identity.test.mjs": "eeacc872dc981ea3763cc46ec693d719d82ce89998bca36fdf93d052da467df4",
+    "tests/consumable-boundaries.test.mjs": "65c9cafa6c7c54bd07f66c3f77319d273d5132f1af930f0cedbc07147f9c4544",
+    "tests/local-session-layout.mjs": "37fe0b0e8d1be7f46d87bd19f1940fc03bbf85a42659a663b3c98a6c5c2587e2",
+    "tests/run-hand-runtime.mjs": "503c4f40a5caee802c762421b1da6b04dc593ba47fc757b0c1e82dc29d8ac38b",
+    ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md": "16f97f035ab2fbd281d1ef05793e840928b326c961341d59fdac68da1583828a",
+    "artifacts/release-coverage/main-owner-ui-residual-11/verify.mjs": "6a45e79faf529ffe21a2e0d44db3d7aed846b31931768bbd1c83a15f8dc9e4b8",
+    "src/main.ts": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+    "src/session.ts": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+    "src/session-input.ts": "e42c0af885310c699a275aa819c7d66d6902e20164db08cacacf5aee7017da9f",
+    "src/market-ui.ts": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+    "src/run-hand.ts": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+    "src/co-op-market.ts": "037a96c9f9436346f06306cac74808aab5e92e205ce2c42bebb1dbd16ca24c22",
+    "src/race-items.ts": "2a43c05772c1f641595ca9bee7cc2bb486e3b2a922ebab412fc65e189708432b",
+    "artifacts/release-coverage/main-owner-ui-residual-11/reference-audit.mjs": "df46a69dfba56f528965c15e31a46e0db018095d9c7e98d1291e2e9d541f2f38",
+    "artifacts/release-coverage/main-owner-ui-residual-11/reference-audit.log": "592491a75a94634074950750ff65b9b684c342e3bee8512767ec71d0962f250b",
+    "artifacts/release-coverage/main-owner-ui-residual-11/reference-audit.json": "a8d552d90e077f65371fcb0bb2bd4b9b58b8425776d885a5bf9defc71ccf3347"
+  }
+}

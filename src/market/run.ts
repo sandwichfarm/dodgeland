@@ -1,7 +1,10 @@
+import { itemAllowed } from './types.js';
+import type { ItemAccess } from './types.js';
 import type {
   ActivePower, CardComponent, CardDefinition, CosmeticDefinition, CosmeticSlot, HeldCard,
   ItemDefinition, MarketOffer, MarketResult, MarketWindow, PackDraft, PackPreview, Rarity, RunModifiers,
 } from './types';
+import type { EconomyRules } from '../mode-rules';
 
 export const RARITIES: readonly Rarity[] = ['common', 'uncommon', 'rare', 'epic', 'legendary'];
 export const DEFAULT_CARD_CAPACITY = 3;
@@ -16,9 +19,9 @@ export function cosmeticSlot(item: CosmeticDefinition): CosmeticSlot {
 }
 
 /** Baseline coin pull is always available; cards add to these starting effects. */
-export function defaultModifiers(): RunModifiers {
+export function defaultModifiers(baseCoinGravity = DEFAULT_COIN_GRAVITY): RunModifiers {
   return {
-    coinRadius: DEFAULT_COIN_GRAVITY, coinMultiplier: 1, roadCoinBonus: 0, riverCoinBonus: 0,
+    coinRadius: baseCoinGravity, coinMultiplier: 1, roadCoinBonus: 0, riverCoinBonus: 0,
     trafficSpeed: 1, trafficSpacing: 1, riverSpeed: 1, platformLength: 1,
     trainPeriod: 1, trainWarning: 0, rearDamage: 1, sideDamage: 1,
     hurtRecovery: 1, regenBonus: 0, waveSpeed: 1, waveTrail: 0,
@@ -38,9 +41,9 @@ const BOUNDS: Record<keyof RunModifiers, readonly [number, number]> = {
 };
 
 export function reduceItems(
-  catalog: ReadonlyMap<string, ItemDefinition>, components: readonly CardComponent[], powers: readonly ActivePower[] = [],
+  catalog: ReadonlyMap<string, ItemDefinition>, components: readonly CardComponent[], powers: readonly ActivePower[] = [], baseCoinGravity = DEFAULT_COIN_GRAVITY,
 ): RunModifiers {
-  const result = defaultModifiers();
+  const result = defaultModifiers(baseCoinGravity);
   for (const component of components) {
     const item = catalog.get(component.itemId);
     if (item?.kind === 'card' && Number.isFinite(component.potency) && component.potency > 0) item.modify?.(result, component.potency);
@@ -55,10 +58,17 @@ export function reduceItems(
   }
   for (const key of Object.keys(BOUNDS) as (keyof RunModifiers)[]) {
     const [low, high] = BOUNDS[key];
-    result[key] = Number.isFinite(result[key]) ? Math.max(low, Math.min(high, result[key])) : defaultModifiers()[key];
+    result[key] = Number.isFinite(result[key]) ? Math.max(low, Math.min(high, result[key])) : defaultModifiers(baseCoinGravity)[key];
   }
   return result;
 }
+
+/** Public direct construction keeps the released economy unless Game supplies rules. */
+export type RunEconomyPolicy = Pick<EconomyRules, 'marketInterval' | 'marketWindowSeconds' | 'inventoryCapacity' | 'inventoryLimit' | 'baseCoinGravity'>;
+const DEFAULT_ECONOMY_POLICY: RunEconomyPolicy = Object.freeze({
+  marketInterval: 100, marketWindowSeconds: 15, inventoryCapacity: DEFAULT_CARD_CAPACITY,
+  inventoryLimit: INVENTORY_LIMIT, baseCoinGravity: DEFAULT_COIN_GRAVITY,
+});
 
 /** Seeded, run-only economy. No browser, persistence, engine or Vite dependency. */
 export class RunInventory {
@@ -73,13 +83,20 @@ export class RunInventory {
   pendingPack: PackDraft | null = null;
   isOpen = false;
   alive = true;
+  private access: ItemAccess = 'standard';
+  /** Captured before play; a restricted catalogue cannot be widened during a run. */
+  restrictItems(access: ItemAccess): void {
+    if (!['standard','appearance-only'].includes(access) || this.access !== 'standard' && access !== this.access) throw new TypeError('Invalid item access.');
+    this.access = access;
+  }
+  itemEligible(id: string): boolean { const item = this.catalog.get(id); return !!item && itemAllowed(item, this.access); }
   private fraction = 0;
   private maxScore = 0;
   private sequence = 0;
   private state: number;
   private equipped: Partial<Record<CosmeticSlot, string>> = {};
 
-  constructor(seed: number, definitions: readonly ItemDefinition[] = []) {
+  constructor(seed: number, definitions: readonly ItemDefinition[] = [], private readonly policy: RunEconomyPolicy = DEFAULT_ECONOMY_POLICY) {
     const catalog = new Map<string, ItemDefinition>();
     for (const item of definitions) {
       if (catalog.has(item.id)) throw new Error(`Duplicate market item: ${item.id}`);
@@ -96,6 +113,7 @@ export class RunInventory {
     }
     this.catalog = catalog;
     this.state = (seed ^ 0x6d61726b) >>> 0;
+    this.effects = reduceItems(this.catalog, [], [], this.policy.baseCoinGravity);
   }
 
   /** The legacy cosmetic is the equipped effect; wearable slots are independent. */
@@ -130,6 +148,15 @@ export class RunInventory {
     return whole;
   }
 
+  /** A narrow wallet primitive that commits a prevalidated companion plan with its debit. */
+  spendCoins(amount: number, commit?: () => boolean): boolean {
+    if (!this.alive || !Number.isSafeInteger(amount) || amount <= 0 || this.wallet < amount) return false;
+    if (commit && !commit()) return false;
+    this.wallet -= amount;
+    this.revision++;
+    return true;
+  }
+
   /** Income is raw so the engine can apply its central coin award hook exactly once. */
   advanceScore(score: number): number {
     if (!this.alive || !Number.isFinite(score) || score <= this.maxScore) return 0;
@@ -138,19 +165,19 @@ export class RunInventory {
     let income = 0;
     for (const component of this.cards.flatMap(card => card.components)) {
       const definition = this.catalog.get(component.itemId);
-      if (definition?.kind !== 'card') continue;
+      if (definition?.kind !== 'card' || !this.itemEligible(definition.id)) continue;
       const amount = definition.scoreCoins?.({ previous, score: this.maxScore }, component.potency) ?? 0;
       if (Number.isFinite(amount) && amount > 0) income += amount;
     }
     for (const power of this.powers) {
       const definition = this.catalog.get(power.itemId);
-      if (definition?.kind !== 'power' || power.remaining <= 0) continue;
+      if (definition?.kind !== 'power' || !this.itemEligible(definition.id) || power.remaining <= 0) continue;
       const amount = definition.scoreCoins?.({ previous, score: this.maxScore }, 1) ?? 0;
       if (Number.isFinite(amount) && amount > 0) income += amount;
     }
-    const milestone = Math.floor(this.maxScore / 100) * 100;
-    if (milestone > 0 && milestone > Math.floor(previous / 100) * 100) {
-      this.market = { milestone, remaining: 15, offers: this.makeOffers(milestone) };
+    const milestone = Math.floor(this.maxScore / this.policy.marketInterval) * this.policy.marketInterval;
+    if (milestone > 0 && milestone > Math.floor(previous / this.policy.marketInterval) * this.policy.marketInterval) {
+      this.market = { milestone, remaining: this.policy.marketWindowSeconds, offers: this.makeOffers(milestone) };
       this.revision++;
     }
     return income;
@@ -181,7 +208,7 @@ export class RunInventory {
     if (!this.canTrade()) return this.fail('Open an active market to shop.');
     const offer = this.market!.offers.find(candidate => candidate.id === offerId);
     const item = offer && this.catalog.get(offer.itemId);
-    if (!offer || !item) return this.fail('That offer is unavailable.');
+    if (!offer || !item || !this.itemEligible(item.id)) return this.fail('That offer is unavailable.');
     if (offer.sold) return this.fail('That offer is sold out.');
     if (this.wallet < offer.price) return this.fail(`Need ${offer.price - this.wallet} more coins.`);
     if (item.kind === 'card') {
@@ -224,7 +251,7 @@ export class RunInventory {
   previewPack(ids: readonly string[], discardIds: readonly string[] = []): PackPreview {
     const invalid = (message: string): PackPreview => ({ count: this.cards.length, capacity: this.cardCapacity, valid: false, message });
     const draft = this.pendingPack;
-    if (!this.alive || !this.isOpen || !this.market || this.market.remaining <= 0 || !draft) return invalid('Open your pack to choose its cards.');
+    if (!this.alive || !this.isOpen || !this.market || this.market.remaining <= 0 || !draft || !this.itemEligible(draft.packId)) return invalid('Open your pack to choose its cards.');
     if (ids.length !== draft.picks || new Set(ids).size !== ids.length) return invalid(`Choose exactly ${draft.picks} different ${draft.picks === 1 ? 'card' : 'cards'}.`);
     const selected = ids.map(id => draft.choices.find(card => card.id === id));
     if (selected.some(card => !card)) return invalid('Choose cards from this pack.');
@@ -259,7 +286,7 @@ export class RunInventory {
     // draft or fund an inspected offer without leaving the current screen.
     if (!this.alive) return this.fail('This run has ended.');
     const index = this.cards.findIndex(card => card.id === cardId);
-    if (index < 0) return this.fail('That card is no longer owned.');
+    if (index < 0 || this.cards[index]!.components.some(component => !this.itemEligible(component.itemId))) return this.fail('That card is no longer owned.');
     const remaining = this.cards.filter((_, candidate) => candidate !== index);
     const capacity = this.capacityFor(remaining);
     if (remaining.length > capacity) return this.fail(`Selling this leaves ${capacity} hand slots. Sell another card first.`);
@@ -275,13 +302,18 @@ export class RunInventory {
     this.wallet = 0; this.fraction = 0; this.cards = []; this.powers = []; this.cosmetics = []; this.equipped = {};
     this.changed();
   }
+  /** Recovery resumes the empty run economy without restoring any lost death assets. */
+  resumeAfterDeath(): void {
+    if (this.alive) return;
+    this.alive = true; this.isOpen = false; this.market = null; this.pendingPack = null; this.revision++;
+  }
 
-  private changed(): void { this.effects = reduceItems(this.catalog, this.cards.flatMap(card => card.components), this.powers); this.revision++; }
+  private changed(): void { this.effects = reduceItems(new Map([...this.catalog].filter(([id])=>this.itemEligible(id))), this.cards.flatMap(card => card.components), this.powers, this.policy.baseCoinGravity); this.revision++; }
   private capacityFor(cards: readonly Pick<HeldCard, 'components'>[]): number {
     // Slots come only from held cards. A temporary power cannot expire into an
     // overflowing hand while the player is away from the market.
-    const slots = reduceItems(this.catalog, cards.flatMap(card => card.components)).cardSlots;
-    return Math.max(1, Math.min(INVENTORY_LIMIT, Math.floor(DEFAULT_CARD_CAPACITY + slots)));
+    const slots = reduceItems(new Map([...this.catalog].filter(([id])=>this.itemEligible(id))), cards.flatMap(card => card.components)).cardSlots;
+    return Math.max(1, Math.min(this.policy.inventoryLimit, Math.floor(this.policy.inventoryCapacity + slots)));
   }
   private canTrade(): boolean { return this.alive && this.isOpen && !this.pendingPack && Boolean(this.market && this.market.remaining > 0); }
   private fail(message: string): MarketResult { return { ok: false, message }; }
@@ -300,13 +332,13 @@ export class RunInventory {
     return items[items.length - 1];
   }
   private cardPool(minimum: Rarity = 'common'): CardDefinition[] {
-    return [...this.catalog.values()].filter((item): item is CardDefinition => item.kind === 'card' && RARITIES.indexOf(item.rarity) >= RARITIES.indexOf(minimum));
+    return [...this.catalog.values()].filter((item): item is CardDefinition => this.itemEligible(item.id) && item.kind === 'card' && RARITIES.indexOf(item.rarity) >= RARITIES.indexOf(minimum));
   }
   private hold(item: CardDefinition): HeldCard {
     return { id: this.id('card'), name: item.name, description: item.description, rarity: item.rarity, icon: item.icon, color: item.color, components: [{ itemId: item.id, potency: 1 }], saleValue: Math.max(1, Math.floor(item.price / 2)) };
   }
   private makeOffers(milestone: number): MarketOffer[] {
-    const items = [...this.catalog.values()].filter(item => item.kind !== 'cosmetic' || !this.cosmetics.includes(item.id));
+    const items = [...this.catalog.values()].filter(item => this.itemEligible(item.id) && (item.kind !== 'cosmetic' || !this.cosmetics.includes(item.id)));
     const chosen: ItemDefinition[] = [], offers: MarketOffer[] = [];
     const add = (pool: readonly ItemDefinition[], section: NonNullable<MarketOffer['section']>): void => {
       const candidates = pool.filter(item => !chosen.includes(item));

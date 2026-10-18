@@ -1,0 +1,4228 @@
+{
+  "tableRawSitesBound": 72,
+  "currentEntriesSoleCallSuppliesAll": true,
+  "audit": {
+    "sources": 159,
+    "targets": 7,
+    "mainLiteralOptionKeys": {
+      "createRunHand": [
+        "getGear",
+        "openGear",
+        "onUseGear",
+        "getRun",
+        "getOwnerKey",
+        "getOwnerLabel",
+        "selectNextOwner",
+        "canSell",
+        "unavailableReason",
+        "sell",
+        "getItems",
+        "canUseItems",
+        "itemUnavailableReason",
+        "onUseItem",
+        "onOpenChange",
+        "onSell"
+      ],
+      "createMarketUI": [
+        "getGear",
+        "getRun",
+        "getCharacter",
+        "getOwner",
+        "getOwnerLabel",
+        "getOwners",
+        "getOwnerKey",
+        "selectOwner",
+        "selectNextOwner",
+        "canMutate",
+        "unavailableReason",
+        "getCoOpContext",
+        "transaction",
+        "canOpen",
+        "open",
+        "close",
+        "canRestoreFocus",
+        "shortcut",
+        "getReducedMotion",
+        "changed"
+      ]
+    },
+    "limit": "Resolved references and literal option presence supplement manual source/value/order review;no generic API exclusion"
+  },
+  "purpose": "Manual consequence/behavior-boundary review of72 counted market UI residuals;source inspection only,no execution,hit,exclusion or threshold credit",
+  "sourceRun": "0b8f818d-62a2-4922-ab83-242886778c0c",
+  "currentInventoryRawSha256": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+  "freshFullRun": "cb52774e-975e-4388-a064-5162ef3807d8",
+  "freshFullStatus": "active;result not inferred",
+  "frozenPathsVerified": 410,
+  "behaviorSources": [
+    {
+      "path": "tests/market-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/market-layout.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/market-pack-replacement.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/market-tiny-focus-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/run-hand-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/survive-market-keyboard-owner-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/survive-market-controller-owner-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/survive-market-ghost-sale-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/survive-market-ghost-inspection-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/survive-market-pack-owner-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/survive-market-fresh-context-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/turn-market-boundaries.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/relay-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/race-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/local-session-owner-layout.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    }
+  ],
+  "limits": [
+    "Public authority rejection is not an inner duplicate guard hit",
+    "Explicit model/browser card,offer,funds and clock fixtures retain arranged provenance",
+    "Generic omitted callbacks and malformed mutable arrays remain globally counted",
+    "Source review does not replace complete enforcement or final visual/clause proof"
+  ],
+  "rows": [
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "3",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 77,
+          "column": 44
+        },
+        "end": {
+          "line": 77,
+          "column": 50
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 77,
+          "column": 17
+        },
+        "end": {
+          "line": 77,
+          "column": 50
+        }
+      },
+      "sourceText": "'solo'",
+      "owner": "createMarketUI",
+      "sourceContext": "'solo'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "11",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 104,
+          "column": 4
+        },
+        "end": {
+          "line": 104,
+          "column": 31
+        }
+      },
+      "sourceText": "if (line) lines.push(line);",
+      "owner": "createMarketUI.paginateInspection",
+      "sourceContext": "if (line) lines.push(line);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "12",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 108,
+          "column": 57
+        },
+        "end": {
+          "line": 108,
+          "column": 59
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 108,
+          "column": 30
+        },
+        "end": {
+          "line": 108,
+          "column": 59
+        }
+      },
+      "sourceText": "''",
+      "owner": "createMarketUI.paginateInspection",
+      "sourceContext": "''",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "25",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 164,
+          "column": 75
+        },
+        "end": {
+          "line": 164,
+          "column": 79
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 164,
+          "column": 50
+        },
+        "end": {
+          "line": 164,
+          "column": 79
+        }
+      },
+      "sourceText": "true",
+      "owner": "createMarketUI.mutationsAvailable",
+      "sourceContext": "true",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "26",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 165,
+          "column": 81
+        },
+        "end": {
+          "line": 165,
+          "column": 110
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 165,
+          "column": 48
+        },
+        "end": {
+          "line": 165,
+          "column": 110
+        }
+      },
+      "sourceText": "'This action is unavailable.'",
+      "owner": "createMarketUI.unavailableReason",
+      "sourceContext": "'This action is unavailable.'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "27",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 168,
+          "column": 44
+        },
+        "end": {
+          "line": 168,
+          "column": 46
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 168,
+          "column": 19
+        },
+        "end": {
+          "line": 168,
+          "column": 46
+        }
+      },
+      "sourceText": "[]",
+      "owner": "createMarketUI.syncOwner",
+      "sourceContext": "[]",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "29",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 171,
+          "column": 63
+        },
+        "end": {
+          "line": 171,
+          "column": 145
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 171,
+          "column": 54
+        },
+        "end": {
+          "line": 171,
+          "column": 150
+        }
+      },
+      "sourceText": "`Viewing ${shared.seat.toUpperCase()} ${shared.marker} · ${shared.character.name}`",
+      "owner": "createMarketUI.syncOwner",
+      "sourceContext": "`Viewing ${shared.seat.toUpperCase()} ${shared.marker} · ${shared.character.name}`",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "38",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 207,
+          "column": 4
+        },
+        "end": {
+          "line": 207,
+          "column": 30
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 207,
+          "column": 4
+        },
+        "end": {
+          "line": 207,
+          "column": 30
+        }
+      },
+      "sourceText": "if (closingRun) return [];",
+      "owner": "createMarketUI.controls",
+      "sourceContext": "if (closingRun) return [];",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "50",
+      "arm": 0,
+      "type": "default-arg",
+      "location": {
+        "start": {
+          "line": 238,
+          "column": 59
+        },
+        "end": {
+          "line": 238,
+          "column": 60
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 238,
+          "column": 51
+        },
+        "end": {
+          "line": 238,
+          "column": 60
+        }
+      },
+      "sourceText": "0",
+      "owner": "createMarketUI.decorate",
+      "sourceContext": "0",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "58",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 262,
+          "column": 50
+        },
+        "end": {
+          "line": 262,
+          "column": 70
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 262,
+          "column": 50
+        },
+        "end": {
+          "line": 262,
+          "column": 70
+        }
+      },
+      "sourceText": "if (!item) continue;",
+      "owner": "createMarketUI.entries",
+      "sourceContext": "if (!item) continue;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "60",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 264,
+          "column": 68
+        },
+        "end": {
+          "line": 264,
+          "column": 112
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 264,
+          "column": 35
+        },
+        "end": {
+          "line": 264,
+          "column": 112
+        }
+      },
+      "sourceText": "item.kind === 'cosmetic' ? 'extras' : 'rare'",
+      "owner": "createMarketUI.entries",
+      "sourceContext": "item.kind === 'cosmetic' ? 'extras' : 'rare'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "61",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 264,
+          "column": 95
+        },
+        "end": {
+          "line": 264,
+          "column": 103
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 264,
+          "column": 68
+        },
+        "end": {
+          "line": 264,
+          "column": 112
+        }
+      },
+      "sourceText": "'extras'",
+      "owner": "createMarketUI.entries",
+      "sourceContext": "'extras'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "61",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 264,
+          "column": 106
+        },
+        "end": {
+          "line": 264,
+          "column": 112
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 264,
+          "column": 68
+        },
+        "end": {
+          "line": 264,
+          "column": 112
+        }
+      },
+      "sourceText": "'rare'",
+      "owner": "createMarketUI.entries",
+      "sourceContext": "'rare'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "64",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 269,
+          "column": 6
+        },
+        "end": {
+          "line": 269,
+          "column": 26
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 269,
+          "column": 6
+        },
+        "end": {
+          "line": 269,
+          "column": 26
+        }
+      },
+      "sourceText": "if (!item) continue;",
+      "owner": "createMarketUI.entries",
+      "sourceContext": "if (!item) continue;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "73",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 277,
+          "column": 50
+        },
+        "end": {
+          "line": 277,
+          "column": 210
+        }
+      },
+      "sourceText": "if (item) result.push({ key: `power:${power.id}`, id: power.id, source: 'power', item, definition: item, note: `${Math.ceil(power.remaining)}s of play left` });",
+      "owner": "createMarketUI.entries",
+      "sourceContext": "if (item) result.push({ key: `power:${power.id}`, id: power.id, source: 'power', item, definition: item, note: `${Math.ceil(power.remaining)}s of play left` });",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "74",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 280,
+          "column": 40
+        },
+        "end": {
+          "line": 281,
+          "column": 92
+        }
+      },
+      "sourceText": "if (item?.kind === 'cosmetic') result.push({ key: `look:${id}`, id, source: 'look', item, definition: item,\n        note: run.equippedCosmetics.some(look => look.id === id) ? '✓ Wearing' : 'Owned' });",
+      "owner": "createMarketUI.entries",
+      "sourceContext": "if (item?.kind === 'cosmetic') result.push({ key: `look:${id}`, id, source: 'look', item, definition: item,\n        note: run.equippedCosmetics.some(look => look.id === id) ? '✓ Wearing' : 'Owned' });",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "77",
+      "arm": 0,
+      "type": "default-arg",
+      "location": {
+        "start": {
+          "line": 286,
+          "column": 51
+        },
+        "end": {
+          "line": 286,
+          "column": 63
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 286,
+          "column": 45
+        },
+        "end": {
+          "line": 286,
+          "column": 63
+        }
+      },
+      "sourceText": "entries(run)",
+      "owner": "createMarketUI.currentEntries",
+      "sourceContext": "entries(run)",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "87",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 295,
+          "column": 70
+        },
+        "end": {
+          "line": 295,
+          "column": 76
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 295,
+          "column": 64
+        },
+        "end": {
+          "line": 295,
+          "column": 100
+        }
+      },
+      "sourceText": "'Full'",
+      "owner": "createMarketUI.tile",
+      "sourceContext": "'Full'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "99",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 303,
+          "column": 4
+        },
+        "end": {
+          "line": 303,
+          "column": 67
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 303,
+          "column": 4
+        },
+        "end": {
+          "line": 303,
+          "column": 67
+        }
+      },
+      "sourceText": "if (entry.source === 'power') control.dataset.power = entry.id;",
+      "owner": "createMarketUI.tile",
+      "sourceContext": "if (entry.source === 'power') control.dataset.power = entry.id;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "114",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 314,
+          "column": 34
+        },
+        "end": {
+          "line": 314,
+          "column": 48
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 314,
+          "column": 8
+        },
+        "end": {
+          "line": 314,
+          "column": 72
+        }
+      },
+      "sourceText": "'In your hand'",
+      "owner": "createMarketUI.tile",
+      "sourceContext": "'In your hand'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "115",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 314,
+          "column": 65
+        },
+        "end": {
+          "line": 314,
+          "column": 72
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 314,
+          "column": 51
+        },
+        "end": {
+          "line": 314,
+          "column": 72
+        }
+      },
+      "sourceText": "'Owned'",
+      "owner": "createMarketUI.tile",
+      "sourceContext": "'Owned'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "140",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 347,
+          "column": 11
+        },
+        "end": {
+          "line": 357,
+          "column": 36
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 347,
+          "column": 11
+        },
+        "end": {
+          "line": 357,
+          "column": 36
+        }
+      },
+      "sourceText": "if (entry.source === 'card') { actionName = 'sell'; label = `Sell · ${entry.price} ◆`; }\n    else if (entry.source === 'look') {\n      actionName = 'equip'; label = entry.note === '✓ Wearing' ? '✓ Wearing' : 'Wear it';\n      action.disabled = entry.note === '✓ Wearing';\n    } else if (entry.source === 'choice') {\n      actionName = 'choice'; label = picked.has(entry.id) ? 'Unselect card' : 'Choose card';\n      note = `${picked.size} of ${run.pendingPack?.picks} selected`;\n    } else if (entry.source === 'discard') {\n      actionName = 'discard'; label = discarded.has(entry.id) ? 'Keep card' : 'Discard';\n      note = 'Leaves your hand when you confirm. No sale coins.';\n    } else { action.hidden = true; }",
+      "owner": "createMarketUI.renderInspection",
+      "sourceContext": "if (entry.source === 'card') { actionName = 'sell'; label = `Sell · ${entry.price} ◆`; }\n    else if (entry.source === 'look') {\n      actionName = 'equip'; label = entry.note === '✓ Wearing' ? '✓ Wearing' : 'Wear it';\n      action.disabled = entry.note === '✓ Wearing';\n    } else if (entry.source === 'choice') {\n      actionName = 'choice'; label = picked.has(entry.id) ? 'Unselect card' : 'Choose card';\n      note = `${picked.size} of ${run.pendingPack?.picks} selected`;\n    } else if (entry.source === 'discard') {\n      actionName = 'discard'; label = discarded.has(entry.id) ? 'Keep card' : 'Discard';\n      note = 'Leaves your hand when you confirm. No sale coins.';\n    } else { action.hidden = true; }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "142",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 349,
+          "column": 65
+        },
+        "end": {
+          "line": 349,
+          "column": 76
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 349,
+          "column": 36
+        },
+        "end": {
+          "line": 349,
+          "column": 88
+        }
+      },
+      "sourceText": "'✓ Wearing'",
+      "owner": "createMarketUI.renderInspection",
+      "sourceContext": "'✓ Wearing'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "145",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 357,
+          "column": 11
+        },
+        "end": {
+          "line": 357,
+          "column": 36
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 354,
+          "column": 11
+        },
+        "end": {
+          "line": 357,
+          "column": 36
+        }
+      },
+      "sourceText": "{ action.hidden = true; }",
+      "owner": "createMarketUI.renderInspection",
+      "sourceContext": "{ action.hidden = true; }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "150",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 367,
+          "column": 115
+        },
+        "end": {
+          "line": 367,
+          "column": 124
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 366,
+          "column": 20
+        },
+        "end": {
+          "line": 367,
+          "column": 124
+        }
+      },
+      "sourceText": "undefined",
+      "owner": "createMarketUI.renderContents",
+      "sourceContext": "undefined",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "171",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 406,
+          "column": 6
+        },
+        "end": {
+          "line": 406,
+          "column": 29
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 406,
+          "column": 6
+        },
+        "end": {
+          "line": 406,
+          "column": 29
+        }
+      },
+      "sourceText": "if (!section) return 0;",
+      "owner": "createMarketUI.renderContents.callback@403",
+      "sourceContext": "if (!section) return 0;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "173",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 412,
+          "column": 6
+        },
+        "end": {
+          "line": 412,
+          "column": 104
+        }
+      },
+      "sourceText": "if (index >= 0) page = screen === 'shop' ? shopPageFor(items[index]!) : Math.floor(index / limit);",
+      "owner": "createMarketUI.renderContents",
+      "sourceContext": "if (index >= 0) page = screen === 'shop' ? shopPageFor(items[index]!) : Math.floor(index / limit);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "192",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 463,
+          "column": 74
+        },
+        "end": {
+          "line": 463,
+          "column": 133
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 463,
+          "column": 53
+        },
+        "end": {
+          "line": 463,
+          "column": 168
+        }
+      },
+      "sourceText": "'No cards to replace. Keep your choices or skip this pack.'",
+      "owner": "createMarketUI.renderContents",
+      "sourceContext": "'No cards to replace. Keep your choices or skip this pack.'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "213",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 487,
+          "column": 4
+        },
+        "end": {
+          "line": 487,
+          "column": 25
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 487,
+          "column": 4
+        },
+        "end": {
+          "line": 487,
+          "column": 25
+        }
+      },
+      "sourceText": "if (disposed) return;",
+      "owner": "createMarketUI.update",
+      "sourceContext": "if (disposed) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "214",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 488,
+          "column": 52
+        },
+        "end": {
+          "line": 488,
+          "column": 58
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 488,
+          "column": 25
+        },
+        "end": {
+          "line": 488,
+          "column": 58
+        }
+      },
+      "sourceText": "'solo'",
+      "owner": "createMarketUI.update",
+      "sourceContext": "'solo'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "216",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 492,
+          "column": 4
+        },
+        "end": {
+          "line": 495,
+          "column": 5
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 492,
+          "column": 4
+        },
+        "end": {
+          "line": 495,
+          "column": 5
+        }
+      },
+      "sourceText": "if (closingRun && (closingRun !== run || !run.isOpen || !run.alive || !options.canRestoreFocus())) {\n      const forceClose = closingRun === run && run.isOpen;\n      cancelClosing(); if (forceClose) options.close(false);\n    }",
+      "owner": "createMarketUI.update",
+      "sourceContext": "if (closingRun && (closingRun !== run || !run.isOpen || !run.alive || !options.canRestoreFocus())) {\n      const forceClose = closingRun === run && run.isOpen;\n      cancelClosing(); if (forceClose) options.close(false);\n    }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "218",
+      "arm": 0,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 493,
+          "column": 25
+        },
+        "end": {
+          "line": 493,
+          "column": 43
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 493,
+          "column": 25
+        },
+        "end": {
+          "line": 493,
+          "column": 57
+        }
+      },
+      "sourceText": "closingRun === run",
+      "owner": "createMarketUI.update",
+      "sourceContext": "closingRun === run",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "218",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 493,
+          "column": 47
+        },
+        "end": {
+          "line": 493,
+          "column": 57
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 493,
+          "column": 25
+        },
+        "end": {
+          "line": 493,
+          "column": 57
+        }
+      },
+      "sourceText": "run.isOpen",
+      "owner": "createMarketUI.update",
+      "sourceContext": "run.isOpen",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "219",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 494,
+          "column": 23
+        },
+        "end": {
+          "line": 494,
+          "column": 60
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 494,
+          "column": 23
+        },
+        "end": {
+          "line": 494,
+          "column": 60
+        }
+      },
+      "sourceText": "if (forceClose) options.close(false);",
+      "owner": "createMarketUI.update",
+      "sourceContext": "if (forceClose) options.close(false);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "219",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 494,
+          "column": 23
+        },
+        "end": {
+          "line": 494,
+          "column": 60
+        }
+      },
+      "sourceText": "if (forceClose) options.close(false);",
+      "owner": "createMarketUI.update",
+      "sourceContext": "if (forceClose) options.close(false);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "244",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 531,
+          "column": 32
+        },
+        "end": {
+          "line": 531,
+          "column": 98
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 531,
+          "column": 32
+        },
+        "end": {
+          "line": 531,
+          "column": 98
+        }
+      },
+      "sourceText": "if (!run.cards.some(card => card.id === id)) discarded.delete(id);",
+      "owner": "createMarketUI.update",
+      "sourceContext": "if (!run.cards.some(card => card.id === id)) discarded.delete(id);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "254",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 550,
+          "column": 74
+        },
+        "end": {
+          "line": 550,
+          "column": 83
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 550,
+          "column": 49
+        },
+        "end": {
+          "line": 550,
+          "column": 83
+        }
+      },
+      "sourceText": "target.id",
+      "owner": "createMarketUI.finish",
+      "sourceContext": "target.id",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "258",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 562,
+          "column": 62
+        },
+        "end": {
+          "line": 562,
+          "column": 64
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 562,
+          "column": 42
+        },
+        "end": {
+          "line": 562,
+          "column": 64
+        }
+      },
+      "sourceText": "''",
+      "owner": "createMarketUI.finish",
+      "sourceContext": "''",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "259",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 562,
+          "column": 96
+        },
+        "end": {
+          "line": 562,
+          "column": 98
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 562,
+          "column": 69
+        },
+        "end": {
+          "line": 562,
+          "column": 98
+        }
+      },
+      "sourceText": "''",
+      "owner": "createMarketUI.finish",
+      "sourceContext": "''",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "267",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 573,
+          "column": 23
+        },
+        "end": {
+          "line": 573,
+          "column": 64
+        }
+      },
+      "sourceText": "if (runIsVisible()) options.close(false);",
+      "owner": "createMarketUI.close",
+      "sourceContext": "if (runIsVisible()) options.close(false);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "268",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 576,
+          "column": 4
+        },
+        "end": {
+          "line": 576,
+          "column": 32
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 576,
+          "column": 4
+        },
+        "end": {
+          "line": 576,
+          "column": 32
+        }
+      },
+      "sourceText": "if (!runIsVisible()) return;",
+      "owner": "createMarketUI.close",
+      "sourceContext": "if (!runIsVisible()) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "274",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 586,
+          "column": 6
+        },
+        "end": {
+          "line": 586,
+          "column": 54
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 586,
+          "column": 6
+        },
+        "end": {
+          "line": 586,
+          "column": 54
+        }
+      },
+      "sourceText": "if (closeGeneration !== ownerGeneration) return;",
+      "owner": "createMarketUI.close.callback@585",
+      "sourceContext": "if (closeGeneration !== ownerGeneration) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "275",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 588,
+          "column": 6
+        },
+        "end": {
+          "line": 591,
+          "column": 7
+        }
+      },
+      "sourceText": "if (!disposed && owner === options.getRun() && owner?.isOpen && owner.alive) {\n        options.close(options.canRestoreFocus());\n        if (!mutationsAvailable()) dismissedRun = owner;\n      }",
+      "owner": "createMarketUI.close.callback@585",
+      "sourceContext": "if (!disposed && owner === options.getRun() && owner?.isOpen && owner.alive) {\n        options.close(options.canRestoreFocus());\n        if (!mutationsAvailable()) dismissedRun = owner;\n      }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "284",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 609,
+          "column": 4
+        },
+        "end": {
+          "line": 609,
+          "column": 27
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 609,
+          "column": 4
+        },
+        "end": {
+          "line": 609,
+          "column": 27
+        }
+      },
+      "sourceText": "if (closingRun) return;",
+      "owner": "createMarketUI.toggle",
+      "sourceContext": "if (closingRun) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "286",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 615,
+          "column": 130
+        },
+        "end": {
+          "line": 615,
+          "column": 139
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 615,
+          "column": 95
+        },
+        "end": {
+          "line": 615,
+          "column": 139
+        }
+      },
+      "sourceText": "undefined",
+      "owner": "createMarketUI.back",
+      "sourceContext": "undefined",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "287",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 618,
+          "column": 4
+        },
+        "end": {
+          "line": 618,
+          "column": 27
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 618,
+          "column": 4
+        },
+        "end": {
+          "line": 618,
+          "column": 27
+        }
+      },
+      "sourceText": "if (closingRun) return;",
+      "owner": "createMarketUI.click",
+      "sourceContext": "if (closingRun) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "288",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 619,
+          "column": 125
+        },
+        "end": {
+          "line": 619,
+          "column": 129
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 619,
+          "column": 19
+        },
+        "end": {
+          "line": 619,
+          "column": 129
+        }
+      },
+      "sourceText": "null",
+      "owner": "createMarketUI.click",
+      "sourceContext": "null",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "289",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 620,
+          "column": 4
+        },
+        "end": {
+          "line": 620,
+          "column": 43
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 620,
+          "column": 4
+        },
+        "end": {
+          "line": 620,
+          "column": 43
+        }
+      },
+      "sourceText": "if (!target || target.disabled) return;",
+      "owner": "createMarketUI.click",
+      "sourceContext": "if (!target || target.disabled) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "292",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 622,
+          "column": 35
+        },
+        "end": {
+          "line": 622,
+          "column": 69
+        }
+      },
+      "sourceText": "if (id) options.selectOwner?.(id);",
+      "owner": "createMarketUI.click",
+      "sourceContext": "if (id) options.selectOwner?.(id);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "293",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 623,
+          "column": 4
+        },
+        "end": {
+          "line": 625,
+          "column": 5
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 623,
+          "column": 4
+        },
+        "end": {
+          "line": 625,
+          "column": 5
+        }
+      },
+      "sourceText": "if (action && ['buy', 'buy-consumable', 'sell', 'equip', 'choice', 'discard', 'claim', 'skip'].includes(action) && !mutationsAvailable()) {\n      element('market-status').textContent = unavailableReason(); return;\n    }",
+      "owner": "createMarketUI.click",
+      "sourceContext": "if (action && ['buy', 'buy-consumable', 'sell', 'equip', 'choice', 'discard', 'claim', 'skip'].includes(action) && !mutationsAvailable()) {\n      element('market-status').textContent = unavailableReason(); return;\n    }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "304",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 634,
+          "column": 11
+        },
+        "end": {
+          "line": 667,
+          "column": 5
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 634,
+          "column": 11
+        },
+        "end": {
+          "line": 667,
+          "column": 5
+        }
+      },
+      "sourceText": "if (action === 'detail-next') {\n      detailPage = (detailPage + 1) % Math.max(1, detailPages.length); paginateInspection();\n    } else if (action === 'back') back();\n    else if (action === 'picks-back' && run.pendingPack) {\n      replacing = false; page = 0; inspection = undefined; rendered = ''; update(); focusControl();\n    } else if (action === 'discard' && run.pendingPack && replacing) {\n      if (!run.cards.some(card => card.id === id)) return;\n      if (discarded.has(id)) discarded.delete(id); else discarded.add(id);\n      back();\n    } else if (action === 'skip' && run.pendingPack) {\n      const result = options.transaction?.({ kind: 'skip-pack' }) ?? run.skipPack();\n      if (result.ok) view = 'shop';\n      finish(result);\n    }\n    else if (action === 'choice') {\n      if (!run.pendingPack || !run.pendingPack.choices.some(card => card.id === id)) return;\n      if (picked.has(id)) picked.delete(id);\n      else if (picked.size < run.pendingPack.picks) picked.add(id);\n      else if (run.pendingPack.picks === 1) { picked.clear(); picked.add(id); }\n      else { element('market-status').textContent = 'Unselect a card to swap it.'; return; }\n      element('market-status').textContent = ''; back();\n    } else if (action === 'claim' && run.pendingPack) {\n      if (!replacing && picked.size === run.pendingPack.picks && !run.previewPack([...picked]).valid) {\n        replacing = true; inspection = undefined; page = 0; rendered = ''; update(); focusControl();\n      } else finish(options.transaction?.({ kind: 'claim-pack', ids: [...picked], discardIds: replacing ? [...discarded] : [] }) ?? run.claimPack([...picked], replacing ? [...discarded] : []));\n    }\n    else if (action === 'buy') {\n      const entry = entries(run).find(item => item.key === `offer:${id}`); finish(options.transaction?.({ kind: 'buy', offerId: id }) ?? run.buy(id), entry);\n    } else if (action === 'buy-consumable') {\n      const entry = entries(run).find(item => item.key === `consumable:${id}`); finish(options.transaction?.({ kind: 'buy-consumable', offerId: id, itemId: entry?.itemId }) ?? { ok: false, message: 'That item is unavailable.' }, entry);\n    } else if (action === 'sell') finish(options.transaction?.({ kind: 'sell', cardId: id }) ?? run.sell(id));\n    else if (action === 'equip') {\n      const entry = entries(run).find(item => item.key === `look:${id}`); finish(options.transaction?.({ kind: 'equip', itemId: id }) ?? run.equipCosmetic(id), entry);\n    }",
+      "owner": "createMarketUI.click",
+      "sourceContext": "if (action === 'detail-next') {\n      detailPage = (detailPage + 1) % Math.max(1, detailPages.length); paginateInspection();\n    } else if (action === 'back') back();\n    else if (action === 'picks-back' && run.pendingPack) {\n      replacing = false; page = 0; inspection = undefined; rendered = ''; update(); focusControl();\n    } else if (action === 'discard' && run.pendingPack && replacing) {\n      if (!run.cards.some(card => card.id === id)) return;\n      if (discarded.has(id)) discarded.delete(id); else discarded.add(id);\n      back();\n    } else if (action === 'skip' && run.pendingPack) {\n      const result = options.transaction?.({ kind: 'skip-pack' }) ?? run.skipPack();\n      if (result.ok) view = 'shop';\n      finish(result);\n    }\n    else if (action === 'choice') {\n      if (!run.pendingPack || !run.pendingPack.choices.some(card => card.id === id)) return;\n      if (picked.has(id)) picked.delete(id);\n      else if (picked.size < run.pendingPack.picks) picked.add(id);\n      else if (run.pendingPack.picks === 1) { picked.clear(); picked.add(id); }\n      else { element('market-status').textContent = 'Unselect a card to swap it.'; return; }\n      element('market-status').textContent = ''; back();\n    } else if (action === 'claim' && run.pendingPack) {\n      if (!replacing && picked.size === run.pendingPack.picks && !run.previewPack([...picked]).valid) {\n        replacing = true; inspection = undefined; page = 0; rendered = ''; update(); focusControl();\n      } else finish(options.transaction?.({ kind: 'claim-pack', ids: [...picked], discardIds: replacing ? [...discarded] : [] }) ?? run.claimPack([...picked], replacing ? [...discarded] : []));\n    }\n    else if (action === 'buy') {\n      const entry = entries(run).find(item => item.key === `offer:${id}`); finish(opt",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "310",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 640,
+          "column": 6
+        },
+        "end": {
+          "line": 640,
+          "column": 58
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 640,
+          "column": 6
+        },
+        "end": {
+          "line": 640,
+          "column": 58
+        }
+      },
+      "sourceText": "if (!run.cards.some(card => card.id === id)) return;",
+      "owner": "createMarketUI.click",
+      "sourceContext": "if (!run.cards.some(card => card.id === id)) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "311",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 641,
+          "column": 6
+        },
+        "end": {
+          "line": 641,
+          "column": 74
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 641,
+          "column": 6
+        },
+        "end": {
+          "line": 641,
+          "column": 74
+        }
+      },
+      "sourceText": "if (discarded.has(id)) discarded.delete(id); else discarded.add(id);",
+      "owner": "createMarketUI.click",
+      "sourceContext": "if (discarded.has(id)) discarded.delete(id); else discarded.add(id);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "314",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 644,
+          "column": 69
+        },
+        "end": {
+          "line": 644,
+          "column": 83
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 644,
+          "column": 21
+        },
+        "end": {
+          "line": 644,
+          "column": 83
+        }
+      },
+      "sourceText": "run.skipPack()",
+      "owner": "createMarketUI.click",
+      "sourceContext": "run.skipPack()",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "315",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 645,
+          "column": 6
+        },
+        "end": {
+          "line": 645,
+          "column": 35
+        }
+      },
+      "sourceText": "if (result.ok) view = 'shop';",
+      "owner": "createMarketUI.click",
+      "sourceContext": "if (result.ok) view = 'shop';",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "317",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 649,
+          "column": 6
+        },
+        "end": {
+          "line": 649,
+          "column": 92
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 649,
+          "column": 6
+        },
+        "end": {
+          "line": 649,
+          "column": 92
+        }
+      },
+      "sourceText": "if (!run.pendingPack || !run.pendingPack.choices.some(card => card.id === id)) return;",
+      "owner": "createMarketUI.click",
+      "sourceContext": "if (!run.pendingPack || !run.pendingPack.choices.some(card => card.id === id)) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "319",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 650,
+          "column": 6
+        },
+        "end": {
+          "line": 653,
+          "column": 92
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 650,
+          "column": 6
+        },
+        "end": {
+          "line": 653,
+          "column": 92
+        }
+      },
+      "sourceText": "if (picked.has(id)) picked.delete(id);\n      else if (picked.size < run.pendingPack.picks) picked.add(id);\n      else if (run.pendingPack.picks === 1) { picked.clear(); picked.add(id); }\n      else { element('market-status').textContent = 'Unselect a card to swap it.'; return; }",
+      "owner": "createMarketUI.click",
+      "sourceContext": "if (picked.has(id)) picked.delete(id);\n      else if (picked.size < run.pendingPack.picks) picked.add(id);\n      else if (run.pendingPack.picks === 1) { picked.clear(); picked.add(id); }\n      else { element('market-status').textContent = 'Unselect a card to swap it.'; return; }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "326",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 658,
+          "column": 132
+        },
+        "end": {
+          "line": 658,
+          "column": 191
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 658,
+          "column": 20
+        },
+        "end": {
+          "line": 658,
+          "column": 191
+        }
+      },
+      "sourceText": "run.claimPack([...picked], replacing ? [...discarded] : [])",
+      "owner": "createMarketUI.click",
+      "sourceContext": "run.claimPack([...picked], replacing ? [...discarded] : [])",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "328",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 658,
+          "column": 171
+        },
+        "end": {
+          "line": 658,
+          "column": 185
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 658,
+          "column": 159
+        },
+        "end": {
+          "line": 658,
+          "column": 190
+        }
+      },
+      "sourceText": "[...discarded]",
+      "owner": "createMarketUI.click",
+      "sourceContext": "[...discarded]",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "328",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 658,
+          "column": 188
+        },
+        "end": {
+          "line": 658,
+          "column": 190
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 658,
+          "column": 159
+        },
+        "end": {
+          "line": 658,
+          "column": 190
+        }
+      },
+      "sourceText": "[]",
+      "owner": "createMarketUI.click",
+      "sourceContext": "[]",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "330",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 661,
+          "column": 137
+        },
+        "end": {
+          "line": 661,
+          "column": 148
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 661,
+          "column": 82
+        },
+        "end": {
+          "line": 661,
+          "column": 148
+        }
+      },
+      "sourceText": "run.buy(id)",
+      "owner": "createMarketUI.click",
+      "sourceContext": "run.buy(id)",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "332",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 663,
+          "column": 176
+        },
+        "end": {
+          "line": 663,
+          "column": 227
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 663,
+          "column": 87
+        },
+        "end": {
+          "line": 663,
+          "column": 227
+        }
+      },
+      "sourceText": "{ ok: false, message: 'That item is unavailable.' }",
+      "owner": "createMarketUI.click",
+      "sourceContext": "{ ok: false, message: 'That item is unavailable.' }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "333",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 664,
+          "column": 11
+        },
+        "end": {
+          "line": 667,
+          "column": 5
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 664,
+          "column": 11
+        },
+        "end": {
+          "line": 667,
+          "column": 5
+        }
+      },
+      "sourceText": "if (action === 'sell') finish(options.transaction?.({ kind: 'sell', cardId: id }) ?? run.sell(id));\n    else if (action === 'equip') {\n      const entry = entries(run).find(item => item.key === `look:${id}`); finish(options.transaction?.({ kind: 'equip', itemId: id }) ?? run.equipCosmetic(id), entry);\n    }",
+      "owner": "createMarketUI.click",
+      "sourceContext": "if (action === 'sell') finish(options.transaction?.({ kind: 'sell', cardId: id }) ?? run.sell(id));\n    else if (action === 'equip') {\n      const entry = entries(run).find(item => item.key === `look:${id}`); finish(options.transaction?.({ kind: 'equip', itemId: id }) ?? run.equipCosmetic(id), entry);\n    }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "334",
+      "arm": 0,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 664,
+          "column": 41
+        },
+        "end": {
+          "line": 664,
+          "column": 92
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 664,
+          "column": 41
+        },
+        "end": {
+          "line": 664,
+          "column": 108
+        }
+      },
+      "sourceText": "options.transaction?.({ kind: 'sell', cardId: id })",
+      "owner": "createMarketUI.click",
+      "sourceContext": "options.transaction?.({ kind: 'sell', cardId: id })",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "334",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 664,
+          "column": 96
+        },
+        "end": {
+          "line": 664,
+          "column": 108
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 664,
+          "column": 41
+        },
+        "end": {
+          "line": 664,
+          "column": 108
+        }
+      },
+      "sourceText": "run.sell(id)",
+      "owner": "createMarketUI.click",
+      "sourceContext": "run.sell(id)",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "335",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 665,
+          "column": 9
+        },
+        "end": {
+          "line": 667,
+          "column": 5
+        }
+      },
+      "sourceText": "if (action === 'equip') {\n      const entry = entries(run).find(item => item.key === `look:${id}`); finish(options.transaction?.({ kind: 'equip', itemId: id }) ?? run.equipCosmetic(id), entry);\n    }",
+      "owner": "createMarketUI.click",
+      "sourceContext": "if (action === 'equip') {\n      const entry = entries(run).find(item => item.key === `look:${id}`); finish(options.transaction?.({ kind: 'equip', itemId: id }) ?? run.equipCosmetic(id), entry);\n    }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "336",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 666,
+          "column": 137
+        },
+        "end": {
+          "line": 666,
+          "column": 158
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 666,
+          "column": 81
+        },
+        "end": {
+          "line": 666,
+          "column": 158
+        }
+      },
+      "sourceText": "run.equipCosmetic(id)",
+      "owner": "createMarketUI.click",
+      "sourceContext": "run.equipCosmetic(id)",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "337",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 670,
+          "column": 4
+        },
+        "end": {
+          "line": 670,
+          "column": 32
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 670,
+          "column": 4
+        },
+        "end": {
+          "line": 670,
+          "column": 32
+        }
+      },
+      "sourceText": "if (!runIsVisible()) return;",
+      "owner": "createMarketUI.navigate",
+      "sourceContext": "if (!runIsVisible()) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "343",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 678,
+          "column": 4
+        },
+        "end": {
+          "line": 678,
+          "column": 55
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 678,
+          "column": 4
+        },
+        "end": {
+          "line": 678,
+          "column": 55
+        }
+      },
+      "sourceText": "if (closingRun) { event.preventDefault(); return; }",
+      "owner": "createMarketUI.keydown",
+      "sourceContext": "if (closingRun) { event.preventDefault(); return; }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "348",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 683,
+          "column": 4
+        },
+        "end": {
+          "line": 683,
+          "column": 172
+        }
+      },
+      "sourceText": "if (!closingRun && runIsVisible() && document.activeElement instanceof HTMLButtonElement && controls().includes(document.activeElement)) document.activeElement.click();",
+      "owner": "createMarketUI.confirm",
+      "sourceContext": "if (!closingRun && runIsVisible() && document.activeElement instanceof HTMLButtonElement && controls().includes(document.activeElement)) document.activeElement.click();",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "358",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 692,
+          "column": 111
+        },
+        "end": {
+          "line": 692,
+          "column": 120
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 692,
+          "column": 20
+        },
+        "end": {
+          "line": 692,
+          "column": 120
+        }
+      },
+      "sourceText": "undefined",
+      "owner": "createMarketUI.resize",
+      "sourceContext": "undefined",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market-ui.ts",
+      "sourceHash": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+      "mapHash": "924c6b0ccf5b81566252cc1971bc9f3e60c8bd986fd0e92acf3acbcc01d07f91",
+      "id": "361",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 702,
+          "column": 4
+        },
+        "end": {
+          "line": 702,
+          "column": 25
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 702,
+          "column": 4
+        },
+        "end": {
+          "line": 702,
+          "column": 25
+        }
+      },
+      "sourceText": "if (disposed) return;",
+      "owner": "createMarketUI.dispose",
+      "sourceContext": "if (disposed) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-market-ui-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    }
+  ],
+  "hashes": {
+    "artifacts/release-coverage/semantic-current-03/raw-zero-review.json": "c8297f9591dcbe604c1ff06f2e67ca6575ac9570a94838dec747530dcfda5fc4",
+    ".planning/phases/07-release-evidence-pr/07-03-SCHEMA-RECOVERY-SEMANTIC-PROOF.json": "8a5bfe67e7b38a5b107cef1ab65e13a01131247c05265c0d68bd57e471a83a09",
+    "artifacts/release-coverage/current-full-05-proof/freeze.json": "c72459fff67275b20c5b67c1076d781f825a00cec405fada8743cb2f350111a3",
+    "tools/release-coverage/suites.json": "02e81d3e4320ed8a2d0901fd0eee532e051d1c0b27b606c011fedbc3674ab88d",
+    "tests/market-runtime.mjs": "20b2703693bf5d428474181ba2e36e7a5a5f21838a0c6c4dc40c3959e2206814",
+    "tests/market-layout.mjs": "d5ce2894bf96d87c4f8c4c343996fa4161eb6107e8a2ce57e774c01ef2d3f540",
+    "tests/market-pack-replacement.mjs": "59f69bec1626c1257faab9cd42df89e86bbfe2fbfc5efe20cb5632fec649dd5d",
+    "tests/market-tiny-focus-runtime.mjs": "a2f2b4a3187dfbd281e0d7d49d9e5e152720962b2236bf1697b4e98763fa8d20",
+    "tests/run-hand-runtime.mjs": "503c4f40a5caee802c762421b1da6b04dc593ba47fc757b0c1e82dc29d8ac38b",
+    "tests/survive-market-keyboard-owner-runtime.mjs": "2a54b2f871d5facdf47c7468b2d230c803e155851f6171cbf7e105d77873866c",
+    "tests/survive-market-controller-owner-runtime.mjs": "4672160a11598e841f867ad8540d678500c697f6f163da650a0c7722531fae35",
+    "tests/survive-market-ghost-sale-runtime.mjs": "b6536e356532ad2c556c1ddad9607b13ce3c9c7699cedefc002abf1658c004a5",
+    "tests/survive-market-ghost-inspection-runtime.mjs": "0f062773b23b7089cd9f0fbfb86a2581f5f4b0785e3409a522a93414578a72df",
+    "tests/survive-market-pack-owner-runtime.mjs": "d1a0ddc754c47a7651f7379d76916446367baeb316c30f2724e52dc9b271570c",
+    "tests/survive-market-fresh-context-runtime.mjs": "b4b77cde5fb049a79f41c10535953004e42389c4a1a677af7ebb7ceb7c612d93",
+    "tests/turn-market-boundaries.test.mjs": "74dc1d7e23baedcf039f9ee87fd0adba480eaf2fdb7676828356862abda24856",
+    "tests/relay-runtime.mjs": "dd3ef8ceb85169540fa7e9f4a75326f65046ff6caefd59ae7eab5185c65c5e82",
+    "tests/race-runtime.mjs": "97326c18c9e7c2291d1c428bd26f2f07ac8eb222d21c10ea328e9d83acb3a94e",
+    "tests/local-session-owner-layout.mjs": "2b23fae74aaf74f8ea3f7d209d8e1765990fc39bc87317d7b15d9f49eec4a277",
+    ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md": "b6e340a2ff0aa3cd46f4ea7781e73a078fa4bad1ab3faa219bb48d90a6aadffd",
+    "artifacts/release-coverage/market-ui-residual-10/verify.mjs": "2598b0d52b13560b29f4baa67251d23532697937e7d4e995e5bb45448cf59b19",
+    "src/market-ui.ts": "6f4f3b7a83baaa99a8b158e43e1652b9429a24d853f9232e15eb8cd14a7c0c7a",
+    "src/main.ts": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+    "src/race.ts": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+    "src/co-op-market.ts": "037a96c9f9436346f06306cac74808aab5e92e205ce2c42bebb1dbd16ca24c22",
+    "src/session-recovery.ts": "35119abd8ac6551d253ec0ada320c934fd5a9cf20c142444e3afdb4094093b9c",
+    "src/game.ts": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+    "src/run-hand.css": "2402659c3bdeda6994ab22ef27a3a604fcb56c513dd532bc73f1515945c34a70",
+    "artifacts/release-coverage/hand-inventory-residual-10/reference-audit.mjs": "b85105941748794332b6595523b389dd4111a8c25d580c1da1fb7c8b8258cb29",
+    "artifacts/release-coverage/hand-inventory-residual-10/reference-audit.log": "c73ecec39a49a2a88191e923f014061aed11bc0163583cee4c0dec8141bf34c5",
+    "artifacts/release-coverage/hand-inventory-residual-10/reference-audit.json": "a55fa24f3284e113ee8a1e41aede40fb502c0df63e8af0120ef9ad83a0c3fccf"
+  }
+}

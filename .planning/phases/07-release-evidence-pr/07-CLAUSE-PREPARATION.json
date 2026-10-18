@@ -1,0 +1,1256 @@
+{
+  "schema": "release-clause-preparation-1",
+  "status": "preparation-only-not-release-proof",
+  "purpose": "Verbatim original-scope inventory for the later 07-05 evidence audit. Requirement links are candidates, not completion findings.",
+  "sources": [
+    {
+      "path": ".planning/USER-REQUEST.md",
+      "sha256": "abf7219607ecd3e3933cd7b31d681c2ef937990fd126337dc065e57a288dac75"
+    },
+    {
+      "path": ".planning/REQUIREMENTS.md",
+      "sha256": "c05ae02cd64e7f16846e51c64cc57844c80c44ed34eeb287881cdce83fabfa1a"
+    }
+  ],
+  "checks": {
+    "allNonemptyRequestLinesClassified": true,
+    "verbatimClauseSpansVerified": true,
+    "uniqueRequirementIds": 47,
+    "originalClauses": 51
+  },
+  "limits": [
+    "No named test, command outcome, current source/build identity or visual proof is asserted by this preparation.",
+    "Source checkboxes are copied observations, not independently verified completion.",
+    "The 07-05 validator must bind every sub-obligation to current evidence and reject unsupported complete rows.",
+    "Final coverage, conformance, visual audit and live PR evidence remain mandatory."
+  ],
+  "requestLines": [
+    {
+      "line": 1,
+      "kind": "title",
+      "text": "# Local multiplayer — original requested scope"
+    },
+    {
+      "line": 3,
+      "kind": "requirement",
+      "prefix": "",
+      "text": "local multiplayer, multiple modes.",
+      "clauses": [
+        "UR-L03-01"
+      ]
+    },
+    {
+      "line": 5,
+      "kind": "section",
+      "text": "Modes:"
+    },
+    {
+      "line": 6,
+      "kind": "requirement",
+      "prefix": "1. ",
+      "text": "1. Survive together: Introduces new mechanic and item class. Players can drop in and out on a current game. Works on Flow or Arcade. ",
+      "clauses": [
+        "UR-L06-01",
+        "UR-L06-02",
+        "UR-L06-03"
+      ]
+    },
+    {
+      "line": 7,
+      "kind": "requirement",
+      "prefix": "2. ",
+      "text": "2. Relay: Take turns every n (default: 50) tiles. Requires game setup for continuity. Players can drop-out but not in, until the race is done.",
+      "clauses": [
+        "UR-L07-01",
+        "UR-L07-02",
+        "UR-L07-03"
+      ]
+    },
+    {
+      "line": 8,
+      "kind": "requirement",
+      "prefix": "3. ",
+      "text": "3. Race: Ducks Race against both the clock and each other. The duck in the lead determines where the boundary for the \"fog\" is. Users can be in the fog but it plucks feathers. Good opportunity for offensive/defensive game mechanics and mod-contextual  consumables.",
+      "clauses": [
+        "UR-L08-01",
+        "UR-L08-02",
+        "UR-L08-03",
+        "UR-L08-04"
+      ]
+    },
+    {
+      "line": 10,
+      "kind": "section",
+      "text": "Mechanic:"
+    },
+    {
+      "line": 11,
+      "kind": "requirement",
+      "prefix": "",
+      "text": "Revival: Each player has one revival (cooldown 250)",
+      "clauses": [
+        "UR-L11-01"
+      ]
+    },
+    {
+      "line": 13,
+      "kind": "section",
+      "text": "Item Class:"
+    },
+    {
+      "line": 14,
+      "kind": "requirement",
+      "prefix": "",
+      "text": "Revivals (allows you to revive others; super rare 1:2500), Flares (allows you to bring others back fgrom the dead, and bring everyone to their position; rare 1:1250). Many other such possiblities Can be purchased in shop. Can be collected in world. Coin gravity powerups does not apply, but default gravity should remain to ensure the powerup is collectable by the player in the world.",
+      "clauses": [
+        "UR-L14-01",
+        "UR-L14-02",
+        "UR-L14-03",
+        "UR-L14-04",
+        "UR-L14-05",
+        "UR-L14-06"
+      ]
+    },
+    {
+      "line": 16,
+      "kind": "section",
+      "text": "Rules:"
+    },
+    {
+      "line": 17,
+      "kind": "requirement",
+      "prefix": "1. ",
+      "text": "1. Each player must have a different character. So that the game is easy to play quickly we detect users. ",
+      "clauses": [
+        "UR-L17-01",
+        "UR-L17-02"
+      ]
+    },
+    {
+      "line": 19,
+      "kind": "section",
+      "text": "GUI"
+    },
+    {
+      "line": 20,
+      "kind": "requirement",
+      "prefix": "",
+      "text": "Each Game Mode will need custom end of game stats with per character breakdown and podium results. ",
+      "clauses": [
+        "UR-L20-01"
+      ]
+    },
+    {
+      "line": 21,
+      "kind": "requirement",
+      "prefix": "",
+      "text": "Character selection: ",
+      "clauses": [
+        "UR-L21-01"
+      ]
+    },
+    {
+      "line": 23,
+      "kind": "section",
+      "text": "Flow: "
+    },
+    {
+      "line": 24,
+      "kind": "requirement",
+      "prefix": "1. ",
+      "text": "1. Always listen on controlers. When >1 gamepad  has any given input, enter multiplayer mode. ",
+      "clauses": [
+        "UR-L24-01",
+        "UR-L24-02"
+      ]
+    },
+    {
+      "line": 25,
+      "kind": "requirement",
+      "prefix": "2. ",
+      "text": "2. Allow default config for multiplayer, using a single keyboard for example; requires keybind GUI.",
+      "clauses": [
+        "UR-L25-01"
+      ]
+    },
+    {
+      "line": 26,
+      "kind": "requirement",
+      "prefix": "3. ",
+      "text": "3. When controller disconnects, modes need to adapt. They will all have their own individual handler for handling gamepad state changes. should bhe designed with this in mind. Interrupting the gameplay in an awkward way may not make sense in every situation. Some it might be better to show a custom pause screen, others, the player's avatar can just become a ghost. ",
+      "clauses": [
+        "UR-L26-01",
+        "UR-L26-02",
+        "UR-L26-03",
+        "UR-L26-04",
+        "UR-L26-05"
+      ]
+    },
+    {
+      "line": 27,
+      "kind": "requirement",
+      "prefix": "4. ",
+      "text": "4. Some modes can allow user drop in, where custom handlers are passed to react to player state changes.",
+      "clauses": [
+        "UR-L27-01"
+      ]
+    },
+    {
+      "line": 29,
+      "kind": "section",
+      "text": "Architecture"
+    },
+    {
+      "line": 30,
+      "kind": "requirement",
+      "prefix": "1. ",
+      "text": "1. For this to work correctly, we need to extract hard-coded magic numbers and settings from gameplay logic, and then make each \"mode\" a configuration of those magic numbers and settings. This may require some refactoring, but solution should be elegant and simple to ensure new game mdoes can be easily added. Why? This gets us to the eventual goal of users being able to create their own modes (both single and multiplayer). It will require some attention to detail, but if we first port the existing functionality into this paradigm, then it will become easier to compose the multiplayer modes. Testing between current single player and new composed single player should be precise, there must be no difference between the two.",
+      "clauses": [
+        "UR-L30-01",
+        "UR-L30-02",
+        "UR-L30-03",
+        "UR-L30-04",
+        "UR-L30-05"
+      ]
+    },
+    {
+      "line": 32,
+      "kind": "requirement",
+      "prefix": "",
+      "text": "Should not affect simplicity of default single-ayer gameplay mode. ",
+      "clauses": [
+        "UR-L32-01"
+      ]
+    },
+    {
+      "line": 34,
+      "kind": "requirement",
+      "prefix": "",
+      "text": "Should be done in a new branch.",
+      "clauses": [
+        "UR-L34-01"
+      ]
+    },
+    {
+      "line": 36,
+      "kind": "requirement",
+      "prefix": "",
+      "text": "use GSD (see local skills) to plan it out into phases and then execute.",
+      "clauses": [
+        "UR-L36-01"
+      ]
+    },
+    {
+      "line": 38,
+      "kind": "section",
+      "text": "Deliverables"
+    },
+    {
+      "line": 39,
+      "kind": "requirement",
+      "prefix": "1. ",
+      "text": "1. Composable Game Modes Architecture",
+      "clauses": [
+        "UR-L39-01"
+      ]
+    },
+    {
+      "line": 40,
+      "kind": "requirement",
+      "prefix": "2. ",
+      "text": "2. Single Mode Migrated to Composable Arch with 1:1 parity.",
+      "clauses": [
+        "UR-L40-01"
+      ]
+    },
+    {
+      "line": 41,
+      "kind": "requirement",
+      "prefix": "3. ",
+      "text": "3. Multiplayer functionality: Mechanics, Flows, Assets and Design required.",
+      "clauses": [
+        "UR-L41-01"
+      ]
+    },
+    {
+      "line": 42,
+      "kind": "requirement",
+      "prefix": "4. ",
+      "text": "4. Each Game Mode: Each game mode delivered as a composable mode with handlers.",
+      "clauses": [
+        "UR-L42-01"
+      ]
+    },
+    {
+      "line": 43,
+      "kind": "requirement",
+      "prefix": "5. ",
+      "text": "5. GUI: Thoughtfully design GUIs",
+      "clauses": [
+        "UR-L43-01"
+      ]
+    },
+    {
+      "line": 44,
+      "kind": "requirement",
+      "prefix": "6. ",
+      "text": "6. Test Converage: Wide and true.",
+      "clauses": [
+        "UR-L44-01"
+      ]
+    },
+    {
+      "line": 46,
+      "kind": "requirement",
+      "prefix": "stop condition: ",
+      "text": "stop condition: All Multiplayer Modes created. high Test Coverage for each mode and passing. Executed precisely with full converage over this specification. Green lights. Visual proofs included. PR Opened",
+      "clauses": [
+        "UR-L46-01",
+        "UR-L46-02",
+        "UR-L46-03",
+        "UR-L46-04",
+        "UR-L46-05",
+        "UR-L46-06"
+      ]
+    }
+  ],
+  "originalClauses": [
+    {
+      "id": "UR-L03-01",
+      "line": 3,
+      "startColumn": 1,
+      "endColumnExclusive": 35,
+      "text": "local multiplayer, multiple modes.",
+      "requirementCandidates": [
+        "ARCH-02",
+        "COOP-01",
+        "RELAY-01",
+        "RACE-01"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L06-01",
+      "line": 6,
+      "startColumn": 4,
+      "endColumnExclusive": 61,
+      "text": "Survive together: Introduces new mechanic and item class.",
+      "requirementCandidates": [
+        "COOP-01",
+        "ITEM-01"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L06-02",
+      "line": 6,
+      "startColumn": 62,
+      "endColumnExclusive": 108,
+      "text": "Players can drop in and out on a current game.",
+      "requirementCandidates": [
+        "COOP-02",
+        "COOP-05"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L06-03",
+      "line": 6,
+      "startColumn": 109,
+      "endColumnExclusive": 133,
+      "text": "Works on Flow or Arcade.",
+      "requirementCandidates": [
+        "COOP-01"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L07-01",
+      "line": 7,
+      "startColumn": 4,
+      "endColumnExclusive": 50,
+      "text": "Relay: Take turns every n (default: 50) tiles.",
+      "requirementCandidates": [
+        "RELAY-01",
+        "RELAY-02"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L07-02",
+      "line": 7,
+      "startColumn": 51,
+      "endColumnExclusive": 86,
+      "text": "Requires game setup for continuity.",
+      "requirementCandidates": [
+        "RELAY-01",
+        "RELAY-02"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L07-03",
+      "line": 7,
+      "startColumn": 87,
+      "endColumnExclusive": 143,
+      "text": "Players can drop-out but not in, until the race is done.",
+      "requirementCandidates": [
+        "RELAY-03",
+        "RELAY-04"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L08-01",
+      "line": 8,
+      "startColumn": 4,
+      "endColumnExclusive": 59,
+      "text": "Race: Ducks Race against both the clock and each other.",
+      "requirementCandidates": [
+        "RACE-01"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L08-02",
+      "line": 8,
+      "startColumn": 60,
+      "endColumnExclusive": 128,
+      "text": "The duck in the lead determines where the boundary for the \"fog\" is.",
+      "requirementCandidates": [
+        "RACE-02"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L08-03",
+      "line": 8,
+      "startColumn": 129,
+      "endColumnExclusive": 176,
+      "text": "Users can be in the fog but it plucks feathers.",
+      "requirementCandidates": [
+        "RACE-02",
+        "RACE-03"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L08-04",
+      "line": 8,
+      "startColumn": 177,
+      "endColumnExclusive": 265,
+      "text": "Good opportunity for offensive/defensive game mechanics and mod-contextual  consumables.",
+      "requirementCandidates": [
+        "ITEM-06",
+        "RACE-05"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L11-01",
+      "line": 11,
+      "startColumn": 1,
+      "endColumnExclusive": 52,
+      "text": "Revival: Each player has one revival (cooldown 250)",
+      "requirementCandidates": [
+        "COOP-03"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L14-01",
+      "line": 14,
+      "startColumn": 1,
+      "endColumnExclusive": 59,
+      "text": "Revivals (allows you to revive others; super rare 1:2500),",
+      "requirementCandidates": [
+        "ITEM-02",
+        "COOP-04"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L14-02",
+      "line": 14,
+      "startColumn": 60,
+      "endColumnExclusive": 167,
+      "text": "Flares (allows you to bring others back fgrom the dead, and bring everyone to their position; rare 1:1250).",
+      "requirementCandidates": [
+        "ITEM-02",
+        "COOP-04"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L14-03",
+      "line": 14,
+      "startColumn": 168,
+      "endColumnExclusive": 222,
+      "text": "Many other such possiblities Can be purchased in shop.",
+      "requirementCandidates": [
+        "ITEM-01",
+        "ITEM-03"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L14-04",
+      "line": 14,
+      "startColumn": 223,
+      "endColumnExclusive": 249,
+      "text": "Can be collected in world.",
+      "requirementCandidates": [
+        "ITEM-03"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L14-05",
+      "line": 14,
+      "startColumn": 250,
+      "endColumnExclusive": 287,
+      "text": "Coin gravity powerups does not apply,",
+      "requirementCandidates": [
+        "ITEM-04"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L14-06",
+      "line": 14,
+      "startColumn": 288,
+      "endColumnExclusive": 386,
+      "text": "but default gravity should remain to ensure the powerup is collectable by the player in the world.",
+      "requirementCandidates": [
+        "ITEM-04"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L17-01",
+      "line": 17,
+      "startColumn": 4,
+      "endColumnExclusive": 48,
+      "text": "Each player must have a different character.",
+      "requirementCandidates": [
+        "INPUT-02",
+        "UI-01"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L17-02",
+      "line": 17,
+      "startColumn": 49,
+      "endColumnExclusive": 106,
+      "text": "So that the game is easy to play quickly we detect users.",
+      "requirementCandidates": [
+        "INPUT-01",
+        "SOLO-03"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L20-01",
+      "line": 20,
+      "startColumn": 1,
+      "endColumnExclusive": 99,
+      "text": "Each Game Mode will need custom end of game stats with per character breakdown and podium results.",
+      "requirementCandidates": [
+        "UI-04",
+        "RELAY-05",
+        "RACE-06"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L21-01",
+      "line": 21,
+      "startColumn": 1,
+      "endColumnExclusive": 21,
+      "text": "Character selection:",
+      "requirementCandidates": [
+        "INPUT-02",
+        "UI-01"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L24-01",
+      "line": 24,
+      "startColumn": 4,
+      "endColumnExclusive": 32,
+      "text": "Always listen on controlers.",
+      "requirementCandidates": [
+        "INPUT-01"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L24-02",
+      "line": 24,
+      "startColumn": 33,
+      "endColumnExclusive": 94,
+      "text": "When >1 gamepad  has any given input, enter multiplayer mode.",
+      "requirementCandidates": [
+        "INPUT-01"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L25-01",
+      "line": 25,
+      "startColumn": 4,
+      "endColumnExclusive": 100,
+      "text": "Allow default config for multiplayer, using a single keyboard for example; requires keybind GUI.",
+      "requirementCandidates": [
+        "INPUT-03"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L26-01",
+      "line": 26,
+      "startColumn": 4,
+      "endColumnExclusive": 53,
+      "text": "When controller disconnects, modes need to adapt.",
+      "requirementCandidates": [
+        "INPUT-05"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L26-02",
+      "line": 26,
+      "startColumn": 54,
+      "endColumnExclusive": 137,
+      "text": "They will all have their own individual handler for handling gamepad state changes.",
+      "requirementCandidates": [
+        "ARCH-02",
+        "INPUT-05"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L26-03",
+      "line": 26,
+      "startColumn": 138,
+      "endColumnExclusive": 176,
+      "text": "should bhe designed with this in mind.",
+      "requirementCandidates": [
+        "ARCH-02",
+        "INPUT-05"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L26-04",
+      "line": 26,
+      "startColumn": 177,
+      "endColumnExclusive": 259,
+      "text": "Interrupting the gameplay in an awkward way may not make sense in every situation.",
+      "requirementCandidates": [
+        "INPUT-05",
+        "UI-04"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L26-05",
+      "line": 26,
+      "startColumn": 260,
+      "endColumnExclusive": 367,
+      "text": "Some it might be better to show a custom pause screen, others, the player's avatar can just become a ghost.",
+      "requirementCandidates": [
+        "INPUT-05",
+        "UI-04"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L27-01",
+      "line": 27,
+      "startColumn": 4,
+      "endColumnExclusive": 105,
+      "text": "Some modes can allow user drop in, where custom handlers are passed to react to player state changes.",
+      "requirementCandidates": [
+        "ARCH-02",
+        "COOP-02"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L30-01",
+      "line": 30,
+      "startColumn": 4,
+      "endColumnExclusive": 188,
+      "text": "For this to work correctly, we need to extract hard-coded magic numbers and settings from gameplay logic, and then make each \"mode\" a configuration of those magic numbers and settings.",
+      "requirementCandidates": [
+        "ARCH-01"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L30-02",
+      "line": 30,
+      "startColumn": 189,
+      "endColumnExclusive": 311,
+      "text": "This may require some refactoring, but solution should be elegant and simple to ensure new game mdoes can be easily added.",
+      "requirementCandidates": [
+        "ARCH-04"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L30-03",
+      "line": 30,
+      "startColumn": 312,
+      "endColumnExclusive": 427,
+      "text": "Why? This gets us to the eventual goal of users being able to create their own modes (both single and multiplayer).",
+      "requirementCandidates": [
+        "ARCH-04"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L30-04",
+      "line": 30,
+      "startColumn": 428,
+      "endColumnExclusive": 598,
+      "text": "It will require some attention to detail, but if we first port the existing functionality into this paradigm, then it will become easier to compose the multiplayer modes.",
+      "requirementCandidates": [
+        "ARCH-02",
+        "SOLO-01"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L30-05",
+      "line": 30,
+      "startColumn": 599,
+      "endColumnExclusive": 731,
+      "text": "Testing between current single player and new composed single player should be precise, there must be no difference between the two.",
+      "requirementCandidates": [
+        "SOLO-01",
+        "TEST-01"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L32-01",
+      "line": 32,
+      "startColumn": 1,
+      "endColumnExclusive": 67,
+      "text": "Should not affect simplicity of default single-ayer gameplay mode.",
+      "requirementCandidates": [
+        "SOLO-03"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L34-01",
+      "line": 34,
+      "startColumn": 1,
+      "endColumnExclusive": 32,
+      "text": "Should be done in a new branch.",
+      "requirementCandidates": [
+        "SHIP-01"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L36-01",
+      "line": 36,
+      "startColumn": 1,
+      "endColumnExclusive": 72,
+      "text": "use GSD (see local skills) to plan it out into phases and then execute.",
+      "requirementCandidates": [
+        "SHIP-01"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L39-01",
+      "line": 39,
+      "startColumn": 4,
+      "endColumnExclusive": 38,
+      "text": "Composable Game Modes Architecture",
+      "requirementCandidates": [
+        "ARCH-01",
+        "ARCH-04"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L40-01",
+      "line": 40,
+      "startColumn": 4,
+      "endColumnExclusive": 60,
+      "text": "Single Mode Migrated to Composable Arch with 1:1 parity.",
+      "requirementCandidates": [
+        "SOLO-01",
+        "TEST-01"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L41-01",
+      "line": 41,
+      "startColumn": 4,
+      "endColumnExclusive": 76,
+      "text": "Multiplayer functionality: Mechanics, Flows, Assets and Design required.",
+      "requirementCandidates": [
+        "INPUT-04",
+        "INPUT-06",
+        "COOP-01",
+        "ITEM-01",
+        "UI-02"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L42-01",
+      "line": 42,
+      "startColumn": 4,
+      "endColumnExclusive": 80,
+      "text": "Each Game Mode: Each game mode delivered as a composable mode with handlers.",
+      "requirementCandidates": [
+        "ARCH-02"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L43-01",
+      "line": 43,
+      "startColumn": 4,
+      "endColumnExclusive": 33,
+      "text": "GUI: Thoughtfully design GUIs",
+      "requirementCandidates": [
+        "UI-01",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "UI-06"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L44-01",
+      "line": 44,
+      "startColumn": 4,
+      "endColumnExclusive": 34,
+      "text": "Test Converage: Wide and true.",
+      "requirementCandidates": [
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L46-01",
+      "line": 46,
+      "startColumn": 17,
+      "endColumnExclusive": 47,
+      "text": "All Multiplayer Modes created.",
+      "requirementCandidates": [
+        "COOP-01",
+        "RELAY-01",
+        "RACE-01"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L46-02",
+      "line": 46,
+      "startColumn": 48,
+      "endColumnExclusive": 93,
+      "text": "high Test Coverage for each mode and passing.",
+      "requirementCandidates": [
+        "TEST-02",
+        "TEST-05"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L46-03",
+      "line": 46,
+      "startColumn": 94,
+      "endColumnExclusive": 157,
+      "text": "Executed precisely with full converage over this specification.",
+      "requirementCandidates": [
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L46-04",
+      "line": 46,
+      "startColumn": 158,
+      "endColumnExclusive": 171,
+      "text": "Green lights.",
+      "requirementCandidates": [
+        "TEST-05"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L46-05",
+      "line": 46,
+      "startColumn": 172,
+      "endColumnExclusive": 195,
+      "text": "Visual proofs included.",
+      "requirementCandidates": [
+        "TEST-04"
+      ],
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UR-L46-06",
+      "line": 46,
+      "startColumn": 196,
+      "endColumnExclusive": 205,
+      "text": "PR Opened",
+      "requirementCandidates": [
+        "SHIP-01"
+      ],
+      "verification": "pending-current-evidence"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "ARCH-01",
+      "line": 9,
+      "text": "Gameplay tuning is represented by typed, validated, composable rule configuration rather than mode-dependent magic numbers embedded in update logic.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "ARCH-02",
+      "line": 10,
+      "text": "Each solo/multiplayer mode composes reusable mechanics and explicit lifecycle handlers for join, leave, disconnect, reconnect, death, progress and results.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "ARCH-03",
+      "line": 11,
+      "text": "Shared terrain, actor time, RNG, pickup ownership and camera policy are separated from each player's movement, health, powers, inventory and statistics; world updates occur once per tick.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "ARCH-04",
+      "line": 12,
+      "text": "A new mode can be defined from rule configuration and handlers without editing core input, renderer or adding another hard-coded mode branch throughout the engine; document an example.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "SOLO-01",
+      "line": 13,
+      "text": "Existing Arcade and Stroll/Flow modes migrate with 1:1 gameplay and numerical parity against the committed pre-refactor engine, including hazards, health, wave, mobs, economy, powers, pauses and deaths.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "SOLO-02",
+      "line": 14,
+      "text": "Existing seed schemas, generation snapshots, intent contracts, saves, market/card behavior and sound/shortcut IDs remain compatible.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "SOLO-03",
+      "line": 15,
+      "text": "Default solo play remains one-step and visually uncluttered; extra setup appears only for multiplayer or explicit mode selection.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "INPUT-01",
+      "line": 19,
+      "text": "Listen to every exposed standard controller in all relevant game/menu states; a second controller's actual input initiates multiplayer flow without requiring a hidden menu.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "INPUT-02",
+      "line": 20,
+      "text": "Every local player has a stable device/seat identity and a unique playable character; automatic choices avoid conflicts and character selection prevents duplicates.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "INPUT-03",
+      "line": 21,
+      "text": "Provide working default shared-keyboard presets and an in-game keybinding editor with conflict validation, remapping and reset.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "INPUT-04",
+      "line": 22,
+      "text": "Simultaneous keyboard/controller movement is independent; held repeats, focus loss, stale input, device-index reuse and teardown are safe.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "INPUT-05",
+      "line": 23,
+      "text": "Mode-specific handlers decide disconnect/dropout/reconnect behavior; display actionable player state without applying an awkward blanket pause policy.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "INPUT-06",
+      "line": 24,
+      "text": "Controllers and keyboard can be mixed; absence of shell gamepad support leaves keyboard/pointer functionality available without prohibited native polling.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "COOP-01",
+      "line": 28,
+      "text": "Multiple characters survive the same world with Arcade or Flow rules and independent collisions, health, character powers and inventories.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "COOP-02",
+      "line": 29,
+      "text": "Players can join and leave an active run; joins place the newcomer safely without resetting course, score, elapsed time or existing player inventory.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "COOP-03",
+      "line": 30,
+      "text": "Each player has one revival charge, recharging after 250 new tiles; cooldown, eligibility and usage have observable UI and cannot be farmed by backtracking/rejoin.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "COOP-04",
+      "line": 31,
+      "text": "Living players can revive dead teammates, with explicit targeting/activation, safe placement and temporary protection; game-over behavior accounts for surviving/recoverable players.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "COOP-05",
+      "line": 32,
+      "text": "Disconnect/rejoin preserves player continuity; death, temporary absence and deliberate departure are distinct states.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "ITEM-01",
+      "line": 36,
+      "text": "Introduce an extensible consumable item class separate from persistent cards and cosmetics, with mode eligibility, charges, targeting and activation validation.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "ITEM-02",
+      "line": 37,
+      "text": "Revival items revive another player and occur with 1:2500 world-drop probability; flares revive dead teammates and bring everyone to the user's safe position with 1:1250 probability.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "ITEM-03",
+      "line": 38,
+      "text": "Consumables can be acquired from world pickups and purchased in the shop; inventory, prices and availability are visible and mode-appropriate.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "ITEM-04",
+      "line": 39,
+      "text": "World consumables use the default collection gravity so fractional log-hop grids remain viable; coin-magnet cards/powers never increase their capture range.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "ITEM-05",
+      "line": 40,
+      "text": "Rare spawning is seeded, bounded and verifiable at exact probability boundaries; contested pickups award once to a deterministic eligible player.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "ITEM-06",
+      "line": 41,
+      "text": "Supply usable offensive/defensive Race consumables with clear effects and feedback; invalid use, departed targets and ineligible modes never waste charges or corrupt state.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "RELAY-01",
+      "line": 45,
+      "text": "Relay has a setup flow with player order and configurable segment length (default 50 tiles).",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "RELAY-02",
+      "line": 46,
+      "text": "Control transfers exactly at each segment boundary, safely and visibly, preserving shared course/run continuity without counting backward travel twice.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "RELAY-03",
+      "line": 47,
+      "text": "The started Relay roster is closed to new entrants until the race ends; reconnecting an existing seat does not count as a new entrant.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "RELAY-04",
+      "line": 48,
+      "text": "Players may drop out; inactive/active seat disconnection, skip/rejoin, final-player departure and no-controller cases have explicit mode-owned behavior.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "RELAY-05",
+      "line": 49,
+      "text": "Each participant's segments, distance, time, coins and outcomes contribute to dedicated Relay results and podium/breakdown.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "RACE-01",
+      "line": 53,
+      "text": "Race setup defines a playable common course with configurable finish distance/time limit; participants race the clock and each other.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "RACE-02",
+      "line": 54,
+      "text": "The leading player's progress determines the fog boundary; trailing players can remain in fog while losing feathers at a configured cadence rather than instantly dying.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "RACE-03",
+      "line": 55,
+      "text": "Camera, boundary/fog presentation, warning and health feedback make both leader and trailing-player states legible.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "RACE-04",
+      "line": 56,
+      "text": "Disconnect/dropout/reconnect, ties, simultaneous finishes, timeout, deaths and last-survivor cases produce deterministic results without resetting the race clock.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "RACE-05",
+      "line": 57,
+      "text": "Race items support offensive/defensive play through the composable mode/item system and do not leak into unrelated modes.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "RACE-06",
+      "line": 58,
+      "text": "Dedicated race results show a podium and per-character rank, distance, time, finish/death status and relevant item/interaction statistics.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UI-01",
+      "line": 62,
+      "text": "Provide game-styled mode/setup/unique-character selection screens, ready/join feedback and controller/keyboard help while preserving the simple solo start.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UI-02",
+      "line": 63,
+      "text": "Render all players as actual distinct character models with persistent identifying marks, individual health/power/revival/item state and readable active-turn/leader cues.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UI-03",
+      "line": 64,
+      "text": "Multiplayer market, inventory, consumable use and persistent hand clearly identify whose wallet/items are active and preserve player/run state across menus.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UI-04",
+      "line": 65,
+      "text": "Each mode has appropriate custom pause/disconnect, ghost/death/revival and end-of-game screens, per-character breakdowns and podium presentation.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UI-05",
+      "line": 66,
+      "text": "Small screens use purpose-built views/pages with large usable controls and no accidental scrollbars; desktop/compact/short frames and both themes remain usable.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "UI-06",
+      "line": 67,
+      "text": "Revive, flare, relay transfer, fog damage and race-item interactions have contextual visual/audio feedback that respects mute and reduced motion.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "TEST-01",
+      "line": 71,
+      "text": "Execute precise baseline-vs-composed-solo differential tests and retain all existing deterministic course and gameplay regressions.",
+      "sourceChecked": true,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "TEST-02",
+      "line": 72,
+      "text": "Add broad model/state-machine/integration coverage for each mode, shared simulation, input/lifecycle, revival cooldown, item odds/range/ownership and results; tests exercise real production logic.",
+      "sourceChecked": false,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "TEST-03",
+      "line": 73,
+      "text": "Exercise complete multiplayer user flows in built opaque-iframe browser fixtures through keyboard and injected runtime gamepad events; assert no runtime errors, native access or production-only test hooks.",
+      "sourceChecked": false,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "TEST-04",
+      "line": 74,
+      "text": "Capture and inspect visual proofs of all modes, setup, HUD, items/revival, market, disconnect states and podiums across desktop/compact/short sizes and themes.",
+      "sourceChecked": false,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "TEST-05",
+      "line": 75,
+      "text": "Run required type-check/build/guidance/conformance checks, relevant legacy suites and per-mode coverage with explicit thresholds and meaningful uncovered-branch review.",
+      "sourceChecked": false,
+      "verification": "pending-current-evidence"
+    },
+    {
+      "id": "SHIP-01",
+      "line": 76,
+      "text": "Work on a new branch, retain GSD plans/summaries/verifications and requirement traceability, commit coherent changes, and open a reviewable PR against main with tests and visual evidence.",
+      "sourceChecked": false,
+      "verification": "pending-current-evidence"
+    }
+  ]
+}

@@ -1,0 +1,350 @@
+{
+  "status": "22 ordinary and22 canonical component cases pass; no production change or full release claim",
+  "runId": "7f0adde8-426b-45c8-95cb-18743e6ab45d",
+  "realmId": "tests/session-input.test.mjs",
+  "payloadCount": 1,
+  "thresholdsEvaluated": false,
+  "identity": {
+    "path": "/Users/sandwich/Develop/crossy-road-clone/src/session-input.ts",
+    "sourceHash": "e42c0af885310c699a275aa819c7d66d6902e20164db08cacacf5aee7017da9f",
+    "mapHash": "83a4cfad72755f31676a3d70d3485c9d131a34c945500baedccbbdf2d1bb6264",
+    "schemaHash": "69cb172abebe20a1faefadb8709e5b1346323153028f950056586ccfdb394455"
+  },
+  "mappedSchemaHash": "9b981f96cac36bceb22cf2ac3d59ed7348a88b1847e69c3f9f7e5f9c3e29e569",
+  "witnesses": [
+    {
+      "id": "4",
+      "arm": 4,
+      "line": 83,
+      "count": 1,
+      "locations": [
+        {
+          "start": {
+            "line": 83,
+            "column": 8
+          },
+          "end": {
+            "line": 83,
+            "column": 18
+          }
+        },
+        {
+          "start": {
+            "line": 83,
+            "column": 22
+          },
+          "end": {
+            "line": 83,
+            "column": 30
+          }
+        },
+        {
+          "start": {
+            "line": 83,
+            "column": 34
+          },
+          "end": {
+            "line": 83,
+            "column": 42
+          }
+        },
+        {
+          "start": {
+            "line": 83,
+            "column": 47
+          },
+          "end": {
+            "line": 83,
+            "column": 66
+          }
+        },
+        {
+          "start": {
+            "line": 83,
+            "column": 70
+          },
+          "end": {
+            "line": 83,
+            "column": 90
+          }
+        }
+      ]
+    },
+    {
+      "id": "14",
+      "arm": 3,
+      "line": 90,
+      "count": 2,
+      "locations": [
+        {
+          "start": {
+            "line": 90,
+            "column": 6
+          },
+          "end": {
+            "line": 90,
+            "column": 31
+          }
+        },
+        {
+          "start": {
+            "line": 90,
+            "column": 36
+          },
+          "end": {
+            "line": 90,
+            "column": 63
+          }
+        },
+        {
+          "start": {
+            "line": 90,
+            "column": 68
+          },
+          "end": {
+            "line": 90,
+            "column": 87
+          }
+        },
+        {
+          "start": {
+            "line": 90,
+            "column": 91
+          },
+          "end": {
+            "line": 90,
+            "column": 111
+          }
+        }
+      ]
+    },
+    {
+      "id": "17",
+      "arm": 1,
+      "line": 96,
+      "count": 8,
+      "locations": [
+        {
+          "start": {
+            "line": 96,
+            "column": 9
+          },
+          "end": {
+            "line": 96,
+            "column": 14
+          }
+        },
+        {
+          "start": {
+            "line": 96,
+            "column": 18
+          },
+          "end": {
+            "line": 96,
+            "column": 38
+          }
+        }
+      ]
+    },
+    {
+      "id": "29",
+      "arm": 1,
+      "line": 139,
+      "count": 2,
+      "locations": [
+        {
+          "start": {
+            "line": 139,
+            "column": 52
+          },
+          "end": {
+            "line": 139,
+            "column": 104
+          }
+        },
+        {
+          "start": {},
+          "end": {}
+        }
+      ]
+    },
+    {
+      "id": "36",
+      "arm": 1,
+      "line": 165,
+      "count": 1,
+      "locations": [
+        {
+          "start": {
+            "line": 165,
+            "column": 6
+          },
+          "end": {
+            "line": 165,
+            "column": 49
+          }
+        },
+        {
+          "start": {},
+          "end": {}
+        }
+      ]
+    },
+    {
+      "id": "37",
+      "arm": 0,
+      "line": 166,
+      "count": 1,
+      "locations": [
+        {
+          "start": {
+            "line": 166,
+            "column": 6
+          },
+          "end": {
+            "line": 166,
+            "column": 63
+          }
+        },
+        {
+          "start": {},
+          "end": {}
+        }
+      ]
+    },
+    {
+      "id": "43",
+      "arm": 0,
+      "line": 185,
+      "count": 1,
+      "locations": [
+        {
+          "start": {
+            "line": 185,
+            "column": 6
+          },
+          "end": {
+            "line": 185,
+            "column": 69
+          }
+        },
+        {
+          "start": {},
+          "end": {}
+        }
+      ]
+    },
+    {
+      "id": "44",
+      "arm": 0,
+      "line": 193,
+      "count": 1,
+      "locations": [
+        {
+          "start": {
+            "line": 193,
+            "column": 4
+          },
+          "end": {
+            "line": 193,
+            "column": 28
+          }
+        },
+        {
+          "start": {},
+          "end": {}
+        }
+      ]
+    },
+    {
+      "id": "55",
+      "arm": 1,
+      "line": 236,
+      "count": 1,
+      "locations": [
+        {
+          "start": {
+            "line": 236,
+            "column": 4
+          },
+          "end": {
+            "line": 236,
+            "column": 94
+          }
+        },
+        {
+          "start": {},
+          "end": {}
+        }
+      ]
+    },
+    {
+      "id": "71",
+      "arm": 1,
+      "line": 271,
+      "count": 1,
+      "locations": [
+        {
+          "start": {
+            "line": 271,
+            "column": 8
+          },
+          "end": {
+            "line": 271,
+            "column": 165
+          }
+        },
+        {
+          "start": {},
+          "end": {}
+        }
+      ]
+    },
+    {
+      "id": "82",
+      "arm": 0,
+      "line": 308,
+      "count": 1,
+      "locations": [
+        {
+          "start": {
+            "line": 308,
+            "column": 4
+          },
+          "end": {
+            "line": 308,
+            "column": 67
+          }
+        },
+        {
+          "start": {},
+          "end": {}
+        }
+      ]
+    }
+  ],
+  "privateDefault": {
+    "id": "52",
+    "arm": 0,
+    "count": 0,
+    "disposition": "Current application unreachable; full raw denominator retained; CONTROLLER-DEFAULT-AUDIT.json"
+  },
+  "originalSuite": {
+    "sha256": "12c76920b8f9d069e56ab3f1568ae1c488f6d4cfb42dcad68d7cfd4f8017b785",
+    "verbatimPrefixRetained": true,
+    "originalCases": 17,
+    "addedCases": 5
+  },
+  "logs": {
+    "ordinary": "/tmp/down-to-duck-controller-guards-ordinary.log",
+    "canonical": "/tmp/down-to-duck-controller-guards-canonical.log"
+  },
+  "manifestSha256": "a5242f9d85bd33e014ee737134a45a3eceeb8dd502f0654b799786b22b22a916",
+  "normalArtifactRawSha256": "9036d9a1f179b136569a3b400c412d954d783987c751832afbbbfda287c63539",
+  "rootLockRawSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "limits": [
+    "Injected snapshot/component callback fixtures,not physical-controller or public-UI proof",
+    "No mode attribution or whole-worker mode credit",
+    "No production source,dependency,numeric scope,denominator orfloor change"
+  ]
+}

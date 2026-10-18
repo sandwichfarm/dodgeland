@@ -46,7 +46,7 @@ async function restoreSoundPreferences(frame, page, iframe, soundPage, original)
       ['music', 'ambience', 'effects'].every(name => Math.round(saved?.[`${name}Volume`] * 100) === Number(original[name]));
   }, original);
 }
-const browser = await chromium.launch();
+const browser = await chromium.launch({ args: ['--mute-audio'] });
 let restorePreferences;
 try {
   const page = await browser.newPage({ viewport: { width: 1400, height: 850 } });

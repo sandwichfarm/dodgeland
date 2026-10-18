@@ -1,3 +1,15 @@
+import { artifactDirectoryForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
+const coverageArtifacts = artifactDirectoryForCoverage(new URL('../artifacts/', import.meta.url), 'mob-render');
+const coveragePages = new Map();
+let coverageGeneration = 0;
+function registerPage(page) {
+  const identity = { suite: process.argv[1], scenario: 'mob-render', frame: 'component-page', generation: coverageGeneration++, scope: 'current' };
+  registerRealm(page, identity); coveragePages.set(page, identity);
+}
+async function closePage(page) {
+  try { await collectRealm(page, coveragePages.get(page)); }
+  finally { coveragePages.delete(page); await page.close(); }
+}
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
@@ -12,9 +24,10 @@ const server = createServer((request, response) => {
   response.end(source ?? '<!doctype html><style>body{margin:0;background:#f4f2df}canvas{display:block}</style><canvas width="720" height="500"></canvas>');
 });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
-const browser = await chromium.launch();
-after(async () => { await browser.close(); await new Promise(resolve => server.close(resolve)); });
+const browser = await chromium.launch({ args: ['--mute-audio'] });
+after(async () => { try { for (const page of coveragePages.keys()) await closePage(page); } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); } });
 const page = await browser.newPage({ viewport: { width: 720, height: 500 }, deviceScaleFactor: 1 });
+registerPage(page);
 await page.goto(`http://127.0.0.1:${server.address().port}`);
 await page.evaluate(async () => {
   const [{ Renderer }, { Game, HOP_TIME }, { worldById, characterById }, { mobDefinition }, { mobPose }] = await Promise.all([
@@ -197,7 +210,7 @@ await page.evaluate(async () => {
     return output.toDataURL().split(',')[1];
   };
 });
-const artifacts = new URL('../artifacts/', import.meta.url);
+const artifacts = coverageArtifacts;
 await mkdir(artifacts, { recursive: true });
 
 test('all mob cores cover their real contact disks and retain distinct visible bodies', async () => {

@@ -1,0 +1,92 @@
+{
+  "status": "Retained real RED and narrow Relay effect repair pass focused/broad ordinary gates;current coverage profiles still require review/refresh",
+  "redCommit": "145c371",
+  "productionChanges": [
+    "RelayCoordinator.attach enables existing shared-world effect policy",
+    "LocalSession.refreshSharedWorldEffects includes living participants only when current mode simulates them"
+  ],
+  "sourcePins": {
+    "src/session.ts": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+    "src/relay.ts": "e789deca92e5e17ec683cbbd3103b9b9b3d3e726d6e36712fa5aec4c755c7f89",
+    "src/game.ts": "04d7556c96b37b03539f270c2ce2c8e2b620c301d729a1fd6238be8e66d9413b",
+    "src/shared-world-effects.ts": "715dce9a98a83c398aa3a3d43531568008a9cefaa9be8df766a921dd2eb43a45"
+  },
+  "callerInventorySha256": "1e5fb4e2867c625954f071288a00d89c3fa1d51dc53424fb69d063f3783f3853",
+  "sourceCount": 159,
+  "resolvedAuditTargets": 371,
+  "normalArtifactRawSha256": "6bd5104d0aac9472aaa01facdacdfbfcfc38f944cb01c18ea7f3d65e1549d1e2",
+  "rootLockRawSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "testSourceSha256": "1caaf00fdafa84907f54d9e504ee22760572fe26fe93b5e66d05c11311dbd8db",
+  "tests": {
+    "retainedRED": {
+      "passed": 0,
+      "failed": 2
+    },
+    "focusedGREEN": {
+      "passed": 2,
+      "failed": 0
+    },
+    "relaySurviveSoloGate": {
+      "passed": 112,
+      "failed": 0,
+      "skipped": 0,
+      "exit": 0
+    },
+    "raceAndSoloActors": {
+      "passed": 101,
+      "failed": 0,
+      "skipped": 0,
+      "exit": 0
+    },
+    "finalFocusedAttributionWrapper": {
+      "passed": 2,
+      "failed": 0,
+      "exit": 0
+    }
+  },
+  "requiredGates": {
+    "type-check": 0,
+    "build": 0,
+    "guidance": {
+      "exit": 0,
+      "passed": 7
+    },
+    "conformance": {
+      "exit": 0,
+      "passed": 5,
+      "failed": 0,
+      "unmeasured": 5
+    }
+  },
+  "executionInventory": {
+    "valid": true,
+    "entries": 154,
+    "closure": 161,
+    "jobs": 166,
+    "controls": 10
+  },
+  "artifacts": {
+    "artifacts/release-coverage/relay-effects-repair/ast-delta.json": "babe98d7cbb33df8455adb82b33c0d4d31a6a5c2d1f20cfc03a4dfb21b7c5311",
+    "artifacts/release-coverage/relay-effects-repair/ast-delta.log": "501179d5f608744959984d959e0cecfd5c1f34c02ad9c9638cb0d667f3e81bee",
+    "artifacts/release-coverage/relay-effects-repair/ast-delta.mjs": "b6e19a39a4612652ee07eb28ef154afcb33b28ea59bc30caf776d93f87e292c3",
+    "artifacts/release-coverage/relay-effects-repair/execution-inventory.json": "5abeb813192ba43b581d8229af62c1a96f10e2626808f412c9464d437c7fad92",
+    "artifacts/release-coverage/relay-effects-repair/final-focused.log": "a17730481263ccaf0dfcbdea26261180afdb56baf26c140c69e78abd9eef8022",
+    "artifacts/release-coverage/relay-effects-repair/gates.log": "8a9b1e3f38054f1487fb246610dcf9b79f3aaff98a7ba4517615730e1a246f90",
+    "artifacts/release-coverage/relay-effects-repair/green.log": "7470094bdf7742b4afd3add8d6ff0a1393c7b39999472cc4f44144d00ef79c17",
+    "artifacts/release-coverage/relay-effects-repair/prior-policy-fixture-gate.log": "e859d619409a724884e6704acaddbaae39b92c696347d5e0773046cd533e98b2",
+    "artifacts/release-coverage/relay-effects-repair/race-and-solo-actors.log": "bec7f7d694e444f67e3f3f1816d70ed604e02bc3c03b0bb75697b8c48cef0a47",
+    "artifacts/release-coverage/relay-effects-repair/red.log": "8ba37bc96e100f484b62ef2e064a626d7e745b8fa15c245eea2478952ddce486",
+    "artifacts/release-coverage/relay-effects-repair/reference-audit.json": "3dc3c67c334636ac15ac411909c707857c3a424c0e802c216567c69bd817b1cb",
+    "artifacts/release-coverage/relay-effects-repair/reference-audit.log": "6d76003e6dbea94216df9f89332d57442747fe3aaa6ccc4db59d3f10ce908288",
+    "artifacts/release-coverage/relay-effects-repair/reference-audit.mjs": "279cca0f020a7a66df74cf68cfd6fff97e70722a303e16ababc2da2708c2d179"
+  },
+  "coverageStatus": "Old69/98 Relay/Race diagnostic gaps and all Session399/Relayf5c source counters are historical;new Sessione90/Relaye789 require reviewed profiles and fresh collection",
+  "limits": [
+    "Terrain,market eligibility,funds and stock are explicit component fixtures;actual purchases,sales,input,world updates and handoffs own behavior",
+    "Existing ground/platform continuity cases now assert active-runner policy instead of absence;their full world/asset comparisons remain",
+    "Race keeps appearance-only baseline;Survive retains all living contributors when no simulates handler is installed;solo oracle tests remain unchanged",
+    "Reference audit covers159 src files/371 resolved targets;AST delta proves only two named callable bodies changed;this alone does not authorize automatic coverage re-pinning",
+    "Source-pinned turn/solo/development coverage controls have not been refreshed;no canonical coverage or final release pass claimed",
+    "No source Game,oracle,dependency,wire protocol,mode-ID switch,modifier engine or numeric floor change"
+  ]
+}

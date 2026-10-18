@@ -1,3 +1,4 @@
+import { artifactForCoverage, artifactDirectoryForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 // Production artifact, actual SDK adapter and an opaque allow-scripts iframe.
 // The runtime fixture owns delivery queuing. CDP reads live module state and
 // stages terrain/stock only; no app-side test hooks or replacement SDK modules.
@@ -6,8 +7,9 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { chromium } from 'playwright';
 
-const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
-const output = new URL('../artifacts/', import.meta.url);
+const built = await readFile(artifactForCoverage(new URL('../dist/index.html', import.meta.url)), 'utf8');
+const output = artifactDirectoryForCoverage(new URL('../artifacts/', import.meta.url), 'game-intents-runtime');
+let generation = 0;
 await mkdir(output, { recursive: true });
 const evidence = { artifact: 'Production build in opaque allow-scripts iframe',
   fixture: 'Muted Chromium; injected runtime queues NAP-INTENT deliveries until SDK subscription. CDP re-resolves live Game after resets.',
@@ -31,7 +33,8 @@ function installFixture(options) {
   f.releaseStorage = () => {};
   window.napplet = {
     storage: {
-      async getItem() {
+      async getItem(key) {
+        if (key !== 'puddlehop.progress.v1') return null;
         f.order.push('storage:start');
         if (options.delayStorage) await new Promise(resolve => { f.releaseStorage = resolve; });
         f.hydrated = true; f.order.push('storage:done');
@@ -68,6 +71,9 @@ async function setup(options = {}) {
   const server = createServer((_request, response) => { response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); response.end(harness); });
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   const browser = await chromium.launch({ args: ['--mute-audio'] });
+  let frame;
+  const identity = { suite: process.argv[1], scenario: 'game-intents-runtime', frame: 'opaque-app', generation: generation++, scope: 'current' };
+  try {
   const page = await browser.newPage({ viewport: { width: 1000, height: 700 } });
   page.setDefaultTimeout(8000); await page.clock.install();
   page.on('pageerror', error => evidence.errors.push(error.message));
@@ -79,8 +85,8 @@ async function setup(options = {}) {
   cdp.on('Runtime.executionContextCreated', ({ context }) => contexts.set(context.id, context));
   cdp.on('Runtime.executionContextDestroyed', ({ executionContextId }) => contexts.delete(executionContextId));
   cdp.on('Runtime.executionContextsCleared', () => contexts.clear());
-  await cdp.send('Runtime.enable'); await page.goto(`http://127.0.0.1:${server.address().port}`);
-  const frame = await (await page.locator('iframe').elementHandle()).contentFrame();
+  await cdp.send('Runtime.enable'); registerRealm(page, identity); await page.goto(`http://127.0.0.1:${server.address().port}`);
+  frame = await (await page.locator('iframe').elementHandle()).contentFrame();
   await frame.waitForFunction(() => window.gameIntentFixture?.order.includes('storage:start'));
   const ready = async () => {
     await frame.waitForFunction(() => !!window.gameIntentFixture.handlers['puddlehop.market']);
@@ -118,7 +124,8 @@ async function setup(options = {}) {
   const send = value => frame.evaluate(value => window.gameIntentFixture.deliver(value), value);
   const advance = ms => page.clock.runFor(ms);
   return { page, frame, ready, onGame, snapshot, send, advance,
-    async close() { await browser.close(); await new Promise(resolve => server.close(resolve)); } };
+    async close() { try { await collectRealm(frame, identity); } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); } } };
+  } catch (error) { try { if (frame) await collectRealm(frame, identity); } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); } throw error; }
 }
 
 const initialCode = 'ph2-1234abcd-pond-s-n';

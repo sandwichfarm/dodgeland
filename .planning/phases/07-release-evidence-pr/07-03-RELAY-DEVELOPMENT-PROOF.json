@@ -1,0 +1,819 @@
+{
+  "purpose": "Whole real Relay suite in both build scopes;diagnostic source-identical witness union only",
+  "observedAt": "2026-10-17T21:50:33.780145+00:00",
+  "runId": "ad72aa70-891c-4cb8-8c88-d755578dfae6",
+  "exit": 0,
+  "tests": 24,
+  "testsPerJob": 12,
+  "skipped": 0,
+  "browserRealms": 28,
+  "nodeParents": 2,
+  "separateNodeRealms": [
+    "tests/relay-runtime.mjs",
+    "tests/relay-runtime.mjs#relay-runtime-development"
+  ],
+  "sourceInventoryByteSha256": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+  "all169PriorJobsAndManifestValuesPreserved": true,
+  "productionSourceChanged": false,
+  "testChange": "Only decline production-mode attribution for DEV snapshots;every original12 test body/assertion remains",
+  "dispatchAudit": {
+    "entries": 157,
+    "closure": 164,
+    "jobs": 170,
+    "controls": 10,
+    "nodeRealms": 96,
+    "fullManifestValid": true,
+    "addedJob": {
+      "id": "relay-runtime-development",
+      "file": "tests/relay-runtime.mjs",
+      "role": "mixed",
+      "requiredRealms": [
+        "node",
+        "browser"
+      ],
+      "defaultBuildScope": "development",
+      "artifactPatterns": [],
+      "requiredBuildScopes": [
+        "development"
+      ],
+      "verifyArtifactScope": true,
+      "nodeRealmId": "tests/relay-runtime.mjs#relay-runtime-development"
+    }
+  },
+  "hashes": {
+    "artifacts/release-coverage/relay-development-03-proof/canonical.log": "f0982f2108dd8f3f959f5e533e055a7bbcf2231358bc67d4862b5be5347e7d95",
+    "artifacts/release-coverage/relay-development-03-proof/dispatch-audit.json": "86fabb27366e21b35c6cb41da610d8d29fe6117fd6be67c9235cba1ae6dc1188",
+    "artifacts/release-coverage/relay-development-03/manifest.json": "5d79198728f78f8b9f31e8b0cb9b852e8b3c604de9a323c7070cea06c902d569",
+    "artifacts/release-coverage/relay-development-03/attribution.json": "fe0438b4ac9e81e755dc4ab52a7c44655992df812d75ab2c4d93fb511a7bb2a5",
+    "artifacts/release-coverage/relay-development-03/report/coverage-final.json": "693476a4c36ce71853fc824a96f96d82465fa7d152158eb47d36dd836b2bcf17",
+    "tests/relay-runtime.mjs": "dd3ef8ceb85169540fa7e9f4a75326f65046ff6caefd59ae7eab5185c65c5e82",
+    "tools/release-coverage/suites.json": "99776ed2e5f1358b9faff3bfe68c53de9a9bbe8be7f5c9b3d6e48b32e6c3cd4f"
+  },
+  "results": {
+    "global": {
+      "baseline": {
+        "covered": 9168,
+        "total": 9998
+      },
+      "uniqueNewWitnessesIncludingFlare": 5,
+      "newBeyondFlare": 0,
+      "diagnosticUnionCovered": 9173,
+      "total": 9998,
+      "remainingAt85": 0,
+      "rows": [
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "227",
+          "arm": 5,
+          "location": {
+            "start": {
+              "line": 819,
+              "column": 37
+            },
+            "end": {
+              "line": 819,
+              "column": 85
+            }
+          },
+          "line": 819,
+          "text": "&& (lane.kind !== 'river' || platformSupports(lane, exact.x, this.world.time))",
+          "flareHits": 2,
+          "relayRuntimeHits": 0
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "227",
+          "arm": 8,
+          "location": {
+            "start": {
+              "line": 820,
+              "column": 62
+            },
+            "end": {
+              "line": 820,
+              "column": 163
+            }
+          },
+          "line": 820,
+          "text": "&& ((lane.kind !== 'road' && lane.kind !== 'rail') || laneActors(lane, this.world.time).every(actor => Math.abs(actor.x - exact.x) > actor.length / 2 + .2))",
+          "flareHits": 4,
+          "relayRuntimeHits": 0
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "228",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 821,
+              "column": 40
+            },
+            "end": {
+              "line": 821,
+              "column": 64
+            }
+          },
+          "line": 821,
+          "text": "&& !this.world.mobs.some(mob => mob.phase !== 'spawning' && Math.hypot(mob.x - exact.x, mob.y - row) < .7);",
+          "flareHits": 6,
+          "relayRuntimeHits": 0
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "228",
+          "arm": 1,
+          "location": {
+            "start": {
+              "line": 821,
+              "column": 68
+            },
+            "end": {
+              "line": 821,
+              "column": 113
+            }
+          },
+          "line": 821,
+          "text": "&& !this.world.mobs.some(mob => mob.phase !== 'spawning' && Math.hypot(mob.x - exact.x, mob.y - row) < .7);",
+          "flareHits": 2,
+          "relayRuntimeHits": 0
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "231",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 825,
+              "column": 6
+            },
+            "end": {
+              "line": 825,
+              "column": 74
+            }
+          },
+          "line": 825,
+          "text": "if (remaining.length < ordered.length - 1) return Object.freeze([]);",
+          "flareHits": 2,
+          "relayRuntimeHits": 0
+        }
+      ]
+    },
+    "browser-presentation-owner-lifecycle": {
+      "baseline": {
+        "covered": 8336,
+        "total": 9867
+      },
+      "uniqueNewWitnessesIncludingFlare": 5,
+      "newBeyondFlare": 0,
+      "diagnosticUnionCovered": 8341,
+      "total": 9867,
+      "remainingAt85": 46,
+      "rows": [
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "227",
+          "arm": 5,
+          "location": {
+            "start": {
+              "line": 819,
+              "column": 37
+            },
+            "end": {
+              "line": 819,
+              "column": 85
+            }
+          },
+          "line": 819,
+          "text": "&& (lane.kind !== 'river' || platformSupports(lane, exact.x, this.world.time))",
+          "flareHits": 1,
+          "relayRuntimeHits": 0
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "227",
+          "arm": 8,
+          "location": {
+            "start": {
+              "line": 820,
+              "column": 62
+            },
+            "end": {
+              "line": 820,
+              "column": 163
+            }
+          },
+          "line": 820,
+          "text": "&& ((lane.kind !== 'road' && lane.kind !== 'rail') || laneActors(lane, this.world.time).every(actor => Math.abs(actor.x - exact.x) > actor.length / 2 + .2))",
+          "flareHits": 2,
+          "relayRuntimeHits": 0
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "228",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 821,
+              "column": 40
+            },
+            "end": {
+              "line": 821,
+              "column": 64
+            }
+          },
+          "line": 821,
+          "text": "&& !this.world.mobs.some(mob => mob.phase !== 'spawning' && Math.hypot(mob.x - exact.x, mob.y - row) < .7);",
+          "flareHits": 3,
+          "relayRuntimeHits": 0
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "228",
+          "arm": 1,
+          "location": {
+            "start": {
+              "line": 821,
+              "column": 68
+            },
+            "end": {
+              "line": 821,
+              "column": 113
+            }
+          },
+          "line": 821,
+          "text": "&& !this.world.mobs.some(mob => mob.phase !== 'spawning' && Math.hypot(mob.x - exact.x, mob.y - row) < .7);",
+          "flareHits": 1,
+          "relayRuntimeHits": 0
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "231",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 825,
+              "column": 6
+            },
+            "end": {
+              "line": 825,
+              "column": 74
+            }
+          },
+          "line": 825,
+          "text": "if (remaining.length < ordered.length - 1) return Object.freeze([]);",
+          "flareHits": 1,
+          "relayRuntimeHits": 0
+        }
+      ]
+    },
+    "development": {
+      "baseline": {
+        "covered": 2253,
+        "total": 2805
+      },
+      "uniqueNewWitnessesIncludingFlare": 24,
+      "newBeyondFlare": 19,
+      "diagnosticUnionCovered": 2277,
+      "total": 2805,
+      "remainingAt85": 108,
+      "rows": [
+        {
+          "path": "src/co-op-market.ts",
+          "sourceHash": "037a96c9f9436346f06306cac74808aab5e92e205ce2c42bebb1dbd16ca24c22",
+          "mapHash": "059f2c4a97a7a2b1d22f66d5b34ebec99e624f01557f299b63f045b102788d3c",
+          "branchId": "4",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 91,
+              "column": 4
+            },
+            "end": {
+              "line": 91,
+              "column": 33
+            }
+          },
+          "line": 91,
+          "text": "if (!owner) return undefined;",
+          "flareHits": 0,
+          "relayRuntimeHits": 6
+        },
+        {
+          "path": "src/co-op-market.ts",
+          "sourceHash": "037a96c9f9436346f06306cac74808aab5e92e205ce2c42bebb1dbd16ca24c22",
+          "mapHash": "059f2c4a97a7a2b1d22f66d5b34ebec99e624f01557f299b63f045b102788d3c",
+          "branchId": "6",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 97,
+              "column": 52
+            },
+            "end": {
+              "line": 97,
+              "column": 61
+            }
+          },
+          "line": 97,
+          "text": "const owner = this.selectedSeat === undefined ? undefined : this.host.coOpMarketOwners().find(candidate => candidate.seat === this.selectedSeat);",
+          "flareHits": 0,
+          "relayRuntimeHits": 42
+        },
+        {
+          "path": "src/co-op-market.ts",
+          "sourceHash": "037a96c9f9436346f06306cac74808aab5e92e205ce2c42bebb1dbd16ca24c22",
+          "mapHash": "059f2c4a97a7a2b1d22f66d5b34ebec99e624f01557f299b63f045b102788d3c",
+          "branchId": "7",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 98,
+              "column": 4
+            },
+            "end": {
+              "line": 98,
+              "column": 58
+            }
+          },
+          "line": 98,
+          "text": "if (!owner || !this.eligible(owner)) return undefined;",
+          "flareHits": 0,
+          "relayRuntimeHits": 42
+        },
+        {
+          "path": "src/co-op-market.ts",
+          "sourceHash": "037a96c9f9436346f06306cac74808aab5e92e205ce2c42bebb1dbd16ca24c22",
+          "mapHash": "059f2c4a97a7a2b1d22f66d5b34ebec99e624f01557f299b63f045b102788d3c",
+          "branchId": "13",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 115,
+              "column": 4
+            },
+            "end": {
+              "line": 115,
+              "column": 198
+            }
+          },
+          "line": 115,
+          "text": "if (!owner || !current || !this.matches(request, current) || !actionId(request.actionId) || this.actions.has(request.actionId)) return this.fail('That market interaction is no longer current.');",
+          "flareHits": 0,
+          "relayRuntimeHits": 22
+        },
+        {
+          "path": "src/co-op-market.ts",
+          "sourceHash": "037a96c9f9436346f06306cac74808aab5e92e205ce2c42bebb1dbd16ca24c22",
+          "mapHash": "059f2c4a97a7a2b1d22f66d5b34ebec99e624f01557f299b63f045b102788d3c",
+          "branchId": "37",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 161,
+              "column": 4
+            },
+            "end": {
+              "line": 161,
+              "column": 280
+            }
+          },
+          "line": 161,
+          "text": "if (request.kind === 'buy-consumable' && this.isConsumable(request.itemId) && !this.itemEligible(owner, request.itemId)) return { ok: false, message: `${this.catalogue.find(item => item.id === request.itemId)!.name} is not available in ${this.host.coOpMarketMode!().name}.` };",
+          "flareHits": 0,
+          "relayRuntimeHits": 2
+        },
+        {
+          "path": "src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "branchId": "20",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 99,
+              "column": 2
+            },
+            "end": {
+              "line": 99,
+              "column": 96
+            }
+          },
+          "line": 99,
+          "text": "if (!holdsCapability(request.mode, item.requiredCapability)) return reject('ineligible-mode');",
+          "flareHits": 0,
+          "relayRuntimeHits": 126
+        },
+        {
+          "path": "src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "branchId": "40",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 129,
+              "column": 2
+            },
+            "end": {
+              "line": 129,
+              "column": 32
+            }
+          },
+          "line": 129,
+          "text": "if ('ok' in item) return item;",
+          "flareHits": 0,
+          "relayRuntimeHits": 126
+        },
+        {
+          "path": "src/market/run.ts",
+          "sourceHash": "ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f",
+          "mapHash": "ad818814e8ce4d89d771a2b069dd5596a7f2bdd32f4267c7948959b6bde29acd",
+          "branchId": "90",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 254,
+              "column": 4
+            },
+            "end": {
+              "line": 254,
+              "column": 183
+            }
+          },
+          "line": 254,
+          "text": "if (!this.alive || !this.isOpen || !this.market || this.market.remaining <= 0 || !draft || !this.itemEligible(draft.packId)) return invalid('Open your pack to choose its cards.');",
+          "flareHits": 0,
+          "relayRuntimeHits": 12
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "151",
+          "arm": 1,
+          "location": {
+            "start": {
+              "line": 661,
+              "column": 104
+            },
+            "end": {
+              "line": 661,
+              "column": 259
+            }
+          },
+          "line": 661,
+          "text": "coOpMarketConsumableState: owner => this.consumableWorld?.marketState(owner as SessionPlayer) ?? (policy?.consumables === false ? { ownerGeneration: this.lifecycle.filter(record => record.seat === owner.seat).length, inventoryGeneration: 0 } : undefined),",
+          "flareHits": 0,
+          "relayRuntimeHits": 188
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "152",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 661,
+              "column": 136
+            },
+            "end": {
+              "line": 661,
+              "column": 247
+            }
+          },
+          "line": 661,
+          "text": "coOpMarketConsumableState: owner => this.consumableWorld?.marketState(owner as SessionPlayer) ?? (policy?.consumables === false ? { ownerGeneration: this.lifecycle.filter(record => record.seat === owner.seat).length, inventoryGeneration: 0 } : undefined),",
+          "flareHits": 0,
+          "relayRuntimeHits": 188
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "179",
+          "arm": 1,
+          "location": {
+            "start": {},
+            "end": {}
+          },
+          "line": 738,
+          "text": "if (!outgoing || !incoming || outgoing.participation !== 'active' || incoming.participation !== 'active' || outgoing.state !== 'playing' || incoming.state !== 'playing' || !this.isRecoverySafePosition(outgoing)) return false;",
+          "flareHits": 0,
+          "relayRuntimeHits": 6
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "180",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 738,
+              "column": 8
+            },
+            "end": {
+              "line": 738,
+              "column": 17
+            }
+          },
+          "line": 738,
+          "text": "if (!outgoing || !incoming || outgoing.participation !== 'active' || incoming.participation !== 'active' || outgoing.state !== 'playing' || incoming.state !== 'playing' || !this.isRecoverySafePosition(outgoing)) return false;",
+          "flareHits": 0,
+          "relayRuntimeHits": 6
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "180",
+          "arm": 1,
+          "location": {
+            "start": {
+              "line": 738,
+              "column": 21
+            },
+            "end": {
+              "line": 738,
+              "column": 30
+            }
+          },
+          "line": 738,
+          "text": "if (!outgoing || !incoming || outgoing.participation !== 'active' || incoming.participation !== 'active' || outgoing.state !== 'playing' || incoming.state !== 'playing' || !this.isRecoverySafePosition(outgoing)) return false;",
+          "flareHits": 0,
+          "relayRuntimeHits": 6
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "180",
+          "arm": 2,
+          "location": {
+            "start": {
+              "line": 738,
+              "column": 34
+            },
+            "end": {
+              "line": 738,
+              "column": 69
+            }
+          },
+          "line": 738,
+          "text": "if (!outgoing || !incoming || outgoing.participation !== 'active' || incoming.participation !== 'active' || outgoing.state !== 'playing' || incoming.state !== 'playing' || !this.isRecoverySafePosition(outgoing)) return false;",
+          "flareHits": 0,
+          "relayRuntimeHits": 6
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "180",
+          "arm": 3,
+          "location": {
+            "start": {
+              "line": 738,
+              "column": 73
+            },
+            "end": {
+              "line": 738,
+              "column": 108
+            }
+          },
+          "line": 738,
+          "text": "if (!outgoing || !incoming || outgoing.participation !== 'active' || incoming.participation !== 'active' || outgoing.state !== 'playing' || incoming.state !== 'playing' || !this.isRecoverySafePosition(outgoing)) return false;",
+          "flareHits": 0,
+          "relayRuntimeHits": 6
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "180",
+          "arm": 4,
+          "location": {
+            "start": {
+              "line": 738,
+              "column": 112
+            },
+            "end": {
+              "line": 738,
+              "column": 140
+            }
+          },
+          "line": 738,
+          "text": "if (!outgoing || !incoming || outgoing.participation !== 'active' || incoming.participation !== 'active' || outgoing.state !== 'playing' || incoming.state !== 'playing' || !this.isRecoverySafePosition(outgoing)) return false;",
+          "flareHits": 0,
+          "relayRuntimeHits": 6
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "180",
+          "arm": 5,
+          "location": {
+            "start": {
+              "line": 738,
+              "column": 144
+            },
+            "end": {
+              "line": 738,
+              "column": 172
+            }
+          },
+          "line": 738,
+          "text": "if (!outgoing || !incoming || outgoing.participation !== 'active' || incoming.participation !== 'active' || outgoing.state !== 'playing' || incoming.state !== 'playing' || !this.isRecoverySafePosition(outgoing)) return false;",
+          "flareHits": 0,
+          "relayRuntimeHits": 6
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "180",
+          "arm": 6,
+          "location": {
+            "start": {
+              "line": 738,
+              "column": 176
+            },
+            "end": {
+              "line": 738,
+              "column": 214
+            }
+          },
+          "line": 738,
+          "text": "if (!outgoing || !incoming || outgoing.participation !== 'active' || incoming.participation !== 'active' || outgoing.state !== 'playing' || incoming.state !== 'playing' || !this.isRecoverySafePosition(outgoing)) return false;",
+          "flareHits": 0,
+          "relayRuntimeHits": 6
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "227",
+          "arm": 5,
+          "location": {
+            "start": {
+              "line": 819,
+              "column": 37
+            },
+            "end": {
+              "line": 819,
+              "column": 85
+            }
+          },
+          "line": 819,
+          "text": "&& (lane.kind !== 'river' || platformSupports(lane, exact.x, this.world.time))",
+          "flareHits": 1,
+          "relayRuntimeHits": 0
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "227",
+          "arm": 8,
+          "location": {
+            "start": {
+              "line": 820,
+              "column": 62
+            },
+            "end": {
+              "line": 820,
+              "column": 163
+            }
+          },
+          "line": 820,
+          "text": "&& ((lane.kind !== 'road' && lane.kind !== 'rail') || laneActors(lane, this.world.time).every(actor => Math.abs(actor.x - exact.x) > actor.length / 2 + .2))",
+          "flareHits": 2,
+          "relayRuntimeHits": 0
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "228",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 821,
+              "column": 40
+            },
+            "end": {
+              "line": 821,
+              "column": 64
+            }
+          },
+          "line": 821,
+          "text": "&& !this.world.mobs.some(mob => mob.phase !== 'spawning' && Math.hypot(mob.x - exact.x, mob.y - row) < .7);",
+          "flareHits": 3,
+          "relayRuntimeHits": 0
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "228",
+          "arm": 1,
+          "location": {
+            "start": {
+              "line": 821,
+              "column": 68
+            },
+            "end": {
+              "line": 821,
+              "column": 113
+            }
+          },
+          "line": 821,
+          "text": "&& !this.world.mobs.some(mob => mob.phase !== 'spawning' && Math.hypot(mob.x - exact.x, mob.y - row) < .7);",
+          "flareHits": 1,
+          "relayRuntimeHits": 0
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "231",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 825,
+              "column": 6
+            },
+            "end": {
+              "line": 825,
+              "column": 74
+            }
+          },
+          "line": 825,
+          "text": "if (remaining.length < ordered.length - 1) return Object.freeze([]);",
+          "flareHits": 1,
+          "relayRuntimeHits": 0
+        },
+        {
+          "path": "src/session.ts",
+          "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+          "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835",
+          "branchId": "237",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 839,
+              "column": 4
+            },
+            "end": {
+              "line": 839,
+              "column": 75
+            }
+          },
+          "line": 839,
+          "text": "if (!lane || lane.blocked.includes(Math.round(player.x))) return false;",
+          "flareHits": 0,
+          "relayRuntimeHits": 1793
+        }
+      ]
+    },
+    "relay": {
+      "baseline": {
+        "covered": 2286,
+        "total": 2722
+      },
+      "uniqueNewWitnessesIncludingFlare": 0,
+      "newBeyondFlare": 0,
+      "diagnosticUnionCovered": 2286,
+      "total": 2722,
+      "remainingAt85": 28,
+      "rows": []
+    }
+  },
+  "limitations": "Unchanged original runtime provenance:some actual seeded/public journeys and some explicitly arranged course/inventory/death fixtures. Node helper counters never enter DEV;DEV snapshots never enter production-mode intervals. No full enforcement/semantic/conformance/visual/PR completion.",
+  "comparisonScriptSha256": "983d4388bbf4550425bf10618b35da69395edf8235ac1be2c9301f32dbba58e3",
+  "comparisonSha256": "f6409ece0fa2badd24ed15eee8a20c18bab249939500c0231b8f6e9e9c715c7c",
+  "normalRawSha256": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
+  "rootLockRawSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "comparisonPreparation": "Initial reader assumed26 browser realms;actual manifest has28(14 per build). Reader corrected to match actual receipts;no test failure or counter change."
+}

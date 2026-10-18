@@ -1,0 +1,55 @@
+{
+  "status": "failed-not-accepted",
+  "observedAt": "2026-10-18T04:53:07.710931+00:00",
+  "runId": "88465003-ebf6-477f-b091-71a79781afe2",
+  "directory": "artifacts/release-final/88465003-ebf6-477f-b091-71a79781afe2",
+  "sessionId": 11882,
+  "actualLiveParentPid": 10879,
+  "actualCommand": "node tests/release-gate.mjs",
+  "inheritedChildPid": null,
+  "stage": "enforcing-coverage-failed",
+  "codeFreezeHead": "58f63a3",
+  "normalArtifactRawSha256": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
+  "referenceHashes": {
+    "docs/release-evidence/reference/nip-5d.md": "7d716e8ec9f1737b070f4716b998f52fd6e189d5bb1bc4c2efe6c1dae35b9f37",
+    "docs/release-evidence/reference/reference.json": "a8d13df59b6b2be2da2b22a5c4d8b2f37c845d07121b845d67883c1451749a12"
+  },
+  "terminalExit": 1,
+  "canonicalLog": "artifacts/release-final-launch-01/canonical.log",
+  "limits": [
+    "This actual live-process observation isnot terminal release acceptance",
+    "Revalidate same handle/PID;do not restart on silence",
+    "No PR opened yet"
+  ],
+  "completedStages": [
+    {
+      "id": "inherited-phase6",
+      "terminalExit": 0,
+      "completedAt": "2026-10-18T03:47:26.721Z"
+    },
+    {
+      "id": "calibration",
+      "terminalExit": 0,
+      "completedAt": "2026-10-18T03:47:52.905Z"
+    }
+  ],
+  "coverageObservation": {
+    "runId": "cb76efa3-480d-4696-a210-69639596307e",
+    "terminalControls": 19,
+    "terminalProduction": 11,
+    "expectedProduction": 182,
+    "nonzeroTerminalEntries": 0,
+    "enforcementTerminal": false
+  },
+  "frozenInputsVerified": 417,
+  "normalArtifactUnchanged": true,
+  "parentObservation": "Canonical unified session11882 returned actual exit1;PIDs10879/52267 no longer present",
+  "priorObservationPath": "artifacts/release-final-launch-01/launch.json",
+  "failureProof": ".planning/phases/07-release-evidence-pr/07-06-FAILED-01.json",
+  "replacementDiagnosticSession": null,
+  "replacementDiagnosticStatus": "Whole fixedRace56914terminal0;17/17;proof07-06-ROUTE-FIX-PROOF",
+  "investigationProof": ".planning/phases/07-release-evidence-pr/07-06-ROUTE-INVESTIGATION.json",
+  "currentActiveSession": 54615,
+  "currentActiveCommand": "node tools/release-coverage/evidence.mjs --capture-required",
+  "currentScope": "Visual evidence refresh after two test-file changes;not final release pass"
+}

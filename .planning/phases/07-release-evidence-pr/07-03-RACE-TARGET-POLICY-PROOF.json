@@ -1,0 +1,569 @@
+{
+  "purpose": "Bounded Race tactical target/captured-catalogue source scope;no gameplay source change or new covered credit",
+  "red": {
+    "tests": 24,
+    "pass": 22,
+    "fail": 2,
+    "meaning": "Internal scope contract;not gameplay RED"
+  },
+  "focused": {
+    "tests": 24,
+    "pass": 24
+  },
+  "allControls": {
+    "tests": 125,
+    "pass": 125
+  },
+  "sourceAuditFiles": 159,
+  "executableClosure": 158,
+  "freshIntegration": {
+    "runId": "30a70218-b204-46de-8652-7cd14607a136",
+    "cases": 36,
+    "intervals": 81,
+    "independentNodeParents": 2,
+    "browserRealms": 0,
+    "modeIntervals": {
+      "race": 73,
+      "relay": 8
+    },
+    "status": "report-only"
+  },
+  "results": {
+    "relay": {
+      "before": {
+        "lines": {
+          "covered": 2028,
+          "total": 2090
+        },
+        "statements": {
+          "covered": 3019,
+          "total": 3272
+        },
+        "functions": {
+          "covered": 673,
+          "total": 709
+        },
+        "branches": {
+          "covered": 2291,
+          "total": 2695
+        }
+      },
+      "after": {
+        "lines": {
+          "covered": 2028,
+          "total": 2090
+        },
+        "statements": {
+          "covered": 3019,
+          "total": 3272
+        },
+        "functions": {
+          "covered": 673,
+          "total": 709
+        },
+        "branches": {
+          "covered": 2291,
+          "total": 2695
+        }
+      },
+      "rawUnchanged": true,
+      "coveredNumeratorsUnchanged": true,
+      "newDispositions": [],
+      "remainingAt85": 0
+    },
+    "race": {
+      "before": {
+        "lines": {
+          "covered": 2076,
+          "total": 2147
+        },
+        "statements": {
+          "covered": 3089,
+          "total": 3367
+        },
+        "functions": {
+          "covered": 710,
+          "total": 751
+        },
+        "branches": {
+          "covered": 2502,
+          "total": 2963
+        }
+      },
+      "after": {
+        "lines": {
+          "covered": 2076,
+          "total": 2147
+        },
+        "statements": {
+          "covered": 3089,
+          "total": 3354
+        },
+        "functions": {
+          "covered": 710,
+          "total": 751
+        },
+        "branches": {
+          "covered": 2502,
+          "total": 2943
+        }
+      },
+      "rawUnchanged": true,
+      "coveredNumeratorsUnchanged": true,
+      "newDispositions": [
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "statement",
+          "id": "42",
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "statement",
+          "id": "48",
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "statement",
+          "id": "50",
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "statement",
+          "id": "52",
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "statement",
+          "id": "55",
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "statement",
+          "id": "58",
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "statement",
+          "id": "60",
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "statement",
+          "id": "62",
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "statement",
+          "id": "64",
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "statement",
+          "id": "66",
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "statement",
+          "id": "68",
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "statement",
+          "id": "82",
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "statement",
+          "id": "85",
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "branch",
+          "id": "6",
+          "arm": 0,
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "branch",
+          "id": "9",
+          "arm": 0,
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "branch",
+          "id": "21",
+          "arm": 0,
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "branch",
+          "id": "22",
+          "arm": 0,
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "branch",
+          "id": "24",
+          "arm": 0,
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "branch",
+          "id": "26",
+          "arm": 0,
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "branch",
+          "id": "27",
+          "arm": 0,
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "branch",
+          "id": "28",
+          "arm": 0,
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "branch",
+          "id": "30",
+          "arm": 0,
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "branch",
+          "id": "32",
+          "arm": 0,
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "branch",
+          "id": "33",
+          "arm": 1,
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "branch",
+          "id": "34",
+          "arm": 0,
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "branch",
+          "id": "35",
+          "arm": 1,
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "branch",
+          "id": "36",
+          "arm": 0,
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "branch",
+          "id": "37",
+          "arm": 1,
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "branch",
+          "id": "37",
+          "arm": 2,
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "branch",
+          "id": "38",
+          "arm": 0,
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "branch",
+          "id": "39",
+          "arm": 1,
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "branch",
+          "id": "43",
+          "arm": 0,
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        },
+        {
+          "mode": "race",
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/consumables.ts",
+          "sourceHash": "6a28f19753ce1755167869c6b087b174962ced99725d68e02b2c24f9950c9d12",
+          "mapHash": "416b6ba8967522b4706a8e9274414524b76b8cefb48906908a68690b9d6bd2d8",
+          "schemaHash": "0542d2ffb7942d02984720434e62e872b99aa2fdad46eb66e0edadbc77da83b9",
+          "kind": "branch",
+          "id": "44",
+          "arm": 0,
+          "callReason": "Complete pinned Race catalogue/caller/value-flow proof: common debit receives exactly one validated living seat after synchronous RaceItems.valid with an owned charge. Captured catalogue is supplied explicitly. Actual earlier request rejection and every evaluated helper guard remain counted.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope.",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md"
+        }
+      ],
+      "remainingAt85": 0
+    }
+  },
+  "rawUnchanged": true,
+  "allCoveredNumeratorsUnchanged": true,
+  "relayByteEquivalent": true,
+  "globalPerFileDevBrowserUnaffected": true,
+  "originalFullReportStillFailed": true,
+  "hashes": {
+    "artifacts/release-coverage/race-target-policy-runtime-03/30a70218-b204-46de-8652-7cd14607a136/tests__race-items.test.mjs.json": "9304c69b788aa32c3f32919925ea402c4545ca223a6a866c825bc2f0903460a2",
+    "artifacts/release-coverage/race-target-policy-runtime-03/30a70218-b204-46de-8652-7cd14607a136/model-race-items-test.json": "e8bc26219ae68c1cc3a9379a83cf4932451c224be332b691ba090d8891e371c2",
+    "artifacts/release-coverage/race-target-policy-runtime-03/30a70218-b204-46de-8652-7cd14607a136/tests__relay-boundary.test.mjs.json": "2f6712f38de45e28631872096704b490065254fc1101f4919950f19b7a92a251",
+    "artifacts/release-coverage/race-target-policy-runtime-03/30a70218-b204-46de-8652-7cd14607a136/model-relay-boundary-test.json": "2aabc8930944b5847fabcdf547ea38cf104a4b418ea56929c0c1aa9460d2911f",
+    "artifacts/release-coverage/race-target-policy-runtime-03/30a70218-b204-46de-8652-7cd14607a136/inventory.json": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+    "artifacts/release-coverage/race-target-policy-runtime-03/30a70218-b204-46de-8652-7cd14607a136/config.json": "5d37844f0c8adb5fb603dd2e100d11b07e4d66b3fb376595e44c5a96e805d458",
+    "artifacts/release-coverage/race-target-policy-runtime-03/30a70218-b204-46de-8652-7cd14607a136/job-ledger.json": "7da422824a44728d6543bd1d53723bcba63805aa0e7d73f181a2c1c473f5f230",
+    "artifacts/release-coverage/race-target-policy-03/red-proof.json": "b70d164f37ea8159c824acc485293069381ab202a6a043e32f41ee1ee0d6ecf3",
+    "artifacts/release-coverage/race-target-policy-03/red.log": "64784eabd0c3a2d964aebc0d025ecb4318e5c25c1e71237e5ac0dc334574dfbd",
+    "artifacts/release-coverage/race-target-policy-03/green.log": "dd09db495f0ea6867da784e55b9beb364aba86e63d544450b06421ac941c513b",
+    "artifacts/release-coverage/race-target-policy-03/all-controls.log": "03aa6f9f9c5c1ef770c5d73e9bb24793371616d4040e410bd497d7af4387fe9e",
+    "artifacts/release-coverage/race-target-policy-03/reference-audit.mjs": "90b05e1889cf28e601b117c3139903e0b1f8d802b8d79c67e93c4e774b7b8043",
+    "artifacts/release-coverage/race-target-policy-03/reference-audit.json": "3bf510b48697d2f6377429d1495e11b455c8b5508451c434aae9b590a4dd0bb2",
+    "artifacts/release-coverage/race-target-policy-03/reference-audit.log": "c4db2abc27d6292d2ac39900191ccae9f7cbc5356fc78c852d39b43604991e7e",
+    "artifacts/release-coverage/race-target-policy-03/reproject.mjs": "953d705d85905395fa881a86b573815f963503588888267772caafadf36ab548",
+    "artifacts/release-coverage/race-target-policy-03/reproject.log": "937ee83dd7b4ee6bf0e059867d7004fa5e4262af43da2b304eadbe3aecce64e3",
+    "artifacts/release-coverage/race-target-policy-03/reprojection-proof.json": "0f0ccf453e9ca7ccb9797c1de51189fb4418b95e24ba349c822c098d3a82202e",
+    "artifacts/release-coverage/race-target-policy-03/canonical.log": "1fbcd2f540e30c20f969ae061a0a1d6e2cd10eba42ade7be776867ccefd842d2",
+    "artifacts/release-coverage/race-target-policy-03/finalize-proof.mjs": "1a0b494a98e21e1ece08cb378ab0bfd204e1a62f9487ec3a7f7be5d6e7c4b21d",
+    "tools/release-coverage/turn-applicability.mjs": "2e649ceddac829ac94875e9ded3786b55d3484e96811a4e53e86acd4d12d3f9d",
+    "tools/release-coverage/turn-applicability.test.mjs": "afc208c5365d1a44f3989d568080dcb802fbb91c00bdbe2604e5bcec2fb5ecf2",
+    "pnpm-lock.yaml": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+    "dist/index.html": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
+    "package.json": "d2aef75e6fa14c0621d6e3e25ad02853cbb2a1e355a74db2f10ae1665f1da6f2",
+    "tools/release-coverage/suites.json": "018d75b518a1652e19dff4e78fa755817c3f1d044b83f178d7a99cea8cf4870c",
+    "artifacts/release-coverage/race-target-policy-runtime-03/strata/relay/coverage-final.json": "48d7ad2417623d85bace50645b1f921a9f08211701046677cd23ec03e7dd30a3",
+    "artifacts/release-coverage/race-target-policy-runtime-03/strata/race/coverage-final.json": "fb52c09717d4148b998c1c67f492015ffbc33598457e80ce19fff4315f579f3b"
+  },
+  "remaining": "All gameplay mode diagnostic floors met;DEV52,full semantic review,fresh enforcing full run,07-04/05/06 and PR remain. Attribution validator unchanged;old raw reports/parents retained,not relabelled."
+}

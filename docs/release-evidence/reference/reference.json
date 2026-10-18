@@ -1,0 +1,14 @@
+{
+  "scope": "Fresh pinned primary reference for final release verification;open proposal status is explicit",
+  "retrievedAt": "2026-10-18T03:18:01.555610+00:00",
+  "pullRequest": "https://api.github.com/repos/nostr-protocol/nips/pulls/2303",
+  "status": "open",
+  "merged": false,
+  "head": "5560820fa4f37f45b8ab742a11aeb3001b17dc67",
+  "repository": "dskvr/nips",
+  "branch": "nip/5d",
+  "source": "https://raw.githubusercontent.com/dskvr/nips/5560820fa4f37f45b8ab742a11aeb3001b17dc67/5D.md",
+  "bytes": 20617,
+  "sha256": "7d716e8ec9f1737b070f4716b998f52fd6e189d5bb1bc4c2efe6c1dae35b9f37",
+  "apiSha256": "9e0bac87ba14a6b26fffd463a50f36b179e5a1f933630e3c9682252e1ec28607"
+}

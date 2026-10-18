@@ -1,0 +1,421 @@
+{
+  "status": "terminal-canonical-failure-retained-documentation-continuation-and-pr-delivered",
+  "observedAt": "2026-10-18T07:20:56.828448+00:00",
+  "runId": "56748255-a473-4788-953e-484abc34a082",
+  "directory": "artifacts/release-final/56748255-a473-4788-953e-484abc34a082",
+  "sessionId": 96020,
+  "actualLiveParentPid": 13528,
+  "actualCommand": "node tests/release-gate.mjs",
+  "stage": "enforcing-coverage",
+  "sourceHead": "5a9350a126a544529d9ba90df73233e918ba7802",
+  "normalArtifactRawSha256": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
+  "referenceHashes": {
+    "docs/release-evidence/reference/nip-5d.md": "7d716e8ec9f1737b070f4716b998f52fd6e189d5bb1bc4c2efe6c1dae35b9f37",
+    "docs/release-evidence/reference/reference.json": "a8d13df59b6b2be2da2b22a5c4d8b2f37c845d07121b845d67883c1451749a12"
+  },
+  "terminalExit": 1,
+  "canonicalLog": "artifacts/release-final-launch-02/canonical.log",
+  "limits": [
+    "Second final attempt after actual route-helper fix652323a andcurrent visualrefresh;firstfailedrun retained",
+    "No full pass orPR claimed",
+    "After actual enforcing stage exits0,refresh executed-input receipts andclause bindings fromthisactualrun,before finalclause gate. Documentation-only proof writes do not change417frozen technicalinputs.",
+    "Never suspend timed workers;compressonlyclosed terminal-ownedpayloads ifactual pressure needs it."
+  ],
+  "normalMatchesPrior": true,
+  "completedStages": [
+    {
+      "id": "inherited-phase6",
+      "executable": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+      "args": [
+        "tests/phase6-gate.mjs"
+      ],
+      "pid": 13597,
+      "startedMs": 1792299433515,
+      "finishedMs": 1792300616112,
+      "durationMs": 1182597,
+      "exitCode": 0,
+      "signal": null,
+      "processError": null,
+      "durabilityError": null,
+      "stdoutPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/inherited-phase6.stdout.log",
+      "stderrPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/inherited-phase6.stderr.log",
+      "stdoutSha256": "31dfb5172b3fa35c982ff7c032a17dad87fd2680cf3a865f10012f3334d5d3ab",
+      "stderrSha256": "f2c20ef7a649e2e6ce22c7dfdeb438d03159ddde347ee3e072d66ea1b2e07a24",
+      "pass": true
+    },
+    {
+      "id": "calibration",
+      "executable": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+      "args": [
+        "tests/strict-node-tests.mjs",
+        "tools/release-coverage/calibration.test.mjs",
+        "tools/release-coverage/browser-calibration.test.mjs",
+        "tools/release-coverage/collection.test.mjs",
+        "tools/release-coverage/policy.test.mjs",
+        "tools/release-coverage/attribution.test.mjs"
+      ],
+      "pid": 49802,
+      "startedMs": 1792300616240,
+      "finishedMs": 1792300640543,
+      "durationMs": 24303,
+      "exitCode": 0,
+      "signal": null,
+      "processError": null,
+      "durabilityError": null,
+      "stdoutPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/calibration.stdout.log",
+      "stderrPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/calibration.stderr.log",
+      "stdoutSha256": "8e4d95e285f1610e734e810229d2ce6dcfca4004b5da61d73ec98559026aeb1f",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pass": true
+    },
+    {
+      "id": "enforcing-coverage",
+      "executable": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+      "args": [
+        "--max-old-space-size=24576",
+        "tools/release-coverage/run.mjs",
+        "--output",
+        "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/coverage"
+      ],
+      "pid": 50568,
+      "startedMs": 1792300640635,
+      "finishedMs": 1792307833000,
+      "durationMs": 7192365,
+      "exitCode": 0,
+      "signal": null,
+      "processError": null,
+      "durabilityError": null,
+      "stdoutPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/enforcing-coverage.stdout.log",
+      "stderrPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/enforcing-coverage.stderr.log",
+      "stdoutSha256": "6008db0fa10ea0165852ab9909bbe15f8bdd702448bc821460a1ca5197b560d8",
+      "stderrSha256": "ca576afad3571cd1282a3cbf6877bcbafcd0bb2510c6f45f88c791547f4969f5",
+      "pass": true
+    },
+    {
+      "id": "conformance-controls",
+      "executable": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+      "args": [
+        "tests/strict-node-tests.mjs",
+        "tests/release-conformance.test.mjs"
+      ],
+      "pid": 43638,
+      "startedMs": 1792307833166,
+      "finishedMs": 1792307833468,
+      "durationMs": 302,
+      "exitCode": 0,
+      "signal": null,
+      "processError": null,
+      "durabilityError": null,
+      "stdoutPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/conformance-controls.stdout.log",
+      "stderrPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/conformance-controls.stderr.log",
+      "stdoutSha256": "e37725a45aabc005b083b7c93313d8007d2c056c09f55605c7df76da035f5530",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pass": true
+    },
+    {
+      "id": "supplemental-conformance",
+      "executable": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+      "args": [
+        "tests/release-conformance.mjs",
+        "--reference",
+        "/Users/sandwich/Develop/crossy-road-clone/docs/release-evidence/reference/nip-5d.md",
+        "--reference-metadata",
+        "/Users/sandwich/Develop/crossy-road-clone/docs/release-evidence/reference/reference.json",
+        "--output",
+        "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/conformance.json"
+      ],
+      "pid": 43748,
+      "startedMs": 1792307833569,
+      "finishedMs": 1792307844176,
+      "durationMs": 10607,
+      "exitCode": 0,
+      "signal": null,
+      "processError": null,
+      "durabilityError": null,
+      "stdoutPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/supplemental-conformance.stdout.log",
+      "stderrPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/supplemental-conformance.stderr.log",
+      "stdoutSha256": "f76d5223509030ddaf65eb98ba394c3e3682c5ecaf8b0d3671d3e314bf582595",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pass": true
+    },
+    {
+      "id": "evidence-controls",
+      "executable": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+      "args": [
+        "tests/strict-node-tests.mjs",
+        "tests/release-evidence.test.mjs"
+      ],
+      "pid": 44068,
+      "startedMs": 1792307844280,
+      "finishedMs": 1792307844449,
+      "durationMs": 169,
+      "exitCode": 0,
+      "signal": null,
+      "processError": null,
+      "durabilityError": null,
+      "stdoutPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/evidence-controls.stdout.log",
+      "stderrPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/evidence-controls.stderr.log",
+      "stdoutSha256": "a3288bc9beffaf7ee253b5e5acdb6a8413a0fee41997befb4c9191321fda47d6",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pass": true
+    },
+    {
+      "id": "evidence-integrity",
+      "executable": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+      "args": [
+        "tools/release-coverage/evidence.mjs",
+        "--check"
+      ],
+      "pid": 44137,
+      "startedMs": 1792307844550,
+      "finishedMs": 1792307844684,
+      "durationMs": 134,
+      "exitCode": 0,
+      "signal": null,
+      "processError": null,
+      "durabilityError": null,
+      "stdoutPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/evidence-integrity.stdout.log",
+      "stderrPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/evidence-integrity.stderr.log",
+      "stdoutSha256": "62390fa0619771cefecfa53cbbf1f0941b0a6616cb728b0d85b8073e27d436db",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pass": true
+    },
+    {
+      "id": "original-clauses",
+      "executable": "/opt/homebrew/Cellar/node/26.11.1_1/bin/node",
+      "args": [
+        "tools/release-coverage/evidence.mjs",
+        "--check-clauses"
+      ],
+      "pid": 44215,
+      "startedMs": 1792307844783,
+      "finishedMs": 1792307844908,
+      "durationMs": 125,
+      "exitCode": 1,
+      "signal": null,
+      "processError": null,
+      "durabilityError": null,
+      "stdoutPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/original-clauses.stdout.log",
+      "stderrPath": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final/56748255-a473-4788-953e-484abc34a082/original-clauses.stderr.log",
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "b44183603d9c2e38b399312f6e65242a5de9d3dea906e943fba79454ea2cc49d",
+      "pass": false,
+      "failure": "Exit 1"
+    }
+  ],
+  "coverageObservation": {
+    "runId": "c39c0fee-a277-47ec-b276-95f5e6b26932",
+    "terminalControls": 19,
+    "terminalProduction": 182,
+    "nonzeroTerminalJobs": 0,
+    "expectedProduction": 182,
+    "enforcementTerminal": true,
+    "collectionComplete": true,
+    "enforcementExit": 0
+  },
+  "frozenInputsVerified": 417,
+  "parentObservation": "PID STAT  ELAPSED COMM\n13528 Ss   02:12:12 node",
+  "closedPayloadCompression": {
+    "purpose": "Independent verification of lossless final batch01 completed-payload compression;no execution/counter/source change",
+    "runId": "c39c0fee-a277-47ec-b276-95f5e6b26932",
+    "completedJobsAtSelection": 51,
+    "payloadsReverified": 119,
+    "originalLedgerBytesSavedBeforeSelection": true,
+    "originalLedgerShaMatches": true,
+    "currentAppendOnlyPrefixMatchesOriginal": true,
+    "frozenFilesVerified": 417,
+    "sourceFreezeChanges": [],
+    "activeOutputsUntouched": true,
+    "allocatedBytesSaved": 344903680,
+    "observedFreeBytesBefore": 2427588608,
+    "observedFreeBytesAfter": 2763911168,
+    "freeSpaceLimit": "Shared volume changes independently;per-file allocation savings are separate from whole-volume free-space movement",
+    "hashes": {
+      "artifacts/release-final-launch-02/storage-maintenance/closed-final-61903813a5bf4b9885dc3e1200aa3667.json": "e390bb7b50592dd1dd36830eae00973448ff99e89e9e046bf5407abacec75714",
+      "artifacts/release-final-launch-02/storage-maintenance/closed-final-61903813a5bf4b9885dc3e1200aa3667.ledger-snapshot.json": "a6f4cfeb702b23c7f58c507c21a0c93609d65a5925ed16651af9b7a9f4cc0f8a",
+      "artifacts/release-final-launch-02/storage-maintenance/compress-closed-final-01.py": "bafe9f8b4e6266590f70985544876aab9ac7cf52ada647786836cc80a2c0c702",
+      "artifacts/release-final-launch-02/storage-maintenance/compress-closed-final-01.log": "157b116fefb4e5e209d05552df9719ff30eeac17bd9e0233b6f0e73bda861b28",
+      "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final-launch-02/storage-maintenance/verify-closed-final-01.py": "01d77b5e53af8138a0a8f77f0bd5a7ef314ef4afffd337d2395baa60454a65f6",
+      "artifacts/release-final-launch-02/launch.json": "0ba7802c573979a1575e951e4d0bc5f8ff92288adb704a438b9848e5abcb1fd1"
+    }
+  },
+  "receiptHandoff": {
+    "session": 65644,
+    "terminalExit": 1,
+    "status": "failed then explicit documentation-only repair terminal0",
+    "proof": "docs/release-evidence/final-documentation-checks.json"
+  },
+  "coverageMilestones": {
+    "raceLayout": {
+      "tests": 10,
+      "passed": 10,
+      "failed": 0,
+      "completedAt": "2026-10-18T05:52:27.719Z"
+    },
+    "raceResults": {
+      "tests": 44,
+      "passed": 44,
+      "failed": 0,
+      "completedAt": "2026-10-18T05:55:30.396Z"
+    },
+    "raceRuntime": {
+      "tests": 17,
+      "passed": 17,
+      "failed": 0,
+      "skipped": 0,
+      "canceled": 0,
+      "completedAt": "2026-10-18T05:59:36.302Z",
+      "includesRepairedEarnedMarketJourney": true
+    }
+  },
+  "additionalClosedPayloadCompression": [
+    {
+      "proofPath": "artifacts/release-final-launch-02/storage-maintenance/closed-final-02-verified.json",
+      "sha256": "254bc11b0d3900c22f61e6e162ff0f82d750145005eae0093d121728c874ad84",
+      "proof": {
+        "purpose": "Independent verification of lossless final batch02 completed-payload compression;no execution/counter/source change",
+        "runId": "c39c0fee-a277-47ec-b276-95f5e6b26932",
+        "completedJobsAtSelection": 126,
+        "payloadsReverified": 239,
+        "originalLedgerBytesSavedBeforeSelection": true,
+        "originalLedgerShaMatches": true,
+        "currentAppendOnlyPrefixMatchesOriginal": true,
+        "frozenFilesVerified": 417,
+        "sourceFreezeChanges": [],
+        "activeOutputsUntouched": true,
+        "allocatedBytesSaved": 919547904,
+        "observedFreeBytesBefore": 3181076480,
+        "observedFreeBytesAfter": 4098981888,
+        "freeSpaceLimit": "Shared volume changes independently;per-file allocation savings are separate from whole-volume free-space movement",
+        "hashes": {
+          "artifacts/release-final-launch-02/storage-maintenance/closed-final-0055d5037c594f0495e4709fbf9b4ada.json": "e31ab7320510be50b232bb3d3ddc5f485f1e1856d2ef48e1c55fb46b589405fa",
+          "artifacts/release-final-launch-02/storage-maintenance/closed-final-0055d5037c594f0495e4709fbf9b4ada.ledger-snapshot.json": "91de1aadaa5fd8f0a7a7d7ac6007ca3aeabb36fd81772e9e5f8e5a85ef31e812",
+          "artifacts/release-final-launch-02/storage-maintenance/compress-closed-final-02.py": "bafe9f8b4e6266590f70985544876aab9ac7cf52ada647786836cc80a2c0c702",
+          "artifacts/release-final-launch-02/storage-maintenance/compress-closed-final-02.log": "6036cc6424d463204b2ecb8ecbe9197d773767fc367b6f56ce4ea78f26281d69",
+          "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final-launch-02/storage-maintenance/verify-closed-final-02.py": "d005c4b64d520a58816ee64f8c10b46735d8016962036ee56592030e6742025b",
+          "artifacts/release-final-launch-02/launch.json": "0ba7802c573979a1575e951e4d0bc5f8ff92288adb704a438b9848e5abcb1fd1"
+        }
+      },
+      "noTimedWorkerSuspended": true
+    },
+    {
+      "proofPath": "artifacts/release-final-launch-02/storage-maintenance/closed-final-03-verified.json",
+      "sha256": "57365421ae6ecf4cae8814d7128119a35f9d5753450e1c77d14a2b9cdb18db6d",
+      "proof": {
+        "purpose": "Independent verification of lossless final batch03 completed-payload compression;no execution/counter/source change",
+        "runId": "c39c0fee-a277-47ec-b276-95f5e6b26932",
+        "completedJobsAtSelection": 147,
+        "payloadsReverified": 50,
+        "originalLedgerBytesSavedBeforeSelection": true,
+        "originalLedgerShaMatches": true,
+        "currentAppendOnlyPrefixMatchesOriginal": true,
+        "frozenFilesVerified": 417,
+        "sourceFreezeChanges": [],
+        "activeOutputsUntouched": true,
+        "allocatedBytesSaved": 426643456,
+        "observedFreeBytesBefore": 1652494336,
+        "observedFreeBytesAfter": 2074386432,
+        "freeSpaceLimit": "Shared volume changes independently;per-file allocation savings are separate from whole-volume free-space movement",
+        "hashes": {
+          "artifacts/release-final-launch-02/storage-maintenance/closed-final-678c14f1d93f4d8d815e8837d9373231.json": "35c750d13d793fdd94639af461b5ba1fa8196f891bf1cae4494b675cdfeb44bd",
+          "artifacts/release-final-launch-02/storage-maintenance/closed-final-678c14f1d93f4d8d815e8837d9373231.ledger-snapshot.json": "a2e36981f1248ed96582502e5ae18005e761f93ecdf2d5dcf1eeb83eafefa3d4",
+          "artifacts/release-final-launch-02/storage-maintenance/compress-closed-final-03.py": "bafe9f8b4e6266590f70985544876aab9ac7cf52ada647786836cc80a2c0c702",
+          "artifacts/release-final-launch-02/storage-maintenance/compress-closed-final-03.log": "b613db6e58a0a9d180608196b656c081bccaaa51574f3f282fe26c7ffffa2b61",
+          "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final-launch-02/storage-maintenance/verify-closed-final-03.py": "627234be271754cae3e406ef02e1e921f56a4d6bfc9d412bc65c8f52db31a574",
+          "artifacts/release-final-launch-02/launch.json": "0ba7802c573979a1575e951e4d0bc5f8ff92288adb704a438b9848e5abcb1fd1"
+        }
+      },
+      "noTimedWorkerSuspended": true
+    },
+    {
+      "proofPath": "artifacts/release-final-launch-02/storage-maintenance/closed-final-04-verified.json",
+      "sha256": "846b32268291bd4068b1a023e3d5e12c01dd5c7a981dcfc727711a48c6be11f1",
+      "proof": {
+        "purpose": "Independent verification of lossless final batch04 completed-payload compression;no execution/counter/source change",
+        "runId": "c39c0fee-a277-47ec-b276-95f5e6b26932",
+        "completedJobsAtSelection": 169,
+        "payloadsReverified": 64,
+        "originalLedgerBytesSavedBeforeSelection": true,
+        "originalLedgerShaMatches": true,
+        "currentAppendOnlyPrefixMatchesOriginal": true,
+        "frozenFilesVerified": 417,
+        "sourceFreezeChanges": [],
+        "activeOutputsUntouched": true,
+        "allocatedBytesSaved": 1190137856,
+        "observedFreeBytesBefore": 1113477120,
+        "observedFreeBytesAfter": 2409353216,
+        "freeSpaceLimit": "Shared volume changes independently;per-file allocation savings are separate from whole-volume free-space movement",
+        "hashes": {
+          "artifacts/release-final-launch-02/storage-maintenance/closed-final-fe606d366e4446d6b866cb9885233ccb.json": "d2c82af62c8e4d27869af79b175e30e55f2216b9015444adba922eb51e63a9f0",
+          "artifacts/release-final-launch-02/storage-maintenance/closed-final-fe606d366e4446d6b866cb9885233ccb.ledger-snapshot.json": "acbc16e38f1c6aad457a45571664a641888e2e8156ffe90bc9e27b345a0f9a1a",
+          "artifacts/release-final-launch-02/storage-maintenance/compress-closed-final-04.py": "bafe9f8b4e6266590f70985544876aab9ac7cf52ada647786836cc80a2c0c702",
+          "artifacts/release-final-launch-02/storage-maintenance/compress-closed-final-04.log": "1bc62e104ac7da2b1802336ca72e1036f13235a51e707f7c52f4a996a199358d",
+          "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final-launch-02/storage-maintenance/verify-closed-final-04.py": "89da7a8d52b8d521c9e1694183b8db0f5150bee8803637d38898dcfccd70eeeb",
+          "artifacts/release-final-launch-02/launch.json": "0ba7802c573979a1575e951e4d0bc5f8ff92288adb704a438b9848e5abcb1fd1"
+        }
+      },
+      "noTimedWorkerSuspended": true
+    },
+    {
+      "proofPath": "artifacts/release-final-launch-02/storage-maintenance/closed-final-05-verified.json",
+      "sha256": "edf160bfee620b08fd488eccf94b5d503ad6f557ad0267d9d2fa252cae9f3ef9",
+      "proof": {
+        "purpose": "Independent verification of lossless final batch05 completed-payload compression;no execution/counter/source change",
+        "runId": "c39c0fee-a277-47ec-b276-95f5e6b26932",
+        "completedJobsAtSelection": 180,
+        "payloadsReverified": 63,
+        "originalLedgerBytesSavedBeforeSelection": true,
+        "originalLedgerShaMatches": true,
+        "currentAppendOnlyPrefixMatchesOriginal": true,
+        "frozenFilesVerified": 417,
+        "sourceFreezeChanges": [],
+        "activeOutputsUntouched": true,
+        "allocatedBytesSaved": 289984512,
+        "observedFreeBytesBefore": 2111569920,
+        "observedFreeBytesAfter": 2401660928,
+        "freeSpaceLimit": "Shared volume changes independently;per-file allocation savings are separate from whole-volume free-space movement",
+        "hashes": {
+          "artifacts/release-final-launch-02/storage-maintenance/closed-final-5438cb5203bf425d806167cc4b2095fa.json": "5db6ba792e0336a620d77ee40a64e163c312d5b55fb539c7dae1adaf45361375",
+          "artifacts/release-final-launch-02/storage-maintenance/closed-final-5438cb5203bf425d806167cc4b2095fa.ledger-snapshot.json": "e768b7c8b2beae63e866c6b494ea0d1a3aa8dfcc1fbecde6f4f63fe49a1bde04",
+          "artifacts/release-final-launch-02/storage-maintenance/compress-closed-final-05.py": "bafe9f8b4e6266590f70985544876aab9ac7cf52ada647786836cc80a2c0c702",
+          "artifacts/release-final-launch-02/storage-maintenance/compress-closed-final-05.log": "96ed92a113a0b988b5a7f5d480c0177fb978a99b1a963428952669afd5d3a109",
+          "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final-launch-02/storage-maintenance/verify-closed-final-05.py": "f234f32a29b16fc8781aeb4e53b7d6d8f9ca4b7ce149e46298d90ed42c17c4fd",
+          "artifacts/release-final-launch-02/launch.json": "0ba7802c573979a1575e951e4d0bc5f8ff92288adb704a438b9848e5abcb1fd1"
+        }
+      },
+      "noTimedWorkerSuspended": true
+    },
+    {
+      "proofPath": "artifacts/release-final-launch-02/storage-maintenance/closed-final-06-verified.json",
+      "sha256": "673ae6c869f1697c00f2d97fa54cca0c82000e2ded8c585152c6bb31f554ac57",
+      "proof": {
+        "purpose": "Independent verification of lossless final batch06 completed-payload compression;no execution/counter/source change",
+        "runId": "c39c0fee-a277-47ec-b276-95f5e6b26932",
+        "completedJobsAtSelection": 182,
+        "payloadsReverified": 8,
+        "originalLedgerBytesSavedBeforeSelection": true,
+        "originalLedgerShaMatches": true,
+        "currentAppendOnlyPrefixMatchesOriginal": true,
+        "frozenFilesVerified": 417,
+        "sourceFreezeChanges": [],
+        "activeOutputsUntouched": true,
+        "allocatedBytesSaved": 29425664,
+        "observedFreeBytesBefore": 1831104512,
+        "observedFreeBytesAfter": 1860513792,
+        "freeSpaceLimit": "Shared volume changes independently;per-file allocation savings are separate from whole-volume free-space movement",
+        "hashes": {
+          "artifacts/release-final-launch-02/storage-maintenance/closed-final-8302af796ecb436f99efa0b12ebd870e.json": "95b41840de45a4b920fe6622b7fdcfb39c37b6dcf454488500b8414f13a7748a",
+          "artifacts/release-final-launch-02/storage-maintenance/closed-final-8302af796ecb436f99efa0b12ebd870e.ledger-snapshot.json": "e34f4aa4500e5f221fd8f11c5478613a860b6fc5c231621789929f66e638c0ab",
+          "artifacts/release-final-launch-02/storage-maintenance/compress-closed-final-06.py": "bafe9f8b4e6266590f70985544876aab9ac7cf52ada647786836cc80a2c0c702",
+          "artifacts/release-final-launch-02/storage-maintenance/compress-closed-final-06.log": "480f66160fb771d7bd0a6048ee2f6cfafb0a4033de7a209688992527e4b30bb2",
+          "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-final-launch-02/storage-maintenance/verify-closed-final-06.py": "3ab946ec51abd079603655bdfce20a16d3eb516601830e596a4ededa46660d46",
+          "artifacts/release-final-launch-02/launch.json": "0ba7802c573979a1575e951e4d0bc5f8ff92288adb704a438b9848e5abcb1fd1"
+        }
+      },
+      "noTimedWorkerSuspended": true
+    }
+  ],
+  "technicalContinuation": "docs/release-evidence/release.json",
+  "prUrl": "https://github.com/sandwichfarm/down-to-duck/pull/1",
+  "allOriginalRequirementsVerified": true
+}

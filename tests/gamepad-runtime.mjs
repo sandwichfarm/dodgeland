@@ -1,3 +1,4 @@
+import { artifactForCoverage, artifactDirectoryForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 // Production artifact in an opaque iframe; the fixture is a shell implementing
 // NAP-GAMEPAD draft PR #108. Physical hardware and Kehto support are not claimed.
 // CDP stages clear terrain/death only; all tested input uses the shipped module.
@@ -6,11 +7,11 @@ import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { chromium } from 'playwright';
 
-const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
+const built = await readFile(artifactForCoverage(new URL('../dist/index.html', import.meta.url)), 'utf8');
 assert.ok(built.includes('gamepad.subscribe') && built.includes('gamepad-help'), 'Build current gamepad integration first.');
 function installFixture(mode) {
   Math.random = () => 0;
-  const observation = window.gamepadFixture = { voices: [], writes: [], closed: 0, hydrated: false };
+  const observation = window.gamepadFixture = { mode, voices: [], writes: [], closed: 0, hydrated: false };
   const Native = window.AudioContext;
   window.AudioContext = class extends Native {
     createBufferSource() {
@@ -57,9 +58,15 @@ window.mount('wire');</script>`;
 const server = createServer((_request, response) => { response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); response.end(harness); });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const evidence = { artifact: 'unchanged production module in opaque allow-scripts iframe', shell: 'canonical NAP-GAMEPAD PR #108 snapshot fixture; no physical-controller or Kehto claim', scenarios: [], errors: [], external: [] };
-let browser;
+let browser, frame, identity, generation = 0;
+async function beginRealm(page, scenario) {
+  if (frame) await collectRealm(frame, identity);
+  frame = undefined;
+  identity = { suite: process.argv[1], scenario, frame: 'opaque-app', generation: generation++, scope: 'current' };
+  registerRealm(page, identity);
+}
 try {
-  browser = await chromium.launch();
+  browser = await chromium.launch({ args: ['--mute-audio'] });
   const page = await browser.newPage({ viewport: { width: 1000, height: 700 } });
   page.setDefaultTimeout(8000); await page.clock.install();
   const cdp = await page.context().newCDPSession(page), contexts = new Map();
@@ -68,14 +75,14 @@ try {
   cdp.on('Runtime.executionContextsCleared', () => contexts.clear()); await cdp.send('Runtime.enable');
   page.on('pageerror', error => evidence.errors.push(error.message));
   await page.route('**/*', route => { if (new URL(route.request().url()).hostname === '127.0.0.1') return route.continue(); evidence.external.push(route.request().url()); return route.abort(); });
+  await beginRealm(page, 'initial');
   await page.goto(`http://127.0.0.1:${server.address().port}`);
-  let frame;
-  async function currentFrame() {
+  async function currentFrame(expectedMode) {
     frame = await (await page.locator('#napplet').elementHandle()).contentFrame();
-    await frame.waitForFunction(() => window.gamepadFixture?.hydrated);
+    await frame.waitForFunction(mode => window.gamepadFixture?.hydrated && window.gamepadFixture.mode === mode, expectedMode);
     await frame.locator('#play').waitFor();
   }
-  await currentFrame(); await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 50);
+  await currentFrame('wire'); await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 50);
   const advance = ms => page.clock.runFor(ms);
   async function gameObject() {
     const { frameTree } = await cdp.send('Page.getFrameTree');
@@ -127,8 +134,19 @@ try {
   const effects = () => frame.evaluate(() => window.gamepadFixture.voices.filter(voice => !voice.loop));
 
   for (const mode of ['wire', 'binding']) {
-    if (mode !== 'wire') { await page.evaluate(mode => window.mount(mode), mode); await currentFrame(); }
-    await frame.waitForFunction(() => document.querySelector('#character-call').textContent.includes('· X'));
+    if (mode !== 'wire') { await beginRealm(page, mode); await page.evaluate(mode => window.mount(mode), mode); await currentFrame(mode); }
+    // The opaque-frame subscription is delivered as a task. The deterministic
+    // page clock is paused, so advance one frame to flush its initial neutral
+    // snapshot instead of depending on wall-clock scheduling.
+    await advance(32);
+    await frame.waitForFunction(() => document.querySelector('#character-call')?.textContent.includes('· X'), undefined, { timeout: 8_000 }).catch(async error => {
+      const [transport, ui] = await Promise.all([
+        page.evaluate(() => window.messages),
+        frame.evaluate(() => ({ call: document.querySelector('#character-call')?.textContent, state: document.querySelector('#app')?.dataset.runState, fixture: window.gamepadFixture })),
+      ]);
+      throw new Error(`gamepad bootstrap did not deliver a connected snapshot (${mode}): ${JSON.stringify({ transport, ui })}\n${error.message}`);
+    });
+    if (mode === 'binding') assert.equal(await frame.evaluate(() => window.gamepadFixture.closed), 0, 'an initially unfocused binding remains subscribed until teardown');
     assert.equal(await frame.evaluate(() => location.origin), 'null');
     assert.equal(await page.locator('#napplet').getAttribute('sandbox'), 'allow-scripts');
     await focusControl('[data-run-topic="help"]');
@@ -178,7 +196,9 @@ try {
     await send([], [0, 0], { pads: [] }); await advance(20); assert.equal((await snapshot()).state, 'paused', 'disconnect pauses');
     assert.equal(await frame.locator('#gamepad-help').isHidden(), true);
     await send([0]); await advance(20); assert.equal((await snapshot()).state, 'paused', 'reconnect held A does not resume');
-    await press(0); assert.equal((await snapshot()).state, 'playing');
+    const beforeReclaim = await snapshot(); await press(0); const reclaimed = await snapshot();
+    assert.equal(reclaimed.state, 'playing');
+    assert.deepEqual({ x: reclaimed.x, y: reclaimed.y, score: reclaimed.score }, { x: beforeReclaim.x, y: beforeReclaim.y, score: beforeReclaim.score }, 'the reclaim edge resumes solo play without also hopping');
     await onGame(function () { this.end('Fixture train encounter.', 'train'); }); await advance(400);
     assert.equal((await snapshot()).state, 'dead');
     await resize(320,560); await focusControl('[data-run-topic="stats"]');
@@ -209,14 +229,16 @@ try {
     assert.ok(messages.every(message => Object.keys(message).length === 1 && ['gamepad.subscribe', 'gamepad.unsubscribe'].includes(message.type)), 'canonical no-ID messages');
     evidence.scenarios.push({ mode, controls: ['ready instructions and view-change input seeding', 'start', 'D-pad', 'stick repeat', 'deadzone', 'character call PCM', 'pause information/resume and input seeding', 'collection traveler/section/sound navigation and input seeding', 'shell focus', 'disconnect/reconnect', 'result stats/seed copy/back/retry and input seeding', 'small frame', 'teardown'], messages });
   }
-  await page.evaluate(() => window.mount('absent')); await currentFrame();
+  await beginRealm(page, 'absent');
+  await page.evaluate(() => window.mount('absent')); await currentFrame('absent');
   assert.equal(await frame.locator('#gamepad-help').isHidden(), true); await send(); await send([0, 12]); await advance(500);
   assert.equal((await snapshot()).state, 'ready'); assert.deepEqual(await page.evaluate(() => window.messages), []);
   await frame.locator('#play').click(); assert.equal((await snapshot()).state, 'playing');
   await frame.locator('[data-direction="forward"]').click(); await advance(170); assert.equal((await snapshot()).score, 1, 'pointer controls work without gamepad domain');
   evidence.scenarios.push({ mode: 'absent', controls: ['no probe or subscription', 'unsolicited snapshots ignored', 'pointer fallback'] });
   assert.deepEqual(evidence.errors, []); assert.deepEqual(evidence.external, []);
-  await mkdir(new URL('../artifacts/', import.meta.url), { recursive: true });
-  await writeFile(new URL('../artifacts/gamepad-runtime.json', import.meta.url), JSON.stringify(evidence, null, 2));
+  const output = artifactDirectoryForCoverage(new URL('../artifacts/', import.meta.url), 'gamepad-runtime');
+  await mkdir(output, { recursive: true });
+  await writeFile(new URL('gamepad-runtime.json', output), JSON.stringify(evidence, null, 2));
   console.log(JSON.stringify(evidence, null, 2));
-} finally { await browser?.close(); await new Promise(resolve => server.close(resolve)); }
+} finally { try { if (frame) await collectRealm(frame, identity); } finally { await browser?.close(); await new Promise(resolve => server.close(resolve)); } }

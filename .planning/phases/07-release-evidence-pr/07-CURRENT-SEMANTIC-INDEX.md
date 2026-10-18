@@ -1,0 +1,53 @@
+# Current-source semantic review partition
+
+The retained complete current-source enforcing-fail report0b8f818d has830 raw
+zero arms. This index records830 reviewed arms and0 pending. Eighteen reviewed
+arms have source/schema-identical positive witnesses from later passing cohorts;
+812 are retained counted residuals. These counts are a semantic review partition,
+not coverage percentages,additional execution or whole-release progress.
+
+| Review | Arms | Scope |
+|---|---:|---|
+|LEGACY-RESIDUAL-REVIEW|94|Eighteen oracle-identical files;reviewed consequence/compatibility limits,no counter or exclusion credit. Standalone market-scene execution explicitly pending.|
+|TURN-RESIDUAL-REVIEW|33|Relay/Race ownership,item and ledger conditions;four existing reclaim witnesses,29 retained counted guards/fallbacks.|
+|SESSION-RESIDUAL-REVIEW|71|Shared construction/identity,item transactions,safe placement,progress and lifecycle;five existing Flare andone reclaim witness,65 counted residuals.|
+|SCHEMA-RECOVERY-SEMANTIC-REVIEW|9|Eight actual invalid-schema/clock/cell witnesses andone private omitted-salt default;source identities match initial/current schemas.|
+|RECOVERY-MARKET-RESIDUAL-REVIEW|10|Owner market defaults and duplicated pack refusal;recovery binding,death notification and synchronous apply guards. All remain counted.|
+|TEAM-RESULT-SEED-RESIDUAL-REVIEW|18|Team snapshot/paging/focus defaults and clipboard gesture/fallback boundaries;source review preserves all counters. Final visual signoff separate.|
+|SETUP-TURN-UI-RESIDUAL-REVIEW|57|Shared draft/keyboard defaults and Relay/Race HUD,setup,lifecycle and result alternatives;all remain counted.|
+|GAME-RESIDUAL-REVIEW|28|Geometry,receiver/world lifecycle and physical coin collection;three exact oracle-preserved helper texts,all branches remain counted.|
+|INPUT-RENDER-RESIDUAL-REVIEW|36|Legacy input versus current per-seat router,transport defaults and renderer alternatives;all remain counted.|
+|AUDIO-MOB-RESIDUAL-REVIEW|30|Synthesis/cleanup/scene defaults and mob policy/safety branches;structural AudioSink dispatch remains applicable,all branches counted.|
+|HAND-INVENTORY-RESIDUAL-REVIEW|49|Per-owner economy/capacity and persistent-hand defaults,lifetime and action guards;all remain counted.|
+|MARKET-UI-RESIDUAL-REVIEW|72|Owner options,entry filters,draft/wardrobe/persistent-hand routing and animated-close lifetime;all remain counted.|
+|MAIN-OWNER-UI-RESIDUAL-REVIEW|97|Main lines1–650:owned transactions,item/recovery/lifecycle modals and router precedence;display key is not an authorization receipt. All remain counted.|
+|MAIN-HUD-RESET-RESIDUAL-REVIEW|76|Main lines651–1200:call/movement bridges,Relay wrappers,shortcut leases,reset,intents and HUD;all remain counted.|
+|MAIN-SETUP-INPUT-RESIDUAL-REVIEW|149|Main after1200:setup/join,owned reclaim,disconnect/native/menu/pointer/resize routing and async boot;all remain counted.|
+|CONTROLLER-GUARD-REVIEW private52/0|1|Private omitted context remains raw zero;fresh159-file/2-target audit revalidates the existing exact application value-flow proof.|
+
+The refreshed router audit independently finds one main constructor with a
+literal options object whose context arrow body is a template expression. Its
+result is a string if evaluation completes. The sole private createLease call
+passes the explicit second argument snapshotContext,whose const initializer is
+this.options.context(). The method has no resolved extraction/computed target
+access. This revalidates the existing private-default review against current
+frozen sources;it does not claim all arbitrary external callbacks behave so.
+
+`07-CURRENT-SEMANTIC-INDEX.json` binds review proof/doc hashes,raw inventory,
+current410-path freeze and router audit. Detailed per-arm index and assembly
+script are retained under `artifacts/release-coverage/current-semantic-ledger-15`.
+Assembly checks source/map identity and a unique nonoverlapping key for every
+reviewed row. It cannot supply the human condition/consequence review or turn a
+zero counter positive. Raw/global/per-file reports and all floors are unchanged.
+
+Every arm in this original raw snapshot now has a reviewed disposition. This
+does not complete07-03:the active full05 run must reach a terminal passing
+enforcement result and its fresh raw counters must be reconciled by exact
+source/map/site identity. Standalone market-scene execution is still pending. Historical initial
+1051-row source identities/statuses in07-UNCOVERED remain intact;changed sources
+are not mechanically renumbered or relabeled. This current index is separate.
+
+Fresh full05 cb52774e is still active during this snapshot. A later positive
+witness is not a fresh complete gate;the final current report must be reconciled
+by exact source/map/site identity. Other semantic reviews,two standalone scene
+cases after the active chain,07-04/05/06 and opening the PR remain required.

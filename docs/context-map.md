@@ -18,6 +18,7 @@ Read the smallest set that covers the change.
 | Reproducible courses and pickup denomination odds | `docs/seeds.md` |
 | Opening the game or a seeded course through NAP-INTENT | `docs/intents.md` |
 | Persistent owned-card shelf and sales | `docs/persistent-hand.md` |
+| Validated solo mode rules and executable authoring example | `docs/mode-rules.md` |
 
 The upstream napplet SDK is alpha. Treat current package README files and the
 living NIP-5D/NAP sources as more authoritative than assumptions copied into

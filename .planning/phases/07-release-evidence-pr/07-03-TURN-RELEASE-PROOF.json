@@ -1,0 +1,900 @@
+{
+  "purpose": "Source-bound actual Relay/Race teardown evidence; additive internal measurement only",
+  "runId": "4ff8ed8e-5d52-49dc-af7d-87d953b9357b",
+  "previousJobsUnchanged": 178,
+  "currentJobs": 179,
+  "sourceFilesVerified": 158,
+  "red": {
+    "tests": 21,
+    "pass": 18,
+    "fail": 3,
+    "meaning": "Missing measurement API; not gameplay RED"
+  },
+  "controls": {
+    "tests": 121,
+    "pass": 121
+  },
+  "ordinary": {
+    "tests": 8,
+    "pass": 8
+  },
+  "canonical": {
+    "tests": 8,
+    "pass": 8,
+    "independentNodeParents": 1,
+    "browserRealms": 0,
+    "intervals": 24
+  },
+  "backward": {
+    "intervals": 1179,
+    "independentParents": 40
+  },
+  "diagnosticResults": {
+    "relay": {
+      "before": {
+        "lines": {
+          "covered": 2026,
+          "total": 2090
+        },
+        "statements": {
+          "covered": 3005,
+          "total": 3272
+        },
+        "functions": {
+          "covered": 671,
+          "total": 709
+        },
+        "branches": {
+          "covered": 2288,
+          "total": 2695
+        }
+      },
+      "after": {
+        "lines": {
+          "covered": 2028,
+          "total": 2090
+        },
+        "statements": {
+          "covered": 3019,
+          "total": 3272
+        },
+        "functions": {
+          "covered": 673,
+          "total": 709
+        },
+        "branches": {
+          "covered": 2291,
+          "total": 2695
+        }
+      },
+      "newSites": [
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/co-op-market.ts",
+          "kind": "statement",
+          "id": "37",
+          "location": {
+            "start": {
+              "line": 110,
+              "column": 20
+            },
+            "end": {
+              "line": 110,
+              "column": 38
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/co-op-market.ts",
+          "kind": "statement",
+          "id": "38",
+          "location": {
+            "start": {
+              "line": 110,
+              "column": 39
+            },
+            "end": {
+              "line": 110,
+              "column": 60
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/co-op-market.ts",
+          "kind": "function",
+          "id": "16",
+          "location": {
+            "name": "(anonymous_16)",
+            "decl": {
+              "start": {
+                "line": 110,
+                "column": 2
+              },
+              "end": {
+                "line": 110,
+                "column": 9
+              }
+            },
+            "loc": {
+              "start": {
+                "line": 110,
+                "column": 9
+              },
+              "end": {
+                "line": 110,
+                "column": 62
+              }
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/game.ts",
+          "kind": "statement",
+          "id": "228",
+          "location": {
+            "start": {
+              "line": 310,
+              "column": 31
+            },
+            "end": {
+              "line": 310,
+              "column": 62
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/game.ts",
+          "kind": "branch",
+          "id": "86",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 310,
+              "column": 4
+            },
+            "end": {
+              "line": 311,
+              "column": 43
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/game.ts",
+          "kind": "branch",
+          "id": "90",
+          "arm": 1,
+          "location": {
+            "start": {
+              "line": 324,
+              "column": 47
+            },
+            "end": {
+              "line": 324,
+              "column": 65
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "statement",
+          "id": "908",
+          "location": {
+            "start": {
+              "line": 1063,
+              "column": 47
+            },
+            "end": {
+              "line": 1063,
+              "column": 70
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "statement",
+          "id": "909",
+          "location": {
+            "start": {
+              "line": 1063,
+              "column": 72
+            },
+            "end": {
+              "line": 1063,
+              "column": 92
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "statement",
+          "id": "910",
+          "location": {
+            "start": {
+              "line": 1063,
+              "column": 93
+            },
+            "end": {
+              "line": 1063,
+              "column": 120
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "statement",
+          "id": "911",
+          "location": {
+            "start": {
+              "line": 1063,
+              "column": 121
+            },
+            "end": {
+              "line": 1063,
+              "column": 149
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "statement",
+          "id": "912",
+          "location": {
+            "start": {
+              "line": 1063,
+              "column": 150
+            },
+            "end": {
+              "line": 1063,
+              "column": 182
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "statement",
+          "id": "913",
+          "location": {
+            "start": {
+              "line": 1063,
+              "column": 183
+            },
+            "end": {
+              "line": 1063,
+              "column": 222
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "statement",
+          "id": "914",
+          "location": {
+            "start": {
+              "line": 1063,
+              "column": 223
+            },
+            "end": {
+              "line": 1063,
+              "column": 299
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "statement",
+          "id": "915",
+          "location": {
+            "start": {
+              "line": 1063,
+              "column": 250
+            },
+            "end": {
+              "line": 1063,
+              "column": 299
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "statement",
+          "id": "916",
+          "location": {
+            "start": {
+              "line": 1063,
+              "column": 300
+            },
+            "end": {
+              "line": 1063,
+              "column": 331
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "statement",
+          "id": "917",
+          "location": {
+            "start": {
+              "line": 1063,
+              "column": 332
+            },
+            "end": {
+              "line": 1063,
+              "column": 371
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "statement",
+          "id": "918",
+          "location": {
+            "start": {
+              "line": 1063,
+              "column": 372
+            },
+            "end": {
+              "line": 1063,
+              "column": 405
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "function",
+          "id": "242",
+          "location": {
+            "name": "(anonymous_242)",
+            "decl": {
+              "start": {
+                "line": 1063,
+                "column": 2
+              },
+              "end": {
+                "line": 1063,
+                "column": 6
+              }
+            },
+            "loc": {
+              "start": {
+                "line": 1063,
+                "column": 6
+              },
+              "end": {
+                "line": 1063,
+                "column": 407
+              }
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "branch",
+          "id": "342",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 1063,
+              "column": 223
+            },
+            "end": {
+              "line": 1063,
+              "column": 299
+            }
+          }
+        }
+      ],
+      "remainingAt85": 0
+    },
+    "race": {
+      "before": {
+        "lines": {
+          "covered": 2070,
+          "total": 2159
+        },
+        "statements": {
+          "covered": 3064,
+          "total": 3390
+        },
+        "functions": {
+          "covered": 706,
+          "total": 754
+        },
+        "branches": {
+          "covered": 2495,
+          "total": 2994
+        }
+      },
+      "after": {
+        "lines": {
+          "covered": 2076,
+          "total": 2159
+        },
+        "statements": {
+          "covered": 3084,
+          "total": 3390
+        },
+        "functions": {
+          "covered": 710,
+          "total": 754
+        },
+        "branches": {
+          "covered": 2497,
+          "total": 2994
+        }
+      },
+      "newSites": [
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/co-op-market.ts",
+          "kind": "statement",
+          "id": "37",
+          "location": {
+            "start": {
+              "line": 110,
+              "column": 20
+            },
+            "end": {
+              "line": 110,
+              "column": 38
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/co-op-market.ts",
+          "kind": "statement",
+          "id": "38",
+          "location": {
+            "start": {
+              "line": 110,
+              "column": 39
+            },
+            "end": {
+              "line": 110,
+              "column": 60
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/co-op-market.ts",
+          "kind": "function",
+          "id": "16",
+          "location": {
+            "name": "(anonymous_16)",
+            "decl": {
+              "start": {
+                "line": 110,
+                "column": 2
+              },
+              "end": {
+                "line": 110,
+                "column": 9
+              }
+            },
+            "loc": {
+              "start": {
+                "line": 110,
+                "column": 9
+              },
+              "end": {
+                "line": 110,
+                "column": 62
+              }
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/game.ts",
+          "kind": "statement",
+          "id": "281",
+          "location": {
+            "start": {
+              "line": 365,
+              "column": 6
+            },
+            "end": {
+              "line": 365,
+              "column": 52
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/game.ts",
+          "kind": "statement",
+          "id": "283",
+          "location": {
+            "start": {
+              "line": 366,
+              "column": 6
+            },
+            "end": {
+              "line": 366,
+              "column": 89
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/game.ts",
+          "kind": "statement",
+          "id": "284",
+          "location": {
+            "start": {
+              "line": 367,
+              "column": 6
+            },
+            "end": {
+              "line": 367,
+              "column": 28
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/game.ts",
+          "kind": "function",
+          "id": "77",
+          "location": {
+            "name": "(anonymous_77)",
+            "decl": {
+              "start": {
+                "line": 364,
+                "column": 11
+              },
+              "end": {
+                "line": 364,
+                "column": 14
+              }
+            },
+            "loc": {
+              "start": {
+                "line": 364,
+                "column": 16
+              },
+              "end": {
+                "line": 368,
+                "column": 5
+              }
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/game.ts",
+          "kind": "branch",
+          "id": "109",
+          "arm": 1,
+          "location": {
+            "start": {},
+            "end": {}
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "statement",
+          "id": "388",
+          "location": {
+            "start": {
+              "line": 599,
+              "column": 20
+            },
+            "end": {
+              "line": 599,
+              "column": 41
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "statement",
+          "id": "389",
+          "location": {
+            "start": {
+              "line": 599,
+              "column": 42
+            },
+            "end": {
+              "line": 599,
+              "column": 63
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "statement",
+          "id": "390",
+          "location": {
+            "start": {
+              "line": 599,
+              "column": 64
+            },
+            "end": {
+              "line": 599,
+              "column": 84
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "statement",
+          "id": "391",
+          "location": {
+            "start": {
+              "line": 599,
+              "column": 85
+            },
+            "end": {
+              "line": 599,
+              "column": 106
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "statement",
+          "id": "392",
+          "location": {
+            "start": {
+              "line": 599,
+              "column": 107
+            },
+            "end": {
+              "line": 599,
+              "column": 129
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "statement",
+          "id": "908",
+          "location": {
+            "start": {
+              "line": 1063,
+              "column": 47
+            },
+            "end": {
+              "line": 1063,
+              "column": 70
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "statement",
+          "id": "909",
+          "location": {
+            "start": {
+              "line": 1063,
+              "column": 72
+            },
+            "end": {
+              "line": 1063,
+              "column": 92
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "statement",
+          "id": "910",
+          "location": {
+            "start": {
+              "line": 1063,
+              "column": 93
+            },
+            "end": {
+              "line": 1063,
+              "column": 120
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "statement",
+          "id": "911",
+          "location": {
+            "start": {
+              "line": 1063,
+              "column": 121
+            },
+            "end": {
+              "line": 1063,
+              "column": 149
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "statement",
+          "id": "912",
+          "location": {
+            "start": {
+              "line": 1063,
+              "column": 150
+            },
+            "end": {
+              "line": 1063,
+              "column": 182
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "statement",
+          "id": "913",
+          "location": {
+            "start": {
+              "line": 1063,
+              "column": 183
+            },
+            "end": {
+              "line": 1063,
+              "column": 222
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "statement",
+          "id": "914",
+          "location": {
+            "start": {
+              "line": 1063,
+              "column": 223
+            },
+            "end": {
+              "line": 1063,
+              "column": 299
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "statement",
+          "id": "916",
+          "location": {
+            "start": {
+              "line": 1063,
+              "column": 300
+            },
+            "end": {
+              "line": 1063,
+              "column": 331
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "statement",
+          "id": "917",
+          "location": {
+            "start": {
+              "line": 1063,
+              "column": 332
+            },
+            "end": {
+              "line": 1063,
+              "column": 371
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "statement",
+          "id": "918",
+          "location": {
+            "start": {
+              "line": 1063,
+              "column": 372
+            },
+            "end": {
+              "line": 1063,
+              "column": 405
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "function",
+          "id": "109",
+          "location": {
+            "name": "(anonymous_109)",
+            "decl": {
+              "start": {
+                "line": 599,
+                "column": 2
+              },
+              "end": {
+                "line": 599,
+                "column": 9
+              }
+            },
+            "loc": {
+              "start": {
+                "line": 599,
+                "column": 9
+              },
+              "end": {
+                "line": 599,
+                "column": 131
+              }
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "function",
+          "id": "242",
+          "location": {
+            "name": "(anonymous_242)",
+            "decl": {
+              "start": {
+                "line": 1063,
+                "column": 2
+              },
+              "end": {
+                "line": 1063,
+                "column": 6
+              }
+            },
+            "loc": {
+              "start": {
+                "line": 1063,
+                "column": 6
+              },
+              "end": {
+                "line": 1063,
+                "column": 407
+              }
+            }
+          }
+        },
+        {
+          "path": "/Users/sandwich/Develop/crossy-road-clone/src/session.ts",
+          "kind": "branch",
+          "id": "342",
+          "arm": 1,
+          "location": {
+            "start": {},
+            "end": {}
+          }
+        }
+      ],
+      "remainingAt85": 48
+    }
+  },
+  "ledger": [
+    {
+      "id": "turn-release-test",
+      "file": "tests/turn-release.test.mjs",
+      "role": "node",
+      "exitCode": 0
+    }
+  ],
+  "hashes": {
+    "pnpm-lock.yaml": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+    "dist/index.html": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
+    "tools/release-coverage/attribution.mjs": "79d65e5e88da1590780f302ed852ba0373bc0f86f964de90efba5915f184f5ba",
+    "tools/release-coverage/turn-model-attribution.mjs": "47292c90c4f536c1e915da6174d4923f430e64c8b6f9978b3e49405896e6e497",
+    "tools/release-coverage/turn-release-evidence.mjs": "b286bad277975f44c8a24bbdab3e6e07c529a4edd35a1dc5b71d3597891353a1",
+    "tools/release-coverage/attribution.test.mjs": "30ba3ceeb2b74a3f1d1fb09dd3ea6c68d2ae9de455c4efc1ae3928ea18f4f845",
+    "tests/turn-release.test.mjs": "2992d08f461282faf31c26bb52d3f5052f4e6864b91a1dd699a8c88b5415a56d",
+    "tools/release-coverage/suites.json": "dfb10cadbb39a97313a5d26ab7ecdecf5502863dceed1c5d03d314530b3e04ed",
+    "package.json": "39a819c4816784b5b9df05f2e06f5036893762a9989dd77a6373d9fe818f18c9",
+    "artifacts/release-coverage/turn-release-03/4ff8ed8e-5d52-49dc-af7d-87d953b9357b/inventory.json": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+    "artifacts/release-coverage/turn-release-03/4ff8ed8e-5d52-49dc-af7d-87d953b9357b/config.json": "cde39596b93638fdde38258ad0fa015fef9b81400ec46eb4cc00f647548fa457",
+    "artifacts/release-coverage/turn-release-03/4ff8ed8e-5d52-49dc-af7d-87d953b9357b/job-ledger.json": "695a2599ee015be7327738ca947e89c8130f3969ad483594d749da65c1bc543a",
+    "artifacts/release-coverage/turn-release-03/4ff8ed8e-5d52-49dc-af7d-87d953b9357b/model-turn-release-test.json": "366ae3cf193aba60ad02ad275bedb5baa90540a3ab3a7f5f61a9ddacb22fe030",
+    "artifacts/release-coverage/turn-release-03/4ff8ed8e-5d52-49dc-af7d-87d953b9357b/tests__turn-release.test.mjs.json": "5968a6dab189b9fdbd11d041919395520a1bcda55852e44a0b3104a25590944a",
+    "artifacts/release-coverage/turn-release-03/4ff8ed8e-5d52-49dc-af7d-87d953b9357b/suite-artifacts/turn-release/release.json": "7b3823dee88d550fbc030e53df87eb0132470953424e609ebfe705afc372803c",
+    "artifacts/release-coverage/turn-release-03/red.log": "76519b3cbf61e865e23191666db4aae837e2e63af9e823a2165cae9a8d8e176f",
+    "artifacts/release-coverage/turn-release-03/green.log": "f2ed31a474a0a85003551d5cbde860f43616a65fb2528703a66f7e6ca6e429fd",
+    "artifacts/release-coverage/turn-release-03/public-base-red.log": "f045d44a6ffd64c29e8bd520f525faea1384f8ff58f2f30b793a3607595e3394",
+    "artifacts/release-coverage/turn-release-03/public-base-green.log": "7fb96415080076d1fd0877c2580ec2b774fd53819f9093760231403182c14c5a",
+    "artifacts/release-coverage/turn-release-03/all-controls.log": "cb8ea338599c8b52e1efb55e97b5b8dee520a3fca42392d7ebc5b893d850bb74",
+    "artifacts/release-coverage/turn-release-03/ordinary-03.log": "9a03b05078434cb089b0f0f07de237e6ae5966ea1f5ce6e0404f1de49bbcde5c",
+    "artifacts/release-coverage/turn-release-03/canonical.log": "8bd40158caae8c4175512336d036eed2222f276b6edfda5607438fc07ff6061b",
+    "artifacts/release-coverage/turn-release-03/backward-proof.json": "92f350cb9a30f2e00d411334c3728cb5d42ef3b46085d2a97731104f589bf8d3",
+    "artifacts/release-coverage/turn-release-03/dispatch-audit.json": "ca2ee74943f27c7792b8e2c5e9a27bef729097ece182051d32494a7a2f601485",
+    "artifacts/release-coverage/turn-release-03/union-proof.json": "4e85cbe02c63f5efb8c178622b8dbd5b6ad3565fd4a0520ed5396fb4603ba089",
+    "artifacts/release-coverage/turn-release-03/measure-union.mjs": "acda607f0cdf0415672e9a29911d87dff3c38778066b385a0c8944cd8150326f",
+    "artifacts/release-coverage/turn-release-03/backward-validation.mjs": "b175813e08aebdee8fd429eb93e041e5428182059150f8b53a9a135b0631882e"
+  },
+  "remaining": "Race48 DEV52 branch witnesses, full semantic review, fresh enforcing full run,07-04/05/06 and PR. Original full report remains failed."
+}

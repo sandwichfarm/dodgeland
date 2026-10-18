@@ -1,0 +1,3038 @@
+{
+  "audit": {
+    "sources": 159,
+    "targets": 7,
+    "mainLiteralOptionKeys": {
+      "createRunHand": [
+        "getGear",
+        "openGear",
+        "onUseGear",
+        "getRun",
+        "getOwnerKey",
+        "getOwnerLabel",
+        "selectNextOwner",
+        "canSell",
+        "unavailableReason",
+        "sell",
+        "getItems",
+        "canUseItems",
+        "itemUnavailableReason",
+        "onUseItem",
+        "onOpenChange",
+        "onSell"
+      ],
+      "createMarketUI": [
+        "getGear",
+        "getRun",
+        "getCharacter",
+        "getOwner",
+        "getOwnerLabel",
+        "getOwners",
+        "getOwnerKey",
+        "selectOwner",
+        "selectNextOwner",
+        "canMutate",
+        "unavailableReason",
+        "getCoOpContext",
+        "transaction",
+        "canOpen",
+        "open",
+        "close",
+        "canRestoreFocus",
+        "shortcut",
+        "getReducedMotion",
+        "changed"
+      ]
+    },
+    "limit": "Resolved references and literal option presence supplement manual source/value/order review;no generic API exclusion"
+  },
+  "purpose": "Manual consequence/behavior-boundary review of49 counted hand/inventory residuals;source inspection only,no execution,hit,exclusion or threshold credit",
+  "sourceRun": "0b8f818d-62a2-4922-ab83-242886778c0c",
+  "currentInventoryRawSha256": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+  "freshFullRun": "cb52774e-975e-4388-a064-5162ef3807d8",
+  "freshFullStatus": "active;result not inferred",
+  "frozenPathsVerified": 410,
+  "behaviorSources": [
+    {
+      "path": "tests/market.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/market-engine.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/market-capacity.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/card-expansion.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/run-hand-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/survive-market-keyboard-owner-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/survive-market-controller-owner-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/survive-market-ghost-sale-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/survive-market-pack-owner-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/survive-market-fresh-context-runtime.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/turn-market-boundaries.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/race-balance.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/market-layout.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/local-session-owner-layout.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    }
+  ],
+  "limits": [
+    "Public authority rejection is not an inner duplicate guard hit",
+    "Explicit model/browser card,offer,funds and clock fixtures retain arranged provenance",
+    "Generic omitted callbacks and malformed mutable arrays remain globally counted",
+    "Source review does not replace complete enforcement or final visual/clause proof"
+  ],
+  "rows": [
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "16",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 111,
+          "column": 165
+        },
+        "end": {
+          "line": 111,
+          "column": 167
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 111,
+          "column": 138
+        },
+        "end": {
+          "line": 111,
+          "column": 167
+        }
+      },
+      "sourceText": "''",
+      "owner": "createRunHand",
+      "sourceContext": "''",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "22",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 129,
+          "column": 51
+        },
+        "end": {
+          "line": 129,
+          "column": 55
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 129,
+          "column": 24
+        },
+        "end": {
+          "line": 129,
+          "column": 55
+        }
+      },
+      "sourceText": "true",
+      "owner": "createRunHand.paintHand",
+      "sourceContext": "true",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "42",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 176,
+          "column": 66
+        },
+        "end": {
+          "line": 176,
+          "column": 67
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 176,
+          "column": 46
+        },
+        "end": {
+          "line": 176,
+          "column": 67
+        }
+      },
+      "sourceText": "0",
+      "owner": "createRunHand.paintHand",
+      "sourceContext": "0",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "43",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 176,
+          "column": 98
+        },
+        "end": {
+          "line": 176,
+          "column": 99
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 176,
+          "column": 80
+        },
+        "end": {
+          "line": 176,
+          "column": 99
+        }
+      },
+      "sourceText": "0",
+      "owner": "createRunHand.paintHand",
+      "sourceContext": "0",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "47",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 181,
+          "column": 41
+        },
+        "end": {
+          "line": 181,
+          "column": 105
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 181,
+          "column": 22
+        },
+        "end": {
+          "line": 181,
+          "column": 105
+        }
+      },
+      "sourceText": "options.itemUnavailableReason?.() ?? 'This item is unavailable.'",
+      "owner": "createRunHand.paintHand",
+      "sourceContext": "options.itemUnavailableReason?.() ?? 'This item is unavailable.'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "48",
+      "arm": 0,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 181,
+          "column": 41
+        },
+        "end": {
+          "line": 181,
+          "column": 74
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 181,
+          "column": 41
+        },
+        "end": {
+          "line": 181,
+          "column": 105
+        }
+      },
+      "sourceText": "options.itemUnavailableReason?.()",
+      "owner": "createRunHand.paintHand",
+      "sourceContext": "options.itemUnavailableReason?.()",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "48",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 181,
+          "column": 78
+        },
+        "end": {
+          "line": 181,
+          "column": 105
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 181,
+          "column": 41
+        },
+        "end": {
+          "line": 181,
+          "column": 105
+        }
+      },
+      "sourceText": "'This item is unavailable.'",
+      "owner": "createRunHand.paintHand",
+      "sourceContext": "'This item is unavailable.'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "51",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 191,
+          "column": 46
+        },
+        "end": {
+          "line": 191,
+          "column": 48
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 191,
+          "column": 25
+        },
+        "end": {
+          "line": 191,
+          "column": 48
+        }
+      },
+      "sourceText": "''",
+      "owner": "createRunHand.paintDetailPage",
+      "sourceContext": "''",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "52",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 194,
+          "column": 4
+        },
+        "end": {
+          "line": 194,
+          "column": 115
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 194,
+          "column": 4
+        },
+        "end": {
+          "line": 194,
+          "column": 115
+        }
+      },
+      "sourceText": "if (document.activeElement instanceof HTMLButtonElement && document.activeElement.disabled) focus(closeButton);",
+      "owner": "createRunHand.paintDetailPage",
+      "sourceContext": "if (document.activeElement instanceof HTMLButtonElement && document.activeElement.disabled) focus(closeButton);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "57",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 206,
+          "column": 53
+        },
+        "end": {
+          "line": 206,
+          "column": 84
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 206,
+          "column": 23
+        },
+        "end": {
+          "line": 206,
+          "column": 84
+        }
+      },
+      "sourceText": "parseFloat(css.fontSize) * 1.25",
+      "owner": "createRunHand.paginate",
+      "sourceContext": "parseFloat(css.fontSize) * 1.25",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "62",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 216,
+          "column": 4
+        },
+        "end": {
+          "line": 216,
+          "column": 31
+        }
+      },
+      "sourceText": "if (line) lines.push(line);",
+      "owner": "createRunHand.paginate",
+      "sourceContext": "if (line) lines.push(line);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "63",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 219,
+          "column": 4
+        },
+        "end": {
+          "line": 219,
+          "column": 58
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 219,
+          "column": 4
+        },
+        "end": {
+          "line": 219,
+          "column": 58
+        }
+      },
+      "sourceText": "if (!pages.length) pages.push('Active for this run.');",
+      "owner": "createRunHand.paginate",
+      "sourceContext": "if (!pages.length) pages.push('Active for this run.');",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "64",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 227,
+          "column": 4
+        },
+        "end": {
+          "line": 227,
+          "column": 22
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 227,
+          "column": 4
+        },
+        "end": {
+          "line": 227,
+          "column": 22
+        }
+      },
+      "sourceText": "if (!card) return;",
+      "owner": "createRunHand.updateDetail",
+      "sourceContext": "if (!card) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "67",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 232,
+          "column": 86
+        },
+        "end": {
+          "line": 232,
+          "column": 115
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 232,
+          "column": 53
+        },
+        "end": {
+          "line": 232,
+          "column": 115
+        }
+      },
+      "sourceText": "'This action is unavailable.'",
+      "owner": "createRunHand.updateDetail",
+      "sourceContext": "'This action is unavailable.'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "77",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 257,
+          "column": 4
+        },
+        "end": {
+          "line": 257,
+          "column": 80
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 257,
+          "column": 4
+        },
+        "end": {
+          "line": 257,
+          "column": 80
+        }
+      },
+      "sourceText": "if (!active || !options.getRun().cards.some(card => card.id === id)) return;",
+      "owner": "createRunHand.open",
+      "sourceContext": "if (!active || !options.getRun().cards.some(card => card.id === id)) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "80",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 260,
+          "column": 4
+        },
+        "end": {
+          "line": 260,
+          "column": 128
+        }
+      },
+      "sourceText": "if (!wasOpen) returnFocus = pointerFocus ?? (document.activeElement instanceof HTMLElement ? document.activeElement : null);",
+      "owner": "createRunHand.open",
+      "sourceContext": "if (!wasOpen) returnFocus = pointerFocus ?? (document.activeElement instanceof HTMLElement ? document.activeElement : null);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "81",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 260,
+          "column": 49
+        },
+        "end": {
+          "line": 260,
+          "column": 126
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 260,
+          "column": 32
+        },
+        "end": {
+          "line": 260,
+          "column": 127
+        }
+      },
+      "sourceText": "document.activeElement instanceof HTMLElement ? document.activeElement : null",
+      "owner": "createRunHand.open",
+      "sourceContext": "document.activeElement instanceof HTMLElement ? document.activeElement : null",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "82",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 260,
+          "column": 97
+        },
+        "end": {
+          "line": 260,
+          "column": 119
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 260,
+          "column": 49
+        },
+        "end": {
+          "line": 260,
+          "column": 126
+        }
+      },
+      "sourceText": "document.activeElement",
+      "owner": "createRunHand.open",
+      "sourceContext": "document.activeElement",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "82",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 260,
+          "column": 122
+        },
+        "end": {
+          "line": 260,
+          "column": 126
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 260,
+          "column": 49
+        },
+        "end": {
+          "line": 260,
+          "column": 126
+        }
+      },
+      "sourceText": "null",
+      "owner": "createRunHand.open",
+      "sourceContext": "null",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "83",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 265,
+          "column": 4
+        },
+        "end": {
+          "line": 265,
+          "column": 45
+        }
+      },
+      "sourceText": "if (!wasOpen) options.onOpenChange(true);",
+      "owner": "createRunHand.open",
+      "sourceContext": "if (!wasOpen) options.onOpenChange(true);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "84",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 271,
+          "column": 4
+        },
+        "end": {
+          "line": 271,
+          "column": 35
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 271,
+          "column": 4
+        },
+        "end": {
+          "line": 271,
+          "column": 35
+        }
+      },
+      "sourceText": "if (!target || !active) return;",
+      "owner": "createRunHand.onClick",
+      "sourceContext": "if (!target || !active) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "96",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 279,
+          "column": 11
+        },
+        "end": {
+          "line": 288,
+          "column": 5
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 279,
+          "column": 11
+        },
+        "end": {
+          "line": 288,
+          "column": 5
+        }
+      },
+      "sourceText": "if (target === previousDetail || target === nextDetail) {\n      detailPage += target === previousDetail ? -1 : 1; paintDetailPage();\n    } else if (target === sell && selected) {\n      if (!options.canSell()) { message = options.unavailableReason?.() ?? 'This action is unavailable.'; detailPage = 0; updateDetail(); return; }\n      const result = options.sell?.(selected) ?? options.getRun().sell(selected);\n      if (result.ok) close();\n      else { message = result.message; detailPage = 0; updateDetail(); }\n      options.onSell(result);\n      paintHand();\n    }",
+      "owner": "createRunHand.onClick",
+      "sourceContext": "if (target === previousDetail || target === nextDetail) {\n      detailPage += target === previousDetail ? -1 : 1; paintDetailPage();\n    } else if (target === sell && selected) {\n      if (!options.canSell()) { message = options.unavailableReason?.() ?? 'This action is unavailable.'; detailPage = 0; updateDetail(); return; }\n      const result = options.sell?.(selected) ?? options.getRun().sell(selected);\n      if (result.ok) close();\n      else { message = result.message; detailPage = 0; updateDetail(); }\n      options.onSell(result);\n      paintHand();\n    }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "98",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 280,
+          "column": 48
+        },
+        "end": {
+          "line": 280,
+          "column": 50
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 280,
+          "column": 20
+        },
+        "end": {
+          "line": 280,
+          "column": 54
+        }
+      },
+      "sourceText": "-1",
+      "owner": "createRunHand.onClick",
+      "sourceContext": "-1",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "98",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 280,
+          "column": 53
+        },
+        "end": {
+          "line": 280,
+          "column": 54
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 280,
+          "column": 20
+        },
+        "end": {
+          "line": 280,
+          "column": 54
+        }
+      },
+      "sourceText": "1",
+      "owner": "createRunHand.onClick",
+      "sourceContext": "1",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "101",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 282,
+          "column": 6
+        },
+        "end": {
+          "line": 282,
+          "column": 147
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 282,
+          "column": 6
+        },
+        "end": {
+          "line": 282,
+          "column": 147
+        }
+      },
+      "sourceText": "if (!options.canSell()) { message = options.unavailableReason?.() ?? 'This action is unavailable.'; detailPage = 0; updateDetail(); return; }",
+      "owner": "createRunHand.onClick",
+      "sourceContext": "if (!options.canSell()) { message = options.unavailableReason?.() ?? 'This action is unavailable.'; detailPage = 0; updateDetail(); return; }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "102",
+      "arm": 0,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 282,
+          "column": 42
+        },
+        "end": {
+          "line": 282,
+          "column": 71
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 282,
+          "column": 42
+        },
+        "end": {
+          "line": 282,
+          "column": 104
+        }
+      },
+      "sourceText": "options.unavailableReason?.()",
+      "owner": "createRunHand.onClick",
+      "sourceContext": "options.unavailableReason?.()",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "102",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 282,
+          "column": 75
+        },
+        "end": {
+          "line": 282,
+          "column": 104
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 282,
+          "column": 42
+        },
+        "end": {
+          "line": 282,
+          "column": 104
+        }
+      },
+      "sourceText": "'This action is unavailable.'",
+      "owner": "createRunHand.onClick",
+      "sourceContext": "'This action is unavailable.'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "103",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 283,
+          "column": 49
+        },
+        "end": {
+          "line": 283,
+          "column": 80
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 283,
+          "column": 21
+        },
+        "end": {
+          "line": 283,
+          "column": 80
+        }
+      },
+      "sourceText": "options.getRun().sell(selected)",
+      "owner": "createRunHand.onClick",
+      "sourceContext": "options.getRun().sell(selected)",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "105",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 291,
+          "column": 120
+        },
+        "end": {
+          "line": 291,
+          "column": 124
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 291,
+          "column": 47
+        },
+        "end": {
+          "line": 291,
+          "column": 124
+        }
+      },
+      "sourceText": "null",
+      "owner": "createRunHand.callback@291",
+      "sourceContext": "null",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "110",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 305,
+          "column": 4
+        },
+        "end": {
+          "line": 305,
+          "column": 114
+        }
+      },
+      "sourceText": "if (controls.length) focus(controls[(index + (event.shiftKey ? -1 : 1) + controls.length) % controls.length]);",
+      "owner": "createRunHand.callback@300",
+      "sourceContext": "if (controls.length) focus(controls[(index + (event.shiftKey ? -1 : 1) + controls.length) % controls.length]);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "117",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 314,
+          "column": 36
+        },
+        "end": {
+          "line": 314,
+          "column": 60
+        }
+      },
+      "sourceText": "if (!disposed) resize();",
+      "owner": "createRunHand.callback@314",
+      "sourceContext": "if (!disposed) resize();",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "118",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 318,
+          "column": 6
+        },
+        "end": {
+          "line": 318,
+          "column": 27
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 318,
+          "column": 6
+        },
+        "end": {
+          "line": 318,
+          "column": 27
+        }
+      },
+      "sourceText": "if (disposed) return;",
+      "owner": "createRunHand.update",
+      "sourceContext": "if (disposed) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "119",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 320,
+          "column": 54
+        },
+        "end": {
+          "line": 320,
+          "column": 56
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 320,
+          "column": 27
+        },
+        "end": {
+          "line": 320,
+          "column": 56
+        }
+      },
+      "sourceText": "''",
+      "owner": "createRunHand.update",
+      "sourceContext": "''",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "123",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 324,
+          "column": 6
+        },
+        "end": {
+          "line": 324,
+          "column": 38
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 324,
+          "column": 6
+        },
+        "end": {
+          "line": 324,
+          "column": 38
+        }
+      },
+      "sourceText": "if (!shown && selected) close();",
+      "owner": "createRunHand.update",
+      "sourceContext": "if (!shown && selected) close();",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "131",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 339,
+          "column": 6
+        },
+        "end": {
+          "line": 339,
+          "column": 47
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 339,
+          "column": 6
+        },
+        "end": {
+          "line": 339,
+          "column": 47
+        }
+      },
+      "sourceText": "if (selected && !selectedCard()) close();",
+      "owner": "createRunHand.update",
+      "sourceContext": "if (selected && !selectedCard()) close();",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "135",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 347,
+          "column": 6
+        },
+        "end": {
+          "line": 347,
+          "column": 26
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 347,
+          "column": 6
+        },
+        "end": {
+          "line": 347,
+          "column": 26
+        }
+      },
+      "sourceText": "if (!active) return;",
+      "owner": "createRunHand.navigate",
+      "sourceContext": "if (!active) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "136",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 349,
+          "column": 6
+        },
+        "end": {
+          "line": 349,
+          "column": 35
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 349,
+          "column": 6
+        },
+        "end": {
+          "line": 349,
+          "column": 35
+        }
+      },
+      "sourceText": "if (!controls.length) return;",
+      "owner": "createRunHand.navigate",
+      "sourceContext": "if (!controls.length) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "139",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 354,
+          "column": 6
+        },
+        "end": {
+          "line": 354,
+          "column": 26
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 354,
+          "column": 6
+        },
+        "end": {
+          "line": 354,
+          "column": 26
+        }
+      },
+      "sourceText": "if (!active) return;",
+      "owner": "createRunHand.confirm",
+      "sourceContext": "if (!active) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/run-hand.ts",
+      "sourceHash": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+      "mapHash": "f8ab60c394ba59e51755a9497626e9f72f491638531cef30fd3ad7f9744fa823",
+      "id": "140",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 357,
+          "column": 11
+        },
+        "end": {
+          "line": 357,
+          "column": 39
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 356,
+          "column": 6
+        },
+        "end": {
+          "line": 357,
+          "column": 39
+        }
+      },
+      "sourceText": "focus(runHandControls()[0]);",
+      "owner": "createRunHand.confirm",
+      "sourceContext": "focus(runHandControls()[0]);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market/run.ts",
+      "sourceHash": "ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f",
+      "mapHash": "ad818814e8ce4d89d771a2b069dd5596a7f2bdd32f4267c7948959b6bde29acd",
+      "id": "5",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 49,
+          "column": 4
+        },
+        "end": {
+          "line": 49,
+          "column": 135
+        }
+      },
+      "sourceText": "if (item?.kind === 'card' && Number.isFinite(component.potency) && component.potency > 0) item.modify?.(result, component.potency);",
+      "owner": "reduceItems",
+      "sourceContext": "if (item?.kind === 'card' && Number.isFinite(component.potency) && component.potency > 0) item.modify?.(result, component.potency);",
+      "scopeProofs": [
+        {
+          "mode": "race",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-EMPTY-INVENTORY-CLOSURE.md",
+          "callReason": "Complete pinned construction/write/call closure: Race cards and timed powers initialize empty and appearance-only access prevents every nonempty writer. Tactical charges and innate powers use separate state. Empty traversal, guards, score/milestone updates and cosmetic operations remain applicable.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope."
+        }
+      ],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market/run.ts",
+      "sourceHash": "ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f",
+      "mapHash": "ad818814e8ce4d89d771a2b069dd5596a7f2bdd32f4267c7948959b6bde29acd",
+      "id": "7",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 57,
+          "column": 4
+        },
+        "end": {
+          "line": 57,
+          "column": 80
+        }
+      },
+      "sourceText": "if (item?.kind === 'power' && power.remaining > 0) item.modify?.(result, 1);",
+      "owner": "reduceItems",
+      "sourceContext": "if (item?.kind === 'power' && power.remaining > 0) item.modify?.(result, 1);",
+      "scopeProofs": [
+        {
+          "mode": "race",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-EMPTY-INVENTORY-CLOSURE.md",
+          "callReason": "Complete pinned construction/write/call closure: Race cards and timed powers initialize empty and appearance-only access prevents every nonempty writer. Tactical charges and innate powers use separate state. Empty traversal, guards, score/milestone updates and cosmetic operations remain applicable.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope."
+        }
+      ],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market/run.ts",
+      "sourceHash": "ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f",
+      "mapHash": "ad818814e8ce4d89d771a2b069dd5596a7f2bdd32f4267c7948959b6bde29acd",
+      "id": "9",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 61,
+          "column": 94
+        },
+        "end": {
+          "line": 61,
+          "column": 132
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 61,
+          "column": 18
+        },
+        "end": {
+          "line": 61,
+          "column": 132
+        }
+      },
+      "sourceText": "defaultModifiers(baseCoinGravity)[key]",
+      "owner": "reduceItems",
+      "sourceContext": "defaultModifiers(baseCoinGravity)[key]",
+      "scopeProofs": [],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market/run.ts",
+      "sourceHash": "ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f",
+      "mapHash": "ad818814e8ce4d89d771a2b069dd5596a7f2bdd32f4267c7948959b6bde29acd",
+      "id": "10",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 89,
+          "column": 4
+        },
+        "end": {
+          "line": 89,
+          "column": 158
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 89,
+          "column": 4
+        },
+        "end": {
+          "line": 89,
+          "column": 158
+        }
+      },
+      "sourceText": "if (!['standard','appearance-only'].includes(access) || this.access !== 'standard' && access !== this.access) throw new TypeError('Invalid item access.');",
+      "owner": "RunInventory.restrictItems",
+      "sourceContext": "if (!['standard','appearance-only'].includes(access) || this.access !== 'standard' && access !== this.access) throw new TypeError('Invalid item access.');",
+      "scopeProofs": [
+        {
+          "mode": "solo-arcade",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-PROJECTION-SCOPE.md",
+          "callReason": "Only Race.attach restricts item access; solo retains initialized standard access.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-PROJECTION-SCOPE.md",
+          "callReason": "Only Race.attach restricts item access; solo retains initialized standard access.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "relay",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-CALL-CLOSURE-REVIEW.md",
+          "callReason": "Only Race.attach restricts item access; Relay retains initialized standard access.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope."
+        }
+      ],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market/run.ts",
+      "sourceHash": "ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f",
+      "mapHash": "ad818814e8ce4d89d771a2b069dd5596a7f2bdd32f4267c7948959b6bde29acd",
+      "id": "11",
+      "arm": 2,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 89,
+          "column": 90
+        },
+        "end": {
+          "line": 89,
+          "column": 112
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 89,
+          "column": 8
+        },
+        "end": {
+          "line": 89,
+          "column": 112
+        }
+      },
+      "sourceText": "access !== this.access",
+      "owner": "RunInventory.restrictItems",
+      "sourceContext": "access !== this.access",
+      "scopeProofs": [
+        {
+          "mode": "solo-arcade",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-PROJECTION-SCOPE.md",
+          "callReason": "Only Race.attach restricts item access; solo retains initialized standard access.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-PROJECTION-SCOPE.md",
+          "callReason": "Only Race.attach restricts item access; solo retains initialized standard access.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "relay",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-CALL-CLOSURE-REVIEW.md",
+          "callReason": "Only Race.attach restricts item access; Relay retains initialized standard access.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope."
+        }
+      ],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market/run.ts",
+      "sourceHash": "ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f",
+      "mapHash": "ad818814e8ce4d89d771a2b069dd5596a7f2bdd32f4267c7948959b6bde29acd",
+      "id": "41",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 154,
+          "column": 4
+        },
+        "end": {
+          "line": 154,
+          "column": 42
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 154,
+          "column": 4
+        },
+        "end": {
+          "line": 154,
+          "column": 42
+        }
+      },
+      "sourceText": "if (commit && !commit()) return false;",
+      "owner": "RunInventory.spendCoins",
+      "sourceContext": "if (commit && !commit()) return false;",
+      "scopeProofs": [
+        {
+          "mode": "solo-arcade",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-PROJECTION-SCOPE.md",
+          "callReason": "Only CoOpMarketAdapter calls this companion debit primitive; solo purchases use ordinary inventory transactions.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-PROJECTION-SCOPE.md",
+          "callReason": "Only CoOpMarketAdapter calls this companion debit primitive; solo purchases use ordinary inventory transactions.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "relay",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-CALL-CLOSURE-REVIEW.md",
+          "callReason": "Relay has no consumable capabilities, so adapter dispatch rejects every consumable before its companion debit. Ordinary purchases remain applicable.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope."
+        }
+      ],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market/run.ts",
+      "sourceHash": "ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f",
+      "mapHash": "ad818814e8ce4d89d771a2b069dd5596a7f2bdd32f4267c7948959b6bde29acd",
+      "id": "45",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 168,
+          "column": 6
+        },
+        "end": {
+          "line": 168,
+          "column": 85
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 168,
+          "column": 6
+        },
+        "end": {
+          "line": 168,
+          "column": 85
+        }
+      },
+      "sourceText": "if (definition?.kind !== 'card' || !this.itemEligible(definition.id)) continue;",
+      "owner": "RunInventory.advanceScore",
+      "sourceContext": "if (definition?.kind !== 'card' || !this.itemEligible(definition.id)) continue;",
+      "scopeProofs": [
+        {
+          "mode": "race",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-EMPTY-INVENTORY-CLOSURE.md",
+          "callReason": "Complete pinned construction/write/call closure: Race cards and timed powers initialize empty and appearance-only access prevents every nonempty writer. Tactical charges and innate powers use separate state. Empty traversal, guards, score/milestone updates and cosmetic operations remain applicable.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope."
+        }
+      ],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market/run.ts",
+      "sourceHash": "ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f",
+      "mapHash": "ad818814e8ce4d89d771a2b069dd5596a7f2bdd32f4267c7948959b6bde29acd",
+      "id": "50",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 174,
+          "column": 6
+        },
+        "end": {
+          "line": 174,
+          "column": 110
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 174,
+          "column": 6
+        },
+        "end": {
+          "line": 174,
+          "column": 110
+        }
+      },
+      "sourceText": "if (definition?.kind !== 'power' || !this.itemEligible(definition.id) || power.remaining <= 0) continue;",
+      "owner": "RunInventory.advanceScore",
+      "sourceContext": "if (definition?.kind !== 'power' || !this.itemEligible(definition.id) || power.remaining <= 0) continue;",
+      "scopeProofs": [
+        {
+          "mode": "race",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-EMPTY-INVENTORY-CLOSURE.md",
+          "callReason": "Complete pinned construction/write/call closure: Race cards and timed powers initialize empty and appearance-only access prevents every nonempty writer. Tactical charges and innate powers use separate state. Empty traversal, guards, score/milestone updates and cosmetic operations remain applicable.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope."
+        }
+      ],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market/run.ts",
+      "sourceHash": "ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f",
+      "mapHash": "ad818814e8ce4d89d771a2b069dd5596a7f2bdd32f4267c7948959b6bde29acd",
+      "id": "53",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 176,
+          "column": 6
+        },
+        "end": {
+          "line": 176,
+          "column": 66
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 176,
+          "column": 6
+        },
+        "end": {
+          "line": 176,
+          "column": 66
+        }
+      },
+      "sourceText": "if (Number.isFinite(amount) && amount > 0) income += amount;",
+      "owner": "RunInventory.advanceScore",
+      "sourceContext": "if (Number.isFinite(amount) && amount > 0) income += amount;",
+      "scopeProofs": [
+        {
+          "mode": "race",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-RACE-EMPTY-INVENTORY-CLOSURE.md",
+          "callReason": "Complete pinned construction/write/call closure: Race cards and timed powers initialize empty and appearance-only access prevents every nonempty writer. Tactical charges and innate powers use separate state. Empty traversal, guards, score/milestone updates and cosmetic operations remain applicable.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope."
+        }
+      ],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/market/run.ts",
+      "sourceHash": "ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f",
+      "mapHash": "ad818814e8ce4d89d771a2b069dd5596a7f2bdd32f4267c7948959b6bde29acd",
+      "id": "107",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 307,
+          "column": 4
+        },
+        "end": {
+          "line": 307,
+          "column": 27
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 307,
+          "column": 4
+        },
+        "end": {
+          "line": 307,
+          "column": 27
+        }
+      },
+      "sourceText": "if (this.alive) return;",
+      "owner": "RunInventory.resumeAfterDeath",
+      "sourceContext": "if (this.alive) return;",
+      "scopeProofs": [
+        {
+          "mode": "solo-arcade",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-PROJECTION-SCOPE.md",
+          "callReason": "Only SessionRecoveryController calls this empty-economy resume primitive; solo retry creates a new Game.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-PROJECTION-SCOPE.md",
+          "callReason": "Only SessionRecoveryController calls this empty-economy resume primitive; solo retry creates a new Game.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        }
+      ],
+      "status": "reviewed-counted-hand-inventory-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01",
+        "COOP-04",
+        "COOP-05",
+        "ITEM-05",
+        "RELAY-03",
+        "RACE-03",
+        "UI-02",
+        "UI-03",
+        "UI-04",
+        "UI-05",
+        "INPUT-02",
+        "INPUT-04",
+        "INPUT-05",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    }
+  ],
+  "hashes": {
+    "artifacts/release-coverage/semantic-current-03/raw-zero-review.json": "c8297f9591dcbe604c1ff06f2e67ca6575ac9570a94838dec747530dcfda5fc4",
+    ".planning/phases/07-release-evidence-pr/07-03-SCHEMA-RECOVERY-SEMANTIC-PROOF.json": "8a5bfe67e7b38a5b107cef1ab65e13a01131247c05265c0d68bd57e471a83a09",
+    "artifacts/release-coverage/current-full-05-proof/freeze.json": "c72459fff67275b20c5b67c1076d781f825a00cec405fada8743cb2f350111a3",
+    "tools/release-coverage/suites.json": "02e81d3e4320ed8a2d0901fd0eee532e051d1c0b27b606c011fedbc3674ab88d",
+    "tests/market.test.mjs": "3d44f4b33a2f06f2af28b38969e06f07d8c78bafca2e0fb50677760c92f68509",
+    "tests/market-engine.test.mjs": "728292fd5e0f80778b0d30bebd791d860f50095341081b02371674467d19bf7b",
+    "tests/market-capacity.test.mjs": "876b86727043ab14f01ed74b238bdd4370e5a8d7093f033a7e0e94d546453a7f",
+    "tests/card-expansion.test.mjs": "56ff74ca8b1590b44a1d170a6d99d4dbdc0dffab8d5e7ba3d330f33f7206a698",
+    "tests/run-hand-runtime.mjs": "503c4f40a5caee802c762421b1da6b04dc593ba47fc757b0c1e82dc29d8ac38b",
+    "tests/survive-market-keyboard-owner-runtime.mjs": "2a54b2f871d5facdf47c7468b2d230c803e155851f6171cbf7e105d77873866c",
+    "tests/survive-market-controller-owner-runtime.mjs": "4672160a11598e841f867ad8540d678500c697f6f163da650a0c7722531fae35",
+    "tests/survive-market-ghost-sale-runtime.mjs": "b6536e356532ad2c556c1ddad9607b13ce3c9c7699cedefc002abf1658c004a5",
+    "tests/survive-market-pack-owner-runtime.mjs": "d1a0ddc754c47a7651f7379d76916446367baeb316c30f2724e52dc9b271570c",
+    "tests/survive-market-fresh-context-runtime.mjs": "b4b77cde5fb049a79f41c10535953004e42389c4a1a677af7ebb7ceb7c612d93",
+    "tests/turn-market-boundaries.test.mjs": "74dc1d7e23baedcf039f9ee87fd0adba480eaf2fdb7676828356862abda24856",
+    "tests/race-balance.test.mjs": "03054f94ad2892f23c7bc611229541f4af9aec96295e5ad2cbc639a290951165",
+    "tests/market-layout.mjs": "d5ce2894bf96d87c4f8c4c343996fa4161eb6107e8a2ce57e774c01ef2d3f540",
+    "tests/local-session-owner-layout.mjs": "2b23fae74aaf74f8ea3f7d209d8e1765990fc39bc87317d7b15d9f49eec4a277",
+    ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md": "4f24b7d57de36cd63feed1334aa64c35980a8e518678ef6855f3e90666004896",
+    "artifacts/release-coverage/hand-inventory-residual-10/verify.mjs": "e72326585a1a791f767eb67d99b8da4751d51961ee0150e180e8485eb0f3abb0",
+    "src/market/run.ts": "ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f",
+    "src/run-hand.ts": "3617c567e5c486d8c1351adb03f99c559fa3eddbf1e1bbfc3cd99b3c9e27ed8a",
+    "src/main.ts": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+    "src/race.ts": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+    "src/co-op-market.ts": "037a96c9f9436346f06306cac74808aab5e92e205ce2c42bebb1dbd16ca24c22",
+    "src/session-recovery.ts": "35119abd8ac6551d253ec0ada320c934fd5a9cf20c142444e3afdb4094093b9c",
+    "src/game.ts": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+    "src/run-hand.css": "2402659c3bdeda6994ab22ef27a3a604fcb56c513dd532bc73f1515945c34a70",
+    "artifacts/release-coverage/hand-inventory-residual-10/reference-audit.mjs": "b85105941748794332b6595523b389dd4111a8c25d580c1da1fb7c8b8258cb29",
+    "artifacts/release-coverage/hand-inventory-residual-10/reference-audit.log": "c73ecec39a49a2a88191e923f014061aed11bc0163583cee4c0dec8141bf34c5",
+    "artifacts/release-coverage/hand-inventory-residual-10/reference-audit.json": "a55fa24f3284e113ee8a1e41aede40fb502c0df63e8af0120ef9ad83a0c3fccf"
+  }
+}

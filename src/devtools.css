@@ -17,3 +17,9 @@
 #development-state { white-space: pre-wrap; overflow-wrap: anywhere; margin: 6px 0 0; font: inherit; }
 @media (max-height: 400px) { #development-tools { top: 8px; left: auto; right: 72px; } #development-panel { top: 44px; max-height: calc(100dvh - 52px); } }
 @media (max-width: 239px), (max-height: 239px) { #development-tools { display: none; } }
+
+/* Solo short-frame HUD: below Pluck, beside the coin counter, above the hand. */
+@media (max-height: 400px) {
+  body:has(#app:not([data-modal-open="true"]) #session-seats[hidden]) #development-tools { top: 90px; left: auto; right: 8px; }
+  body:has(#app:not([data-modal-open="true"]) #session-seats[hidden]) #character-power { margin-right: 44px; width: 140px; max-width: calc(100vw - 134px); }
+}

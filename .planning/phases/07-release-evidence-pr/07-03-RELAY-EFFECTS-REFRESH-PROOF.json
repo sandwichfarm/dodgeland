@@ -1,0 +1,367 @@
+{
+  "status": "All18 current-source refresh cohorts and official diagnostic union validation pass;numeric mode branch floors and full enforcing release remain open",
+  "profileCommit": "6df980e",
+  "productRepairCommit": "dc1974e",
+  "batch": {
+    "startedAt": "2026-10-17T18:28:39.198618+00:00",
+    "finishedAt": "2026-10-17T18:56:12.496664+00:00",
+    "groups": [
+      {
+        "group": "paused-turn-recovery-03",
+        "suite": "turn-recovery-progress-03",
+        "status": "passed",
+        "startedAt": "2026-10-17T18:28:39.209112+00:00",
+        "exit": 0,
+        "finishedAt": "2026-10-17T18:29:12.460519+00:00",
+        "runId": "2fc3aaa8-8dbb-4388-991e-f1b3b82b947b",
+        "payloadCount": 1,
+        "intervals": 28,
+        "manifestSha256": "cec358c524f7a7a2b286c67889b0cac67a65ca0e93806a66fe64f0eec80c5520"
+      },
+      {
+        "group": "paused-turn-model-03",
+        "suite": "turn-model-03",
+        "status": "passed",
+        "startedAt": "2026-10-17T18:29:12.492662+00:00",
+        "exit": 0,
+        "finishedAt": "2026-10-17T18:30:40.797483+00:00",
+        "runId": "b13e3b29-44f3-4844-ba8b-56d9018d27f2",
+        "payloadCount": 1,
+        "intervals": 89,
+        "manifestSha256": "dc2d2ecb3b3bb38cc84995f3694475b7c219aaefbce804b49e757d4993431ead"
+      },
+      {
+        "group": "paused-turn-reuse-03",
+        "suite": "turn-reuse-03",
+        "status": "passed",
+        "startedAt": "2026-10-17T18:30:40.831878+00:00",
+        "exit": 0,
+        "finishedAt": "2026-10-17T18:32:56.874628+00:00",
+        "runId": "45220f2f-7e48-485c-9042-e087c7626d0d",
+        "payloadCount": 7,
+        "intervals": 107,
+        "manifestSha256": "a2c883c56dc17ef569cfca3a395ee4957495700173a471904df3d1db10b20bf8"
+      },
+      {
+        "group": "paused-relay-lifecycle-03",
+        "suite": "relay-lifecycle-03",
+        "status": "passed",
+        "startedAt": "2026-10-17T18:32:56.954217+00:00",
+        "exit": 0,
+        "finishedAt": "2026-10-17T18:34:46.523802+00:00",
+        "runId": "1d1bff57-7d8a-443a-9c0c-22c6e7cf8263",
+        "payloadCount": 7,
+        "intervals": 30,
+        "manifestSha256": "db0443df89f7c42821019375a12bc4364ed55b18c639a83166526e3042a57d27"
+      },
+      {
+        "group": "paused-race-results-03",
+        "suite": "race-results-03",
+        "status": "passed",
+        "startedAt": "2026-10-17T18:34:46.603409+00:00",
+        "exit": 0,
+        "finishedAt": "2026-10-17T18:37:19.737839+00:00",
+        "runId": "8c19b378-d8b2-4a05-bf1d-05204e12bc81",
+        "payloadCount": 7,
+        "intervals": 40,
+        "manifestSha256": "806b9da80cbf68d71d5eb47a67f57322e403f0dc5da681e31b2a660606334168"
+      },
+      {
+        "group": "paused-public-03",
+        "suite": "modes-12",
+        "status": "passed",
+        "startedAt": "2026-10-17T18:37:19.820716+00:00",
+        "exit": 0,
+        "finishedAt": "2026-10-17T18:38:20.632466+00:00",
+        "runId": "2398576e-7e4e-45ba-bf19-25b07170569f",
+        "payloadCount": 6,
+        "intervals": 6,
+        "manifestSha256": "351b882e96f140928eb8af77db4675722d82257db68a055d36816e636accfa56"
+      },
+      {
+        "group": "paused-relay-public-03",
+        "suite": "turn-item-ownership-03",
+        "status": "passed",
+        "startedAt": "2026-10-17T18:38:20.714472+00:00",
+        "exit": 0,
+        "finishedAt": "2026-10-17T18:41:29.212106+00:00",
+        "runId": "1c2e59b6-af46-493e-ae87-78345a2bed86",
+        "payloadCount": 16,
+        "intervals": 74,
+        "manifestSha256": "866100fd8645e5496f2c71e3d1af2414798522ed9da737e949e0905368442daf"
+      },
+      {
+        "group": "paused-race-public-03",
+        "suite": "race-public-03",
+        "status": "passed",
+        "startedAt": "2026-10-17T18:41:29.283625+00:00",
+        "exit": 0,
+        "finishedAt": "2026-10-17T18:45:39.591269+00:00",
+        "runId": "0e1c57e8-7355-4a54-af45-f8de9a108a6f",
+        "payloadCount": 18,
+        "intervals": 7,
+        "manifestSha256": "a1327e743bd3404e55a1295808cbcf659599cb320315baede0427ee1cb5a1bf5"
+      },
+      {
+        "group": "turn-authoring-03",
+        "suite": "turn-authoring-03",
+        "status": "passed",
+        "startedAt": "2026-10-17T18:45:39.658636+00:00",
+        "exit": 0,
+        "finishedAt": "2026-10-17T18:45:54.480287+00:00",
+        "runId": "6e185e74-a1b0-4dc6-a628-572a25493f63",
+        "payloadCount": 1,
+        "intervals": 12,
+        "manifestSha256": "c7fc9accafd762d751a33beb403c2917d195ab69fd059479c452a2f16f68ed0d"
+      },
+      {
+        "group": "turn-authority-boundaries-03",
+        "suite": "turn-authority-boundaries-03",
+        "status": "passed",
+        "startedAt": "2026-10-17T18:45:54.512001+00:00",
+        "exit": 0,
+        "finishedAt": "2026-10-17T18:46:17.028426+00:00",
+        "runId": "fc706be0-6db3-447c-a0ce-f4349ea390a8",
+        "payloadCount": 1,
+        "intervals": 20,
+        "manifestSha256": "6f4c02ba44b1b85a92469946ba3e8386709ad5bd1318b61ed939b8838cd17b39"
+      },
+      {
+        "group": "turn-market-boundaries-03",
+        "suite": "turn-market-boundaries-03",
+        "status": "passed",
+        "startedAt": "2026-10-17T18:46:17.061732+00:00",
+        "exit": 0,
+        "finishedAt": "2026-10-17T18:46:35.641610+00:00",
+        "runId": "bc722a91-2aa3-4974-8c21-aba540324c71",
+        "payloadCount": 1,
+        "intervals": 16,
+        "manifestSha256": "a5831345d2c96bdf908a004018affd6ff749b61bfa4473ef0a57b761b3cbfb8d"
+      },
+      {
+        "group": "turn-character-rescues-03",
+        "suite": "turn-character-rescues-03",
+        "status": "passed",
+        "startedAt": "2026-10-17T18:46:35.673567+00:00",
+        "exit": 0,
+        "finishedAt": "2026-10-17T18:47:28.308510+00:00",
+        "runId": "49334ec2-f836-49c2-8ec5-aff9931cdc13",
+        "payloadCount": 1,
+        "intervals": 57,
+        "manifestSha256": "b745752ffdd6aa0adcabc9a4ad3fc4b684c2e76aad7bde36afc0aacf220f2bf1"
+      },
+      {
+        "group": "turn-mob-boundaries-03",
+        "suite": "turn-mob-boundaries-03",
+        "status": "passed",
+        "startedAt": "2026-10-17T18:47:28.371953+00:00",
+        "exit": 0,
+        "finishedAt": "2026-10-17T18:48:42.828289+00:00",
+        "runId": "2d78f514-84ad-4cd2-8e05-fb086eb84827",
+        "payloadCount": 1,
+        "intervals": 84,
+        "manifestSha256": "e54495baa9f16e5c126d923ba102ad63422f4947583319b9209739a0639fdb96"
+      },
+      {
+        "group": "turn-seed-compatibility-03",
+        "suite": "turn-seed-compatibility-03",
+        "status": "passed",
+        "startedAt": "2026-10-17T18:48:42.899480+00:00",
+        "exit": 0,
+        "finishedAt": "2026-10-17T18:49:53.057847+00:00",
+        "runId": "9dfa2d11-47df-453f-8750-b3a43fa1f8f2",
+        "payloadCount": 1,
+        "intervals": 72,
+        "manifestSha256": "5d8764e80df7eb72ba98d30ff78d0599090d6df8f9f62bd937eefb6bdf3bdb10"
+      },
+      {
+        "group": "turn-saved-bootstrap-03",
+        "suite": "turn-saved-bootstrap-03",
+        "status": "passed",
+        "startedAt": "2026-10-17T18:49:53.133495+00:00",
+        "exit": 0,
+        "finishedAt": "2026-10-17T18:50:59.304274+00:00",
+        "runId": "d8247795-e2f6-496b-8c82-d9fd60f7977d",
+        "payloadCount": 1,
+        "intervals": 72,
+        "manifestSha256": "29dfc49d39d595e1fbfe465247b2eaf580833a7ef5fa8ab2661fb5e479565cde"
+      },
+      {
+        "group": "turn-log-coin-capture-03",
+        "suite": "turn-log-coin-capture-03",
+        "status": "passed",
+        "startedAt": "2026-10-17T18:50:59.338296+00:00",
+        "exit": 0,
+        "finishedAt": "2026-10-17T18:53:37.852093+00:00",
+        "runId": "60232685-39f7-498e-b2c2-bf2c1d155573",
+        "payloadCount": 1,
+        "intervals": 88,
+        "manifestSha256": "2a335facb474ec4db507fe9556c24d6b9384c63c7d12512c9c1405564abb904b"
+      },
+      {
+        "group": "turn-platform-rewards-03",
+        "suite": "turn-platform-rewards-03",
+        "status": "passed",
+        "startedAt": "2026-10-17T18:53:37.970641+00:00",
+        "exit": 0,
+        "finishedAt": "2026-10-17T18:54:51.248725+00:00",
+        "runId": "958856c3-3589-4869-a988-15410b4d7d3f",
+        "payloadCount": 1,
+        "intervals": 64,
+        "manifestSha256": "d4ee152b70bea3c1f84068e18fc6d3619c32fce694d912fdd8ab93fe5b965706"
+      },
+      {
+        "group": "turn-recovery-terrain-03",
+        "suite": "turn-recovery-terrain-03",
+        "status": "passed",
+        "startedAt": "2026-10-17T18:54:51.376957+00:00",
+        "exit": 0,
+        "finishedAt": "2026-10-17T18:56:12.471762+00:00",
+        "runId": "4e247a18-cf41-4ebd-a757-260ac45f5bce",
+        "payloadCount": 1,
+        "intervals": 80,
+        "manifestSha256": "9240739b8caeea0644a4d546aa3843bda62f866fd54b5caef872756c4b564331"
+      }
+    ]
+  },
+  "sourcePins": {
+    "src/session.ts": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+    "src/relay.ts": "e789deca92e5e17ec683cbbd3103b9b9b3d3e726d6e36712fa5aec4c755c7f89",
+    "src/game.ts": "04d7556c96b37b03539f270c2ce2c8e2b620c301d729a1fd6238be8e66d9413b"
+  },
+  "callerInventorySha256": "1e5fb4e2867c625954f071288a00d89c3fa1d51dc53424fb69d063f3783f3853",
+  "canonicalInventoryByteSha256": "5cf69c2cf73671c07008bf3d0aeb87a8c98ddaf88e177029733b58879b01c2a4",
+  "normalArtifactRawSha256": "6bd5104d0aac9472aaa01facdacdfbfcfc38f944cb01c18ea7f3d65e1549d1e2",
+  "rootLockRawSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "frozenSourceTestToolFiles": 394,
+  "sourceFreezeVerifiedAfterAllCohorts": true,
+  "parents": {
+    "batchGroups": 18,
+    "selectedGroups": 19,
+    "nodeParents": 21,
+    "browserParents": 53,
+    "payloads": 74,
+    "allIntervals": 950,
+    "selectedIntervals": 873
+  },
+  "currentDiagnosticModes": {
+    "relay": {
+      "raw": {
+        "statements": {
+          "covered": 2987,
+          "total": 3737
+        },
+        "functions": {
+          "covered": 666,
+          "total": 818
+        },
+        "branches": {
+          "covered": 2273,
+          "total": 3207
+        },
+        "lines": {
+          "covered": 2017,
+          "total": 2354
+        }
+      },
+      "applicable": {
+        "statements": {
+          "covered": 2987,
+          "total": 3301
+        },
+        "functions": {
+          "covered": 666,
+          "total": 715
+        },
+        "branches": {
+          "covered": 2273,
+          "total": 2761
+        },
+        "lines": {
+          "covered": 2017,
+          "total": 2102
+        }
+      },
+      "remaining": {
+        "lines": 0,
+        "functions": 0,
+        "branches": 74
+      },
+      "componentLifetimes": 110,
+      "componentIntervals": 377,
+      "publicIntervals": 2
+    },
+    "race": {
+      "raw": {
+        "statements": {
+          "covered": 3051,
+          "total": 3646
+        },
+        "functions": {
+          "covered": 703,
+          "total": 819
+        },
+        "branches": {
+          "covered": 2480,
+          "total": 3264
+        },
+        "lines": {
+          "covered": 2065,
+          "total": 2306
+        }
+      },
+      "applicable": {
+        "statements": {
+          "covered": 3051,
+          "total": 3406
+        },
+        "functions": {
+          "covered": 703,
+          "total": 758
+        },
+        "branches": {
+          "covered": 2480,
+          "total": 3032
+        },
+        "lines": {
+          "covered": 2065,
+          "total": 2163
+        }
+      },
+      "remaining": {
+        "lines": 0,
+        "functions": 0,
+        "branches": 98
+      },
+      "componentLifetimes": 139,
+      "componentIntervals": 486,
+      "publicIntervals": 8
+    }
+  },
+  "thresholdsEvaluated": false,
+  "officialEvaluatorAgrees": true,
+  "historicalChangedSourceCountersUsed": false,
+  "artifacts": {
+    "artifacts/release-coverage/relay-effects-refresh/run-batch.py": "bae55390d06cbec175f75946661701cc80f461562201b2b6c856b6b286e869e4",
+    "artifacts/release-coverage/relay-effects-refresh/freeze.json": "80d2a2150fc9c449034248a0b0a46c627f8c83a058c695c0cdae48d0923433ec",
+    "artifacts/release-coverage/relay-effects-refresh/batch-state.json": "0f810033fc6452d5742a008c18bd555bffbb6dc6de2698b9177a5fda5dfbb0ad",
+    "artifacts/release-coverage/relay-effects-refresh/batch.log": "1e347ecc5da81a189bf93c8c5097f9f542751031eb466a0cfb5cdba9701a00bd",
+    "artifacts/release-coverage/relay-effects-refresh/parent-summary.json": "517da8c69a9490642cc36ce47099b183f9fc7f67c572cd1fa9012f1f1e5d594c",
+    "artifacts/release-coverage/relay-effects-refresh/diagnostic-union.py": "06de755de797259bfaeac52017e57048cc751b54ef7db9d3ab256d67bac2a54e",
+    "artifacts/release-coverage/relay-effects-refresh/diagnostic-union.json": "e144b944b18b6ed891bc084a6cdcbe0c7c3d2c86238dce02291b0924dc3bbe4f",
+    "artifacts/release-coverage/relay-effects-refresh/diagnostic-union-input.json": "030743c8cdb862300898064232ec55abd6f905555f57ffb45e659856e57e1994",
+    "artifacts/release-coverage/relay-effects-refresh/diagnostic-union.log": "deeb630a7075754f5201197bedebbd3cf9f5069f5883618c5549b53009fb3773",
+    "artifacts/release-coverage/relay-effects-refresh/verify-union.mjs": "d74a2c62b94c1f418c8f9c3fbe0bf02dc1c8eb7edb10d53c58e40e485ff7c2c3",
+    "artifacts/release-coverage/relay-effects-refresh/official-union-proof.json": "c5484c3984bf1461202ed83ad1b75819a5630cf76ba31773413a1164f72b23ba",
+    "artifacts/release-coverage/relay-effects-refresh/official-union.log": "1f01009cf20743d9577e24ad6a28e932b8a94e744bcb261a4b80651872a8eebc",
+    "artifacts/release-coverage/relay-effects-refresh/official-union-first-attempt.log": "a4d7c80ac3f043b0a285a89c3e2d707bc81aeda4638d2d8d19e5c257b1bc6509"
+  },
+  "limits": [
+    "Fresh18-cohort batch plus the separately completed current-source Relay effect tracer;all19 complete canonical inventory bytes and mapped schemas match",
+    "950 actual bounded intervals across74 independent parent payloads;873 selected Relay/Race intervals;other modes and supplemental repeated Race item cohort are not credited to the union",
+    "Source/test/tool freeze,normal build and rootlock remain byte-identical after each cohort;old reports remain unchanged",
+    "First official verifier attempt lacked metadata for the other reviewed mode;complete current source/map metadata now feeds generation before filtering actual selected mode files;corrected evaluator agrees exactly",
+    "No threshold enforcement,full-global/per-file release pass,phase completion,final conformance/visual acceptance or PR is claimed",
+    "All fixed floors remain;Relay2273/2761 branches needs74,Race2480/3032 needs98;line/function targets pass diagnostically;initial semantic review remains incomplete/source-bound"
+  ]
+}

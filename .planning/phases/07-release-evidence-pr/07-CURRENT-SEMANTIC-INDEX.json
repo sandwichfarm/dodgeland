@@ -1,0 +1,362 @@
+{
+  "purpose": "Source-bound complete review partition of retained current-full03 raw snapshot. Human reviews remain distinct from counters;no new execution,numerator,exclusion,floor or final release claim.",
+  "sourceRun": "0b8f818d-62a2-4922-ab83-242886778c0c",
+  "sourceInventoryRawSha256": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+  "rawZeroArms": 830,
+  "reviewed": 830,
+  "pending": 0,
+  "existingPositiveWitnessLinks": 18,
+  "reviewedCountedResiduals": 812,
+  "freshFullRun": "cb52774e-975e-4388-a064-5162ef3807d8",
+  "freshFullStatus": "active;no final result inferred",
+  "sourceTestToolConfigBuildLockFrozenPathsVerified": 410,
+  "groups": [
+    {
+      "proofPath": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-PROOF.json",
+      "docPath": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "rows": 94
+    },
+    {
+      "proofPath": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-PROOF.json",
+      "docPath": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "rows": 33
+    },
+    {
+      "proofPath": ".planning/phases/07-release-evidence-pr/07-03-SESSION-RESIDUAL-PROOF.json",
+      "docPath": ".planning/phases/07-release-evidence-pr/07-03-SESSION-RESIDUAL-REVIEW.md",
+      "rows": 71
+    },
+    {
+      "proofPath": ".planning/phases/07-release-evidence-pr/07-03-RECOVERY-MARKET-RESIDUAL-PROOF.json",
+      "docPath": ".planning/phases/07-release-evidence-pr/07-03-RECOVERY-MARKET-RESIDUAL-REVIEW.md",
+      "rows": 10
+    },
+    {
+      "proofPath": ".planning/phases/07-release-evidence-pr/07-03-TEAM-RESULT-SEED-RESIDUAL-PROOF.json",
+      "docPath": ".planning/phases/07-release-evidence-pr/07-03-TEAM-RESULT-SEED-RESIDUAL-REVIEW.md",
+      "rows": 18
+    },
+    {
+      "proofPath": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-PROOF.json",
+      "docPath": ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md",
+      "rows": 57
+    },
+    {
+      "proofPath": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-PROOF.json",
+      "docPath": ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md",
+      "rows": 28
+    },
+    {
+      "proofPath": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-PROOF.json",
+      "docPath": ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md",
+      "rows": 36
+    },
+    {
+      "proofPath": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-PROOF.json",
+      "docPath": ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md",
+      "rows": 30
+    },
+    {
+      "proofPath": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-PROOF.json",
+      "docPath": ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md",
+      "rows": 49
+    },
+    {
+      "proofPath": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-PROOF.json",
+      "docPath": ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md",
+      "rows": 72
+    },
+    {
+      "proofPath": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-PROOF.json",
+      "docPath": ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md",
+      "rows": 97
+    },
+    {
+      "proofPath": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-PROOF.json",
+      "docPath": ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md",
+      "rows": 76
+    },
+    {
+      "proofPath": ".planning/phases/07-release-evidence-pr/07-03-MAIN-SETUP-INPUT-RESIDUAL-PROOF.json",
+      "docPath": ".planning/phases/07-release-evidence-pr/07-03-MAIN-SETUP-INPUT-RESIDUAL-REVIEW.md",
+      "rows": 149
+    },
+    {
+      "proofPath": ".planning/phases/07-release-evidence-pr/07-03-SCHEMA-RECOVERY-SEMANTIC-PROOF.json",
+      "docPath": ".planning/phases/07-release-evidence-pr/07-03-SCHEMA-RECOVERY-SEMANTIC-REVIEW.md",
+      "rows": 9
+    },
+    {
+      "proofPath": ".planning/phases/07-release-evidence-pr/07-03-CONTROLLER-GUARD-PROOF.json",
+      "docPath": ".planning/phases/07-release-evidence-pr/07-03-CONTROLLER-GUARD-REVIEW.md",
+      "rows": 1
+    }
+  ],
+  "byFile": {
+    "src/actors.ts": {
+      "total": 3,
+      "reviewed": 3,
+      "pending": 0
+    },
+    "src/audio.ts": {
+      "total": 19,
+      "reviewed": 19,
+      "pending": 0
+    },
+    "src/character-power-ui.ts": {
+      "total": 1,
+      "reviewed": 1,
+      "pending": 0
+    },
+    "src/character-powers.ts": {
+      "total": 1,
+      "reviewed": 1,
+      "pending": 0
+    },
+    "src/co-op-market.ts": {
+      "total": 5,
+      "reviewed": 5,
+      "pending": 0
+    },
+    "src/coin-denominations.ts": {
+      "total": 1,
+      "reviewed": 1,
+      "pending": 0
+    },
+    "src/collection-ui.ts": {
+      "total": 27,
+      "reviewed": 27,
+      "pending": 0
+    },
+    "src/consumable-drops.ts": {
+      "total": 7,
+      "reviewed": 7,
+      "pending": 0
+    },
+    "src/devtools.ts": {
+      "total": 2,
+      "reviewed": 2,
+      "pending": 0
+    },
+    "src/game.ts": {
+      "total": 28,
+      "reviewed": 28,
+      "pending": 0
+    },
+    "src/gamepad.ts": {
+      "total": 18,
+      "reviewed": 18,
+      "pending": 0
+    },
+    "src/main.ts": {
+      "total": 322,
+      "reviewed": 322,
+      "pending": 0
+    },
+    "src/market-preview.ts": {
+      "total": 4,
+      "reviewed": 4,
+      "pending": 0
+    },
+    "src/market-scene.ts": {
+      "total": 8,
+      "reviewed": 8,
+      "pending": 0
+    },
+    "src/market-scenery.ts": {
+      "total": 1,
+      "reviewed": 1,
+      "pending": 0
+    },
+    "src/market-ui.ts": {
+      "total": 72,
+      "reviewed": 72,
+      "pending": 0
+    },
+    "src/mob-models.ts": {
+      "total": 1,
+      "reviewed": 1,
+      "pending": 0
+    },
+    "src/mobs.ts": {
+      "total": 6,
+      "reviewed": 6,
+      "pending": 0
+    },
+    "src/pause-ui.ts": {
+      "total": 12,
+      "reviewed": 12,
+      "pending": 0
+    },
+    "src/race-items.ts": {
+      "total": 3,
+      "reviewed": 3,
+      "pending": 0
+    },
+    "src/race-results.ts": {
+      "total": 2,
+      "reviewed": 2,
+      "pending": 0
+    },
+    "src/race-ui.ts": {
+      "total": 19,
+      "reviewed": 19,
+      "pending": 0
+    },
+    "src/race.ts": {
+      "total": 15,
+      "reviewed": 15,
+      "pending": 0
+    },
+    "src/recovery.ts": {
+      "total": 2,
+      "reviewed": 2,
+      "pending": 0
+    },
+    "src/relay-results.ts": {
+      "total": 1,
+      "reviewed": 1,
+      "pending": 0
+    },
+    "src/relay-ui.ts": {
+      "total": 20,
+      "reviewed": 20,
+      "pending": 0
+    },
+    "src/relay.ts": {
+      "total": 12,
+      "reviewed": 12,
+      "pending": 0
+    },
+    "src/render.ts": {
+      "total": 18,
+      "reviewed": 18,
+      "pending": 0
+    },
+    "src/run-hand.ts": {
+      "total": 39,
+      "reviewed": 39,
+      "pending": 0
+    },
+    "src/run-menu.ts": {
+      "total": 20,
+      "reviewed": 20,
+      "pending": 0
+    },
+    "src/run-seed.ts": {
+      "total": 2,
+      "reviewed": 2,
+      "pending": 0
+    },
+    "src/seed-copy.ts": {
+      "total": 4,
+      "reviewed": 4,
+      "pending": 0
+    },
+    "src/session-input.ts": {
+      "total": 1,
+      "reviewed": 1,
+      "pending": 0
+    },
+    "src/session-recovery.ts": {
+      "total": 4,
+      "reviewed": 4,
+      "pending": 0
+    },
+    "src/session-ui.ts": {
+      "total": 18,
+      "reviewed": 18,
+      "pending": 0
+    },
+    "src/session.ts": {
+      "total": 71,
+      "reviewed": 71,
+      "pending": 0
+    },
+    "src/sound-packs.ts": {
+      "total": 1,
+      "reviewed": 1,
+      "pending": 0
+    },
+    "src/sound-settings.ts": {
+      "total": 5,
+      "reviewed": 5,
+      "pending": 0
+    },
+    "src/soundscape.ts": {
+      "total": 5,
+      "reviewed": 5,
+      "pending": 0
+    },
+    "src/survive-results-ui.ts": {
+      "total": 14,
+      "reviewed": 14,
+      "pending": 0
+    },
+    "src/survive-together.ts": {
+      "total": 1,
+      "reviewed": 1,
+      "pending": 0
+    },
+    "src/vehicle-models.ts": {
+      "total": 1,
+      "reviewed": 1,
+      "pending": 0
+    },
+    "src/wearables.ts": {
+      "total": 1,
+      "reviewed": 1,
+      "pending": 0
+    },
+    "src/levels/v1.ts": {
+      "total": 3,
+      "reviewed": 3,
+      "pending": 0
+    },
+    "src/market/run.ts": {
+      "total": 10,
+      "reviewed": 10,
+      "pending": 0
+    }
+  },
+  "hashes": {
+    "artifacts/release-coverage/semantic-current-03/raw-zero-review.json": "c8297f9591dcbe604c1ff06f2e67ca6575ac9570a94838dec747530dcfda5fc4",
+    ".planning/phases/07-release-evidence-pr/07-03-SCHEMA-RECOVERY-SEMANTIC-PROOF.json": "8a5bfe67e7b38a5b107cef1ab65e13a01131247c05265c0d68bd57e471a83a09",
+    "artifacts/release-coverage/current-full-05-proof/freeze.json": "c72459fff67275b20c5b67c1076d781f825a00cec405fada8743cb2f350111a3",
+    ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-PROOF.json": "010916cd064cc59e02cc6103e271e6232a93ad3abd2f5ef335482d0decc0e0f2",
+    ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md": "c40d0adb72e85908cb9c4b0f023b73a3f0713066ff2ecc8e1275c9e99aeb00cf",
+    ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-PROOF.json": "5827142cc8bd45faf2e1a637874955873727c824b7ae98f3e0069f87c2a2c537",
+    ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md": "44a5ecfc792838719dcc7f7405086422b1a091824b14562a2e520f6a1b547d28",
+    ".planning/phases/07-release-evidence-pr/07-03-SESSION-RESIDUAL-PROOF.json": "f272a67b7fe9114ba17a508d257b54aa40b07cf53e0baaaadb8afda30ac46742",
+    ".planning/phases/07-release-evidence-pr/07-03-SESSION-RESIDUAL-REVIEW.md": "8dc105f03d86bcd0bf11424dedd5a54e755714bd5f67010a17334c00a212a169",
+    ".planning/phases/07-release-evidence-pr/07-03-RECOVERY-MARKET-RESIDUAL-PROOF.json": "c72dca02c7c29b561c46219db4ccf7d11ba488600c1bc942ae4f1ce4aa0e2db8",
+    ".planning/phases/07-release-evidence-pr/07-03-RECOVERY-MARKET-RESIDUAL-REVIEW.md": "952e8259d815de70f8166aca777c06787dec055c0d625ed07ea9a3072ead822f",
+    ".planning/phases/07-release-evidence-pr/07-03-TEAM-RESULT-SEED-RESIDUAL-PROOF.json": "992d9cc615b575d85af3b86549324a4c3eaa4e088dd49597dc96f16bcd84a758",
+    ".planning/phases/07-release-evidence-pr/07-03-TEAM-RESULT-SEED-RESIDUAL-REVIEW.md": "96327b315447a4cc0e4421009c9f1fa6b42712b92f19fbf7d714c09fd4f6ddd0",
+    ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-PROOF.json": "13d4eb3c5f1adfeb416728207746e04bfe166b0976b5c7fbe840eb58092ed30f",
+    ".planning/phases/07-release-evidence-pr/07-03-SETUP-TURN-UI-RESIDUAL-REVIEW.md": "200f7e102c04f6ac07c8a66e81c941185188584681efabfb67497bbaa15c5b6b",
+    ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-PROOF.json": "1336e129294fb77822505e12f3e949047871c22a8f105f976d39bed6557b0295",
+    ".planning/phases/07-release-evidence-pr/07-03-GAME-RESIDUAL-REVIEW.md": "48307684b9152df3b479bd211027e3654ad6ec2ebc6deffea3f7575f57dbaa93",
+    ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-PROOF.json": "3bd519945c4c870b3ffbd82449e14a9ca543ee9148692b989b331d6e54781c78",
+    ".planning/phases/07-release-evidence-pr/07-03-INPUT-RENDER-RESIDUAL-REVIEW.md": "ca66ab270e7c15e4ddc9e341847262a0a4e17324f4d79143ff3e8ae3b03f6b72",
+    ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-PROOF.json": "99695b8b47ed42ec029aa155fbd8cceb4a908c8064a0d801f4340711dd233afc",
+    ".planning/phases/07-release-evidence-pr/07-03-AUDIO-MOB-RESIDUAL-REVIEW.md": "97767dea89a8456c8ea3f94cedd7d5358db4a2bca04e350ceb1a6fe4890dd7ff",
+    ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-PROOF.json": "cd02cd35ee61c4a66a506c94a79dac03b1b713cd8321c52051bcc9b167b48c39",
+    ".planning/phases/07-release-evidence-pr/07-03-HAND-INVENTORY-RESIDUAL-REVIEW.md": "4f24b7d57de36cd63feed1334aa64c35980a8e518678ef6855f3e90666004896",
+    ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-PROOF.json": "cb7fa42e470da19f0d6ab9c2388f683e2f6828e0cf1b26a7def2dd5436e3e0e9",
+    ".planning/phases/07-release-evidence-pr/07-03-MARKET-UI-RESIDUAL-REVIEW.md": "b6e340a2ff0aa3cd46f4ea7781e73a078fa4bad1ab3faa219bb48d90a6aadffd",
+    ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-PROOF.json": "905a0ec584d5e585242b7ddb6f75fd1a10e70422f0f9ac86c8d2a595f26d74fe",
+    ".planning/phases/07-release-evidence-pr/07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md": "16f97f035ab2fbd281d1ef05793e840928b326c961341d59fdac68da1583828a",
+    ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-PROOF.json": "e316ac3309b52a1a7f0d7c3e1fcbe5b3401e76b672f3dbb358ca7851173027ac",
+    ".planning/phases/07-release-evidence-pr/07-03-MAIN-HUD-RESET-RESIDUAL-REVIEW.md": "340080fe0f9d4eeb88db3db1172a3e7c86962ec2218323b97e49a8e72ca524cb",
+    ".planning/phases/07-release-evidence-pr/07-03-MAIN-SETUP-INPUT-RESIDUAL-PROOF.json": "edc11e0b6ba2068698fea545bf98213c1b07446f838c5efd98cd4dcfe4c5e30b",
+    ".planning/phases/07-release-evidence-pr/07-03-MAIN-SETUP-INPUT-RESIDUAL-REVIEW.md": "7f157560863b57e31c4a9237f890f6ca9645a0e1a84c64c513c432ba945cbd9b",
+    ".planning/phases/07-release-evidence-pr/07-03-SCHEMA-RECOVERY-SEMANTIC-REVIEW.md": "efaa7eb7fef452a7185ca31b1070c937c4d5a6eed5ae8d76c650118eef410b43",
+    ".planning/phases/07-release-evidence-pr/07-03-CONTROLLER-GUARD-PROOF.json": "367f6f7ef0d82dbe47fd9db380ef459fba6c401e937df61ab79c20d62b6850c5",
+    "artifacts/release-coverage/current-semantic-ledger-04/context-audit.json": "5436beb822098d9cc675d8d2ad501f2f7401e681160def7edde3c0091830c5ce",
+    ".planning/phases/07-release-evidence-pr/07-03-CONTROLLER-GUARD-REVIEW.md": "594c426b40a5d64f3ecb6b9851095d90ae2d7e6cafc9c408a7a2cc27a13f18ac",
+    "artifacts/release-coverage/current-semantic-ledger-04/context-audit.mjs": "751f8c20541e4af621eff61d2c1fb74a0b7ed0bf825644a840ec8574c4559ed0",
+    "artifacts/release-coverage/current-semantic-ledger-04/context-audit.log": "6ba8f72e9097b786661f0dfd8f45f1f9f842de5fed26d8c73b91c3b6feadc0cd",
+    "artifacts/release-coverage/current-semantic-ledger-15/assemble.mjs": "3d7353f614935963ffc9436d9c4f13143610e016a406d751741de5d2cd27d6bb"
+  }
+}

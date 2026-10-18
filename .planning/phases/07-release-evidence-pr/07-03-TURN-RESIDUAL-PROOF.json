@@ -1,0 +1,1282 @@
+{
+  "purpose": "Manual source/consequence review of33 current turn-owner/item/ledger residuals;four existing positive witnesses,29 retained counted guards/fallbacks. No new exclusions,execution or denominator policy.",
+  "sourceRun": "0b8f818d-62a2-4922-ab83-242886778c0c",
+  "sourceAudit": {
+    "files": 159,
+    "targets": 11,
+    "noResolvedEscapesOrComputedTargetAccess": true,
+    "limit": "Resolved references supplement manual temporal/value proof and previously pinned full application reflection/alias closure;graph/source presence alone is not unreachability evidence."
+  },
+  "rows": [
+    {
+      "path": "src/race.ts",
+      "sourceHash": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+      "mapHash": "359d1befb5381d2a2df7d84e71de36101ec61193601e694e8af77ddd2f617fb8",
+      "id": "22",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 84,
+          "column": 145
+        },
+        "end": {
+          "line": 84,
+          "column": 147
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 84,
+          "column": 85
+        },
+        "end": {
+          "line": 84,
+          "column": 147
+        }
+      },
+      "sourceText": "''",
+      "owner": "RaceCoordinator.actionToken",
+      "sourceContext": "''",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shipped-path-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race.ts",
+      "sourceHash": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+      "mapHash": "359d1befb5381d2a2df7d84e71de36101ec61193601e694e8af77ddd2f617fb8",
+      "id": "26",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 89,
+          "column": 4
+        },
+        "end": {
+          "line": 89,
+          "column": 46
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 89,
+          "column": 4
+        },
+        "end": {
+          "line": 89,
+          "column": 46
+        }
+      },
+      "sourceText": "if(this.leaving!==token.seat)return false;",
+      "owner": "RaceCoordinator.command",
+      "sourceContext": "if(this.leaving!==token.seat)return false;",
+      "scopeProofs": [],
+      "status": "covered-existing-reclaim-witness",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false,
+      "existingWitness": {
+        "runId": "13bcb243-ec98-49ba-8404-eab75cee1a87",
+        "hits": 12
+      }
+    },
+    {
+      "path": "src/race.ts",
+      "sourceHash": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+      "mapHash": "359d1befb5381d2a2df7d84e71de36101ec61193601e694e8af77ddd2f617fb8",
+      "id": "28",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 94,
+          "column": 135
+        },
+        "end": {
+          "line": 94,
+          "column": 144
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 94,
+          "column": 66
+        },
+        "end": {
+          "line": 94,
+          "column": 144
+        }
+      },
+      "sourceText": "undefined",
+      "owner": "RaceCoordinator.reclaimToken",
+      "sourceContext": "undefined",
+      "scopeProofs": [],
+      "status": "covered-existing-reclaim-witness",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false,
+      "existingWitness": {
+        "runId": "13bcb243-ec98-49ba-8404-eab75cee1a87",
+        "hits": 4
+      }
+    },
+    {
+      "path": "src/race.ts",
+      "sourceHash": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+      "mapHash": "359d1befb5381d2a2df7d84e71de36101ec61193601e694e8af77ddd2f617fb8",
+      "id": "31",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 101,
+          "column": 56
+        },
+        "end": {
+          "line": 101,
+          "column": 69
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 101,
+          "column": 56
+        },
+        "end": {
+          "line": 101,
+          "column": 69
+        }
+      },
+      "sourceText": "if(!p)return;",
+      "owner": "RaceCoordinator.safeReturn",
+      "sourceContext": "if(!p)return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shipped-path-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race.ts",
+      "sourceHash": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+      "mapHash": "359d1befb5381d2a2df7d84e71de36101ec61193601e694e8af77ddd2f617fb8",
+      "id": "39",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 113,
+          "column": 6
+        },
+        "end": {
+          "line": 113,
+          "column": 165
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 113,
+          "column": 6
+        },
+        "end": {
+          "line": 113,
+          "column": 165
+        }
+      },
+      "sourceText": "if(this.graceRemaining(seat)<=1e-9||!device|| (device!==p.device && !(this.authorizedRebind?.seat===seat&&this.authorizedRebind.device===device)))return false;",
+      "owner": "RaceCoordinator.allowsLifecycle",
+      "sourceContext": "if(this.graceRemaining(seat)<=1e-9||!device|| (device!==p.device && !(this.authorizedRebind?.seat===seat&&this.authorizedRebind.device===device)))return false;",
+      "scopeProofs": [],
+      "status": "covered-existing-reclaim-witness",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false,
+      "existingWitness": {
+        "runId": "13bcb243-ec98-49ba-8404-eab75cee1a87",
+        "hits": 8
+      }
+    },
+    {
+      "path": "src/race.ts",
+      "sourceHash": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+      "mapHash": "359d1befb5381d2a2df7d84e71de36101ec61193601e694e8af77ddd2f617fb8",
+      "id": "49",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 127,
+          "column": 4
+        },
+        "end": {
+          "line": 127,
+          "column": 75
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 127,
+          "column": 4
+        },
+        "end": {
+          "line": 127,
+          "column": 75
+        }
+      },
+      "sourceText": "if(this.leaving===record.seat){this.leaving=undefined;this.revision++;}",
+      "owner": "RaceCoordinator.lifecycle",
+      "sourceContext": "if(this.leaving===record.seat){this.leaving=undefined;this.revision++;}",
+      "scopeProofs": [],
+      "status": "covered-existing-reclaim-witness",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false,
+      "existingWitness": {
+        "runId": "13bcb243-ec98-49ba-8404-eab75cee1a87",
+        "hits": 4
+      }
+    },
+    {
+      "path": "src/race.ts",
+      "sourceHash": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+      "mapHash": "359d1befb5381d2a2df7d84e71de36101ec61193601e694e8af77ddd2f617fb8",
+      "id": "54",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 145,
+          "column": 4
+        },
+        "end": {
+          "line": 145,
+          "column": 229
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 145,
+          "column": 4
+        },
+        "end": {
+          "line": 145,
+          "column": 229
+        }
+      },
+      "sourceText": "if (!Number.isFinite(seconds) || seconds <= 0 || seconds > 10 || this.result || !player || player.participation !== 'active' || (player.state !== 'playing' && player.state !== 'paused') || this.isFinished(seat)) return false;",
+      "owner": "RaceCoordinator.protectFog",
+      "sourceContext": "if (!Number.isFinite(seconds) || seconds <= 0 || seconds > 10 || this.result || !player || player.participation !== 'active' || (player.state !== 'playing' && player.state !== 'paused') || this.isFinished(seat)) return false;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shipped-path-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race.ts",
+      "sourceHash": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+      "mapHash": "359d1befb5381d2a2df7d84e71de36101ec61193601e694e8af77ddd2f617fb8",
+      "id": "56",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 151,
+          "column": 32
+        },
+        "end": {
+          "line": 151,
+          "column": 93
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 151,
+          "column": 32
+        },
+        "end": {
+          "line": 151,
+          "column": 93
+        }
+      },
+      "sourceText": "if (!this.attached) throw new Error('Race has not started.');",
+      "owner": "RaceCoordinator.session",
+      "sourceContext": "if (!this.attached) throw new Error('Race has not started.');",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shipped-path-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race.ts",
+      "sourceHash": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+      "mapHash": "359d1befb5381d2a2df7d84e71de36101ec61193601e694e8af77ddd2f617fb8",
+      "id": "60",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 156,
+          "column": 4
+        },
+        "end": {
+          "line": 156,
+          "column": 26
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 156,
+          "column": 4
+        },
+        "end": {
+          "line": 156,
+          "column": 26
+        }
+      },
+      "sourceText": "if(this.result)return;",
+      "owner": "RaceCoordinator.capture",
+      "sourceContext": "if(this.result)return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shipped-path-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race.ts",
+      "sourceHash": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+      "mapHash": "359d1befb5381d2a2df7d84e71de36101ec61193601e694e8af77ddd2f617fb8",
+      "id": "62",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 161,
+          "column": 166
+        },
+        "end": {
+          "line": 161,
+          "column": 167
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 161,
+          "column": 137
+        },
+        "end": {
+          "line": 161,
+          "column": 167
+        }
+      },
+      "sourceText": "0",
+      "owner": "RaceCoordinator.capture",
+      "sourceContext": "0",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shipped-path-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race.ts",
+      "sourceHash": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+      "mapHash": "359d1befb5381d2a2df7d84e71de36101ec61193601e694e8af77ddd2f617fb8",
+      "id": "67",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 163,
+          "column": 119
+        },
+        "end": {
+          "line": 163,
+          "column": 131
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 163,
+          "column": 107
+        },
+        "end": {
+          "line": 163,
+          "column": 131
+        }
+      },
+      "sourceText": "this.elapsed",
+      "owner": "RaceCoordinator.capture",
+      "sourceContext": "this.elapsed",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shipped-path-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race.ts",
+      "sourceHash": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+      "mapHash": "359d1befb5381d2a2df7d84e71de36101ec61193601e694e8af77ddd2f617fb8",
+      "id": "69",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 163,
+          "column": 241
+        },
+        "end": {
+          "line": 163,
+          "column": 247
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 163,
+          "column": 227
+        },
+        "end": {
+          "line": 163,
+          "column": 247
+        }
+      },
+      "sourceText": "status",
+      "owner": "RaceCoordinator.capture",
+      "sourceContext": "status",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shipped-path-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race.ts",
+      "sourceHash": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+      "mapHash": "359d1befb5381d2a2df7d84e71de36101ec61193601e694e8af77ddd2f617fb8",
+      "id": "80",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 174,
+          "column": 6
+        },
+        "end": {
+          "line": 174,
+          "column": 77
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 174,
+          "column": 6
+        },
+        "end": {
+          "line": 174,
+          "column": 77
+        }
+      },
+      "sourceText": "if(!write.ok)throw new Error(`Race history rejected: ${write.reason}`);",
+      "owner": "RaceCoordinator.capture",
+      "sourceContext": "if(!write.ok)throw new Error(`Race history rejected: ${write.reason}`);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shipped-path-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race.ts",
+      "sourceHash": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+      "mapHash": "359d1befb5381d2a2df7d84e71de36101ec61193601e694e8af77ddd2f617fb8",
+      "id": "92",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 202,
+          "column": 85
+        },
+        "end": {
+          "line": 202,
+          "column": 86
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 202,
+          "column": 49
+        },
+        "end": {
+          "line": 202,
+          "column": 86
+        }
+      },
+      "sourceText": "0",
+      "owner": "RaceCoordinator.tick",
+      "sourceContext": "0",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shipped-path-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race.ts",
+      "sourceHash": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+      "mapHash": "359d1befb5381d2a2df7d84e71de36101ec61193601e694e8af77ddd2f617fb8",
+      "id": "109",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 249,
+          "column": 178
+        },
+        "end": {
+          "line": 249,
+          "column": 182
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 249,
+          "column": 126
+        },
+        "end": {
+          "line": 249,
+          "column": 182
+        }
+      },
+      "sourceText": "null",
+      "owner": "createRaceSession",
+      "sourceContext": "null",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shipped-path-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay.ts",
+      "sourceHash": "e789deca92e5e17ec683cbbd3103b9b9b3d3e726d6e36712fa5aec4c755c7f89",
+      "mapHash": "8e23f85994b5a445d25f509234b494e2a93c9d1eb8dd4c17a6464db847e31f92",
+      "id": "7",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 60,
+          "column": 32
+        },
+        "end": {
+          "line": 60,
+          "column": 93
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 60,
+          "column": 32
+        },
+        "end": {
+          "line": 60,
+          "column": 93
+        }
+      },
+      "sourceText": "if (!this.attached) throw new Error('Relay is not started.');",
+      "owner": "RelayCoordinator.session",
+      "sourceContext": "if (!this.attached) throw new Error('Relay is not started.');",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shipped-path-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay.ts",
+      "sourceHash": "e789deca92e5e17ec683cbbd3103b9b9b3d3e726d6e36712fa5aec4c755c7f89",
+      "mapHash": "8e23f85994b5a445d25f509234b494e2a93c9d1eb8dd4c17a6464db847e31f92",
+      "id": "19",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 89,
+          "column": 6
+        },
+        "end": {
+          "line": 89,
+          "column": 29
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 89,
+          "column": 6
+        },
+        "end": {
+          "line": 89,
+          "column": 29
+        }
+      },
+      "sourceText": "if (!result.ok) return;",
+      "owner": "RelayCoordinator.capture",
+      "sourceContext": "if (!result.ok) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shipped-path-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay.ts",
+      "sourceHash": "e789deca92e5e17ec683cbbd3103b9b9b3d3e726d6e36712fa5aec4c755c7f89",
+      "mapHash": "8e23f85994b5a445d25f509234b494e2a93c9d1eb8dd4c17a6464db847e31f92",
+      "id": "20",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 93,
+          "column": 82
+        },
+        "end": {
+          "line": 93,
+          "column": 185
+        }
+      },
+      "sourceText": "if (observation.seat === this.activeSeat && this.phase === 'running') this.capture(observation, cause);",
+      "owner": "RelayCoordinator.beforeDeath",
+      "sourceContext": "if (observation.seat === this.activeSeat && this.phase === 'running') this.capture(observation, cause);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shipped-path-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay.ts",
+      "sourceHash": "e789deca92e5e17ec683cbbd3103b9b9b3d3e726d6e36712fa5aec4c755c7f89",
+      "mapHash": "8e23f85994b5a445d25f509234b494e2a93c9d1eb8dd4c17a6464db847e31f92",
+      "id": "31",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 124,
+          "column": 4
+        },
+        "end": {
+          "line": 124,
+          "column": 57
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 124,
+          "column": 4
+        },
+        "end": {
+          "line": 124,
+          "column": 57
+        }
+      },
+      "sourceText": "if (!this.allowsLifecycle('reclaimed', seat)) return;",
+      "owner": "RelayCoordinator.reclaimed",
+      "sourceContext": "if (!this.allowsLifecycle('reclaimed', seat)) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shipped-path-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay.ts",
+      "sourceHash": "e789deca92e5e17ec683cbbd3103b9b9b3d3e726d6e36712fa5aec4c755c7f89",
+      "mapHash": "8e23f85994b5a445d25f509234b494e2a93c9d1eb8dd4c17a6464db847e31f92",
+      "id": "37",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 134,
+          "column": 4
+        },
+        "end": {
+          "line": 134,
+          "column": 54
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 134,
+          "column": 4
+        },
+        "end": {
+          "line": 134,
+          "column": 54
+        }
+      },
+      "sourceText": "if (player.participation !== 'dead') return false;",
+      "owner": "RelayCoordinator.reclaim",
+      "sourceContext": "if (player.participation !== 'dead') return false;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shipped-path-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay.ts",
+      "sourceHash": "e789deca92e5e17ec683cbbd3103b9b9b3d3e726d6e36712fa5aec4c755c7f89",
+      "mapHash": "8e23f85994b5a445d25f509234b494e2a93c9d1eb8dd4c17a6464db847e31f92",
+      "id": "38",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 138,
+          "column": 4
+        },
+        "end": {
+          "line": 138,
+          "column": 39
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 138,
+          "column": 4
+        },
+        "end": {
+          "line": 138,
+          "column": 39
+        }
+      },
+      "sourceText": "if (this.phase === 'ended') return;",
+      "owner": "RelayCoordinator.refreshAvailability",
+      "sourceContext": "if (this.phase === 'ended') return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shipped-path-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay.ts",
+      "sourceHash": "e789deca92e5e17ec683cbbd3103b9b9b3d3e726d6e36712fa5aec4c755c7f89",
+      "mapHash": "8e23f85994b5a445d25f509234b494e2a93c9d1eb8dd4c17a6464db847e31f92",
+      "id": "48",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 148,
+          "column": 116
+        },
+        "end": {
+          "line": 148,
+          "column": 118
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 148,
+          "column": 49
+        },
+        "end": {
+          "line": 148,
+          "column": 118
+        }
+      },
+      "sourceText": "''",
+      "owner": "RelayCoordinator.actionToken",
+      "sourceContext": "''",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shipped-path-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay.ts",
+      "sourceHash": "e789deca92e5e17ec683cbbd3103b9b9b3d3e726d6e36712fa5aec4c755c7f89",
+      "mapHash": "8e23f85994b5a445d25f509234b494e2a93c9d1eb8dd4c17a6464db847e31f92",
+      "id": "62",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 172,
+          "column": 4
+        },
+        "end": {
+          "line": 172,
+          "column": 70
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 172,
+          "column": 4
+        },
+        "end": {
+          "line": 172,
+          "column": 70
+        }
+      },
+      "sourceText": "if (this.outcomes.some(record => record.leg === this.leg)) return;",
+      "owner": "RelayCoordinator.closeLeg",
+      "sourceContext": "if (this.outcomes.some(record => record.leg === this.leg)) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shipped-path-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay.ts",
+      "sourceHash": "e789deca92e5e17ec683cbbd3103b9b9b3d3e726d6e36712fa5aec4c755c7f89",
+      "mapHash": "8e23f85994b5a445d25f509234b494e2a93c9d1eb8dd4c17a6464db847e31f92",
+      "id": "63",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 177,
+          "column": 4
+        },
+        "end": {
+          "line": 177,
+          "column": 39
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 177,
+          "column": 4
+        },
+        "end": {
+          "line": 177,
+          "column": 39
+        }
+      },
+      "sourceText": "if (this.phase === 'ended') return;",
+      "owner": "RelayCoordinator.departed",
+      "sourceContext": "if (this.phase === 'ended') return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shipped-path-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay.ts",
+      "sourceHash": "e789deca92e5e17ec683cbbd3103b9b9b3d3e726d6e36712fa5aec4c755c7f89",
+      "mapHash": "8e23f85994b5a445d25f509234b494e2a93c9d1eb8dd4c17a6464db847e31f92",
+      "id": "72",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 201,
+          "column": 167
+        },
+        "end": {
+          "line": 201,
+          "column": 176
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 201,
+          "column": 134
+        },
+        "end": {
+          "line": 201,
+          "column": 176
+        }
+      },
+      "sourceText": "'skipped'",
+      "owner": "RelayCoordinator.rotate",
+      "sourceContext": "'skipped'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shipped-path-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay.ts",
+      "sourceHash": "e789deca92e5e17ec683cbbd3103b9b9b3d3e726d6e36712fa5aec4c755c7f89",
+      "mapHash": "8e23f85994b5a445d25f509234b494e2a93c9d1eb8dd4c17a6464db847e31f92",
+      "id": "77",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 215,
+          "column": 4
+        },
+        "end": {
+          "line": 215,
+          "column": 41
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 215,
+          "column": 4
+        },
+        "end": {
+          "line": 215,
+          "column": 41
+        }
+      },
+      "sourceText": "if (seat !== this.activeSeat) return;",
+      "owner": "RelayCoordinator.death",
+      "sourceContext": "if (seat !== this.activeSeat) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shipped-path-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay.ts",
+      "sourceHash": "e789deca92e5e17ec683cbbd3103b9b9b3d3e726d6e36712fa5aec4c755c7f89",
+      "mapHash": "8e23f85994b5a445d25f509234b494e2a93c9d1eb8dd4c17a6464db847e31f92",
+      "id": "90",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 246,
+          "column": 4
+        },
+        "end": {
+          "line": 246,
+          "column": 47
+        }
+      },
+      "sourceText": "if (player) this.progress(player, session);",
+      "owner": "RelayCoordinator.tick",
+      "sourceContext": "if (player) this.progress(player, session);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shipped-path-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race-items.ts",
+      "sourceHash": "2a43c05772c1f641595ca9bee7cc2bb486e3b2a922ebab412fc65e189708432b",
+      "mapHash": "3372210d76b1618bab6d5508b49fe453476e466e12d577c667b28f623ee8b491",
+      "id": "1",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 24,
+          "column": 44
+        },
+        "end": {
+          "line": 24,
+          "column": 45
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 24,
+          "column": 10
+        },
+        "end": {
+          "line": 24,
+          "column": 45
+        }
+      },
+      "sourceText": "0",
+      "owner": "RaceItems.eligible",
+      "sourceContext": "0",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shipped-path-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race-items.ts",
+      "sourceHash": "2a43c05772c1f641595ca9bee7cc2bb486e3b2a922ebab412fc65e189708432b",
+      "mapHash": "3372210d76b1618bab6d5508b49fe453476e466e12d577c667b28f623ee8b491",
+      "id": "12",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 40,
+          "column": 4
+        },
+        "end": {
+          "line": 40,
+          "column": 83
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 40,
+          "column": 4
+        },
+        "end": {
+          "line": 40,
+          "column": 83
+        }
+      },
+      "sourceText": "if(!owner||!charge)return Object.freeze({ok:false,reason:'unavailable-owner'});",
+      "owner": "RaceItems.plan",
+      "sourceContext": "if(!owner||!charge)return Object.freeze({ok:false,reason:'unavailable-owner'});",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shipped-path-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race-items.ts",
+      "sourceHash": "2a43c05772c1f641595ca9bee7cc2bb486e3b2a922ebab412fc65e189708432b",
+      "mapHash": "3372210d76b1618bab6d5508b49fe453476e466e12d577c667b28f623ee8b491",
+      "id": "17",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 50,
+          "column": 6
+        },
+        "end": {
+          "line": 50,
+          "column": 38
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 50,
+          "column": 6
+        },
+        "end": {
+          "line": 50,
+          "column": 38
+        }
+      },
+      "sourceText": "if(!debit(targets))return false;",
+      "owner": "RaceItems.policy.callback@46",
+      "sourceContext": "if(!debit(targets))return false;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shipped-path-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race-results.ts",
+      "sourceHash": "217f6d1f97fca22a03a13586b1b7dfe5cf609d2eb83ebc0c16c540b7e0ae5d02",
+      "mapHash": "89e961faf937076763676d035c2bac621e71d4d3c63f8d1ee965a6b2053cd145",
+      "id": "10",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 40,
+          "column": 80
+        },
+        "end": {
+          "line": 40,
+          "column": 81
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 40,
+          "column": 64
+        },
+        "end": {
+          "line": 40,
+          "column": 81
+        }
+      },
+      "sourceText": "0",
+      "owner": "createRaceLedger.append",
+      "sourceContext": "0",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shipped-path-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/race-results.ts",
+      "sourceHash": "217f6d1f97fca22a03a13586b1b7dfe5cf609d2eb83ebc0c16c540b7e0ae5d02",
+      "mapHash": "89e961faf937076763676d035c2bac621e71d4d3c63f8d1ee965a6b2053cd145",
+      "id": "11",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 40,
+          "column": 112
+        },
+        "end": {
+          "line": 40,
+          "column": 113
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 40,
+          "column": 96
+        },
+        "end": {
+          "line": 40,
+          "column": 113
+        }
+      },
+      "sourceText": "0",
+      "owner": "createRaceLedger.append",
+      "sourceContext": "0",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shipped-path-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/relay-results.ts",
+      "sourceHash": "7b7295a4655082be30a81d590bb3e53db4f7b193b405509fb4944b3d7fb51a67",
+      "mapHash": "0513b564e226719d1e3c5cea1d2b6881cbac4faf1bef49ee6ea6c4f1e62ba7d5",
+      "id": "15",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 49,
+          "column": 115
+        },
+        "end": {
+          "line": 49,
+          "column": 116
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 49,
+          "column": 65
+        },
+        "end": {
+          "line": 49,
+          "column": 116
+        }
+      },
+      "sourceText": "0",
+      "owner": "createRelayLedger.open",
+      "sourceContext": "0",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shipped-path-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-TURN-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    }
+  ],
+  "tests": [
+    "tests/race-reclaim-transactions.test.mjs",
+    "tests/race-lifecycle.test.mjs",
+    "tests/race-ordering.test.mjs",
+    "tests/race-results.test.mjs",
+    "tests/race-items.test.mjs",
+    "tests/relay-boundary.test.mjs",
+    "tests/relay-lifecycle.test.mjs",
+    "tests/relay-results.test.mjs",
+    "tests/turn-setup-retry.test.mjs",
+    "tests/turn-seed-compatibility.test.mjs"
+  ],
+  "newExecution": false,
+  "newExclusions": false,
+  "rawGlobalAndPerFileUnchanged": true,
+  "modePolicyUnchanged": true,
+  "freshFullStatus": "pending active cb52774e-975e-4388-a064-5162ef3807d8 during review",
+  "hashes": {
+    "artifacts/release-coverage/semantic-current-03/raw-zero-review.json": "c8297f9591dcbe604c1ff06f2e67ca6575ac9570a94838dec747530dcfda5fc4",
+    ".planning/phases/07-release-evidence-pr/07-03-SCHEMA-RECOVERY-SEMANTIC-PROOF.json": "8a5bfe67e7b38a5b107cef1ab65e13a01131247c05265c0d68bd57e471a83a09",
+    "artifacts/release-coverage/current-full-05-proof/freeze.json": "c72459fff67275b20c5b67c1076d781f825a00cec405fada8743cb2f350111a3",
+    "artifacts/release-coverage/turn-residual-semantic-04/reference-audit.json": "52f2207afeadec1c12796ec3f979ad5b5c9559e16c6da280758633183e3d4d3e",
+    ".planning/phases/07-release-evidence-pr/07-03-RECLAIM-SEMANTIC-PROOF.json": "f575af02105378290dcb7c022a3cbd19c6e5da977b6af0bcd18f4bdbfc36154d",
+    "src/race.ts": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+    "src/relay.ts": "e789deca92e5e17ec683cbbd3103b9b9b3d3e726d6e36712fa5aec4c755c7f89",
+    "src/race-items.ts": "2a43c05772c1f641595ca9bee7cc2bb486e3b2a922ebab412fc65e189708432b",
+    "src/race-results.ts": "217f6d1f97fca22a03a13586b1b7dfe5cf609d2eb83ebc0c16c540b7e0ae5d02",
+    "src/relay-results.ts": "7b7295a4655082be30a81d590bb3e53db4f7b193b405509fb4944b3d7fb51a67",
+    "tools/release-coverage/suites.json": "02e81d3e4320ed8a2d0901fd0eee532e051d1c0b27b606c011fedbc3674ab88d",
+    "tests/race-reclaim-transactions.test.mjs": "2bfef124f5af845415076c15ee113ec4f611786f76e91f0d1c76c0c3d4d8614e",
+    "tests/race-lifecycle.test.mjs": "e906b72ba57f097447c9a573dd00934a112188878a7132dd50b450857d0e1a29",
+    "tests/race-ordering.test.mjs": "e87a3057343faf5d7395416b3db68022ec58f9dac9ee1c453a48a76bd0b47f25",
+    "tests/race-results.test.mjs": "231892dd04cdcae02a520201796835e6ddc771a82b36127c1596d3688e0a9bc1",
+    "tests/race-items.test.mjs": "c89007a32af7ba777fdf2c9980b8d5715262201e3ff0a168295490cc918c3b0c",
+    "tests/relay-boundary.test.mjs": "37ecac6b12b6799a7da0cfb38f9a5af8d02ea635a2c8c88d0371cde4df16d6c3",
+    "tests/relay-lifecycle.test.mjs": "ef899341d353adceaed4f0c0695f9a6d3038c1b0a8cea9debbf3f0486491e2e4",
+    "tests/relay-results.test.mjs": "ad435a9d8be4c0056241c2299f203a6e5d2030b0c473bd1771c41d842efa89df",
+    "tests/turn-setup-retry.test.mjs": "ea459ee556b720e9e70709add65eae6efc1c52960b25e7a2b001cb5864a89a94",
+    "tests/turn-seed-compatibility.test.mjs": "7478fd5687a972b7282f9c67c3cf9b40d759fb54cf8c6fea8f30e123dff52109",
+    "artifacts/release-coverage/turn-residual-semantic-04/reference-audit.mjs": "260ce49c24ff8d135652b4ddf4451702f7b08c1a84934339e289231a47f49628",
+    "artifacts/release-coverage/turn-residual-semantic-04/reference-audit.log": "28c1812c969c689892bafb3101ed7444dc30fb8bd8f69430b3965ca353fba24c",
+    "artifacts/release-coverage/turn-residual-semantic-04/verify.mjs": "46f5913c663103745a463f2e5c22803896f53235f14384012cd1ea1ff3dedd2d",
+    ".planning/phases/07-release-evidence-pr/07-03-TURN-STAGING-CLOSURE.md": "cb083078df61e0d6f6b517028fe91736d3d7bf8963b29f57c13b9f4e73003031",
+    ".planning/phases/07-release-evidence-pr/07-03-RACE-TARGET-POLICY-CLOSURE.md": "952db83d605964275c2feb98b47c7c413672ec5c38bc438d2049d387b89f3dcf"
+  }
+}

@@ -1,0 +1,196 @@
+{
+  "purpose": "Source/map/site reconciliation of completed fresh global map while canonical profiles remain active;not full enforcement",
+  "createdAt": "2026-10-18T02:46:22.346584+00:00",
+  "runId": "cb52774e-975e-4388-a064-5162ef3807d8",
+  "terminalEntries": 201,
+  "productionPassed": 182,
+  "controlsPassed": 19,
+  "originalReviewedZeroSnapshot": 830,
+  "originalZeroArmsNowPositive": 20,
+  "freshRawZeros": 810,
+  "freshZerosWithReviewedDispositions": 810,
+  "newUnreviewedZeros": 0,
+  "frozenPathsVerified": 410,
+  "sourceMapSiteIdentityMatches": 830,
+  "freshEnforcementStatus": "pending;canonical process70321/PID1821 still active",
+  "operatorResourceHandling": "SIGSTOP then SIGCONT on same report process while disk recovered;no restart,termination,source/counter change or second test chain",
+  "resourceMeasurements": [
+    "251MiB free at pressure observation",
+    "233MiB free with process stopped",
+    "1.5GiB free before resume",
+    "2.5GiB free after resume"
+  ],
+  "pauseDuration": "Not separately measured;no exact duration claim",
+  "writerOrderProof": "reportCoverage executes JSON,text,LCOV in order;LCOV existed before audit;run writes root report once before distinct strata paths;raw inode/mtime/size unchanged across audit",
+  "nowCovered": [
+    {
+      "path": "src/audio.ts",
+      "id": "190",
+      "arm": 0,
+      "hits": 1,
+      "sourceHash": "f9d23f3e4f80f1414c854b93c4665cb49d185e34d1ebea901f4f795d81782102",
+      "mapHash": "0c9fbd4e1947ef15c1ac49ecb96dcc183389de0c223f41f726a2437f4c46a2dc"
+    },
+    {
+      "path": "src/consumable-drops.ts",
+      "id": "10",
+      "arm": 0,
+      "hits": 5,
+      "sourceHash": "2fc4a1c55dc7f37dbcac2b7091661e3a284d3292eddf1460da423a39520dec4a",
+      "mapHash": "37a6bde1687a109d55b8a1dba3c4ed37b2e51f9732a4ed91033f031c73b7ae27"
+    },
+    {
+      "path": "src/consumable-drops.ts",
+      "id": "11",
+      "arm": 1,
+      "hits": 5,
+      "sourceHash": "2fc4a1c55dc7f37dbcac2b7091661e3a284d3292eddf1460da423a39520dec4a",
+      "mapHash": "37a6bde1687a109d55b8a1dba3c4ed37b2e51f9732a4ed91033f031c73b7ae27"
+    },
+    {
+      "path": "src/consumable-drops.ts",
+      "id": "11",
+      "arm": 2,
+      "hits": 5,
+      "sourceHash": "2fc4a1c55dc7f37dbcac2b7091661e3a284d3292eddf1460da423a39520dec4a",
+      "mapHash": "37a6bde1687a109d55b8a1dba3c4ed37b2e51f9732a4ed91033f031c73b7ae27"
+    },
+    {
+      "path": "src/consumable-drops.ts",
+      "id": "13",
+      "arm": 0,
+      "hits": 1,
+      "sourceHash": "2fc4a1c55dc7f37dbcac2b7091661e3a284d3292eddf1460da423a39520dec4a",
+      "mapHash": "37a6bde1687a109d55b8a1dba3c4ed37b2e51f9732a4ed91033f031c73b7ae27"
+    },
+    {
+      "path": "src/consumable-drops.ts",
+      "id": "18",
+      "arm": 1,
+      "hits": 2,
+      "sourceHash": "2fc4a1c55dc7f37dbcac2b7091661e3a284d3292eddf1460da423a39520dec4a",
+      "mapHash": "37a6bde1687a109d55b8a1dba3c4ed37b2e51f9732a4ed91033f031c73b7ae27"
+    },
+    {
+      "path": "src/consumable-drops.ts",
+      "id": "19",
+      "arm": 0,
+      "hits": 5,
+      "sourceHash": "2fc4a1c55dc7f37dbcac2b7091661e3a284d3292eddf1460da423a39520dec4a",
+      "mapHash": "37a6bde1687a109d55b8a1dba3c4ed37b2e51f9732a4ed91033f031c73b7ae27"
+    },
+    {
+      "path": "src/race.ts",
+      "id": "26",
+      "arm": 0,
+      "hits": 12,
+      "sourceHash": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+      "mapHash": "359d1befb5381d2a2df7d84e71de36101ec61193601e694e8af77ddd2f617fb8"
+    },
+    {
+      "path": "src/race.ts",
+      "id": "28",
+      "arm": 1,
+      "hits": 4,
+      "sourceHash": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+      "mapHash": "359d1befb5381d2a2df7d84e71de36101ec61193601e694e8af77ddd2f617fb8"
+    },
+    {
+      "path": "src/race.ts",
+      "id": "39",
+      "arm": 0,
+      "hits": 8,
+      "sourceHash": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+      "mapHash": "359d1befb5381d2a2df7d84e71de36101ec61193601e694e8af77ddd2f617fb8"
+    },
+    {
+      "path": "src/race.ts",
+      "id": "49",
+      "arm": 0,
+      "hits": 4,
+      "sourceHash": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+      "mapHash": "359d1befb5381d2a2df7d84e71de36101ec61193601e694e8af77ddd2f617fb8"
+    },
+    {
+      "path": "src/recovery.ts",
+      "id": "1",
+      "arm": 0,
+      "hits": 7,
+      "sourceHash": "835df7ab867c3421e7d295778c864ceba83f0ea10e588c4c6f4d95cdc2c1702b",
+      "mapHash": "63ba039e4df5558e6201010aa53187e64090a30ee28d09f923497891c27257c3"
+    },
+    {
+      "path": "src/recovery.ts",
+      "id": "22",
+      "arm": 0,
+      "hits": 3,
+      "sourceHash": "835df7ab867c3421e7d295778c864ceba83f0ea10e588c4c6f4d95cdc2c1702b",
+      "mapHash": "63ba039e4df5558e6201010aa53187e64090a30ee28d09f923497891c27257c3"
+    },
+    {
+      "path": "src/render.ts",
+      "id": "84",
+      "arm": 0,
+      "hits": 15700,
+      "sourceHash": "b6b5ae2ff1a4af8e3f6a0bf2c96bfcc3e83b11e95e38892ccaa6f33f3c2122c2",
+      "mapHash": "6a08518dab13de2e56cf750dd86d607d766b2caf9ca4f3bdbb9570dfde6ac67a"
+    },
+    {
+      "path": "src/session.ts",
+      "id": "227",
+      "arm": 5,
+      "hits": 4,
+      "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+      "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835"
+    },
+    {
+      "path": "src/session.ts",
+      "id": "227",
+      "arm": 8,
+      "hits": 8,
+      "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+      "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835"
+    },
+    {
+      "path": "src/session.ts",
+      "id": "228",
+      "arm": 0,
+      "hits": 12,
+      "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+      "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835"
+    },
+    {
+      "path": "src/session.ts",
+      "id": "228",
+      "arm": 1,
+      "hits": 4,
+      "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+      "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835"
+    },
+    {
+      "path": "src/session.ts",
+      "id": "231",
+      "arm": 0,
+      "hits": 4,
+      "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+      "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835"
+    },
+    {
+      "path": "src/session.ts",
+      "id": "299",
+      "arm": 0,
+      "hits": 8,
+      "sourceHash": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+      "mapHash": "5e39edf48001f04be7082bf7d39040bf49675493235c74e120b5a9d2a4f15835"
+    }
+  ],
+  "hashes": {
+    "artifacts/release-coverage/current-full-05-proof/raw-reconciliation-01.json": "17b859951a0fad3d19721f52af4142f974bdaf0969efd394d67644ecc3440714",
+    "artifacts/release-coverage/current-full-05-proof/reconcile-raw-01.mjs": "bfb0f4cc4b0b9e8fba3c75c93cc9dac70f7f16a1fbeda75a9a0676ee57d87557",
+    "artifacts/release-coverage/current-full-05-proof/raw-reconciliation-01.log": "dbdf7f2ecfd4b940d10d36dbf17849171bf424666845f9434223e4fbadfd5df6",
+    "artifacts/release-coverage/current-full-05-proof/freeze.json": "c72459fff67275b20c5b67c1076d781f825a00cec405fada8743cb2f350111a3",
+    "artifacts/release-coverage/current-full-05/report/coverage-final.json": "a18bd91728146fcbc4f2b1e9217b43537854a54ca5429d0e263c1e39351e69f5",
+    "tools/release-coverage/instrument.mjs": "ffad78d5658501254a3ee4a35bc1629724d503dbe16f2df3acf74d9deec1bee5",
+    "tools/release-coverage/run.mjs": "c7eefdd15f1ea5edb0e9888291c0a130b11b0cfdff2a627d7cd93287d82818bc"
+  }
+}

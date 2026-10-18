@@ -1,0 +1,178 @@
+{
+  "status": "Twenty-four ordinary/canonical actual saved-preference acquisition journeys pass;not full release acceptance",
+  "runId": "2bb34684-91a5-482e-bf54-d4022b4b4e49",
+  "payloadCount": 1,
+  "lifetimes": 24,
+  "intervals": 72,
+  "thresholdsEvaluated": false,
+  "modeCaseCounts": {
+    "relay": 12,
+    "race": 12
+  },
+  "oracleCommit": "a310a81ed6c76df4b265c9012c23b8c83f4802e5",
+  "oracleCurrentContribution": false,
+  "manifestSha256": "9e680e6e735b51ff9506193b35b2213d472adfc5151896aed4c4b80887e9799f",
+  "canonicalInventorySha256": "37f806f85a06a771ca5e1302b2e5aa996fd725c29e66175ef2d150a8c0f31404",
+  "newInitialWitnesses": [
+    {
+      "path": "src/content.ts",
+      "sourceHash": "56d4423a4d6c7bddd21be800353156487d46c5f5fe0a9ff4f550b4dadc14ea99",
+      "mapHash": "1a040ed00d35fabf775fbd2d8b237e1f91d61573107c6a876ec7b7a737e33340",
+      "id": "7",
+      "arm": 1,
+      "initialCount": 0,
+      "count": 12,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 93,
+            "column": 48
+          },
+          "end": {
+            "line": 93,
+            "column": 91
+          }
+        },
+        "type": "binary-expr",
+        "locations": [
+          {
+            "start": {
+              "line": 93,
+              "column": 48
+            },
+            "end": {
+              "line": 93,
+              "column": 77
+            }
+          },
+          {
+            "start": {
+              "line": 93,
+              "column": 81
+            },
+            "end": {
+              "line": 93,
+              "column": 91
+            }
+          }
+        ]
+      },
+      "meaning": "Unknown/default saved world reaches actual Game construction and falls back to the first built-in world,matching independent immutable baseline;same world then drives actual mode play"
+    }
+  ],
+  "currentDiagnosticModes": {
+    "relay": {
+      "raw": {
+        "statements": {
+          "covered": 2920,
+          "total": 3735
+        },
+        "functions": {
+          "covered": 656,
+          "total": 817
+        },
+        "branches": {
+          "covered": 2217,
+          "total": 3204
+        },
+        "lines": {
+          "covered": 1974,
+          "total": 2352
+        }
+      },
+      "applicable": {
+        "statements": {
+          "covered": 2920,
+          "total": 3310
+        },
+        "functions": {
+          "covered": 656,
+          "total": 710
+        },
+        "branches": {
+          "covered": 2217,
+          "total": 2793
+        },
+        "lines": {
+          "covered": 1974,
+          "total": 2104
+        }
+      },
+      "remaining": {
+        "lines": 0,
+        "functions": 0,
+        "branches": 158
+      },
+      "componentLifetimes": 84,
+      "componentIntervals": 253,
+      "publicIntervals": 2
+    },
+    "race": {
+      "raw": {
+        "statements": {
+          "covered": 3017,
+          "total": 3645
+        },
+        "functions": {
+          "covered": 699,
+          "total": 818
+        },
+        "branches": {
+          "covered": 2444,
+          "total": 3261
+        },
+        "lines": {
+          "covered": 2047,
+          "total": 2305
+        }
+      },
+      "applicable": {
+        "statements": {
+          "covered": 3017,
+          "total": 3406
+        },
+        "functions": {
+          "covered": 699,
+          "total": 758
+        },
+        "branches": {
+          "covered": 2444,
+          "total": 3032
+        },
+        "lines": {
+          "covered": 2047,
+          "total": 2163
+        }
+      },
+      "remaining": {
+        "lines": 0,
+        "functions": 0,
+        "branches": 134
+      },
+      "componentLifetimes": 117,
+      "componentIntervals": 374,
+      "publicIntervals": 8
+    }
+  },
+  "executionInventory": {
+    "valid": true,
+    "entries": 150,
+    "closure": 157,
+    "jobs": 162,
+    "controlPaths": 10
+  },
+  "allPriorGroupsAndJobsSemanticallyUnchanged": true,
+  "normalArtifactRawSha256": "9036d9a1f179b136569a3b400c412d954d783987c751832afbbbfda287c63539",
+  "rootLockRawSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "logs": {
+    "ordinary": "/tmp/down-to-duck-turn-saved-ordinary.log",
+    "canonical": "/tmp/down-to-duck-turn-saved-canonical.log"
+  },
+  "limits": [
+    "Actual parser outputs feed actual Game world,base and character construction inside acquisition;all complete sanitized preferences and initial courses match independent pinned oracle",
+    "No extraneous parser calls inside playing intervals;no current coverage from oracle",
+    "Saved accessibility/audio fields are parser component assertions,not rendered UI or actual audio-device evidence",
+    "No terrain,clock,progress,charge,callback or custom definition injected",
+    "No production,oracle,dependency,scope or numeric floor change;changed Game/Session initial rows not relabelled"
+  ]
+}

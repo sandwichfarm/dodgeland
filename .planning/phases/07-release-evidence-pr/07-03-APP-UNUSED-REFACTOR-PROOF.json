@@ -1,0 +1,30 @@
+{
+  "purpose": "Behavior-preserving extraction only;no new scope or gameplay credit",
+  "beforeFocused": 18,
+  "afterFocused": 18,
+  "reports": {
+    "allTenProjectionReportsByteEquivalent": true,
+    "hashes": {
+      "development-0.json": "54aec9d952c03819c882fcf670b40e0d930b27f4b84e2eece9b0bc94fcbfbe38",
+      "development-1.json": "4c1b262419cad9b3c73dd7544bd8fde5857750f324546267c987176d89d1b8c6",
+      "development-2.json": "b95d99f03ac7d071984639c1a6e46bc8e776bccc9ebc8d762a7b7098f2e30e58",
+      "development-3.json": "ebb56b2772b07647a5bdf4e4b71fb808f8a72a5c8aff6faa96a02d03ccd652dd",
+      "development-union.json": "feeb7f0f06170c181fc336e844225717dded43cfb68a869c44d87dfa69024a51",
+      "browser-presentation-owner-lifecycle-0.json": "dddcb206540374b9185b654074e8849b52c1431064c5caccacb52a722ffbd19e",
+      "browser-presentation-owner-lifecycle-1.json": "b4ad2dac9cd1dcc005913a588513abd21dfd303ff25d9a6c6ed801ee7d35a51a",
+      "browser-presentation-owner-lifecycle-2.json": "faf3a8a1754db1fbd21f3a8cd1c5061af5170b059bab61250ebefe80e7b36c55",
+      "browser-presentation-owner-lifecycle-3.json": "bac5bdabb89a110e1d9aa889e63d969ba3f3979506e81427f6e51814286c7a9e",
+      "browser-presentation-owner-lifecycle-union.json": "b482d221688a6782900186654bc3a9e6641e1db138f67084495e422e44b1483c"
+    }
+  },
+  "oldDevelopmentToolRawSha256": "341e6ec07a67822f36f3596186925faf0db54b8fff7117eba4eb291dee118faa",
+  "hashes": {
+    "artifacts/release-coverage/app-unused-03/before-refactor.log": "ad2b8167d03f46bab07ab857a3a33dfcee51e9f2acb3d03d7c6ee4493d0a5344",
+    "artifacts/release-coverage/app-unused-03/after-refactor.log": "04f5076d1578ca84eec3f6fea2f9193b7f8cb1c110875dce11ba5e0da222fad9",
+    "artifacts/release-coverage/app-unused-03/refactor-reproject.mjs": "1ca93907e9550a378bf666ece4085a90dca280c61a146c81263a019b66f14136",
+    "artifacts/release-coverage/app-unused-03/refactor-reprojection.log": "d6eacc38ba04fe3dbb97b606e38dca970847955e5712ffcca04f17937e171716",
+    "artifacts/release-coverage/app-unused-03/refactor-byte-equivalence.json": "a52c72974a09dceabc88b6dfda064cf08b88fadfce09f56c1fc7ad06b5cd8a06",
+    "tools/release-coverage/development-applicability.mjs": "c6ec75efd12567a2eaeb01964428a5d818330cdf1ef2fc163815d649563deb59",
+    "tools/release-coverage/application-unused-applicability.mjs": "3843aed3b6edbe0c109b990c15d243867625fe46c19a542baae9a559f6337625"
+  }
+}

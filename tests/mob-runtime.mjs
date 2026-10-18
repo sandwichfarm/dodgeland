@@ -1,3 +1,4 @@
+import { artifactForCoverage, verifyRealmArtifact, artifactDirectoryForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 // Built-artifact integration in an opaque allow-scripts iframe. Chrome debugger
 // scopes supply explicit late-score / clear-meadow scenario fixtures; this is
 // not an end-to-end claim that a human or autoplay route survived the first 480
@@ -8,9 +9,9 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { chromium } from 'playwright';
 
-const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
+const built = await readFile(artifactForCoverage(new URL('../dist/index.html', import.meta.url)), 'utf8');
 assert.ok(built.includes('mob.spawn') && built.includes('death.mob'), 'Build the current mob implementation first.');
-const output = new URL('../artifacts/', import.meta.url);
+const output = artifactDirectoryForCoverage(new URL('../artifacts/', import.meta.url), 'mob-runtime');
 await mkdir(output, { recursive: true });
 
 function installFixture() {
@@ -51,12 +52,18 @@ const server = createServer((_request, response) => {
   response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); response.end(harness);
 });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
-const evidence = { artifact: 'unmodified production module; opaque allow-scripts iframe',
+const evidence = { artifact: 'unmodified built application module; opaque allow-scripts iframe',
   fixture: 'CDP closure inspection supplies score-minus-one, elapsed run time, earlier encounter history for isolated crab/wasp scenes, expired earlier market invitations, and clear meadow terrain; subsequent controls and simulation are real',
   scenarios: [], errors: [], external: [] };
-let browser;
+let browser, frame, identity, generation = 0;
+async function beginRealm(page) {
+  if (frame) await collectRealm(frame, identity);
+  frame = undefined;
+  identity = { suite: process.argv[1], scenario: 'mob-runtime', frame: 'opaque-app', generation: generation++, scope: 'current' };
+  registerRealm(page, identity);
+}
 try {
-  browser = await chromium.launch();
+  browser = await chromium.launch({ args: ['--mute-audio'] });
   const page = await browser.newPage({ viewport: { width: 1000, height: 700 } });
   page.setDefaultTimeout(8000);
   await page.clock.install();
@@ -70,12 +77,13 @@ try {
     if (new URL(route.request().url()).hostname === '127.0.0.1') return route.continue();
     evidence.external.push(route.request().url()); return route.abort();
   });
+  await beginRealm(page);
   await page.goto(`http://127.0.0.1:${server.address().port}`);
-  let frame;
   async function currentFrame() {
     frame = await (await page.locator('#napplet').elementHandle()).contentFrame();
     await frame.locator('#sound-preview-cue option[value="death.mob"]').waitFor({ state: 'attached' });
     await frame.waitForFunction(() => window.mobFixture?.hydrated);
+    await verifyRealmArtifact(frame,identity);
     return frame;
   }
   await currentFrame();
@@ -128,7 +136,9 @@ try {
   const heard = async fingerprint => (await effects()).filter(voice => voice.fingerprint === fingerprint).length;
 
   // The built preview controls establish the three expected PCM identities.
-  await frame.locator('#collection').click(); await frame.locator('#sounds-tab').click();
+  await frame.locator(await frame.locator('#choose').isVisible() ? '#choose' : '#collection').click(); await frame.locator('#sounds-tab').click();
+  for (let page = 0; page < 6 && await frame.locator('#drawer').getAttribute('data-collection-sound') !== 'preview'; page++) await frame.locator('#collection-next').click();
+  assert.equal(await frame.locator('#sound-preview-cue').isVisible(), true);
   const fingerprints = {};
   for (const cue of ['mob.spawn', 'mob.attack', 'death.mob']) {
     await frame.locator('#sound-preview-cue').selectOption(cue);
@@ -152,8 +162,11 @@ try {
     // Let the normal camera catch up to the fixture's distant ready position
     // before starting simulation; spawn screenshots then show the encounter.
     await advance(1600);
+    await frame.locator('#play').click();
+    assert.equal((await snapshot()).state, 'playing', 'visible Play starts the staged ready run before movement');
   }
   async function remount() {
+    await beginRealm(page);
     await page.evaluate(() => window.mount()); await currentFrame();
     await frame.locator('#character-call').dispatchEvent('click');
     // A previous trusted gesture grants audio on this same iframe/document flow.
@@ -169,7 +182,7 @@ try {
   evidence.scenarios.push({ gate: 'score and elapsed simulation time', scoreOnly: 160, timeOnly: 60, spawns: 0 });
   await remount(); await stage(320, 45, false); await move('forward');
   const lateDebut = await snapshot();
-  assert.equal(lateDebut.mobs.length, 1); assert.equal(lateDebut.mobs[0].kind, 'slime', 'a fast run still meets the gentle species first');
+  assert.equal(lateDebut.mobs.length, 1, JSON.stringify(lateDebut)); assert.equal(lateDebut.mobs[0].kind, 'slime', 'a fast run still meets the gentle species first');
   evidence.scenarios.push({ gate: 'debut order', score: 320, earlierEncounters: [], firstSpecies: lateDebut.mobs[0].kind });
   await remount(); await stage(200); await move('forward');
   const shoppingInvitation = await snapshot();
@@ -301,6 +314,5 @@ try {
   await writeFile(new URL('mob-runtime.json', output), JSON.stringify(evidence, null, 2) + '\n');
   console.log('PASS: built mob integration — late score/time gates, quiet continuous pursuit, two eased close-range attacks with recovery, contextual catches, frozen pause, retry reset and SDK result save.');
 } finally {
-  await browser?.close();
-  await new Promise(resolve => server.close(resolve));
+  try { if (frame) await collectRealm(frame, identity); } finally { await browser?.close(); await new Promise(resolve => server.close(resolve)); }
 }

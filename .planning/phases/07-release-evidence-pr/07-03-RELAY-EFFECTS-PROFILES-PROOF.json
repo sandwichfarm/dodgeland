@@ -1,0 +1,93 @@
+{
+  "status": "Reviewed profile transition and106 calibration controls pass;fresh two-lifetime Relay tracer passes;complete current-source release coverage still pending",
+  "sourceTransition": {
+    "changes": [
+      {
+        "path": "src/session.ts",
+        "before": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+        "after": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9"
+      },
+      {
+        "path": "src/relay.ts",
+        "before": "f5c1eea5b82e6e42d7b6bbc6a95f7f0d28aa7ad7468c4464e0217ab9f89e6c02",
+        "after": "e789deca92e5e17ec683cbbd3103b9b9b3d3e726d6e36712fa5aec4c755c7f89"
+      }
+    ],
+    "currentCallerDigest": "1e5fb4e2867c625954f071288a00d89c3fa1d51dc53424fb69d063f3783f3853",
+    "currentDevelopmentDigest": "cde4b39081b7ec1d6878fb50adbd2b7f40c59d10afb4ec595530fda1553fca1c"
+  },
+  "profileSources": {
+    "tools/release-coverage/turn-applicability.mjs": "f6d7a787da4d4f3ff3262f8983d56a4dff71488ec75b9bd4631be5608cb03827",
+    "tools/release-coverage/turn-applicability.test.mjs": "47f0edb80372627eb2860eacc03e1aa5320f8b4fed168cebb16425522bab70e2",
+    "tools/release-coverage/solo-applicability.mjs": "57291d80635bcef88d499a99452566d6e47e7d7178ff3d7586df66dfa18985fe",
+    "tools/release-coverage/builtin-rule-applicability.mjs": "56caef8b0b338d30e61551f5d4f92c9c29f68236ea17503763e71706c6278ecb",
+    "tools/release-coverage/development-applicability.mjs": "be816dc2838374fac783c1d841e4267bb3591eac79415300575d2431a6a48bf4"
+  },
+  "calibrationRED": {
+    "passed": 14,
+    "failed": 1,
+    "label": "Tool contract scope regression,not product RED or gameplay credit"
+  },
+  "allControls": {
+    "passed": 106,
+    "failed": 0,
+    "skipped": 0,
+    "exit": 0
+  },
+  "relayScopeExpansion": {
+    "sites": 53,
+    "byKind": {
+      "statement": 29,
+      "function": 7,
+      "branch": 17
+    },
+    "meaning": "Sites now retained for Relay that remain excluded for uninstalled Race policy;scope-only,no Race runtime claim"
+  },
+  "canonicalTracer": {
+    "runId": "c60a7982-276c-4768-bdab-269597502296",
+    "payloadCount": 1,
+    "lifetimes": 2,
+    "intervals": 4,
+    "passed": 2,
+    "failed": 0,
+    "thresholdsEvaluated": false,
+    "manifestSha256": "ba5b53def5f4335fbcaace8f52a709826f7025b0446f0ffbac584d285e30653c",
+    "inventoryByteSha256": "5cf69c2cf73671c07008bf3d0aeb87a8c98ddaf88e177029733b58879b01c2a4"
+  },
+  "normalArtifactRawSha256": "6bd5104d0aac9472aaa01facdacdfbfcfc38f944cb01c18ea7f3d65e1549d1e2",
+  "rootLockRawSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "requiredGates": {
+    "type-check": 0,
+    "build": 0,
+    "guidance": {
+      "exit": 0,
+      "passed": 7
+    },
+    "conformance": {
+      "exit": 0,
+      "passed": 5,
+      "failed": 0,
+      "unmeasured": 5
+    }
+  },
+  "evidence": {
+    ".planning/phases/07-release-evidence-pr/07-03-RELAY-EFFECTS-CLOSURE.md": "84d78b51a80198ba7aa13eb534729c14fe19d3b59bf65811b7ee89ce753b52e8",
+    "artifacts/release-coverage/relay-effects-repair/source-transition.json": "4f99eba8d6ce91c2923aa4526ee4501dd7d00786edf509e184cb308866cabc72",
+    "artifacts/release-coverage/relay-effects-repair/reference-audit.json": "3dc3c67c334636ac15ac411909c707857c3a424c0e802c216567c69bd817b1cb",
+    "artifacts/release-coverage/relay-effects-repair/ast-delta.json": "babe98d7cbb33df8455adb82b33c0d4d31a6a5c2d1f20cfc03a4dfb21b7c5311",
+    "artifacts/release-coverage/relay-effects-repair/profile-red.log": "ac9cbca1fcc3ca2793c83ec9f1a26b3a2e588279ad27158c1258271a16729451",
+    "artifacts/release-coverage/relay-effects-repair/profile-green.log": "f4bc7bf36ad3c31d273483469e96936396836acbd52795b7b52735e992bd5660",
+    "artifacts/release-coverage/relay-effects-repair/all-controls-final.log": "d173b8a4fc0984abe5dc90c9f94ea17ffd7b2a6bf5cb691113a0705df2abec4d",
+    "artifacts/release-coverage/relay-effects-repair/scope-review.mjs": "effacce6e798281b037efb0aaf0442c0d9c8d0cba67d1e43cdc354327928114f",
+    "artifacts/release-coverage/relay-effects-repair/scope-review.json": "5a6d534b1845bfe3fe7047107b2e0f6eb99901b372d2ee5d64c2c2bd43533974",
+    "artifacts/release-coverage/relay-effects-repair/canonical.log": "f87212affa8621cb62e86f146b3da64eff14385652bdd5d35403f7a04b9ec46e",
+    "artifacts/release-coverage/relay-effects-repair/profile-gates.log": "8984a88819ca5cda86303f1df24f82c2f3cd2aaf83fc439303f5457263e747a7"
+  },
+  "limits": [
+    "No numeric floor,raw/global/file counter suppression,production source,oracle,root dependency or historical report change",
+    "Solo/DEV source meaning unchanged;current complete caller digests reviewed before explicit pin edits",
+    "Every newly retained Relay shared site accepts positive calibration hits;every corresponding Race exclusion rejects them",
+    "Current tracer has actual ownership/parent/interval validation;scope-only Race comparison is never runtime credit",
+    "Old69/98 union and Session399/Relayf5c source identities remain historical;broader current cohorts and fresh full enforcing report are required"
+  ]
+}

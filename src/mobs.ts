@@ -1,4 +1,6 @@
 import type { Game } from './game.js';
+import type { PursuerRules } from './mode-rules.js';
+import type { RunModifiers } from './market/types.js';
 
 export type MobKind = 'slime' | 'crab' | 'wasp';
 export interface Mob {
@@ -17,9 +19,18 @@ export const MOB_TYPES: readonly { id: MobKind; name: string; unlock: number; hi
 export const MOB_SPAWN_GRACE = 1.8;
 export const MOB_FIRST_SPAWN_TIME = 45;
 export const MOB_MIN_SPAWN_PROGRESS = 24;
+const DEFAULT_PURSUER_RULES: PursuerRules = {
+  enabled: true, introductionThresholds: [160, 320, 480], firstSpawnTime: MOB_FIRST_SPAWN_TIME,
+  minimumSpawnProgress: MOB_MIN_SPAWN_PROGRESS, spawnInterval: 18, minimumSpawnInterval: 14,
+  intervalProgress: 160, populationCap: 2,
+};
 /** Encounter pacing is separate from the aggression of an existing pursuer. */
-export function mobPacing(score: number): { interval: number; cap: number } {
-  return { interval: Math.max(14, 18 - Math.max(0, score - 160) / 160), cap: score < 160 ? 0 : score < 480 ? 1 : 2 };
+export function mobPacing(score: number, rules: PursuerRules = DEFAULT_PURSUER_RULES): { interval: number; cap: number } {
+  const first = rules.introductionThresholds[0]!, final = rules.introductionThresholds.at(-1)!;
+  return {
+    interval: Math.max(rules.minimumSpawnInterval, rules.spawnInterval - Math.max(0, score - first) / rules.intervalProgress),
+    cap: score < first ? 0 : score < final ? Math.min(1, rules.populationCap) : rules.populationCap,
+  };
 }
 /** Rendering and body collisions use the very same eased position. */
 export function mobMotionProgress(kind: MobKind, phase: Mob['phase'], fraction: number): number {
@@ -29,6 +40,10 @@ export function mobMotionProgress(kind: MobKind, phase: Mob['phase'], fraction: 
   return t < .5 ? 4 * t ** 3 : 1 - (-2 * t + 2) ** 3 / 2;
 }
 export const PLAYER_MOB_RADIUS = .2;
+/** A session supplies fixed per-seat operation views; the director remains singular. */
+export interface MobParticipant { readonly seat: string; readonly game: Game; readonly previousX: number; readonly previousY: number }
+/** Session world policy is resolved once, never inherited from a seat inventory. */
+export interface SharedMobPolicy { readonly effects: RunModifiers; readonly frontier: number; readonly anchor: Game }
 export function mobDefinition(kind: MobKind): typeof MOB_TYPES[number] { return MOB_TYPES.find(definition => definition.id === kind)!; }
 /** Each species ramps from its own debut, then stops accelerating. */
 export function mobTuning(kind: MobKind, score: number): { walkSpeed: number; speed: number; windup: number; recovery: number; range: number } {
@@ -38,8 +53,8 @@ export function mobTuning(kind: MobKind, score: number): { walkSpeed: number; sp
   return { walkSpeed: .75 + .3 * age, speed: 2 + .9 * age, windup: 1.35 - .25 * age, recovery: 2.6 - .6 * age, range: 1.8 };
 }
 /** Item modules modify shared behavior hooks without naming individual cards. */
-function runTuning(game: Game, kind: MobKind): ReturnType<typeof mobTuning> {
-  const tuning = mobTuning(kind, game.maxY), effects = game.run.effects;
+function runTuning(game: Game, kind: MobKind, effects = game.run.effects, score = game.maxY): ReturnType<typeof mobTuning> {
+  const tuning = mobTuning(kind, score);
   return { ...tuning, walkSpeed: tuning.walkSpeed * Math.max(.001, effects.mobSpeed), speed: tuning.speed * Math.max(.001, effects.mobSpeed), windup: tuning.windup * effects.mobWindup, recovery: tuning.recovery * effects.mobRecovery };
 }
 /** Relative swept body cores prevent tunneling without counting decorative parts. */
@@ -70,8 +85,8 @@ export class MobDirector {
     return true;
   }
 
-  private plan(game: Game, mob: Mob): void {
-    const tuning = runTuning(game, mob.kind);
+  private plan(game: Game, mob: Mob, effects?: RunModifiers, score?: number): void {
+    const tuning = runTuning(game, mob.kind, effects, score);
     const dx = game.groundX - mob.x, dy = game.groundY - mob.y, distance = Math.hypot(dx, dy);
     let target: { x: number; y: number } | undefined;
     // Crab charges are cardinal and must line up first. A wasp can commit to
@@ -129,25 +144,34 @@ export class MobDirector {
     return target;
   }
 
-  private spawn(game: Game): void {
-    const available = MOB_TYPES.filter(definition => game.maxY >= definition.unlock);
-    const pacing = mobPacing(game.maxY);
-    if (!available.length || this.mobs.length >= pacing.cap || game.hop > 0 || game.warning || game.run.market ||
-      game.time < Math.max(MOB_FIRST_SPAWN_TIME, this.nextSpawn, this.retryAt, this.modifierRetryAt) ||
-      game.maxY - this.lastSpawnScore < MOB_MIN_SPAWN_PROGRESS) return;
+  private spawn(game: Game, shared?: SharedMobPolicy): void {
+    const rules = game.rules.pursuers;
+    // Solo retains its released host behavior exactly. A session elects one
+    // stable course anchor and supplies base-definition effects explicitly.
+    const anchor = shared?.anchor ?? game;
+    const score = shared?.frontier ?? game.maxY;
+    const available = MOB_TYPES.filter((_definition, index) => score >= rules.introductionThresholds[index]!);
+    const pacing = mobPacing(score, rules);
+    const pursuit = game.rules.pursuit;
+    const warning = shared
+      ? pursuit.strategy === 'wave' && Math.max(0, pursuit.grace - game.time) + Math.max(0, anchor.groundY - game.waveRow) / pursuit.speed <= pursuit.warningSeconds
+      : game.warning;
+    if (!available.length || this.mobs.length >= pacing.cap || anchor.hop > 0 || warning || anchor.run.market ||
+      game.time < Math.max(rules.firstSpawnTime, this.nextSpawn, this.retryAt, this.modifierRetryAt) ||
+      score - this.lastSpawnScore < rules.minimumSpawnProgress) return;
     // A new species gets priority only after the normal breathing room. Wait
     // for a meadow landing so a new threat never stacks onto a crossing.
-    if (game.lane?.kind !== 'meadow' || game.mobHazard(game.x, game.y, game.x, game.y, game.time, game.time, .23)) return;
+    if (anchor.lane?.kind !== 'meadow' || anchor.mobHazard(anchor.x, anchor.y, anchor.x, anchor.y, game.time, game.time, .23)) return;
     const debut = available.find(candidate => !this.introduced.has(candidate.id));
     const definition = debut ?? available[Math.floor(this.rng() * available.length)]!;
     const candidates: { x: number; y: number }[] = [];
-    const exits = [[game.x - 1, game.y], [game.x + 1, game.y], [game.x, game.y - 1], [game.x, game.y + 1]].filter(([x, y]) =>
+    const exits = [[anchor.x - 1, anchor.y], [anchor.x + 1, anchor.y], [anchor.x, anchor.y - 1], [anchor.x, anchor.y + 1]].filter(([x, y]) =>
       Math.abs(x!) <= 5 && game.rows.has(y!) && !game.rows.get(y!)!.blocked.includes(Math.round(x!)) &&
       this.mobs.every(mob => Math.hypot(mob.x - x!, mob.y - y!) > mobDefinition(mob.kind).radius + PLAYER_MOB_RADIUS + .15));
     if (!exits.length) { this.retryAt = game.time + .5; return; }
-    for (let y = Math.ceil(Math.max(game.groundY - 2, game.maxY - 2)); y <= Math.floor(game.groundY); y++) for (let x = -5; x <= 5; x++) {
-      const distance = Math.hypot(x - game.groundX, y - game.groundY);
-      if (distance < 2.5 || distance > 3.5 || Math.abs(x - game.groundX) > 3.25 || y <= game.waveRow + .55 || game.rows.get(y)?.kind !== 'meadow' || game.mobBlocked(x, y, definition.radius)) continue;
+    for (let y = Math.ceil(Math.max(anchor.groundY - 2, score - 2)); y <= Math.floor(anchor.groundY); y++) for (let x = -5; x <= 5; x++) {
+      const distance = Math.hypot(x - anchor.groundX, y - anchor.groundY);
+      if (distance < 2.5 || distance > 3.5 || Math.abs(x - anchor.groundX) > 3.25 || y <= game.waveRow + .55 || game.rows.get(y)?.kind !== 'meadow' || anchor.mobBlocked(x, y, definition.radius)) continue;
       if (this.mobs.some(mob => Math.hypot(mob.x - x, mob.y - y) < 1.2)) continue;
       if (!exits.some(([ex, ey]) => Math.hypot(ex! - x, ey! - y) > definition.radius + PLAYER_MOB_RADIUS + .15)) continue;
       candidates.push({ x, y });
@@ -156,14 +180,17 @@ export class MobDirector {
     const { x, y } = candidates[Math.floor(this.rng() * candidates.length)]!;
     const mob: Mob = { id: this.nextId++, kind: definition.id, x, y, fromX: x, fromY: y, targetX: x, targetY: y, phase: 'spawning', phaseLeft: MOB_SPAWN_GRACE, phaseDuration: MOB_SPAWN_GRACE };
     this.mobs.push(mob); this.introduced.add(mob.kind);
-    this.lastSpawnScore = game.maxY;
+    this.lastSpawnScore = score;
     this.nextSpawn = game.time + pacing.interval + this.spawnDelay;
     game.onMobSpawn(mob);
   }
 
-  update(game: Game, dt: number, previousX: number, previousY: number): void {
-    if (game.mode === 'stroll') { this.mobs.length = 0; return; }
-    const delay = game.run.effects.mobSpawnDelay;
+  update(game: Game, dt: number, previousX: number, previousY: number, participants: readonly MobParticipant[] = [], shared?: SharedMobPolicy): void {
+    if (!game.rules.pursuers.enabled) { this.mobs.length = 0; return; }
+    const targets = participants.length ? participants : [{ seat: 'p1', game, previousX, previousY }];
+    const effects = shared?.effects ?? game.run.effects, score = shared?.frontier ?? game.maxY;
+    const highestGround = Math.max(...targets.map(target => target.game.groundY));
+    const delay = effects.mobSpawnDelay;
     if (delay !== this.spawnDelay) {
       const change = delay - this.spawnDelay;
       this.nextSpawn = Math.max(game.time, this.nextSpawn) + change;
@@ -172,15 +199,19 @@ export class MobDirector {
     }
     const retained: Mob[] = [];
     for (const mob of this.mobs) {
+      const eligible = targets.filter(participant => participant.game.state === 'playing');
+      if (!eligible.length) { retained.push(mob); continue; }
+      const target = [...eligible].sort((a, b) => Math.hypot(a.game.groundX - mob.x, a.game.groundY - mob.y) - Math.hypot(b.game.groundX - mob.x, b.game.groundY - mob.y) || a.seat.localeCompare(b.seat))[0]!;
+      const targetGame = target.game;
       const radius = mobDefinition(mob.kind).radius;
-      if (mob.y <= game.waveRow + radius || mob.y < game.maxY - 8 || mob.y > game.groundY + 9 || Math.abs(mob.x) > 5.5) continue;
-      const frozen = game.run.effects.mobSpeed === 0;
+      if (mob.y <= game.waveRow + radius || mob.y < score - 8 || mob.y > highestGround + 9 || Math.abs(mob.x) > 5.5) continue;
+      const frozen = effects.mobSpeed === 0;
       let remaining = frozen ? 0 : dt, elapsed = 0, removed = false;
       // A fixed step usually visits just one phase; splitting boundary steps
       // keeps spawn immunity and swept contacts exact at phase transitions.
       do {
         if (!frozen && (mob.phase === 'walking' || mob.phase === 'moving') && mob.motionSpeed !== undefined) {
-          const tuning = runTuning(game, mob.kind), speed = mob.phase === 'walking' ? tuning.walkSpeed : tuning.speed;
+          const tuning = runTuning(game, mob.kind, effects, score), speed = mob.phase === 'walking' ? tuning.walkSpeed : tuning.speed;
           const ratio = mob.motionSpeed / speed;
           mob.phaseDuration *= ratio; mob.phaseLeft *= ratio; mob.motionSpeed = speed;
         }
@@ -196,25 +227,31 @@ export class MobDirector {
         }
         const start = dt > 0 ? elapsed / dt : 0, end = !frozen && dt > 0 ? (elapsed + duration) / dt : 1;
         if (mob.y <= game.waveRow + radius || (mob.kind !== 'wasp' && game.mobHazard(oldX, oldY, mob.x, mob.y, game.time - dt + elapsed, frozen ? game.time : game.time - dt + elapsed + duration, radius))) { removed = true; break; }
-        if (!harmless && !game.powerAvoidsMobs && game.run.effects.shield <= 0 && sweptMobContact(oldX, oldY, mob.x, mob.y, previousX + (game.groundX - previousX) * start, previousY + (game.groundY - previousY) * start, previousX + (game.groundX - previousX) * end, previousY + (game.groundY - previousY) * end, radius + PLAYER_MOB_RADIUS)) {
+        if (!harmless) for (const participant of eligible) {
+          const player = participant.game;
+          if (player.state !== 'playing' || player.powerAvoidsMobs || player.run.effects.shield > 0) continue;
+          if (!sweptMobContact(oldX, oldY, mob.x, mob.y, participant.previousX + (player.groundX - participant.previousX) * start, participant.previousY + (player.groundY - participant.previousY) * start, participant.previousX + (player.groundX - participant.previousX) * end, participant.previousY + (player.groundY - participant.previousY) * end, radius + PLAYER_MOB_RADIUS)) continue;
           const definition = mobDefinition(mob.kind);
-          game.end(`${definition.name} caught you! ${definition.hint}`, 'mob');
-          return;
+          player.end(`${definition.name} caught you! ${definition.hint}`, 'mob');
+          // The released solo path ends the director immediately after a
+          // terminal hit. Sessions deliberately continue so every seat sees
+          // the same completed shared frame before lifecycle delivery.
+          if (!participants.length) return;
         }
         remaining -= duration; elapsed += duration;
         if (!frozen && mob.phaseLeft <= 0) {
-          if (mob.phase === 'spawning' || mob.phase === 'walking' || mob.phase === 'rest') this.plan(game, mob);
+          if (mob.phase === 'spawning' || mob.phase === 'walking' || mob.phase === 'rest') this.plan(targetGame, mob, effects, score);
           else if (mob.phase === 'windup') {
-            mob.phase = 'moving'; mob.motionSpeed = runTuning(game, mob.kind).speed;
+            mob.phase = 'moving'; mob.motionSpeed = runTuning(game, mob.kind, effects, score).speed;
             mob.phaseDuration = mob.phaseLeft = Math.max(.001, Math.hypot(mob.targetX - mob.fromX, mob.targetY - mob.fromY) / mob.motionSpeed);
           } else {
-            mob.phase = 'rest'; delete mob.motionSpeed; mob.phaseDuration = mob.phaseLeft = Math.max(.25, runTuning(game, mob.kind).recovery);
+            mob.phase = 'rest'; delete mob.motionSpeed; mob.phaseDuration = mob.phaseLeft = Math.max(.25, runTuning(game, mob.kind, effects, score).recovery);
           }
         }
       } while (remaining > 1e-9);
       if (!removed) retained.push(mob);
     }
     this.mobs = retained;
-    this.spawn(game);
+    this.spawn(game, shared);
   }
 }

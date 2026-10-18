@@ -8,6 +8,7 @@ const evidence = { artifact: 'Production build in an opaque allow-scripts iframe
 const app = await createMarketGameFixture(evidence);
 const { page, frame, iframe, advance, resize, key, onGame } = app;
 let caseName = 'setup';
+let backwardReaderChecked = false;
 
 async function layout(label) {
   await frame.evaluate(() => document.getAnimations().forEach(animation => { if (Number.isFinite(animation.effect?.getComputedTiming().iterations)) animation.finish(); }));
@@ -50,6 +51,13 @@ async function readTopic(topic) {
   for (let pageIndex = 0; pageIndex < 30; pageIndex++) {
     await layout(`${caseName}-${topic}-${pageIndex}`);
     chunks.push(await frame.locator('#pause-reader-copy').innerText());
+    if (pageIndex > 0 && !backwardReaderChecked) {
+      await frame.locator('#pause-prev').click(); await advance(20);
+      assert.equal(await frame.locator('#pause-reader-copy').innerText(), chunks.at(-2), 'previous page restores the exact earlier text');
+      await frame.locator('#pause-next').click(); await advance(20);
+      assert.equal(await frame.locator('#pause-reader-copy').innerText(), chunks.at(-1), 'returning forward neither skips nor duplicates reader text');
+      backwardReaderChecked = true;
+    }
     if (await frame.locator('#pause-next').isDisabled()) break;
     await frame.locator('#pause-next').click(); await advance(20);
     assert.ok(pageIndex < 29, 'information has a finite final page');
@@ -109,10 +117,26 @@ try {
   await frame.locator('[data-pause-topic="rules"]').focus(); await key('play');
   assert.equal(await frame.locator('#pause-reader').isVisible(), true);
   for (let index = 0; index < 8; index++) {
-    await page.keyboard.press('Tab');
+    await page.keyboard.press(index < 4 ? 'Tab' : 'Shift+Tab');
     assert.equal(await frame.evaluate(() => document.getElementById('run-panel').contains(document.activeElement) && !!document.activeElement.getClientRects().length), true);
   }
-  await key('back-menu'); await frame.locator('#play').click(); await advance(30);
+  assert.equal(backwardReaderChecked, true, 'at least one compact reader exercised backward paging');
+  // At320×560 the rules can fit on one page, leaving only Back enabled.
+  // Use a paged reader so directional focus changes have another valid target.
+  await resize(240,240); await advance(40);
+  for (const direction of ['forward', 'left', 'back', 'right']) {
+    const before = await frame.evaluate(() => document.activeElement?.id);
+    await key(direction);
+    assert.notEqual(await frame.evaluate(() => document.activeElement?.id), before, `${direction} moves pause focus without advancing the run`);
+    assert.equal(await onGame(function () { return this.time; }), frozenTime);
+  }
+  await key('back-menu');
+  await frame.locator('#pause-heading').click();
+  assert.equal(await frame.evaluate(() => document.activeElement instanceof HTMLButtonElement), false, 'pointer inspection can leave no focused button');
+  await key('play'); await advance(30);
+  assert.equal(await onGame(function () { return this.state; }), 'playing', 'confirm without a focused button resumes play');
+  await key('pause'); await advance(30);
+  await frame.locator('#play').click(); await advance(30);
   assert.equal(await frame.locator('#run-panel').isVisible(), false);
   assert.equal(await onGame(function () { return this.state; }), 'playing');
   assert.equal(await frame.locator('#app').getAttribute('data-pause-open'), 'false');

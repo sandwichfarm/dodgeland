@@ -1,3 +1,15 @@
+import { artifactDirectoryForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
+const coverageArtifacts = artifactDirectoryForCoverage(new URL('../artifacts/', import.meta.url), 'wearables-render');
+const coveragePages = new Map();
+let coverageGeneration = 0;
+function registerPage(page) {
+  const identity = { suite: process.argv[1], scenario: 'wearables-render', frame: 'component-page', generation: coverageGeneration++, scope: 'current' };
+  registerRealm(page, identity); coveragePages.set(page, identity);
+}
+async function closePage(page) {
+  try { await collectRealm(page, coveragePages.get(page)); }
+  finally { coveragePages.delete(page); await page.close(); }
+}
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
@@ -13,11 +25,12 @@ const server = createServer((request, response) => {
 });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const browser = await chromium.launch({ args: ['--mute-audio'] });
-after(async () => { await browser.close(); await new Promise(resolve => server.close(resolve)); });
+after(async () => { try { for (const page of coveragePages.keys()) await closePage(page); } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); } });
 
 test('actual Canvas clothes stay attached at both yaw angles, preserve the bill, and share the real hop transform', async () => {
   const page = await browser.newPage();
   const errors = []; page.on('pageerror', error => errors.push(error.message));
+  registerPage(page);
   await page.goto(`http://127.0.0.1:${server.address().port}`);
   const result = await page.evaluate(async () => {
     const [{ Renderer }, { CHARACTERS }, { dressedModel }, { ITEM_CATALOG }, { Game, HOP_TIME }] = await Promise.all([
@@ -80,7 +93,7 @@ test('actual Canvas clothes stay attached at both yaw angles, preserve the bill,
     renderer.reduced = true; renderer.draw(game, 'butter', 0);
     return { frames, poses, travelerCount: CHARACTERS.length, png: sheet.toDataURL().split(',')[1] };
   });
-  const artifacts = new URL('../artifacts/', import.meta.url);
+  const artifacts = coverageArtifacts;
   await mkdir(artifacts, { recursive: true });
   await writeFile(new URL('wearables-sheet.png', artifacts), Buffer.from(result.png, 'base64'));
   await writeFile(new URL('wearables-render.json', artifacts), JSON.stringify({ frames: result.frames, poses: result.poses }, null, 2));
@@ -98,5 +111,5 @@ test('actual Canvas clothes stay attached at both yaw angles, preserve the bill,
   assert.ok(result.poses[0].yaw > .9);
   assert.ok(result.poses[1].lift > result.poses[0].lift + .25, 'clothes share the body hop');
   assert.equal(result.poses[2].yaw, 0); assert.equal(result.poses[2].lift, 0, 'Less motion keeps clothing while removing decorative turns and bounce');
-  await page.close();
+  await closePage(page);
 });

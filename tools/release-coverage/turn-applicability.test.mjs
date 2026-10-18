@@ -1,0 +1,512 @@
+import test,{after}from'node:test';
+import assert from'node:assert/strict';
+import{readFile,mkdtemp,rm}from'node:fs/promises';
+import{tmpdir}from'node:os';
+import{join,resolve}from'node:path';
+import{createRequire}from'node:module';
+import{instrumentSources,reportCoverage}from'./instrument.mjs';
+import{reportApplicability}from'./applicability.mjs';
+import{TURN_APPLICABILITY_SOURCES,TURN_AUTHORITY_PINS,turnApplicabilityDispositions as generateTurnDispositions}from'./turn-applicability.mjs';
+const directory=await mkdtemp(join(tmpdir(),'turn-applicability-'));after(()=>rm(directory,{recursive:true,force:true}));
+const root=resolve(new URL('../..',import.meta.url).pathname);
+const ts=createRequire(new URL('../../package.json',import.meta.url))('typescript');
+const authoritySources=await Promise.all(Object.keys(TURN_AUTHORITY_PINS).map(async path=>({path,source:await readFile(join(root,path),'utf8')})));
+const audit=JSON.parse(await readFile(join(root,'.planning/phases/07-release-evidence-pr/07-03-PAUSED-MOVEMENT-REFERENCE-AUDIT.json'),'utf8'));
+const closureSources=await Promise.all(Object.keys(audit.sourceHashes).filter(path=>!path.endsWith('.d.ts')).map(async path=>({path,source:await readFile(join(root,path),'utf8')})));
+const turnApplicabilityDispositions=input=>generateTurnDispositions({authoritySources,closureSources,canonicalSources:closureSources,...input});
+const texts=Object.fromEntries(await Promise.all([...new Set([...Object.keys(TURN_APPLICABILITY_SOURCES),'src/mode-rules.ts','src/consumables.ts'])].map(async path=>[path,await readFile(join(root,path),'utf8')])));
+const inventory=instrumentSources(texts,root);
+// A zero schema realm only, never gameplay evidence or mode coverage credit.
+const mapped=await reportCoverage(inventory,[Object.fromEntries(Object.values(inventory).map(row=>[row.path,row.zero]))],directory);
+const sources=Object.values(inventory).map(row=>({path:row.path,source:row.source,map:row.map,coverage:mapped.map.fileCoverageFor(row.path).toJSON()}));
+const attributed=Object.fromEntries(sources.map(row=>[row.path,structuredClone(row.coverage)]));
+const sourceFor=name=>sources.find(row=>row.path.endsWith('/'+name));
+const line=(source,fragment)=>{const index=source.source.indexOf(fragment);assert.notEqual(index,-1,fragment);return source.source.slice(0,index).split('\n').length;};
+function functionIds(source,fragment){const at=line(source,fragment),ids=Object.entries(source.coverage.fnMap).filter(([,site])=>site.decl.start.line===at).map(([id])=>id);assert.ok(ids.length,fragment);return ids;}
+function excluded(dispositions,source,id,kind='function'){return dispositions.some(d=>d.path===source.path&&d.kind===kind&&d.id===id);}
+
+test('session generation timing guard and call remain counted in both turn profiles',()=>{
+ // Synthetic site probes calibrate scope only; no gameplay coverage credit.
+ const game=sourceFor('game.ts'),at=line(game,'if (!this.world?.sessionActive) this.ensureRows();');
+ const statements=Object.entries(game.coverage.statementMap).filter(([,site])=>site.start.line===at);
+ const branches=Object.entries(game.coverage.branchMap).filter(([,site])=>site.loc.start.line===at);
+ assert.ok(statements.length>=2);assert.ok(branches.length>=1);
+ for(const mode of ['relay','race']){
+  const dispositions=turnApplicabilityDispositions({mode,sources});
+  for(const[id]of statements){
+   assert.equal(excluded(dispositions,game,id,'statement'),false);
+   const hits=structuredClone(attributed);hits[game.path].s[id]=1;
+   assert.equal(reportApplicability({mode,sources,attributed:hits,dispositions}).applicable.statements.covered,1);
+  }
+  for(const[id]of branches)for(let arm=0;arm<game.coverage.b[id].length;arm++){
+   assert.equal(dispositions.some(d=>d.path===game.path&&d.kind==='branch'&&d.id===id&&d.arm===arm),false);
+   const hits=structuredClone(attributed);hits[game.path].b[id][arm]=1;
+   assert.equal(reportApplicability({mode,sources,attributed:hits,dispositions}).applicable.branches.covered,1);
+  }
+ }
+});
+
+test('Relay world-effect opt-in stays accountable while Race remains opt-out',()=>{
+ // Synthetic mapped counters calibrate scope,never gameplay or mode credit.
+ const relay=turnApplicabilityDispositions({mode:'relay',sources});
+ const race=turnApplicabilityDispositions({mode:'race',sources});
+ const functions=[
+  [sourceFor('session.ts'),'installSharedWorldEffects('],
+  [sourceFor('game.ts'),'setSharedWorldEffects('],
+  [sourceFor('session.ts'),'.filter(player => isLivingRecoverySubject(player) &&'],
+  [sourceFor('session.ts'),'.map(player => ({ seat: player.seat, effects: player.run.effects }))'],
+ ];
+ for(const[source,fragment]of functions)for(const id of functionIds(source,fragment)){
+  assert.equal(excluded(relay,source,id),false,'reachable Relay '+fragment);
+  assert.equal(excluded(race,source,id),true,'uninstalled Race '+fragment);
+  const hits=structuredClone(attributed);hits[source.path].f[id]=1;
+  assert.equal(reportApplicability({mode:'relay',sources,attributed:hits,dispositions:relay}).applicable.functions.covered,1);
+  assert.throws(()=>reportApplicability({mode:'race',sources,attributed:hits,dispositions:race}),/contradicted/);
+ }
+ const shared=sourceFor('shared-world-effects.ts');
+ for(const id of Object.keys(shared.coverage.fnMap)){
+  assert.equal(excluded(relay,shared,id),false,'Relay resolver/callback '+id);
+  assert.equal(excluded(race,shared,id),true,'Race resolver/callback '+id);
+  const hits=structuredClone(attributed);hits[shared.path].f[id]=1;
+  assert.equal(reportApplicability({mode:'relay',sources,attributed:hits,dispositions:relay}).applicable.functions.covered,1);
+  assert.throws(()=>reportApplicability({mode:'race',sources,attributed:hits,dispositions:race}),/contradicted/);
+ }
+ const expanded=race.filter(site=>site.authority.endsWith('07-03-RELAY-EFFECTS-CLOSURE.md')
+  && !relay.some(other=>other.path===site.path&&other.kind===site.kind&&other.id===site.id&&other.arm===site.arm));
+ assert.ok(expanded.length>30,'actual complete mapped shared-effect body expansion');
+ for(const site of expanded){
+  const hits=structuredClone(attributed),counter={statement:'s',function:'f',branch:'b'}[site.kind];
+  if(site.kind==='branch')hits[site.path][counter][site.id][site.arm]=1;
+  else hits[site.path][counter][site.id]=1;
+  const metric={statement:'statements',function:'functions',branch:'branches'}[site.kind];
+  assert.equal(reportApplicability({mode:'relay',sources,attributed:hits,dispositions:relay}).applicable[metric].covered,1,
+   'Relay retains every mapped shared-effect '+site.kind+' '+site.id);
+  assert.throws(()=>reportApplicability({mode:'race',sources,attributed:hits,dispositions:race}),/contradicted/,
+   'Race rejects every excluded positive shared-effect hit');
+ }
+ for(const mode of ['relay','race']){
+  const ds=mode==='relay'?relay:race,session=sourceFor('session.ts');
+  for(const id of functionIds(session,'sharedWorldEffectsSnapshot()'))assert.equal(excluded(ds,session,id),true,'application-unused snapshot');
+  for(const id of functionIds(session,'private refreshSharedWorldEffects()'))assert.equal(excluded(ds,session,id),false,'reachable policy guard');
+ }
+});
+
+test('standalone update closure requires the complete reviewed caller inventory',()=>{
+ for(const mode of ['relay','race']){
+  assert.throws(()=>generateTurnDispositions({mode,sources,authoritySources}),/caller inventory/);
+  assert.throws(()=>generateTurnDispositions({mode,sources,authoritySources,closureSources}),/caller inventory/);
+  for(const canonicalSources of [closureSources.slice(1),closureSources.slice(1).concat(closureSources[1]),closureSources.map(s=>s.path==='src/audio.ts'?{...s,source:s.source+'\n// divergent compiled source'}:s)])assert.throws(()=>turnApplicabilityDispositions({mode,sources,canonicalSources}),/caller inventory/);
+  for(const changed of [closureSources.slice(1),[...closureSources,closureSources[0]],[...closureSources,{path:'src/new-caller.ts',source:'export const invoke = game => game.update(1);'}],closureSources.map(s=>s.path==='src/audio.ts'?{...s,source:s.source+'\n// new call edge'}:s)])assert.throws(()=>turnApplicabilityDispositions({mode,sources,closureSources:changed}),/caller inventory/);
+  const dispositions=turnApplicabilityDispositions({mode,sources}),game=sourceFor('game.ts');
+  for(const fragment of ['  update(dt: number): void {','private updateMobs('])for(const id of functionIds(game,fragment))assert.equal(excluded(dispositions,game,id),true,fragment);
+  for(const fragment of ['const sessionSeat = undefined;','const chaseTime = Math.max(0, this.time - this.rules.pursuit.grace)']){
+   const lines=game.source.split('\n').flatMap((text,i)=>text.includes(fragment)?[i+1]:[]);
+   for(const at of lines.filter(at=>at>=630))for(const [id,site]of Object.entries(game.coverage.statementMap).filter(([,s])=>s.start.line===at))assert.equal(excluded(dispositions,game,id,'statement'),true,fragment+' '+at);
+  }
+  for(const fragment of ['private finishPlayerUpdate(','private collectCoins(','private collectSessionCoins(','  closeMarket('])for(const id of functionIds(game,fragment))assert.equal(excluded(dispositions,game,id),false,'retained '+fragment);
+  const ifLine=line(game,'if (sessionPlayer) { this.collectSessionCoins');
+  for(const [id,site]of Object.entries(game.coverage.statementMap).filter(([,s])=>s.start.line===ifLine))assert.equal(excluded(dispositions,game,id,'statement'),false,'shared dispatch retained');
+  for(const kind of ['statement','function','branch']){
+   const site=dispositions.find(d=>d.kind===kind&&d.authority.endsWith('07-03-TURN-UPDATE-CLOSURE.md'));assert.ok(site,kind);
+   const hits=structuredClone(attributed);if(kind==='branch')hits[site.path].b[site.id][site.arm]=1;else hits[site.path][kind==='statement'?'s':'f'][site.id]=1;
+   assert.throws(()=>reportApplicability({mode,sources,attributed:hits,dispositions}),/contradicted/,'new closure rejects actual '+kind+' hits');
+  }
+ }
+});
+
+test('exact opt-in closures are excluded but guards, common world and acquisition remain applicable',()=>{
+ const before=structuredClone(sources),session=sourceFor('session.ts'),recovery=sourceFor('session-recovery.ts');
+ for(const mode of['relay','race']){
+  const dispositions=turnApplicabilityDispositions({mode,sources});assert.ok(dispositions.length);
+  for(const fragment of['static stage(','prepareAdmission(admission:','installCoOpMarket(','private refreshSharedWorldEffects()','constructor(game: Game)','noteProgress(row:','releaseInactivePickupClaims('])for(const id of functionIds(session,fragment))assert.equal(excluded(dispositions,session,id),false,fragment);
+  const claimLine=line(session,"const activeSeats = new Set(players.filter");
+  for(const [map,kind]of [['statementMap','statement'],['fnMap','function'],['branchMap','branch']]){
+   const sites=Object.entries(session.coverage[map]).filter(([,site])=>(site.loc??site).start.line===claimLine);
+   assert.ok(sites.length,'mapped live pickup predicate '+kind);
+   for(const[id]of sites)assert.equal(excluded(dispositions,session,id,kind),false,'live pickup predicate '+kind+' '+id);
+  }
+  for(const id of functionIds(recovery,'recover(session:'))assert.equal(excluded(dispositions,recovery,id),false);
+  const guardLine=line(recovery,"if (!owner || session.result || !this.allowed.includes(request.kind))");
+  const guards=Object.entries(recovery.coverage.statementMap).filter(([,site])=>site.start.line===guardLine);assert.ok(guards.length);for(const[id]of guards)assert.equal(excluded(dispositions,recovery,id,'statement'),false);
+  for(const id of functionIds(session,'constructor(private readonly session: LocalSession'))assert.equal(excluded(dispositions,session,id),mode==='relay');
+  const shared=sourceFor('shared-world-effects.ts');for(const id of functionIds(shared,'export function resolveSharedWorldEffects'))assert.equal(excluded(dispositions,shared,id),mode==='race');
+  for(const key of['src/relay.ts','src/race.ts'])assert.equal(dispositions.some(d=>d.path.endsWith('/'+key)),false,'no broad '+key+' exclusions');
+  for(const[file,fragments]of Object.entries({'game.ts':['openMarket():','  closeMarket(','resetSharedWorldEffects():','syncSharedWorldEffects():','worldExtensionSnapshot<','updateSessionWorldExtension('],'market/run.ts':['constructor(seed:','buy(offerId:','previewPack(ids:','claimPack(ids:','skipPack():','sell(cardId:','tick(dt:','private capacityFor(']})){
+   const source=sourceFor(file);for(const fragment of fragments)for(const id of functionIds(source,fragment))assert.equal(excluded(dispositions,source,id),false,'kept '+fragment);
+  }
+  const report=reportApplicability({mode,sources,attributed,dispositions});assert.ok(report.applicable.functions.total<report.raw.functions.total);assert.deepEqual(report.dispositions,dispositions);
+ }
+ assert.deepEqual(sources,before);
+});
+
+test('caller proof fails closed before counters and exact newly reviewed callable closures stay bounded',()=>{
+ for(const mode of['relay','race']){
+  assert.throws(()=>generateTurnDispositions({mode,sources}),/authority/);
+  assert.throws(()=>turnApplicabilityDispositions({mode,sources,authoritySources:authoritySources.slice(1)}),/authority/);
+  assert.throws(()=>turnApplicabilityDispositions({mode,sources,authoritySources:[...authoritySources,authoritySources[0]]}),/duplicate.*authority/);
+  for(const[key]of Object.entries(TURN_AUTHORITY_PINS)){
+   const changed=structuredClone(authoritySources);changed.find(s=>s.path===key).source+='\n// new caller';
+   assert.throws(()=>turnApplicabilityDispositions({mode,sources,authoritySources:changed}),/authority changed/);
+  }
+  const dispositions=turnApplicabilityDispositions({mode,sources});
+  const selection={'game.ts':['export function worldForRow(','export function actorPositions(','syncSharedEffects(player:'],
+   'session.ts':['selectMobTarget(','view():','sharedWorldEffectsSnapshot()']};
+  if(mode==='relay'){
+   selection['session.ts'].push('function captureConsumablePolicy(','installConsumableWorld(');
+   selection['game.ts'].push('installWorldExtension(');
+   selection['consumable-drops.ts']=['export function sampleItemDrop(','export function sampleConsumableDrop(','export function classifyItemBucket('];
+   selection['market/run.ts']=['restrictItems(','spendCoins('];
+  }else {
+   selection['market/run.ts']=['private hold(','private cardPool('];
+   selection['game.ts'].push('setSharedWorldEffects(');
+   selection['session.ts'].push('installSharedWorldEffects(');
+  }
+  for(const[file,fragments]of Object.entries(selection)){
+   const source=sourceFor(file);for(const fragment of fragments)for(const id of functionIds(source,fragment))assert.ok(excluded(dispositions,source,id),'excluded '+fragment);
+   for(const kind of['statement','function','branch']){
+    const d=dispositions.find(d=>d.path===source.path&&d.kind===kind);assert.ok(d,file+' '+kind);
+    const hits=structuredClone(attributed);if(kind==='branch')hits[d.path].b[d.id][d.arm]=1;else hits[d.path][kind==='statement'?'s':'f'][d.id]=1;
+    assert.throws(()=>reportApplicability({mode,sources,attributed:hits,dispositions}),/contradicted/);
+   }
+  }
+  const drops=sourceFor('consumable-drops.ts');
+  for(const text of['export function registerConsumableSchema(','export function validateConsumableSchema(','export function consumableSchema('])for(const id of functionIds(drops,text))assert.equal(excluded(dispositions,drops,id),false,'schema bootstrap retained');
+ }
+});
+
+test('Race retains legacy action guards while excluding only their impossible success bodies',()=>{
+ const source=sourceFor('market/run.ts'),race=turnApplicabilityDispositions({mode:'race',sources}),relay=turnApplicabilityDispositions({mode:'relay',sources});
+ for(const fragment of["if (this.pendingPack) return this.fail", "if (!offer || !item || !this.itemEligible(item.id))", 'if (!this.alive || !this.isOpen || !this.market || this.market.remaining <= 0 || !draft', 'if (!preview.valid)', 'if (!this.alive || !this.isOpen || !this.market || this.market.remaining <= 0 || !this.pendingPack)', 'if (index < 0 ||']){
+  const at=line(source,fragment),statements=Object.entries(source.coverage.statementMap).filter(([,s])=>s.start.line===at);
+  assert.ok(statements.length);for(const[id]of statements)assert.equal(excluded(race,source,id,'statement'),false,'rejection '+fragment);
+ }
+ for(const fragment of['const capacity = this.capacityFor([...this.cards','const draft: PackDraft =','const existing = this.powers.find','const selected = ids.map','const cards = ids.map','const remaining = this.cards.filter']){
+  const at=line(source,fragment),statements=Object.entries(source.coverage.statementMap).filter(([,s])=>s.start.line===at);
+  assert.ok(statements.length);for(const[id]of statements){assert.ok(excluded(race,source,id,'statement'),'Race success '+fragment);assert.equal(excluded(relay,source,id,'statement'),false,'Relay purchase '+fragment);}
+ }
+ const session=sourceFor('session.ts');
+ for(const fragment of['if (this.policy) {','if (!this.policy.eligible(owner, action.itemId))','const plan = planConsumableDebit({ catalogue:this.policy!.catalogue']){
+  const at=line(session,fragment),statements=Object.entries(session.coverage.statementMap).filter(([,s])=>s.start.line===at);
+  assert.ok(statements.length);for(const[id]of statements)assert.equal(excluded(race,session,id,'statement'),false,'tactical policy '+fragment);
+ }
+});
+
+test('implicit absent-else arms need exact AST containment; malformed and reachable parents stay counted',()=>{
+ for(const mode of['relay','race']){
+  const dispositions=turnApplicabilityDispositions({mode,sources});
+  const source=sourceFor(mode==='relay'?'consumable-drops.ts':'market/run.ts');
+  const [id,branch]=Object.entries(source.coverage.branchMap).find(([id,b])=>b.type==='if'&&b.locations.length===2&&JSON.stringify(b.locations[1])==='{"start":{},"end":{}}'&&dispositions.some(d=>d.path===source.path&&d.kind==='branch'&&d.id===id&&d.arm===1))??[];
+  assert.ok(branch,'real mapped implicit else');
+  const hits=structuredClone(attributed);hits[source.path].b[id][1]=1;assert.throws(()=>reportApplicability({mode,sources,attributed:hits,dispositions}),/contradicted/);
+  for(const mutate of[b=>{b.type='unknown';},b=>{b.locations[1].start.line=b.loc.start.line;},b=>{b.locations[1].extra=true;},b=>{b.loc.start.column++;},b=>{b.loc.end.line++;},b=>{b.locations.push({start:{},end:{}});},b=>{b.loc={start:{line:1,column:0},end:{line:99999,column:0}};}]){
+   const changed=structuredClone(sources);mutate(changed.find(s=>s.path===source.path).coverage.branchMap[id]);
+   assert.equal(turnApplicabilityDispositions({mode,sources:changed}).some(d=>d.path===source.path&&d.kind==='branch'&&d.id===id&&d.arm===1),false);
+  }
+  const game=sourceFor('game.ts');for(const[id,b]of Object.entries(game.coverage.branchMap))if(b.type==='if'&&b.locations[1]&&JSON.stringify(b.locations[1])==='{"start":{},"end":{}}'&&!dispositions.some(d=>d.path===game.path&&d.kind==='branch'&&d.id===id&&d.arm===0))assert.equal(dispositions.some(d=>d.path===game.path&&d.kind==='branch'&&d.id===id&&d.arm===1),false,'reachable guard');
+ }
+});
+
+test('empty explicit else or arm zero cannot inherit parent proof',()=>{
+ for(const mode of['relay','race']){
+  const dispositions=turnApplicabilityDispositions({mode,sources});let selected;
+  for(const source of sources){
+   const tree=ts.createSourceFile(source.path,source.source,ts.ScriptTarget.Latest,true),explicit=[];
+   const point=o=>{const p=tree.getLineAndCharacterOfPosition(o);return {line:p.line+1,column:p.character};};
+   const visit=n=>{if(ts.isIfStatement(n)&&n.elseStatement)explicit.push({start:point(n.getStart(tree)),end:point(n.end)});ts.forEachChild(n,visit);};visit(tree);
+   for(const[id,b]of Object.entries(source.coverage.branchMap))if(b.type==='if'&&b.locations.length===2&&explicit.some(span=>JSON.stringify(span)===JSON.stringify(b.loc))&&dispositions.some(d=>d.path===source.path&&d.kind==='branch'&&d.id===id&&d.arm===1)){selected={source,id};break;}
+   if(selected)break;
+  }
+  assert.ok(selected,'actual explicit else in reviewed body');
+  for(const arm of[0,1]){const changed=structuredClone(sources),row=changed.find(s=>s.path===selected.source.path);row.coverage.branchMap[selected.id].locations[arm]={start:{},end:{}};assert.equal(turnApplicabilityDispositions({mode,sources:changed}).some(d=>d.path===row.path&&d.kind==='branch'&&d.id===selected.id&&d.arm===arm),false);}
+ }
+});
+
+test('reviewed turn identities fail closed on stale composition, source, missing and duplicate inventory',()=>{
+ for(const mode of['relay','race']){
+  const input={mode,sources};assert.deepEqual(turnApplicabilityDispositions(input),turnApplicabilityDispositions(input));
+  for(const key of Object.keys(TURN_APPLICABILITY_SOURCES)){
+   const changed=structuredClone(sources);changed.find(row=>row.path.endsWith('/'+key)).source+='\n';assert.throws(()=>turnApplicabilityDispositions({...input,sources:changed}),/changed/);
+  }
+  assert.throws(()=>turnApplicabilityDispositions({...input,sources:sources.filter(row=>!row.path.endsWith('/src/relay.ts'))}),/Missing/);
+  assert.throws(()=>turnApplicabilityDispositions({...input,sources:[...sources,sourceFor('relay.ts')]}),/Duplicate/);
+ }
+ assert.throws(()=>turnApplicabilityDispositions({mode:'solo-arcade',sources}),/Turn mode/);
+});
+
+test('every excluded counter kind rejects observed positive hits and stale map/schema identities',()=>{
+ for(const mode of['relay','race']){
+  const dispositions=turnApplicabilityDispositions({mode,sources});
+  for(const kind of['statement','function','branch']){
+   const d=dispositions.find(d=>d.kind===kind);assert.ok(d,kind);const hits=structuredClone(attributed);
+   if(kind==='branch')hits[d.path].b[d.id][d.arm]=1;else hits[d.path][kind==='statement'?'s':'f'][d.id]=1;
+   assert.throws(()=>reportApplicability({mode,sources,attributed:hits,dispositions}),/contradicted/);
+  }
+  const changed=structuredClone(sources);changed.find(row=>row.path.endsWith('/session.ts')).map.file='stale.js';assert.throws(()=>reportApplicability({mode,sources:changed,attributed,dispositions}),/stale/);
+  const schema=structuredClone(sources),hits=structuredClone(attributed),s=schema.find(row=>row.path.endsWith('/session.ts'));s.coverage.fnMap['0'].name='changed';hits[s.path].fnMap['0'].name='changed';assert.throws(()=>reportApplicability({mode,sources:schema,attributed:hits,dispositions}),/stale/);
+ }
+});
+
+test('branch arms crossing a proved range stay applicable and module initialization is retained',()=>{
+ const session=sourceFor('session.ts'),start=line(session,'private refreshSharedWorldEffects()');
+ const crossing=structuredClone(sources),s=crossing.find(row=>row.path===session.path);
+ s.coverage.branchMap['crossing']={type:'cond-expr',line:start,loc:{start:{line:start,column:0},end:{line:start+6,column:0}},locations:[{start:{line:start,column:0},end:{line:start+6,column:0}}]};s.coverage.b.crossing=[0];
+ for(const mode of['relay','race']){
+  const dispositions=turnApplicabilityDispositions({mode,sources:crossing});assert.equal(dispositions.some(d=>d.id==='crossing'),false);
+  const recovery=sourceFor('recovery.ts'),at=line(recovery,'const stable =');
+  const allocation=Object.entries(recovery.coverage.statementMap).filter(([,site])=>site.start.line===at&&site.start.column<recovery.source.split('\n')[at-1].indexOf('=>'));
+  assert.ok(allocation.length);for(const[id]of allocation)assert.equal(excluded(dispositions,recovery,id,'statement'),false);
+ }
+});
+
+test('personal-only turn recovery excludes precise Flare paths while safe acquisition remains live',()=>{
+ const session=sourceFor('session.ts'),reference='07-03-PERSONAL-CALL-CLOSURE.md';
+ for(const mode of ['relay','race']){
+  const dispositions=turnApplicabilityDispositions({mode,sources});
+  for(const fragment of ['recoverySafeCells(kind:','private safePlacement(','prepareAdmission(admission:','static stage('])for(const id of functionIds(session,fragment))assert.equal(excluded(dispositions,session,id),false,'kept '+fragment);
+  for(const id of functionIds(session,'transferPosition(outgoingSeat:'))assert.equal(excluded(dispositions,session,id),mode==='race','Relay transfer is retained; Race has no caller');
+  for(const fragment of ['const remaining = cells.filter','const ordered = [...targets].sort','return Object.freeze(ordered.map'])for(const id of functionIds(session,fragment))assert.equal(excluded(dispositions,session,id),true,'Flare-only callback '+fragment);
+  for(const fragment of ["const returning = new Set(kind === 'flare'", "      : kind === 'flare'"]){
+   const at=line(session,fragment),branches=Object.entries(session.coverage.branchMap).filter(([,site])=>site.loc.start.line===at);assert.ok(branches.length,fragment);
+   assert.ok(branches.some(([id])=>dispositions.some(d=>d.path===session.path&&d.kind==='branch'&&d.id===id&&d.arm===0&&d.authority.endsWith(reference))),'exact Flare true operand '+fragment);
+  }
+  const guardAt=line(session,"    if (kind === 'flare') {"),guards=Object.entries(session.coverage.statementMap).filter(([,site])=>site.start.line===guardAt);assert.ok(guards.length);for(const[id]of guards)assert.equal(excluded(dispositions,session,id,'statement'),false,'outer kind guard remains');
+  const selected=dispositions.filter(d=>d.authority.endsWith(reference));assert.ok(selected.length);
+  for(const d of selected){
+   const hits=structuredClone(attributed);if(d.kind==='branch')hits[d.path].b[d.id][d.arm]=1;else hits[d.path][d.kind==='statement'?'s':'f'][d.id]=1;
+   assert.throws(()=>reportApplicability({mode,sources,attributed:hits,dispositions}),/contradicted/,'every new excluded '+d.kind+' rejects positive hits');
+  }
+ }
+});
+
+
+test('actual turn modes retain built-in validation but exclude unreachable authoring failures',()=>{
+ const rules=sourceFor('mode-rules.ts');assert.ok(rules);
+ for(const mode of ['relay','race']){
+  const dispositions=turnApplicabilityDispositions({mode,sources});
+  for(const [name,expected]of [['function fail(',true],['function numberAt(',false],['function checkUnknown(',false],['function mergeGroup<',false],['export function composeModeDefinition(',false],['function freeze<',false],['export function isModeDefinition(',false]])for(const id of functionIds(rules,name))assert.equal(excluded(dispositions,rules,id),expected,name);
+ }
+});
+
+test('Relay scopes only unreachable consumable debit callables while Race and credit stay applicable',()=>{
+ const source=sourceFor('consumables.ts'),session=sourceFor('session.ts');assert.ok(source);
+ for(const mode of ['relay','race']){
+  const dispositions=turnApplicabilityDispositions({mode,sources});
+  for(const fragment of ['function targetsFor(','export function planConsumableDebit('])
+   for(const id of functionIds(source,fragment))assert.equal(excluded(dispositions,source,id),mode==='relay',fragment);
+  for(const fragment of ['export function validateConsumableCatalogue(','export function planConsumableCredit(',
+   'function validateBase(','function chargesFor(','function resulting(','function definition(','function sameOwner('])
+   for(const id of functionIds(source,fragment))assert.equal(excluded(dispositions,source,id),false,'kept '+fragment);
+  const allocation=line(source,'export const CONSUMABLES:');
+  const initializers=Object.entries(source.coverage.statementMap).filter(([,site])=>site.start.line===allocation);
+  assert.ok(initializers.length);for(const[id]of initializers)assert.equal(excluded(dispositions,source,id,'statement'),false,'catalogue initialization retained');
+  for(const id of functionIds(session,'useConsumable(action:'))assert.equal(excluded(dispositions,session,id),false,'absent-instance public guard retained');
+ }
+});
+
+test('each new Relay debit disposition rejects actual hits and stale source/map/schema identities',()=>{
+ const source=sourceFor('consumables.ts'),reference='07-03-TURN-DEBIT-FINDING.md';
+ const dispositions=turnApplicabilityDispositions({mode:'relay',sources});
+ const selected=dispositions.filter(d=>d.path===source.path&&d.authority.endsWith(reference));assert.ok(selected.length);
+ for(const kind of ['statement','function','branch'])assert.ok(selected.some(d=>d.kind===kind),kind);
+ for(const d of selected){
+  const hits=structuredClone(attributed);if(d.kind==='branch')hits[d.path].b[d.id][d.arm]=1;else hits[d.path][d.kind==='statement'?'s':'f'][d.id]=1;
+  assert.throws(()=>reportApplicability({mode:'relay',sources,attributed:hits,dispositions}),/contradicted/);
+ }
+ for(const changed of [sources.filter(s=>s.path!==source.path),[...sources,source],sources.map(s=>s.path===source.path?{...s,source:s.source+'\n// changed debit authority'}:s)])
+  assert.throws(()=>turnApplicabilityDispositions({mode:'relay',sources:changed}),/Missing|Duplicate|changed/);
+ const staleMap=structuredClone(sources);staleMap.find(s=>s.path===source.path).map.file='stale-debit.js';
+ assert.throws(()=>reportApplicability({mode:'relay',sources:staleMap,attributed,dispositions}),/stale/);
+ const changed=structuredClone(sources),hits=structuredClone(attributed);changed.find(s=>s.path===source.path).coverage.fnMap['0'].name='changed';hits[source.path].fnMap['0'].name='changed';
+ assert.throws(()=>reportApplicability({mode:'relay',sources:changed,attributed:hits,dispositions}),/stale/);
+});
+
+test('Relay debit scope keeps unknown and crossing sites and never depends on measured zeros',()=>{
+ const source=sourceFor('consumables.ts'),start=line(source,'function targetsFor('),end=line(source,'export function planConsumableCredit(');
+ const changed=structuredClone(sources),row=changed.find(s=>s.path===source.path);
+ const cross={start:{line:start,column:0},end:{line:end,column:0}};
+ row.coverage.statementMap['cross-debit']=cross;row.coverage.s['cross-debit']=0;
+ row.coverage.fnMap['cross-debit']={name:'cross-debit',decl:cross,loc:cross,line:start};row.coverage.f['cross-debit']=0;
+ row.coverage.branchMap['cross-debit']={type:'cond-expr',line:start,loc:cross,locations:[cross,{start:{},end:{}}]};row.coverage.b['cross-debit']=[0,0];
+ const dispositions=turnApplicabilityDispositions({mode:'relay',sources:changed});
+ assert.equal(dispositions.some(d=>d.path===source.path&&d.id==='cross-debit'),false);
+ const before=turnApplicabilityDispositions({mode:'relay',sources});
+ const positive=structuredClone(sources);for(const s of positive){for(const key of ['s','f'])for(const id of Object.keys(s.coverage[key]))s.coverage[key][id]=123;for(const id of Object.keys(s.coverage.b))s.coverage.b[id]=s.coverage.b[id].map(()=>123);}
+ assert.deepEqual(turnApplicabilityDispositions({mode:'relay',sources:positive}),before,'source proof cannot infer applicability from a zero count');
+});
+
+test('reviewed seat fallback and unused stage wrapper scope keeps real acquisition and Race callbacks',()=>{
+ const source=sourceFor('session.ts');
+ for(const mode of ['relay','race']){
+  const dispositions=turnApplicabilityDispositions({mode,sources});
+  for(const fragment of ['commitAdmission(admission:'])for(const id of functionIds(source,fragment))
+   assert.equal(excluded(dispositions,source,id),true,fragment);
+  for(const fragment of ['export function composeSessionModeDefinition(','setHopCooldown('])
+   for(const id of functionIds(source,fragment))assert.equal(excluded(dispositions,source,id),mode==='relay',fragment);
+  for(const fragment of ['constructor(world: SharedWorld, seat:','prepareAdmission(admission:',
+   'private admitPlan(','private safePlacement(','static stage(','get hopCooldown()',
+   'noteHop():','stop():','  commit():','  cancel():'])for(const id of functionIds(source,fragment))
+   assert.equal(excluded(dispositions,source,id),false,'retained '+fragment);
+  for(const fragment of ['const anchorY = placement?.y ??','const spawn = placement?.x ??']){
+   const at=line(source,fragment),entries=Object.entries(source.coverage.branchMap).filter(([,site])=>site.loc.start.line===at&&site.type==='binary-expr');
+   assert.equal(entries.length,1,fragment);
+   const[id]=entries[0];
+   assert.equal(dispositions.some(d=>d.path===source.path&&d.kind==='branch'&&d.id===id&&d.arm===0),false,'placement read retained');
+   assert.equal(dispositions.some(d=>d.path===source.path&&d.kind==='branch'&&d.id===id&&d.arm===1),true,'unreachable fallback operand');
+  }
+  const guardAt=line(source,"if (spawn === undefined) throw new Error(");
+  for(const[id,site]of Object.entries(source.coverage.statementMap).filter(([,site])=>site.start.line===guardAt))
+   assert.equal(excluded(dispositions,source,id,'statement'),false,'spawn guard retained');
+ }
+});
+
+test('every additional seat-closure disposition rejects positive hits and leaves crossing sites counted',()=>{
+ const source=sourceFor('session.ts'),reference='07-03-SEAT-CALL-CLOSURE.md';
+ for(const mode of ['relay','race']){
+  const dispositions=turnApplicabilityDispositions({mode,sources}),selected=dispositions.filter(d=>d.authority.endsWith(reference));
+  assert.ok(selected.length>20,'nonempty exact site closure');
+  for(const kind of ['statement','function','branch'])assert.ok(selected.some(d=>d.kind===kind),kind);
+  for(const d of selected){
+   const hits=structuredClone(attributed);
+   if(d.kind==='branch')hits[d.path].b[d.id][d.arm]=1;else hits[d.path][d.kind==='statement'?'s':'f'][d.id]=1;
+   assert.throws(()=>reportApplicability({mode,sources,attributed:hits,dispositions}),/contradicted/);
+  }
+  const changed=structuredClone(sources),row=changed.find(s=>s.path===source.path),start=line(source,'constructor(world: SharedWorld, seat:'),end=line(source,'get label():');
+  const crossing={start:{line:start,column:0},end:{line:end,column:0}};
+  row.coverage.branchMap['cross-seat']={type:'cond-expr',line:start,loc:crossing,locations:[crossing,{start:{},end:{}}]};row.coverage.b['cross-seat']=[0,0];
+  assert.equal(turnApplicabilityDispositions({mode,sources:changed}).some(d=>d.id==='cross-seat'),false);
+  const positive=structuredClone(sources);for(const s of positive){for(const key of ['s','f'])for(const id of Object.keys(s.coverage[key]))s.coverage[key][id]=7;for(const id of Object.keys(s.coverage.b))s.coverage.b[id]=s.coverage.b[id].map(()=>7);}
+  assert.deepEqual(turnApplicabilityDispositions({mode,sources:positive}),dispositions,'counter-independent caller proof');
+ }
+});
+
+test('validated turn acquisition excludes only impossible staged defaults and failure outcomes',()=>{
+ const source=sourceFor('session.ts');
+ for(const mode of ['relay','race']){
+  const ds=turnApplicabilityDispositions({mode,sources});
+  const added=ds.filter(d=>d.authority.endsWith('07-03-TURN-STAGING-CLOSURE.md'));
+  assert.ok(added.length>20,'nonempty bounded staging proof');
+  for(const fragment of [
+   'if (!Number.isInteger(this.config.capacity)',
+   'if (players.length < 1 ||',
+   'if (options.mode && options.mode.definition !== world.definition)',
+   'if (new Set(roster.map(spec => spec.seat))',
+   'if (start && !player.start())',
+   'if (this.active) player.session = this;',
+   "if (emit) this.emit('player-joined'",
+  ]){
+   const at=line(source,fragment),entries=Object.entries(source.coverage.branchMap).filter(([,b])=>b.type==='if'&&b.loc.start.line===at);assert.equal(entries.length,1,fragment);
+   const[id]=entries[0];assert.ok(added.some(d=>d.kind==='branch'&&d.id===id&&d.arm===0),fragment);
+   assert.equal(ds.some(d=>d.path===source.path&&d.kind==='branch'&&d.id===id&&d.arm===1),false,'actual false guard retained');
+   const statements=Object.entries(source.coverage.statementMap).filter(([,s])=>s.start.line===at);assert.ok(statements.some(([id])=>!excluded(ds,source,id,'statement')),'evaluated guard retained');
+  }
+  for(const fragment of ['constructor(world: SharedWorld, seat:', 'constructor(world: SharedWorld, players:', 'static stage(game:', 'constructor(readonly game:', 'private admitPlan(']){
+   const at=line(source,fragment),defaults=Object.entries(source.coverage.branchMap).filter(([,b])=>b.type==='default-arg'&&b.loc.start.line===at);assert.ok(defaults.length,fragment);
+   for(const[id]of defaults)assert.ok(added.some(d=>d.kind==='branch'&&d.id===id&&d.arm===0),'only unused initializer '+fragment);
+   const roots=Object.entries(source.coverage.fnMap).filter(([,fn])=>fn.decl.start.line===at&&fn.loc.end.line>at);assert.ok(roots.length);
+   for(const[id]of roots)assert.equal(excluded(ds,source,id),false,'constructor/method execution retained');
+  }
+  for(const d of added){const hits=structuredClone(attributed);if(d.kind==='branch')hits[d.path].b[d.id][d.arm]=1;else hits[d.path][d.kind==='statement'?'s':'f'][d.id]=1;assert.throws(()=>reportApplicability({mode,sources,attributed:hits,dispositions:ds}),/contradicted/);}
+ }
+});
+
+test('staging proof preserves unknown/crossing conditions and actual fallback reads',()=>{
+ const source=sourceFor('session.ts'),at=line(source,'const roster = options.roster ??');
+ for(const mode of ['relay','race']){
+  const ds=turnApplicabilityDispositions({mode,sources});
+  const root=Object.entries(source.coverage.branchMap).find(([,b])=>b.type==='binary-expr'&&b.loc.start.line===at&&b.locations[0].start.column===source.source.split('\n')[at-1].indexOf('options.roster'));assert.ok(root);
+  assert.equal(ds.some(d=>d.path===source.path&&d.kind==='branch'&&d.id===root[0]&&d.arm===0),false);
+  assert.ok(ds.some(d=>d.path===source.path&&d.kind==='branch'&&d.id===root[0]&&d.arm===1));
+  const guardLine=line(source,'if (!Number.isInteger(this.config.capacity)'),guard=Object.entries(source.coverage.branchMap).find(([,b])=>b.type==='if'&&b.loc.start.line===guardLine);assert.ok(guard);
+  for(const malformed of [{start:{},end:{}},{start:{line:guardLine,column:0},end:{line:guardLine+1,column:0}}]){
+   const changed=structuredClone(sources),row=changed.find(s=>s.path===source.path);row.coverage.branchMap[guard[0]].locations[0]=malformed;
+   assert.equal(turnApplicabilityDispositions({mode,sources:changed}).some(d=>d.path===source.path&&d.kind==='branch'&&d.id===guard[0]&&d.arm===0),false);
+  }
+ }
+});
+
+test('Race empty inventories scope modifier and score loop bodies while retaining traversal and Relay behavior',()=>{
+ const source=sourceFor('market/run.ts'),tree=ts.createSourceFile('run.ts',source.source,ts.ScriptTarget.Latest,true),nodes=[];
+ function walk(n){nodes.push(n);ts.forEachChild(n,walk);}walk(tree);
+ const point=o=>{const p=tree.getLineAndCharacterOfPosition(o);return{line:p.line+1,column:p.character};};
+ const before=(a,b)=>a.line<b.line||a.line===b.line&&a.column<=b.column;
+ const contains=(a,b)=>b?.start&&b?.end&&before(a.start,b.start)&&before(b.end,a.end);
+ const span=n=>({start:point(n.getStart(tree)),end:point(n.end)});
+ const reducer=tree.statements.find(n=>ts.isFunctionDeclaration(n)&&n.name?.text==='reduceItems');
+ const cls=tree.statements.find(n=>ts.isClassDeclaration(n)&&n.name?.text==='RunInventory');
+ const score=cls.members.find(n=>n.name?.getText(tree)==='advanceScore');
+ const loops=nodes.filter(n=>ts.isForOfStatement(n)&&([reducer,score].some(owner=>n.pos>=owner.pos&&n.end<=owner.end)));
+ assert.equal(loops.length,5); // Includes the still-live reducer BOUNDS loop.
+ const empty=loops.filter(n=>n.expression.getText(tree)!=='Object.keys(BOUNDS) as (keyof RunModifiers)[]');assert.equal(empty.length,4);
+ const callbacks=nodes.filter(n=>ts.isArrowFunction(n)&&n.getText(tree)==='card => card.components');assert.equal(callbacks.length,3);
+ const ranges=[...empty.map(n=>span(n.statement)),...callbacks.map(span)];
+ for(const mode of ['relay','race']){
+  const ds=turnApplicabilityDispositions({mode,sources});
+  for(const [map,key,kind]of [['statementMap','s','statement'],['fnMap','f','function'],['branchMap','b','branch']]){
+   let checked=0;
+   for(const[id,site]of Object.entries(source.coverage[map])){
+    const locations=kind==='branch'?site.locations:[kind==='function'?site.loc:site];
+    for(const[arm,loc]of locations.entries())if(ranges.some(r=>contains(r,loc))){
+     assert.equal(ds.some(d=>d.path===source.path&&d.kind===kind&&d.id===id&&(kind!=='branch'||d.arm===arm)),mode==='race',`${mode}/${kind}/${id}/${arm}`);checked++;
+    }
+   }
+   assert.ok(checked>0,kind);
+  }
+  for(const fragment of ['export function reduceItems(','advanceScore(score:','private changed():','private capacityFor('])for(const id of functionIds(source,fragment)){
+   // changed/capacityFor have nested callbacks on the same line; only their
+   // multiline method roots are retained here.
+   if(source.coverage.fnMap[id].loc.end.line>line(source,fragment))assert.equal(excluded(ds,source,id),false,'live method entry '+fragment);
+  }
+  const boundLine=line(source,'result[key] = Number.isFinite(result[key])');
+  for(const[id,site]of Object.entries(source.coverage.branchMap).filter(([,b])=>b.loc.start.line===boundLine))for(let arm=0;arm<site.locations.length;arm++)assert.equal(ds.some(d=>d.path===source.path&&d.kind==='branch'&&d.id===id&&d.arm===arm),false,'bounds validation remains counted');
+ }
+});
+
+test('Race empty-inventory scope rejects positive sites and preserves actual expiry guard outcome',()=>{
+ const source=sourceFor('market/run.ts'),reference='07-03-RACE-EMPTY-INVENTORY-CLOSURE.md';
+ const ds=turnApplicabilityDispositions({mode:'race',sources}),added=ds.filter(d=>d.authority.endsWith(reference));assert.ok(added.length>20);
+ for(const kind of ['statement','function','branch'])assert.ok(added.some(d=>d.kind===kind),kind);
+ for(const d of added){const hits=structuredClone(attributed);if(d.kind==='branch')hits[d.path].b[d.id][d.arm]=1;else hits[d.path][d.kind==='statement'?'s':'f'][d.id]=1;assert.throws(()=>reportApplicability({mode:'race',sources,attributed:hits,dispositions:ds}),/contradicted/);}
+ const at=line(source,'if (retained.length !== this.powers.length)'),branch=Object.entries(source.coverage.branchMap).find(([,b])=>b.type==='if'&&b.loc.start.line===at);assert.ok(branch);
+ assert.ok(added.some(d=>d.kind==='branch'&&d.id===branch[0]&&d.arm===0));
+ assert.equal(ds.some(d=>d.path===source.path&&d.kind==='branch'&&d.id===branch[0]&&d.arm===1),false,'actual equal-length outcome remains counted');
+ const guard=Object.entries(source.coverage.statementMap).filter(([,s])=>s.start.line===at);assert.ok(guard.some(([id])=>!excluded(ds,source,id,'statement')),'evaluated expiry guard stays counted');
+ const positive=structuredClone(sources);for(const s of positive){for(const key of ['s','f'])for(const id of Object.keys(s.coverage[key]))s.coverage[key][id]=123;for(const id of Object.keys(s.coverage.b))s.coverage.b[id]=s.coverage.b[id].map(()=>123);}
+ assert.deepEqual(turnApplicabilityDispositions({mode:'race',sources:positive}),ds,'scope never derives from measured zeros');
+});
+
+test('Race tactical target closure retains every validation guard and excludes only impossible outcomes',()=>{
+ const source=sourceFor('consumables.ts'),tree=ts.createSourceFile('consumables.ts',source.source,ts.ScriptTarget.Latest,true),nodes=[];
+ function walk(n){nodes.push(n);ts.forEachChild(n,walk);}walk(tree);
+ const fn=name=>tree.statements.find(n=>ts.isFunctionDeclaration(n)&&n.name?.text===name),targets=fn('targetsFor'),debit=fn('planConsumableDebit');
+ const inside=(n,owner)=>n.pos>=owner.pos&&n.end<=owner.end;
+ const conditions=nodes.filter(n=>ts.isIfStatement(n)&&inside(n,targets));assert.equal(conditions.length,11);
+ const guarded=nodes.filter(n=>ts.isIfStatement(n)&&inside(n,debit)&&["charges[item.id] < 1","'ok' in targets"].includes(n.expression.getText(tree)));assert.equal(guarded.length,2);
+ for(const mode of ['relay','race']){
+  const ds=turnApplicabilityDispositions({mode,sources});
+  if(mode==='relay')continue; // Existing no-debit callable proof is unchanged.
+  for(const condition of [...conditions,...guarded]){
+   const at=tree.getLineAndCharacterOfPosition(condition.getStart(tree)).line+1,branches=Object.entries(source.coverage.branchMap).filter(([,b])=>b.type==='if'&&b.loc.start.line===at);assert.equal(branches.length,1);
+   const[id]=branches[0];assert.ok(ds.some(d=>d.path===source.path&&d.kind==='branch'&&d.id===id&&d.arm===0),'unavailable true outcome '+at);
+   assert.equal(ds.some(d=>d.path===source.path&&d.kind==='branch'&&d.id===id&&d.arm===1),false,'actual false outcome '+at);
+   const statements=Object.entries(source.coverage.statementMap).filter(([,s])=>s.start.line===at);assert.ok(statements.some(([id])=>!excluded(ds,source,id,'statement')),'evaluated guard '+at);
+  }
+  for(const name of ['definition','chargesFor']){
+   const at=tree.getLineAndCharacterOfPosition(fn(name).getStart(tree)).line+1,defaults=Object.entries(source.coverage.branchMap).filter(([,b])=>b.type==='default-arg'&&b.loc.start.line===at);assert.equal(defaults.length,1);
+   assert.ok(ds.some(d=>d.path===source.path&&d.kind==='branch'&&d.id===defaults[0][0]&&d.arm===0),'captured Race catalogue supplied');
+  }
+  for(const name of ['targetsFor','planConsumableDebit','planConsumableCredit','validateBase','definition','chargesFor'])for(const id of functionIds(source,`function ${name}(`))assert.equal(excluded(ds,source,id),false,'live helper entry '+name);
+  const at=line(source,"if ('ok' in item) return item;"),credit=Object.entries(source.coverage.branchMap).find(([,b])=>b.type==='if'&&b.loc.start.line===at);assert.ok(credit);
+  for(const arm of [0,1])assert.equal(ds.some(d=>d.path===source.path&&d.kind==='branch'&&d.id===credit[0]&&d.arm===arm),false,'credit rejection remains counted');
+ }
+});
+
+test('Race tactical target scope rejects observed excluded sites and keeps generic validation accountable',()=>{
+ const source=sourceFor('consumables.ts'),ds=turnApplicabilityDispositions({mode:'race',sources}),added=ds.filter(d=>d.authority.endsWith('07-03-RACE-TARGET-POLICY-CLOSURE.md'));
+ assert.ok(added.length>20);assert.ok(added.some(d=>d.kind==='statement'));assert.ok(added.some(d=>d.kind==='branch'));
+ for(const d of added){const hits=structuredClone(attributed);if(d.kind==='branch')hits[d.path].b[d.id][d.arm]=1;else hits[d.path][d.kind==='statement'?'s':'f'][d.id]=1;assert.throws(()=>reportApplicability({mode:'race',sources,attributed:hits,dispositions:ds}),/contradicted/);}
+ const start=line(source,'function targetsFor('),end=line(source,'export function planConsumableCredit('),cross={start:{line:start,column:0},end:{line:end,column:0}},changed=structuredClone(sources),row=changed.find(s=>s.path===source.path);
+ row.coverage.statementMap['cross-target']=cross;row.coverage.s['cross-target']=0;row.coverage.branchMap['cross-target']={type:'cond-expr',loc:cross,locations:[cross,{start:{},end:{}}]};row.coverage.b['cross-target']=[0,0];
+ assert.equal(turnApplicabilityDispositions({mode:'race',sources:changed}).some(d=>d.path===source.path&&d.id==='cross-target'),false);
+ const positive=structuredClone(sources);for(const s of positive){for(const key of ['s','f'])for(const id of Object.keys(s.coverage[key]))s.coverage[key][id]=123;for(const id of Object.keys(s.coverage.b))s.coverage.b[id]=s.coverage.b[id].map(()=>123);}
+ assert.deepEqual(turnApplicabilityDispositions({mode:'race',sources:positive}),ds);
+});

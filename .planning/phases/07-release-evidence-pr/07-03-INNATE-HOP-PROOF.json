@@ -1,0 +1,2799 @@
+{
+  "status": "Repair,58 affected tests,24 nearby tests,102 controls, seven project gates and nine current-source cohorts pass; full release gates open",
+  "red": {
+    "commit": "e146fb5",
+    "tests": 22,
+    "passed": 21,
+    "failed": 1,
+    "log": "/tmp/down-to-duck-secondary-power-ordinary.log",
+    "cause": "A real secondary Chicken Out rescue credits completedForwardTiles while still airborne; expected0 actual1"
+  },
+  "green": {
+    "tests": 58,
+    "passed": 58,
+    "failed": 0,
+    "exitCode": 0,
+    "log": "/tmp/down-to-duck-innate-hop-green.log"
+  },
+  "nearby": {
+    "tests": 24,
+    "passed": 24,
+    "failed": 0,
+    "exitCode": 0,
+    "log": "/tmp/down-to-duck-innate-hop-nearby.log"
+  },
+  "tooling": {
+    "tests": 102,
+    "passed": 102,
+    "failed": 0,
+    "exitCode": 0,
+    "log": "/tmp/down-to-duck-innate-hop-controls.log",
+    "initialMissingScopeControls": {
+      "tests": 23,
+      "passed": 21,
+      "failed": 2,
+      "log": "/tmp/down-to-duck-builtin-rule-before.log",
+      "productRed": false
+    },
+    "staleSourceRejection": "/tmp/down-to-duck-innate-hop-stale-source.log"
+  },
+  "sourceTransition": {
+    "gameBefore": "fb5d9224e46c19b3745099429f06bd141d9b738bb2d8786ed3266e1b6a7d95f6",
+    "gameAfter": "f783839e0a6bfc98eb2a0a4e35e381e9002daafb0ced9832dcbfe1b4a2794396",
+    "inventoryBefore": "b550759a82d954b9d3572690179ebb0071a182843381dc23a84e697e6bc62583",
+    "inventoryAfter": "9ef7fa9ebc20c98c6d807c10529ddd36365a47d533614c41d46470d2463a7eef",
+    "developmentBefore": "52f2d4b828986b2cf0ae731b5a3d904040fdfea319f0a3a4685985f502a6ecec",
+    "developmentAfter": "935c3e5b6a253c0f1e0cf1ff3aef44d54de0bfc2ae9c98a9a8bcd766ec02d5e7",
+    "changedSources": [
+      "src/game.ts"
+    ]
+  },
+  "originalCases": {
+    "originalTwentyOneCasesByteIdentical": true,
+    "prefixChanges": [
+      "aggregate counts21 to22"
+    ],
+    "beforeTestSha256": "7fbb39d95dc69e7d3fc52c60fb8ee9336e38db090309205d870ead347c1a1beb",
+    "afterTestSha256": "20875c0db29d786206568986ffec2cf12937c97f7ddc9d87bf6c8af5fe6e3124",
+    "metadataCopies": [
+      "turn-model-03",
+      "turn-director-03",
+      "turn-spawn-safety-03",
+      "full"
+    ],
+    "fullControlCount": 9
+  },
+  "verification": {
+    "status": "passed",
+    "started": "2026-10-17T14:46:04.494002+00:00",
+    "checks": [
+      {
+        "name": "solo-parity",
+        "log": "/tmp/down-to-duck-innate-hop-solo-parity.log",
+        "status": "passed",
+        "started": "2026-10-17T14:46:04.564209+00:00",
+        "pid": 49143,
+        "exitCode": 0,
+        "finished": "2026-10-17T14:47:02.283970+00:00"
+      },
+      {
+        "name": "session-model",
+        "log": "/tmp/down-to-duck-innate-hop-session-model.log",
+        "status": "passed",
+        "started": "2026-10-17T14:47:02.284665+00:00",
+        "pid": 52161,
+        "exitCode": 0,
+        "finished": "2026-10-17T14:47:03.326688+00:00"
+      },
+      {
+        "name": "survive-recovery",
+        "log": "/tmp/down-to-duck-innate-hop-survive-recovery.log",
+        "status": "passed",
+        "started": "2026-10-17T14:47:03.326969+00:00",
+        "pid": 52255,
+        "exitCode": 0,
+        "finished": "2026-10-17T14:47:04.746813+00:00"
+      },
+      {
+        "name": "type-check",
+        "log": "/tmp/down-to-duck-innate-hop-type-check.log",
+        "status": "passed",
+        "started": "2026-10-17T14:47:04.747282+00:00",
+        "pid": 52286,
+        "exitCode": 0,
+        "finished": "2026-10-17T14:47:06.016570+00:00"
+      },
+      {
+        "name": "build",
+        "log": "/tmp/down-to-duck-innate-hop-build.log",
+        "status": "passed",
+        "started": "2026-10-17T14:47:06.016928+00:00",
+        "pid": 52354,
+        "exitCode": 0,
+        "finished": "2026-10-17T14:47:06.967788+00:00"
+      },
+      {
+        "name": "guidance",
+        "log": "/tmp/down-to-duck-innate-hop-guidance.log",
+        "status": "passed",
+        "started": "2026-10-17T14:47:06.968098+00:00",
+        "pid": 52430,
+        "exitCode": 0,
+        "finished": "2026-10-17T14:47:07.639049+00:00"
+      },
+      {
+        "name": "conformance",
+        "log": "/tmp/down-to-duck-innate-hop-conformance.log",
+        "status": "passed",
+        "started": "2026-10-17T14:47:07.639369+00:00",
+        "pid": 52474,
+        "exitCode": 0,
+        "finished": "2026-10-17T14:47:10.452440+00:00"
+      }
+    ],
+    "groups": [
+      {
+        "suite": "turn-model-03",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/innate-turn-model-03",
+        "log": "/tmp/down-to-duck-innate-turn-model-03.log",
+        "status": "passed",
+        "started": "2026-10-17T14:47:10.453371+00:00",
+        "pid": 52580,
+        "exitCode": 0,
+        "finished": "2026-10-17T14:48:37.777277+00:00"
+      },
+      {
+        "suite": "turn-reuse-03",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/innate-turn-reuse-03",
+        "log": "/tmp/down-to-duck-innate-turn-reuse-03.log",
+        "status": "passed",
+        "started": "2026-10-17T14:48:37.778219+00:00",
+        "pid": 55210,
+        "exitCode": 0,
+        "finished": "2026-10-17T14:50:50.564125+00:00"
+      },
+      {
+        "suite": "relay-lifecycle-03",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/innate-relay-lifecycle-03",
+        "log": "/tmp/down-to-duck-innate-relay-lifecycle-03.log",
+        "status": "passed",
+        "started": "2026-10-17T14:50:50.565126+00:00",
+        "pid": 59344,
+        "exitCode": 0,
+        "finished": "2026-10-17T14:52:39.494763+00:00"
+      },
+      {
+        "suite": "race-results-03",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/innate-race-results-03",
+        "log": "/tmp/down-to-duck-innate-race-results-03.log",
+        "status": "passed",
+        "started": "2026-10-17T14:52:39.495171+00:00",
+        "pid": 62892,
+        "exitCode": 0,
+        "finished": "2026-10-17T14:55:06.423704+00:00"
+      },
+      {
+        "suite": "solo-freeze-03",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/innate-solo-model-03",
+        "log": "/tmp/down-to-duck-innate-solo-model-03.log",
+        "status": "passed",
+        "started": "2026-10-17T14:55:06.424119+00:00",
+        "pid": 67907,
+        "exitCode": 0,
+        "finished": "2026-10-17T14:56:31.560803+00:00"
+      },
+      {
+        "suite": "solo-bootstrap-03",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/innate-solo-bootstrap-03",
+        "log": "/tmp/down-to-duck-innate-solo-bootstrap-03.log",
+        "status": "passed",
+        "started": "2026-10-17T14:56:31.561613+00:00",
+        "pid": 70305,
+        "exitCode": 0,
+        "finished": "2026-10-17T14:56:39.534550+00:00"
+      },
+      {
+        "suite": "modes-12",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/innate-public-03",
+        "log": "/tmp/down-to-duck-innate-public-03.log",
+        "status": "passed",
+        "started": "2026-10-17T14:56:39.535064+00:00",
+        "pid": 70502,
+        "exitCode": 0,
+        "finished": "2026-10-17T14:57:36.479993+00:00"
+      },
+      {
+        "suite": "turn-item-ownership-03",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/innate-relay-public-03",
+        "log": "/tmp/down-to-duck-innate-relay-public-03.log",
+        "status": "passed",
+        "started": "2026-10-17T14:57:36.480564+00:00",
+        "pid": 72249,
+        "exitCode": 0,
+        "finished": "2026-10-17T15:00:37.832192+00:00"
+      },
+      {
+        "suite": "shared-pickup-03",
+        "output": "/Users/sandwich/Develop/crossy-road-clone/artifacts/release-coverage/innate-shared-runtime-03",
+        "log": "/tmp/down-to-duck-innate-shared-runtime-03.log",
+        "status": "passed",
+        "started": "2026-10-17T15:00:37.833137+00:00",
+        "pid": 77618,
+        "exitCode": 0,
+        "finished": "2026-10-17T15:01:03.369155+00:00"
+      }
+    ],
+    "backup": "/var/folders/g8/w4qrj6k57hx_3lg6ltc1k70w0000gn/T/down-to-duck-innate-hop-preserved-myd9pbii",
+    "temporaryOriginals": [
+      "relay-runtime-controller-market.png",
+      "relay-runtime-readonly-240x240-dark.png",
+      "race-05-03-reclaim-900x600-dark.png",
+      "relay-runtime-empty-900x600-dark.png",
+      "race-05-03-recovery-decline.png",
+      "relay-runtime-empty-2400x1200-dark.png",
+      "relay-runtime-readonly-200x160-light.png",
+      "relay-runtime-readonly-320x560-dark.png",
+      "relay-runtime-readonly-2400x1200-light.png",
+      "relay-runtime-empty-200x160-light.png",
+      "relay-runtime-empty-200x160-dark.png",
+      "race-05-03-departed-result.png",
+      "race-05-03-reclaim-900x600-light.png",
+      "relay-runtime-contact.png",
+      "relay-runtime-paid-pack-320x560-light.png",
+      "relay-runtime-paid-pack-1000x280-dark.png",
+      "relay-runtime-readonly-1000x280-light.png",
+      "relay-runtime-paid-pack-2400x1200-light.png",
+      "race-05-03-reclaim-320x560-dark.png",
+      "relay-runtime-empty-320x560-dark.png",
+      "relay-runtime-readonly-200x160-dark.png",
+      "relay-runtime-empty-240x240-dark.png",
+      "relay-runtime-empty-240x240-light.png",
+      "race-05-03-reclaim-1000x280-dark.png",
+      "race-05-03-reclaim-240x240-dark.png",
+      "relay-runtime-paid-pack-900x600-light.png",
+      "relay-runtime-readonly-900x600-dark.png",
+      "relay-runtime-readonly-240x240-light.png",
+      "relay-runtime-paid-pack-1000x280-light.png",
+      "race-05-03-reclaim-320x560-light.png",
+      "relay-runtime-readonly-1000x280-dark.png",
+      "race-05-03-recovery-expiry.png",
+      "relay-runtime-empty-320x560-light.png",
+      "relay-runtime-paid-pack-200x160-dark.png",
+      "relay-runtime-readonly-320x560-light.png",
+      "relay-runtime-empty-1000x280-light.png",
+      "race-05-03-reclaim-240x240-light.png",
+      "relay-runtime-empty-1000x280-dark.png",
+      "relay-runtime-empty-contact.png",
+      "relay-runtime-paid-pack-900x600-dark.png",
+      "race-05-03-reclaim-1000x280-light.png",
+      "relay-runtime-empty-2400x1200-light.png",
+      "relay-runtime-paid-pack-240x240-light.png",
+      "relay-runtime-readonly-900x600-light.png",
+      "race-05-03-waiting.png",
+      "relay-runtime-earned-51.png",
+      "relay-runtime-empty-900x600-light.png",
+      "relay-runtime-earned-continuity.json",
+      "relay-runtime-readonly-2400x1200-dark.png",
+      "race-05-03-recovery-accept.png",
+      "relay-runtime-paid-pack-200x160-light.png",
+      "relay-runtime-final-contact.png",
+      "relay-runtime-paid-pack-240x240-dark.png",
+      "relay-runtime-paid-pack-clip.png",
+      "relay-runtime-paid-pack-320x560-dark.png",
+      "relay-runtime-paid-pack-2400x1200-dark.png"
+    ],
+    "frozenFiles": {
+      "pnpm-lock.yaml": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+      "src/game.ts": "f783839e0a6bfc98eb2a0a4e35e381e9002daafb0ced9832dcbfe1b4a2794396",
+      "src/session.ts": "399fb31a96ca12befaae95b992951a348f53259071f18f0c59967d39f8c3e3e9",
+      "src/main.ts": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+      "src/mobs.ts": "6077ac4fd884ef16f9fe8ab3f3db77a431b2d2853adbeddc1d0d843b595018d1",
+      "tests/release-turn-mode-coverage.test.mjs": "20875c0db29d786206568986ffec2cf12937c97f7ddc9d87bf6c8af5fe6e3124",
+      "tools/release-coverage/suites.json": "0b7bbb5ab85d350abc96d0f06e019c455c90a83a901f56df6efeb95cf2d788fd",
+      "tools/release-coverage/turn-applicability.mjs": "c10a19597f3880c9c31b231c236195252ff7688d549e88d2d5c88d80bcf0c38f",
+      "tools/release-coverage/solo-applicability.mjs": "695d0a52dabfc66ec0142dc2a57ac5e7a7e076639da322e133bc6d8093e69af8",
+      "tools/release-coverage/development-applicability.mjs": "0c1ff0abe56776d81cb7053e0c0854202179889585f4881c3a22e521dfec6c52",
+      "tools/release-coverage/builtin-rule-applicability.mjs": "f6097e150b0d188e7fdf81c8f52de02663de92e7112534874d568ade1a72e045",
+      "tools/release-coverage/run.mjs": "9d6e285d1bbe54d25aa5bae19a48470bc49ca2700195db5da700ac90f5682deb",
+      "dist/index.html": "a05e47ef1572fd544b5a0d10bc83f33d313effb925b3f4a8e1ef2bdd8f17cc4a"
+    },
+    "normalArtifactSha256": "a05e47ef1572fd544b5a0d10bc83f33d313effb925b3f4a8e1ef2bdd8f17cc4a",
+    "preserved": true,
+    "temporaryPreserved": true,
+    "finished": "2026-10-17T15:01:03.512911+00:00"
+  },
+  "scopeComparison": {
+    "purpose": "Same currentf783 source/raw/site schemas: built-in failure scope only; no numerator change, mixed-source merging or enforcing acceptance",
+    "modes": {
+      "relay": {
+        "runId": "82b162b3-dfd8-42db-8a9c-39271f7ac185",
+        "beforeScope": {
+          "lines": {
+            "covered": 1915,
+            "total": 2105
+          },
+          "statements": {
+            "covered": 2741,
+            "total": 3328
+          },
+          "functions": {
+            "covered": 617,
+            "total": 711
+          },
+          "branches": {
+            "covered": 1987,
+            "total": 2812
+          }
+        },
+        "afterScope": {
+          "lines": {
+            "covered": 1915,
+            "total": 2104
+          },
+          "statements": {
+            "covered": 2741,
+            "total": 3310
+          },
+          "functions": {
+            "covered": 617,
+            "total": 710
+          },
+          "branches": {
+            "covered": 1987,
+            "total": 2791
+          }
+        },
+        "denominatorDelta": {
+          "lines": 1,
+          "statements": 18,
+          "functions": 1,
+          "branches": 21
+        },
+        "newDispositions": [
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "14",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "16",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "20",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "23",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "28",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "31",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "44",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "53",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "55",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "62",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "69",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "71",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "77",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "81",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "84",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "90",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "94",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "97",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "function",
+            "id": "3",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "6",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "8",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "8",
+            "arm": 1,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "9",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "10",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "10",
+            "arm": 1,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "11",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "16",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "18",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "20",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "21",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "22",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "24",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "26",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "27",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "28",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "29",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "30",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "33",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "34",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "relay",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "35",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          }
+        ]
+      },
+      "race": {
+        "runId": "82b162b3-dfd8-42db-8a9c-39271f7ac185",
+        "beforeScope": {
+          "lines": {
+            "covered": 1962,
+            "total": 2164
+          },
+          "statements": {
+            "covered": 2798,
+            "total": 3424
+          },
+          "functions": {
+            "covered": 652,
+            "total": 759
+          },
+          "branches": {
+            "covered": 2163,
+            "total": 3051
+          }
+        },
+        "afterScope": {
+          "lines": {
+            "covered": 1962,
+            "total": 2163
+          },
+          "statements": {
+            "covered": 2798,
+            "total": 3406
+          },
+          "functions": {
+            "covered": 652,
+            "total": 758
+          },
+          "branches": {
+            "covered": 2163,
+            "total": 3030
+          }
+        },
+        "denominatorDelta": {
+          "lines": 1,
+          "statements": 18,
+          "functions": 1,
+          "branches": 21
+        },
+        "newDispositions": [
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "14",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "16",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "20",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "23",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "28",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "31",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "44",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "53",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "55",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "62",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "69",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "71",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "77",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "81",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "84",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "90",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "94",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "97",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "function",
+            "id": "3",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "6",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "8",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "8",
+            "arm": 1,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "9",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "10",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "10",
+            "arm": 1,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "11",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "16",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "18",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "20",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "21",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "22",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "24",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "26",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "27",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "28",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "29",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "30",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "33",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "34",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "race",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "35",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          }
+        ]
+      },
+      "solo-arcade": {
+        "runId": "d6542ea2-34b5-4e86-ab86-12aeea39bdcb",
+        "beforeScope": {
+          "lines": {
+            "covered": 951,
+            "total": 1209
+          },
+          "statements": {
+            "covered": 1339,
+            "total": 1760
+          },
+          "functions": {
+            "covered": 219,
+            "total": 296
+          },
+          "branches": {
+            "covered": 1064,
+            "total": 1427
+          }
+        },
+        "afterScope": {
+          "lines": {
+            "covered": 951,
+            "total": 1208
+          },
+          "statements": {
+            "covered": 1339,
+            "total": 1742
+          },
+          "functions": {
+            "covered": 219,
+            "total": 295
+          },
+          "branches": {
+            "covered": 1064,
+            "total": 1406
+          }
+        },
+        "denominatorDelta": {
+          "lines": 1,
+          "statements": 18,
+          "functions": 1,
+          "branches": 21
+        },
+        "newDispositions": [
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "14",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "16",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "20",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "23",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "28",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "31",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "44",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "53",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "55",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "62",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "69",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "71",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "77",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "81",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "84",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "90",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "94",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "97",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "function",
+            "id": "3",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "6",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "8",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "8",
+            "arm": 1,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "9",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "10",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "10",
+            "arm": 1,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "11",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "16",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "18",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "20",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "21",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "22",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "24",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "26",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "27",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "28",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "29",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "30",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "33",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "34",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-arcade",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "35",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          }
+        ]
+      },
+      "solo-flow": {
+        "runId": "d6542ea2-34b5-4e86-ab86-12aeea39bdcb",
+        "beforeScope": {
+          "lines": {
+            "covered": 811,
+            "total": 1069
+          },
+          "statements": {
+            "covered": 1147,
+            "total": 1547
+          },
+          "functions": {
+            "covered": 196,
+            "total": 276
+          },
+          "branches": {
+            "covered": 917,
+            "total": 1252
+          }
+        },
+        "afterScope": {
+          "lines": {
+            "covered": 811,
+            "total": 1068
+          },
+          "statements": {
+            "covered": 1147,
+            "total": 1529
+          },
+          "functions": {
+            "covered": 196,
+            "total": 275
+          },
+          "branches": {
+            "covered": 917,
+            "total": 1231
+          }
+        },
+        "denominatorDelta": {
+          "lines": 1,
+          "statements": 18,
+          "functions": 1,
+          "branches": 21
+        },
+        "newDispositions": [
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "14",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "16",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "20",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "23",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "28",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "31",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "44",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "53",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "55",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "62",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "69",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "71",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "77",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "81",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "84",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "90",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "94",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "statement",
+            "id": "97",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "function",
+            "id": "3",
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "6",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "8",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "8",
+            "arm": 1,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "9",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "10",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "10",
+            "arm": 1,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "11",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "16",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "18",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "20",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "21",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "22",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "24",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "26",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "27",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "28",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "29",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "30",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "33",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "34",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          },
+          {
+            "mode": "solo-flow",
+            "path": "/Users/sandwich/Develop/crossy-road-clone/src/mode-rules.ts",
+            "sourceHash": "cadda595a1cfa02769eee70e3f925b125b14c7fdf6faf93b9a83f45bb79c89f2",
+            "mapHash": "6b6fa541377666af6cec0af3307d5ae4affa709c00a6fb0a3b53549227817e9e",
+            "schemaHash": "778cd57be0fae613f395c5a9560061e6f2fb85bd56d8d3d7ecf6174aa4daafa1",
+            "kind": "branch",
+            "id": "35",
+            "arm": 0,
+            "callReason": "Complete pinned caller inventory has exactly two fixed valid built-in composer calls. This exact authoring failure execution cannot run; successful validation and module initialization remain applicable.",
+            "stateReason": "Actual canonical built-in definition/rules are independently observed at acquisition/endpoints. No invalid custom-mode authoring or whole mixed-worker credit belongs to this stratum.",
+            "authority": ".planning/phases/07-release-evidence-pr/07-03-BUILTIN-RULE-CLOSURE.md"
+          }
+        ]
+      }
+    }
+  },
+  "limitations": [
+    "No changed-Game counter merging",
+    "No fresh full enforcing report",
+    "No new constructor/default/fallback/wave/trail exclusion",
+    "Conformance still5pass0fail5unmeasured",
+    "Semantic ledger, normal visual/clause evidence, final gate and PR remain open"
+  ],
+  "completedAt": "2026-10-17T15:01:03.512911+00:00",
+  "cohorts": [
+    {
+      "suite": "turn-model-03",
+      "runId": "82b162b3-dfd8-42db-8a9c-39271f7ac185",
+      "directory": "artifacts/release-coverage/innate-turn-model-03",
+      "manifestSha256": "a79206c520cf2c3038ca2b1007933f15fdac9a5feaf2da113680c922c19da981",
+      "payloads": 1,
+      "intervals": 89,
+      "exitCode": 0,
+      "thresholdsEvaluated": false
+    },
+    {
+      "suite": "turn-reuse-03",
+      "runId": "577c09b8-f9c1-4ba5-b236-28b4cc7d5c67",
+      "directory": "artifacts/release-coverage/innate-turn-reuse-03",
+      "manifestSha256": "c22ff22278da53272d779b4791bfff2c264b692acf374cb15089a823e328a83d",
+      "payloads": 7,
+      "intervals": 107,
+      "exitCode": 0,
+      "thresholdsEvaluated": false
+    },
+    {
+      "suite": "relay-lifecycle-03",
+      "runId": "941cef35-c612-4d98-a983-983c1df43374",
+      "directory": "artifacts/release-coverage/innate-relay-lifecycle-03",
+      "manifestSha256": "dca294465473a02ef856c3aba354d82785f17bd794cc3ad3cdd47459c1c0df3a",
+      "payloads": 7,
+      "intervals": 30,
+      "exitCode": 0,
+      "thresholdsEvaluated": false
+    },
+    {
+      "suite": "race-results-03",
+      "runId": "630a62c2-5900-4085-bef4-977d3344c5e4",
+      "directory": "artifacts/release-coverage/innate-race-results-03",
+      "manifestSha256": "c5130f3c0d59269b6448608fe3a14192ca8a0062ed7ee2363bad1cadd2cbf094",
+      "payloads": 7,
+      "intervals": 40,
+      "exitCode": 0,
+      "thresholdsEvaluated": false
+    },
+    {
+      "suite": "solo-freeze-03",
+      "runId": "d6542ea2-34b5-4e86-ab86-12aeea39bdcb",
+      "directory": "artifacts/release-coverage/innate-solo-model-03",
+      "manifestSha256": "01ae458293b831d30ea8a2cf3351c1c7d0b849ea88ebded70c38231955cb3796",
+      "payloads": 1,
+      "intervals": 124,
+      "exitCode": 0,
+      "thresholdsEvaluated": false
+    },
+    {
+      "suite": "solo-bootstrap-03",
+      "runId": "7d2dc307-edc3-4910-9bb3-dbc9568b697f",
+      "directory": "artifacts/release-coverage/innate-solo-bootstrap-03",
+      "manifestSha256": "611e8e4e80ac01add0ced48a30b1a5ab00ddcaa0f70725beb0abd49f893e9912",
+      "payloads": 1,
+      "intervals": 4,
+      "exitCode": 0,
+      "thresholdsEvaluated": false
+    },
+    {
+      "suite": "modes-12",
+      "runId": "a1e7ddda-0532-435e-99d9-00bca3e960d4",
+      "directory": "artifacts/release-coverage/innate-public-03",
+      "manifestSha256": "806ebf250124418a77f13d83b60cad3b8eb7e75e504487f3f56c7964d15e2179",
+      "payloads": 6,
+      "intervals": 6,
+      "exitCode": 0,
+      "thresholdsEvaluated": false
+    },
+    {
+      "suite": "turn-item-ownership-03",
+      "runId": "90b4ca3a-bae5-4c0c-aeb1-41c424ed5855",
+      "directory": "artifacts/release-coverage/innate-relay-public-03",
+      "manifestSha256": "9811f1ad84ff48f5cf80294fee23011e0a631c015ec31375e10b94c069c211f9",
+      "payloads": 16,
+      "intervals": 74,
+      "exitCode": 0,
+      "thresholdsEvaluated": false
+    },
+    {
+      "suite": "shared-pickup-03",
+      "runId": "29df811d-9ebc-42a0-8a46-fa554b935b74",
+      "directory": "artifacts/release-coverage/innate-shared-runtime-03",
+      "manifestSha256": "a29721783a9d7fbd1b6941366d67e8617b15cd5b5f2a4abd8869d836b6b3b881",
+      "payloads": 2,
+      "intervals": 0,
+      "exitCode": 0,
+      "thresholdsEvaluated": false
+    }
+  ],
+  "canonicalMatrix": {
+    "runId": "82b162b3-dfd8-42db-8a9c-39271f7ac185",
+    "models": {
+      "relay": {
+        "lifetimes": 10,
+        "intervals": 36
+      },
+      "race": {
+        "lifetimes": 12,
+        "intervals": 53
+      }
+    },
+    "executionObservations": {
+      "sharedCalls": 22512,
+      "standaloneCalls": 0,
+      "violations": [],
+      "worlds": 22
+    }
+  },
+  "normalArtifact": {
+    "path": "dist/index.html",
+    "sha256": "a05e47ef1572fd544b5a0d10bc83f33d313effb925b3f4a8e1ef2bdd8f17cc4a"
+  },
+  "diagnostic": {
+    "path": "/tmp/down-to-duck-innate-hop-reproject.json",
+    "sha256": "da7c1dbb89d45456ac904873de18dfafc8122faec1b8a0fe820ff1a78264734f",
+    "result": {
+      "purpose": "Current disk/canonical caller guard revalidation; fresh component/public diagnostic union, not an enforcing release report",
+      "groups": [
+        {
+          "group": "innate-turn-model-03",
+          "runId": "82b162b3-dfd8-42db-8a9c-39271f7ac185",
+          "payloads": 1,
+          "collectedIntervals": 89,
+          "selectedIntervals": 89,
+          "selection": "all",
+          "modes": [
+            "relay",
+            "race"
+          ]
+        },
+        {
+          "group": "innate-turn-reuse-03",
+          "runId": "577c09b8-f9c1-4ba5-b236-28b4cc7d5c67",
+          "payloads": 7,
+          "collectedIntervals": 107,
+          "selectedIntervals": 107,
+          "selection": "all",
+          "modes": [
+            "relay",
+            "race"
+          ]
+        },
+        {
+          "group": "innate-relay-lifecycle-03",
+          "runId": "941cef35-c612-4d98-a983-983c1df43374",
+          "payloads": 7,
+          "collectedIntervals": 30,
+          "selectedIntervals": 30,
+          "selection": "all",
+          "modes": [
+            "relay"
+          ]
+        },
+        {
+          "group": "innate-race-results-03",
+          "runId": "630a62c2-5900-4085-bef4-977d3344c5e4",
+          "payloads": 7,
+          "collectedIntervals": 40,
+          "selectedIntervals": 40,
+          "selection": "all",
+          "modes": [
+            "race"
+          ]
+        },
+        {
+          "group": "innate-public-03",
+          "runId": "a1e7ddda-0532-435e-99d9-00bca3e960d4",
+          "payloads": 6,
+          "collectedIntervals": 6,
+          "selectedIntervals": 6,
+          "selection": "all",
+          "modes": [
+            "relay",
+            "race"
+          ]
+        },
+        {
+          "group": "innate-relay-public-03",
+          "runId": "90b4ca3a-bae5-4c0c-aeb1-41c424ed5855",
+          "payloads": 16,
+          "collectedIntervals": 74,
+          "selectedIntervals": 1,
+          "selection": "Relay public interval only; repeated Race item model omitted",
+          "modes": [
+            "relay"
+          ]
+        }
+      ],
+      "modes": {
+        "relay": {
+          "componentLifetimes": 29,
+          "publicIntervals": 2,
+          "intervals": 76,
+          "raw": {
+            "lines": {
+              "covered": 1943,
+              "total": 2352
+            },
+            "statements": {
+              "covered": 2808,
+              "total": 3735
+            },
+            "functions": {
+              "covered": 641,
+              "total": 817
+            },
+            "branches": {
+              "covered": 2053,
+              "total": 3202
+            }
+          },
+          "applicable": {
+            "lines": {
+              "covered": 1943,
+              "total": 2104
+            },
+            "statements": {
+              "covered": 2808,
+              "total": 3310
+            },
+            "functions": {
+              "covered": 641,
+              "total": 710
+            },
+            "branches": {
+              "covered": 2053,
+              "total": 2791
+            }
+          },
+          "remaining": {
+            "lines": 0,
+            "functions": 0,
+            "branches": 320
+          }
+        },
+        "race": {
+          "componentLifetimes": 61,
+          "publicIntervals": 1,
+          "intervals": 193,
+          "raw": {
+            "lines": {
+              "covered": 2022,
+              "total": 2305
+            },
+            "statements": {
+              "covered": 2930,
+              "total": 3645
+            },
+            "functions": {
+              "covered": 684,
+              "total": 818
+            },
+            "branches": {
+              "covered": 2290,
+              "total": 3259
+            }
+          },
+          "applicable": {
+            "lines": {
+              "covered": 2022,
+              "total": 2163
+            },
+            "statements": {
+              "covered": 2930,
+              "total": 3406
+            },
+            "functions": {
+              "covered": 684,
+              "total": 758
+            },
+            "branches": {
+              "covered": 2290,
+              "total": 3030
+            }
+          },
+          "remaining": {
+            "lines": 0,
+            "functions": 0,
+            "branches": 286
+          }
+        }
+      },
+      "historicalChangedSessionCountersUsed": false
+    },
+    "acceptance": "Diagnostic only; fresh full enforcing report still required."
+  }
+}

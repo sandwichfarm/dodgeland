@@ -1,0 +1,99 @@
+{
+  "scope": "07-05 Task1 actual visual tracer complete; Tasks2/3 incomplete; no release acceptance",
+  "createdAt": "2026-10-18T03:00:53.119735+00:00",
+  "normalArtifactHash": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
+  "manifestSha256": "44653055189490ec25936518463caef3c0612c8304d7084b8fd53d1881090ca2",
+  "image": "docs/release-evidence/images/survive-flow-hud-900x600-dark-reduced-all.png",
+  "imageSha256": "0f7f1e1a4116bbfa933db3ba19ee5bbb71f6d89255debe00b842e6c204f47c0d",
+  "acquisitionReceipt": {
+    "kind": "public-input",
+    "actualModeAsserted": true,
+    "actualMode": {
+      "base": "stroll",
+      "composed": true,
+      "players": [
+        {
+          "seat": "p1",
+          "participantId": "local-35-0-2:p1",
+          "characterId": "butter"
+        },
+        {
+          "seat": "p2",
+          "participantId": "local-35-0-2:anonymous-1",
+          "characterId": "sunny"
+        },
+        {
+          "seat": "p3",
+          "participantId": "local-35-0-2:anonymous-2",
+          "characterId": "pip"
+        },
+        {
+          "seat": "p4",
+          "participantId": "local-35-0-2:anonymous-3",
+          "characterId": "petal"
+        }
+      ],
+      "coOpMarket": true,
+      "sharedItems": true,
+      "restrictedActors": false
+    },
+    "observer": "Read-only production draw arguments; no world,actor or camera writes",
+    "setup": "Visible Play/Pause/Local Play/mode/Start; two keyboards and two authorized controller snapshots; visible Pause holds actual state",
+    "commandId": "visual-tracer-20261018030008866",
+    "terminalExit": 0,
+    "receiptPath": "docs/release-evidence/visual-tracer-20261018030008866.json",
+    "receiptSha256": "d7f92f9b5ffc3629f2af4bcf116705a02181d459c15e9a4450f61144d3b134f6"
+  },
+  "executions": {
+    "units": {
+      "log": "artifacts/release-coverage/evidence-actual-01/unit-second.log",
+      "sha256": "4e2f54d15c742d0d86a0282c416435a44c306631f0c9c9aed284820fe664dae3",
+      "terminalExit": 0,
+      "outputText": "\u2714 inclusive8px clearance accepts8 and rejects7.99,touching,nonfinite and malformed rectangles (3.277833ms)\n\u2714 capture ordering is stable under permutation and does not mutate caller order (0.423ms)\n\u2714 one source-bound PNG fixture validates integrity (0.383958ms)\n\u2714 empty,missing,duplicate,stale,wrong-frame and failed-source evidence never passes (2.919ms)\n\u2714 original clauses and requirements remain exact;SHIP alone may remain visibly pending before final PR (0.277291ms)\n\u2714 omitted,duplicate,altered,unsupported-complete or unexecuted clause proof fails (0.383333ms)\n\u2714 an external command must retain a receipt and successful measured assertions (0.272625ms)\n\u2714 required visual cells cannot shrink to the completed HUD tracer (0.362334ms)\n\u2714 durable acquisition receipts reject nonterminal,failing,tampered or unmatched output (0.703208ms)\n\u2139 tests 9\n\u2139 suites 0\n\u2139 pass 9\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 79.895\n"
+    },
+    "tracer": {
+      "log": "artifacts/release-coverage/evidence-actual-01/tracer-final.log",
+      "sha256": "c86cd72d8835f4c1bd56ea805d89c4ccd463a77fba0a0ee390e3d9b888dcd710",
+      "terminalExit": 0,
+      "outputText": "Captured survive-flow-hud-900x600-dark-reduced-all\nActual terminal capture receipt: docs/release-evidence/visual-tracer-20261018030008866.json\n"
+    },
+    "check": {
+      "log": "artifacts/release-coverage/evidence-actual-01/check-tracer-final.log",
+      "sha256": "8b628516bee5a3df6c5ae0743044b508f490c9c58c66dd5a90e24f28ca0293f1",
+      "terminalExit": 0,
+      "outputText": "{\"captures\":1,\"completeRequiredSet\":true,\"ordering\":[\"survive-flow-hud-900x600-dark-reduced-all\"],\"limit\":\"Integrity/recorded geometry only;does not supply acquisition,visual inspection or whole-clause proof\"}\n"
+    },
+    "guidance": {
+      "log": "artifacts/release-coverage/evidence-actual-01/guidance.log",
+      "sha256": "d810037a8287c910a2d6ebf4fdae7f4f082b5923ad5592cac53b95f887221749",
+      "terminalExit": 0,
+      "outputText": "\n> down-to-duck@0.1.0 test:guidance /Users/sandwich/Develop/crossy-road-clone\n> node --test tests/guidance.test.mjs\n\n\u2714 guidance traversal retains application files around explicit generated and upstream evidence (8.114291ms)\n\u2714 rejects retired app-owned bootstrap and probing APIs (48.095125ms)\n\u2714 keeps normal Nostr examples OUTBOX-first (1.8035ms)\n\u2714 ships no forked skill body, points agents at skills.sh, and keeps manifest config on documented surface (14.844083ms)\n\u2714 keeps deferred domains out of active package surfaces (70.210625ms)\n\u2714 treats injected optional-domain absence as a normal state (21.039167ms)\n\u2714 keeps the applet layout contract: no title header, frame-filling root (0.378375ms)\n\u2139 tests 7\n\u2139 suites 0\n\u2139 pass 7\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 392.92775\n"
+    }
+  },
+  "inspection": {
+    "tool": "view_image",
+    "image": "docs/release-evidence/images/survive-flow-hud-900x600-dark-reduced-all.png",
+    "actualFullSizeInspected": true,
+    "frame": {
+      "width": 900,
+      "height": 600
+    },
+    "findings": [
+      "Four distinct models and identifying labels visible",
+      "HUD/status/course/controls readable; no observed character concealment"
+    ],
+    "limits": [
+      "One actual tracer image only",
+      "No replacement for full matrix/sheets or user play-feel approval"
+    ]
+  },
+  "tests": {
+    "passed": 9,
+    "skipped": 0
+  },
+  "remaining": [
+    "07-05 Task2 full visual matrix and actual sheets/inspection",
+    "07-05 Task3 full original-clause/requirement evidence",
+    "07-06 final exact gate and actual open PR"
+  ]
+}

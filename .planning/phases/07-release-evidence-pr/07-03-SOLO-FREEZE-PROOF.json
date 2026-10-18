@@ -1,0 +1,186 @@
+{
+  "runId": "b945cea1-ee46-4845-ae0c-2613e3e91a34",
+  "jobs": [
+    {
+      "id": "release-solo-mode-coverage",
+      "file": "tests/release-solo-mode-coverage.test.mjs",
+      "role": "node",
+      "requiredRealms": [
+        "node"
+      ],
+      "modelAttribution": [
+        {
+          "mode": "solo-arcade",
+          "scenarios": [
+            "arcade-movement",
+            "arcade-traffic",
+            "arcade-river",
+            "arcade-pause-hurt",
+            "arcade-market",
+            "arcade-terminal",
+            "arcade-actors",
+            "arcade-mobs",
+            "arcade-schema-1",
+            "arcade-schema-2",
+            "arcade-schema-3",
+            "arcade-paid-pickup-health-powers",
+            "arcade-shop-boundaries",
+            "arcade-side-contact--1-clear",
+            "arcade-side-contact--1-boxed",
+            "arcade-side-contact-1-clear",
+            "arcade-side-contact-1-boxed",
+            "arcade-unsafe-water",
+            "arcade-river-edge-bounce",
+            "arcade-train-fatal",
+            "arcade-train-shield",
+            "arcade-generated-coin-modifiers",
+            "arcade-paid-menu-continuity",
+            "arcade-retained-pull-retirement",
+            "arcade-offscreen-platform-coin--1",
+            "arcade-offscreen-platform-coin-1",
+            "arcade-edge-and-fraction",
+            "arcade-full-health-milestone",
+            "arcade-landing-grace",
+            "arcade-catching-wave-fatal",
+            "arcade-catching-wave-shield",
+            "arcade-wave-warning-suppresses-spawn",
+            "arcade-live-mob-freeze-and-wave"
+          ]
+        },
+        {
+          "mode": "solo-flow",
+          "scenarios": [
+            "stroll-movement",
+            "stroll-traffic",
+            "stroll-river",
+            "stroll-pause-hurt",
+            "stroll-market",
+            "stroll-terminal",
+            "stroll-actors",
+            "stroll-mobs",
+            "stroll-schema-1",
+            "stroll-schema-2",
+            "stroll-schema-3",
+            "stroll-paid-pickup-health-powers",
+            "stroll-shop-boundaries",
+            "stroll-side-contact--1-clear",
+            "stroll-side-contact--1-boxed",
+            "stroll-side-contact-1-clear",
+            "stroll-side-contact-1-boxed",
+            "stroll-unsafe-water",
+            "stroll-river-edge-bounce",
+            "stroll-train-fatal",
+            "stroll-train-shield",
+            "stroll-generated-coin-modifiers",
+            "stroll-paid-menu-continuity",
+            "stroll-retained-pull-retirement",
+            "stroll-offscreen-platform-coin--1",
+            "stroll-offscreen-platform-coin-1",
+            "stroll-edge-and-fraction",
+            "stroll-full-health-milestone",
+            "stroll-landing-grace"
+          ]
+        }
+      ]
+    }
+  ],
+  "independentParents": 1,
+  "actualCurrentLifetimes": 62,
+  "intervals": 124,
+  "ordinary": "62/62 pinned scenarios, whole case1/1",
+  "ordinarySession": 99438,
+  "canonical": "1/1 whole case,62 pinned scenarios",
+  "canonicalSession": 19597,
+  "exitCode": 0,
+  "baseline": "a310a81ed6c76df4b265c9012c23b8c83f4802e5",
+  "testSha256": "1d3c345bc819822ed93e39557bad7b052a46eb32513fb2caed4d9bb0f534e566",
+  "strata": {
+    "solo-arcade": {
+      "lines": {
+        "covered": 949,
+        "total": 1207
+      },
+      "functions": {
+        "covered": 219,
+        "total": 296
+      },
+      "branches": {
+        "covered": 1064,
+        "total": 1427
+      }
+    },
+    "solo-flow": {
+      "lines": {
+        "covered": 809,
+        "total": 1067
+      },
+      "functions": {
+        "covered": 196,
+        "total": 276
+      },
+      "branches": {
+        "covered": 917,
+        "total": 1252
+      }
+    }
+  },
+  "normalSha256": "a34fd21258f80302593c584f5a9566f7511af49798c0b0cac6dacc1beb478bc1",
+  "lockSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "normalAndLockPreserved": true,
+  "diagnostic": {
+    "purpose": "Exact source/map/all-site-schema union, not enforcing acceptance",
+    "comparisonRun": "51a4bea2-21e7-4b74-9eae-b185f6401911",
+    "solo-arcade": {
+      "lines": {
+        "covered": 1166,
+        "total": 1207
+      },
+      "statements": {
+        "covered": 1616,
+        "total": 1758
+      },
+      "functions": {
+        "covered": 276,
+        "total": 296
+      },
+      "branches": {
+        "covered": 1216,
+        "total": 1427
+      }
+    },
+    "solo-flow": {
+      "lines": {
+        "covered": 1028,
+        "total": 1067
+      },
+      "statements": {
+        "covered": 1425,
+        "total": 1545
+      },
+      "functions": {
+        "covered": 254,
+        "total": 276
+      },
+      "branches": {
+        "covered": 1069,
+        "total": 1252
+      }
+    },
+    "newArcadeBranchesBeyondGuards": 5,
+    "newArcadeLinesBeyondGuards": 4,
+    "floorStatus": "Both solo diagnostic targets pass; fresh enforcing full collection still required"
+  },
+  "fixtureFindings": [
+    {
+      "ordinarySession": 1777,
+      "status": "failed",
+      "reason": "Market invitation arranged before director spawn suppressed spawn; fixture reordered."
+    },
+    {
+      "ordinarySession": 18852,
+      "status": "failed",
+      "reason": "Frozen stationary mob and owner are overtaken by advancing wave before freeze expiry; assertions corrected to actual wash-away/terminal behavior."
+    }
+  ],
+  "scope": "Actual director-spawned mob and fixed-step updates; arranged initial progress/clock/course/resources. No public reachability, freeze-expiry/resume, product RED or release-pass claim."
+}

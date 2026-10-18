@@ -1,0 +1,164 @@
+{
+  "runId": "a37b874f-fc3b-418e-9290-2dc050ea1a7b",
+  "jobs": [
+    {
+      "id": "release-solo-mode-coverage",
+      "file": "tests/release-solo-mode-coverage.test.mjs",
+      "role": "node",
+      "requiredRealms": [
+        "node"
+      ],
+      "modelAttribution": [
+        {
+          "mode": "solo-arcade",
+          "scenarios": [
+            "arcade-movement",
+            "arcade-traffic",
+            "arcade-river",
+            "arcade-pause-hurt",
+            "arcade-market",
+            "arcade-terminal",
+            "arcade-actors",
+            "arcade-mobs",
+            "arcade-schema-1",
+            "arcade-schema-2",
+            "arcade-schema-3",
+            "arcade-paid-pickup-health-powers",
+            "arcade-shop-boundaries"
+          ]
+        },
+        {
+          "mode": "solo-flow",
+          "scenarios": [
+            "stroll-movement",
+            "stroll-traffic",
+            "stroll-river",
+            "stroll-pause-hurt",
+            "stroll-market",
+            "stroll-terminal",
+            "stroll-actors",
+            "stroll-mobs",
+            "stroll-schema-1",
+            "stroll-schema-2",
+            "stroll-schema-3",
+            "stroll-paid-pickup-health-powers",
+            "stroll-shop-boundaries"
+          ]
+        }
+      ]
+    }
+  ],
+  "independentParents": 1,
+  "actualCurrentLifetimes": 26,
+  "intervals": 52,
+  "ordinary": "1/1 whole case,26 independently compared scenarios",
+  "canonical": "1/1 whole case,26 independently compared scenarios",
+  "baseline": "a310a81ed6c76df4b265c9012c23b8c83f4802e5",
+  "strata": {
+    "solo-arcade": {
+      "lines": {
+        "covered": 933,
+        "total": 1207
+      },
+      "functions": {
+        "covered": 218,
+        "total": 296
+      },
+      "branches": {
+        "covered": 1005,
+        "total": 1427
+      }
+    },
+    "solo-flow": {
+      "lines": {
+        "covered": 797,
+        "total": 1067
+      },
+      "functions": {
+        "covered": 195,
+        "total": 276
+      },
+      "branches": {
+        "covered": 865,
+        "total": 1252
+      }
+    }
+  },
+  "rawStrata": {
+    "solo-arcade": {
+      "lines": {
+        "covered": 933,
+        "total": 2039
+      },
+      "functions": {
+        "covered": 218,
+        "total": 656
+      },
+      "branches": {
+        "covered": 1005,
+        "total": 2770
+      }
+    },
+    "solo-flow": {
+      "lines": {
+        "covered": 797,
+        "total": 2039
+      },
+      "functions": {
+        "covered": 195,
+        "total": 656
+      },
+      "branches": {
+        "covered": 865,
+        "total": 2770
+      }
+    }
+  },
+  "normalSha256": "a34fd21258f80302593c584f5a9566f7511af49798c0b0cac6dacc1beb478bc1",
+  "lockSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "normalAndLockPreserved": true,
+  "independentReview": "No blocker; oracle comparison at compound fixture boundary, local assertions on intermediate actions; empty-hand shield/freeze income scope only",
+  "diagnostic": {
+    "purpose": "Source/map/site-schema-checked, not enforcing full acceptance",
+    "comparisonRun": "51a4bea2-21e7-4b74-9eae-b185f6401911",
+    "solo-arcade": {
+      "lines": {
+        "covered": 1150,
+        "total": 1207
+      },
+      "statements": {
+        "covered": 1580,
+        "total": 1758
+      },
+      "functions": {
+        "covered": 275,
+        "total": 296
+      },
+      "branches": {
+        "covered": 1161,
+        "total": 1427
+      }
+    },
+    "solo-flow": {
+      "lines": {
+        "covered": 1016,
+        "total": 1067
+      },
+      "statements": {
+        "covered": 1396,
+        "total": 1545
+      },
+      "functions": {
+        "covered": 253,
+        "total": 276
+      },
+      "branches": {
+        "covered": 1019,
+        "total": 1252
+      }
+    },
+    "newBranchesPerBase": 36,
+    "newLinesPerBase": 7,
+    "newFunctions": 0
+  }
+}

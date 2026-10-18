@@ -1,8 +1,8 @@
 import { box, characterById, TRAIN_MODEL } from './content.js';
 import type { Model, Voxel } from './content.js';
-import { coinPosition, HOP_TIME, laneActors, laneDirection, platformSupports, platformSurface, random, trainPhase, vehicleBounds } from './game.js';
+import { coinPosition, laneActors, laneDirection, platformSupports, platformSurface, random, trainPhase, vehicleBounds } from './game.js';
 import type { Game, Lane } from './game.js';
-import { crossingSignal } from './soundscape.js';
+import { crossingSignalAtScale } from './soundscape.js';
 import { mobDefinition } from './mobs.js';
 import type { Mob } from './mobs.js';
 import { mobPose } from './mob-models.js';
@@ -14,6 +14,7 @@ import type { CosmeticDefinition } from './market/types.js';
 import { spillPose } from './death-spill.js';
 import { coinDenomination } from './coin-denominations.js';
 import { coinPickupModel } from './coin-models.js';
+import type { ConsumableWorldSnapshot, PlayerRender, SharedWorld } from './session.js';
 const looseModels = new WeakMap<CosmeticDefinition, Model>();
 const spillCoins: Model[] = Array.from({ length: 4 }, (_, pile) => Array.from({ length: pile + 1 }, (_, i) => [
   box(i % 2 * .04, i * .07, 0, .23, .055, .28, '#f1cd64'),
@@ -32,10 +33,12 @@ function looseModel(item: CosmeticDefinition): Model {
   return model;
 }
 type Point = [number, number];
+type SceneObject = { x: number; y: number; draw: () => void };
+type TravelerScene = Pick<Game, 'deathSpill' | 'hop' | 'rules' | 'groundX' | 'groundY' | 'lane' | 'rows' | 'fromY' | 'powerRescue' | 'x' | 'time' | 'mobs' | 'run' | 'hurtRemaining' | 'powerFlash' | 'power' | 'state' | 'caughtByWave'> & Partial<Pick<PlayerRender, 'protectionUntil'>>;
 function shade(hex: string, amount: number): string { const n = parseInt(hex.slice(1), 16); return `rgb(${Math.max(0, Math.min(255, (n >> 16) + amount))},${Math.max(0, Math.min(255, (n >> 8 & 255) + amount))},${Math.max(0, Math.min(255, (n & 255) + amount))})`; }
 function polygon(ctx: CanvasRenderingContext2D, points: Point[], color: string): void { ctx.fillStyle = color; ctx.beginPath(); points.forEach(([x, y], i) => i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)); ctx.closePath(); ctx.fill(); }
 /** A brief whole-body look to the side, using the run clock so pausing freezes it. */
-export function characterYaw(game: Game, character: string, reduced = false): number {
+export function characterYaw(game: Pick<Game, 'time'>, character: string, reduced = false): number {
   if (reduced || character !== 'butter') return 0;
   const phase = game.time % 6;
   const ease = (t: number): number => (1 - Math.cos(Math.PI * t)) / 2;
@@ -44,12 +47,20 @@ export function characterYaw(game: Game, character: string, reduced = false): nu
   if (phase <= 3.35) return Math.PI / 3;
   return Math.PI / 3 * (1 - ease((phase - 3.35) / .8));
 }
+/** Mode-owned observations; rendering never decides simulation policy. */
+export interface SessionPresentation {
+  readonly cameraAnchor: number;
+  readonly boundary: number;
+  readonly markers: readonly {readonly seat: string; readonly leader: boolean; readonly status: string; readonly effect: 'mud'|'lantern'|undefined}[];
+}
+export interface PresentationViewport { readonly top: number; readonly bottom: number }
 export class Renderer {
+  private viewport: PresentationViewport | undefined;
   ctx: CanvasRenderingContext2D; width = 0; height = 0; scale = 40; camera = 0; reduced = false;
   backdrop = '#f4f2df'; ink = '#263c38';
   constructor(public canvas: HTMLCanvasElement) { this.ctx = canvas.getContext('2d')!; }
   resize(): void { const r = this.canvas.getBoundingClientRect(); this.width = r.width; this.height = r.height; const dpr = Math.min(devicePixelRatio || 1, 2); this.canvas.width = Math.round(r.width * dpr); this.canvas.height = Math.round(r.height * dpr); this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0); this.scale = Math.min(this.width / 15.5, this.height / 10.2, 100); }
-  project(x: number, row: number, z = 0): Point { return [this.width * .5 + (x + (row - this.camera) * .3) * this.scale, this.height * .71 + (x * .18 - (row - this.camera) * .62 - z) * this.scale]; }
+  project(x: number, row: number, z = 0): Point { return [this.width * .5 + (x + (row - this.camera) * .3) * this.scale, (this.viewport ? this.viewport.bottom - this.scale * .6 : this.height * .71) + (x * .18 - (row - this.camera) * .62 - z) * this.scale]; }
   tile(x: number, row: number, w: number, d: number, color: string): void { polygon(this.ctx, [this.project(x - w / 2, row - d / 2), this.project(x + w / 2, row - d / 2), this.project(x + w / 2, row + d / 2), this.project(x - w / 2, row + d / 2)], color); }
   cube(v: Voxel, x: number, row: number, lift = 0): void {
     const l = x + v.x - v.w / 2, r = l + v.w, front = row - v.y - v.d / 2, back = front + v.d, z = lift + v.z, top = z + v.h;
@@ -215,11 +226,22 @@ export class Renderer {
     }
   }
   draw(game: Game, character: string, dt: number): void {
+    if (this.viewport) { this.viewport = undefined; this.scale = Math.min(this.width / 15.5, this.height / 10.2, 100); }
+    this.drawScene(game, character, dt);
+  }
+
+  private drawScene(game: Game, character: string, dt: number, players?: readonly PlayerRender[], presentation?: SessionPresentation): void {
     if (!this.width) return;
-    this.camera = this.reduced ? game.maxY : this.camera + (game.maxY - this.camera) * Math.min(1, dt * 8);
+    const leader = players?.filter(player => player.state === 'playing')
+      .sort((a, b) => b.groundY - a.groundY || a.seat.localeCompare(b.seat))[0];
+    // Solo retains its historical frontier target and exact smoothing arithmetic.
+    // A session follows actual interpolated travel and keeps its last camera if no seat is active.
+    const cameraTarget = presentation?.cameraAnchor ?? (players ? leader?.groundY ?? this.camera : game.maxY);
+    this.camera = this.reduced ? cameraTarget : this.camera + (cameraTarget - this.camera) * Math.min(1, dt * 8);
     const ctx = this.ctx; ctx.clearRect(0, 0, this.width, this.height); ctx.fillStyle = this.backdrop; ctx.fillRect(0, 0, this.width, this.height);
     const rows = [...game.rows.values()].sort((a, b) => b.index - a.index);
     for (const lane of rows) this.lane(lane, game.time);
+    if(presentation){ctx.save();ctx.globalAlpha=.35;this.tile(0,presentation.boundary-3,16,6,this.ink);ctx.globalAlpha=.8;this.tile(0,presentation.boundary,16,.12,this.ink);ctx.restore();}
     if (game.run.market && game.run.market.remaining > 0 && game.state !== 'dead') {
       // The market invitation paints the ground, below all solid hazards.
       // It follows the traveler while the finite invitation is available.
@@ -231,9 +253,9 @@ export class Renderer {
       }
       ctx.restore();
     }
-    const showWave = game.mode === 'arcade' && game.state !== 'ready';
+    const showWave = game.pursuitEnabled && game.rules.presentation.pursuitVisible && (players ? players.some(player => player.state !== 'ready') : game.state !== 'ready');
     if (showWave) this.wave(game.waveRow, game.time);
-    const objects: { x: number; y: number; draw: () => void }[] = [];
+    const objects: SceneObject[] = [];
     const platforms: typeof objects = [];
     const markers: typeof objects = [];
     for (const lane of rows) {
@@ -262,7 +284,7 @@ export class Renderer {
       }
       if (lane.kind === 'rail') {
         const train = trainPhase(lane, game.time);
-        const signal = crossingSignal(lane, game.time, game.mode);
+        const signal = crossingSignalAtScale(lane, game.time, game.rules.simulation.worldTimeScale);
         for (const x of [-5.8, 5.8]) objects.push({ x, y, draw: () => { this.cube(box(0, 0, 0, .1, .1, .8, '#677261'), x, y); this.cube(box(0, 0, .8, .28, .23, .15, (this.reduced ? signal.active : signal.lit) ? '#f27459' : '#d6b972'), x, y); } });
         if (train.x !== null) { const x = train.x; objects.push({ x, y, draw: () => { for (const voxel of TRAIN_MODEL) this.cube(voxel, x, y); } }); }
       }
@@ -293,6 +315,30 @@ export class Renderer {
         } });
       }
     }
+    const consumables = game.worldExtensionSnapshot<ConsumableWorldSnapshot>();
+    for (const pickup of consumables?.pickups ?? []) {
+      const color = pickup.appearance?.color ?? (pickup.itemId === 'revival' ? '#76d6a1' : '#f28b55');
+      const label = pickup.name ?? (pickup.itemId === 'revival' ? 'Revival' : 'Flare');
+      objects.push({ x: pickup.x, y: pickup.y, draw: () => {
+        this.shadow(pickup.x, pickup.y, .42, pickup.z);
+        if (pickup.appearance?.shape === 'low') {
+          this.cube(box(0, 0, .02, .5, .4, .12, color), pickup.x, pickup.y, pickup.z);
+          this.cube(box(.12, .06, .14, .18, .18, .1, color), pickup.x, pickup.y, pickup.z);
+        } else if (pickup.itemId === 'revival') {
+          // A cross-shaped marker remains recognizable after color is removed
+          // (and at reduced-motion frame rates), rather than relying on a tint.
+          this.cube(box(0, 0, .02, .16, .22, .58, color), pickup.x, pickup.y, pickup.z);
+          this.cube(box(0, 0, .22, .46, .18, .18, '#b9f6d2'), pickup.x, pickup.y, pickup.z);
+        } else {
+          // The Flare uses a squat canister and a rising cap, deliberately a
+          // different silhouette from Revival's cross.
+          this.cube(box(0, 0, .02, .38, .30, .24, color), pickup.x, pickup.y, pickup.z);
+          this.cube(box(0, 0, .24, .18, .18, .30, '#ffe0a3'), pickup.x, pickup.y, pickup.z);
+        }
+        const [tx, ty] = this.project(pickup.x, pickup.y, pickup.z + (pickup.name ? 2.1 : .64));
+        ctx.save(); ctx.font = `bold ${Math.max(9, this.scale * .18)}px sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'bottom'; ctx.lineWidth = Math.max(2, this.scale * .035); ctx.strokeStyle = '#263c38'; ctx.strokeText(label, tx, ty); ctx.fillStyle = '#fff8d8'; ctx.fillText(label, tx, ty); ctx.restore();
+      } });
+    }
     for (const mob of game.mobs) {
       markers.push({ x: mob.x, y: mob.y, draw: () => this.mobMarker(mob) });
       objects.push({ x: mob.x, y: mob.y, draw: () => {
@@ -304,6 +350,79 @@ export class Renderer {
         ctx.restore();
       } });
     }
+    const travelerOverlays: (() => void)[] = [];
+    if (players) {
+      const orderedPlayers = [...players].sort((a, b) => a.seat.localeCompare(b.seat));
+      const labels = this.packSessionLabels(orderedPlayers, game.time);
+      for (const player of orderedPlayers) {
+        const lane = game.rows.get(player.y);
+        if (!lane) continue;
+        const traveler: TravelerScene = { ...player, lane, rows: game.rows, rules: game.rules, time: game.time, mobs: game.mobs };
+        const marker = ({ p1: '▲', p2: '●', p3: '◆', p4: '■' } as const)[player.seat];
+        travelerOverlays.push(this.appendTraveler(traveler, player.characterId, rows, objects, markers, showWave, `${marker} ${player.seat.toUpperCase()} · ${characterById(player.characterId).name}`, labels.get(player.seat)));
+      }
+    } else {
+      travelerOverlays.push(this.appendTraveler(game, character, rows, objects, markers, showWave));
+    }
+    // Low river surfaces must be below riders regardless of their centers. Tall
+    // scenery and traffic keep their normal depth order, including in front of Pip.
+    for (const layer of [platforms, markers, objects]) {
+      layer.sort((a, b) => this.project(a.x, a.y)[1] - this.project(b.x, b.y)[1]);
+      for (const object of layer) { const [x, y] = this.project(object.x, object.y); if (x > -this.scale * 8 && x < this.width + this.scale * 8 && y > -this.scale * 3 && y < this.height + this.scale * 3) object.draw(); }
+    }
+    for (const overlay of travelerOverlays) overlay();
+    if(presentation&&players)for(const mark of presentation.markers){
+      const p=players.find(p=>p.seat===mark.seat);if(!p)continue;
+      const [x,y]=this.project(p.groundX,p.groundY);ctx.save();ctx.strokeStyle=mark.effect==='lantern'?'#e8b75b':this.ink;ctx.lineWidth=3;
+      if(mark.effect){ctx.beginPath();ctx.ellipse(x,y,this.scale*.5,this.scale*.22,0,0,Math.PI*2);ctx.stroke();}
+      if(mark.leader){ctx.fillStyle=this.ink;ctx.font='600 16px sans-serif';ctx.textAlign='center';ctx.fillText('★',x,y-this.scale*1.5);}
+      ctx.restore();
+    }
+    // These are intentional overlays: neither traveler nor scenery may hide
+    // preparation for a strike. Their ground paths remain below the bodies.
+    for (const mob of game.mobs) this.mobWindupWarning(mob);
+  }
+
+  /** Keep session identities readable when their travelers share a spawn or tile. */
+  private packSessionLabels(players: readonly PlayerRender[], time: number): Map<PlayerRender['seat'], Point> {
+    const ctx = this.ctx, fontSize = Math.max(10, this.scale * .22), lineHeight = fontSize + Math.max(4, this.scale * .06);
+    const statusLineHeight = Math.max(9, this.scale * .17) + Math.max(4, this.scale * .06);
+    const placed: { left: number; right: number; top: number; bottom: number }[] = [];
+    const labels = new Map<PlayerRender['seat'], Point>();
+    ctx.save(); ctx.font = `bold ${fontSize}px sans-serif`;
+    for (const player of players) {
+      const marker = ({ p1: '▲', p2: '●', p3: '◆', p4: '■' } as const)[player.seat];
+      const text = `${marker} ${player.seat.toUpperCase()} · ${characterById(player.characterId).name}`;
+      const width = ctx.measureText(text).width + Math.max(4, this.scale * .09);
+      // Protected is a status line, not part of an identity. Reserve its own
+      // native-text-height slot so it cannot be moved into the seat label.
+      const statusHeight = (player.protectionUntil ?? 0) > time ? statusLineHeight : 0;
+      let [x, y] = this.project(player.groundX, player.groundY, 1.1);
+      let rect = { left: x - width / 2, right: x + width / 2, top: y - lineHeight - statusHeight, bottom: y };
+      if (this.viewport) {
+        // A bounded course can have several close riders. Try the adjacent
+        // horizontal label slots before stacking upward; every label uses the
+        // same projected anchor and identity, independent of roster input order.
+        const anchorX = x;
+        for (const offset of [0, -(width + 4), width + 4, -2 * (width + 4), 2 * (width + 4)]) {
+          const candidateX = Math.max(8 + width / 2, Math.min(this.width - 8 - width / 2, anchorX + offset));
+          const candidate = { ...rect, left: candidateX - width / 2, right: candidateX + width / 2 };
+          if (!placed.some(other => candidate.left < other.right && candidate.right > other.left && candidate.top < other.bottom && candidate.bottom > other.top)) { x = candidateX; rect = candidate; break; }
+        }
+      }
+      for (let attempt = 0; attempt < 8 && placed.some(other => rect.left < other.right && rect.right > other.left && rect.top < other.bottom && rect.bottom > other.top); attempt++) {
+        y -= lineHeight;
+        rect = { left: x - width / 2, right: x + width / 2, top: y - lineHeight - statusHeight, bottom: y };
+      }
+      placed.push(rect); labels.set(player.seat, [x, y]);
+    }
+    ctx.restore();
+    return labels;
+  }
+
+  /** Queue each body, trail, rescue, and spill in the same layers as the world. */
+  private appendTraveler(game: TravelerScene, character: string, rows: readonly Lane[], objects: SceneObject[], markers: SceneObject[], showWave: boolean, label?: string, labelPosition?: Point): () => void {
+    const ctx = this.ctx;
     if (game.deathSpill) for (const drop of game.deathSpill.drops) {
       const pose = spillPose(drop, game.deathSpill.age, this.reduced);
       const model = drop.kind === 'coin' ? spillCoins[Math.min(3, Math.floor(Math.log2(drop.amount)))]! : looseModel(drop.item!);
@@ -312,7 +431,7 @@ export class Renderer {
         this.turnedModel(model, pose.x, pose.y, pose.z + .015, pose.yaw, pose.tilt, true);
       } });
     }
-    const f = game.hop / HOP_TIME;
+    const f = game.hop / game.rules.movement.hopDuration;
     const px = game.groundX, py = game.groundY;
     const landingSurface = platformSurface(game.lane);
     // Ground travel and changing platform heights convey collisions, even when
@@ -387,25 +506,50 @@ export class Renderer {
         ctx.globalAlpha = .75; ctx.strokeStyle = game.run.effects.shield > 0 ? '#bdf7ff' : '#dcc7ff'; ctx.lineWidth = Math.max(2, this.scale * .035);
         ctx.beginPath(); ctx.ellipse(x, y, this.scale * .55, this.scale * .68, -.08, 0, Math.PI * 2); ctx.stroke();
       }
+      if ((game.protectionUntil ?? 0) > game.time) {
+        const [x, y] = this.project(px, py, lift + .78);
+        ctx.save(); ctx.strokeStyle = '#bdf7ff'; ctx.lineWidth = Math.max(2, this.scale * .04); ctx.beginPath(); ctx.ellipse(x, y, this.scale * .55, this.scale * .25, .18, 0, Math.PI * 2); ctx.stroke();
+        ctx.font = `bold ${Math.max(9, this.scale * .17)}px sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+        const status = labelPosition
+          ? [labelPosition[0], labelPosition[1] - Math.max(9, this.scale * .17) - Math.max(4, this.scale * .06)] as Point
+          : [x, y - this.scale * .46] as Point;
+        ctx.strokeStyle = '#18313d'; ctx.lineWidth = Math.max(2, this.scale * .035); ctx.strokeText('Protected', ...status);
+        ctx.fillStyle = '#e8fdff'; ctx.fillText('Protected', ...status); ctx.restore();
+      }
       ctx.restore();
     } });
-    // Low river surfaces must be below riders regardless of their centers. Tall
-    // scenery and traffic keep their normal depth order, including in front of Pip.
-    for (const layer of [platforms, markers, objects]) {
-      layer.sort((a, b) => this.project(a.x, a.y)[1] - this.project(b.x, b.y)[1]);
-      for (const object of layer) { const [x, y] = this.project(object.x, object.y); if (x > -this.scale * 8 && x < this.width + this.scale * 8 && y > -this.scale * 3 && y < this.height + this.scale * 3) object.draw(); }
-    }
-    if (showWave && game.caughtByWave) {
-      // A frozen splash marks the contact point and leaves the traveler readable.
-      for (const side of [-1, 1]) {
-        this.cube(box(0, 0, .03, .27, .18, .12, '#b8f0dc'), px + side * .38, py - .03);
-        this.cube(box(0, 0, .04, .16, .12, .2, '#f2ffde'), px + side * .52, py + .08);
+    return () => {
+      if (showWave && game.caughtByWave) {
+        // A frozen splash marks the contact point and leaves the traveler readable.
+        for (const side of [-1, 1]) {
+          this.cube(box(0, 0, .03, .27, .18, .12, '#b8f0dc'), px + side * .38, py - .03);
+          this.cube(box(0, 0, .04, .16, .12, .2, '#f2ffde'), px + side * .52, py + .08);
+        }
+        this.cube(box(0, 0, .02, .64, .12, .1, '#f2ffde'), px, py - .29);
       }
-      this.cube(box(0, 0, .02, .64, .12, .1, '#f2ffde'), px, py - .29);
-    }
-    // These are intentional overlays: neither traveler nor scenery may hide
-    // preparation for a strike. Their ground paths remain below the bodies.
-    for (const mob of game.mobs) this.mobWindupWarning(mob);
+      if (label) {
+        const [x, y] = labelPosition ?? this.project(px, py, lift + 1.1);
+        ctx.save();
+        ctx.font = `bold ${Math.max(10, this.scale * .22)}px sans-serif`;
+        ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+        ctx.lineWidth = Math.max(2, this.scale * .045); ctx.strokeStyle = '#263c38'; ctx.strokeText(label, x, y);
+        ctx.fillStyle = '#fff8d8'; ctx.fillText(label, x, y); ctx.restore();
+      }
+    };
+  }
+
+  /** One course, one camera, and one shared depth ordering for every traveler. */
+  drawSession(world: SharedWorld, players: readonly PlayerRender[], dt: number, presentation?: SessionPresentation, viewport?: PresentationViewport): void {
+    if (viewport) this.scale = Math.min(this.width / 15.5, this.height / 10.2, (viewport.bottom - viewport.top) / 4, 100);
+    else if (this.viewport) this.scale = Math.min(this.width / 15.5, this.height / 10.2, 100);
+    this.viewport = viewport;
+    this.drawScene(world.host, world.host.characterId, dt, players, presentation);
   }
 }
-export function modelThumbnail(model: Model): string { const canvas = document.createElement('canvas'); canvas.width = 160; canvas.height = 140; const renderer = new Renderer(canvas); renderer.width = 160; renderer.height = 140; renderer.scale = 82; renderer.camera = 0; renderer.shadow(0, 0); renderer.model(model.map(v => ({ ...v, x: -v.x, y: -v.y })), 0, 0); return canvas.toDataURL(); }
+export function modelThumbnail(model: Model, size = 160): string {
+  const canvas = document.createElement('canvas'); canvas.width = size; canvas.height = size * .875;
+  const renderer = new Renderer(canvas); renderer.width = canvas.width; renderer.height = canvas.height;
+  renderer.scale = size * (82 / 160); renderer.camera = 0;
+  renderer.shadow(0, 0); renderer.model(model.map(v => ({ ...v, x: -v.x, y: -v.y })), 0, 0);
+  return canvas.toDataURL();
+}

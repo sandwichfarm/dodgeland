@@ -155,11 +155,11 @@ test('train, water, wave, swept, trail and mob hazards remain fatal during car r
     water(g) { lane(g, 0, 'river', { phase: 5, length: 1 }); },
     wave(g) { g.waveRow = 0; },
     swept(g) { g.x = g.fromX = 5.51; lane(g, 0, 'river', { speed: 0, phase: 5.51, length: 3.5 }); },
-    trail(g) { g.mode = 'stroll'; g.maxY = 8; },
+    trail(g) { g.maxY = 8; },
     mob(g) { g.mobs.push({ id: 1, kind: 'slime', x: 0, y: 0, fromX: 0, fromY: 0, targetX: 0, targetY: 0, phase: 'rest', phaseLeft: 1, phaseDuration: 1 }); },
   };
   for (const [cause, setup] of Object.entries(setups)) {
-    const g = arena();
+    const g = arena(cause === 'trail' ? 'stroll' : 'arcade');
     if (cause === 'water' || cause === 'swept') g.setCharacter('sunny');
     g.hurtRemaining = .9; setup(g); let ends = 0; g.onEnd = () => ends++;
     g.update(step); assert.equal(g.deathCause, cause); assert.equal(g.health, 0); assert.equal(g.hurtRemaining, 0); assert.equal(ends, 1);

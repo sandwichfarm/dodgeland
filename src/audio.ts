@@ -883,6 +883,12 @@ type Clip = { buffer: AudioBuffer; gain: number; loopBuffer?: AudioBuffer };
 type LoopVoice = { voice: BufferVoice; cue: SoundCue; variant: string };
 
 export class GameAudio {
+  /** Context labels map through the same preference-aware graph and samples. */
+  sessionEvent(event:'pressure-warning'|'pressure-damage'|'offensive-item'|'defensive-item'|'returned'|'disconnected'|'finished'|'rank'):void {
+    const cues:Record<typeof event,SoundCue>={'pressure-warning':'idle','pressure-damage':'hurt.side','offensive-item':'splash','defensive-item':'coin',returned:'health.restore',disconnected:'idle',finished:'coin',rank:'coin'};
+    this.play(cues[event]);
+  }
+
   private context?: AudioContext;
   private decoder?: OfflineAudioContext;
   private master?: GainNode;

@@ -1,0 +1,52 @@
+{
+  "purpose": "Unexecuted final-gate/control draft outside frozen inputs;not07-06 execution or release acceptance",
+  "createdAt": "2026-10-18T02:24:31.072619+00:00",
+  "draftSources": {
+    "artifacts/release-coverage/gate-draft-01/release-gate.mjs": "fea6aa1eabfc712a0abc8c64076b0593c92ad2f9aa1c6515bd1e000ff037e41b",
+    "artifacts/release-coverage/gate-draft-01/release-gate.test.mjs": "4e3887d8fded08d66eb4ae978306244f56e61d2d1ca21fc09bc9d97c880a4339"
+  },
+  "sourceSyntaxChecks": [
+    {
+      "command": "node --check artifacts/release-coverage/gate-draft-01/release-gate.mjs",
+      "exitCode": 0,
+      "runtimeOrTestExecution": false
+    },
+    {
+      "command": "node --check artifacts/release-coverage/gate-draft-01/release-gate.test.mjs",
+      "exitCode": 0,
+      "runtimeOrTestExecution": false
+    }
+  ],
+  "frozenPathsVerified": 410,
+  "freezeSha256": "c72459fff67275b20c5b67c1076d781f825a00cec405fada8743cb2f350111a3",
+  "sourceReferences": {
+    "tests/phase6-gate.mjs": "7bdba2abaf0346075ffe9a037eb02332c7cfc5a837a99387a4bb650f09e059e9",
+    "tools/release-coverage/instrument.mjs": "ffad78d5658501254a3ee4a35bc1629724d503dbe16f2df3acf74d9deec1bee5",
+    "tools/release-coverage/run.mjs": "c7eefdd15f1ea5edb0e9888291c0a130b11b0cfdff2a627d7cd93287d82818bc",
+    ".planning/phases/07-release-evidence-pr/07-06-PLAN.md": "d48b319299b8903493e03d98300bbe918e67e2c1e6c1430c0789e57869c6a63f",
+    ".planning/phases/05-race/05-UAT.md": "b94c66c2e669486ee8e5dbcd1fc6251d8b6e763ad34662e126287e0848bd2fe9",
+    ".planning/phases/05-race/05-SECURITY.md": "6649cdb28db7b5508135b778ab783ff150feeb6cb3d12aca0a9fd6e753089188",
+    ".planning/phases/06-cross-mode-presentation/06-UAT.md": "6657ea79137c7453a610587294fab06a9aab9037876110a5b86f4db80680cb6e",
+    ".planning/phases/06-cross-mode-presentation/06-SECURITY.md": "ff9867184905a1caa567e1a3f34d2d30e0c9be36ffb0882fbd877cb46d7b0ac3"
+  },
+  "inheritedGateSha256": "7bdba2abaf0346075ffe9a037eb02332c7cfc5a837a99387a4bb650f09e059e9",
+  "rootLockSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "executedUnitCases": 0,
+  "executedFinalStages": 0,
+  "existingAcceptanceRecords": {
+    "raceUat": "complete;user pass",
+    "raceSecurity": "SECURED;30/30;open0",
+    "presentationUat": "complete;user pass",
+    "presentationSecurity": "SECURED;7/7;open0",
+    "closureCommit": "cd1a05c",
+    "scope": "Previously recorded phase05/06 closure;not a new current-build security scan or hardware measurement"
+  },
+  "next": [
+    "After07-05,review/copy planned gate/control modules and run actual negative controls",
+    "Keep inherited gate bytes/order unchanged;run actual final sequential chain once with terminal evidence",
+    "Refresh primary reference and complete protocol/capture/clauses outputs before final freeze",
+    "Retain raw public candidate bytes/text in the activated conformance report so its candidate hash remains independently verifiable after later builds",
+    "Verify source/build/evidence relationships and all original clauses",
+    "Open/push/read back actual intended PR only after technical acceptance;no merge,publish or deploy"
+  ]
+}

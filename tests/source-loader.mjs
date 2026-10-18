@@ -10,11 +10,28 @@ export async function compileSources(entries = 'game', options = {}) {
   const sourceDirectory = options.sourceDirectory ?? new URL('../src/', import.meta.url);
   const root = sourceDirectory instanceof URL ? fileURLToPath(sourceDirectory) : resolve(sourceDirectory);
   const modules = new Map();
+  // Opt-in test collector only. A different sourceDirectory (oracle/variant) never aliases current source.
+  const coverageConfig = options.coverage ?? process.env.DOWN_TO_DUCK_COVERAGE_CONFIG;
+  let coverageInventory;
+  if (coverageConfig) {
+    const config = JSON.parse(await readFile(coverageConfig, 'utf8'));
+    const currentRoot = fileURLToPath(new URL('../src/', import.meta.url));
+    if (resolve(root) === resolve(currentRoot)) coverageInventory = JSON.parse(await readFile(config.inventoryPath, 'utf8'));
+  }
   async function compile(name) {
     name = name.replace(/\.js$/, '');
     const key = `/${name}.js`;
     if (modules.has(key)) return;
     const source = await readFile(resolve(root, `${name}.ts`), 'utf8');
+    if (coverageInventory) {
+      const record = coverageInventory[`${name}.ts`];
+      if (!record || record.source !== source) throw new Error(`Missing or changed coverage source: ${name}`);
+      modules.set(key, record.code);
+      for (const [, dependency] of record.code.matchAll(/(?:from\s*|import\s*)['"](\.[^'"]+\.js)['"]/g)) {
+        await compile(relative(root, resolve(root, dirname(name), dependency)).replace(/\.js$/, ''));
+      }
+      return;
+    }
     let output = ts.transpileModule(source, {
       compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 },
     }).outputText;

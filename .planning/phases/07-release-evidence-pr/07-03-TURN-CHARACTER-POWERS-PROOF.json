@@ -1,0 +1,161 @@
+{
+  "purpose": "Actual component-mode hazard contacts and owner innate cooldown proof; no browser or full-release claim",
+  "runId": "50e67ffc-a63d-4133-89a5-5bf36c62ef98",
+  "terminalExit": 0,
+  "ordinaryCases": 12,
+  "canonicalCases": 12,
+  "collectionControls": 8,
+  "intervals": 24,
+  "independentNodeParents": 2,
+  "browserRealms": 0,
+  "inventoryRawSha256": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+  "results": {
+    "relay": {
+      "before": {
+        "covered": 2286,
+        "total": 2722
+      },
+      "newUniqueWitnesses": 2,
+      "diagnosticCovered": 2288,
+      "total": 2722,
+      "remainingAt85": 26,
+      "rows": [
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "37",
+          "arm": 0,
+          "hits": 8,
+          "location": {
+            "start": {
+              "line": 136,
+              "column": 63
+            },
+            "end": {
+              "line": 136,
+              "column": 65
+            }
+          }
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "87",
+          "arm": 1,
+          "hits": 66,
+          "location": {
+            "start": {},
+            "end": {}
+          }
+        }
+      ]
+    },
+    "race": {
+      "before": {
+        "covered": 2492,
+        "total": 3020
+      },
+      "newUniqueWitnesses": 3,
+      "diagnosticCovered": 2495,
+      "total": 3020,
+      "remainingAt85": 72,
+      "rows": [
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "4",
+          "arm": 1,
+          "hits": 243,
+          "location": {
+            "start": {
+              "line": 70,
+              "column": 190
+            },
+            "end": {
+              "line": 70,
+              "column": 194
+            }
+          }
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "10",
+          "arm": 0,
+          "hits": 243,
+          "location": {
+            "start": {
+              "line": 81,
+              "column": 24
+            },
+            "end": {
+              "line": 81,
+              "column": 26
+            }
+          }
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "id": "87",
+          "arm": 1,
+          "hits": 66,
+          "location": {
+            "start": {},
+            "end": {}
+          }
+        }
+      ]
+    }
+  },
+  "prior172JobsPreserved": true,
+  "fullJobs": 174,
+  "productionSourceChanged": false,
+  "newProductRed": false,
+  "fixtureCorrections": [
+    "01 assumed rescue always chooses starting bank;actual nearest bank can be row2",
+    "02 expected nonexistent ready charge spelling;actual personal charge is available",
+    "Final changes before canonical02 are comment-only and preserve prior behavior."
+  ],
+  "hashes": {
+    "artifacts/release-coverage/turn-character-powers-04/50e67ffc-a63d-4133-89a5-5bf36c62ef98/inventory.json": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+    "artifacts/release-coverage/turn-character-powers-04/50e67ffc-a63d-4133-89a5-5bf36c62ef98/job-ledger.json": "ef34d00452cac0142e264b80e8bd190511ceb8149d4bfaf2e849aee126ab7bc4",
+    "artifacts/release-coverage/turn-character-powers-04/50e67ffc-a63d-4133-89a5-5bf36c62ef98/model-race-character-powers-test.json": "4738e2917fcf86c119a67781eb3696728252d504130378e99418051d6cc2c8ea",
+    "artifacts/release-coverage/turn-character-powers-04/50e67ffc-a63d-4133-89a5-5bf36c62ef98/model-relay-character-powers-test.json": "c41f17224599f46841c4d9b4606a60c9628fd7e60f22f143f41b591b46e601eb",
+    "artifacts/release-coverage/turn-character-powers-04/50e67ffc-a63d-4133-89a5-5bf36c62ef98/tests__race-character-powers.test.mjs.json": "8194d695fca39ef6de7b68fbbf98d05ed62f4ef0c41ef1efe26619ef67f1b347",
+    "artifacts/release-coverage/turn-character-powers-04/50e67ffc-a63d-4133-89a5-5bf36c62ef98/tests__relay-character-powers.test.mjs.json": "b2ea538a750ab49cbae4840ecad28a43292ec326bb29caf914ce495249a5986c",
+    "artifacts/release-coverage/turn-character-powers-04/attribution.json": "6b73cfee0c46d8e1bee7a9b156fbaea6c0c3af09116b21d7c813877f09fe4ea7",
+    "artifacts/release-coverage/turn-character-powers-04/manifest.json": "f2aa36fd2d3e9d0b89120efcc192e18a17e2b2da4fee1c777c8ecafbd9172300",
+    "artifacts/release-coverage/turn-character-powers-04/report/coverage-final.json": "2c752e85076f8a42a7bb72cfc17ae0d1cf3a31adf160bdde9ede73f17205861d",
+    "artifacts/release-coverage/turn-character-powers-04/strata/race/coverage-final.json": "9d27e9de7ffd35a7f2e044f7da55a007e88f355fbebc1387176395024dfec290",
+    "artifacts/release-coverage/turn-character-powers-04/strata/relay/coverage-final.json": "438cc54ad04f8acdc1eef38926812553652edbba17c0776628cb4e261b93c558",
+    "artifacts/release-coverage/turn-powers-03-proof/canonical-01-fixture.mjs": "de43454164f199c5d867db52d392885640ad9bc5d56700925069ef9db2893081",
+    "artifacts/release-coverage/turn-powers-03-proof/canonical-02.log": "99af9d74eda091329b19f1bc4593e883e1799766bb8129f9031092a210953c9e",
+    "artifacts/release-coverage/turn-powers-03-proof/canonical.log": "f0662f32e23707b1e85969ef6fd174bdbd4b8762f617def7e23c6a178386f332",
+    "artifacts/release-coverage/turn-powers-03-proof/comparison.json": "9a03b431c84e7f09ce6d67951c42da2c1e626e02668dfbc475562f71d8ca15d9",
+    "artifacts/release-coverage/turn-powers-03-proof/controls.log": "b282fee30a6c92b6b57f79da25ce04f429f29cd1437c9dfbcb9dbc4ef9fe8b1c",
+    "artifacts/release-coverage/turn-powers-03-proof/dispatch-audit.json": "9db20ef01fa76ac998260af084e5c3db967d2f54735bd410807af80757c8c64e",
+    "artifacts/release-coverage/turn-powers-03-proof/finalize.py": "a0018f44b6f3defbea96eec38f40cf71c880e147e7ea57574baca320c0481d4f",
+    "artifacts/release-coverage/turn-powers-03-proof/ordinary-01.log": "39e243816ab590337698082cb5b1196c0bc42fc7c673802f8d016918285d22aa",
+    "artifacts/release-coverage/turn-powers-03-proof/ordinary-02.log": "44dee90c115a3459a7710a997b5de43951babcc81f6b00d760ac8346b40c6e88",
+    "artifacts/release-coverage/turn-powers-03-proof/ordinary-03.log": "fa2e78366b57e436b2f8d4d2832947b0800bcd18f2c70385f82be899beaed223",
+    "artifacts/release-coverage/turn-powers-03-proof/ordinary-04.log": "4625a7fd08edeaf575e99751f682eb16508b814b8d7bb6f76d25ff6616fe7e99",
+    "artifacts/release-coverage/turn-powers-03-proof/test-attempt-01.mjs": "c86eac67c5cfe5026fe288d0d485a3fc5f7697ce0c1e4ccd8920705ffbd6c361",
+    "artifacts/release-coverage/turn-powers-03-proof/test-attempt-02.mjs": "74432efc112e707bb5fdc8c97f262475dd033cb7dd64ff08bcc1cb2c8a18237b",
+    "package.json": "c73712d7ea58e55e3da1f13774d0d94c8e76b37f009267fdb133de831996221f",
+    "tests/race-character-powers.test.mjs": "d09d523571cf89d52b9cbb87ef7d23c167dae4d44e002c995f8fcd05190ce1a4",
+    "tests/relay-character-powers.test.mjs": "041daa89afab3b8d266a43f81adf140fea9ab42a8853bfee26d025e463f643f6",
+    "tests/turn-character-powers-fixture.mjs": "8e2196f205c3f75006b0eeb5568c261d3a4f59e2c8829e1e6d6a36b2e0eebd34",
+    "tools/release-coverage/suites.json": "899f63907bea2cd8831b98ffd099016d612167adf04f76fcae2b7bfa103634a3"
+  },
+  "limitations": [
+    "Geometry arranged;player pose,health,score,clock,innate cooldown and collision/power handlers remain real.",
+    "No browser/DEV/physical hardware or new initial-ledger credit.",
+    "Diagnostics are unique positive witnesses against source-identical complete baseline;fresh enforcing full run and semantic review still required."
+  ]
+}

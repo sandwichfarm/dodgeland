@@ -3,13 +3,27 @@ import type { Direction } from './game.js';
 import type { Character } from './content.js';
 import type { RunInventory } from './market/run.js';
 import type { HeldCard, MarketResult, Rarity, CosmeticDefinition, ItemDefinition } from './market/types.js';
+import { CONSUMABLES } from './consumables.js';
+import type { CoOpMarketContext } from './co-op-market.js';
 import { createMarketPreview } from './market-preview.js';
 import { createMarketScene } from './market-scene.js';
 import { runHandControls } from './run-hand.js';
 
+export interface MarketGear {readonly id:string;readonly name:string;readonly icon:string;readonly color:string;readonly description:string}
 interface MarketUIOptions {
+  getGear?():readonly MarketGear[]|undefined;
   getRun(): RunInventory;
   getCharacter(): Character;
+  getOwner?(): { key: string; seat: string; marker: string; character: Character } | undefined;
+  getOwners?(): readonly { key: string; seat: string; marker: string; character: Character }[];
+  getOwnerKey?(): string;
+  getOwnerLabel?(): string | undefined;
+  selectOwner?(seat: string): void;
+  selectNextOwner?(): void;
+  canMutate?(): boolean;
+  unavailableReason?(): string;
+  getCoOpContext?(): CoOpMarketContext | undefined;
+  transaction?(request: { kind: 'buy' | 'buy-consumable' | 'sell' | 'claim-pack' | 'skip-pack' | 'equip'; offerId?: string; itemId?: string; cardId?: string; ids?: readonly string[]; discardIds?: readonly string[] }): MarketResult;
   canOpen(): boolean;
   open(): boolean;
   close(resume: boolean): void;
@@ -20,12 +34,12 @@ interface MarketUIOptions {
 }
 
 type View = 'shop' | 'wardrobe';
-type Source = 'offer' | 'card' | 'power' | 'look' | 'choice' | 'discard';
+type Source = 'offer' | 'consumable' | 'card' | 'power' | 'look' | 'choice' | 'discard';
 type StockSection = 'cards' | 'rare' | 'extras';
 type Face = Pick<HeldCard, 'icon' | 'name' | 'rarity' | 'description' | 'color'>;
 interface DisplayItem {
   key: string; id: string; source: Source; item: Face; definition?: ItemDefinition;
-  price?: number; note?: string; section?: StockSection; sold?: boolean;
+  itemId?:string; price?: number; note?: string; section?: StockSection; sold?: boolean;
 }
 const element = <T extends HTMLElement = HTMLElement>(id: string): T => document.getElementById(id) as T;
 const rarityLabel = (rarity: Rarity): string => rarity[0].toUpperCase() + rarity.slice(1);
@@ -38,6 +52,10 @@ function textNode<K extends keyof HTMLElementTagNameMap>(tag: K, text: string, c
 /** One market table, a separate wardrobe, and bounded pack/detail views. */
 export function createMarketUI(options: MarketUIOptions) {
   const overlay = element('market'), opener = element<HTMLButtonElement>('market-open');
+  const owner = textNode('span', '', 'market-owner'); owner.id = 'market-owner'; owner.hidden = true;
+  owner.tabIndex = -1; owner.setAttribute('role', 'heading'); owner.setAttribute('aria-level', '2');
+  const ownerStrip = textNode('div', '', 'market-owner-strip'); ownerStrip.id = 'market-owner-strip'; ownerStrip.hidden = true; ownerStrip.setAttribute('role', 'group'); ownerStrip.setAttribute('aria-label', 'Local Play owner');
+  overlay.querySelector('.market-toolbar')!.prepend(ownerStrip, owner);
   const offers = element('market-offers');
   const hand = element('run-inventory');
   const wardrobe = element('market-wardrobe-items'), choices = element('market-choices');
@@ -54,6 +72,13 @@ export function createMarketUI(options: MarketUIOptions) {
   let inspection: string | undefined, page = 0, pageCount = 1, capacity = 1, roomy = false, short = false;
   let visibleKeys: string[] = [], pageAnchor: string | undefined;
   let closingRun: RunInventory | undefined, closeTimer: ReturnType<typeof setTimeout> | undefined;
+  // Only an empty Local Play inventory needs a UI-only presentation flag. An
+  // ordinary market follows its own RunInventory.isOpen lifecycle exactly.
+  let ownerKey = options.getOwnerKey?.() ?? 'solo', ownerGeneration = 0, ownerRoster = '', virtualPresentation = false;
+  // A ghost can still have an authoritative market window, but cannot submit
+  // its close action. Remember a local dismissal until an owner selection
+  // intentionally opens that read-only view again.
+  let dismissedRun: RunInventory | undefined;
   const peers = [...overlay.parentElement!.children].filter((node): node is HTMLElement => node instanceof HTMLElement && node !== overlay && node !== hand);
   const previousInert = new Map<HTMLElement, boolean>();
   const reducedMotion = (): boolean => !!options.getReducedMotion?.() || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -136,6 +161,48 @@ export function createMarketUI(options: MarketUIOptions) {
     if (closeTimer !== undefined) clearTimeout(closeTimer);
     closeTimer = undefined; closingRun = undefined; overlay.inert = false; overlay.classList.remove('is-closing');
   }
+  function mutationsAvailable(): boolean { return options.canMutate?.() ?? true; }
+  function unavailableReason(): string { return options.unavailableReason?.() ?? 'This action is unavailable.'; }
+  function syncOwner(): void {
+    const shared = options.getOwner?.();
+    const owners = options.getOwners?.() ?? [];
+    owner.hidden = !shared;
+    ownerStrip.hidden = owners.length < 2;
+    owner.textContent = options.getOwnerLabel?.() ?? (shared ? `Viewing ${shared.seat.toUpperCase()} ${shared.marker} · ${shared.character.name}` : '');
+    overlay.setAttribute('aria-label', owner.textContent || 'Market');
+    owner.dataset.ownerKey = shared?.key ?? '';
+    owner.title = shared ? `${owner.textContent}. ${mutationsAvailable() ? 'Run interactions are available.' : unavailableReason()}` : '';
+    const roster = owners.map(candidate => `${candidate.key}:${candidate.character.id}`).join('|');
+    if (roster !== ownerRoster) {
+      ownerRoster = roster;
+      ownerStrip.replaceChildren(...owners.map(candidate => {
+        const control = button(`${candidate.seat.toUpperCase()} ${candidate.marker}`, `owner:${candidate.seat}`, 'owner-seat', candidate.seat);
+        control.className = 'market-owner-seat'; control.setAttribute('aria-label', `View ${candidate.seat.toUpperCase()} ${candidate.marker}, ${candidate.character.name}`);
+        return control;
+      }));
+    }
+    for (const control of ownerStrip.querySelectorAll<HTMLButtonElement>('[data-market-action="owner-seat"]')) {
+      const selected = control.dataset.id === shared?.seat;
+      control.setAttribute('aria-pressed', String(selected)); control.classList.toggle('is-selected', selected);
+    }
+  }
+  function resetOwnerState(): void {
+    cancelClosing(); currentRun = undefined; dismissedRun = undefined; travelerRendered = ''; lastMilestone = 0; draftId = '';
+    picked.clear(); discarded.clear(); replacing = false; view = 'shop'; inspection = undefined;
+    page = 0; pageCount = 1; pageAnchor = undefined; visibleKeys = []; rendered = '';
+    detailSource = ''; detailPages = []; detailPage = 0;
+    element('market-status').textContent = ''; element('market-reveal').replaceChildren();
+  }
+  function invalidateOwner(): boolean {
+    const oldRun = currentRun;
+    const marketWasOpen = isOpen();
+    ownerGeneration += 1;
+    // Call the existing close path while getRun still addresses the departing
+    // owner; a selected HUD seat is changed only after this returns.
+    if (marketWasOpen && oldRun === options.getRun()) options.close(false);
+    if (wasOpen) modal(false);
+    virtualPresentation = false; resetOwnerState(); syncOwner(); return marketWasOpen;
+  }
   function controls(): HTMLElement[] {
     if (closingRun) return [];
     return [...overlay.querySelectorAll<HTMLElement>('button:not(:disabled), [data-market-key][tabindex="0"]'), ...runHandControls()]
@@ -196,6 +263,12 @@ export function createMarketUI(options: MarketUIOptions) {
       result.push({ key: `offer:${offer.id}`, id: offer.id, source: 'offer', item, definition: item, price: offer.price, sold: offer.sold,
         section: offer.section ?? (item.kind === 'card' ? 'cards' : item.kind === 'cosmetic' ? 'extras' : 'rare') });
     }
+    for (const offer of options.getCoOpContext?.()?.offers.filter(candidate => candidate.source === 'consumable') ?? []) {
+      const gear=options.getGear?.();
+      const item = gear?gear.find(candidate=>candidate.id===offer.itemId):CONSUMABLES.find(candidate => candidate.id === offer.itemId);
+      if (!item) continue;
+      result.push({ key: `consumable:${offer.id}`, id: offer.id, itemId:offer.itemId, source: 'consumable', item: { name: item.name, icon: 'icon' in item?item.icon:item.id === 'revival' ? '✚' : '✦', rarity: 'rare', color:'color' in item?item.color:item.id === 'revival' ? '#5aa795' : '#d59d4b', description: 'description' in item?item.description:`${item.name} item. ${item.id === 'revival' ? 'Return one dead teammate safely.' : 'Regroup dead teammates safely.'}` }, price: offer.price, sold: offer.sold, section: 'rare' });
+    }
     for (const card of run.cards) {
       const source = run.pendingPack && replacing ? 'discard' : 'card';
       result.push({ key: `${source}:${card.id}`, id: card.id, source, item: card, price: card.saleValue });
@@ -213,50 +286,63 @@ export function createMarketUI(options: MarketUIOptions) {
   function currentEntries(run: RunInventory, all = entries(run)): DisplayItem[] {
     if (run.pendingPack) return all.filter(entry => entry.source === (replacing ? 'discard' : 'choice'));
     if (view === 'wardrobe') return all.filter(entry => entry.source === 'look');
-    return all.filter(entry => entry.source === 'offer');
+    return all.filter(entry => entry.source === 'offer' || entry.source === 'consumable');
   }
   function tile(entry: DisplayItem, index: number): HTMLButtonElement {
     const control = button('', `inspect:${entry.key}`, 'inspect', entry.key);
+    const gear=!!options.getGear?.()&&entry.source==='consumable';
     const kind = entry.definition?.kind ?? 'card';
+    const gearUnavailable=gear&&entry.sold?(currentRun?.market?(short?'Full':'Item capacity reached'):(short?'At market':'Available at an earned market')):'';
     control.className = `market-item market-tile market-${kind}${kind === 'cosmetic' ? '' : ' playing-card'}${entry.source === 'offer' ? '' : ' market-held'}`;
-    if (entry.source === 'offer') { control.dataset.offer = entry.id; control.dataset.sold = String(!!entry.sold); control.disabled = !!entry.sold; }
+    if (entry.source === 'offer' || entry.source === 'consumable') {
+      control.dataset.offer = entry.id; control.dataset.sold = String(!!entry.sold); control.disabled = !!entry.sold;
+      if (entry.source === 'consumable' && entry.sold) control.title = gearUnavailable || `Already carrying ${entry.item.name}.`;
+    }
     if (entry.source === 'card' || entry.source === 'choice' || entry.source === 'discard') control.dataset.card = entry.id;
     if (entry.source === 'look') control.dataset.cosmetic = entry.id;
     if (entry.source === 'power') control.dataset.power = entry.id;
-    decorate(control, entry.item, index);
-    if (entry.definition?.kind === 'cosmetic') cosmeticFace(control, entry.definition);
+    if(gear){control.className='market-item market-tile market-gear';control.style.setProperty('--item-color',entry.item.color);}
+    else decorate(control, entry.item, index);
+    if(gear){const art=textNode('span',entry.item.icon,'market-gear-voxel');art.setAttribute('aria-hidden','true');control.append(art,textNode('strong',entry.item.name));}
+    else if (entry.definition?.kind === 'cosmetic') cosmeticFace(control, entry.definition);
     else control.append(face(entry.item, kind));
     const selected = entry.source === 'choice' ? picked.has(entry.id) : entry.source === 'discard' && discarded.has(entry.id);
     const state = entry.source === 'offer' ? entry.sold ? '✓ Yours' : `${entry.price} ◆`
+      : entry.source === 'consumable' ? entry.sold ? gearUnavailable || `Already carrying ${entry.item.name}` : `${entry.price} ◆`
       : entry.source === 'choice' ? selected ? '✓ Selected' : 'View card'
       : entry.source === 'discard' ? selected ? '✕ Discard' : 'Keep'
       : entry.source === 'card' ? 'In your hand' : entry.note ?? 'Owned';
     control.append(textNode('span', state, 'market-tile-price'));
-    control.setAttribute('aria-label', `${entry.item.name}, ${rarityLabel(entry.item.rarity)}. ${state}. ${entry.sold ? 'Purchased.' : 'View details.'}`);
+    control.setAttribute('aria-label', `${entry.item.name}, ${rarityLabel(entry.item.rarity)}. ${state}. ${entry.sold ? entry.source === 'consumable' ? gearUnavailable || 'Maximum one held.' : 'Purchased.' : 'View details.'}`);
     if (entry.source === 'choice' || entry.source === 'discard') {
       control.classList.add('market-choice'); control.classList.toggle('is-selected', selected);
       control.classList.toggle('is-discarded', entry.source === 'discard' && selected);
       control.setAttribute('aria-pressed', String(selected));
       const burst = textNode('span', '', 'card-selection-burst'); burst.setAttribute('aria-hidden', 'true'); control.prepend(burst);
     }
+    if (!mutationsAvailable() && ['choice', 'discard'].includes(entry.source)) {
+      control.disabled = true; control.title = unavailableReason();
+      control.setAttribute('aria-label', `${entry.item.name}. ${unavailableReason()}`);
+    }
     return control;
   }
   function renderInspection(run: RunInventory, entry: DisplayItem): void {
     const art = element('market-inspect-art'); art.replaceChildren(); art.className = `market-inspect-art rarity-${entry.item.rarity}`;
     art.style.setProperty('--item-color', entry.item.color);
-    if (entry.definition?.kind === 'cosmetic') cosmeticFace(art, entry.definition, true);
+    if(options.getGear?.()&&entry.source==='consumable')art.append(textNode('span',entry.item.icon,'market-gear-voxel'));
+    else if (entry.definition?.kind === 'cosmetic') cosmeticFace(art, entry.definition, true);
     else art.append(face(entry.item, entry.definition?.kind, true));
     element('market-inspect-name').textContent = entry.item.name;
-    element('market-inspect-kind').textContent = `${rarityLabel(entry.item.rarity)} · ${entry.definition?.kind === 'cosmetic' ? lookLabel(entry.definition) : entry.definition?.kind === 'pack' ? 'Pack' : entry.definition?.kind === 'power' ? 'Power' : 'Card'}`;
+    element('market-inspect-kind').textContent = `${rarityLabel(entry.item.rarity)} · ${entry.definition?.kind === 'cosmetic' ? lookLabel(entry.definition) : entry.definition?.kind === 'pack' ? 'Pack' : entry.definition?.kind === 'power' ? 'Power' : entry.source === 'consumable' ? 'Item' : 'Card'}`;
     element('market-inspect-description').textContent = entry.item.description;
     const action = element<HTMLButtonElement>('market-inspect-action');
     element('market-inspect-note').classList.remove('market-error');
     action.hidden = false; action.disabled = false; action.dataset.id = entry.id;
     let actionName = '', label = '', note = entry.note ?? 'Lasts this run.';
-    if (entry.source === 'offer') {
-      actionName = 'buy'; label = `${entry.definition?.kind === 'pack' ? 'Open' : 'Buy'} · ${entry.price} ◆`;
+    if (entry.source === 'offer' || entry.source === 'consumable') {
+      actionName = entry.source === 'consumable' ? 'buy-consumable' : 'buy'; label = entry.source === 'consumable' ? `Buy ${entry.item.name} · ${entry.price} ◆` : `${entry.definition?.kind === 'pack' ? 'Open' : 'Buy'} · ${entry.price} ◆`;
       action.disabled = run.wallet < entry.price!;
-      if (action.disabled) note = `Need ${entry.price! - run.wallet} more coins.`;
+      if (action.disabled) note = options.getGear?.()?'Not enough coins.':`Need ${entry.price! - run.wallet} more coins.`;
       else if (entry.definition?.kind === 'pack') note = 'Choose after opening. Skipping keeps no cards and gives no refund.';
     } else if (entry.source === 'card') { actionName = 'sell'; label = `Sell · ${entry.price} ◆`; }
     else if (entry.source === 'look') {
@@ -270,6 +356,7 @@ export function createMarketUI(options: MarketUIOptions) {
       note = 'Leaves your hand when you confirm. No sale coins.';
     } else { action.hidden = true; }
     action.dataset.marketAction = actionName; action.dataset.marketKey = `${actionName}:${entry.id}`; action.textContent = label;
+    if (actionName && !mutationsAvailable()) { action.disabled = true; note = unavailableReason(); }
     action.setAttribute('aria-label', entry.source === 'discard' ? `${label}: ${entry.item.name}. Changes apply only after confirming the replacement.` : label);
     element('market-inspect-note').textContent = note;
     detailSource = `${entry.item.name}. ${entry.item.description} ${note}`;
@@ -282,7 +369,9 @@ export function createMarketUI(options: MarketUIOptions) {
     const all = entries(run), inspected = all.find(entry => entry.key === inspection && !entry.sold);
     if (!inspected) inspection = undefined;
     const screen = inspection ? 'inspect' : run.pendingPack ? 'draft' : view;
+    const narrowCoOpShop = screen === 'shop' && short && !owner.hidden && window.innerWidth < 480 && window.innerHeight < 330;
     overlay.dataset.marketView = screen; overlay.dataset.marketRoomy = String(roomy); overlay.dataset.marketCapacity = String(capacity); overlay.dataset.marketShort = String(short);
+    overlay.dataset.marketSingleOffer = String(narrowCoOpShop);
     overlay.dataset.marketDraftPhase = replacing ? 'replace' : 'choose';
     overlay.classList.toggle('is-drafting', !!run.pendingPack); overlay.classList.toggle('is-inspecting', !!inspection);
     for (const [id, value] of [['market-table', 'shop'], ['market-wardrobe', 'wardrobe'], ['market-draft', 'draft'], ['market-inspect', 'inspect']]) {
@@ -291,28 +380,69 @@ export function createMarketUI(options: MarketUIOptions) {
     for (const key of ['shop', 'wardrobe'] as const) {
       const tab = element<HTMLButtonElement>(`market-${key}-tab`); tab.setAttribute('aria-pressed', String(view === key)); tab.disabled = !!run.pendingPack;
     }
-    element('market-close').setAttribute('aria-disabled', String(!!run.pendingPack));
-    element('market-close').hidden = !!run.pendingPack;
+    // A paid draft remains locked for its active owner, but a disconnected
+    // owner must still be able to dismiss its read-only presentation without
+    // accidentally skipping or claiming the already-paid pack.
+    const draftLocked = !!run.pendingPack && mutationsAvailable();
+    element('market-close').setAttribute('aria-disabled', String(draftLocked));
+    element('market-close').hidden = draftLocked;
     element('market-skip').hidden = !run.pendingPack;
     element('market-picks-back').hidden = !run.pendingPack || !replacing || !!inspection;
-    element('market-view-heading').textContent = screen === 'wardrobe' ? 'Dress your traveler' : screen === 'draft' ? 'Choose your cards' : screen === 'inspect' ? 'Take a closer look' : 'Choose a find';
-    const items = currentEntries(run, all), limit = screen === 'shop' ? 6 : capacity;
+    element('market-view-heading').textContent = screen === 'wardrobe' ? 'Dress your traveler' : screen === 'draft' ? 'Choose your cards' : screen === 'inspect' ? 'Take a closer look' : options.getGear?.()?'Race gear':'Choose a find';
+    // A short owner toolbar leaves room for one readable offer row. Keep the
+    // remaining stock on the existing visible pager instead of clipping it
+    // beneath the persistent hand. Shop pages advance each fixed shelf
+    // section independently, so both rare consumables keep the one rare slot
+    // instead of a flat slice silently dropping the second one.
+    const gear=options.getGear?.();
+    const items = currentEntries(run, all).filter(entry=>!gear||view==='wardrobe'||entry.source==='consumable'), limit = screen === 'shop' ? 6 : capacity;
+    const shopSections:readonly (readonly [StockSection,number])[]=gear?[['rare',2]]:[['cards',3],['rare',1],['extras',2]];
+    // Solo retains its established six-slot shelf. Only an owner-labelled
+    // Local Play table uses the bounded one-per-section page in a short frame.
+    const visibleShopSlots = (slots: number): number => short && !owner.hidden ? 1 : slots;
+    const shopPageFor = (entry: DisplayItem): number => {
+      if (narrowCoOpShop) return Math.max(0, items.findIndex(item => item.key === entry.key));
+      const section = shopSections.find(([name]) => name === entry.section);
+      if (!section) return 0;
+      const stock = items.filter(item => item.section === section[0]);
+      return Math.floor(Math.max(0, stock.findIndex(item => item.key === entry.key)) / visibleShopSlots(section[1]));
+    };
     if (pageAnchor) {
       const index = items.findIndex(entry => entry.key === pageAnchor);
-      if (index >= 0) page = Math.floor(index / limit);
+      if (index >= 0) page = screen === 'shop' ? shopPageFor(items[index]!) : Math.floor(index / limit);
       pageAnchor = undefined;
     }
-    pageCount = Math.max(1, Math.ceil(items.length / limit)); page = Math.min(page, pageCount - 1);
-    const shown = items.slice(page * limit, (page + 1) * limit); visibleKeys = shown.map(entry => entry.key);
+    pageCount = narrowCoOpShop
+      ? Math.max(1, items.length)
+      : screen === 'shop'
+      ? Math.max(1, ...shopSections.map(([section, slots]) => Math.ceil(items.filter(item => item.section === section).length / visibleShopSlots(slots))))
+      : Math.max(1, Math.ceil(items.length / limit));
+    page = Math.min(page, pageCount - 1);
+    const shown = narrowCoOpShop
+      ? items.slice(page, page + 1)
+      : screen === 'shop'
+      ? shopSections.flatMap(([section, slots]) => {
+        const visible = visibleShopSlots(slots);
+        return items.filter(item => item.section === section).slice(page * visible, (page + 1) * visible);
+      })
+      : items.slice(page * limit, (page + 1) * limit);
+    visibleKeys = shown.map(entry => entry.key);
     if (inspected) renderInspection(run, inspected);
-    else if (screen === 'shop') {
+    else if (screen === 'shop' && narrowCoOpShop) {
+      shown.forEach((entry, index) => offers.append(tile(entry, index)));
+    } else if(screen==='shop'&&gear){shown.forEach((entry,index)=>offers.append(tile(entry,index)));
+    } else if (screen === 'shop') {
       // Keep the same six places after a purchase. An empty rare shelf is a
       // deliberate slot; it never makes cosmetics slide into the card row.
-      for (const [section, label, slots] of [['cards', 'Cards', 3], ['rare', 'Rare finds', 1], ['extras', 'Cosmetics', 2]] as const) {
+      for (const [section, label, fullSlots] of [['cards', 'Cards', 3], ['rare', 'Rare finds', 1], ['extras', 'Cosmetics', 2]] as const) {
+        const slots = visibleShopSlots(fullSlots);
         const group = textNode('section', '', `market-stock-group market-stock-${section}`); group.dataset.section = section;
         group.setAttribute('aria-label', label); group.append(textNode('h4', label));
         const grid = textNode('div', '', 'market-stock-grid');
-        const stock = items.filter(entry => entry.section === section);
+        // Each page retains the established three-card, one-rare, two-look
+        // shelf. Paging makes both eligible consumables reachable when they
+        // share the single rare place instead of silently hiding Flare.
+        const stock = shown.filter(entry => entry.section === section);
         for (let index = 0; index < slots; index++) {
           const entry = stock[index];
           const slot = String((section === 'cards' ? 1 : section === 'rare' ? 4 : 5) + index);
@@ -332,7 +462,7 @@ export function createMarketUI(options: MarketUIOptions) {
       shown.forEach((entry, index) => target.append(tile(entry, index)));
       if (!shown.length) target.append(textNode('p', screen === 'draft' ? 'No cards to replace. Keep your choices or skip this pack.' : 'Find a new look at the market.', 'market-empty'));
     }
-    element('market-pagination').hidden = screen === 'shop' || !!inspection || pageCount <= 1;
+    element('market-pagination').hidden = !!inspection || pageCount <= 1;
     element('market-page-count').textContent = `${page + 1} / ${pageCount}`;
     element<HTMLButtonElement>('market-prev').disabled = page === 0;
     element<HTMLButtonElement>('market-next').disabled = page === pageCount - 1;
@@ -355,23 +485,35 @@ export function createMarketUI(options: MarketUIOptions) {
   function resetView(): void { view = 'shop'; inspection = undefined; page = 0; pageAnchor = undefined; rendered = ''; }
   function update(): void {
     if (disposed) return;
+    const nextOwnerKey = options.getOwnerKey?.() ?? 'solo';
+    if (nextOwnerKey !== ownerKey) { ownerKey = nextOwnerKey; ownerGeneration += 1; resetOwnerState(); }
+    syncOwner();
     const run = options.getRun(); overlay.classList.toggle('less-motion', reducedMotion());
     if (closingRun && (closingRun !== run || !run.isOpen || !run.alive || !options.canRestoreFocus())) {
       const forceClose = closingRun === run && run.isOpen;
       cancelClosing(); if (forceClose) options.close(false);
     }
     if (currentRun !== run) {
+      virtualPresentation = false;
       currentRun = run; travelerRendered = ''; lastMilestone = 0; draftId = ''; picked.clear(); discarded.clear(); replacing = false; resetView();
       element('market-status').textContent = ''; element('market-reveal').replaceChildren();
     }
-    const window = run.market, available = !!window && run.alive;
+    if (!run.alive && virtualPresentation) {
+      // A virtual inspection has no RunInventory close transition of its own.
+      // Return the shared session before removing the modal when its owner dies.
+      options.close(false);
+    }
+    if (!run.alive) virtualPresentation = false;
+    const window = run.market, available = !!window && run.alive, open = isOpen();
     opener.hidden = !available; opener.disabled = !options.canOpen() && !run.isOpen;
     opener.textContent = run.pendingPack ? 'Finish choosing cards' : window ? `Market · ${options.shortcut()} · ${Math.ceil(window.remaining)}s` : 'Market';
     opener.setAttribute('aria-label', run.pendingPack ? `Finish choosing your pack cards (${options.shortcut()})` : window ? `Open market at ${window.milestone} points, ${Math.ceil(window.remaining)} seconds remaining (${options.shortcut()})` : 'Market unavailable');
     element('market-wallet').textContent = `${run.wallet} ◆`;
     element('market-tab-wallet').textContent = `${run.wallet} ◆`;
-    element('market-heading').textContent = window ? `Market · ${window.milestone}` : 'Market';
-    element('market-window').textContent = 'Take your time. The trail is paused.';
+    element('market-shop-tab').querySelector('span')!.textContent=options.getGear?.()?'Race gear':'Market';
+    overlay.dataset.gearOnly=String(!!options.getGear?.());
+    element('market-heading').textContent = options.getGear?.()?'Race gear':window ? `Market · ${window.milestone}` : 'Market';
+    element('market-window').textContent = window && mutationsAvailable() ? 'Take your time. The trail is paused.' : window ? unavailableReason() : `${unavailableReason()} No active market is open for this player.`;
     if (window && window.milestone !== lastMilestone) {
       lastMilestone = window.milestone; resetView();
       element('market-announcement').textContent = `Market open at ${window.milestone} points. Press ${options.shortcut()} or use Market. You have 15 seconds of play to visit.`;
@@ -380,13 +522,19 @@ export function createMarketUI(options: MarketUIOptions) {
     if (run.pendingPack?.id !== (draftId || undefined)) {
       draftId = run.pendingPack?.id ?? ''; picked.clear(); discarded.clear(); replacing = false; page = 0; inspection = undefined; rendered = '';
     }
+    for (const id of ['market-skip', 'market-claim']) {
+      const control = element<HTMLButtonElement>(id);
+      if (!mutationsAvailable() && !control.hidden) { control.disabled = true; control.title = unavailableReason(); }
+    }
     // The shared hand can sell while this draft stays open. Only prune removed
     // discards: current choices, offer inspection and the page remain intact.
     for (const id of discarded) if (!run.cards.some(card => card.id === id)) discarded.delete(id);
-    const signature = `${run.revision}:${window?.milestone ?? 0}:${run.wallet}:${view}:${inspection}:${page}:${capacity}:${roomy}:${short}:${[...picked]}:${replacing}:${[...discarded]}`;
-    if (run.isOpen && signature !== rendered) { rendered = signature; renderContents(run); }
-    if (run.isOpen) renderTraveler(run);
-    if (run.isOpen !== wasOpen) modal(run.isOpen);
+    // Participation can change without mutating a RunInventory revision. It
+    // still changes whether the current owner may commit a visible action.
+    const signature = `${run.revision}:${window?.milestone ?? 0}:${run.wallet}:${mutationsAvailable()}:${unavailableReason()}:${view}:${inspection}:${page}:${capacity}:${roomy}:${short}:${[...picked]}:${replacing}:${[...discarded]}`;
+    if (open && signature !== rendered) { rendered = signature; renderContents(run); }
+    if (open) renderTraveler(run);
+    if (open !== wasOpen) modal(open);
     syncPreviews();
   }
   function changeScreen(next: View): void {
@@ -416,28 +564,51 @@ export function createMarketUI(options: MarketUIOptions) {
     }
     if (result.ok && runIsVisible()) focusControl(acquiredKey ? `inspect:${acquiredKey}` : undefined);
   }
-  function runIsVisible(): boolean { return options.getRun().isOpen && !closingRun; }
+  /** Presentation stays modal through the close animation; actions do not. */
+  function isOpen(): boolean { const run = options.getRun(); return run.alive && run !== dismissedRun && (virtualPresentation || run.isOpen); }
+  function runIsVisible(): boolean { return isOpen() && !closingRun; }
   function close(resume = true): void {
     const run = options.getRun();
     if (!resume) {
-      cancelClosing(); if (run.isOpen) options.close(false);
+      cancelClosing(); if (runIsVisible()) options.close(false); virtualPresentation = false;
       update(); options.changed(); return;
     }
-    if (!run.isOpen || closingRun) return;
-    if (run.pendingPack) { element('market-status').textContent = 'Keep your cards or skip this pack before hopping.'; focusControl(); return; }
-    if (reducedMotion()) { options.close(options.canRestoreFocus()); update(); options.changed(); return; }
+    if (!runIsVisible()) return;
+    if (run.pendingPack && mutationsAvailable()) { element('market-status').textContent = 'Keep your cards or skip this pack before hopping.'; focusControl(); return; }
+    if (!run.isOpen || reducedMotion()) {
+      virtualPresentation = false; options.close(options.canRestoreFocus());
+      if (!mutationsAvailable()) dismissedRun = run;
+      update(); options.changed(); return;
+    }
     closingRun = run; overlay.inert = true; overlay.classList.add('is-closing'); syncPreviews();
+    const closeGeneration = ownerGeneration;
     closeTimer = setTimeout(() => {
+      if (closeGeneration !== ownerGeneration) return;
       const owner = closingRun; cancelClosing();
-      if (!disposed && owner === options.getRun() && owner?.isOpen && owner.alive) options.close(options.canRestoreFocus());
+      if (!disposed && owner === options.getRun() && owner?.isOpen && owner.alive) {
+        options.close(options.canRestoreFocus());
+        if (!mutationsAvailable()) dismissedRun = owner;
+      }
       update(); options.changed();
     }, 160);
   }
+  function openForSelected(): boolean {
+    dismissedRun = undefined;
+    if (!options.canOpen() || !options.open()) return false;
+    const run = options.getRun(), virtual = !run.isOpen;
+    // Let the normal replacement reset run before latching a real empty-owner
+    // view. Otherwise that reset would immediately clear the virtual flag.
+    if (virtual && currentRun !== run) update();
+    virtualPresentation = virtual; update(); options.changed(); return true;
+  }
+  function focusSelectedOwner(): boolean {
+    if (owner.hidden || owner.closest('[hidden], [inert]') || !owner.getClientRects().length) return false;
+    owner.focus({ preventScroll: true }); return true;
+  }
   function toggle(): void {
     if (closingRun) return;
-    if (options.getRun().isOpen) { close(); return; }
-    if (!options.canOpen() || !options.open()) return;
-    update(); options.changed();
+    if (runIsVisible()) { close(); return; }
+    openForSelected();
   }
   function back(): void {
     element('market-status').textContent = '';
@@ -448,6 +619,10 @@ export function createMarketUI(options: MarketUIOptions) {
     const target = event.target instanceof Element ? event.target.closest<HTMLButtonElement>('button[data-market-action]') : null;
     if (!target || target.disabled) return;
     const run = options.getRun(), id = target.dataset.id!, action = target.dataset.marketAction;
+    if (action === 'owner-seat') { if (id) options.selectOwner?.(id); return; }
+    if (action && ['buy', 'buy-consumable', 'sell', 'equip', 'choice', 'discard', 'claim', 'skip'].includes(action) && !mutationsAvailable()) {
+      element('market-status').textContent = unavailableReason(); return;
+    }
     if (action && ['view', 'page', 'inspect'].includes(action)) element('market-status').textContent = '';
     if (action === 'close') close();
     else if (action === 'view' && !run.pendingPack) changeScreen(id === 'wardrobe' ? 'wardrobe' : 'shop');
@@ -466,7 +641,7 @@ export function createMarketUI(options: MarketUIOptions) {
       if (discarded.has(id)) discarded.delete(id); else discarded.add(id);
       back();
     } else if (action === 'skip' && run.pendingPack) {
-      const result = run.skipPack();
+      const result = options.transaction?.({ kind: 'skip-pack' }) ?? run.skipPack();
       if (result.ok) view = 'shop';
       finish(result);
     }
@@ -480,34 +655,39 @@ export function createMarketUI(options: MarketUIOptions) {
     } else if (action === 'claim' && run.pendingPack) {
       if (!replacing && picked.size === run.pendingPack.picks && !run.previewPack([...picked]).valid) {
         replacing = true; inspection = undefined; page = 0; rendered = ''; update(); focusControl();
-      } else finish(run.claimPack([...picked], replacing ? [...discarded] : []));
+      } else finish(options.transaction?.({ kind: 'claim-pack', ids: [...picked], discardIds: replacing ? [...discarded] : [] }) ?? run.claimPack([...picked], replacing ? [...discarded] : []));
     }
     else if (action === 'buy') {
-      const entry = entries(run).find(item => item.key === `offer:${id}`); finish(run.buy(id), entry);
-    } else if (action === 'sell') finish(run.sell(id));
+      const entry = entries(run).find(item => item.key === `offer:${id}`); finish(options.transaction?.({ kind: 'buy', offerId: id }) ?? run.buy(id), entry);
+    } else if (action === 'buy-consumable') {
+      const entry = entries(run).find(item => item.key === `consumable:${id}`); finish(options.transaction?.({ kind: 'buy-consumable', offerId: id, itemId: entry?.itemId }) ?? { ok: false, message: 'That item is unavailable.' }, entry);
+    } else if (action === 'sell') finish(options.transaction?.({ kind: 'sell', cardId: id }) ?? run.sell(id));
     else if (action === 'equip') {
-      const entry = entries(run).find(item => item.key === `look:${id}`); finish(run.equipCosmetic(id), entry);
+      const entry = entries(run).find(item => item.key === `look:${id}`); finish(options.transaction?.({ kind: 'equip', itemId: id }) ?? run.equipCosmetic(id), entry);
     }
   }
   function navigate(direction: Direction): void {
-    if (!options.getRun().isOpen || closingRun) return;
+    if (!runIsVisible()) return;
     const available = controls(), index = available.indexOf(document.activeElement as HTMLElement);
     const step = direction === 'right' || direction === 'back' ? 1 : -1;
     const target = available[index < 0 ? 0 : (index + step + available.length) % available.length];
     target?.focus({ preventScroll: true });
   }
   function keydown(event: KeyboardEvent): void {
-    if (!options.getRun().isOpen || event.defaultPrevented) return;
+    if (!runIsVisible() || event.defaultPrevented) return;
     if (closingRun) { event.preventDefault(); return; }
     if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); if (inspection) back(); else close(); }
     else if (event.key === 'Tab') { event.preventDefault(); navigate(event.shiftKey ? 'left' : 'right'); }
   }
   function confirm(): void {
-    if (!closingRun && options.getRun().isOpen && document.activeElement instanceof HTMLButtonElement && controls().includes(document.activeElement)) document.activeElement.click();
+    if (!closingRun && runIsVisible() && document.activeElement instanceof HTMLButtonElement && controls().includes(document.activeElement)) document.activeElement.click();
   }
   function resize(): void {
     const width = overlay.clientWidth || window.innerWidth, height = overlay.clientHeight || window.innerHeight;
-    const nextCapacity = width >= 760 && height >= 430 ? 3 : 1, nextRoomy = width >= 1100 && height >= 780, nextShort = height < 330;
+    // The market may reserve a hand shelf whose overflowing controls report a
+    // larger box than the actual frame. The frame itself is authoritative for
+    // the bounded short owner layout.
+    const nextCapacity = width >= 760 && height >= 430 ? 3 : 1, nextRoomy = width >= 1100 && height >= 780, nextShort = height < 330 || window.innerHeight < 330;
     if (nextCapacity === capacity && nextRoomy === roomy && nextShort === short) return;
     const focused = document.activeElement instanceof HTMLElement ? document.activeElement.dataset.marketKey : undefined;
     const anchor = inspection ?? (focused?.startsWith('inspect:') ? focused.slice(8) : visibleKeys[0]);
@@ -518,9 +698,9 @@ export function createMarketUI(options: MarketUIOptions) {
   document.fonts.addEventListener('loadingdone', paginateInspection);
   opener.addEventListener('click', toggle); overlay.addEventListener('click', click); overlay.addEventListener('keydown', keydown); hand.addEventListener('keydown', keydown);
   resize();
-  return { update, toggle, close, navigate, confirm, dispose(): void {
+  return { update, toggle, close, navigate, confirm, invalidateOwner, openForSelected, focusSelectedOwner, isOpen, dispose(): void {
     if (disposed) return;
     disposed = true; resizeObserver.disconnect(); detailObserver.disconnect(); document.fonts.removeEventListener('loadingdone', paginateInspection); cancelClosing(); modal(false); clearItemPreviews(); unbindTraveler?.(); travelerPreview?.dispose(); scene.dispose();
-    opener.removeEventListener('click', toggle); overlay.removeEventListener('click', click); overlay.removeEventListener('keydown', keydown); hand.removeEventListener('keydown', keydown); compactCopy.remove(); detailNext.remove();
+    opener.removeEventListener('click', toggle); overlay.removeEventListener('click', click); overlay.removeEventListener('keydown', keydown); hand.removeEventListener('keydown', keydown); compactCopy.remove(); detailNext.remove(); owner.remove(); ownerStrip.remove();
   } };
 }

@@ -1,0 +1,3788 @@
+{
+  "purpose": "Human consequence/compatibility review of94 retained raw-zero legacy arms;byte equality binds source preservation but does not establish execution or future-input exhaustiveness",
+  "oracle": "a310a81ed6c76df4b265c9012c23b8c83f4802e5",
+  "currentInventoryRawSha256": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+  "files": [
+    {
+      "path": "src/actors.ts",
+      "sourceSha256": "8802f29be9e39003f6cdbf46c8ba08d61d2a01aaac91206ed6f236b8c65a1394",
+      "oracleSourceSha256": "8802f29be9e39003f6cdbf46c8ba08d61d2a01aaac91206ed6f236b8c65a1394",
+      "byteIdenticalToOracle": true,
+      "rawZeroArms": 3,
+      "requirements": [
+        "ARCH-03",
+        "SOLO-01"
+      ],
+      "behaviorEvidence": [
+        {
+          "path": "tests/solo-parity-actors.test.mjs",
+          "scheduledFullJob": true
+        },
+        {
+          "path": "tests/seed.test.mjs",
+          "scheduledFullJob": true
+        }
+      ]
+    },
+    {
+      "path": "src/character-power-ui.ts",
+      "sourceSha256": "3fa23675278d5782c16dc65c8358c7c5dd8ec28091a8021332cd1aa53d178945",
+      "oracleSourceSha256": "3fa23675278d5782c16dc65c8358c7c5dd8ec28091a8021332cd1aa53d178945",
+      "byteIdenticalToOracle": true,
+      "rawZeroArms": 1,
+      "requirements": [
+        "COOP-01",
+        "UI-02"
+      ],
+      "behaviorEvidence": [
+        {
+          "path": "tests/character-power-runtime.mjs",
+          "scheduledFullJob": true
+        },
+        {
+          "path": "tests/character-power-render.test.mjs",
+          "scheduledFullJob": true
+        }
+      ]
+    },
+    {
+      "path": "src/character-powers.ts",
+      "sourceSha256": "d785823a0278b758edafc70e725e4cfa9c4ea32dd4e3e6d6be0a416c23042b8d",
+      "oracleSourceSha256": "d785823a0278b758edafc70e725e4cfa9c4ea32dd4e3e6d6be0a416c23042b8d",
+      "byteIdenticalToOracle": true,
+      "rawZeroArms": 1,
+      "requirements": [
+        "COOP-01",
+        "SOLO-01"
+      ],
+      "behaviorEvidence": [
+        {
+          "path": "tests/character-powers.test.mjs",
+          "scheduledFullJob": true
+        },
+        {
+          "path": "tests/relay-character-powers.test.mjs",
+          "scheduledFullJob": true
+        },
+        {
+          "path": "tests/race-character-powers.test.mjs",
+          "scheduledFullJob": true
+        }
+      ]
+    },
+    {
+      "path": "src/coin-denominations.ts",
+      "sourceSha256": "707895fc6de79ad2cd7b71d45077655cc8a6a9af0a1b1f778863f6ad42c8ac14",
+      "oracleSourceSha256": "707895fc6de79ad2cd7b71d45077655cc8a6a9af0a1b1f778863f6ad42c8ac14",
+      "byteIdenticalToOracle": true,
+      "rawZeroArms": 1,
+      "requirements": [
+        "SOLO-02"
+      ],
+      "behaviorEvidence": [
+        {
+          "path": "tests/coin-denominations.test.mjs",
+          "scheduledFullJob": true
+        },
+        {
+          "path": "tests/seed.test.mjs",
+          "scheduledFullJob": true
+        }
+      ]
+    },
+    {
+      "path": "src/collection-ui.ts",
+      "sourceSha256": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10",
+      "oracleSourceSha256": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10",
+      "byteIdenticalToOracle": true,
+      "rawZeroArms": 27,
+      "requirements": [
+        "SOLO-03",
+        "UI-01",
+        "UI-05"
+      ],
+      "behaviorEvidence": [
+        {
+          "path": "tests/collection-game-layout.mjs",
+          "scheduledFullJob": true
+        }
+      ]
+    },
+    {
+      "path": "src/devtools.ts",
+      "sourceSha256": "717ad3568ee1cd1139f3650e1785f7aa4867cb4113b5417053b8677dd83f9e87",
+      "oracleSourceSha256": "717ad3568ee1cd1139f3650e1785f7aa4867cb4113b5417053b8677dd83f9e87",
+      "byteIdenticalToOracle": true,
+      "rawZeroArms": 2,
+      "requirements": [
+        "SOLO-02",
+        "TEST-03"
+      ],
+      "behaviorEvidence": [
+        {
+          "path": "tests/devtools.test.mjs",
+          "scheduledFullJob": true
+        },
+        {
+          "path": "tests/devtools-runtime.mjs",
+          "scheduledFullJob": true
+        }
+      ]
+    },
+    {
+      "path": "src/market-preview.ts",
+      "sourceSha256": "ef246b766e0421245bbd962b2119203ce20e22f0bcacdb6aa688600885864a3f",
+      "oracleSourceSha256": "ef246b766e0421245bbd962b2119203ce20e22f0bcacdb6aa688600885864a3f",
+      "byteIdenticalToOracle": true,
+      "rawZeroArms": 4,
+      "requirements": [
+        "SOLO-02",
+        "UI-05"
+      ],
+      "behaviorEvidence": [
+        {
+          "path": "tests/market-preview.test.mjs",
+          "scheduledFullJob": true
+        }
+      ]
+    },
+    {
+      "path": "src/market-scene.ts",
+      "sourceSha256": "d942e50e1eecd2685567eed8e58de49da3c648c91060362785e9875b5846c76e",
+      "oracleSourceSha256": "d942e50e1eecd2685567eed8e58de49da3c648c91060362785e9875b5846c76e",
+      "byteIdenticalToOracle": true,
+      "rawZeroArms": 8,
+      "requirements": [
+        "SOLO-02",
+        "UI-05"
+      ],
+      "behaviorEvidence": [
+        {
+          "path": "tests/market-scene.test.mjs",
+          "scheduledFullJob": false
+        }
+      ]
+    },
+    {
+      "path": "src/market-scenery.ts",
+      "sourceSha256": "c9f726c0d42e8fb47cf15ca40d4f6242099f1abfef3050b8faa46e13fd83feff",
+      "oracleSourceSha256": "c9f726c0d42e8fb47cf15ca40d4f6242099f1abfef3050b8faa46e13fd83feff",
+      "byteIdenticalToOracle": true,
+      "rawZeroArms": 1,
+      "requirements": [
+        "SOLO-02"
+      ],
+      "behaviorEvidence": [
+        {
+          "path": "tests/market-scenery.test.mjs",
+          "scheduledFullJob": true
+        },
+        {
+          "path": "tests/market-scenery-render.test.mjs",
+          "scheduledFullJob": true
+        }
+      ]
+    },
+    {
+      "path": "src/mob-models.ts",
+      "sourceSha256": "fce5e37b1e834b31296ae66cdd4a7ba177d0b11c1c09de977de92083675b7008",
+      "oracleSourceSha256": "fce5e37b1e834b31296ae66cdd4a7ba177d0b11c1c09de977de92083675b7008",
+      "byteIdenticalToOracle": true,
+      "rawZeroArms": 1,
+      "requirements": [
+        "SOLO-01",
+        "UI-02"
+      ],
+      "behaviorEvidence": [
+        {
+          "path": "tests/mobs.test.mjs",
+          "scheduledFullJob": true
+        }
+      ]
+    },
+    {
+      "path": "src/pause-ui.ts",
+      "sourceSha256": "e0f7d449c755077a98cf411b93fd209be8f8fbacbb21d005cd8e12c333d93dc2",
+      "oracleSourceSha256": "e0f7d449c755077a98cf411b93fd209be8f8fbacbb21d005cd8e12c333d93dc2",
+      "byteIdenticalToOracle": true,
+      "rawZeroArms": 12,
+      "requirements": [
+        "SOLO-03",
+        "UI-04",
+        "UI-05"
+      ],
+      "behaviorEvidence": [
+        {
+          "path": "tests/pause-game-layout.mjs",
+          "scheduledFullJob": true
+        }
+      ]
+    },
+    {
+      "path": "src/run-menu.ts",
+      "sourceSha256": "1d02c36c6d47645e86795810c5b5eb0d20ee85601bec3d4746de42b21920f676",
+      "oracleSourceSha256": "1d02c36c6d47645e86795810c5b5eb0d20ee85601bec3d4746de42b21920f676",
+      "byteIdenticalToOracle": true,
+      "rawZeroArms": 20,
+      "requirements": [
+        "SOLO-03",
+        "UI-04",
+        "UI-05"
+      ],
+      "behaviorEvidence": [
+        {
+          "path": "tests/run-menu-layout.mjs",
+          "scheduledFullJob": true
+        }
+      ]
+    },
+    {
+      "path": "src/run-seed.ts",
+      "sourceSha256": "fdd556d8e1daca5dd85602fa8f8bde29dbb495f3c267a9dac9cd4b375560a524",
+      "oracleSourceSha256": "fdd556d8e1daca5dd85602fa8f8bde29dbb495f3c267a9dac9cd4b375560a524",
+      "byteIdenticalToOracle": true,
+      "rawZeroArms": 2,
+      "requirements": [
+        "SOLO-02",
+        "ARCH-01"
+      ],
+      "behaviorEvidence": [
+        {
+          "path": "tests/seed.test.mjs",
+          "scheduledFullJob": true
+        },
+        {
+          "path": "tests/turn-seed-compatibility.test.mjs",
+          "scheduledFullJob": true
+        }
+      ]
+    },
+    {
+      "path": "src/sound-packs.ts",
+      "sourceSha256": "8e670193500c2daef6afadf204100f0ab33fc143f6aa3e0bb3a52cf1c3ea9d8e",
+      "oracleSourceSha256": "8e670193500c2daef6afadf204100f0ab33fc143f6aa3e0bb3a52cf1c3ea9d8e",
+      "byteIdenticalToOracle": true,
+      "rawZeroArms": 1,
+      "requirements": [
+        "SOLO-02",
+        "UI-06"
+      ],
+      "behaviorEvidence": [
+        {
+          "path": "tests/sound.test.mjs",
+          "scheduledFullJob": true
+        },
+        {
+          "path": "tests/release-sound-loader-gaps.test.mjs",
+          "scheduledFullJob": true
+        }
+      ]
+    },
+    {
+      "path": "src/sound-settings.ts",
+      "sourceSha256": "82e413739bfe7bdc4f29dd555eddaa5849dbebed10d296a5a439041accddb352",
+      "oracleSourceSha256": "82e413739bfe7bdc4f29dd555eddaa5849dbebed10d296a5a439041accddb352",
+      "byteIdenticalToOracle": true,
+      "rawZeroArms": 5,
+      "requirements": [
+        "SOLO-02",
+        "UI-06"
+      ],
+      "behaviorEvidence": [
+        {
+          "path": "tests/sound-runtime.mjs",
+          "scheduledFullJob": true
+        },
+        {
+          "path": "tests/collection-game-layout.mjs",
+          "scheduledFullJob": true
+        }
+      ]
+    },
+    {
+      "path": "src/vehicle-models.ts",
+      "sourceSha256": "a873102d70e8d257c15b26d3c2dcf67935956012e88c3c16d9db2c9828d291bc",
+      "oracleSourceSha256": "a873102d70e8d257c15b26d3c2dcf67935956012e88c3c16d9db2c9828d291bc",
+      "byteIdenticalToOracle": true,
+      "rawZeroArms": 1,
+      "requirements": [
+        "SOLO-01",
+        "UI-02"
+      ],
+      "behaviorEvidence": [
+        {
+          "path": "tests/seed.test.mjs",
+          "scheduledFullJob": true
+        },
+        {
+          "path": "tests/solo-parity-actors.test.mjs",
+          "scheduledFullJob": true
+        }
+      ]
+    },
+    {
+      "path": "src/wearables.ts",
+      "sourceSha256": "6ff040ceaed6a1fd4ff1dcf7e8b8bc9a773bcc4a3598fa6a83529a05d28b72e6",
+      "oracleSourceSha256": "6ff040ceaed6a1fd4ff1dcf7e8b8bc9a773bcc4a3598fa6a83529a05d28b72e6",
+      "byteIdenticalToOracle": true,
+      "rawZeroArms": 1,
+      "requirements": [
+        "SOLO-02",
+        "UI-02"
+      ],
+      "behaviorEvidence": [
+        {
+          "path": "tests/wearables.test.mjs",
+          "scheduledFullJob": true
+        },
+        {
+          "path": "tests/wearables-render.test.mjs",
+          "scheduledFullJob": true
+        }
+      ]
+    },
+    {
+      "path": "src/levels/v1.ts",
+      "sourceSha256": "2528a12bdc80d8da5579dccf04cd64509a2ceeb7f3ff229b9cb970207c4f5c56",
+      "oracleSourceSha256": "2528a12bdc80d8da5579dccf04cd64509a2ceeb7f3ff229b9cb970207c4f5c56",
+      "byteIdenticalToOracle": true,
+      "rawZeroArms": 3,
+      "requirements": [
+        "SOLO-02"
+      ],
+      "behaviorEvidence": [
+        {
+          "path": "tests/seed.test.mjs",
+          "scheduledFullJob": true
+        },
+        {
+          "path": "tests/solo-parity.test.mjs",
+          "scheduledFullJob": true
+        }
+      ]
+    }
+  ],
+  "rows": [
+    {
+      "path": "src/actors.ts",
+      "sourceHash": "8802f29be9e39003f6cdbf46c8ba08d61d2a01aaac91206ed6f236b8c65a1394",
+      "mapHash": "08c17e1ca994c4b4227da22d7ac9040d72fc51e9dcdfa19beaa7c9678fd05f91",
+      "id": "2",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 29,
+          "column": 103
+        },
+        "end": {
+          "line": 29,
+          "column": 104
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 29,
+          "column": 85
+        },
+        "end": {
+          "line": 29,
+          "column": 104
+        }
+      },
+      "sourceText": "1",
+      "owner": "callback@29",
+      "sourceContext": "1",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/actors.ts",
+      "sourceHash": "8802f29be9e39003f6cdbf46c8ba08d61d2a01aaac91206ed6f236b8c65a1394",
+      "mapHash": "08c17e1ca994c4b4227da22d7ac9040d72fc51e9dcdfa19beaa7c9678fd05f91",
+      "id": "18",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 104,
+          "column": 2
+        },
+        "end": {
+          "line": 104,
+          "column": 23
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 104,
+          "column": 2
+        },
+        "end": {
+          "line": 104,
+          "column": 23
+        }
+      },
+      "sourceText": "if (!pattern) return;",
+      "owner": "applyActorEffects",
+      "sourceContext": "if (!pattern) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/actors.ts",
+      "sourceHash": "8802f29be9e39003f6cdbf46c8ba08d61d2a01aaac91206ed6f236b8c65a1394",
+      "mapHash": "08c17e1ca994c4b4227da22d7ac9040d72fc51e9dcdfa19beaa7c9678fd05f91",
+      "id": "26",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 146,
+          "column": 2
+        },
+        "end": {
+          "line": 146,
+          "column": 49
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 146,
+          "column": 2
+        },
+        "end": {
+          "line": 146,
+          "column": 49
+        }
+      },
+      "sourceText": "if (pattern?.kind !== 'platforms') return null;",
+      "owner": "progressiveCoinPosition",
+      "sourceContext": "if (pattern?.kind !== 'platforms') return null;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/character-power-ui.ts",
+      "sourceHash": "3fa23675278d5782c16dc65c8358c7c5dd8ec28091a8021332cd1aa53d178945",
+      "mapHash": "4e7d3900ed2e5fb533d3be3871e943eee85c44bc510c6e6a875e1e019e43436c",
+      "id": "0",
+      "arm": 0,
+      "type": "default-arg",
+      "location": {
+        "start": {
+          "line": 14,
+          "column": 39
+        },
+        "end": {
+          "line": 14,
+          "column": 44
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 14,
+          "column": 23
+        },
+        "end": {
+          "line": 14,
+          "column": 44
+        }
+      },
+      "sourceText": "false",
+      "owner": "createCharacterPowerUI.update",
+      "sourceContext": "false",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/character-powers.ts",
+      "sourceHash": "d785823a0278b758edafc70e725e4cfa9c4ea32dd4e3e6d6be0a416c23042b8d",
+      "mapHash": "b1f56efad200ad2089c969f381efcdd992c17602a31a3740eedcd6e03134b0db",
+      "id": "0",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 26,
+          "column": 100
+        },
+        "end": {
+          "line": 26,
+          "column": 114
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 26,
+          "column": 77
+        },
+        "end": {
+          "line": 26,
+          "column": 114
+        }
+      },
+      "sourceText": "POWERS.butter!",
+      "owner": "characterPower",
+      "sourceContext": "POWERS.butter!",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/coin-denominations.ts",
+      "sourceHash": "707895fc6de79ad2cd7b71d45077655cc8a6a9af0a1b1f778863f6ad42c8ac14",
+      "mapHash": "77319e21b8db4b2fb587a1e156688f1b3538dd63cbb4c2b4be9df82fe7bb9487",
+      "id": "1",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 27,
+          "column": 60
+        },
+        "end": {
+          "line": 27,
+          "column": 82
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 27,
+          "column": 9
+        },
+        "end": {
+          "line": 27,
+          "column": 82
+        }
+      },
+      "sourceText": "COIN_DENOMINATIONS[0]!",
+      "owner": "coinDenomination",
+      "sourceContext": "COIN_DENOMINATIONS[0]!",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/collection-ui.ts",
+      "sourceHash": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10",
+      "mapHash": "695d08af3784180db60a00bf5bedaf36963e608d815bdb155e7e2482f99ac202",
+      "id": "17",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 55,
+          "column": 4
+        },
+        "end": {
+          "line": 55,
+          "column": 44
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 55,
+          "column": 4
+        },
+        "end": {
+          "line": 55,
+          "column": 44
+        }
+      },
+      "sourceText": "if (!pages.length) pages = ['All set.'];",
+      "owner": "createCollectionUI.paginate",
+      "sourceContext": "if (!pages.length) pages = ['All set.'];",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/collection-ui.ts",
+      "sourceHash": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10",
+      "mapHash": "695d08af3784180db60a00bf5bedaf36963e608d815bdb155e7e2482f99ac202",
+      "id": "22",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 71,
+          "column": 4
+        },
+        "end": {
+          "line": 71,
+          "column": 204
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 71,
+          "column": 4
+        },
+        "end": {
+          "line": 71,
+          "column": 204
+        }
+      },
+      "sourceText": "if (detail && tab === 'worlds') { heading.textContent = worldChoices[item]!.name; return `${worldChoices[item]!.note} Your choice sets the beginning of your next run. New places unfold as you hop.`; }",
+      "owner": "createCollectionUI.readerSource",
+      "sourceContext": "if (detail && tab === 'worlds') { heading.textContent = worldChoices[item]!.name; return `${worldChoices[item]!.note} Your choice sets the beginning of your next run. New places unfold as you hop.`; }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/collection-ui.ts",
+      "sourceHash": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10",
+      "mapHash": "695d08af3784180db60a00bf5bedaf36963e608d815bdb155e7e2482f99ac202",
+      "id": "23",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 71,
+          "column": 18
+        },
+        "end": {
+          "line": 71,
+          "column": 34
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 71,
+          "column": 8
+        },
+        "end": {
+          "line": 71,
+          "column": 34
+        }
+      },
+      "sourceText": "tab === 'worlds'",
+      "owner": "createCollectionUI.readerSource",
+      "sourceContext": "tab === 'worlds'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/collection-ui.ts",
+      "sourceHash": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10",
+      "mapHash": "695d08af3784180db60a00bf5bedaf36963e608d815bdb155e7e2482f99ac202",
+      "id": "25",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 72,
+          "column": 108
+        },
+        "end": {
+          "line": 72,
+          "column": 110
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 72,
+          "column": 72
+        },
+        "end": {
+          "line": 72,
+          "column": 110
+        }
+      },
+      "sourceText": "''",
+      "owner": "createCollectionUI.readerSource",
+      "sourceContext": "''",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/collection-ui.ts",
+      "sourceHash": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10",
+      "mapHash": "695d08af3784180db60a00bf5bedaf36963e608d815bdb155e7e2482f99ac202",
+      "id": "27",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 73,
+          "column": 124
+        },
+        "end": {
+          "line": 73,
+          "column": 126
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 73,
+          "column": 89
+        },
+        "end": {
+          "line": 73,
+          "column": 126
+        }
+      },
+      "sourceText": "''",
+      "owner": "createCollectionUI.readerSource",
+      "sourceContext": "''",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/collection-ui.ts",
+      "sourceHash": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10",
+      "mapHash": "695d08af3784180db60a00bf5bedaf36963e608d815bdb155e7e2482f99ac202",
+      "id": "29",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 77,
+          "column": 4
+        },
+        "end": {
+          "line": 77,
+          "column": 25
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 77,
+          "column": 4
+        },
+        "end": {
+          "line": 77,
+          "column": 25
+        }
+      },
+      "sourceText": "if (disposed) return;",
+      "owner": "createCollectionUI.update",
+      "sourceContext": "if (disposed) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/collection-ui.ts",
+      "sourceHash": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10",
+      "mapHash": "695d08af3784180db60a00bf5bedaf36963e608d815bdb155e7e2482f99ac202",
+      "id": "58",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 130,
+          "column": 4
+        },
+        "end": {
+          "line": 130,
+          "column": 88
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 130,
+          "column": 4
+        },
+        "end": {
+          "line": 130,
+          "column": 88
+        }
+      },
+      "sourceText": "if (menu) { menu = false; update(); focus(el('collection-sections')); return true; }",
+      "owner": "createCollectionUI.back",
+      "sourceContext": "if (menu) { menu = false; update(); focus(el('collection-sections')); return true; }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/collection-ui.ts",
+      "sourceHash": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10",
+      "mapHash": "695d08af3784180db60a00bf5bedaf36963e608d815bdb155e7e2482f99ac202",
+      "id": "60",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 131,
+          "column": 57
+        },
+        "end": {
+          "line": 131,
+          "column": 142
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 131,
+          "column": 24
+        },
+        "end": {
+          "line": 131,
+          "column": 142
+        }
+      },
+      "sourceText": "if (tab === 'sounds') sound = soundPages[sound] === 'credits' ? 0 : 6; else camp = 0;",
+      "owner": "createCollectionUI.back",
+      "sourceContext": "if (tab === 'sounds') sound = soundPages[sound] === 'credits' ? 0 : 6; else camp = 0;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/collection-ui.ts",
+      "sourceHash": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10",
+      "mapHash": "695d08af3784180db60a00bf5bedaf36963e608d815bdb155e7e2482f99ac202",
+      "id": "61",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 131,
+          "column": 57
+        },
+        "end": {
+          "line": 131,
+          "column": 142
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 131,
+          "column": 57
+        },
+        "end": {
+          "line": 131,
+          "column": 142
+        }
+      },
+      "sourceText": "if (tab === 'sounds') sound = soundPages[sound] === 'credits' ? 0 : 6; else camp = 0;",
+      "owner": "createCollectionUI.back",
+      "sourceContext": "if (tab === 'sounds') sound = soundPages[sound] === 'credits' ? 0 : 6; else camp = 0;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/collection-ui.ts",
+      "sourceHash": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10",
+      "mapHash": "695d08af3784180db60a00bf5bedaf36963e608d815bdb155e7e2482f99ac202",
+      "id": "61",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 131,
+          "column": 133
+        },
+        "end": {
+          "line": 131,
+          "column": 142
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 131,
+          "column": 57
+        },
+        "end": {
+          "line": 131,
+          "column": 142
+        }
+      },
+      "sourceText": "camp = 0;",
+      "owner": "createCollectionUI.back",
+      "sourceContext": "camp = 0;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/collection-ui.ts",
+      "sourceHash": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10",
+      "mapHash": "695d08af3784180db60a00bf5bedaf36963e608d815bdb155e7e2482f99ac202",
+      "id": "62",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 131,
+          "column": 121
+        },
+        "end": {
+          "line": 131,
+          "column": 122
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 131,
+          "column": 87
+        },
+        "end": {
+          "line": 131,
+          "column": 126
+        }
+      },
+      "sourceText": "0",
+      "owner": "createCollectionUI.back",
+      "sourceContext": "0",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/collection-ui.ts",
+      "sourceHash": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10",
+      "mapHash": "695d08af3784180db60a00bf5bedaf36963e608d815bdb155e7e2482f99ac202",
+      "id": "62",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 131,
+          "column": 125
+        },
+        "end": {
+          "line": 131,
+          "column": 126
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 131,
+          "column": 87
+        },
+        "end": {
+          "line": 131,
+          "column": 126
+        }
+      },
+      "sourceText": "6",
+      "owner": "createCollectionUI.back",
+      "sourceContext": "6",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/collection-ui.ts",
+      "sourceHash": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10",
+      "mapHash": "695d08af3784180db60a00bf5bedaf36963e608d815bdb155e7e2482f99ac202",
+      "id": "63",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 131,
+          "column": 183
+        },
+        "end": {
+          "line": 131,
+          "column": 204
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 131,
+          "column": 169
+        },
+        "end": {
+          "line": 131,
+          "column": 211
+        }
+      },
+      "sourceText": "el('collection-next')",
+      "owner": "createCollectionUI.back",
+      "sourceContext": "el('collection-next')",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/collection-ui.ts",
+      "sourceHash": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10",
+      "mapHash": "695d08af3784180db60a00bf5bedaf36963e608d815bdb155e7e2482f99ac202",
+      "id": "69",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 139,
+          "column": 87
+        },
+        "end": {
+          "line": 139,
+          "column": 151
+        }
+      },
+      "sourceText": "if (menu) focus(el('collection-menu').querySelector('button')!);",
+      "owner": "createCollectionUI.callback@134",
+      "sourceContext": "if (menu) focus(el('collection-menu').querySelector('button')!);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/collection-ui.ts",
+      "sourceHash": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10",
+      "mapHash": "695d08af3784180db60a00bf5bedaf36963e608d815bdb155e7e2482f99ac202",
+      "id": "70",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 140,
+          "column": 9
+        },
+        "end": {
+          "line": 145,
+          "column": 88
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 140,
+          "column": 9
+        },
+        "end": {
+          "line": 145,
+          "column": 88
+        }
+      },
+      "sourceText": "if (target === previous) turn(-1);\n    else if (target === next) turn(1);\n    else if (target === info) { if (readerMode()) back(); else { detail = true; page = 0; update(); focus(info); } }\n    else if (target.id === 'collection-traveler-select') { options.selectTraveler(CHARACTERS[item]!.id); update(); }\n    else if (target.id === 'collection-world-select') { options.selectWorld(worldChoices[item]!.id); update(); }\n    else if (target.id === 'sound-load') { sound = 7; page = 0; update(); focus(info); }",
+      "owner": "createCollectionUI.callback@134",
+      "sourceContext": "if (target === previous) turn(-1);\n    else if (target === next) turn(1);\n    else if (target === info) { if (readerMode()) back(); else { detail = true; page = 0; update(); focus(info); } }\n    else if (target.id === 'collection-traveler-select') { options.selectTraveler(CHARACTERS[item]!.id); update(); }\n    else if (target.id === 'collection-world-select') { options.selectWorld(worldChoices[item]!.id); update(); }\n    else if (target.id === 'sound-load') { sound = 7; page = 0; update(); focus(info); }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/collection-ui.ts",
+      "sourceHash": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10",
+      "mapHash": "695d08af3784180db60a00bf5bedaf36963e608d815bdb155e7e2482f99ac202",
+      "id": "79",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 149,
+          "column": 30
+        },
+        "end": {
+          "line": 149,
+          "column": 56
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 149,
+          "column": 30
+        },
+        "end": {
+          "line": 149,
+          "column": 56
+        }
+      },
+      "sourceText": "if (!nodes.length) return;",
+      "owner": "createCollectionUI.callback@147",
+      "sourceContext": "if (!nodes.length) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/collection-ui.ts",
+      "sourceHash": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10",
+      "mapHash": "695d08af3784180db60a00bf5bedaf36963e608d815bdb155e7e2482f99ac202",
+      "id": "80",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 150,
+          "column": 129
+        },
+        "end": {
+          "line": 150,
+          "column": 131
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 150,
+          "column": 112
+        },
+        "end": {
+          "line": 150,
+          "column": 135
+        }
+      },
+      "sourceText": "-1",
+      "owner": "createCollectionUI.callback@147",
+      "sourceContext": "-1",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/collection-ui.ts",
+      "sourceHash": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10",
+      "mapHash": "695d08af3784180db60a00bf5bedaf36963e608d815bdb155e7e2482f99ac202",
+      "id": "81",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 152,
+          "column": 105
+        },
+        "end": {
+          "line": 152,
+          "column": 160
+        }
+      },
+      "sourceText": "if (size !== lastSize) { lastSize = size; paginate(); }",
+      "owner": "createCollectionUI.callback@152",
+      "sourceContext": "if (size !== lastSize) { lastSize = size; paginate(); }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/collection-ui.ts",
+      "sourceHash": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10",
+      "mapHash": "695d08af3784180db60a00bf5bedaf36963e608d815bdb155e7e2482f99ac202",
+      "id": "82",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 153,
+          "column": 48
+        },
+        "end": {
+          "line": 153,
+          "column": 124
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 153,
+          "column": 48
+        },
+        "end": {
+          "line": 153,
+          "column": 124
+        }
+      },
+      "sourceText": "if (!drawer.hidden && readerMode()) { source = readerSource(); paginate(); }",
+      "owner": "createCollectionUI.callback@153",
+      "sourceContext": "if (!drawer.hidden && readerMode()) { source = readerSource(); paginate(); }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/collection-ui.ts",
+      "sourceHash": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10",
+      "mapHash": "695d08af3784180db60a00bf5bedaf36963e608d815bdb155e7e2482f99ac202",
+      "id": "85",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 159,
+          "column": 6
+        },
+        "end": {
+          "line": 159,
+          "column": 32
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 159,
+          "column": 6
+        },
+        "end": {
+          "line": 159,
+          "column": 32
+        }
+      },
+      "sourceText": "if (drawer.hidden) return;",
+      "owner": "createCollectionUI.navigate",
+      "sourceContext": "if (drawer.hidden) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/collection-ui.ts",
+      "sourceHash": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10",
+      "mapHash": "695d08af3784180db60a00bf5bedaf36963e608d815bdb155e7e2482f99ac202",
+      "id": "86",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 160,
+          "column": 125
+        },
+        "end": {
+          "line": 160,
+          "column": 127
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 160,
+          "column": 73
+        },
+        "end": {
+          "line": 160,
+          "column": 127
+        }
+      },
+      "sourceText": "-1",
+      "owner": "createCollectionUI.navigate",
+      "sourceContext": "-1",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/collection-ui.ts",
+      "sourceHash": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10",
+      "mapHash": "695d08af3784180db60a00bf5bedaf36963e608d815bdb155e7e2482f99ac202",
+      "id": "90",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 162,
+          "column": 8
+        },
+        "end": {
+          "line": 162,
+          "column": 272
+        }
+      },
+      "sourceText": "if (current instanceof HTMLInputElement && current.type === 'range') { if (step > 0) current.stepUp(5); else current.stepDown(5); current.dispatchEvent(new Event('input', { bubbles: true })); current.dispatchEvent(new Event('change', { bubbles: true })); return; }",
+      "owner": "createCollectionUI.navigate",
+      "sourceContext": "if (current instanceof HTMLInputElement && current.type === 'range') { if (step > 0) current.stepUp(5); else current.stepDown(5); current.dispatchEvent(new Event('input', { bubbles: true })); current.dispatchEvent(new Event('change', { bubbles: true })); return; }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/collection-ui.ts",
+      "sourceHash": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10",
+      "mapHash": "695d08af3784180db60a00bf5bedaf36963e608d815bdb155e7e2482f99ac202",
+      "id": "92",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 162,
+          "column": 117
+        },
+        "end": {
+          "line": 162,
+          "column": 137
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 162,
+          "column": 79
+        },
+        "end": {
+          "line": 162,
+          "column": 137
+        }
+      },
+      "sourceText": "current.stepDown(5);",
+      "owner": "createCollectionUI.navigate",
+      "sourceContext": "current.stepDown(5);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/collection-ui.ts",
+      "sourceHash": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10",
+      "mapHash": "695d08af3784180db60a00bf5bedaf36963e608d815bdb155e7e2482f99ac202",
+      "id": "93",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 163,
+          "column": 8
+        },
+        "end": {
+          "line": 163,
+          "column": 229
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 163,
+          "column": 8
+        },
+        "end": {
+          "line": 163,
+          "column": 229
+        }
+      },
+      "sourceText": "if (current instanceof HTMLSelectElement) { current.selectedIndex = Math.max(0, Math.min(current.options.length - 1, current.selectedIndex + step)); current.dispatchEvent(new Event('change', { bubbles: true })); return; }",
+      "owner": "createCollectionUI.navigate",
+      "sourceContext": "if (current instanceof HTMLSelectElement) { current.selectedIndex = Math.max(0, Math.min(current.options.length - 1, current.selectedIndex + step)); current.dispatchEvent(new Event('change', { bubbles: true })); return; }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/collection-ui.ts",
+      "sourceHash": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10",
+      "mapHash": "695d08af3784180db60a00bf5bedaf36963e608d815bdb155e7e2482f99ac202",
+      "id": "93",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 163,
+          "column": 8
+        },
+        "end": {
+          "line": 163,
+          "column": 229
+        }
+      },
+      "sourceText": "if (current instanceof HTMLSelectElement) { current.selectedIndex = Math.max(0, Math.min(current.options.length - 1, current.selectedIndex + step)); current.dispatchEvent(new Event('change', { bubbles: true })); return; }",
+      "owner": "createCollectionUI.navigate",
+      "sourceContext": "if (current instanceof HTMLSelectElement) { current.selectedIndex = Math.max(0, Math.min(current.options.length - 1, current.selectedIndex + step)); current.dispatchEvent(new Event('change', { bubbles: true })); return; }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/collection-ui.ts",
+      "sourceHash": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10",
+      "mapHash": "695d08af3784180db60a00bf5bedaf36963e608d815bdb155e7e2482f99ac202",
+      "id": "94",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 165,
+          "column": 56
+        },
+        "end": {
+          "line": 165,
+          "column": 131
+        }
+      },
+      "sourceText": "if (nodes.length) focus(nodes[(at + step + nodes.length) % nodes.length]!);",
+      "owner": "createCollectionUI.navigate",
+      "sourceContext": "if (nodes.length) focus(nodes[(at + step + nodes.length) % nodes.length]!);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/collection-ui.ts",
+      "sourceHash": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10",
+      "mapHash": "695d08af3784180db60a00bf5bedaf36963e608d815bdb155e7e2482f99ac202",
+      "id": "95",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 167,
+          "column": 56
+        },
+        "end": {
+          "line": 167,
+          "column": 158
+        }
+      },
+      "sourceText": "if (!drawer.hidden && current instanceof HTMLElement && controls().includes(current)) current.click();",
+      "owner": "createCollectionUI.confirm",
+      "sourceContext": "if (!drawer.hidden && current instanceof HTMLElement && controls().includes(current)) current.click();",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/devtools.ts",
+      "sourceHash": "717ad3568ee1cd1139f3650e1785f7aa4867cb4113b5417053b8677dd83f9e87",
+      "mapHash": "4389c73bc1d84064131029e622c61581182847f0f722e246f614fd9861bab3f4",
+      "id": "7",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 54,
+          "column": 4
+        },
+        "end": {
+          "line": 54,
+          "column": 61
+        }
+      },
+      "sourceText": "if (app) { previousInert = app.inert; app.inert = true; }",
+      "owner": "mountDevTools.callback@52",
+      "sourceContext": "if (app) { previousInert = app.inert; app.inert = true; }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/devtools.ts",
+      "sourceHash": "717ad3568ee1cd1139f3650e1785f7aa4867cb4113b5417053b8677dd83f9e87",
+      "mapHash": "4389c73bc1d84064131029e622c61581182847f0f722e246f614fd9861bab3f4",
+      "id": "11",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 82,
+          "column": 68
+        },
+        "end": {
+          "line": 82,
+          "column": 95
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 82,
+          "column": 27
+        },
+        "end": {
+          "line": 82,
+          "column": 95
+        }
+      },
+      "sourceText": "'Could not load that seed.'",
+      "owner": "mountDevTools.callback@76",
+      "sourceContext": "'Could not load that seed.'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/market-preview.ts",
+      "sourceHash": "ef246b766e0421245bbd962b2119203ce20e22f0bcacdb6aa688600885864a3f",
+      "mapHash": "4506da205833400d7f04daf6cfd38db2a7c156e0af122b296d07449ba0b255b1",
+      "id": "14",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 84,
+          "column": 4
+        },
+        "end": {
+          "line": 84,
+          "column": 52
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 84,
+          "column": 4
+        },
+        "end": {
+          "line": 84,
+          "column": 52
+        }
+      },
+      "sourceText": "if (!canDraw() || !moving()) { stop(); return; }",
+      "owner": "createMarketPreview.tick",
+      "sourceContext": "if (!canDraw() || !moving()) { stop(); return; }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/market-preview.ts",
+      "sourceHash": "ef246b766e0421245bbd962b2119203ce20e22f0bcacdb6aa688600885864a3f",
+      "mapHash": "4506da205833400d7f04daf6cfd38db2a7c156e0af122b296d07449ba0b255b1",
+      "id": "18",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 91,
+          "column": 6
+        },
+        "end": {
+          "line": 91,
+          "column": 52
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 91,
+          "column": 6
+        },
+        "end": {
+          "line": 91,
+          "column": 52
+        }
+      },
+      "sourceText": "if (Math.abs(distance) < .001) yaw = HOME_YAW;",
+      "owner": "createMarketPreview.tick",
+      "sourceContext": "if (Math.abs(distance) < .001) yaw = HOME_YAW;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/market-preview.ts",
+      "sourceHash": "ef246b766e0421245bbd962b2119203ce20e22f0bcacdb6aa688600885864a3f",
+      "mapHash": "4506da205833400d7f04daf6cfd38db2a7c156e0af122b296d07449ba0b255b1",
+      "id": "19",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 97,
+          "column": 4
+        },
+        "end": {
+          "line": 97,
+          "column": 25
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 97,
+          "column": 4
+        },
+        "end": {
+          "line": 97,
+          "column": 25
+        }
+      },
+      "sourceText": "if (disposed) return;",
+      "owner": "createMarketPreview.resize",
+      "sourceContext": "if (disposed) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/market-preview.ts",
+      "sourceHash": "ef246b766e0421245bbd962b2119203ce20e22f0bcacdb6aa688600885864a3f",
+      "mapHash": "4506da205833400d7f04daf6cfd38db2a7c156e0af122b296d07449ba0b255b1",
+      "id": "20",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 100,
+          "column": 51
+        },
+        "end": {
+          "line": 100,
+          "column": 52
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 100,
+          "column": 31
+        },
+        "end": {
+          "line": 100,
+          "column": 52
+        }
+      },
+      "sourceText": "1",
+      "owner": "createMarketPreview.resize",
+      "sourceContext": "1",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/market-scene.ts",
+      "sourceHash": "d942e50e1eecd2685567eed8e58de49da3c648c91060362785e9875b5846c76e",
+      "mapHash": "bfee3cef9f09fc18460ee77126383c10d67fd2aa225eea4d919d9a8421960835",
+      "id": "1",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 27,
+          "column": 2
+        },
+        "end": {
+          "line": 30,
+          "column": 3
+        }
+      },
+      "sourceText": "if (normalized.startsWith('#')) {\n    const hex = normalized.length === 4 ? normalized.slice(1).split('').map(c => c + c).join('') : normalized.slice(1, 7);\n    return [parseInt(hex.slice(0, 2), 16), parseInt(hex.slice(2, 4), 16), parseInt(hex.slice(4, 6), 16)];\n  }",
+      "owner": "rgb",
+      "sourceContext": "if (normalized.startsWith('#')) {\n    const hex = normalized.length === 4 ? normalized.slice(1).split('').map(c => c + c).join('') : normalized.slice(1, 7);\n    return [parseInt(hex.slice(0, 2), 16), parseInt(hex.slice(2, 4), 16), parseInt(hex.slice(4, 6), 16)];\n  }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/market-scene.ts",
+      "sourceHash": "d942e50e1eecd2685567eed8e58de49da3c648c91060362785e9875b5846c76e",
+      "mapHash": "bfee3cef9f09fc18460ee77126383c10d67fd2aa225eea4d919d9a8421960835",
+      "id": "2",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 28,
+          "column": 42
+        },
+        "end": {
+          "line": 28,
+          "column": 96
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 28,
+          "column": 16
+        },
+        "end": {
+          "line": 28,
+          "column": 121
+        }
+      },
+      "sourceText": "normalized.slice(1).split('').map(c => c + c).join('')",
+      "owner": "rgb",
+      "sourceContext": "normalized.slice(1).split('').map(c => c + c).join('')",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/market-scene.ts",
+      "sourceHash": "d942e50e1eecd2685567eed8e58de49da3c648c91060362785e9875b5846c76e",
+      "mapHash": "bfee3cef9f09fc18460ee77126383c10d67fd2aa225eea4d919d9a8421960835",
+      "id": "3",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 32,
+          "column": 44
+        },
+        "end": {
+          "line": 32,
+          "column": 89
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 32,
+          "column": 9
+        },
+        "end": {
+          "line": 32,
+          "column": 104
+        }
+      },
+      "sourceText": "[+channels[0]!, +channels[1]!, +channels[2]!]",
+      "owner": "rgb",
+      "sourceContext": "[+channels[0]!, +channels[1]!, +channels[2]!]",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/market-scene.ts",
+      "sourceHash": "d942e50e1eecd2685567eed8e58de49da3c648c91060362785e9875b5846c76e",
+      "mapHash": "bfee3cef9f09fc18460ee77126383c10d67fd2aa225eea4d919d9a8421960835",
+      "id": "3",
+      "arm": 1,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 32,
+          "column": 92
+        },
+        "end": {
+          "line": 32,
+          "column": 104
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 32,
+          "column": 9
+        },
+        "end": {
+          "line": 32,
+          "column": 104
+        }
+      },
+      "sourceText": "[37, 53, 43]",
+      "owner": "rgb",
+      "sourceContext": "[37, 53, 43]",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/market-scene.ts",
+      "sourceHash": "d942e50e1eecd2685567eed8e58de49da3c648c91060362785e9875b5846c76e",
+      "mapHash": "bfee3cef9f09fc18460ee77126383c10d67fd2aa225eea4d919d9a8421960835",
+      "id": "4",
+      "arm": 0,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 32,
+          "column": 9
+        },
+        "end": {
+          "line": 32,
+          "column": 17
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 32,
+          "column": 9
+        },
+        "end": {
+          "line": 32,
+          "column": 41
+        }
+      },
+      "sourceText": "channels",
+      "owner": "rgb",
+      "sourceContext": "channels",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/market-scene.ts",
+      "sourceHash": "d942e50e1eecd2685567eed8e58de49da3c648c91060362785e9875b5846c76e",
+      "mapHash": "bfee3cef9f09fc18460ee77126383c10d67fd2aa225eea4d919d9a8421960835",
+      "id": "4",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 32,
+          "column": 21
+        },
+        "end": {
+          "line": 32,
+          "column": 41
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 32,
+          "column": 9
+        },
+        "end": {
+          "line": 32,
+          "column": 41
+        }
+      },
+      "sourceText": "channels.length >= 3",
+      "owner": "rgb",
+      "sourceContext": "channels.length >= 3",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/market-scene.ts",
+      "sourceHash": "d942e50e1eecd2685567eed8e58de49da3c648c91060362785e9875b5846c76e",
+      "mapHash": "bfee3cef9f09fc18460ee77126383c10d67fd2aa225eea4d919d9a8421960835",
+      "id": "11",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 78,
+          "column": 52
+        },
+        "end": {
+          "line": 78,
+          "column": 53
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 78,
+          "column": 25
+        },
+        "end": {
+          "line": 78,
+          "column": 53
+        }
+      },
+      "sourceText": "1",
+      "owner": "createMarketScene.draw",
+      "sourceContext": "1",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/market-scene.ts",
+      "sourceHash": "d942e50e1eecd2685567eed8e58de49da3c648c91060362785e9875b5846c76e",
+      "mapHash": "bfee3cef9f09fc18460ee77126383c10d67fd2aa225eea4d919d9a8421960835",
+      "id": "30",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 158,
+          "column": 6
+        },
+        "end": {
+          "line": 158,
+          "column": 27
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 158,
+          "column": 6
+        },
+        "end": {
+          "line": 158,
+          "column": 27
+        }
+      },
+      "sourceText": "if (disposed) return;",
+      "owner": "createMarketScene.update",
+      "sourceContext": "if (disposed) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/market-scenery.ts",
+      "sourceHash": "c9f726c0d42e8fb47cf15ca40d4f6242099f1abfef3050b8faa46e13fd83feff",
+      "mapHash": "d6350e0357bc9b6327a89357c7312653f27270bb1b4bfefc99eaf555a0f41e82",
+      "id": "15",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 112,
+          "column": 2
+        },
+        "end": {
+          "line": 112,
+          "column": 35
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 112,
+          "column": 2
+        },
+        "end": {
+          "line": 112,
+          "column": 35
+        }
+      },
+      "sourceText": "if (!source?.length) return null;",
+      "owner": "marketScenery",
+      "sourceContext": "if (!source?.length) return null;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/mob-models.ts",
+      "sourceHash": "fce5e37b1e834b31296ae66cdd4a7ba177d0b11c1c09de977de92083675b7008",
+      "mapHash": "e92c67da0c830d3f6c12d1434ca36c80947ae17147c9ad3651f7779aa9f58a40",
+      "id": "2",
+      "arm": 0,
+      "type": "default-arg",
+      "location": {
+        "start": {
+          "line": 56,
+          "column": 58
+        },
+        "end": {
+          "line": 56,
+          "column": 63
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 56,
+          "column": 48
+        },
+        "end": {
+          "line": 56,
+          "column": 63
+        }
+      },
+      "sourceText": "false",
+      "owner": "mobPose",
+      "sourceContext": "false",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/pause-ui.ts",
+      "sourceHash": "e0f7d449c755077a98cf411b93fd209be8f8fbacbb21d005cd8e12c333d93dc2",
+      "mapHash": "9b3fdb49fb8373ef45fc3afd08935e5582baced7961fb79e862b3662099c8ff4",
+      "id": "6",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 41,
+          "column": 4
+        },
+        "end": {
+          "line": 41,
+          "column": 31
+        }
+      },
+      "sourceText": "if (line) lines.push(line);",
+      "owner": "createPauseUI.paginate",
+      "sourceContext": "if (line) lines.push(line);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/pause-ui.ts",
+      "sourceHash": "e0f7d449c755077a98cf411b93fd209be8f8fbacbb21d005cd8e12c333d93dc2",
+      "mapHash": "9b3fdb49fb8373ef45fc3afd08935e5582baced7961fb79e862b3662099c8ff4",
+      "id": "7",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 44,
+          "column": 4
+        },
+        "end": {
+          "line": 44,
+          "column": 60
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 44,
+          "column": 4
+        },
+        "end": {
+          "line": 44,
+          "column": 60
+        }
+      },
+      "sourceText": "if (!pages.length) pages = ['Your power is automatic.'];",
+      "owner": "createPauseUI.paginate",
+      "sourceContext": "if (!pages.length) pages = ['Your power is automatic.'];",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/pause-ui.ts",
+      "sourceHash": "e0f7d449c755077a98cf411b93fd209be8f8fbacbb21d005cd8e12c333d93dc2",
+      "mapHash": "9b3fdb49fb8373ef45fc3afd08935e5582baced7961fb79e862b3662099c8ff4",
+      "id": "8",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 53,
+          "column": 4
+        },
+        "end": {
+          "line": 53,
+          "column": 114
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 53,
+          "column": 4
+        },
+        "end": {
+          "line": 53,
+          "column": 114
+        }
+      },
+      "sourceText": "if (document.activeElement instanceof HTMLButtonElement && document.activeElement.disabled) focus(backButton);",
+      "owner": "createPauseUI.paintPage",
+      "sourceContext": "if (document.activeElement instanceof HTMLButtonElement && document.activeElement.disabled) focus(backButton);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/pause-ui.ts",
+      "sourceHash": "e0f7d449c755077a98cf411b93fd209be8f8fbacbb21d005cd8e12c333d93dc2",
+      "mapHash": "9b3fdb49fb8373ef45fc3afd08935e5582baced7961fb79e862b3662099c8ff4",
+      "id": "25",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 80,
+          "column": 4
+        },
+        "end": {
+          "line": 80,
+          "column": 32
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 80,
+          "column": 4
+        },
+        "end": {
+          "line": 80,
+          "column": 32
+        }
+      },
+      "sourceText": "if (!buttons.length) return;",
+      "owner": "createPauseUI.callback@77",
+      "sourceContext": "if (!buttons.length) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/pause-ui.ts",
+      "sourceHash": "e0f7d449c755077a98cf411b93fd209be8f8fbacbb21d005cd8e12c333d93dc2",
+      "mapHash": "9b3fdb49fb8373ef45fc3afd08935e5582baced7961fb79e862b3662099c8ff4",
+      "id": "27",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 85,
+          "column": 4
+        },
+        "end": {
+          "line": 85,
+          "column": 59
+        }
+      },
+      "sourceText": "if (size !== lastSize) { lastSize = size; paginate(); }",
+      "owner": "createPauseUI.callback@83",
+      "sourceContext": "if (size !== lastSize) { lastSize = size; paginate(); }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/pause-ui.ts",
+      "sourceHash": "e0f7d449c755077a98cf411b93fd209be8f8fbacbb21d005cd8e12c333d93dc2",
+      "mapHash": "9b3fdb49fb8373ef45fc3afd08935e5582baced7961fb79e862b3662099c8ff4",
+      "id": "28",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 88,
+          "column": 4
+        },
+        "end": {
+          "line": 88,
+          "column": 45
+        }
+      },
+      "sourceText": "if (!active || topic !== 'power') return;",
+      "owner": "createPauseUI.callback@87",
+      "sourceContext": "if (!active || topic !== 'power') return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/pause-ui.ts",
+      "sourceHash": "e0f7d449c755077a98cf411b93fd209be8f8fbacbb21d005cd8e12c333d93dc2",
+      "mapHash": "9b3fdb49fb8373ef45fc3afd08935e5582baced7961fb79e862b3662099c8ff4",
+      "id": "30",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 95,
+          "column": 36
+        },
+        "end": {
+          "line": 95,
+          "column": 62
+        }
+      },
+      "sourceText": "if (!disposed) paginate();",
+      "owner": "createPauseUI.callback@95",
+      "sourceContext": "if (!disposed) paginate();",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/pause-ui.ts",
+      "sourceHash": "e0f7d449c755077a98cf411b93fd209be8f8fbacbb21d005cd8e12c333d93dc2",
+      "mapHash": "9b3fdb49fb8373ef45fc3afd08935e5582baced7961fb79e862b3662099c8ff4",
+      "id": "31",
+      "arm": 0,
+      "type": "default-arg",
+      "location": {
+        "start": {
+          "line": 98,
+          "column": 45
+        },
+        "end": {
+          "line": 98,
+          "column": 50
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 98,
+          "column": 29
+        },
+        "end": {
+          "line": 98,
+          "column": 50
+        }
+      },
+      "sourceText": "false",
+      "owner": "createPauseUI.update",
+      "sourceContext": "false",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/pause-ui.ts",
+      "sourceHash": "e0f7d449c755077a98cf411b93fd209be8f8fbacbb21d005cd8e12c333d93dc2",
+      "mapHash": "9b3fdb49fb8373ef45fc3afd08935e5582baced7961fb79e862b3662099c8ff4",
+      "id": "35",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 114,
+          "column": 6
+        },
+        "end": {
+          "line": 114,
+          "column": 26
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 114,
+          "column": 6
+        },
+        "end": {
+          "line": 114,
+          "column": 26
+        }
+      },
+      "sourceText": "if (!active) return;",
+      "owner": "createPauseUI.navigate",
+      "sourceContext": "if (!active) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/pause-ui.ts",
+      "sourceHash": "e0f7d449c755077a98cf411b93fd209be8f8fbacbb21d005cd8e12c333d93dc2",
+      "mapHash": "9b3fdb49fb8373ef45fc3afd08935e5582baced7961fb79e862b3662099c8ff4",
+      "id": "36",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 115,
+          "column": 34
+        },
+        "end": {
+          "line": 115,
+          "column": 62
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 115,
+          "column": 34
+        },
+        "end": {
+          "line": 115,
+          "column": 62
+        }
+      },
+      "sourceText": "if (!buttons.length) return;",
+      "owner": "createPauseUI.navigate",
+      "sourceContext": "if (!buttons.length) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/pause-ui.ts",
+      "sourceHash": "e0f7d449c755077a98cf411b93fd209be8f8fbacbb21d005cd8e12c333d93dc2",
+      "mapHash": "9b3fdb49fb8373ef45fc3afd08935e5582baced7961fb79e862b3662099c8ff4",
+      "id": "39",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 121,
+          "column": 6
+        },
+        "end": {
+          "line": 121,
+          "column": 26
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 121,
+          "column": 6
+        },
+        "end": {
+          "line": 121,
+          "column": 26
+        }
+      },
+      "sourceText": "if (!active) return;",
+      "owner": "createPauseUI.confirm",
+      "sourceContext": "if (!active) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/pause-ui.ts",
+      "sourceHash": "e0f7d449c755077a98cf411b93fd209be8f8fbacbb21d005cd8e12c333d93dc2",
+      "mapHash": "9b3fdb49fb8373ef45fc3afd08935e5582baced7961fb79e862b3662099c8ff4",
+      "id": "42",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 126,
+          "column": 22
+        },
+        "end": {
+          "line": 126,
+          "column": 68
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 126,
+          "column": 22
+        },
+        "end": {
+          "line": 126,
+          "column": 68
+        }
+      },
+      "sourceText": "if (!active || topic === 'home') return false;",
+      "owner": "createPauseUI.back",
+      "sourceContext": "if (!active || topic === 'home') return false;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/run-menu.ts",
+      "sourceHash": "1d02c36c6d47645e86795810c5b5eb0d20ee85601bec3d4746de42b21920f676",
+      "mapHash": "9af4ba93dafacc21e0fbeda677681c646e5466cf82552a6857f1ec686496bbc9",
+      "id": "2",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 29,
+          "column": 4
+        },
+        "end": {
+          "line": 29,
+          "column": 29
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 29,
+          "column": 4
+        },
+        "end": {
+          "line": 29,
+          "column": 29
+        }
+      },
+      "sourceText": "if (!snapshot) return [];",
+      "owner": "createRunMenuUI.statPairs",
+      "sourceContext": "if (!snapshot) return [];",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/run-menu.ts",
+      "sourceHash": "1d02c36c6d47645e86795810c5b5eb0d20ee85601bec3d4746de42b21920f676",
+      "mapHash": "9af4ba93dafacc21e0fbeda677681c646e5466cf82552a6857f1ec686496bbc9",
+      "id": "3",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 30,
+          "column": 342
+        },
+        "end": {
+          "line": 30,
+          "column": 344
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 30,
+          "column": 314
+        },
+        "end": {
+          "line": 30,
+          "column": 344
+        }
+      },
+      "sourceText": "''",
+      "owner": "createRunMenuUI.statPairs",
+      "sourceContext": "''",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/run-menu.ts",
+      "sourceHash": "1d02c36c6d47645e86795810c5b5eb0d20ee85601bec3d4746de42b21920f676",
+      "mapHash": "9af4ba93dafacc21e0fbeda677681c646e5466cf82552a6857f1ec686496bbc9",
+      "id": "4",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 30,
+          "column": 392
+        },
+        "end": {
+          "line": 30,
+          "column": 420
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 30,
+          "column": 360
+        },
+        "end": {
+          "line": 30,
+          "column": 420
+        }
+      },
+      "sourceText": "'Run wallet and items lost.'",
+      "owner": "createRunMenuUI.statPairs",
+      "sourceContext": "'Run wallet and items lost.'",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/run-menu.ts",
+      "sourceHash": "1d02c36c6d47645e86795810c5b5eb0d20ee85601bec3d4746de42b21920f676",
+      "mapHash": "9af4ba93dafacc21e0fbeda677681c646e5466cf82552a6857f1ec686496bbc9",
+      "id": "7",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 37,
+          "column": 45
+        },
+        "end": {
+          "line": 37,
+          "column": 47
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 37,
+          "column": 30
+        },
+        "end": {
+          "line": 37,
+          "column": 47
+        }
+      },
+      "sourceText": "''",
+      "owner": "createRunMenuUI.paint",
+      "sourceContext": "''",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/run-menu.ts",
+      "sourceHash": "1d02c36c6d47645e86795810c5b5eb0d20ee85601bec3d4746de42b21920f676",
+      "mapHash": "9af4ba93dafacc21e0fbeda677681c646e5466cf82552a6857f1ec686496bbc9",
+      "id": "9",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 41,
+          "column": 4
+        },
+        "end": {
+          "line": 41,
+          "column": 108
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 41,
+          "column": 4
+        },
+        "end": {
+          "line": 41,
+          "column": 108
+        }
+      },
+      "sourceText": "if (document.activeElement instanceof HTMLButtonElement && document.activeElement.disabled) focus(back);",
+      "owner": "createRunMenuUI.paint",
+      "sourceContext": "if (document.activeElement instanceof HTMLButtonElement && document.activeElement.disabled) focus(back);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/run-menu.ts",
+      "sourceHash": "1d02c36c6d47645e86795810c5b5eb0d20ee85601bec3d4746de42b21920f676",
+      "mapHash": "9af4ba93dafacc21e0fbeda677681c646e5466cf82552a6857f1ec686496bbc9",
+      "id": "17",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 56,
+          "column": 6
+        },
+        "end": {
+          "line": 56,
+          "column": 33
+        }
+      },
+      "sourceText": "if (line) lines.push(line);",
+      "owner": "createRunMenuUI.paginateStats",
+      "sourceContext": "if (line) lines.push(line);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/run-menu.ts",
+      "sourceHash": "1d02c36c6d47645e86795810c5b5eb0d20ee85601bec3d4746de42b21920f676",
+      "mapHash": "9af4ba93dafacc21e0fbeda677681c646e5466cf82552a6857f1ec686496bbc9",
+      "id": "23",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 71,
+          "column": 4
+        },
+        "end": {
+          "line": 71,
+          "column": 31
+        }
+      },
+      "sourceText": "if (line) lines.push(line);",
+      "owner": "createRunMenuUI.paginate",
+      "sourceContext": "if (line) lines.push(line);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/run-menu.ts",
+      "sourceHash": "1d02c36c6d47645e86795810c5b5eb0d20ee85601bec3d4746de42b21920f676",
+      "mapHash": "9af4ba93dafacc21e0fbeda677681c646e5466cf82552a6857f1ec686496bbc9",
+      "id": "24",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 74,
+          "column": 4
+        },
+        "end": {
+          "line": 74,
+          "column": 49
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 74,
+          "column": 4
+        },
+        "end": {
+          "line": 74,
+          "column": 49
+        }
+      },
+      "sourceText": "if (!pages.length) pages = ['Ready to hop.'];",
+      "owner": "createRunMenuUI.paginate",
+      "sourceContext": "if (!pages.length) pages = ['Ready to hop.'];",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/run-menu.ts",
+      "sourceHash": "1d02c36c6d47645e86795810c5b5eb0d20ee85601bec3d4746de42b21920f676",
+      "mapHash": "9af4ba93dafacc21e0fbeda677681c646e5466cf82552a6857f1ec686496bbc9",
+      "id": "33",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 89,
+          "column": 99
+        },
+        "end": {
+          "line": 89,
+          "column": 101
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 89,
+          "column": 67
+        },
+        "end": {
+          "line": 89,
+          "column": 101
+        }
+      },
+      "sourceText": "''",
+      "owner": "createRunMenuUI.show",
+      "sourceContext": "''",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/run-menu.ts",
+      "sourceHash": "1d02c36c6d47645e86795810c5b5eb0d20ee85601bec3d4746de42b21920f676",
+      "mapHash": "9af4ba93dafacc21e0fbeda677681c646e5466cf82552a6857f1ec686496bbc9",
+      "id": "34",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 89,
+          "column": 130
+        },
+        "end": {
+          "line": 89,
+          "column": 132
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 89,
+          "column": 104
+        },
+        "end": {
+          "line": 89,
+          "column": 132
+        }
+      },
+      "sourceText": "''",
+      "owner": "createRunMenuUI.show",
+      "sourceContext": "''",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/run-menu.ts",
+      "sourceHash": "1d02c36c6d47645e86795810c5b5eb0d20ee85601bec3d4746de42b21920f676",
+      "mapHash": "9af4ba93dafacc21e0fbeda677681c646e5466cf82552a6857f1ec686496bbc9",
+      "id": "36",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 91,
+          "column": 4
+        },
+        "end": {
+          "line": 91,
+          "column": 57
+        }
+      },
+      "sourceText": "if (takeFocus) focus(topic === 'home' ? play : back);",
+      "owner": "createRunMenuUI.show",
+      "sourceContext": "if (takeFocus) focus(topic === 'home' ? play : back);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/run-menu.ts",
+      "sourceHash": "1d02c36c6d47645e86795810c5b5eb0d20ee85601bec3d4746de42b21920f676",
+      "mapHash": "9af4ba93dafacc21e0fbeda677681c646e5466cf82552a6857f1ec686496bbc9",
+      "id": "48",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 104,
+          "column": 30
+        },
+        "end": {
+          "line": 104,
+          "column": 56
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 104,
+          "column": 30
+        },
+        "end": {
+          "line": 104,
+          "column": 56
+        }
+      },
+      "sourceText": "if (!items.length) return;",
+      "owner": "createRunMenuUI.callback@102",
+      "sourceContext": "if (!items.length) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/run-menu.ts",
+      "sourceHash": "1d02c36c6d47645e86795810c5b5eb0d20ee85601bec3d4746de42b21920f676",
+      "mapHash": "9af4ba93dafacc21e0fbeda677681c646e5466cf82552a6857f1ec686496bbc9",
+      "id": "51",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 111,
+          "column": 36
+        },
+        "end": {
+          "line": 111,
+          "column": 62
+        }
+      },
+      "sourceText": "if (!disposed) paginate();",
+      "owner": "createRunMenuUI.callback@111",
+      "sourceContext": "if (!disposed) paginate();",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/run-menu.ts",
+      "sourceHash": "1d02c36c6d47645e86795810c5b5eb0d20ee85601bec3d4746de42b21920f676",
+      "mapHash": "9af4ba93dafacc21e0fbeda677681c646e5466cf82552a6857f1ec686496bbc9",
+      "id": "52",
+      "arm": 0,
+      "type": "default-arg",
+      "location": {
+        "start": {
+          "line": 113,
+          "column": 69
+        },
+        "end": {
+          "line": 113,
+          "column": 74
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 113,
+          "column": 53
+        },
+        "end": {
+          "line": 113,
+          "column": 74
+        }
+      },
+      "sourceText": "false",
+      "owner": "createRunMenuUI.update",
+      "sourceContext": "false",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/run-menu.ts",
+      "sourceHash": "1d02c36c6d47645e86795810c5b5eb0d20ee85601bec3d4746de42b21920f676",
+      "mapHash": "9af4ba93dafacc21e0fbeda677681c646e5466cf82552a6857f1ec686496bbc9",
+      "id": "53",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 114,
+          "column": 6
+        },
+        "end": {
+          "line": 114,
+          "column": 27
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 114,
+          "column": 6
+        },
+        "end": {
+          "line": 114,
+          "column": 27
+        }
+      },
+      "sourceText": "if (disposed) return;",
+      "owner": "createRunMenuUI.update",
+      "sourceContext": "if (disposed) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/run-menu.ts",
+      "sourceHash": "1d02c36c6d47645e86795810c5b5eb0d20ee85601bec3d4746de42b21920f676",
+      "mapHash": "9af4ba93dafacc21e0fbeda677681c646e5466cf82552a6857f1ec686496bbc9",
+      "id": "55",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 121,
+          "column": 8
+        },
+        "end": {
+          "line": 121,
+          "column": 57
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 121,
+          "column": 8
+        },
+        "end": {
+          "line": 121,
+          "column": 57
+        }
+      },
+      "sourceText": "if (active && topic === 'stats') paginateStats();",
+      "owner": "createRunMenuUI.update",
+      "sourceContext": "if (active && topic === 'stats') paginateStats();",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/run-menu.ts",
+      "sourceHash": "1d02c36c6d47645e86795810c5b5eb0d20ee85601bec3d4746de42b21920f676",
+      "mapHash": "9af4ba93dafacc21e0fbeda677681c646e5466cf82552a6857f1ec686496bbc9",
+      "id": "60",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 131,
+          "column": 8
+        },
+        "end": {
+          "line": 131,
+          "column": 159
+        }
+      },
+      "sourceText": "if (app.dataset.pauseOpen !== 'true') { panel.removeAttribute('role'); panel.removeAttribute('aria-modal'); panel.removeAttribute('aria-labelledby'); }",
+      "owner": "createRunMenuUI.update",
+      "sourceContext": "if (app.dataset.pauseOpen !== 'true') { panel.removeAttribute('role'); panel.removeAttribute('aria-modal'); panel.removeAttribute('aria-labelledby'); }",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/run-menu.ts",
+      "sourceHash": "1d02c36c6d47645e86795810c5b5eb0d20ee85601bec3d4746de42b21920f676",
+      "mapHash": "9af4ba93dafacc21e0fbeda677681c646e5466cf82552a6857f1ec686496bbc9",
+      "id": "61",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 135,
+          "column": 6
+        },
+        "end": {
+          "line": 135,
+          "column": 26
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 135,
+          "column": 6
+        },
+        "end": {
+          "line": 135,
+          "column": 26
+        }
+      },
+      "sourceText": "if (!active) return;",
+      "owner": "createRunMenuUI.navigate",
+      "sourceContext": "if (!active) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/run-menu.ts",
+      "sourceHash": "1d02c36c6d47645e86795810c5b5eb0d20ee85601bec3d4746de42b21920f676",
+      "mapHash": "9af4ba93dafacc21e0fbeda677681c646e5466cf82552a6857f1ec686496bbc9",
+      "id": "62",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 136,
+          "column": 32
+        },
+        "end": {
+          "line": 136,
+          "column": 58
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 136,
+          "column": 32
+        },
+        "end": {
+          "line": 136,
+          "column": 58
+        }
+      },
+      "sourceText": "if (!items.length) return;",
+      "owner": "createRunMenuUI.navigate",
+      "sourceContext": "if (!items.length) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/run-menu.ts",
+      "sourceHash": "1d02c36c6d47645e86795810c5b5eb0d20ee85601bec3d4746de42b21920f676",
+      "mapHash": "9af4ba93dafacc21e0fbeda677681c646e5466cf82552a6857f1ec686496bbc9",
+      "id": "68",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 145,
+          "column": 22
+        },
+        "end": {
+          "line": 145,
+          "column": 68
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 145,
+          "column": 22
+        },
+        "end": {
+          "line": 145,
+          "column": 68
+        }
+      },
+      "sourceText": "if (!active || topic === 'home') return false;",
+      "owner": "createRunMenuUI.back",
+      "sourceContext": "if (!active || topic === 'home') return false;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/run-seed.ts",
+      "sourceHash": "fdd556d8e1daca5dd85602fa8f8bde29dbb495f3c267a9dac9cd4b375560a524",
+      "mapHash": "5714608bdba5e765f5e92bed5e444090f18593d09ffe26d04a8a85350525b444",
+      "id": "9",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 18,
+          "column": 2
+        },
+        "end": {
+          "line": 18,
+          "column": 88
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 18,
+          "column": 2
+        },
+        "end": {
+          "line": 18,
+          "column": 88
+        }
+      },
+      "sourceText": "if (mode !== 'arcade' && mode !== 'stroll') throw new RangeError('Unknown run mode.');",
+      "owner": "createRunSeed",
+      "sourceContext": "if (mode !== 'arcade' && mode !== 'stroll') throw new RangeError('Unknown run mode.');",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/run-seed.ts",
+      "sourceHash": "fdd556d8e1daca5dd85602fa8f8bde29dbb495f3c267a9dac9cd4b375560a524",
+      "mapHash": "5714608bdba5e765f5e92bed5e444090f18593d09ffe26d04a8a85350525b444",
+      "id": "11",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 19,
+          "column": 2
+        },
+        "end": {
+          "line": 19,
+          "column": 90
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 19,
+          "column": 2
+        },
+        "end": {
+          "line": 19,
+          "column": 90
+        }
+      },
+      "sourceText": "if (typeof gentle !== 'boolean') throw new TypeError('Gentle start must be a boolean.');",
+      "owner": "createRunSeed",
+      "sourceContext": "if (typeof gentle !== 'boolean') throw new TypeError('Gentle start must be a boolean.');",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/sound-packs.ts",
+      "sourceHash": "8e670193500c2daef6afadf204100f0ab33fc143f6aa3e0bb3a52cf1c3ea9d8e",
+      "mapHash": "e3387dbf2abb43eeac2cdad3d28b3376119ce9be7afd4a733aed585805c75100",
+      "id": "14",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 36,
+          "column": 37
+        },
+        "end": {
+          "line": 36,
+          "column": 39
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 36,
+          "column": 31
+        },
+        "end": {
+          "line": 36,
+          "column": 39
+        }
+      },
+      "sourceText": "''",
+      "owner": "parseSoundPack",
+      "sourceContext": "''",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/sound-settings.ts",
+      "sourceHash": "82e413739bfe7bdc4f29dd555eddaa5849dbebed10d296a5a439041accddb352",
+      "mapHash": "575ba53f1e391a8aa914731135f0b41e576937a56a31387e3359c079d091a7eb",
+      "id": "5",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 73,
+          "column": 6
+        },
+        "end": {
+          "line": 73,
+          "column": 53
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 73,
+          "column": 6
+        },
+        "end": {
+          "line": 73,
+          "column": 53
+        }
+      },
+      "sourceText": "if (disposed || request !== generation) return;",
+      "owner": "createSoundSettings.importPack",
+      "sourceContext": "if (disposed || request !== generation) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/sound-settings.ts",
+      "sourceHash": "82e413739bfe7bdc4f29dd555eddaa5849dbebed10d296a5a439041accddb352",
+      "mapHash": "575ba53f1e391a8aa914731135f0b41e576937a56a31387e3359c079d091a7eb",
+      "id": "16",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 91,
+          "column": 11
+        },
+        "end": {
+          "line": 91,
+          "column": 93
+        }
+      },
+      "sourceText": "if (available && read().soundAddress) void importPack(read().soundAddress, false);",
+      "owner": "createSoundSettings.callback@87",
+      "sourceContext": "if (available && read().soundAddress) void importPack(read().soundAddress, false);",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/sound-settings.ts",
+      "sourceHash": "82e413739bfe7bdc4f29dd555eddaa5849dbebed10d296a5a439041accddb352",
+      "mapHash": "575ba53f1e391a8aa914731135f0b41e576937a56a31387e3359c079d091a7eb",
+      "id": "18",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 93,
+          "column": 127
+        },
+        "end": {
+          "line": 93,
+          "column": 129
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 93,
+          "column": 64
+        },
+        "end": {
+          "line": 93,
+          "column": 129
+        }
+      },
+      "sourceText": "''",
+      "owner": "createSoundSettings.callback@87",
+      "sourceContext": "''",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/sound-settings.ts",
+      "sourceHash": "82e413739bfe7bdc4f29dd555eddaa5849dbebed10d296a5a439041accddb352",
+      "mapHash": "575ba53f1e391a8aa914731135f0b41e576937a56a31387e3359c079d091a7eb",
+      "id": "24",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 111,
+          "column": 6
+        },
+        "end": {
+          "line": 111,
+          "column": 27
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 111,
+          "column": 6
+        },
+        "end": {
+          "line": 111,
+          "column": 27
+        }
+      },
+      "sourceText": "if (disposed) return;",
+      "owner": "createSoundSettings.sync",
+      "sourceContext": "if (disposed) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/sound-settings.ts",
+      "sourceHash": "82e413739bfe7bdc4f29dd555eddaa5849dbebed10d296a5a439041accddb352",
+      "mapHash": "575ba53f1e391a8aa914731135f0b41e576937a56a31387e3359c079d091a7eb",
+      "id": "29",
+      "arm": 1,
+      "type": "if",
+      "location": {
+        "start": {},
+        "end": {}
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 120,
+          "column": 10
+        },
+        "end": {
+          "line": 120,
+          "column": 126
+        }
+      },
+      "sourceText": "if (!select.querySelector('option[value=\"custom\"]')) select.add(new Option('Saved pack · Pond fallback', 'custom'));",
+      "owner": "createSoundSettings.sync",
+      "sourceContext": "if (!select.querySelector('option[value=\"custom\"]')) select.add(new Option('Saved pack · Pond fallback', 'custom'));",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/vehicle-models.ts",
+      "sourceHash": "a873102d70e8d257c15b26d3c2dcf67935956012e88c3c16d9db2c9828d291bc",
+      "mapHash": "3e835959d405d1a0ad3c399f50b78b3ea80aa792cbcf348cd3fb0f43c561c885",
+      "id": "4",
+      "arm": 0,
+      "type": "cond-expr",
+      "location": {
+        "start": {
+          "line": 14,
+          "column": 87
+        },
+        "end": {
+          "line": 14,
+          "column": 92
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 14,
+          "column": 49
+        },
+        "end": {
+          "line": 14,
+          "column": 99
+        }
+      },
+      "sourceText": "voxel",
+      "owner": "vehicleModel.callback@14",
+      "sourceContext": "voxel",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/wearables.ts",
+      "sourceHash": "6ff040ceaed6a1fd4ff1dcf7e8b8bc9a773bcc4a3598fa6a83529a05d28b72e6",
+      "mapHash": "522254b67c450516530e787a80fe1f446e9e0730dba9a379f21603efa477c7af",
+      "id": "5",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 34,
+          "column": 4
+        },
+        "end": {
+          "line": 34,
+          "column": 77
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 34,
+          "column": 4
+        },
+        "end": {
+          "line": 34,
+          "column": 77
+        }
+      },
+      "sourceText": "if (appearance.style !== 'hat' && appearance.style !== 'shirt') continue;",
+      "owner": "dressedModel",
+      "sourceContext": "if (appearance.style !== 'hat' && appearance.style !== 'shirt') continue;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/levels/v1.ts",
+      "sourceHash": "2528a12bdc80d8da5579dccf04cd64509a2ceeb7f3ff229b9cb970207c4f5c56",
+      "mapHash": "8c9ac45d3af197ae3b8abd0ed2075f094058cd3813ea0ba03d9f812fba3cec44",
+      "id": "0",
+      "arm": 0,
+      "type": "default-arg",
+      "location": {
+        "start": {
+          "line": 13,
+          "column": 96
+        },
+        "end": {
+          "line": 13,
+          "column": 105
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 13,
+          "column": 69
+        },
+        "end": {
+          "line": 13,
+          "column": 105
+        }
+      },
+      "sourceText": "WORLDS_V1",
+      "owner": "worldForRow",
+      "sourceContext": "WORLDS_V1",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/levels/v1.ts",
+      "sourceHash": "2528a12bdc80d8da5579dccf04cd64509a2ceeb7f3ff229b9cb970207c4f5c56",
+      "mapHash": "8c9ac45d3af197ae3b8abd0ed2075f094058cd3813ea0ba03d9f812fba3cec44",
+      "id": "3",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 15,
+          "column": 93
+        },
+        "end": {
+          "line": 15,
+          "column": 103
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 15,
+          "column": 50
+        },
+        "end": {
+          "line": 15,
+          "column": 103
+        }
+      },
+      "sourceText": "worlds[0]!",
+      "owner": "worldForRow",
+      "sourceContext": "worlds[0]!",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    },
+    {
+      "path": "src/levels/v1.ts",
+      "sourceHash": "2528a12bdc80d8da5579dccf04cd64509a2ceeb7f3ff229b9cb970207c4f5c56",
+      "mapHash": "8c9ac45d3af197ae3b8abd0ed2075f094058cd3813ea0ba03d9f812fba3cec44",
+      "id": "5",
+      "arm": 0,
+      "type": "default-arg",
+      "location": {
+        "start": {
+          "line": 20,
+          "column": 81
+        },
+        "end": {
+          "line": 20,
+          "column": 86
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 20,
+          "column": 72
+        },
+        "end": {
+          "line": 20,
+          "column": 86
+        }
+      },
+      "sourceText": "false",
+      "owner": "generateLane",
+      "sourceContext": "false",
+      "scopeProofs": [],
+      "status": "reviewed-counted-legacy-residual",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-LEGACY-RESIDUAL-REVIEW.md",
+      "counterCredit": false,
+      "exclusion": false
+    }
+  ],
+  "pendingStandaloneExecution": [
+    "tests/market-scene.test.mjs"
+  ],
+  "newExecution": false,
+  "newCoverageNumerators": false,
+  "newExclusions": false,
+  "quantitativeFloorsUnchanged": true,
+  "freshFullExecutionStatus": "pending;run cb52774e-975e-4388-a064-5162ef3807d8 was active during this review",
+  "hashes": {
+    "artifacts/release-coverage/semantic-current-03/raw-zero-review.json": "c8297f9591dcbe604c1ff06f2e67ca6575ac9570a94838dec747530dcfda5fc4",
+    "artifacts/release-coverage/current-full-05-proof/freeze.json": "c72459fff67275b20c5b67c1076d781f825a00cec405fada8743cb2f350111a3",
+    "tools/release-coverage/suites.json": "02e81d3e4320ed8a2d0901fd0eee532e051d1c0b27b606c011fedbc3674ab88d",
+    "src/actors.ts": "8802f29be9e39003f6cdbf46c8ba08d61d2a01aaac91206ed6f236b8c65a1394",
+    "tests/solo-parity-actors.test.mjs": "5fba030c52b73c640158b9d169de1eb8a605d21ebfe2442c50a472a20c072ce7",
+    "tests/seed.test.mjs": "732a3dda4edefdd7fc5a46a52db9979046d342789e3790f363e784768304e816",
+    "src/character-power-ui.ts": "3fa23675278d5782c16dc65c8358c7c5dd8ec28091a8021332cd1aa53d178945",
+    "tests/character-power-runtime.mjs": "faea81cf04b7b28e35c80f1857a81ec21e036163ea5d00715527b0e7908a6133",
+    "tests/character-power-render.test.mjs": "3c621d60be3ddc25bbf2ee235082e314c0310a6ab2e8ab6c6cfadef8b01028bb",
+    "src/character-powers.ts": "d785823a0278b758edafc70e725e4cfa9c4ea32dd4e3e6d6be0a416c23042b8d",
+    "tests/character-powers.test.mjs": "487203a1b29fcfb9240b19d747cd21f065f6b35611b47c79c6373c398ad89eae",
+    "tests/relay-character-powers.test.mjs": "041daa89afab3b8d266a43f81adf140fea9ab42a8853bfee26d025e463f643f6",
+    "tests/race-character-powers.test.mjs": "d09d523571cf89d52b9cbb87ef7d23c167dae4d44e002c995f8fcd05190ce1a4",
+    "src/coin-denominations.ts": "707895fc6de79ad2cd7b71d45077655cc8a6a9af0a1b1f778863f6ad42c8ac14",
+    "tests/coin-denominations.test.mjs": "16fc5ba3678bb6a7f58f73c4f682776ffcb2c02547e5da1614171b28639342ea",
+    "src/collection-ui.ts": "0a1f48897e8d09839385b365bb1e16f33d8f51d57bf975559fb4cd05d4055d10",
+    "tests/collection-game-layout.mjs": "b26e170d1303db515f50fc91f9d050b4e8876243c9ec71bb1979af6ddded9e70",
+    "src/devtools.ts": "717ad3568ee1cd1139f3650e1785f7aa4867cb4113b5417053b8677dd83f9e87",
+    "tests/devtools.test.mjs": "faeffd3c6337a58fabea52841b5842734dfb9b1df1c2932f9eb41e3743d74d34",
+    "tests/devtools-runtime.mjs": "f5ae206fa13cdb3f44dd20bcccdc9d595d27b1e22bfd510f6c73894e45329f62",
+    "src/market-preview.ts": "ef246b766e0421245bbd962b2119203ce20e22f0bcacdb6aa688600885864a3f",
+    "tests/market-preview.test.mjs": "afd8905f53eab76b16e2b3730bcc9507295ba7e24d73c7feebffb2ef02ba07de",
+    "src/market-scene.ts": "d942e50e1eecd2685567eed8e58de49da3c648c91060362785e9875b5846c76e",
+    "tests/market-scene.test.mjs": "449e485831d9ddd5327bca67ee3d66962caafaf95fcdc6d695704cbd1e79edae",
+    "src/market-scenery.ts": "c9f726c0d42e8fb47cf15ca40d4f6242099f1abfef3050b8faa46e13fd83feff",
+    "tests/market-scenery.test.mjs": "3542b208725ef66b9c5fd461e0e01bb2bedd72c96481e321bccfc198ec2993af",
+    "tests/market-scenery-render.test.mjs": "2b0dd2d597df8388e779770676c97db765feb262c0d4156761df803e4552e77a",
+    "src/mob-models.ts": "fce5e37b1e834b31296ae66cdd4a7ba177d0b11c1c09de977de92083675b7008",
+    "tests/mobs.test.mjs": "f64569f2380ad5c4fe56545c64768a2241812416fe3aeeded3f3a2ddf9db9776",
+    "src/pause-ui.ts": "e0f7d449c755077a98cf411b93fd209be8f8fbacbb21d005cd8e12c333d93dc2",
+    "tests/pause-game-layout.mjs": "8ff45d027d69314771ea39734d0420d6777cd839d618bc02ea8f03f6d7a01a64",
+    "src/run-menu.ts": "1d02c36c6d47645e86795810c5b5eb0d20ee85601bec3d4746de42b21920f676",
+    "tests/run-menu-layout.mjs": "ea358b6958bac9ea5b981e54e148d0f6c3e591719d08844e1aebf23abb136bb0",
+    "src/run-seed.ts": "fdd556d8e1daca5dd85602fa8f8bde29dbb495f3c267a9dac9cd4b375560a524",
+    "tests/turn-seed-compatibility.test.mjs": "7478fd5687a972b7282f9c67c3cf9b40d759fb54cf8c6fea8f30e123dff52109",
+    "src/sound-packs.ts": "8e670193500c2daef6afadf204100f0ab33fc143f6aa3e0bb3a52cf1c3ea9d8e",
+    "tests/sound.test.mjs": "aaea2311b7e3a0d8ea6f2af0d86147a78a9f9a53d6cbe9b21ddc7a38b385c069",
+    "tests/release-sound-loader-gaps.test.mjs": "d8c0c2ef67a2676da53435ff93b2cf1307d0f52208184c8ba21e26a50e6777cc",
+    "src/sound-settings.ts": "82e413739bfe7bdc4f29dd555eddaa5849dbebed10d296a5a439041accddb352",
+    "tests/sound-runtime.mjs": "bf106b430d56104897cc810411203c32921260f5e17343d59076e22898b03399",
+    "src/vehicle-models.ts": "a873102d70e8d257c15b26d3c2dcf67935956012e88c3c16d9db2c9828d291bc",
+    "src/wearables.ts": "6ff040ceaed6a1fd4ff1dcf7e8b8bc9a773bcc4a3598fa6a83529a05d28b72e6",
+    "tests/wearables.test.mjs": "076aff09f6af788a0d08545cddbadaabfd0e4a981300a7dea23ac99569da8baa",
+    "tests/wearables-render.test.mjs": "74f70522bcc7f55ed278fe1c5b6e70ea6d6a900e09918175c263437ba3c18fdc",
+    "src/levels/v1.ts": "2528a12bdc80d8da5579dccf04cd64509a2ceeb7f3ff229b9cb970207c4f5c56",
+    "tests/solo-parity.test.mjs": "8ae2428e461845ca2a1d8a1aad9f757122c4268bee10e4ef87ce7e9954e5439d",
+    "artifacts/release-coverage/legacy-residual-semantic-04/review.mjs": "a7f01d81ec370c4b0a534abffdc26b91d4e4a9514fd27f791152102409347afc"
+  }
+}

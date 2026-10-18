@@ -1,0 +1,2970 @@
+{
+  "purpose": "Measured supplemental opaque-frame SDK wire and scoped teardown evidence",
+  "createdAt": "2026-10-18T07:17:24.168Z",
+  "artifactHash": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
+  "candidateSha256": "f4ad0c877d827f53dda4511497c815beb3d01f177b85b3b72dc0373550985001",
+  "currentManifest": {
+    "contract": "Current NIP-5D generated-candidate field subset",
+    "kind": 35129,
+    "byteDigestMatches": true,
+    "artifactHash": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
+    "checkedFields": [
+      "d",
+      "x",
+      "title",
+      "z",
+      "i",
+      "R",
+      "O"
+    ],
+    "unsignedCandidate": true,
+    "signatureMeasured": false,
+    "publicationMeasured": false,
+    "limit": "No cryptographic identity/publication claim; optional fields absent from this candidate are not generically validated"
+  },
+  "publicCandidateText": "{\n  \"kind\": 35129,\n  \"created_at\": 1792300490,\n  \"tags\": [\n    [\n      \"d\",\n      \"puddlehop\"\n    ],\n    [\n      \"x\",\n      \"e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542\"\n    ],\n    [\n      \"title\",\n      \"Down to Duck\"\n    ],\n    [\n      \"O\",\n      \"intent\"\n    ],\n    [\n      \"z\",\n      \"game\"\n    ],\n    [\n      \"i\",\n      \"napplet:game/open\",\n      \"seed\",\n      \"mode\"\n    ]\n  ],\n  \"content\": \"An endless voxel crossing adventure with collectible travelers and changing worlds\",\n  \"artifactHash\": \"e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542\"\n}",
+  "primaryReference": {
+    "scope": "Fresh pinned primary reference for final release verification;open proposal status is explicit",
+    "retrievedAt": "2026-10-18T03:18:01.555610+00:00",
+    "pullRequest": "https://api.github.com/repos/nostr-protocol/nips/pulls/2303",
+    "status": "open",
+    "merged": false,
+    "head": "5560820fa4f37f45b8ab742a11aeb3001b17dc67",
+    "repository": "dskvr/nips",
+    "branch": "nip/5d",
+    "source": "https://raw.githubusercontent.com/dskvr/nips/5560820fa4f37f45b8ab742a11aeb3001b17dc67/5D.md",
+    "bytes": 20617,
+    "sha256": "7d716e8ec9f1737b070f4716b998f52fd6e189d5bb1bc4c2efe6c1dae35b9f37",
+    "apiSha256": "9e0bac87ba14a6b26fffd463a50f36b179e5a1f933630e3c9682252e1ec28607",
+    "metadataSha256": "a8d13df59b6b2be2da2b22a5c4d8b2f37c845d07121b845d67883c1451749a12"
+  },
+  "engine": {
+    "cliVersion": "0.2.15",
+    "engineVersion": "0.13.0",
+    "cliPackageHash": "7d7066083fb57c4b9e4ca3f68a9ab6fd16125528b99296e29246ec05735c6d3f",
+    "enginePackageHash": "76a16b5d30026d5eccf814da2ca5636576afc075499ead0eed47263b3e7ff6af",
+    "engineEntryHash": "9b1aae61eb54a2381016a4c5c2ebb77d61114a451946c27eb2c917529f9c0979",
+    "supplemental": {
+      "startedAt": 1792307844168,
+      "finishedAt": 1792307844168,
+      "checks": [
+        {
+          "id": "manifest/event-kind",
+          "area": "manifest",
+          "severity": "error",
+          "title": "Resolved event is a NIP-5D napplet manifest",
+          "status": "skip",
+          "detail": "No NIP-5D manifest event was resolved"
+        },
+        {
+          "id": "manifest/index-html",
+          "area": "manifest",
+          "severity": "error",
+          "title": "Manifest declares a hashed /index.html",
+          "status": "skip",
+          "detail": "No NIP-5D manifest event was resolved"
+        },
+        {
+          "id": "manifest/requires",
+          "area": "manifest",
+          "severity": "error",
+          "title": "requires tags are bare known NAP domains",
+          "status": "skip",
+          "detail": "No NIP-5D manifest event was resolved"
+        },
+        {
+          "id": "boot/sandbox-allow-scripts",
+          "area": "boot",
+          "severity": "error",
+          "title": "Runs under allow-scripts without allow-same-origin",
+          "status": "pass"
+        },
+        {
+          "id": "boot/installs-global",
+          "area": "boot",
+          "severity": "error",
+          "title": "Runs after runtime-injected window.napplet is installed",
+          "status": "pass"
+        },
+        {
+          "id": "boot/no-boot-error",
+          "area": "boot",
+          "severity": "error",
+          "title": "Boots without an uncaught error",
+          "status": "pass"
+        },
+        {
+          "id": "boot/no-forbidden-globals",
+          "area": "boot",
+          "severity": "error",
+          "title": "Does not access forbidden browser authority surfaces",
+          "status": "pass"
+        },
+        {
+          "id": "wire/envelope-well-formed",
+          "area": "wire",
+          "severity": "error",
+          "title": "Every emitted envelope is well-formed",
+          "status": "pass",
+          "detail": "3 envelope(s) valid"
+        },
+        {
+          "id": "degrade/domain-absence",
+          "area": "degradation",
+          "severity": "error",
+          "title": "Does not crash when no NAP domains are injected",
+          "status": "skip",
+          "detail": "Host did not run the degraded (no-capabilities) pass"
+        },
+        {
+          "id": "lifecycle/clean-teardown",
+          "area": "lifecycle",
+          "severity": "warning",
+          "title": "Tears down listeners on unload",
+          "status": "pass"
+        }
+      ],
+      "summary": {
+        "total": 10,
+        "passed": 6,
+        "failed": 0,
+        "skipped": 4,
+        "errors": 0,
+        "warnings": 0
+      },
+      "ok": true
+    },
+    "legacyCandidateVerdict": {
+      "ok": false,
+      "kind": 35129,
+      "dTag": "puddlehop",
+      "nappletType": "puddlehop",
+      "requires": [],
+      "errors": [
+        {
+          "code": "missing-index-html",
+          "message": "Napplet manifest must include a path tag for /index.html"
+        }
+      ],
+      "warnings": []
+    },
+    "inboundAsOutbound": {
+      "ok": false,
+      "type": "storage.set.result",
+      "domain": "storage",
+      "direction": "in",
+      "errors": [
+        {
+          "code": "inbound-type-emitted",
+          "message": "\"storage.set.result\" is a shell→napplet message; a napplet must not emit it"
+        }
+      ]
+    },
+    "draftControllerVerdict": {
+      "ok": false,
+      "type": "gamepad.subscribe",
+      "domain": "gamepad",
+      "errors": [
+        {
+          "code": "unknown-domain",
+          "message": "\"gamepad\" is not a known NAP domain"
+        }
+      ]
+    },
+    "distinction": "Outbound engine validation only; actual reply correlation independently measured; no draft-controller or current-manifest engine pass"
+  },
+  "journeys": [
+    {
+      "scenario": "no-invocation",
+      "artifactHash": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
+      "runtimeHash": "556519faba132613e5ebe5383d6921b146dd7f511f23cb0a599bf13e65172867",
+      "official": {
+        "entry": "/Users/sandwich/Develop/crossy-road-clone/node_modules/.pnpm/@napplet+nap@0.33.0_typescript@5.9.3/node_modules/@napplet/nap/dist/storage/shim.js",
+        "sdkEntry": "/Users/sandwich/Develop/crossy-road-clone/node_modules/.pnpm/@napplet+sdk@0.29.0_typescript@5.9.3/node_modules/@napplet/sdk/dist/index.js",
+        "sdkVersion": "0.29.0",
+        "napVersion": "0.33.0",
+        "sdkPackageHash": "d83466a84156dc474aebba293624ffd439ea590c102b217181640412ca946703",
+        "napPackageHash": "27a22a4117078e59caacb21674fd1f04aacaea651c47602d9f9ec3bc791e6068",
+        "sdkEntryHash": "e42830c05ffb92d41c8d95663256d3e62dd9a8fd2824f40782328d2cb258ed43",
+        "publicExport": "@napplet/nap/storage/shim",
+        "entryHash": "156c5977b2c4ba64c632ea37e9aa8d00cd48d982198b176609f25fb6baaae2fe",
+        "bundledSources": {
+          "node_modules/.pnpm/@napplet+core@0.33.0/node_modules/@napplet/core/dist/index.js": {
+            "kind": "installed-package-source",
+            "sha256": "16676ba64a2fb3468f5e63bad9db4726aa69b5f38bb060aefcaab2d1c934d5c9"
+          },
+          "node_modules/.pnpm/@napplet+nap@0.33.0_typescript@5.9.3/node_modules/@napplet/nap/dist/chunk-HU72RVEV.js": {
+            "kind": "installed-package-source",
+            "sha256": "79aa86e24e171d68231faaa52fa2ac4a4e7e3338b7fefa31dd54880fe048dba1"
+          },
+          "node_modules/.pnpm/@napplet+nap@0.33.0_typescript@5.9.3/node_modules/@napplet/nap/dist/chunk-Q2OL6E2V.js": {
+            "kind": "installed-package-source",
+            "sha256": "5b8f5452fec1dd87a9b9d0dd54954828c338ab80cbda3338a025b9515d4c1e70"
+          },
+          "node_modules/.pnpm/@napplet+nap@0.33.0_typescript@5.9.3/node_modules/@napplet/nap/dist/storage/shim.js": {
+            "kind": "installed-package-source",
+            "sha256": "156c5977b2c4ba64c632ea37e9aa8d00cd48d982198b176609f25fb6baaae2fe"
+          },
+          "node_modules/.pnpm/@napplet+nap@0.33.0_typescript@5.9.3/node_modules/@napplet/nap/dist/storage/release-conformance-runtime.js": {
+            "kind": "generated-prefix",
+            "sha256": "8e30e88940efaefdef65ed6730c07a6ecfe91d949fd8b4b4d618bba9b8a38067"
+          }
+        }
+      },
+      "sandbox": {
+        "allowScripts": true,
+        "allowSameOrigin": false
+      },
+      "source": "actual opaque-frame receiver and official shim promises; test-host-only instrumentation",
+      "baseline": {
+        "receiver": 4,
+        "snapshot": {
+          "invocations": [],
+          "reads": [
+            {
+              "key": "puddlehop.progress.v1",
+              "fulfilled": 1,
+              "rejected": 0
+            },
+            {
+              "key": "puddlehop.local-keyboards.v1",
+              "fulfilled": 1,
+              "rejected": 0
+            }
+          ],
+          "inbound": [
+            {
+              "parentSource": true,
+              "origin": "http://127.0.0.1:55879",
+              "data": {
+                "type": "storage.get.result",
+                "id": "610d8416-afeb-4216-b1bb-b22f1efcf96b",
+                "value": null
+              }
+            },
+            {
+              "parentSource": true,
+              "origin": "http://127.0.0.1:55879",
+              "data": {
+                "type": "storage.get.result",
+                "id": "c7118181-1a5d-45b2-b814-afecad5a499c",
+                "value": null
+              }
+            }
+          ],
+          "subscriptions": {
+            "opened": {
+              "intent": 1,
+              "theme": 1,
+              "keys": 13
+            },
+            "closed": {},
+            "duplicateClose": 0
+          },
+          "activeKeyHandlers": 13,
+          "registeredUnregisters": 0,
+          "activeFrames": 1,
+          "activeObservers": 8,
+          "listeners": {
+            "window:message:false": 2,
+            "window:keydown:true": 1,
+            "document:keydown:true": 5,
+            "document:keydown:false": 1,
+            "document:keyup:false": 1
+          },
+          "forbidden": [],
+          "rafDelivered": 50,
+          "installedGlobal": true,
+          "gamepadPresent": false,
+          "origin": "null"
+        }
+      },
+      "request": null,
+      "checkpoints": [],
+      "transcript": [
+        {
+          "direction": "out",
+          "timestamp": 121,
+          "origin": "null",
+          "matchedFrameSource": true,
+          "data": {
+            "type": "storage.get",
+            "id": "610d8416-afeb-4216-b1bb-b22f1efcf96b",
+            "key": "puddlehop.progress.v1"
+          }
+        },
+        {
+          "direction": "in",
+          "timestamp": 121.10000000149012,
+          "transport": "parent-postMessage",
+          "data": {
+            "type": "storage.get.result",
+            "id": "610d8416-afeb-4216-b1bb-b22f1efcf96b",
+            "value": null
+          }
+        },
+        {
+          "direction": "out",
+          "timestamp": 144.29999999701977,
+          "origin": "null",
+          "matchedFrameSource": true,
+          "data": {
+            "type": "storage.get",
+            "id": "c7118181-1a5d-45b2-b814-afecad5a499c",
+            "key": "puddlehop.local-keyboards.v1"
+          }
+        },
+        {
+          "direction": "in",
+          "timestamp": 144.29999999701977,
+          "transport": "parent-postMessage",
+          "data": {
+            "type": "storage.get.result",
+            "id": "c7118181-1a5d-45b2-b814-afecad5a499c",
+            "value": null
+          }
+        }
+      ],
+      "hostStorage": {
+        "commits": [],
+        "entries": []
+      },
+      "beforeDispose": {
+        "invocations": [],
+        "reads": [
+          {
+            "key": "puddlehop.progress.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          },
+          {
+            "key": "puddlehop.local-keyboards.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "inbound": [
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55879",
+            "data": {
+              "type": "storage.get.result",
+              "id": "610d8416-afeb-4216-b1bb-b22f1efcf96b",
+              "value": null
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55879",
+            "data": {
+              "type": "storage.get.result",
+              "id": "c7118181-1a5d-45b2-b814-afecad5a499c",
+              "value": null
+            }
+          }
+        ],
+        "subscriptions": {
+          "opened": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "closed": {},
+          "duplicateClose": 0
+        },
+        "activeKeyHandlers": 13,
+        "registeredUnregisters": 0,
+        "activeFrames": 1,
+        "activeObservers": 8,
+        "listeners": {
+          "window:message:false": 2,
+          "window:keydown:true": 1,
+          "document:keydown:true": 5,
+          "document:keydown:false": 1,
+          "document:keyup:false": 1
+        },
+        "forbidden": [],
+        "rafDelivered": 64,
+        "installedGlobal": true,
+        "gamepadPresent": false,
+        "origin": "null"
+      },
+      "afterFirstDispose": {
+        "invocations": [],
+        "reads": [
+          {
+            "key": "puddlehop.progress.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          },
+          {
+            "key": "puddlehop.local-keyboards.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "inbound": [
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55879",
+            "data": {
+              "type": "storage.get.result",
+              "id": "610d8416-afeb-4216-b1bb-b22f1efcf96b",
+              "value": null
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55879",
+            "data": {
+              "type": "storage.get.result",
+              "id": "c7118181-1a5d-45b2-b814-afecad5a499c",
+              "value": null
+            }
+          }
+        ],
+        "subscriptions": {
+          "opened": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "closed": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "duplicateClose": 0
+        },
+        "activeKeyHandlers": 0,
+        "registeredUnregisters": 13,
+        "activeFrames": 0,
+        "activeObservers": 0,
+        "listeners": {
+          "window:message:false": 2,
+          "window:keydown:true": 0,
+          "document:keydown:true": 0,
+          "document:keydown:false": 0,
+          "document:keyup:false": 0
+        },
+        "forbidden": [],
+        "rafDelivered": 64,
+        "installedGlobal": true,
+        "gamepadPresent": false,
+        "origin": "null"
+      },
+      "afterSecondDispose": {
+        "invocations": [],
+        "reads": [
+          {
+            "key": "puddlehop.progress.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          },
+          {
+            "key": "puddlehop.local-keyboards.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "inbound": [
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55879",
+            "data": {
+              "type": "storage.get.result",
+              "id": "610d8416-afeb-4216-b1bb-b22f1efcf96b",
+              "value": null
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55879",
+            "data": {
+              "type": "storage.get.result",
+              "id": "c7118181-1a5d-45b2-b814-afecad5a499c",
+              "value": null
+            }
+          }
+        ],
+        "subscriptions": {
+          "opened": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "closed": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "duplicateClose": 0
+        },
+        "activeKeyHandlers": 0,
+        "registeredUnregisters": 13,
+        "activeFrames": 0,
+        "activeObservers": 0,
+        "listeners": {
+          "window:message:false": 2,
+          "window:keydown:true": 0,
+          "document:keydown:true": 0,
+          "document:keydown:false": 0,
+          "document:keyup:false": 0
+        },
+        "forbidden": [],
+        "rafDelivered": 64,
+        "installedGlobal": true,
+        "gamepadPresent": false,
+        "origin": "null"
+      },
+      "afterHostCleanup": {
+        "invocations": [],
+        "reads": [
+          {
+            "key": "puddlehop.progress.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          },
+          {
+            "key": "puddlehop.local-keyboards.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "inbound": [
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55879",
+            "data": {
+              "type": "storage.get.result",
+              "id": "610d8416-afeb-4216-b1bb-b22f1efcf96b",
+              "value": null
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55879",
+            "data": {
+              "type": "storage.get.result",
+              "id": "c7118181-1a5d-45b2-b814-afecad5a499c",
+              "value": null
+            }
+          }
+        ],
+        "subscriptions": {
+          "opened": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "closed": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "duplicateClose": 0
+        },
+        "activeKeyHandlers": 0,
+        "registeredUnregisters": 13,
+        "activeFrames": 0,
+        "activeObservers": 0,
+        "listeners": {
+          "window:message:false": 0,
+          "window:keydown:true": 0,
+          "document:keydown:true": 0,
+          "document:keydown:false": 0,
+          "document:keyup:false": 0
+        },
+        "forbidden": [],
+        "rafDelivered": 64,
+        "installedGlobal": true,
+        "gamepadPresent": false,
+        "origin": "null"
+      },
+      "errors": [],
+      "external": [],
+      "scope": {
+        "actualStorageWire": true,
+        "productSubscriptions": [
+          "keys",
+          "theme",
+          "intent"
+        ],
+        "absentGamepad": true,
+        "nativePolling": false,
+        "hardwareMeasured": false,
+        "shimTimersCancelled": false,
+        "shimCleanupIsHostOwned": true
+      },
+      "acceptance": "rejected-as-required"
+    },
+    {
+      "scenario": "matching-reply",
+      "artifactHash": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
+      "runtimeHash": "556519faba132613e5ebe5383d6921b146dd7f511f23cb0a599bf13e65172867",
+      "official": {
+        "entry": "/Users/sandwich/Develop/crossy-road-clone/node_modules/.pnpm/@napplet+nap@0.33.0_typescript@5.9.3/node_modules/@napplet/nap/dist/storage/shim.js",
+        "sdkEntry": "/Users/sandwich/Develop/crossy-road-clone/node_modules/.pnpm/@napplet+sdk@0.29.0_typescript@5.9.3/node_modules/@napplet/sdk/dist/index.js",
+        "sdkVersion": "0.29.0",
+        "napVersion": "0.33.0",
+        "sdkPackageHash": "d83466a84156dc474aebba293624ffd439ea590c102b217181640412ca946703",
+        "napPackageHash": "27a22a4117078e59caacb21674fd1f04aacaea651c47602d9f9ec3bc791e6068",
+        "sdkEntryHash": "e42830c05ffb92d41c8d95663256d3e62dd9a8fd2824f40782328d2cb258ed43",
+        "publicExport": "@napplet/nap/storage/shim",
+        "entryHash": "156c5977b2c4ba64c632ea37e9aa8d00cd48d982198b176609f25fb6baaae2fe",
+        "bundledSources": {
+          "node_modules/.pnpm/@napplet+core@0.33.0/node_modules/@napplet/core/dist/index.js": {
+            "kind": "installed-package-source",
+            "sha256": "16676ba64a2fb3468f5e63bad9db4726aa69b5f38bb060aefcaab2d1c934d5c9"
+          },
+          "node_modules/.pnpm/@napplet+nap@0.33.0_typescript@5.9.3/node_modules/@napplet/nap/dist/chunk-HU72RVEV.js": {
+            "kind": "installed-package-source",
+            "sha256": "79aa86e24e171d68231faaa52fa2ac4a4e7e3338b7fefa31dd54880fe048dba1"
+          },
+          "node_modules/.pnpm/@napplet+nap@0.33.0_typescript@5.9.3/node_modules/@napplet/nap/dist/chunk-Q2OL6E2V.js": {
+            "kind": "installed-package-source",
+            "sha256": "5b8f5452fec1dd87a9b9d0dd54954828c338ab80cbda3338a025b9515d4c1e70"
+          },
+          "node_modules/.pnpm/@napplet+nap@0.33.0_typescript@5.9.3/node_modules/@napplet/nap/dist/storage/shim.js": {
+            "kind": "installed-package-source",
+            "sha256": "156c5977b2c4ba64c632ea37e9aa8d00cd48d982198b176609f25fb6baaae2fe"
+          },
+          "node_modules/.pnpm/@napplet+nap@0.33.0_typescript@5.9.3/node_modules/@napplet/nap/dist/storage/release-conformance-runtime.js": {
+            "kind": "generated-prefix",
+            "sha256": "8e30e88940efaefdef65ed6730c07a6ecfe91d949fd8b4b4d618bba9b8a38067"
+          }
+        }
+      },
+      "sandbox": {
+        "allowScripts": true,
+        "allowSameOrigin": false
+      },
+      "source": "actual opaque-frame receiver and official shim promises; test-host-only instrumentation",
+      "baseline": {
+        "receiver": 4,
+        "snapshot": {
+          "invocations": [],
+          "reads": [
+            {
+              "key": "puddlehop.progress.v1",
+              "fulfilled": 1,
+              "rejected": 0
+            },
+            {
+              "key": "puddlehop.local-keyboards.v1",
+              "fulfilled": 1,
+              "rejected": 0
+            }
+          ],
+          "inbound": [
+            {
+              "parentSource": true,
+              "origin": "http://127.0.0.1:55890",
+              "data": {
+                "type": "storage.get.result",
+                "id": "d203b368-848e-4c1a-aceb-932f44e86ead",
+                "value": null
+              }
+            },
+            {
+              "parentSource": true,
+              "origin": "http://127.0.0.1:55890",
+              "data": {
+                "type": "storage.get.result",
+                "id": "bd60d92d-e52c-482b-a623-a0967b8fdfc4",
+                "value": null
+              }
+            }
+          ],
+          "subscriptions": {
+            "opened": {
+              "intent": 1,
+              "theme": 1,
+              "keys": 13
+            },
+            "closed": {},
+            "duplicateClose": 0
+          },
+          "activeKeyHandlers": 13,
+          "registeredUnregisters": 0,
+          "activeFrames": 1,
+          "activeObservers": 8,
+          "listeners": {
+            "window:message:false": 2,
+            "window:keydown:true": 1,
+            "document:keydown:true": 5,
+            "document:keydown:false": 1,
+            "document:keyup:false": 1
+          },
+          "forbidden": [],
+          "rafDelivered": 49,
+          "installedGlobal": true,
+          "gamepadPresent": false,
+          "origin": "null"
+        }
+      },
+      "request": {
+        "type": "storage.set",
+        "id": "391d4960-9f0a-4597-82af-72954e5e5058",
+        "key": "puddlehop.progress.v1",
+        "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}"
+      },
+      "checkpoints": [
+        {
+          "stage": "before-reply",
+          "invocation": {
+            "token": 0,
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}",
+            "fulfilled": 0,
+            "rejected": 0
+          }
+        },
+        {
+          "stage": "matched-and-duplicate",
+          "invocation": {
+            "token": 0,
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        }
+      ],
+      "transcript": [
+        {
+          "direction": "out",
+          "timestamp": 76.29999999701977,
+          "origin": "null",
+          "matchedFrameSource": true,
+          "data": {
+            "type": "storage.get",
+            "id": "d203b368-848e-4c1a-aceb-932f44e86ead",
+            "key": "puddlehop.progress.v1"
+          }
+        },
+        {
+          "direction": "in",
+          "timestamp": 76.29999999701977,
+          "transport": "parent-postMessage",
+          "data": {
+            "type": "storage.get.result",
+            "id": "d203b368-848e-4c1a-aceb-932f44e86ead",
+            "value": null
+          }
+        },
+        {
+          "direction": "out",
+          "timestamp": 97.69999999552965,
+          "origin": "null",
+          "matchedFrameSource": true,
+          "data": {
+            "type": "storage.get",
+            "id": "bd60d92d-e52c-482b-a623-a0967b8fdfc4",
+            "key": "puddlehop.local-keyboards.v1"
+          }
+        },
+        {
+          "direction": "in",
+          "timestamp": 97.69999999552965,
+          "transport": "parent-postMessage",
+          "data": {
+            "type": "storage.get.result",
+            "id": "bd60d92d-e52c-482b-a623-a0967b8fdfc4",
+            "value": null
+          }
+        },
+        {
+          "direction": "out",
+          "timestamp": 803.8999999985099,
+          "origin": "null",
+          "matchedFrameSource": true,
+          "data": {
+            "type": "storage.set",
+            "id": "391d4960-9f0a-4597-82af-72954e5e5058",
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}"
+          }
+        },
+        {
+          "direction": "in",
+          "timestamp": 824.6999999955297,
+          "transport": "parent-postMessage",
+          "data": {
+            "type": "storage.set.result",
+            "id": "391d4960-9f0a-4597-82af-72954e5e5058"
+          }
+        },
+        {
+          "direction": "in",
+          "timestamp": 837.3999999985099,
+          "transport": "parent-postMessage",
+          "data": {
+            "type": "storage.set.result",
+            "id": "391d4960-9f0a-4597-82af-72954e5e5058"
+          }
+        }
+      ],
+      "hostStorage": {
+        "commits": [
+          {
+            "id": "391d4960-9f0a-4597-82af-72954e5e5058",
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}"
+          }
+        ],
+        "entries": [
+          [
+            "puddlehop.progress.v1",
+            "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}"
+          ]
+        ]
+      },
+      "beforeDispose": {
+        "invocations": [
+          {
+            "token": 0,
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "reads": [
+          {
+            "key": "puddlehop.progress.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          },
+          {
+            "key": "puddlehop.local-keyboards.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "inbound": [
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55890",
+            "data": {
+              "type": "storage.get.result",
+              "id": "d203b368-848e-4c1a-aceb-932f44e86ead",
+              "value": null
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55890",
+            "data": {
+              "type": "storage.get.result",
+              "id": "bd60d92d-e52c-482b-a623-a0967b8fdfc4",
+              "value": null
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55890",
+            "data": {
+              "type": "storage.set.result",
+              "id": "391d4960-9f0a-4597-82af-72954e5e5058"
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55890",
+            "data": {
+              "type": "storage.set.result",
+              "id": "391d4960-9f0a-4597-82af-72954e5e5058"
+            }
+          }
+        ],
+        "subscriptions": {
+          "opened": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "closed": {},
+          "duplicateClose": 0
+        },
+        "activeKeyHandlers": 13,
+        "registeredUnregisters": 0,
+        "activeFrames": 1,
+        "activeObservers": 8,
+        "listeners": {
+          "window:message:false": 2,
+          "window:keydown:true": 1,
+          "document:keydown:true": 5,
+          "document:keydown:false": 1,
+          "document:keyup:false": 1
+        },
+        "forbidden": [],
+        "rafDelivered": 70,
+        "installedGlobal": true,
+        "gamepadPresent": false,
+        "origin": "null"
+      },
+      "afterFirstDispose": {
+        "invocations": [
+          {
+            "token": 0,
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "reads": [
+          {
+            "key": "puddlehop.progress.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          },
+          {
+            "key": "puddlehop.local-keyboards.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "inbound": [
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55890",
+            "data": {
+              "type": "storage.get.result",
+              "id": "d203b368-848e-4c1a-aceb-932f44e86ead",
+              "value": null
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55890",
+            "data": {
+              "type": "storage.get.result",
+              "id": "bd60d92d-e52c-482b-a623-a0967b8fdfc4",
+              "value": null
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55890",
+            "data": {
+              "type": "storage.set.result",
+              "id": "391d4960-9f0a-4597-82af-72954e5e5058"
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55890",
+            "data": {
+              "type": "storage.set.result",
+              "id": "391d4960-9f0a-4597-82af-72954e5e5058"
+            }
+          }
+        ],
+        "subscriptions": {
+          "opened": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "closed": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "duplicateClose": 0
+        },
+        "activeKeyHandlers": 0,
+        "registeredUnregisters": 13,
+        "activeFrames": 0,
+        "activeObservers": 0,
+        "listeners": {
+          "window:message:false": 2,
+          "window:keydown:true": 0,
+          "document:keydown:true": 0,
+          "document:keydown:false": 0,
+          "document:keyup:false": 0
+        },
+        "forbidden": [],
+        "rafDelivered": 70,
+        "installedGlobal": true,
+        "gamepadPresent": false,
+        "origin": "null"
+      },
+      "afterSecondDispose": {
+        "invocations": [
+          {
+            "token": 0,
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "reads": [
+          {
+            "key": "puddlehop.progress.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          },
+          {
+            "key": "puddlehop.local-keyboards.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "inbound": [
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55890",
+            "data": {
+              "type": "storage.get.result",
+              "id": "d203b368-848e-4c1a-aceb-932f44e86ead",
+              "value": null
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55890",
+            "data": {
+              "type": "storage.get.result",
+              "id": "bd60d92d-e52c-482b-a623-a0967b8fdfc4",
+              "value": null
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55890",
+            "data": {
+              "type": "storage.set.result",
+              "id": "391d4960-9f0a-4597-82af-72954e5e5058"
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55890",
+            "data": {
+              "type": "storage.set.result",
+              "id": "391d4960-9f0a-4597-82af-72954e5e5058"
+            }
+          }
+        ],
+        "subscriptions": {
+          "opened": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "closed": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "duplicateClose": 0
+        },
+        "activeKeyHandlers": 0,
+        "registeredUnregisters": 13,
+        "activeFrames": 0,
+        "activeObservers": 0,
+        "listeners": {
+          "window:message:false": 2,
+          "window:keydown:true": 0,
+          "document:keydown:true": 0,
+          "document:keydown:false": 0,
+          "document:keyup:false": 0
+        },
+        "forbidden": [],
+        "rafDelivered": 70,
+        "installedGlobal": true,
+        "gamepadPresent": false,
+        "origin": "null"
+      },
+      "afterHostCleanup": {
+        "invocations": [
+          {
+            "token": 0,
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "reads": [
+          {
+            "key": "puddlehop.progress.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          },
+          {
+            "key": "puddlehop.local-keyboards.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "inbound": [
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55890",
+            "data": {
+              "type": "storage.get.result",
+              "id": "d203b368-848e-4c1a-aceb-932f44e86ead",
+              "value": null
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55890",
+            "data": {
+              "type": "storage.get.result",
+              "id": "bd60d92d-e52c-482b-a623-a0967b8fdfc4",
+              "value": null
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55890",
+            "data": {
+              "type": "storage.set.result",
+              "id": "391d4960-9f0a-4597-82af-72954e5e5058"
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55890",
+            "data": {
+              "type": "storage.set.result",
+              "id": "391d4960-9f0a-4597-82af-72954e5e5058"
+            }
+          }
+        ],
+        "subscriptions": {
+          "opened": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "closed": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "duplicateClose": 0
+        },
+        "activeKeyHandlers": 0,
+        "registeredUnregisters": 13,
+        "activeFrames": 0,
+        "activeObservers": 0,
+        "listeners": {
+          "window:message:false": 0,
+          "window:keydown:true": 0,
+          "document:keydown:true": 0,
+          "document:keydown:false": 0,
+          "document:keyup:false": 0
+        },
+        "forbidden": [],
+        "rafDelivered": 70,
+        "installedGlobal": true,
+        "gamepadPresent": false,
+        "origin": "null"
+      },
+      "errors": [],
+      "external": [],
+      "scope": {
+        "actualStorageWire": true,
+        "productSubscriptions": [
+          "keys",
+          "theme",
+          "intent"
+        ],
+        "absentGamepad": true,
+        "nativePolling": false,
+        "hardwareMeasured": false,
+        "shimTimersCancelled": false,
+        "shimCleanupIsHostOwned": true
+      },
+      "acceptance": "observed-completion"
+    },
+    {
+      "scenario": "wrong-id",
+      "artifactHash": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
+      "runtimeHash": "556519faba132613e5ebe5383d6921b146dd7f511f23cb0a599bf13e65172867",
+      "official": {
+        "entry": "/Users/sandwich/Develop/crossy-road-clone/node_modules/.pnpm/@napplet+nap@0.33.0_typescript@5.9.3/node_modules/@napplet/nap/dist/storage/shim.js",
+        "sdkEntry": "/Users/sandwich/Develop/crossy-road-clone/node_modules/.pnpm/@napplet+sdk@0.29.0_typescript@5.9.3/node_modules/@napplet/sdk/dist/index.js",
+        "sdkVersion": "0.29.0",
+        "napVersion": "0.33.0",
+        "sdkPackageHash": "d83466a84156dc474aebba293624ffd439ea590c102b217181640412ca946703",
+        "napPackageHash": "27a22a4117078e59caacb21674fd1f04aacaea651c47602d9f9ec3bc791e6068",
+        "sdkEntryHash": "e42830c05ffb92d41c8d95663256d3e62dd9a8fd2824f40782328d2cb258ed43",
+        "publicExport": "@napplet/nap/storage/shim",
+        "entryHash": "156c5977b2c4ba64c632ea37e9aa8d00cd48d982198b176609f25fb6baaae2fe",
+        "bundledSources": {
+          "node_modules/.pnpm/@napplet+core@0.33.0/node_modules/@napplet/core/dist/index.js": {
+            "kind": "installed-package-source",
+            "sha256": "16676ba64a2fb3468f5e63bad9db4726aa69b5f38bb060aefcaab2d1c934d5c9"
+          },
+          "node_modules/.pnpm/@napplet+nap@0.33.0_typescript@5.9.3/node_modules/@napplet/nap/dist/chunk-HU72RVEV.js": {
+            "kind": "installed-package-source",
+            "sha256": "79aa86e24e171d68231faaa52fa2ac4a4e7e3338b7fefa31dd54880fe048dba1"
+          },
+          "node_modules/.pnpm/@napplet+nap@0.33.0_typescript@5.9.3/node_modules/@napplet/nap/dist/chunk-Q2OL6E2V.js": {
+            "kind": "installed-package-source",
+            "sha256": "5b8f5452fec1dd87a9b9d0dd54954828c338ab80cbda3338a025b9515d4c1e70"
+          },
+          "node_modules/.pnpm/@napplet+nap@0.33.0_typescript@5.9.3/node_modules/@napplet/nap/dist/storage/shim.js": {
+            "kind": "installed-package-source",
+            "sha256": "156c5977b2c4ba64c632ea37e9aa8d00cd48d982198b176609f25fb6baaae2fe"
+          },
+          "node_modules/.pnpm/@napplet+nap@0.33.0_typescript@5.9.3/node_modules/@napplet/nap/dist/storage/release-conformance-runtime.js": {
+            "kind": "generated-prefix",
+            "sha256": "8e30e88940efaefdef65ed6730c07a6ecfe91d949fd8b4b4d618bba9b8a38067"
+          }
+        }
+      },
+      "sandbox": {
+        "allowScripts": true,
+        "allowSameOrigin": false
+      },
+      "source": "actual opaque-frame receiver and official shim promises; test-host-only instrumentation",
+      "baseline": {
+        "receiver": 4,
+        "snapshot": {
+          "invocations": [],
+          "reads": [
+            {
+              "key": "puddlehop.progress.v1",
+              "fulfilled": 1,
+              "rejected": 0
+            },
+            {
+              "key": "puddlehop.local-keyboards.v1",
+              "fulfilled": 1,
+              "rejected": 0
+            }
+          ],
+          "inbound": [
+            {
+              "parentSource": true,
+              "origin": "http://127.0.0.1:55899",
+              "data": {
+                "type": "storage.get.result",
+                "id": "8883edeb-6872-4a05-a93f-f7e9f19333dd",
+                "value": null
+              }
+            },
+            {
+              "parentSource": true,
+              "origin": "http://127.0.0.1:55899",
+              "data": {
+                "type": "storage.get.result",
+                "id": "28557381-90db-4155-b94a-78a11c4fdd73",
+                "value": null
+              }
+            }
+          ],
+          "subscriptions": {
+            "opened": {
+              "intent": 1,
+              "theme": 1,
+              "keys": 13
+            },
+            "closed": {},
+            "duplicateClose": 0
+          },
+          "activeKeyHandlers": 13,
+          "registeredUnregisters": 0,
+          "activeFrames": 1,
+          "activeObservers": 8,
+          "listeners": {
+            "window:message:false": 2,
+            "window:keydown:true": 1,
+            "document:keydown:true": 5,
+            "document:keydown:false": 1,
+            "document:keyup:false": 1
+          },
+          "forbidden": [],
+          "rafDelivered": 37,
+          "installedGlobal": true,
+          "gamepadPresent": false,
+          "origin": "null"
+        }
+      },
+      "request": {
+        "type": "storage.set",
+        "id": "80c3baf7-2058-422a-aa05-d9de71e61e37",
+        "key": "puddlehop.progress.v1",
+        "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}"
+      },
+      "checkpoints": [
+        {
+          "stage": "before-reply",
+          "invocation": {
+            "token": 0,
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}",
+            "fulfilled": 0,
+            "rejected": 0
+          }
+        },
+        {
+          "stage": "mismatched-reply",
+          "invocation": {
+            "token": 0,
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}",
+            "fulfilled": 0,
+            "rejected": 0
+          }
+        },
+        {
+          "stage": "matched-and-duplicate",
+          "invocation": {
+            "token": 0,
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        }
+      ],
+      "transcript": [
+        {
+          "direction": "out",
+          "timestamp": 76.39999999850988,
+          "origin": "null",
+          "matchedFrameSource": true,
+          "data": {
+            "type": "storage.get",
+            "id": "8883edeb-6872-4a05-a93f-f7e9f19333dd",
+            "key": "puddlehop.progress.v1"
+          }
+        },
+        {
+          "direction": "in",
+          "timestamp": 76.39999999850988,
+          "transport": "parent-postMessage",
+          "data": {
+            "type": "storage.get.result",
+            "id": "8883edeb-6872-4a05-a93f-f7e9f19333dd",
+            "value": null
+          }
+        },
+        {
+          "direction": "out",
+          "timestamp": 97.89999999850988,
+          "origin": "null",
+          "matchedFrameSource": true,
+          "data": {
+            "type": "storage.get",
+            "id": "28557381-90db-4155-b94a-78a11c4fdd73",
+            "key": "puddlehop.local-keyboards.v1"
+          }
+        },
+        {
+          "direction": "in",
+          "timestamp": 97.89999999850988,
+          "transport": "parent-postMessage",
+          "data": {
+            "type": "storage.get.result",
+            "id": "28557381-90db-4155-b94a-78a11c4fdd73",
+            "value": null
+          }
+        },
+        {
+          "direction": "out",
+          "timestamp": 724.3999999985099,
+          "origin": "null",
+          "matchedFrameSource": true,
+          "data": {
+            "type": "storage.set",
+            "id": "80c3baf7-2058-422a-aa05-d9de71e61e37",
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}"
+          }
+        },
+        {
+          "direction": "in",
+          "timestamp": 772.3999999985099,
+          "transport": "parent-postMessage",
+          "data": {
+            "type": "storage.set.result",
+            "id": "unrelated-request-id"
+          }
+        },
+        {
+          "direction": "in",
+          "timestamp": 795.2999999970198,
+          "transport": "parent-postMessage",
+          "data": {
+            "type": "storage.set.result",
+            "id": "80c3baf7-2058-422a-aa05-d9de71e61e37"
+          }
+        },
+        {
+          "direction": "in",
+          "timestamp": 815.8999999985099,
+          "transport": "parent-postMessage",
+          "data": {
+            "type": "storage.set.result",
+            "id": "80c3baf7-2058-422a-aa05-d9de71e61e37"
+          }
+        }
+      ],
+      "hostStorage": {
+        "commits": [
+          {
+            "id": "80c3baf7-2058-422a-aa05-d9de71e61e37",
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}"
+          }
+        ],
+        "entries": [
+          [
+            "puddlehop.progress.v1",
+            "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}"
+          ]
+        ]
+      },
+      "beforeDispose": {
+        "invocations": [
+          {
+            "token": 0,
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "reads": [
+          {
+            "key": "puddlehop.progress.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          },
+          {
+            "key": "puddlehop.local-keyboards.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "inbound": [
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55899",
+            "data": {
+              "type": "storage.get.result",
+              "id": "8883edeb-6872-4a05-a93f-f7e9f19333dd",
+              "value": null
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55899",
+            "data": {
+              "type": "storage.get.result",
+              "id": "28557381-90db-4155-b94a-78a11c4fdd73",
+              "value": null
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55899",
+            "data": {
+              "type": "storage.set.result",
+              "id": "unrelated-request-id"
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55899",
+            "data": {
+              "type": "storage.set.result",
+              "id": "80c3baf7-2058-422a-aa05-d9de71e61e37"
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55899",
+            "data": {
+              "type": "storage.set.result",
+              "id": "80c3baf7-2058-422a-aa05-d9de71e61e37"
+            }
+          }
+        ],
+        "subscriptions": {
+          "opened": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "closed": {},
+          "duplicateClose": 0
+        },
+        "activeKeyHandlers": 13,
+        "registeredUnregisters": 0,
+        "activeFrames": 1,
+        "activeObservers": 8,
+        "listeners": {
+          "window:message:false": 2,
+          "window:keydown:true": 1,
+          "document:keydown:true": 5,
+          "document:keydown:false": 1,
+          "document:keyup:false": 1
+        },
+        "forbidden": [],
+        "rafDelivered": 68,
+        "installedGlobal": true,
+        "gamepadPresent": false,
+        "origin": "null"
+      },
+      "afterFirstDispose": {
+        "invocations": [
+          {
+            "token": 0,
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "reads": [
+          {
+            "key": "puddlehop.progress.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          },
+          {
+            "key": "puddlehop.local-keyboards.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "inbound": [
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55899",
+            "data": {
+              "type": "storage.get.result",
+              "id": "8883edeb-6872-4a05-a93f-f7e9f19333dd",
+              "value": null
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55899",
+            "data": {
+              "type": "storage.get.result",
+              "id": "28557381-90db-4155-b94a-78a11c4fdd73",
+              "value": null
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55899",
+            "data": {
+              "type": "storage.set.result",
+              "id": "unrelated-request-id"
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55899",
+            "data": {
+              "type": "storage.set.result",
+              "id": "80c3baf7-2058-422a-aa05-d9de71e61e37"
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55899",
+            "data": {
+              "type": "storage.set.result",
+              "id": "80c3baf7-2058-422a-aa05-d9de71e61e37"
+            }
+          }
+        ],
+        "subscriptions": {
+          "opened": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "closed": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "duplicateClose": 0
+        },
+        "activeKeyHandlers": 0,
+        "registeredUnregisters": 13,
+        "activeFrames": 0,
+        "activeObservers": 0,
+        "listeners": {
+          "window:message:false": 2,
+          "window:keydown:true": 0,
+          "document:keydown:true": 0,
+          "document:keydown:false": 0,
+          "document:keyup:false": 0
+        },
+        "forbidden": [],
+        "rafDelivered": 68,
+        "installedGlobal": true,
+        "gamepadPresent": false,
+        "origin": "null"
+      },
+      "afterSecondDispose": {
+        "invocations": [
+          {
+            "token": 0,
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "reads": [
+          {
+            "key": "puddlehop.progress.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          },
+          {
+            "key": "puddlehop.local-keyboards.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "inbound": [
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55899",
+            "data": {
+              "type": "storage.get.result",
+              "id": "8883edeb-6872-4a05-a93f-f7e9f19333dd",
+              "value": null
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55899",
+            "data": {
+              "type": "storage.get.result",
+              "id": "28557381-90db-4155-b94a-78a11c4fdd73",
+              "value": null
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55899",
+            "data": {
+              "type": "storage.set.result",
+              "id": "unrelated-request-id"
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55899",
+            "data": {
+              "type": "storage.set.result",
+              "id": "80c3baf7-2058-422a-aa05-d9de71e61e37"
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55899",
+            "data": {
+              "type": "storage.set.result",
+              "id": "80c3baf7-2058-422a-aa05-d9de71e61e37"
+            }
+          }
+        ],
+        "subscriptions": {
+          "opened": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "closed": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "duplicateClose": 0
+        },
+        "activeKeyHandlers": 0,
+        "registeredUnregisters": 13,
+        "activeFrames": 0,
+        "activeObservers": 0,
+        "listeners": {
+          "window:message:false": 2,
+          "window:keydown:true": 0,
+          "document:keydown:true": 0,
+          "document:keydown:false": 0,
+          "document:keyup:false": 0
+        },
+        "forbidden": [],
+        "rafDelivered": 68,
+        "installedGlobal": true,
+        "gamepadPresent": false,
+        "origin": "null"
+      },
+      "afterHostCleanup": {
+        "invocations": [
+          {
+            "token": 0,
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "reads": [
+          {
+            "key": "puddlehop.progress.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          },
+          {
+            "key": "puddlehop.local-keyboards.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "inbound": [
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55899",
+            "data": {
+              "type": "storage.get.result",
+              "id": "8883edeb-6872-4a05-a93f-f7e9f19333dd",
+              "value": null
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55899",
+            "data": {
+              "type": "storage.get.result",
+              "id": "28557381-90db-4155-b94a-78a11c4fdd73",
+              "value": null
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55899",
+            "data": {
+              "type": "storage.set.result",
+              "id": "unrelated-request-id"
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55899",
+            "data": {
+              "type": "storage.set.result",
+              "id": "80c3baf7-2058-422a-aa05-d9de71e61e37"
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55899",
+            "data": {
+              "type": "storage.set.result",
+              "id": "80c3baf7-2058-422a-aa05-d9de71e61e37"
+            }
+          }
+        ],
+        "subscriptions": {
+          "opened": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "closed": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "duplicateClose": 0
+        },
+        "activeKeyHandlers": 0,
+        "registeredUnregisters": 13,
+        "activeFrames": 0,
+        "activeObservers": 0,
+        "listeners": {
+          "window:message:false": 0,
+          "window:keydown:true": 0,
+          "document:keydown:true": 0,
+          "document:keydown:false": 0,
+          "document:keyup:false": 0
+        },
+        "forbidden": [],
+        "rafDelivered": 68,
+        "installedGlobal": true,
+        "gamepadPresent": false,
+        "origin": "null"
+      },
+      "errors": [],
+      "external": [],
+      "scope": {
+        "actualStorageWire": true,
+        "productSubscriptions": [
+          "keys",
+          "theme",
+          "intent"
+        ],
+        "absentGamepad": true,
+        "nativePolling": false,
+        "hardwareMeasured": false,
+        "shimTimersCancelled": false,
+        "shimCleanupIsHostOwned": true
+      },
+      "acceptance": "observed-completion"
+    },
+    {
+      "scenario": "wrong-window",
+      "artifactHash": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
+      "runtimeHash": "556519faba132613e5ebe5383d6921b146dd7f511f23cb0a599bf13e65172867",
+      "official": {
+        "entry": "/Users/sandwich/Develop/crossy-road-clone/node_modules/.pnpm/@napplet+nap@0.33.0_typescript@5.9.3/node_modules/@napplet/nap/dist/storage/shim.js",
+        "sdkEntry": "/Users/sandwich/Develop/crossy-road-clone/node_modules/.pnpm/@napplet+sdk@0.29.0_typescript@5.9.3/node_modules/@napplet/sdk/dist/index.js",
+        "sdkVersion": "0.29.0",
+        "napVersion": "0.33.0",
+        "sdkPackageHash": "d83466a84156dc474aebba293624ffd439ea590c102b217181640412ca946703",
+        "napPackageHash": "27a22a4117078e59caacb21674fd1f04aacaea651c47602d9f9ec3bc791e6068",
+        "sdkEntryHash": "e42830c05ffb92d41c8d95663256d3e62dd9a8fd2824f40782328d2cb258ed43",
+        "publicExport": "@napplet/nap/storage/shim",
+        "entryHash": "156c5977b2c4ba64c632ea37e9aa8d00cd48d982198b176609f25fb6baaae2fe",
+        "bundledSources": {
+          "node_modules/.pnpm/@napplet+core@0.33.0/node_modules/@napplet/core/dist/index.js": {
+            "kind": "installed-package-source",
+            "sha256": "16676ba64a2fb3468f5e63bad9db4726aa69b5f38bb060aefcaab2d1c934d5c9"
+          },
+          "node_modules/.pnpm/@napplet+nap@0.33.0_typescript@5.9.3/node_modules/@napplet/nap/dist/chunk-HU72RVEV.js": {
+            "kind": "installed-package-source",
+            "sha256": "79aa86e24e171d68231faaa52fa2ac4a4e7e3338b7fefa31dd54880fe048dba1"
+          },
+          "node_modules/.pnpm/@napplet+nap@0.33.0_typescript@5.9.3/node_modules/@napplet/nap/dist/chunk-Q2OL6E2V.js": {
+            "kind": "installed-package-source",
+            "sha256": "5b8f5452fec1dd87a9b9d0dd54954828c338ab80cbda3338a025b9515d4c1e70"
+          },
+          "node_modules/.pnpm/@napplet+nap@0.33.0_typescript@5.9.3/node_modules/@napplet/nap/dist/storage/shim.js": {
+            "kind": "installed-package-source",
+            "sha256": "156c5977b2c4ba64c632ea37e9aa8d00cd48d982198b176609f25fb6baaae2fe"
+          },
+          "node_modules/.pnpm/@napplet+nap@0.33.0_typescript@5.9.3/node_modules/@napplet/nap/dist/storage/release-conformance-runtime.js": {
+            "kind": "generated-prefix",
+            "sha256": "8e30e88940efaefdef65ed6730c07a6ecfe91d949fd8b4b4d618bba9b8a38067"
+          }
+        }
+      },
+      "sandbox": {
+        "allowScripts": true,
+        "allowSameOrigin": false
+      },
+      "source": "actual opaque-frame receiver and official shim promises; test-host-only instrumentation",
+      "baseline": {
+        "receiver": 4,
+        "snapshot": {
+          "invocations": [],
+          "reads": [
+            {
+              "key": "puddlehop.progress.v1",
+              "fulfilled": 1,
+              "rejected": 0
+            },
+            {
+              "key": "puddlehop.local-keyboards.v1",
+              "fulfilled": 1,
+              "rejected": 0
+            }
+          ],
+          "inbound": [
+            {
+              "parentSource": true,
+              "origin": "http://127.0.0.1:55908",
+              "data": {
+                "type": "storage.get.result",
+                "id": "5b7dbc41-33eb-423b-99a4-fba63d4dff38",
+                "value": null
+              }
+            },
+            {
+              "parentSource": true,
+              "origin": "http://127.0.0.1:55908",
+              "data": {
+                "type": "storage.get.result",
+                "id": "cc8d9cc3-2d0f-4606-8166-7c5a27498630",
+                "value": null
+              }
+            }
+          ],
+          "subscriptions": {
+            "opened": {
+              "intent": 1,
+              "theme": 1,
+              "keys": 13
+            },
+            "closed": {},
+            "duplicateClose": 0
+          },
+          "activeKeyHandlers": 13,
+          "registeredUnregisters": 0,
+          "activeFrames": 1,
+          "activeObservers": 8,
+          "listeners": {
+            "window:message:false": 2,
+            "window:keydown:true": 1,
+            "document:keydown:true": 5,
+            "document:keydown:false": 1,
+            "document:keyup:false": 1
+          },
+          "forbidden": [],
+          "rafDelivered": 49,
+          "installedGlobal": true,
+          "gamepadPresent": false,
+          "origin": "null"
+        }
+      },
+      "request": {
+        "type": "storage.set",
+        "id": "5389ba16-be6c-4a59-84d6-7051c212d515",
+        "key": "puddlehop.progress.v1",
+        "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}"
+      },
+      "checkpoints": [
+        {
+          "stage": "before-reply",
+          "invocation": {
+            "token": 0,
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}",
+            "fulfilled": 0,
+            "rejected": 0
+          }
+        },
+        {
+          "stage": "mismatched-reply",
+          "invocation": {
+            "token": 0,
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}",
+            "fulfilled": 0,
+            "rejected": 0
+          }
+        },
+        {
+          "stage": "matched-and-duplicate",
+          "invocation": {
+            "token": 0,
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        }
+      ],
+      "transcript": [
+        {
+          "direction": "out",
+          "timestamp": 76.59999999403954,
+          "origin": "null",
+          "matchedFrameSource": true,
+          "data": {
+            "type": "storage.get",
+            "id": "5b7dbc41-33eb-423b-99a4-fba63d4dff38",
+            "key": "puddlehop.progress.v1"
+          }
+        },
+        {
+          "direction": "in",
+          "timestamp": 76.59999999403954,
+          "transport": "parent-postMessage",
+          "data": {
+            "type": "storage.get.result",
+            "id": "5b7dbc41-33eb-423b-99a4-fba63d4dff38",
+            "value": null
+          }
+        },
+        {
+          "direction": "out",
+          "timestamp": 98.09999999403954,
+          "origin": "null",
+          "matchedFrameSource": true,
+          "data": {
+            "type": "storage.get",
+            "id": "cc8d9cc3-2d0f-4606-8166-7c5a27498630",
+            "key": "puddlehop.local-keyboards.v1"
+          }
+        },
+        {
+          "direction": "in",
+          "timestamp": 98.09999999403954,
+          "transport": "parent-postMessage",
+          "data": {
+            "type": "storage.get.result",
+            "id": "cc8d9cc3-2d0f-4606-8166-7c5a27498630",
+            "value": null
+          }
+        },
+        {
+          "direction": "out",
+          "timestamp": 821,
+          "origin": "null",
+          "matchedFrameSource": true,
+          "data": {
+            "type": "storage.set",
+            "id": "5389ba16-be6c-4a59-84d6-7051c212d515",
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}"
+          }
+        },
+        {
+          "direction": "in",
+          "timestamp": 890,
+          "transport": "parent-postMessage",
+          "data": {
+            "type": "storage.set.result",
+            "id": "5389ba16-be6c-4a59-84d6-7051c212d515"
+          }
+        },
+        {
+          "direction": "in",
+          "timestamp": 899.6999999955297,
+          "transport": "parent-postMessage",
+          "data": {
+            "type": "storage.set.result",
+            "id": "5389ba16-be6c-4a59-84d6-7051c212d515"
+          }
+        }
+      ],
+      "hostStorage": {
+        "commits": [
+          {
+            "id": "5389ba16-be6c-4a59-84d6-7051c212d515",
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}"
+          }
+        ],
+        "entries": [
+          [
+            "puddlehop.progress.v1",
+            "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}"
+          ]
+        ]
+      },
+      "beforeDispose": {
+        "invocations": [
+          {
+            "token": 0,
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "reads": [
+          {
+            "key": "puddlehop.progress.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          },
+          {
+            "key": "puddlehop.local-keyboards.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "inbound": [
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55908",
+            "data": {
+              "type": "storage.get.result",
+              "id": "5b7dbc41-33eb-423b-99a4-fba63d4dff38",
+              "value": null
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55908",
+            "data": {
+              "type": "storage.get.result",
+              "id": "cc8d9cc3-2d0f-4606-8166-7c5a27498630",
+              "value": null
+            }
+          },
+          {
+            "parentSource": false,
+            "origin": "null",
+            "data": {
+              "type": "storage.set.result",
+              "id": "5389ba16-be6c-4a59-84d6-7051c212d515"
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55908",
+            "data": {
+              "type": "storage.set.result",
+              "id": "5389ba16-be6c-4a59-84d6-7051c212d515"
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55908",
+            "data": {
+              "type": "storage.set.result",
+              "id": "5389ba16-be6c-4a59-84d6-7051c212d515"
+            }
+          }
+        ],
+        "subscriptions": {
+          "opened": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "closed": {},
+          "duplicateClose": 0
+        },
+        "activeKeyHandlers": 13,
+        "registeredUnregisters": 0,
+        "activeFrames": 1,
+        "activeObservers": 8,
+        "listeners": {
+          "window:message:false": 2,
+          "window:keydown:true": 1,
+          "document:keydown:true": 5,
+          "document:keydown:false": 1,
+          "document:keyup:false": 1
+        },
+        "forbidden": [],
+        "rafDelivered": 78,
+        "installedGlobal": true,
+        "gamepadPresent": false,
+        "origin": "null"
+      },
+      "afterFirstDispose": {
+        "invocations": [
+          {
+            "token": 0,
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "reads": [
+          {
+            "key": "puddlehop.progress.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          },
+          {
+            "key": "puddlehop.local-keyboards.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "inbound": [
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55908",
+            "data": {
+              "type": "storage.get.result",
+              "id": "5b7dbc41-33eb-423b-99a4-fba63d4dff38",
+              "value": null
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55908",
+            "data": {
+              "type": "storage.get.result",
+              "id": "cc8d9cc3-2d0f-4606-8166-7c5a27498630",
+              "value": null
+            }
+          },
+          {
+            "parentSource": false,
+            "origin": "null",
+            "data": {
+              "type": "storage.set.result",
+              "id": "5389ba16-be6c-4a59-84d6-7051c212d515"
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55908",
+            "data": {
+              "type": "storage.set.result",
+              "id": "5389ba16-be6c-4a59-84d6-7051c212d515"
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55908",
+            "data": {
+              "type": "storage.set.result",
+              "id": "5389ba16-be6c-4a59-84d6-7051c212d515"
+            }
+          }
+        ],
+        "subscriptions": {
+          "opened": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "closed": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "duplicateClose": 0
+        },
+        "activeKeyHandlers": 0,
+        "registeredUnregisters": 13,
+        "activeFrames": 0,
+        "activeObservers": 0,
+        "listeners": {
+          "window:message:false": 2,
+          "window:keydown:true": 0,
+          "document:keydown:true": 0,
+          "document:keydown:false": 0,
+          "document:keyup:false": 0
+        },
+        "forbidden": [],
+        "rafDelivered": 78,
+        "installedGlobal": true,
+        "gamepadPresent": false,
+        "origin": "null"
+      },
+      "afterSecondDispose": {
+        "invocations": [
+          {
+            "token": 0,
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "reads": [
+          {
+            "key": "puddlehop.progress.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          },
+          {
+            "key": "puddlehop.local-keyboards.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "inbound": [
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55908",
+            "data": {
+              "type": "storage.get.result",
+              "id": "5b7dbc41-33eb-423b-99a4-fba63d4dff38",
+              "value": null
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55908",
+            "data": {
+              "type": "storage.get.result",
+              "id": "cc8d9cc3-2d0f-4606-8166-7c5a27498630",
+              "value": null
+            }
+          },
+          {
+            "parentSource": false,
+            "origin": "null",
+            "data": {
+              "type": "storage.set.result",
+              "id": "5389ba16-be6c-4a59-84d6-7051c212d515"
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55908",
+            "data": {
+              "type": "storage.set.result",
+              "id": "5389ba16-be6c-4a59-84d6-7051c212d515"
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55908",
+            "data": {
+              "type": "storage.set.result",
+              "id": "5389ba16-be6c-4a59-84d6-7051c212d515"
+            }
+          }
+        ],
+        "subscriptions": {
+          "opened": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "closed": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "duplicateClose": 0
+        },
+        "activeKeyHandlers": 0,
+        "registeredUnregisters": 13,
+        "activeFrames": 0,
+        "activeObservers": 0,
+        "listeners": {
+          "window:message:false": 2,
+          "window:keydown:true": 0,
+          "document:keydown:true": 0,
+          "document:keydown:false": 0,
+          "document:keyup:false": 0
+        },
+        "forbidden": [],
+        "rafDelivered": 78,
+        "installedGlobal": true,
+        "gamepadPresent": false,
+        "origin": "null"
+      },
+      "afterHostCleanup": {
+        "invocations": [
+          {
+            "token": 0,
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "reads": [
+          {
+            "key": "puddlehop.progress.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          },
+          {
+            "key": "puddlehop.local-keyboards.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "inbound": [
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55908",
+            "data": {
+              "type": "storage.get.result",
+              "id": "5b7dbc41-33eb-423b-99a4-fba63d4dff38",
+              "value": null
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55908",
+            "data": {
+              "type": "storage.get.result",
+              "id": "cc8d9cc3-2d0f-4606-8166-7c5a27498630",
+              "value": null
+            }
+          },
+          {
+            "parentSource": false,
+            "origin": "null",
+            "data": {
+              "type": "storage.set.result",
+              "id": "5389ba16-be6c-4a59-84d6-7051c212d515"
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55908",
+            "data": {
+              "type": "storage.set.result",
+              "id": "5389ba16-be6c-4a59-84d6-7051c212d515"
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55908",
+            "data": {
+              "type": "storage.set.result",
+              "id": "5389ba16-be6c-4a59-84d6-7051c212d515"
+            }
+          }
+        ],
+        "subscriptions": {
+          "opened": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "closed": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "duplicateClose": 0
+        },
+        "activeKeyHandlers": 0,
+        "registeredUnregisters": 13,
+        "activeFrames": 0,
+        "activeObservers": 0,
+        "listeners": {
+          "window:message:false": 0,
+          "window:keydown:true": 0,
+          "document:keydown:true": 0,
+          "document:keydown:false": 0,
+          "document:keyup:false": 0
+        },
+        "forbidden": [],
+        "rafDelivered": 78,
+        "installedGlobal": true,
+        "gamepadPresent": false,
+        "origin": "null"
+      },
+      "errors": [],
+      "external": [],
+      "scope": {
+        "actualStorageWire": true,
+        "productSubscriptions": [
+          "keys",
+          "theme",
+          "intent"
+        ],
+        "absentGamepad": true,
+        "nativePolling": false,
+        "hardwareMeasured": false,
+        "shimTimersCancelled": false,
+        "shimCleanupIsHostOwned": true
+      },
+      "acceptance": "observed-completion"
+    },
+    {
+      "scenario": "missing-reply",
+      "artifactHash": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
+      "runtimeHash": "556519faba132613e5ebe5383d6921b146dd7f511f23cb0a599bf13e65172867",
+      "official": {
+        "entry": "/Users/sandwich/Develop/crossy-road-clone/node_modules/.pnpm/@napplet+nap@0.33.0_typescript@5.9.3/node_modules/@napplet/nap/dist/storage/shim.js",
+        "sdkEntry": "/Users/sandwich/Develop/crossy-road-clone/node_modules/.pnpm/@napplet+sdk@0.29.0_typescript@5.9.3/node_modules/@napplet/sdk/dist/index.js",
+        "sdkVersion": "0.29.0",
+        "napVersion": "0.33.0",
+        "sdkPackageHash": "d83466a84156dc474aebba293624ffd439ea590c102b217181640412ca946703",
+        "napPackageHash": "27a22a4117078e59caacb21674fd1f04aacaea651c47602d9f9ec3bc791e6068",
+        "sdkEntryHash": "e42830c05ffb92d41c8d95663256d3e62dd9a8fd2824f40782328d2cb258ed43",
+        "publicExport": "@napplet/nap/storage/shim",
+        "entryHash": "156c5977b2c4ba64c632ea37e9aa8d00cd48d982198b176609f25fb6baaae2fe",
+        "bundledSources": {
+          "node_modules/.pnpm/@napplet+core@0.33.0/node_modules/@napplet/core/dist/index.js": {
+            "kind": "installed-package-source",
+            "sha256": "16676ba64a2fb3468f5e63bad9db4726aa69b5f38bb060aefcaab2d1c934d5c9"
+          },
+          "node_modules/.pnpm/@napplet+nap@0.33.0_typescript@5.9.3/node_modules/@napplet/nap/dist/chunk-HU72RVEV.js": {
+            "kind": "installed-package-source",
+            "sha256": "79aa86e24e171d68231faaa52fa2ac4a4e7e3338b7fefa31dd54880fe048dba1"
+          },
+          "node_modules/.pnpm/@napplet+nap@0.33.0_typescript@5.9.3/node_modules/@napplet/nap/dist/chunk-Q2OL6E2V.js": {
+            "kind": "installed-package-source",
+            "sha256": "5b8f5452fec1dd87a9b9d0dd54954828c338ab80cbda3338a025b9515d4c1e70"
+          },
+          "node_modules/.pnpm/@napplet+nap@0.33.0_typescript@5.9.3/node_modules/@napplet/nap/dist/storage/shim.js": {
+            "kind": "installed-package-source",
+            "sha256": "156c5977b2c4ba64c632ea37e9aa8d00cd48d982198b176609f25fb6baaae2fe"
+          },
+          "node_modules/.pnpm/@napplet+nap@0.33.0_typescript@5.9.3/node_modules/@napplet/nap/dist/storage/release-conformance-runtime.js": {
+            "kind": "generated-prefix",
+            "sha256": "8e30e88940efaefdef65ed6730c07a6ecfe91d949fd8b4b4d618bba9b8a38067"
+          }
+        }
+      },
+      "sandbox": {
+        "allowScripts": true,
+        "allowSameOrigin": false
+      },
+      "source": "actual opaque-frame receiver and official shim promises; test-host-only instrumentation",
+      "baseline": {
+        "receiver": 4,
+        "snapshot": {
+          "invocations": [],
+          "reads": [
+            {
+              "key": "puddlehop.progress.v1",
+              "fulfilled": 1,
+              "rejected": 0
+            },
+            {
+              "key": "puddlehop.local-keyboards.v1",
+              "fulfilled": 1,
+              "rejected": 0
+            }
+          ],
+          "inbound": [
+            {
+              "parentSource": true,
+              "origin": "http://127.0.0.1:55916",
+              "data": {
+                "type": "storage.get.result",
+                "id": "a6e937cb-4e3c-4dcf-86e3-d0756e2aa76b",
+                "value": null
+              }
+            },
+            {
+              "parentSource": true,
+              "origin": "http://127.0.0.1:55916",
+              "data": {
+                "type": "storage.get.result",
+                "id": "cc6a380a-e6ad-4d2a-bc26-0c339bb3e9c9",
+                "value": null
+              }
+            }
+          ],
+          "subscriptions": {
+            "opened": {
+              "intent": 1,
+              "theme": 1,
+              "keys": 13
+            },
+            "closed": {},
+            "duplicateClose": 0
+          },
+          "activeKeyHandlers": 13,
+          "registeredUnregisters": 0,
+          "activeFrames": 1,
+          "activeObservers": 8,
+          "listeners": {
+            "window:message:false": 2,
+            "window:keydown:true": 1,
+            "document:keydown:true": 5,
+            "document:keydown:false": 1,
+            "document:keyup:false": 1
+          },
+          "forbidden": [],
+          "rafDelivered": 36,
+          "installedGlobal": true,
+          "gamepadPresent": false,
+          "origin": "null"
+        }
+      },
+      "request": {
+        "type": "storage.set",
+        "id": "8d3353f3-364e-435a-9c51-a49c8c420f29",
+        "key": "puddlehop.progress.v1",
+        "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}"
+      },
+      "checkpoints": [
+        {
+          "stage": "before-reply",
+          "invocation": {
+            "token": 0,
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}",
+            "fulfilled": 0,
+            "rejected": 0
+          }
+        },
+        {
+          "stage": "real-timeout",
+          "invocation": {
+            "token": 0,
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}",
+            "fulfilled": 0,
+            "rejected": 1,
+            "error": "State request timed out"
+          }
+        }
+      ],
+      "transcript": [
+        {
+          "direction": "out",
+          "timestamp": 75.30000000447035,
+          "origin": "null",
+          "matchedFrameSource": true,
+          "data": {
+            "type": "storage.get",
+            "id": "a6e937cb-4e3c-4dcf-86e3-d0756e2aa76b",
+            "key": "puddlehop.progress.v1"
+          }
+        },
+        {
+          "direction": "in",
+          "timestamp": 75.30000000447035,
+          "transport": "parent-postMessage",
+          "data": {
+            "type": "storage.get.result",
+            "id": "a6e937cb-4e3c-4dcf-86e3-d0756e2aa76b",
+            "value": null
+          }
+        },
+        {
+          "direction": "out",
+          "timestamp": 92.90000000596046,
+          "origin": "null",
+          "matchedFrameSource": true,
+          "data": {
+            "type": "storage.get",
+            "id": "cc6a380a-e6ad-4d2a-bc26-0c339bb3e9c9",
+            "key": "puddlehop.local-keyboards.v1"
+          }
+        },
+        {
+          "direction": "in",
+          "timestamp": 92.90000000596046,
+          "transport": "parent-postMessage",
+          "data": {
+            "type": "storage.get.result",
+            "id": "cc6a380a-e6ad-4d2a-bc26-0c339bb3e9c9",
+            "value": null
+          }
+        },
+        {
+          "direction": "out",
+          "timestamp": 691.3000000044703,
+          "origin": "null",
+          "matchedFrameSource": true,
+          "data": {
+            "type": "storage.set",
+            "id": "8d3353f3-364e-435a-9c51-a49c8c420f29",
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}"
+          }
+        }
+      ],
+      "hostStorage": {
+        "commits": [],
+        "entries": []
+      },
+      "beforeDispose": {
+        "invocations": [
+          {
+            "token": 0,
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}",
+            "fulfilled": 0,
+            "rejected": 1,
+            "error": "State request timed out"
+          }
+        ],
+        "reads": [
+          {
+            "key": "puddlehop.progress.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          },
+          {
+            "key": "puddlehop.local-keyboards.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "inbound": [
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55916",
+            "data": {
+              "type": "storage.get.result",
+              "id": "a6e937cb-4e3c-4dcf-86e3-d0756e2aa76b",
+              "value": null
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55916",
+            "data": {
+              "type": "storage.get.result",
+              "id": "cc6a380a-e6ad-4d2a-bc26-0c339bb3e9c9",
+              "value": null
+            }
+          }
+        ],
+        "subscriptions": {
+          "opened": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "closed": {},
+          "duplicateClose": 0
+        },
+        "activeKeyHandlers": 13,
+        "registeredUnregisters": 0,
+        "activeFrames": 1,
+        "activeObservers": 8,
+        "listeners": {
+          "window:message:false": 2,
+          "window:keydown:true": 1,
+          "document:keydown:true": 5,
+          "document:keydown:false": 1,
+          "document:keyup:false": 1
+        },
+        "forbidden": [],
+        "rafDelivered": 1250,
+        "installedGlobal": true,
+        "gamepadPresent": false,
+        "origin": "null"
+      },
+      "afterFirstDispose": {
+        "invocations": [
+          {
+            "token": 0,
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}",
+            "fulfilled": 0,
+            "rejected": 1,
+            "error": "State request timed out"
+          }
+        ],
+        "reads": [
+          {
+            "key": "puddlehop.progress.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          },
+          {
+            "key": "puddlehop.local-keyboards.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "inbound": [
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55916",
+            "data": {
+              "type": "storage.get.result",
+              "id": "a6e937cb-4e3c-4dcf-86e3-d0756e2aa76b",
+              "value": null
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55916",
+            "data": {
+              "type": "storage.get.result",
+              "id": "cc6a380a-e6ad-4d2a-bc26-0c339bb3e9c9",
+              "value": null
+            }
+          }
+        ],
+        "subscriptions": {
+          "opened": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "closed": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "duplicateClose": 0
+        },
+        "activeKeyHandlers": 0,
+        "registeredUnregisters": 13,
+        "activeFrames": 0,
+        "activeObservers": 0,
+        "listeners": {
+          "window:message:false": 2,
+          "window:keydown:true": 0,
+          "document:keydown:true": 0,
+          "document:keydown:false": 0,
+          "document:keyup:false": 0
+        },
+        "forbidden": [],
+        "rafDelivered": 1250,
+        "installedGlobal": true,
+        "gamepadPresent": false,
+        "origin": "null"
+      },
+      "afterSecondDispose": {
+        "invocations": [
+          {
+            "token": 0,
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}",
+            "fulfilled": 0,
+            "rejected": 1,
+            "error": "State request timed out"
+          }
+        ],
+        "reads": [
+          {
+            "key": "puddlehop.progress.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          },
+          {
+            "key": "puddlehop.local-keyboards.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "inbound": [
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55916",
+            "data": {
+              "type": "storage.get.result",
+              "id": "a6e937cb-4e3c-4dcf-86e3-d0756e2aa76b",
+              "value": null
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55916",
+            "data": {
+              "type": "storage.get.result",
+              "id": "cc6a380a-e6ad-4d2a-bc26-0c339bb3e9c9",
+              "value": null
+            }
+          }
+        ],
+        "subscriptions": {
+          "opened": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "closed": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "duplicateClose": 0
+        },
+        "activeKeyHandlers": 0,
+        "registeredUnregisters": 13,
+        "activeFrames": 0,
+        "activeObservers": 0,
+        "listeners": {
+          "window:message:false": 2,
+          "window:keydown:true": 0,
+          "document:keydown:true": 0,
+          "document:keydown:false": 0,
+          "document:keyup:false": 0
+        },
+        "forbidden": [],
+        "rafDelivered": 1250,
+        "installedGlobal": true,
+        "gamepadPresent": false,
+        "origin": "null"
+      },
+      "afterHostCleanup": {
+        "invocations": [
+          {
+            "token": 0,
+            "key": "puddlehop.progress.v1",
+            "value": "{\"travelerVersion\":2,\"best\":0,\"strollBest\":0,\"coins\":0,\"runs\":0,\"selected\":\"butter\",\"world\":\"home\",\"mode\":\"arcade\",\"reduced\":false,\"muted\":true,\"soundPack\":\"pond\",\"soundAddress\":\"\",\"musicVolume\":0.6,\"ambienceVolume\":0.65,\"effectsVolume\":1}",
+            "fulfilled": 0,
+            "rejected": 1,
+            "error": "State request timed out"
+          }
+        ],
+        "reads": [
+          {
+            "key": "puddlehop.progress.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          },
+          {
+            "key": "puddlehop.local-keyboards.v1",
+            "fulfilled": 1,
+            "rejected": 0
+          }
+        ],
+        "inbound": [
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55916",
+            "data": {
+              "type": "storage.get.result",
+              "id": "a6e937cb-4e3c-4dcf-86e3-d0756e2aa76b",
+              "value": null
+            }
+          },
+          {
+            "parentSource": true,
+            "origin": "http://127.0.0.1:55916",
+            "data": {
+              "type": "storage.get.result",
+              "id": "cc6a380a-e6ad-4d2a-bc26-0c339bb3e9c9",
+              "value": null
+            }
+          }
+        ],
+        "subscriptions": {
+          "opened": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "closed": {
+            "intent": 1,
+            "theme": 1,
+            "keys": 13
+          },
+          "duplicateClose": 0
+        },
+        "activeKeyHandlers": 0,
+        "registeredUnregisters": 13,
+        "activeFrames": 0,
+        "activeObservers": 0,
+        "listeners": {
+          "window:message:false": 0,
+          "window:keydown:true": 0,
+          "document:keydown:true": 0,
+          "document:keydown:false": 0,
+          "document:keyup:false": 0
+        },
+        "forbidden": [],
+        "rafDelivered": 1250,
+        "installedGlobal": true,
+        "gamepadPresent": false,
+        "origin": "null"
+      },
+      "errors": [],
+      "external": [],
+      "scope": {
+        "actualStorageWire": true,
+        "productSubscriptions": [
+          "keys",
+          "theme",
+          "intent"
+        ],
+        "absentGamepad": true,
+        "nativePolling": false,
+        "hardwareMeasured": false,
+        "shimTimersCancelled": false,
+        "shimCleanupIsHostOwned": true
+      },
+      "acceptance": "rejected-as-required"
+    }
+  ],
+  "sourceHashes": {
+    "src/main.ts": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+    "src/sound-settings.ts": "82e413739bfe7bdc4f29dd555eddaa5849dbebed10d296a5a439041accddb352",
+    "src/gamepad.ts": "be02cdecae3683f9f0b8a5698d90eec393759ce91ea40b24bc18128e7da479e5",
+    "tests/release-conformance.mjs": "237dc904b11eca004df0e739bf2702b402f00f8b7279a0fafd0ed61f064184d6",
+    "tests/release-conformance-host.mjs": "fcd7aa5d7b4afbf455acb6a4e7d18b1f728ba3d06fc0c9b47327dbe5b5a0c3cd"
+  },
+  "limits": [
+    "No signature,publication,physical controller or external target-shell persistence measurement",
+    "Only storage uses the official shim/wire;theme,intent,keys subscriptions are injected host fixtures",
+    "No zero-domain degraded boot in this supplement;engine degraded/manifest checks remain unmeasured",
+    "Lifecycle means measured subscriptions,animation frames and ResizeObserver;not every DOM listener",
+    "Host-owned shim cleanup is separate;pending timeout handles are not claimed cancelled",
+    "Existing CLI report remains separate and is not overwritten"
+  ]
+}

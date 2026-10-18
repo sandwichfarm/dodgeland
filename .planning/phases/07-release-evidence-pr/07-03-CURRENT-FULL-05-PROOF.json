@@ -1,0 +1,248 @@
+{
+  "purpose": "Actual terminal current full05 enforcing coverage and complete current residual review;not whole release/goal completion",
+  "observedAt": "2026-10-18T02:52:59.742732+00:00",
+  "runId": "cb52774e-975e-4388-a064-5162ef3807d8",
+  "command": "node --max-old-space-size=24576 tools/release-coverage/run.mjs --output artifacts/release-coverage/current-full-05",
+  "canonicalExecSession": 70321,
+  "canonicalParentPid": 1821,
+  "terminalExit": 0,
+  "status": "enforced-pass",
+  "policyResult": {
+    "pass": true,
+    "failures": []
+  },
+  "summary": {
+    "lines": {
+      "total": 7994,
+      "covered": 7913,
+      "skipped": 0,
+      "pct": 98.98
+    },
+    "statements": {
+      "total": 13888,
+      "covered": 13344,
+      "skipped": 0,
+      "pct": 96.08
+    },
+    "functions": {
+      "total": 2242,
+      "covered": 2196,
+      "skipped": 0,
+      "pct": 97.94
+    },
+    "branches": {
+      "total": 9998,
+      "covered": 9188,
+      "skipped": 0,
+      "pct": 91.89
+    },
+    "branchesTrue": {
+      "total": 0,
+      "covered": 0,
+      "skipped": 0,
+      "pct": "Unknown"
+    }
+  },
+  "strata": {
+    "shared-authority-input": {
+      "lines": {
+        "covered": 2448,
+        "total": 2456
+      },
+      "functions": {
+        "covered": 763,
+        "total": 770
+      },
+      "branches": {
+        "covered": 3168,
+        "total": 3317
+      }
+    },
+    "solo-arcade": {
+      "lines": {
+        "covered": 1170,
+        "total": 1210
+      },
+      "functions": {
+        "covered": 276,
+        "total": 295
+      },
+      "branches": {
+        "covered": 1217,
+        "total": 1408
+      }
+    },
+    "solo-flow": {
+      "lines": {
+        "covered": 1032,
+        "total": 1070
+      },
+      "functions": {
+        "covered": 254,
+        "total": 275
+      },
+      "branches": {
+        "covered": 1070,
+        "total": 1233
+      }
+    },
+    "survive-arcade": {
+      "lines": {
+        "covered": 87,
+        "total": 89
+      },
+      "functions": {
+        "covered": 64,
+        "total": 65
+      },
+      "branches": {
+        "covered": 149,
+        "total": 165
+      }
+    },
+    "survive-flow": {
+      "lines": {
+        "covered": 87,
+        "total": 89
+      },
+      "functions": {
+        "covered": 64,
+        "total": 65
+      },
+      "branches": {
+        "covered": 149,
+        "total": 165
+      }
+    },
+    "relay": {
+      "lines": {
+        "covered": 2028,
+        "total": 2090
+      },
+      "functions": {
+        "covered": 673,
+        "total": 709
+      },
+      "branches": {
+        "covered": 2291,
+        "total": 2695
+      }
+    },
+    "race": {
+      "lines": {
+        "covered": 2076,
+        "total": 2147
+      },
+      "functions": {
+        "covered": 710,
+        "total": 751
+      },
+      "branches": {
+        "covered": 2502,
+        "total": 2943
+      }
+    },
+    "browser-presentation-owner-lifecycle": {
+      "lines": {
+        "covered": 7626,
+        "total": 7827
+      },
+      "functions": {
+        "covered": 2041,
+        "total": 2169
+      },
+      "branches": {
+        "covered": 8400,
+        "total": 9784
+      }
+    },
+    "development": {
+      "lines": {
+        "covered": 2082,
+        "total": 2102
+      },
+      "functions": {
+        "covered": 646,
+        "total": 675
+      },
+      "branches": {
+        "covered": 2345,
+        "total": 2751
+      }
+    }
+  },
+  "scopeBasis": "Solo, turn, production browser and verified DEV application strata use source-bound applicability; raw/global/per-file maps unchanged; Survive strata raw",
+  "payloadCount": 525,
+  "browserParents": 423,
+  "nodeParents": 102,
+  "exclusiveModeIntervals": 1215,
+  "terminalJobs": {
+    "production": 182,
+    "controls": 19,
+    "total": 201
+  },
+  "compiledSourceModules": 158,
+  "executableSourceFiles": 144,
+  "noExecutableSiteModules": 14,
+  "sourceSurfaceFiles": 176,
+  "sourceCategories": {
+    "executable": 144,
+    "no-executable-sites": 14,
+    "stylesheet": 14,
+    "declaration": 1,
+    "asset": 3
+  },
+  "frozenPathsVerified": 410,
+  "rootOracle": "a310a81ed6c76df4b265c9012c23b8c83f4802e5",
+  "normalArtifactRawSha256": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
+  "collectorNormalSerializedBufferHash": "231ca18816b7e501b33aa713f2da3256d4da3da4e8b5b25a77d9bdcf7230439a",
+  "rawReview": {
+    "originalCurrentSnapshot": 830,
+    "nowPositive": 20,
+    "freshZeroArms": 810,
+    "reviewedFreshZeroArms": 810,
+    "newUnreviewedArms": 0,
+    "counterOrExclusionCreditFromReview": false
+  },
+  "additionalTerminalChecks": [
+    {
+      "command": "node tests/strict-node-tests.mjs tests/market-scene.test.mjs",
+      "execSession": 24919,
+      "exitCode": 0,
+      "tests": 2,
+      "passed": 2,
+      "skipped": 0
+    },
+    {
+      "command": "pnpm type-check",
+      "execSession": 50459,
+      "exitCode": 0
+    }
+  ],
+  "limits": [
+    "No signature/publication,physical-device or external shell persistence claim",
+    "Official wire/teardown,current durable normal visuals,full clause map,final inherited gate and actual PR remain07-04/05/06 obligations",
+    "Original1051historical source identities remain unchanged;current review is a separate bound partition",
+    "Reporting was SIGSTOP/SIGCONT-held for disk pressure on same process;no test restart or source/threshold change"
+  ],
+  "hashes": {
+    "artifacts/release-coverage/current-full-05/manifest.json": "9380a4d3024b4bea32a85152deb6109e188c62d4adcb296ae4ef512c02cd5d60",
+    "artifacts/release-coverage/current-full-05/shortfalls.json": "a506865c97ab529505406bee2f5a594ec2d7f7606d8b65524dc340666099eb95",
+    "artifacts/release-coverage/current-full-05/shortfalls.txt": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "artifacts/release-coverage/current-full-05/attribution.json": "3c3ff9ca87adc63bf4917e7b6cda197571ae1a0ecc5f72dad3891be6d22ce8fa",
+    "artifacts/release-coverage/current-full-05/execution-inventory.json": "514429ebe1c3fc274c50d7d53f5e38fdfa1bc53b1be204d4988381e94854ddf8",
+    "artifacts/release-coverage/current-full-05/job-ledger.json": "e34f4aa4500e5f221fd8f11c5478613a860b6fc5c231621789929f66e638c0ab",
+    "artifacts/release-coverage/current-full-05/report/coverage-final.json": "a18bd91728146fcbc4f2b1e9217b43537854a54ca5429d0e263c1e39351e69f5",
+    "artifacts/release-coverage/current-full-05-proof/freeze.json": "c72459fff67275b20c5b67c1076d781f825a00cec405fada8743cb2f350111a3",
+    "artifacts/release-coverage/current-full-05-proof/canonical.log": "12833406e4b3d6dd2e5313d940ddf4d7c3a09b1d0ac08cc615a35c473bf49715",
+    "artifacts/release-coverage/current-full-05-proof/reconcile.mjs": "be105a7ffa18a11a50de40303363da26e7abeb81ef08c0ad0585fe24839d6bd3",
+    "artifacts/release-coverage/current-full-05-proof/reconciliation.json": "f39ce2dd2c77c0755548e56b1b7e02416b83e5623413b852edd6cb6bd6a310cb",
+    "artifacts/release-coverage/current-full-05-proof/reconciliation.log": "0a63b6f5037b4a92c8c26d0995926088c16ae958a5548667a0a86febcce16331",
+    "artifacts/release-coverage/current-full-05-proof/standalone-market-scene.log": "d095f1abb7394826d6897d3d6a27b2dbcd9a9d7d9194452eadd4dd486184a490",
+    "artifacts/release-coverage/current-full-05-proof/type-check.log": "ae906a75cede16c54bcb5774b6d83bebe7359bda6c2c08c972a4cb11d201e2f5",
+    "tools/release-coverage/policy.json": "47e4bb290e657f367c09c86d07c7d45922e6b3bc7af1a1f7f423501fb040e500",
+    "tools/release-coverage/suites.json": "02e81d3e4320ed8a2d0901fd0eee532e051d1c0b27b606c011fedbc3674ab88d",
+    ".planning/phases/07-release-evidence-pr/07-CURRENT-SEMANTIC-INDEX.json": "659e96a8809604509d774be4827ae9678c5d23018ca2da1bb03ecd3e12edeedc",
+    ".planning/phases/07-release-evidence-pr/07-03-FRESH-GLOBAL-RECONCILIATION-PROOF.json": "881c6fedb10dad29b1beafa8d068bb7ba97e276c0db38f71c33e1ad6d025eca0"
+  }
+}

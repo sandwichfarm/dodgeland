@@ -1,0 +1,22 @@
+{
+  "status": "Actual product RED before source repair; not release acceptance",
+  "utc": "2026-10-17T19:14:27.095933+00:00",
+  "command": "node tests/strict-node-tests.mjs tests/relay-generation-effects.test.mjs",
+  "exit": 1,
+  "tests": 16,
+  "passed": 6,
+  "failed": 10,
+  "failure": "First generated row after a paid Relay spacing/platform card uses stale policy; reproduced in Arcade/Flow and schema1/schema3. Both immediate-baton scenarios also stop on the purchased first hop.",
+  "sourcePins": {
+    "src/game.ts": "04d7556c96b37b03539f270c2ce2c8e2b620c301d729a1fd6238be8e66d9413b",
+    "src/session.ts": "e90fc363667108ab1608f713e40b479e800930b160c90d9348439f75f0cf38f9",
+    "src/relay.ts": "e789deca92e5e17ec683cbbd3103b9b9b3d3e726d6e36712fa5aec4c755c7f89",
+    "src/shared-world-effects.ts": "715dce9a98a83c398aa3a3d43531568008a9cefaa9be8df766a921dd2eb43a45"
+  },
+  "testSourceSha256": "f0c7ce31f3fcd0a54d1f5ba587d7e3b36631db7589e8fd1513ad98b1c4049b17",
+  "redLog": "artifacts/release-coverage/relay-generation-effects/red.log",
+  "redLogSha256": "6655e19f5dacb22eeb80c0240f045e992adae518d18535bec6bc6902dff41827",
+  "normalArtifactRawSha256": "6bd5104d0aac9472aaa01facdacdfbfcfc38f944cb01c18ea7f3d65e1549d1e2",
+  "rootLockRawSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "fixtureCorrections": "Initial exploratory logs are retained. Impossible first rail and premature binding horizon were test-fixture errors corrected before this RED. Final 10 failures concern actual first-hop generation; six other cases pass."
+}

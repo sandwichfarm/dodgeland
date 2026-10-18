@@ -8,36 +8,33 @@ import { createHash } from 'node:crypto';
 import { resolve, dirname, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
-import ts from 'typescript';
+import { compileSources } from './source-loader.mjs';
+import { registerRealm, collectRealm, artifactDirectoryForCoverage } from '../tools/release-coverage/browser.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const argument = (name, fallback) => process.argv.includes(name) ? process.argv[process.argv.indexOf(name) + 1] : fallback;
 const sourceRoot = resolve(argument('--source', resolve(root, 'src')));
 const label = argument('--label', 'after');
 assert.match(label, /^[a-z0-9-]+$/);
-const modules = new Map();
+const modules = await compileSources(['audio', 'soundscape'], { sourceDirectory: sourceRoot });
 const sourceHashes = {};
-async function compile(name) {
-  if (modules.has(name)) return;
-  const source = await readFile(resolve(sourceRoot, `${name}.ts`), 'utf8');
-  sourceHashes[`${name}.ts`] = createHash('sha256').update(source).digest('hex');
-  const output = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText;
-  modules.set(name, output);
-  for (const [, dependency] of output.matchAll(/(?:from\s*|import\s*)['"](\.[^'"]+\.js)['"]/g)) {
-    await compile(relative(sourceRoot, resolve(sourceRoot, dirname(name), dependency)).replace(/\.js$/, ''));
-  }
+for (const name of modules.keys()) {
+  const sourceName = name.slice(1).replace(/\.js$/, '.ts');
+  sourceHashes[sourceName] = createHash('sha256').update(await readFile(resolve(sourceRoot, sourceName))).digest('hex');
 }
-await compile('audio'); await compile('soundscape');
+const isCurrent = sourceRoot === resolve(root, 'src');
+const identity = { suite: fileURLToPath(import.meta.url), scenario: 'audio-zones', frame: 'offline-audio', generation: 0, scope: 'current' };
 const server = createServer((request, response) => {
   if (request.url === '/') { response.writeHead(200, { 'Content-Type': 'text/html' }); response.end('<!doctype html><title>Production soundscape audition</title>'); return; }
-  const source = modules.get(request.url?.slice(1).replace(/\.js$/, ''));
+  const source = modules.get(request.url);
   response.writeHead(source ? 200 : 404, { 'Content-Type': 'text/javascript' }); response.end(source ?? '');
 });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
-let browser;
+let browser, page;
 try {
-  browser = await chromium.launch();
-  const page = await browser.newPage();
+  browser = await chromium.launch({ args: ['--mute-audio'] });
+  page = await browser.newPage();
+  if (isCurrent) registerRealm(page, identity);
   const errors = []; page.on('pageerror', error => errors.push(error.message));
   await page.goto(`http://127.0.0.1:${server.address().port}`);
   const results = await page.evaluate(async () => {
@@ -127,7 +124,7 @@ try {
     return [await render('zones'), await render('zones', true), await render('worlds'), await render('worlds', true), await render('vehicles', true)];
   });
   assert.deepEqual(errors, [], 'No runtime exceptions during production scene updates');
-  const output = resolve(root, 'artifacts'); await mkdir(output, { recursive: true });
+  const output = fileURLToPath(artifactDirectoryForCoverage(new URL('../artifacts/', import.meta.url), 'audio-zones')); await mkdir(output, { recursive: true });
   const report = { source: sourceRoot, sourceHashes, label, fixture: 'Production Soundscape and GameAudio with generated Lane objects, explicit terrain changes and vehicle positions advancing on the run clock. OfflineAudioContext runs actual audio nodes; no fake loop selection or gain envelopes. Full mix uses app defaults (music .6, ambience .65, effects 1); ambience tracks solo the ambience bus. These are reproducible listening fixtures, not a naturally played run. Metrics support contrast and headroom; they do not substitute for a subjective listening review.', renders: [] };
   for (const { pcm, ...rendered } of results) {
     assert.ok(rendered.peak > .005 && rendered.peak < .9, `${rendered.kind}: audible, unclipped production mix`);
@@ -181,7 +178,7 @@ try {
     }
   }
   console.log(JSON.stringify({ label, renders: report.renders.map(({ kind, peak, segments }) => ({ kind, peak, segments: segments.map(({ label, rms, bands, dynamicDb, quietFraction }) => ({ label, rms, bands, dynamicDb, quietFraction })) })) }, null, 2));
-} finally { await browser?.close(); await new Promise(resolve => server.close(resolve)); }
+} finally { try { if (page && isCurrent) await collectRealm(page, identity); } finally { await browser?.close(); await new Promise(resolve => server.close(resolve)); } }
 
 function measure(channels, rate, start, end, spectral) {
   const from = Math.round(start * rate), to = Math.min(channels[0].length, Math.round(end * rate));

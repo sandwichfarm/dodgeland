@@ -1,0 +1,78 @@
+{
+  "schema": "down-to-duck-release-evidence-1",
+  "createdAt": "2026-10-18T07:20:16.257518+00:00",
+  "status": "delivered-open-pr-with-documented-receipt-continuation",
+  "releaseAccepted": true,
+  "prOpened": true,
+  "canonicalRunnerExit": 1,
+  "canonicalRunnerPassed": false,
+  "canonicalRunId": "56748255-a473-4788-953e-484abc34a082",
+  "canonicalFailure": "Last original-clauses stage rejected stale executed-input receipts;all seven preceding stages passed",
+  "allRequiredChecksNowHaveTerminalPass": true,
+  "documentationContinuation": true,
+  "frozenSourceVerified": 417,
+  "normalArtifactRawSha256": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
+  "coverageRunId": "c39c0fee-a277-47ec-b276-95f5e6b26932",
+  "coverageStatus": "enforced-pass",
+  "coverageSummary": {
+    "lines": {
+      "total": 7994,
+      "covered": 7913,
+      "skipped": 0,
+      "pct": 98.98
+    },
+    "statements": {
+      "total": 13888,
+      "covered": 13344,
+      "skipped": 0,
+      "pct": 96.08
+    },
+    "functions": {
+      "total": 2242,
+      "covered": 2196,
+      "skipped": 0,
+      "pct": 97.94
+    },
+    "branches": {
+      "total": 9998,
+      "covered": 9189,
+      "skipped": 0,
+      "pct": 91.9
+    },
+    "branchesTrue": {
+      "total": 0,
+      "covered": 0,
+      "skipped": 0,
+      "pct": "Unknown"
+    }
+  },
+  "coveragePolicy": {
+    "pass": true,
+    "failures": []
+  },
+  "productionJobsPassed": 182,
+  "controlsPassed": 19,
+  "evidence": {
+    "docs/release-evidence/final-coverage.json": "3fd96137d8066414ca8847960e4b7001c49c761c30732487f34e08cf73de87ff",
+    "docs/release-evidence/final-conformance.json": "67ce9cc61b4d759b51764cc22b6a8b453d3d0af45fe59d4c5e65b0b49fdfca7c",
+    "docs/release-evidence/final-stages.json": "e00b5f8bc68bf2bd7c9acff3f35cd941051aa055d40abbc1ac2fb68f019d714c",
+    "docs/release-evidence/final-raw-zero-review.json": "fe00ae0707c12bd7d34eb1c6bcd72939270c706f258c71e4f3c25f04725e6c9f",
+    "docs/release-evidence/final-source-audit.json": "4e36770785c4e64349d8574b2983a4c29f1bdf4876aaac8d707f7ff20d98084e",
+    "docs/release-evidence/final-documentation-checks.json": "d63da88a460dd1543fc95e2a125dd3f00a10a96c19663a6b8333aa333bb762fa",
+    "docs/release-evidence/executions-full05.json": "75ca0cb6bad0c63998acbd3272bd26bb7f010e091e3999cf9ec2cc06efd85d52",
+    "docs/release-evidence/executions-historical-full05.json": "adec596b079d9ea92cf389496f084f89d9a9ce59ff69cbafe5c00626e064d132"
+  },
+  "planDeviation": "The canonical runner is honestly retained as exit1. After a documentation-only receipt repair,the exact failed clause check and evidence integrity were rerun to terminal0. Every technical input/build remains identical;passed gameplay/coverage/conformance stages were not repeated for documentation-only provenance. This is not claimed as a single successful runner invocation.",
+  "limits": [
+    "Physical gamepad hardware unmeasured;runtime snapshots exercised",
+    "No merge,deployment,signing or manifest publication",
+    "Original user presentation acceptance received2026-10-16"
+  ],
+  "prUrl": "https://github.com/sandwichfarm/down-to-duck/pull/1",
+  "deliveryReceipt": {
+    "path": "docs/release-evidence/pr.json",
+    "sha256": "df58f061a99f4571c6321f937ca8f2d5ccc92a370820a4541a64c57e2cbf27ae"
+  },
+  "planCompletion": "All original requirements have terminal evidence;canonical invocation exit1 and separate documentation continuation remain explicitly retained",
+  "documentationContinuationExit": 0
+}

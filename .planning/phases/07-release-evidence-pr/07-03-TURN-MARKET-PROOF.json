@@ -1,0 +1,215 @@
+{
+  "status": "Four ordinary/canonical actual mode component market journeys pass;not full release acceptance",
+  "runId": "54bfb542-2144-429d-8e82-7a4e67ea26dd",
+  "payloadCount": 1,
+  "lifetimes": 4,
+  "intervals": 16,
+  "thresholdsEvaluated": false,
+  "manifestSha256": "9dc2f9cd901dd1a62ea42dc1f0e2f792cb369419cdb641441fbdd2e97f232da2",
+  "canonicalInventorySha256": "37f806f85a06a771ca5e1302b2e5aa996fd725c29e66175ef2d150a8c0f31404",
+  "newInitialWitnesses": [
+    {
+      "path": "src/co-op-market.ts",
+      "sourceHash": "037a96c9f9436346f06306cac74808aab5e92e205ce2c42bebb1dbd16ca24c22",
+      "mapHash": "059f2c4a97a7a2b1d22f66d5b34ebec99e624f01557f299b63f045b102788d3c",
+      "id": "31",
+      "arm": 0,
+      "initialCount": 0,
+      "count": 4,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 141,
+            "column": 4
+          },
+          "end": {
+            "line": 141,
+            "column": 57
+          }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": {
+              "line": 141,
+              "column": 4
+            },
+            "end": {
+              "line": 141,
+              "column": 57
+            }
+          },
+          {
+            "start": {},
+            "end": {}
+          }
+        ]
+      },
+      "meaning": "Actual mode terminal state disables market owner selection; the saved late request rejects without debit or result mutation"
+    },
+    {
+      "path": "src/market/run.ts",
+      "sourceHash": "ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f",
+      "mapHash": "ad818814e8ce4d89d771a2b069dd5596a7f2bdd32f4267c7948959b6bde29acd",
+      "id": "77",
+      "arm": 0,
+      "initialCount": 0,
+      "count": 4,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 222,
+            "column": 4
+          },
+          "end": {
+            "line": 222,
+            "column": 117
+          }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": {
+              "line": 222,
+              "column": 4
+            },
+            "end": {
+              "line": 222,
+              "column": 117
+            }
+          },
+          {
+            "start": {},
+            "end": {}
+          }
+        ]
+      },
+      "meaning": "New unsold offer for an already-owned cosmetic rejects without debit or duplicate cosmetic/equip/event mutation"
+    }
+  ],
+  "alreadyReviewedInitialWitnesses": [
+    "co-op-market20/1",
+    "co-op-market23/1",
+    "co-op-market25/1",
+    "co-op-market43/1",
+    "co-op-market46/1",
+    "co-op-market49/0",
+    "co-op-market51/1",
+    "co-op-market53/1"
+  ],
+  "currentDiagnosticModes": {
+    "relay": {
+      "raw": {
+        "statements": {
+          "covered": 2882,
+          "total": 3735
+        },
+        "functions": {
+          "covered": 650,
+          "total": 817
+        },
+        "branches": {
+          "covered": 2154,
+          "total": 3204
+        },
+        "lines": {
+          "covered": 1971,
+          "total": 2352
+        }
+      },
+      "applicable": {
+        "statements": {
+          "covered": 2882,
+          "total": 3310
+        },
+        "functions": {
+          "covered": 650,
+          "total": 710
+        },
+        "branches": {
+          "covered": 2154,
+          "total": 2793
+        },
+        "lines": {
+          "covered": 1971,
+          "total": 2104
+        }
+      },
+      "remaining": {
+        "lines": 0,
+        "functions": 0,
+        "branches": 221
+      },
+      "componentLifetimes": 37,
+      "componentIntervals": 112,
+      "publicIntervals": 2
+    },
+    "race": {
+      "raw": {
+        "statements": {
+          "covered": 2980,
+          "total": 3645
+        },
+        "functions": {
+          "covered": 694,
+          "total": 818
+        },
+        "branches": {
+          "covered": 2386,
+          "total": 3261
+        },
+        "lines": {
+          "covered": 2040,
+          "total": 2305
+        }
+      },
+      "applicable": {
+        "statements": {
+          "covered": 2980,
+          "total": 3406
+        },
+        "functions": {
+          "covered": 694,
+          "total": 758
+        },
+        "branches": {
+          "covered": 2386,
+          "total": 3032
+        },
+        "lines": {
+          "covered": 2040,
+          "total": 2163
+        }
+      },
+      "remaining": {
+        "lines": 0,
+        "functions": 0,
+        "branches": 192
+      },
+      "componentLifetimes": 69,
+      "componentIntervals": 230,
+      "publicIntervals": 8
+    }
+  },
+  "executionInventory": {
+    "valid": true,
+    "entries": 146,
+    "closure": 153,
+    "jobs": 158,
+    "controlPaths": 10
+  },
+  "normalArtifactRawSha256": "9036d9a1f179b136569a3b400c412d954d783987c751832afbbbfda287c63539",
+  "rootLockRawSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "logs": {
+    "ordinary": "/tmp/down-to-duck-turn-market-ordinary.log",
+    "retainedFixtureCorrection": "/tmp/down-to-duck-turn-market-stale-context-fixture.log",
+    "canonical": "/tmp/down-to-duck-turn-market-canonical.log"
+  },
+  "limits": [
+    "Explicit component safe terrain,market eligibility,starting funds and added offers;not public market UI or course traversal",
+    "All purchase/sell/equip/full-hand pack replacement/skip/rejected requests go through actual mode-owned market adapter",
+    "Initial fixture requested a fresh context after terminal invalidation;corrected to retain the actual pre-terminal request,without production edit",
+    "No source,dependency,oracle,floor or applicability change;initial rows and changed Game/Session identities retained"
+  ],
+  "retainedCompletedReport": "artifacts/release-coverage/turn-market-boundaries-03/54bfb542-2144-429d-8e82-7a4e67ea26dd/retained-completed-report"
+}

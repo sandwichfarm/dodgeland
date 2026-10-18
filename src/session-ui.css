@@ -1,0 +1,252 @@
+body:has(#local-session-setup:not([hidden]) #session-board), body:has(#session-seats:not([hidden])) { font-size: 16px; }
+
+/* Shared live composition: one status source, bounded summaries above the
+   course. Inspection reuses the same owner and details, never a second tree. */
+#app:has(#session-seats:not([hidden])) .hud > .score-block,
+#app:has(#session-seats:not([hidden])) .hud-tools .coin-count,
+#app:has(#session-seats:not([hidden])) #pluck,
+#app:has(#session-seats:not([hidden])) #character-power,
+#app:has(#session-seats:not([hidden])) #active-run-powers,
+#app:has(#session-seats:not([hidden])) .world-label,
+#app:has(#session-seats:not([hidden])) #chapter-label { display: none; }
+#app #session-seats { position: fixed; inset: 4px 8px auto; width: auto; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 4px; pointer-events: none; }
+#app #session-seats .session-course { grid-column: 1/-1; height: 20px; color: var(--session-ink); background: var(--session-paper); font: 400 16px/20px var(--game-font); text-align: center; }
+#app #session-seats .session-hud-tile { min-height: 64px; padding: 0; border-width: 2px; box-shadow: none; pointer-events: auto; }
+#app #session-seats .session-hud-identity { min-height: 44px; padding: 0 8px; font: 400 20px/1 var(--game-font); white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }
+#app #session-seats .session-hud-summary { height: 16px; padding: 0 8px; font: 400 16px/1 var(--game-font); }
+#app #session-seats .session-hud-details { display: none; }
+#app:has(#session-seats:not([hidden])) .hud-tools { position: fixed; inset: auto 8px 64px auto; transform: none; }
+#app #session-seats[data-session-hud-inspect="true"] { inset: 8px; z-index: 9; pointer-events: auto; }
+#app #session-seats[data-session-hud-inspect="true"] > :not(.session-hud-selected) { display: none; }
+#app #session-seats[data-session-hud-inspect="true"] .session-hud-selected { grid-column: 1/-1; height: 100%; padding: 8px; display: grid; grid-template-rows: 44px 1fr; align-content: start; gap: 8px; background: var(--session-paper); }
+#app #session-seats[data-session-hud-inspect="true"] .session-hud-summary { display: none; }
+#app #session-seats[data-session-hud-inspect="true"] .session-hud-details { position: static; width: auto; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); align-content: start; gap: 8px; padding: 0; border: 0; box-shadow: none; }
+#app #session-seats[data-session-hud-inspect="true"] .session-hud-details > span,
+#app #session-seats[data-session-hud-inspect="true"] .session-hud-details > button { display: block; min-height: 44px; white-space: normal; overflow-wrap: anywhere; font: 400 20px/1.2 var(--game-font); }
+#app #session-seats[data-session-hud-inspect="true"] .session-hud-pager { display: grid; grid-column: 1/-1; grid-template-columns: 44px minmax(0,1fr) 44px; gap: 8px; align-items: center; }
+#app #session-seats[data-session-hud-inspect="true"] .session-hud-pager button { width: 44px; height: 44px; font-size: 0; padding: 0; background: var(--session-paper); color: var(--session-ink); border: 2px solid var(--session-edge); }
+#app #session-seats[data-session-hud-inspect="true"] .session-hud-pager button::before { font: 400 28px/1 var(--game-font); }
+#app #session-seats[data-session-hud-inspect="true"] .session-hud-pager button:first-child::before { content: '‹'; }
+#app #session-seats[data-session-hud-inspect="true"] .session-hud-pager button:last-child::before { content: '›'; }
+#app #session-seats[data-session-hud-inspect="true"] .session-hud-pager span { text-align: center; font: 400 16px/1.2 var(--game-font); }
+#app #session-seats[data-session-hud-inspect="true"] .session-hud-close { display: block; grid-column: 1/-1; min-height: 44px; background: var(--session-paper); color: var(--session-ink); border: 2px solid var(--session-edge); }
+#app #session-seats[data-session-hud-inspect="true"] [data-session-hud-page="0"] .session-hud-details > :is([data-session-hud="power"],[data-session-hud="wallet"],[data-session-hud="revive"],[data-session-hud="item"],[data-session-hud="lifecycle"]),
+#app #session-seats[data-session-hud-inspect="true"] [data-session-hud-page="1"] .session-hud-details > :is([data-session-hud="device"],[data-session-hud="health"],[data-session-hud="revive"],[data-session-hud="item"],[data-session-hud="lifecycle"]),
+#app #session-seats[data-session-hud-inspect="true"] [data-session-hud-page="2"] .session-hud-details > :is([data-session-hud="device"],[data-session-hud="health"],[data-session-hud="power"],[data-session-hud="wallet"],[data-session-hud="item"]),
+#app #session-seats[data-session-hud-inspect="true"] [data-session-hud-page="3"] .session-hud-details > :is([data-session-hud="device"],[data-session-hud="health"],[data-session-hud="power"],[data-session-hud="wallet"],[data-session-hud="revive"],[data-session-hud="lifecycle"]) { display: none; }
+#app:has(#session-seats[data-session-hud-inspect="true"]) :is(.bottom-bar,#run-inventory) { visibility: hidden; }
+@media (max-width: 479px), (max-height: 419px) {
+  #app #session-seats:not([data-session-hud-inspect="true"]) { grid-template-columns: repeat(4,minmax(0,1fr)); padding-bottom: 24px; }
+  #app #session-seats:not([data-session-hud-inspect="true"]) .session-hud-tile { min-height: 48px; }
+  #app #session-seats:not([data-session-hud-inspect="true"]) .session-hud-summary { display: none; }
+  #app #session-seats:not([data-session-hud-inspect="true"]) .session-hud-selected .session-hud-summary { position: absolute; bottom: 0; left: 0; right: 0; display: block; height: 20px; background: var(--session-paper); padding: 0 4px; line-height: 20px; }
+  #app #session-seats:not([data-session-hud-inspect="true"]) .session-course { display: none; }
+  #app #session-seats .session-hud-identity { font-size: 16px; padding: 0 4px; }
+  #app #session-seats[data-session-hud-inspect="true"] { inset: 4px; }
+  #app #session-seats[data-session-hud-inspect="true"] .session-hud-selected { padding: 4px; gap: 4px; }
+  #app #session-seats[data-session-hud-inspect="true"] .session-hud-details { gap: 4px; }
+  #app #session-seats[data-session-hud-inspect="true"] .session-hud-details > :is(span,button) { font-size: 16px; }
+}
+@media (min-width: 1600px) and (min-height: 900px) {
+  #app #session-seats:not([data-session-hud-inspect="true"]) .session-hud-details { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 4px; padding: 4px 8px; }
+  #app #session-seats:not([data-session-hud-inspect="true"]) .session-hud-details > :is(span,button) { min-height: 20px; font: 400 16px/1.2 var(--game-font); }
+  #app #session-seats:not([data-session-hud-inspect="true"]) .session-hud-details > button { min-height: 44px; }
+}
+
+.local-session-setup { --session-ink: var(--game-ink, #263c38); color: var(--session-ink); font-size: 16px; font-weight: 650; }
+.local-session-setup > button { min-height: 44px; }
+#app:has(#local-session-setup:not([hidden]) #session-board) #run-panel.run-panel { position: absolute; z-index: 7; inset: 12px; transform: none; animation: none; width: auto; max-height: none; padding: 12px; overflow: auto; background: var(--game-paper, var(--bg)); color: var(--session-ink); }
+#app:has(#local-session-setup:not([hidden]) #session-board) #ready-content,
+#app:has(#local-session-setup:not([hidden]) #session-board) #play,
+#app:has(#local-session-setup:not([hidden]) #session-board) .panel-bottom,
+#app:has(#local-session-setup:not([hidden]) #session-board) #goal { display: none; }
+#session-board { display: grid; grid-template-columns: minmax(180px, .8fr) minmax(240px, 1.2fr); grid-template-areas: 'heading heading' 'subtitle subtitle' 'strip strip' 'roster detail' 'status status' 'actions actions'; align-content: start; gap: 8px; min-height: 100%; color: var(--session-ink); }
+#session-board > h2 { grid-area: heading; } #session-board > .session-subtitle { grid-area: subtitle; } #session-board > .session-roster-strip { grid-area: strip; } #session-roster { grid-area: roster; } #session-seat-detail { grid-area: detail; } #session-status { grid-area: status; } .session-actions { grid-area: actions; }
+#session-board h2, #session-board h3 { margin: 0; font-family: var(--game-font, ui-rounded, system-ui, sans-serif); color: var(--session-ink); }
+#session-board h2 { font-size: 28px; line-height: 1.05; }
+#session-board h3 { font-size: 20px; line-height: 1.15; }
+.session-subtitle, #session-status, .session-seat-card p { margin: 0; font-size: 16px; line-height: 1.3; overflow-wrap: anywhere; }
+.session-roster-strip, .session-actions, .session-setup-pages { display: flex; gap: 8px; flex-wrap: wrap; }
+.session-setup-pages { display: none; }
+.session-seat-chip { min-width: 44px; min-height: 44px; padding: 4px 8px; font-size: 16px; color: var(--session-ink); }
+.session-seat-chip[aria-pressed="true"], .session-character-choices button[aria-pressed="true"] { border-color: var(--primary); box-shadow: inset 0 0 0 2px var(--primary); }
+#session-roster { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.session-seat-card { display: grid; align-content: start; gap: 4px; min-width: 0; min-height: 88px; padding: 8px; border: 3px solid var(--game-wood, var(--border)); background: var(--game-paper, #fff0c5); box-shadow: 3px 3px 0 var(--game-edge, var(--border)); color: var(--session-ink); text-align: left; }
+.session-seat-card[aria-pressed="true"] { outline: 3px solid var(--primary); outline-offset: 1px; }
+.session-seat-card strong, .session-seat-card span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#session-seat-detail { display: grid; align-content: start; gap: 8px; min-width: 0; padding: 8px; border: 3px solid var(--game-wood, var(--border)); background: var(--game-paper, #fff0c5); box-shadow: 3px 3px 0 var(--game-edge, var(--border)); }
+.session-preview { justify-self: center; width: 68px; height: 68px; object-fit: contain; }
+.session-device { font-weight: 700; }
+.session-ready { color: color-mix(in srgb, var(--session-ink) 80%, var(--primary)); }
+.session-character-picker { display: grid; grid-template-columns: minmax(44px, 1fr) minmax(96px, 1.3fr) minmax(44px, 1fr); gap: 8px; align-items: stretch; }
+.session-character-picker button, .session-leave, .session-actions > button, .session-setup-pages button { min-height: 44px; min-width: 44px; color: var(--session-ink); font: 400 16px/1.1 var(--game-font, ui-rounded, system-ui, sans-serif); overflow-wrap: anywhere; }
+.session-character-choice { display: grid; justify-items: center; align-content: center; gap: 4px; }
+.session-character-choice[aria-pressed="true"] { border-color: var(--primary); box-shadow: inset 0 0 0 2px var(--primary); }
+.session-actions > button:first-child { flex: 1 1 160px; }.session-actions > .primary { flex: 2 1 190px; }
+.session-leave { border-color: color-mix(in srgb, #b44738 65%, var(--border)); }
+#session-status { min-height: 22px; }
+.ui-less-motion #session-board *, .ui-less-motion #session-seats * { transition: none !important; animation: none !important; }
+#session-seats { --session-ink: #263c38; --session-paper: #fff0c5; --session-edge: #3e3423; position: absolute; top: 104px; left: 0; pointer-events: auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; width: min(360px, calc(100vw - 150px)); }
+.session-hud-tile { min-width: 0; min-height: 44px; padding: 6px 8px; border: 3px solid var(--session-edge); background: var(--session-paper); box-shadow: 3px 3px 0 var(--session-edge); color: var(--session-ink); font: 400 16px/1.2 var(--game-font, ui-rounded, system-ui, sans-serif); text-align: left; }
+.session-hud-identity { display: block; width: 100%; min-width: 44px; min-height: 44px; padding: 2px 0; border: 0; border-radius: 0; background: transparent; color: var(--session-ink); font: 700 16px/1.2 var(--game-font, ui-rounded, system-ui, sans-serif); text-align: left; }
+.session-hud-identity:hover, .session-hud-identity:focus-visible { background: var(--session-paper); color: var(--session-ink); }
+.session-hud-selected .session-hud-identity { outline: 3px solid var(--primary); outline-offset: 2px; }
+.session-hud-details { display: block; }
+.session-hud-pager { display: none; }
+#session-seats .session-hud-close { display: none; }
+#session-seats .session-hud-tile span { display: block; padding: 0; border: 0; border-radius: 0; background: transparent; color: var(--session-ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.session-hud-tile .session-future { color: color-mix(in srgb, var(--session-ink) 70%, var(--primary)); }
+.session-hud-tile button.session-future { width: 100%; min-height: 44px; padding: 3px 4px; border: 1px solid color-mix(in srgb, var(--session-edge) 65%, var(--primary)); border-radius: 4px; background: transparent; color: inherit; font: inherit; text-align: left; }
+@media (min-width: 720px) and (min-height: 320px) {
+  #session-seats { grid-template-columns: repeat(4, minmax(0, 1fr)); width: min(680px, calc(100vw - 220px)); }
+  #session-seats .session-hud-tile span { overflow: visible; text-overflow: clip; white-space: normal; overflow-wrap: anywhere; }
+}
+.survive-recovery-board { position: absolute; z-index: 12; inset: 12px; display: grid; grid-template-areas: 'title' 'subjects' 'status' 'actions'; align-content: start; gap: 16px; padding: 16px; overflow: auto; border: 4px solid var(--game-wood, var(--border)); border-radius: 8px; background: var(--game-paper, var(--bg)); box-shadow: 0 5px 0 var(--game-edge, var(--border)); color: var(--game-ink, var(--fg)); font-family: var(--game-font, ui-rounded, system-ui, sans-serif); }
+.survive-recovery-board h2, .survive-recovery-board h3, .survive-recovery-board p { margin: 0; overflow-wrap: anywhere; font-family: inherit; }
+.survive-recovery-board h2 { grid-area: title; font-size: 44px; line-height: 1.1; }
+.survive-recovery-subjects { grid-area: subjects; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; }
+.survive-recovery-subject { display: grid; grid-template-columns: 44px minmax(0, 1fr); align-items: center; gap: 8px; min-height: 44px; padding: 4px 8px; border: 3px solid var(--game-wood, var(--border)); background: color-mix(in srgb, var(--game-gold, #edcd70) 42%, var(--game-paper, #fff0c5)); font: 600 16px/1.2 var(--game-font, ui-rounded, system-ui, sans-serif); }
+.survive-recovery-subject img { width: 44px; height: 44px; object-fit: contain; }
+.survive-recovery-actions { grid-area: actions; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.survive-recovery-pager { display: none; grid-area: pager; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.survive-recovery-actions h3, .survive-recovery-actions p { grid-column: 1 / -1; }
+.survive-recovery-actions button, .survive-recovery-pager button { min-width: 44px; min-height: 44px; padding: 8px; border: 3px solid var(--game-wood, var(--border)); border-radius: 6px; background: var(--game-paper, #fff0c5); box-shadow: 0 3px 0 var(--game-edge, var(--border)); color: var(--game-ink, #263c38) !important; font: 400 20px/1.2 var(--game-font, ui-rounded, system-ui, sans-serif); overflow-wrap: anywhere; }
+.survive-recovery-actions button.primary { background: var(--game-gold, #edcd70); }
+.survive-recovery-actions button.danger { border-color: #b84939; background: color-mix(in srgb, #b84939 18%, var(--game-paper, #fff0c5)); color: #7c2d24 !important; }
+.survive-recovery-actions button:focus-visible, .survive-recovery-pager button:focus-visible { outline: 3px solid var(--primary, #4eaca4); outline-offset: 3px; }
+.survive-recovery-status { grid-area: status; min-height: 22px; font-size: 16px; line-height: 1.35; }
+@media (min-width: 900px) { .survive-recovery-board { grid-template-columns: minmax(240px, .7fr) minmax(0, 1.3fr); grid-template-areas: 'title title' 'subjects actions' 'status actions'; align-content: center; } .survive-recovery-subjects { grid-template-columns: 1fr; align-content: start; } .survive-recovery-actions { align-content: start; } }
+@media (max-width: 479px), (max-height: 419px) {
+  .survive-recovery-board { inset: 0; grid-template-columns: minmax(0, 1fr); grid-template-areas: 'title' 'status' 'actions' 'pager'; gap: 8px; padding: 8px; overflow: hidden; border-width: 0; border-radius: 0; box-shadow: none; align-content: start; }
+  .survive-recovery-board h2 { font-size: 28px; }
+  .recovery-heading-prefix, .survive-recovery-subjects { display: none; }
+  .survive-recovery-actions h3 { font-size: 20px; line-height: 1.1; }
+  .survive-recovery-actions p, .survive-recovery-actions .recovery-resume { display: none; }
+  .survive-recovery-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; align-content: start; }
+  .survive-recovery-actions [data-target] { grid-column: 1 / -1; }
+  .survive-recovery-actions [data-target]:not([aria-pressed="true"]) { display: none; }
+  .survive-recovery-actions button, .survive-recovery-pager button { min-height: 44px; padding: 4px; font-size: 20px; }
+  .survive-recovery-actions button[data-compact-label] { font-size: 0; }
+  .survive-recovery-actions button[data-compact-label]::before { content: attr(data-compact-label); font: 400 20px/1.2 var(--game-font, ui-rounded, system-ui, sans-serif); }
+  .survive-recovery-pager { display: grid; grid-template-columns: 44px minmax(0, 1fr) 44px; }
+  .survive-recovery-status:empty, .survive-recovery-pager:empty { display: none; }
+  .survive-recovery-board[data-recovery-error="true"] .survive-recovery-actions h3,
+  .survive-recovery-board[data-recovery-error="true"] .survive-recovery-actions [data-target] { display: none; }
+  .survive-recovery-board[data-recovery-compact-view="people"] { grid-template-areas: 'title' 'subjects' 'pager'; }
+  .survive-recovery-board[data-recovery-compact-view="people"] .survive-recovery-actions,
+  .survive-recovery-board[data-recovery-compact-view="people"] .survive-recovery-status { display: none; }
+  .survive-recovery-board[data-recovery-compact-view="people"] .survive-recovery-subjects { display: block; }
+  .survive-recovery-board[data-recovery-compact-view="people"] .survive-recovery-subject { display: none; }
+  .survive-recovery-board[data-recovery-compact-view="people"][data-recovery-compact-subject="0"] .survive-recovery-subject[data-recovery-subject="0"],
+  .survive-recovery-board[data-recovery-compact-view="people"][data-recovery-compact-subject="1"] .survive-recovery-subject[data-recovery-subject="1"],
+  .survive-recovery-board[data-recovery-compact-view="people"][data-recovery-compact-subject="2"] .survive-recovery-subject[data-recovery-subject="2"],
+  .survive-recovery-board[data-recovery-compact-view="people"][data-recovery-compact-subject="3"] .survive-recovery-subject[data-recovery-subject="3"] { display: grid; }
+}
+@media (max-width: 239px), (max-height: 239px) {
+  .survive-recovery-board { display: none; }
+}
+/* The generic modal veil hides direct game-surface children.  Compact HUD
+   inspection deliberately uses that veil, so restore this one interactive
+   HUD layer above it while the ordinary pause board remains hidden. */
+#app[data-modal-open="true"]:has(#session-seats[data-session-hud-inspect="true"]) .game-surface > :not(#scene):not(#run-panel):not(#market):not(#drawer):not(#run-inventory).hud { visibility: visible; z-index: 7; }
+#app:has(#session-seats[data-session-hud-inspect="true"]) .hud-tools { display: none; }
+@media (max-width: 479px), (max-height: 419px) { #app:has(#local-session-setup:not([hidden]) #session-board) #run-panel.run-panel { inset: 8px; padding: 8px; overflow: hidden; } #session-board { grid-template-columns: 1fr; grid-template-areas: 'heading' 'strip' 'pages' 'roster' 'detail' 'status' 'actions'; gap: 6px; } #session-board > .session-subtitle { display: none; } .session-setup-pages { grid-area: pages; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); } #session-board[data-page="roster"] #session-seat-detail, #session-board[data-page="roster"] .session-actions, #session-board[data-page="character"] #session-roster, #session-board[data-page="character"] .session-actions, #session-board[data-page="controls"] #session-roster, #session-board[data-page="controls"] #session-seat-detail { display: none; } #session-roster { grid-template-columns: repeat(2, minmax(0, 1fr)); } .session-seat-card { min-height: 72px; padding: 6px; } #session-seats { top: 0; right: 6px; left: 3px; grid-template-columns: repeat(4, minmax(0, 1fr)); width: auto; overflow: visible; } #app:has(#session-seats:not([hidden])) .hud > .score-block, #app:has(#session-seats:not([hidden])) .hud-tools .coin-count, #app:has(#session-seats:not([hidden])) #pluck, #app:has(#session-seats:not([hidden])) #character-power, #app:has(#session-seats:not([hidden])) #active-run-powers, #app:has(#session-seats:not([hidden])) .world-label, #app:has(#session-seats:not([hidden])) #chapter-label { display: none; } #app:has(#session-seats:not([hidden])) .hud-tools { position: absolute; top: 170px; right: 0; } .session-hud-tile { position: static; min-width: 0; min-height: 44px; padding: 3px; box-shadow: none; } .session-hud-identity { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .session-hud-details { display: none; } .session-hud-selected .session-hud-details { position: absolute; top: 50px; left: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px 6px; width: 100%; padding: 3px; border: 3px solid var(--session-edge); background: var(--session-paper); box-shadow: 3px 3px 0 var(--session-edge); } #session-seats .session-hud-selected .session-hud-details span { min-width: 0; min-height: 32px; font: 400 16px/1 var(--game-font, ui-rounded, system-ui, sans-serif); overflow-wrap: anywhere; white-space: normal; } .session-actions { position: sticky; bottom: 0; padding-top: 4px; background: var(--game-paper, var(--bg)); } }
+@media (max-width: 479px) and (min-height: 420px) {
+  /* The HUD itself can have zero height when all of its children are
+     positioned. Anchor this control lane to the frame, above the movement
+     controls and any visible hand, rather than to that collapsing HUD box. */
+  #app:has(#session-seats:not([hidden])) .hud-tools { position: fixed; top: auto; right: 8px; bottom: calc(var(--hand-space) + 56px); }
+}
+@media (max-height: 319px) {
+  #session-board { width: 100%; min-width: 0; grid-template-columns: minmax(0, 1fr); grid-template-areas: 'heading' 'strip' 'pages' 'roster' 'detail' 'status' 'actions'; gap: 4px; }
+  #session-board > h2 { display: none; } #session-status { display: none; }
+  .session-roster-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; min-width: 0; flex-wrap: nowrap; gap: 4px; }
+  #app .local-session-setup .session-seat-chip { width: 100%; min-width: 0; min-height: 44px; padding: 2px; font: 400 16px/1 var(--game-font, ui-rounded, system-ui, sans-serif) !important; }
+  #session-roster { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; }
+  #app .local-session-setup .session-seat-card { min-height: 44px; padding: 2px; gap: 0; font: 400 16px/1 var(--game-font, ui-rounded, system-ui, sans-serif) !important; text-align: center; }
+  .session-seat-card .session-device, .session-seat-card .session-ready { display: none; }
+  .session-preview, #session-seat-detail .session-device, #session-seat-detail h3 { display: none; }
+  #session-seat-detail { min-height: 0; max-height: 106px; gap: 4px; padding: 4px; overflow: hidden; }
+  #session-seat-detail .session-character-picker { grid-template-columns: 44px minmax(0, 1fr) 44px; grid-auto-rows: 44px; height: 44px; min-height: 44px; max-height: 44px; gap: 4px; }
+  #app .local-session-setup #session-seat-detail .session-character-picker > button, #app .local-session-setup #session-seat-detail .session-leave { height: 44px; min-height: 44px; max-height: 44px; min-width: 0; padding: 2px; font: 400 16px/1 var(--game-font, ui-rounded, system-ui, sans-serif) !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #app .local-session-setup .session-setup-pages { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; min-width: 0; }
+  #app .local-session-setup .session-setup-pages > button, #app .local-session-setup .session-actions > button { min-width: 0; min-height: 44px; padding: 2px; font: 400 16px/1 var(--game-font, ui-rounded, system-ui, sans-serif) !important; }
+  .session-actions { position: static; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; min-width: 0; flex-wrap: nowrap; gap: 4px; }
+  #session-board[data-page="roster"] #session-seat-detail, #session-board[data-page="roster"] .session-actions,
+  #session-board[data-page="character"] #session-roster, #session-board[data-page="character"] .session-actions,
+  #session-board[data-page="controls"] #session-roster, #session-board[data-page="controls"] #session-seat-detail { display: none; }
+  .session-hud-selected .session-hud-details { display: block; top: 50px; padding: 3px 6px; }
+  #session-seats .session-hud-selected .session-hud-details span:not([data-session-hud="health"]) { display: none; }
+  #session-seats .session-hud-selected .session-hud-details [data-session-hud="health"] { display: block; min-height: 32px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #session-seats:not([data-session-hud-inspect="true"]) .session-hud-selected .session-hud-details button { display: none; }
+  #session-seats[data-session-hud-inspect="true"] .session-hud-selected .session-hud-details { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #session-seats[data-session-hud-inspect="true"] .session-hud-selected .session-hud-details span { display: block; min-height: 32px; white-space: normal; }
+  #session-seats[data-session-hud-inspect="true"] .session-hud-selected[data-session-hud-page="0"] .session-hud-details [data-session-hud="power"], #session-seats[data-session-hud-inspect="true"] .session-hud-selected[data-session-hud-page="0"] .session-hud-details [data-session-hud="wallet"], #session-seats[data-session-hud-inspect="true"] .session-hud-selected[data-session-hud-page="0"] .session-hud-details [data-session-hud="revive"], #session-seats[data-session-hud-inspect="true"] .session-hud-selected[data-session-hud-page="0"] .session-hud-details [data-session-hud="item"], #session-seats[data-session-hud-inspect="true"] .session-hud-selected[data-session-hud-page="0"] .session-hud-details [data-session-hud="lifecycle"] { display: none; }
+  #session-seats[data-session-hud-inspect="true"] .session-hud-selected[data-session-hud-page="1"] .session-hud-details [data-session-hud="device"], #session-seats[data-session-hud-inspect="true"] .session-hud-selected[data-session-hud-page="1"] .session-hud-details [data-session-hud="health"], #session-seats[data-session-hud-inspect="true"] .session-hud-selected[data-session-hud-page="1"] .session-hud-details [data-session-hud="revive"], #session-seats[data-session-hud-inspect="true"] .session-hud-selected[data-session-hud-page="1"] .session-hud-details [data-session-hud="item"], #session-seats[data-session-hud-inspect="true"] .session-hud-selected[data-session-hud-page="1"] .session-hud-details [data-session-hud="lifecycle"] { display: none; }
+  #session-seats[data-session-hud-inspect="true"] .session-hud-selected[data-session-hud-page="2"] .session-hud-details [data-session-hud="device"], #session-seats[data-session-hud-inspect="true"] .session-hud-selected[data-session-hud-page="2"] .session-hud-details [data-session-hud="health"], #session-seats[data-session-hud-inspect="true"] .session-hud-selected[data-session-hud-page="2"] .session-hud-details [data-session-hud="power"], #session-seats[data-session-hud-inspect="true"] .session-hud-selected[data-session-hud-page="2"] .session-hud-details [data-session-hud="wallet"], #session-seats[data-session-hud-inspect="true"] .session-hud-selected[data-session-hud-page="2"] .session-hud-details [data-session-hud="item"] { display: none; }
+  #session-seats[data-session-hud-inspect="true"] .session-hud-selected[data-session-hud-page="2"] .session-hud-details button[data-session-hud="revive"] { grid-column: 1 / -1; }
+  #session-seats[data-session-hud-inspect="true"] .session-hud-selected[data-session-hud-page="3"] .session-hud-details [data-session-hud="device"], #session-seats[data-session-hud-inspect="true"] .session-hud-selected[data-session-hud-page="3"] .session-hud-details [data-session-hud="health"], #session-seats[data-session-hud-inspect="true"] .session-hud-selected[data-session-hud-page="3"] .session-hud-details [data-session-hud="power"], #session-seats[data-session-hud-inspect="true"] .session-hud-selected[data-session-hud-page="3"] .session-hud-details [data-session-hud="wallet"], #session-seats[data-session-hud-inspect="true"] .session-hud-selected[data-session-hud-page="3"] .session-hud-details [data-session-hud="revive"], #session-seats[data-session-hud-inspect="true"] .session-hud-selected[data-session-hud-page="3"] .session-hud-details [data-session-hud="lifecycle"] { display: none; }
+  .session-hud-pager { display: grid; grid-column: 1 / -1; grid-template-columns: 44px minmax(0, 1fr) 44px; align-items: center; gap: 4px; }
+  .session-hud-pager button { min-width: 44px; min-height: 44px; padding: 2px; overflow: hidden; border: 2px solid var(--session-edge); background: var(--session-paper); color: var(--session-ink); font-size: 0; }
+  .session-hud-pager button::before { font: 400 20px/1 var(--game-font, ui-rounded, system-ui, sans-serif); }
+  .session-hud-pager button:first-child::before { content: '‹'; } .session-hud-pager button:last-child::before { content: '›'; }
+  .session-hud-pager span { min-height: 32px; text-align: center; }
+  #session-seats[data-session-hud-inspect="true"] .session-hud-selected .session-hud-close { display: block; grid-column: 1 / -1; min-height: 44px; color: var(--session-ink); background: var(--session-paper); border: 2px solid var(--session-edge); font: 400 16px/1 var(--game-font, ui-rounded, system-ui, sans-serif); }
+  #app:has(#session-seats:not([hidden])) .hud-tools { top: 94px; }
+  #app:has(#session-seats[data-session-hud-inspect="true"]) .bottom-bar, #app:has(#session-seats[data-session-hud-inspect="true"]) #run-panel { display: none; }
+}
+#session-keyboard-editor { display: grid; gap: 8px; min-width: 0; }
+#app .local-session-setup #session-keyboard-editor h3 { margin: 0; color: var(--session-ink); font: 400 22px/1.2 var(--game-font, ui-rounded, system-ui, sans-serif); }
+.session-controls-profiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+#app .local-session-setup #session-keyboard-editor button { min-height: 44px; min-width: 44px; color: var(--session-ink); font: 400 16px/1.1 var(--game-font, ui-rounded, system-ui, sans-serif); }
+.session-controls-profiles button { min-width: 0; padding-inline: 6px; overflow-wrap: anywhere; }
+.session-controls-profiles button[aria-selected="true"] { border-color: var(--primary); box-shadow: inset 0 0 0 1px var(--primary); }
+.session-controls-rows { display: grid; gap: 5px; }
+.session-controls-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(72px, auto); gap: 8px; align-items: center; min-height: 44px; }
+.session-controls-row > span { color: var(--session-ink); font-size: 16px; overflow-wrap: anywhere; }
+.session-binding { min-height: 44px; min-width: 72px; color: var(--session-ink); font-size: 16px; font-weight: 750; font-variant-numeric: tabular-nums; }
+.session-controls-row:has(.session-binding[aria-pressed="true"]) { grid-template-columns: minmax(0, 1fr); }
+.session-controls-row:has(.session-binding[aria-pressed="true"]) > span { display: none; }
+.session-controls-status { min-height: 22px; margin: 0; color: var(--session-ink); font-size: 16px; line-height: 1.35; overflow-wrap: anywhere; }
+.session-controls-status:empty { display: none; }
+.session-controls-confirm { display: grid; gap: 8px; padding: 8px; border: 2px solid var(--game-wood, var(--border)); background: var(--game-paper, #fff0c5); color: var(--session-ink); border-radius: 6px; }
+#app .local-session-setup .session-controls-confirm p { margin: 0; color: var(--session-ink); font-size: 16px; overflow-wrap: anywhere; }
+.session-controls-pages { display:flex; gap:8px; }.session-controls-pages button { flex:1; min-height:44px; }
+.danger { border-color: color-mix(in srgb, #b44738 65%, var(--border)); color: color-mix(in srgb, #b44738 75%, var(--fg)); }
+.ui-less-motion #session-keyboard-editor * { transition: none !important; animation: none !important; }
+@media (prefers-reduced-motion: reduce) { #session-keyboard-editor * { transition: none !important; animation: none !important; } }
+.session-controls-profiles button { white-space: normal; line-height: 1.1; }
+@media (max-width: 319px), (max-height: 319px) { #session-keyboard-editor { gap: 4px; } #app .local-session-setup #session-keyboard-editor h3 { font-size: 16px; line-height: 1.2; } .session-controls-profiles { gap: 4px; } .session-controls-profiles button { padding-inline: 4px; } .session-controls-row { gap: 4px; } .session-controls-row > span { font-size: 16px; } .session-controls-status { font-size: 16px; line-height: 1.1; } .session-controls-confirm { gap: 4px; padding: 4px; } #app:has(#local-session-setup:not([hidden]) #session-keyboard-editor:not([hidden])) .local-session-setup > span { display: none; } }
+@media (max-width: 479px) and (max-height: 419px) {
+  #app:has(#local-session-setup:not([hidden]) #session-keyboard-editor:not([hidden])) .hud,
+  #app:has(#local-session-setup:not([hidden]) #session-keyboard-editor:not([hidden])) .world-label,
+  #app:has(#local-session-setup:not([hidden]) #session-keyboard-editor:not([hidden])) .bottom-bar,
+  #app:has(#local-session-setup:not([hidden]) #session-keyboard-editor:not([hidden])) #play,
+  #app:has(#local-session-setup:not([hidden]) #session-keyboard-editor:not([hidden])) .panel-bottom,
+  #app:has(#local-session-setup:not([hidden]) #session-keyboard-editor:not([hidden])) .goal { display: none; }
+  #app:has(#local-session-setup:not([hidden]) #session-keyboard-editor:not([hidden])) #run-panel.run-panel { position: absolute; z-index: 7; inset: 0; transform: none; width: auto; max-height: none; padding: 8px; border: 0; border-radius: 0; box-shadow: none; overflow: hidden; background: var(--game-paper, #fff0c5); color: var(--game-ink, #233e32); }
+  #app:has(#local-session-setup:not([hidden]) #session-keyboard-editor:not([hidden])) #run-panel::before,
+  #app:has(#local-session-setup:not([hidden]) #session-keyboard-editor:not([hidden])) #run-panel::after { display: none; }
+  #app:has(#local-session-setup:not([hidden]) #session-keyboard-editor:not([hidden])) #ready-content { display: none; }
+}
+@media (max-width: 479px), (max-height: 419px) {
+ #app #session-seats:not([data-session-hud-inspect="true"]) { top: 0; padding-bottom: 20px; gap: 0; }
+ #app #session-seats:not([data-session-hud-inspect="true"]) .session-hud-tile { min-height: 44px; border: 0; }
+}
+#app #session-seats[data-session-hud-inspect="true"] .session-hud-selected .session-hud-details > span { min-height: 20px; }
+@media (max-width: 479px), (max-height: 419px) {
+ #app #session-seats[data-session-hud-inspect="true"] [data-session-hud="lifecycle"] { grid-column: 1/-1; }
+}
+#app #session-seats[data-session-hud-inspect="true"] .session-hud-selected .session-hud-pager,
+#app #session-seats[data-session-hud-inspect="true"] .session-hud-selected .session-hud-close { grid-area: auto; grid-column: 1/-1; }
+@media(min-width:480px) and (max-height:419px) {
+ #app #session-seats:not([data-session-hud-inspect="true"]) .session-hud-selected .session-hud-summary { right: 50%; }
+ #app #session-seats:not([data-session-hud-inspect="true"]) :is(.race-distance,.relay-distance) { z-index: 1; }
+}
+@media(min-width:480px) and (min-height:420px) {
+ #app:has(#session-seats:not([hidden])) .market-invitation:has(#market-open) { left: 8px; right: auto; }
+ #app:has(#session-seats:not([hidden])) .bottom-bar { bottom: 8px; }
+}
+/* Keep selected identity decoration inside its control, clear of health text. */
+#app #session-seats .session-hud-selected .session-hud-identity { outline-offset: -3px; }
+#app:has(#session-seats:not([hidden])) .dpad button.escape { font-size: 16px; line-height: 20px; white-space: nowrap; }

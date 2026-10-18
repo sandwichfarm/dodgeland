@@ -1,0 +1,154 @@
+{
+  "runId": "51a4bea2-21e7-4b74-9eae-b185f6401911",
+  "frozenHead": "114885d07fb04a13e459cbcf56349674d01047d5",
+  "status": "report-only",
+  "thresholdsEvaluated": true,
+  "policyPass": false,
+  "shortfalls": [
+    {
+      "name": "browser-presentation-owner-lifecycle",
+      "metric": "branches",
+      "covered": 8338,
+      "total": 9856,
+      "floor": 85,
+      "needed": 40
+    },
+    {
+      "name": "development",
+      "metric": "branches",
+      "covered": 2250,
+      "total": 2794,
+      "floor": 85,
+      "needed": 125
+    },
+    {
+      "name": "race",
+      "metric": "branches",
+      "covered": 2195,
+      "total": 3141,
+      "floor": 85,
+      "needed": 475
+    },
+    {
+      "name": "race",
+      "metric": "functions",
+      "covered": 671,
+      "total": 769,
+      "floor": 90,
+      "needed": 22
+    },
+    {
+      "name": "race",
+      "metric": "lines",
+      "covered": 1994,
+      "total": 2222,
+      "floor": 90,
+      "needed": 6
+    },
+    {
+      "name": "relay",
+      "metric": "branches",
+      "covered": 1964,
+      "total": 2893,
+      "floor": 85,
+      "needed": 496
+    },
+    {
+      "name": "relay",
+      "metric": "functions",
+      "covered": 626,
+      "total": 718,
+      "floor": 90,
+      "needed": 21
+    },
+    {
+      "name": "relay",
+      "metric": "lines",
+      "covered": 1901,
+      "total": 2159,
+      "floor": 90,
+      "needed": 43
+    },
+    {
+      "name": "solo-arcade",
+      "metric": "branches",
+      "covered": 1125,
+      "total": 1427,
+      "floor": 85,
+      "needed": 88
+    },
+    {
+      "name": "solo-flow",
+      "metric": "branches",
+      "covered": 983,
+      "total": 1252,
+      "floor": 85,
+      "needed": 82
+    },
+    {
+      "name": "src/co-op-market.ts",
+      "metric": "branches",
+      "covered": 121,
+      "total": 135,
+      "floor": 90,
+      "needed": 1
+    },
+    {
+      "name": "src/session.ts",
+      "metric": "branches",
+      "covered": 734,
+      "total": 817,
+      "floor": 90,
+      "needed": 2
+    }
+  ],
+  "summary": {
+    "lines": {
+      "total": 7988,
+      "covered": 7903,
+      "skipped": 0,
+      "pct": 98.93
+    },
+    "statements": {
+      "total": 13883,
+      "covered": 13292,
+      "skipped": 0,
+      "pct": 95.74
+    },
+    "functions": {
+      "total": 2241,
+      "covered": 2192,
+      "skipped": 0,
+      "pct": 97.81
+    },
+    "branches": {
+      "total": 9987,
+      "covered": 9109,
+      "skipped": 0,
+      "pct": 91.2
+    },
+    "branchesTrue": {
+      "total": 0,
+      "covered": 0,
+      "skipped": 0,
+      "pct": "Unknown"
+    }
+  },
+  "jobs": 154,
+  "controls": 6,
+  "terminalLedgerEntries": 160,
+  "payloads": 439,
+  "started": "2026-10-17T05:31:29.921767+00:00",
+  "finished": "2026-10-17T06:56:47.309157+00:00",
+  "ordinaryTemporaryOutputsRestored": 125,
+  "normalRawSha256": "a34fd21258f80302593c584f5a9566f7511af49798c0b0cac6dacc1beb478bc1",
+  "rootLockRawSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "snapshot": "artifacts/release-coverage/full/51a4bea2-21e7-4b74-9eae-b185f6401911/current-report",
+  "snapshotIndexSha256": "c4f4290182c585c6748819cf1ec08f10c1be89ce9154f48782e77c2a72f173e1",
+  "sourcePins": {
+    "src/co-op-market.ts": "037a96c9f9436346f06306cac74808aab5e92e205ce2c42bebb1dbd16ca24c22",
+    "src/game.ts": "fb5d9224e46c19b3745099429f06bd141d9b738bb2d8786ed3266e1b6a7d95f6",
+    "src/main.ts": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+    "src/session.ts": "f8ce62cdc5c87557636cce62f0b15005bfa5f9cde42c708d67915b4c1ebcec39"
+  }
+}

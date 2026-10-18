@@ -1,3 +1,15 @@
+import { artifactDirectoryForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
+const coverageArtifacts = artifactDirectoryForCoverage(new URL('../artifacts/', import.meta.url), 'coin-denominations-render');
+const coveragePages = new Map();
+let coverageGeneration = 0;
+function registerPage(page) {
+  const identity = { suite: process.argv[1], scenario: 'coin-denominations-render', frame: 'component-page', generation: coverageGeneration++, scope: 'current' };
+  registerRealm(page, identity); coveragePages.set(page, identity);
+}
+async function closePage(page) {
+  try { await collectRealm(page, coveragePages.get(page)); }
+  finally { coveragePages.delete(page); await page.close(); }
+}
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
@@ -13,11 +25,12 @@ const server = createServer((request, response) => {
 });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const browser = await chromium.launch({ args: ['--mute-audio'] });
-after(async () => { await browser.close(); await new Promise(resolve => server.close(resolve)); });
+after(async () => { try { for (const page of coveragePages.keys()) await closePage(page); } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); } });
 
 test('all five pickups render distinct growing silhouettes and readable values in the actual world', async () => {
   const page = await browser.newPage({ viewport: { width: 720, height: 500 }, deviceScaleFactor: 1 });
   const errors = []; page.on('pageerror', error => errors.push(error.message));
+  registerPage(page);
   await page.goto(`http://127.0.0.1:${server.address().port}`);
   const result = await page.evaluate(async () => {
     const [{ Renderer }, { Game }, { COIN_DENOMINATIONS }, { coinPickupModel }] = await Promise.all([
@@ -85,7 +98,7 @@ test('all five pickups render distinct growing silhouettes and readable values i
     }
     return { results, png: sheet.toDataURL().split(',')[1] };
   });
-  const artifacts = new URL('../artifacts/', import.meta.url);
+  const artifacts = coverageArtifacts;
   await mkdir(artifacts, { recursive: true });
   await writeFile(new URL('coin-denominations.png', artifacts), Buffer.from(result.png, 'base64'));
   await writeFile(new URL('coin-denominations-render.json', artifacts), JSON.stringify(result.results, null, 2));
@@ -108,12 +121,13 @@ test('all five pickups render distinct growing silhouettes and readable values i
       }
     }
   }
-  await page.close();
+  await closePage(page);
 });
 
 test('the huge sack and its value label follow magnet attraction until one 25-coin payout', async () => {
   const page = await browser.newPage({ viewport: { width: 720, height: 500 }, deviceScaleFactor: 1 });
   const errors = []; page.on('pageerror', error => errors.push(error.message));
+  registerPage(page);
   await page.goto(`http://127.0.0.1:${server.address().port}`);
   const result = await page.evaluate(async () => {
     const [{ Renderer }, { Game, coinPosition }, { coinPickupModel }, { default: magnet }] = await Promise.all([
@@ -175,6 +189,6 @@ test('the huge sack and its value label follow magnet attraction until one 25-co
     assert.equal(run.arrival.coin, null); assert.equal(run.arrival.coins, 25); assert.deepEqual(run.arrival.payouts, [25]);
   }
   assert.deepEqual(result[0].middle.coin, result[1].middle.coin, 'Less motion preserves meaningful attraction');
-  await writeFile(new URL('../artifacts/coin-denominations-magnet.json', import.meta.url), JSON.stringify(result, null, 2));
-  await page.close();
+  await writeFile(new URL('coin-denominations-magnet.json', coverageArtifacts), JSON.stringify(result, null, 2));
+  await closePage(page);
 });

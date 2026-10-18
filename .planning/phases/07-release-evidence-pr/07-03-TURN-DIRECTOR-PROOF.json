@@ -1,0 +1,317 @@
+{
+  "status": "whole focused job passed; report-only, not release acceptance",
+  "runId": "ce1b01ba-7aac-4114-a590-32a980b028d4",
+  "session": 65621,
+  "exitCode": 0,
+  "ordinary": "11/11, strengthened early easing assertions",
+  "canonical": "11/11",
+  "actualLifetimes": 11,
+  "intervals": 39,
+  "independentParents": 1,
+  "jobs": [
+    {
+      "id": "release-turn-mode-coverage",
+      "file": "tests/release-turn-mode-coverage.test.mjs",
+      "role": "node",
+      "requiredRealms": [
+        "node"
+      ],
+      "modelAttribution": [
+        {
+          "mode": "relay",
+          "phases": [
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "settled"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "settled"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "settled"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "settled"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "settled"
+            ]
+          ],
+          "lifetimes": 5
+        },
+        {
+          "mode": "race",
+          "phases": [
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "settled"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "settled"
+            ],
+            [
+              "settled",
+              "settled"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "settled"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "settled"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "settled"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "settled"
+            ]
+          ],
+          "lifetimes": 6
+        }
+      ]
+    }
+  ],
+  "strata": {
+    "relay": {
+      "lines": {
+        "covered": 1910,
+        "total": 2159
+      },
+      "functions": {
+        "covered": 613,
+        "total": 718
+      },
+      "branches": {
+        "covered": 1968,
+        "total": 2893
+      }
+    },
+    "race": {
+      "lines": {
+        "covered": 1937,
+        "total": 2222
+      },
+      "functions": {
+        "covered": 639,
+        "total": 769
+      },
+      "branches": {
+        "covered": 2108,
+        "total": 3141
+      }
+    }
+  },
+  "frozenFiles": {
+    "dist/index.html": "a34fd21258f80302593c584f5a9566f7511af49798c0b0cac6dacc1beb478bc1",
+    "pnpm-lock.yaml": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+    "tests/release-turn-mode-coverage.test.mjs": "adcaf4ae8b569d378b68445c26843515d9613c90abcdb1f709fee7770c53db8a",
+    "tools/release-coverage/suites.json": "e5f3703a8a126893b74be41a43fbdb88af7e07b3cfb78e35b35f7f9d6c37c3f2",
+    "src/game.ts": "fb5d9224e46c19b3745099429f06bd141d9b738bb2d8786ed3266e1b6a7d95f6",
+    "src/session.ts": "f8ce62cdc5c87557636cce62f0b15005bfa5f9cde42c708d67915b4c1ebcec39",
+    "src/main.ts": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+    "src/mobs.ts": "6077ac4fd884ef16f9fe8ab3f3db77a431b2d2853adbeddc1d0d843b595018d1"
+  },
+  "preserved": true,
+  "provenance": "Actual Arcade coordinator worlds; progress/time/terrain/positions are arranged outside measured intervals. Mobs, IDs, phases and timers come from the real director. Actual callbacks, LocalSession.update, pause/resume and dispatch own behavior. No public reachability or autonomously earned initial progress claim.",
+  "requirements": [
+    "ARCH-02",
+    "TEST-02",
+    "TEST-05"
+  ],
+  "priorOrdinaryFixtureFailure": {
+    "session": 14313,
+    "result": "10pass/1fail",
+    "reason": "Fixture requested9999 Relay tiles; existing validator correctly accepts only1\u2013999. Corrected to999; no product RED or source change."
+  },
+  "correctedOrdinary": {
+    "session": 11953,
+    "result": "11/11"
+  },
+  "strengthenedOrdinary": {
+    "session": 96904,
+    "result": "11/11"
+  },
+  "diagnostic": {
+    "purpose": "Exact source/map/all-site-schema union, not enforcing release acceptance",
+    "comparisonRun": "51a4bea2-21e7-4b74-9eae-b185f6401911",
+    "relay": {
+      "lines": {
+        "covered": 1941,
+        "total": 2159
+      },
+      "statements": {
+        "covered": 2793,
+        "total": 3406
+      },
+      "functions": {
+        "covered": 637,
+        "total": 718
+      },
+      "branches": {
+        "covered": 2036,
+        "total": 2893
+      }
+    },
+    "race": {
+      "lines": {
+        "covered": 2010,
+        "total": 2222
+      },
+      "statements": {
+        "covered": 2898,
+        "total": 3509
+      },
+      "functions": {
+        "covered": 676,
+        "total": 769
+      },
+      "branches": {
+        "covered": 2251,
+        "total": 3141
+      }
+    },
+    "gains": {
+      "relay": {
+        "lines": 29,
+        "functions": 5,
+        "branches": 42
+      },
+      "race": {
+        "lines": 6,
+        "functions": 1,
+        "branches": 8
+      }
+    },
+    "remainingToModeFloors": {
+      "relay": {
+        "lines": 3,
+        "functions": 10,
+        "branches": 424
+      },
+      "race": {
+        "lines": 0,
+        "functions": 17,
+        "branches": 419
+      }
+    }
+  },
+  "log": "/tmp/down-to-duck-07-03-turn-director-canonical.log",
+  "preservation": "/tmp/down-to-duck-07-03-turn-director-preservation.json"
+}

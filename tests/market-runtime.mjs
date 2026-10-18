@@ -1,3 +1,4 @@
+import { artifactForCoverage, verifyRealmArtifact, artifactDirectoryForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 // Actual built app in an opaque iframe. CDP stages score/coins/clear terrain;
 // market controls, effects, inventory and all subsequent simulation are real.
 import assert from 'node:assert/strict';
@@ -5,9 +6,9 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { chromium } from 'playwright';
 
-const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
+const built = await readFile(artifactForCoverage(new URL('../dist/index.html', import.meta.url)), 'utf8');
 assert.ok(built.includes('market'), 'Build the market implementation first.');
-const output = new URL('../artifacts/', import.meta.url);
+const output = artifactDirectoryForCoverage(new URL('../artifacts/', import.meta.url), 'market-runtime');
 await mkdir(output, { recursive: true });
 
 function installFixture() {
@@ -51,7 +52,8 @@ await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const evidence = { artifact: 'unchanged built module in opaque allow-scripts iframe',
   fixture: 'Muted Chromium. CDP stages score-minus-one, earned coins, one explicit transaction offer in its bounded table section, seeded bonus state and meadow terrain; real market actions and simulation follow. Controller is injected NAP-GAMEPAD, not physical hardware.',
   scenarios: [], frames: [], errors: [], external: [] };
-let browser;
+let browser, frame;
+const identity = { suite: process.argv[1], scenario: 'market-runtime', frame: 'opaque-app', generation: 0, scope: 'current' };
 try {
   browser = await chromium.launch({ args: ['--mute-audio'] });
   const page = await browser.newPage({ viewport: { width: 1000, height: 700 } });
@@ -62,9 +64,11 @@ try {
   cdp.on('Runtime.executionContextsCleared', () => contexts.clear()); await cdp.send('Runtime.enable');
   page.on('pageerror', error => evidence.errors.push(error.message));
   await page.route('**/*', route => { if (new URL(route.request().url()).hostname === '127.0.0.1') return route.continue(); evidence.external.push(route.request().url()); return route.abort(); });
+  registerRealm(page, identity);
   await page.goto(`http://127.0.0.1:${server.address().port}`);
-  const frame = await (await page.locator('iframe').elementHandle()).contentFrame();
+  frame = await (await page.locator('iframe').elementHandle()).contentFrame();
   await frame.waitForFunction(() => window.marketFixture?.hydrated && !!window.marketFixture.handlers['puddlehop.market']);
+  await verifyRealmArtifact(frame,identity);
   // Leave room for the browser round trip when running layout in parallel.
   await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 1000);
   const advance = ms => page.clock.runFor(ms);
@@ -564,4 +568,4 @@ try {
   assert.deepEqual(evidence.errors, []); assert.deepEqual(evidence.external, []);
   await writeFile(new URL('market-runtime.json', output), JSON.stringify(evidence, null, 2));
   console.log(JSON.stringify(evidence, null, 2));
-} finally { await browser?.close(); await new Promise(resolve => server.close(resolve)); }
+} finally { try { if (frame) await collectRealm(frame, identity); } finally { await browser?.close(); await new Promise(resolve => server.close(resolve)); } }

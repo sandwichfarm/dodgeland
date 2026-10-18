@@ -1,0 +1,327 @@
+{
+  "status": "Twenty-six ordinary/canonical actual recovery and blocked-handoff journeys pass;not full release acceptance",
+  "runId": "b7c2a740-6b20-40cd-b382-6e95c260597e",
+  "payloadCount": 1,
+  "lifetimes": 26,
+  "intervals": 80,
+  "modeCaseCounts": {
+    "relay": 14,
+    "race": 12
+  },
+  "thresholdsEvaluated": false,
+  "manifestSha256": "cfbe74d940613fedfa9ee36d103c2ad550e2ca3726af247f29604fd5c54bdde0",
+  "canonicalInventorySha256": "37f806f85a06a771ca5e1302b2e5aa996fd725c29e66175ef2d150a8c0f31404",
+  "currentDiagnosticModes": {
+    "relay": {
+      "raw": {
+        "statements": {
+          "covered": 2948,
+          "total": 3735
+        },
+        "functions": {
+          "covered": 659,
+          "total": 817
+        },
+        "branches": {
+          "covered": 2250,
+          "total": 3204
+        },
+        "lines": {
+          "covered": 1991,
+          "total": 2352
+        }
+      },
+      "applicable": {
+        "statements": {
+          "covered": 2948,
+          "total": 3271
+        },
+        "functions": {
+          "covered": 659,
+          "total": 708
+        },
+        "branches": {
+          "covered": 2250,
+          "total": 2744
+        },
+        "lines": {
+          "covered": 1991,
+          "total": 2079
+        }
+      },
+      "remaining": {
+        "lines": 0,
+        "functions": 0,
+        "branches": 83
+      },
+      "componentLifetimes": 108,
+      "componentIntervals": 373,
+      "publicIntervals": 2
+    },
+    "race": {
+      "raw": {
+        "statements": {
+          "covered": 3042,
+          "total": 3645
+        },
+        "functions": {
+          "covered": 703,
+          "total": 818
+        },
+        "branches": {
+          "covered": 2469,
+          "total": 3261
+        },
+        "lines": {
+          "covered": 2064,
+          "total": 2305
+        }
+      },
+      "applicable": {
+        "statements": {
+          "covered": 3042,
+          "total": 3406
+        },
+        "functions": {
+          "covered": 703,
+          "total": 758
+        },
+        "branches": {
+          "covered": 2469,
+          "total": 3032
+        },
+        "lines": {
+          "covered": 2064,
+          "total": 2163
+        }
+      },
+      "remaining": {
+        "lines": 0,
+        "functions": 0,
+        "branches": 109
+      },
+      "componentLifetimes": 139,
+      "componentIntervals": 486,
+      "publicIntervals": 8
+    }
+  },
+  "newBranchWitnesses": {
+    "relay": 7,
+    "race": 3
+  },
+  "newInitialWitnesses": [
+    {
+      "path": "src/relay.ts",
+      "sourceHash": "f5c1eea5b82e6e42d7b6bbc6a95f7f0d28aa7ad7468c4464e0217ab9f89e6c02",
+      "mapHash": "f20ca8a0dcea141035a8a302915ac67da56d9be55a470a4655e1a01e4bf78fa7",
+      "id": "69",
+      "arm": 1,
+      "initialCount": 0,
+      "count": 4,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 192,
+            "column": 18
+          },
+          "end": {
+            "line": 192,
+            "column": 117
+          }
+        },
+        "type": "cond-expr",
+        "locations": [
+          {
+            "start": {
+              "line": 192,
+              "column": 66
+            },
+            "end": {
+              "line": 192,
+              "column": 110
+            }
+          },
+          {
+            "start": {
+              "line": 192,
+              "column": 113
+            },
+            "end": {
+              "line": 192,
+              "column": 117
+            }
+          }
+        ]
+      },
+      "meaning": "Unsafe outgoing position uses retained safe anchor;blocked anchor and retained course cause waiting without moving/debiting the incoming runner"
+    },
+    {
+      "path": "src/relay.ts",
+      "sourceHash": "f5c1eea5b82e6e42d7b6bbc6a95f7f0d28aa7ad7468c4464e0217ab9f89e6c02",
+      "mapHash": "f20ca8a0dcea141035a8a302915ac67da56d9be55a470a4655e1a01e4bf78fa7",
+      "id": "70",
+      "arm": 0,
+      "initialCount": 0,
+      "count": 2,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 197,
+            "column": 4
+          },
+          "end": {
+            "line": 197,
+            "column": 111
+          }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": {
+              "line": 197,
+              "column": 4
+            },
+            "end": {
+              "line": 197,
+              "column": 111
+            }
+          },
+          {
+            "start": {},
+            "end": {}
+          }
+        ]
+      },
+      "meaning": "No safe placement keeps Relay waiting until a cell is cleared and the original incoming device is reclaimed"
+    }
+  ],
+  "alreadyReviewedInitialHits": [
+    {
+      "path": "src/race.ts",
+      "sourceHash": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+      "mapHash": "359d1befb5381d2a2df7d84e71de36101ec61193601e694e8af77ddd2f617fb8",
+      "id": "52",
+      "arm": 1,
+      "initialCount": 0,
+      "count": 12,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 134,
+            "column": 57
+          },
+          "end": {
+            "line": 134,
+            "column": 103
+          }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": {
+              "line": 134,
+              "column": 57
+            },
+            "end": {
+              "line": 134,
+              "column": 103
+            }
+          },
+          {
+            "start": {},
+            "end": {}
+          }
+        ]
+      }
+    },
+    {
+      "path": "src/relay.ts",
+      "sourceHash": "f5c1eea5b82e6e42d7b6bbc6a95f7f0d28aa7ad7468c4464e0217ab9f89e6c02",
+      "mapHash": "f20ca8a0dcea141035a8a302915ac67da56d9be55a470a4655e1a01e4bf78fa7",
+      "id": "78",
+      "arm": 0,
+      "initialCount": 0,
+      "count": 24,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 223,
+            "column": 4
+          },
+          "end": {
+            "line": 223,
+            "column": 177
+          }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": {
+              "line": 223,
+              "column": 4
+            },
+            "end": {
+              "line": 223,
+              "column": 177
+            }
+          },
+          {
+            "start": {},
+            "end": {}
+          }
+        ]
+      }
+    }
+  ],
+  "executionInventory": {
+    "valid": true,
+    "entries": 153,
+    "closure": 160,
+    "jobs": 165,
+    "controls": 10
+  },
+  "normalArtifactRawSha256": "9036d9a1f179b136569a3b400c412d954d783987c751832afbbbfda287c63539",
+  "rootLockRawSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "unchangedPreviousDeclarations": true,
+  "initialLedger": {
+    "newSourceIdenticalWitnesses": 2,
+    "reviewed": 188,
+    "covered": 187,
+    "privateDefault": 1,
+    "pending": 863
+  },
+  "gates": {
+    "type-check": 0,
+    "build": 0,
+    "guidance": {
+      "exit": 0,
+      "passed": 7
+    },
+    "conformance": {
+      "exit": 0,
+      "passed": 5,
+      "failed": 0,
+      "unmeasured": 5
+    }
+  },
+  "artifacts": {
+    "artifacts/release-coverage/turn-recovery-terrain-review/canonical.log": "6e1004ccd17918fce55d396b6a9532f0cf2a7e922a40bef3ad611defdfeec3b9",
+    "artifacts/release-coverage/turn-recovery-terrain-review/conformance.log": "78c97023abe936a47b9b18bdd3141b1a96b6864c14e9ac1b06acd4b4550689c8",
+    "artifacts/release-coverage/turn-recovery-terrain-review/current-mode-misses.json": "95231d423db223867ae5a9a62912184bf1687f37e05d2e82dbed727340a84652",
+    "artifacts/release-coverage/turn-recovery-terrain-review/execution-inventory.json": "0e359fb6ee30d1f26b51089ee589767ac23e8433b8150fbef36c79499a9da6c5",
+    "artifacts/release-coverage/turn-recovery-terrain-review/initial-witnesses.json": "0adeda809e4f98a6fe4e3259eda4a89f68a836fb5fc546965ea764e6c2ca12a1",
+    "artifacts/release-coverage/turn-recovery-terrain-review/interrupted-run.json": "5e397378c630cad84a7f545ff3fe2382cc5b7b014f5830fd5667df8b3993a192",
+    "artifacts/release-coverage/turn-recovery-terrain-review/mode-union.json": "693ab4a2cb2de6fb48cec01d39c8b06fcff40dba5bdc0b506a7057926adf72a2",
+    "artifacts/release-coverage/turn-recovery-terrain-review/mode-union.log": "2a68029e7d01e7b751bcf9f1a29791bc34e23dc063cc6ecd574f60f2d207c378",
+    "artifacts/release-coverage/turn-recovery-terrain-review/mode-union.py": "a6454f3a2cb9d30f7eb09537e210170f357398a8eb24e9fa9893c34aa3c3d84f",
+    "artifacts/release-coverage/turn-recovery-terrain-review/ordinary.log": "3a7ce76de932ddcd3d6b9fab3b41aaabf74cbdb2c3bece021812e49d0c731c02"
+  },
+  "limits": [
+    "Terrain,mob,starting-fund and fatal-damage component fixtures;actual input owns all positions,elapsed time,progress,charges and lifecycle",
+    "Six hazards:blocked or missing rows,unsupported river,occupied road/rail and mobs;failed personal recovery preserves complete observable state and the same offer",
+    "Cleared placement retries without advancing time or granting distance,refunds or another-owner changes;charge spends once",
+    "Relay spent-charge second death has no offer;fully blocked rotation waits without simulation;cleared cell plus original-device reclaim requires fresh incoming confirmation",
+    "Interrupted bcd914e7 process/temporary log absent and no complete manifest/payload;partial UUID artifacts retained and not selected for coverage",
+    "No public input-device,UI/visual,physical controller,source,oracle,dependency,scope or numeric floor change;full enforcing release acceptance remains open"
+  ]
+}

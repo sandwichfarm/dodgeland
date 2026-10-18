@@ -1,13 +1,17 @@
 import assert from 'node:assert/strict';
 import { test, after } from 'node:test';
 import { loadSources } from './source-loader.mjs';
+import { semanticValue } from './solo-parity-snapshot.mjs';
 const source = await loadSources(['devtools-state', 'market/catalog']);
 after(() => source.dispose());
 const { Game, WAVE_TRAIL } = await source.import('game');
+const { composeModeDefinition, SOLO_STROLL_MODE } = await source.import('mode-rules');
 const { createRunSeed } = await source.import('run-seed');
 const { generateSeedLane } = await source.import('levels/index');
 const { jumpDevelopmentRun, loadDevelopmentRun, developmentScore, developmentDiagnostics } = await source.import('devtools-state');
 const { ITEM_CATALOG } = await source.import('market/catalog');
+const { WORLDS } = await source.import('content');
+const developmentSnapshot = game => JSON.stringify(semanticValue(game));
 
 test('development score accepts only bounded whole finite values', () => {
   for (const [input, expected] of [[-1, 0], [NaN, 0], [Infinity, 0], [-Infinity, 0], [99.9, 99], [1e9, 100000]]) assert.equal(developmentScore(input), expected);
@@ -42,12 +46,76 @@ test('jump initializes real heal and market milestone bookkeeping without callba
   assert.equal(next.health, 1.5, 'next milestone heals once rather than all skipped hundreds');
   assert.equal(next.run.market.milestone, 1000); assert.equal(events, 1);
 });
+
+test('jump retains a custom definition through seeded and unregistered-world reconstruction, while replay loading resets to its decoded preset', () => {
+  const definition = composeModeDefinition({
+    id: 'devtools-custom',
+    simulation: { worldTimeScale: .5 },
+    movement: { hopDuration: .31 },
+    pursuit: { waveTrail: 11 },
+  });
+  const extension = { ...WORLDS[0], id: 'devtools-extension', patterns: [['road', 'river', 'meadow']] };
+  WORLDS.push(extension);
+  try {
+    for (const original of [
+      new Game(21, 'pond', 'arcade', false, ITEM_CATALOG, 'sunny', { definition }),
+      new Game(22, extension.id, 'arcade', false, ITEM_CATALOG, 'sunny', { definition }),
+    ]) {
+      const next = jumpDevelopmentRun(original, 320);
+      assert.equal(next.definition, definition);
+      assert.equal(next.rules.pursuit.waveTrail, 11);
+      assert.equal(next.waveRow, 309, 'teleport placement follows the active trail rule');
+      assert.equal(next.characterId, 'sunny');
+      assert.deepEqual([...next.run.catalog.keys()], [...original.run.catalog.keys()]);
+      assert.deepEqual(next.runSeed, original.runSeed, 'the constructor keeps the matching identity path');
+      next.resume();
+      assert.equal(next.move('left'), true);
+      assert.equal(next.hop, .31, 'post-jump movement still uses the custom definition');
+      next.update(.2);
+      assert.equal(next.time, 144.1, 'post-jump simulation still uses the custom time scale');
+    }
+
+    const replay = new Game(23, 'pond', 'stroll', false, ITEM_CATALOG);
+    const loaded = loadDevelopmentRun(new Game(24, 'pond', 'arcade', false, ITEM_CATALOG, 'butter', { definition }), replay.seedCode, ITEM_CATALOG);
+    assert.equal(loaded.definition, SOLO_STROLL_MODE, 'a decoded replay intentionally selects its released preset');
+  } finally {
+    WORLDS.pop();
+  }
+});
 test('diagnostics expose useful state without changing the run', () => {
   const game = jumpDevelopmentRun(new Game(77), 320);
-  const before = JSON.stringify(game);
+  const before = developmentSnapshot(game);
   const output = developmentDiagnostics(game, true);
   for (const label of ['SANDBOX', 'records disabled', 'score 320', 'seed 77', 'code ph3-0000004d-pond-a-n', 'chapter 11', 'time 144.00s', 'health', 'wallet', 'market 300', 'mobs none', 'rows 39']) assert.ok(output.includes(label), label);
-  assert.equal(JSON.stringify(game), before);
+  assert.equal(developmentSnapshot(game), before);
+});
+
+test('diagnostics distinguish active rescue, pursuers, open markets and worlds without replay codes', () => {
+  const duck = new Game(77, 'pond', 'arcade', false, ITEM_CATALOG, 'butter');
+  Object.assign(duck.rows.get(0), { kind: 'river', blocked: [], decorations: [], coin: null, phase: 10, speed: 0, spacing: 20, length: 2 });
+  duck.state = 'playing'; duck.update(0);
+  assert.ok(duck.powerRescue, 'the actual water collision starts the duck rescue');
+  // A valid placed pursuer makes the diagnostic identity/phase/position visible;
+  // this case tests inspection, not natural mob-spawn timing.
+  duck.mobs.push({ id: 42, kind: 'slime', x: 3.25, y: 1.5, fromX: 3.25, fromY: 1.5,
+    targetX: 3.25, targetY: 1.5, phase: 'rest', phaseLeft: 2, phaseDuration: 2 });
+  const before = developmentSnapshot(duck);
+  const output = developmentDiagnostics(duck, false);
+  assert.match(output, /UNMODIFIED RUN/);
+  assert.ok(output.includes(`${duck.powerRemaining} blocks`));
+  assert.ok(output.includes(`rescue ${duck.powerRescue.remaining.toFixed(2)}`));
+  assert.match(output, /mobs slime:rest \(3\.3,1\.5\)/);
+  assert.equal(developmentSnapshot(duck), before, 'inspection does not advance rescue, cooldown or pursuer state');
+
+  const market = jumpDevelopmentRun(new Game(78, 'pond', 'arcade', false, ITEM_CATALOG), 100);
+  market.resume(); assert.equal(market.openMarket(), true);
+  assert.match(developmentDiagnostics(market, true), /market 100 · [\d.]+s · open/);
+  const extension = { ...WORLDS[0], id: 'diagnostic-extension' };
+  WORLDS.push(extension);
+  try {
+    const custom = new Game(79, extension.id);
+    assert.match(developmentDiagnostics(custom, false), /unregistered world · no replay code/);
+  } finally { WORLDS.pop(); }
 });
 
 test('jump preserves all captured schema identities and their copied codes recreate the courses', () => {
@@ -72,7 +140,7 @@ test('loading a copied seed creates a paused fresh sandbox candidate with the fu
   const callbacks = ['onCoin', 'onEnd', 'onMobSpawn', 'onMobAttack', 'onHurt', 'onHeal'];
   let calls = 0;
   for (const name of callbacks) current[name] = () => calls++;
-  const before = JSON.stringify(current);
+  const before = developmentSnapshot(current);
   for (const schema of [1, 2, 3]) {
     const target = new Game(createRunSeed(42, 'orchard', 'arcade', true, schema), undefined, undefined, undefined, ITEM_CATALOG);
     const loaded = loadDevelopmentRun(current, ` ${target.seedCode}\n`, ITEM_CATALOG);
@@ -83,14 +151,14 @@ test('loading a copied seed creates a paused fresh sandbox candidate with the fu
     assert.deepEqual([...loaded.run.catalog.keys()], [...target.run.catalog.keys()]);
     assert.ok(loaded.run.catalog.size > current.run.catalog.size, 'Arcade-only items return when loading from a Stroll run');
     for (const name of callbacks) assert.equal(loaded[name], current[name]);
-    assert.equal(calls, 0); assert.equal(JSON.stringify(current), before);
+    assert.equal(calls, 0); assert.equal(developmentSnapshot(current), before);
   }
 });
 
 test('an invalid copied seed does not alter the current run or invoke callbacks', () => {
   const current = new Game(9, 'frost', 'stroll', false, ITEM_CATALOG);
   let calls = 0; current.onCoin = current.onEnd = () => calls++;
-  const before = JSON.stringify(current);
+  const before = developmentSnapshot(current);
   for (const code of ['', 'ph4-00000009-frost-s-n', 'ph1-00000009-unknown-s-n']) assert.throws(() => loadDevelopmentRun(current, code, ITEM_CATALOG));
-  assert.equal(calls, 0); assert.equal(JSON.stringify(current), before);
+  assert.equal(calls, 0); assert.equal(developmentSnapshot(current), before);
 });

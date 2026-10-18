@@ -1,0 +1,22 @@
+{
+  "purpose": "Correct preparatory scope to actual accepted visual contract;no requirement waiver or execution",
+  "createdAt": "2026-10-18T02:29:09.421671+00:00",
+  "authoritativeCriterion": "Entire rendered voxel-body and packed nameplate/status envelope against actual visible opaque/actionable UI including toast/warnings,owner/shelf and controls;inclusive8CSSpixels",
+  "sourceFinding": "06-UI-SPEC cross-layer acceptance at102-110 does not require an extra8px world-pickup-text observer",
+  "correction": "World pickup text may be visually inspected where present;an additional pickup-text debugger observer is optional and not an invented release gate",
+  "unchanged": [
+    "All original goals,required visual states and frames/themes",
+    "Full actor/body/nameplate/status observations and actual material/control bounds",
+    "Actual input/no private world,actor or camera injection",
+    "Source/build/image/terminal integrity and actual image inspection",
+    "Original51clauses/47requirements and pending actual PR"
+  ],
+  "sourceHashes": {
+    ".planning/phases/06-cross-mode-presentation/06-UI-SPEC.md": "a4b152bbe584a45fd26436c087b72392f431495c21c27b06860b08eb959bc970",
+    ".planning/phases/07-release-evidence-pr/07-05-PLAN.md": "ee05ce2262f76878fb8964761225bd3e9fdf6ff5b9d0b5e321b87eb0e21bdbc6",
+    ".planning/phases/07-release-evidence-pr/07-05-DRAFT-PREPARATION.md": "f68683eb6b8b5683c4fafc47d93d0ffdcb14be0f526e27e511e9a29eded9cc02",
+    ".planning/phases/07-release-evidence-pr/07-05-DRAFT-PREPARATION.json": "71a2c0f7124617cf0d2aa91be9be1d9e1c27953b553d45211d81e520ecb1ec4c"
+  },
+  "draftCodeChanged": false,
+  "executedTestsOrCaptures": 0
+}

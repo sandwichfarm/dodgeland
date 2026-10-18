@@ -1,3 +1,4 @@
+import { artifactForCoverage, verifyRealmArtifact, artifactDirectoryForCoverage, registerRealm, collectRealm } from '../tools/release-coverage/browser.mjs';
 // Built-artifact Pluck integration in an opaque allow-scripts iframe. CDP stages
 // explicit road contacts / score 99; real controls, simulation, health, HUD and
 // Web Audio carry each encounter. This does not claim a natural 100-hop run.
@@ -7,9 +8,9 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { chromium } from 'playwright';
 
-const built = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
+const built = await readFile(artifactForCoverage(new URL('../dist/index.html', import.meta.url)), 'utf8');
 assert.ok(built.includes('hurt.rear') && built.includes('health.restore'), 'Build the current Pluck implementation first.');
-const output = new URL('../artifacts/', import.meta.url);
+const output = artifactDirectoryForCoverage(new URL('../artifacts/', import.meta.url), 'health-runtime');
 await mkdir(output, { recursive: true });
 
 function installFixture() {
@@ -57,12 +58,18 @@ const server = createServer((_request, response) => {
   response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); response.end(harness);
 });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
-const evidence = { artifact: 'unmodified production module; opaque allow-scripts iframe',
+const evidence = { artifact: 'unmodified built application module; opaque allow-scripts iframe',
   fixture: 'CDP closure inspection supplies road contacts and score 99; subsequent controls and simulation are real',
   scenarios: [], frames: [], errors: [], external: [] };
-let browser;
+let browser, frame, identity, generation = 0;
+async function beginRealm(page, scenario) {
+  if (frame) await collectRealm(frame, identity);
+  frame = undefined;
+  identity = { suite: process.argv[1], scenario, frame: 'opaque-app', generation: generation++, scope: 'current' };
+  registerRealm(page, identity);
+}
 try {
-  browser = await chromium.launch();
+  browser = await chromium.launch({ args: ['--mute-audio'] });
   const page = await browser.newPage({ viewport: { width: 1000, height: 700 } });
   page.setDefaultTimeout(8000);
   await page.clock.install();
@@ -76,12 +83,13 @@ try {
     if (new URL(route.request().url()).hostname === '127.0.0.1') return route.continue();
     evidence.external.push(route.request().url()); return route.abort();
   });
+  await beginRealm(page, 'initial');
   await page.goto(`http://127.0.0.1:${server.address().port}`);
-  let frame;
   async function currentFrame() {
     frame = await (await page.locator('#napplet').elementHandle()).contentFrame();
     await frame.locator('#sound-preview-cue option[value="hurt.rear"]').waitFor({ state: 'attached' });
     await frame.waitForFunction(() => window.healthFixture?.hydrated);
+    await verifyRealmArtifact(frame,identity);
     return frame;
   }
   await currentFrame();
@@ -134,7 +142,9 @@ try {
   const heard = async fingerprint => (await effects()).filter(voice => voice.fingerprint === fingerprint).length;
 
   // Audition the shipped pack through ordinary controls to identify actual PCM.
-  await frame.locator('#collection').click(); await frame.locator('#sounds-tab').click();
+  await frame.locator('#choose').click(); await frame.locator('#sounds-tab').click();
+  for (let index = 0; index < 8 && !await frame.locator('[data-sound-page="preview"]').isVisible(); index++) await frame.locator('#collection-next').click();
+  await frame.locator('[data-sound-page="preview"]').waitFor();
   const fingerprints = {};
   for (const cue of ['hurt.rear', 'hurt.side', 'health.restore', 'death.traffic']) {
     await frame.locator('#sound-preview-cue').selectOption(cue);
@@ -153,10 +163,22 @@ try {
     recovering: document.querySelector('#pluck').classList.contains('recovering'),
     low: document.querySelector('#pluck').classList.contains('low'),
   }));
+  await onGame(function () {
+    const start = this.start;
+    let starts = 0;
+    this.start = function () { starts++; return start.call(this); };
+    this.startCount = () => starts;
+  });
+  await frame.locator('#play').click(); await advance(32);
+  const played = await onGame(function () { return { state: this.state, x: this.x, y: this.y, score: this.maxY, hop: this.hop, starts: this.startCount() }; });
+  assert.deepEqual(played, { state: 'playing', x: 0, y: 0, score: 0, hop: 0, starts: 1 }, 'the visible Play control performs one stationary Game.start transition');
+  evidence.scenarios.push({ play: played });
   async function remount() {
+    await beginRealm(page, 'health-remount');
     await page.evaluate(() => window.mount()); await currentFrame();
     await frame.locator('#character-call').dispatchEvent('click'); await advance(32);
   }
+  await remount();
   async function road(face) {
     await onGame(function (face) {
       this.x = this.fromX = face === 'rear' ? -1 : face === 'front' ? 1 : 0;
@@ -167,6 +189,7 @@ try {
       Object.assign(this.rows.get(8), { kind: 'road', speed: 1, phase: 0, spacing: 20, length: 1.15 });
     }, face);
     await advance(1600);
+    await frame.locator('#play').click();
   }
   for (const [face, direction, remaining, featherWidths] of [
     ['rear', 'right', 2, [22, 22, 0]], ['side', 'forward', 1, [22, 0, 0]],
@@ -207,6 +230,7 @@ try {
     for (const lane of this.rows.values()) Object.assign(lane, { kind: 'meadow', blocked: [], decorations: [], coin: null });
   });
   await advance(1600);
+  await frame.locator('#play').click();
   const restoresBefore = await heard(fingerprints['health.restore']);
   await move('forward');
   const restored = await snapshot(), restoredHud = await hud();
@@ -261,7 +285,7 @@ try {
         const visible = element => element.offsetParent && getComputedStyle(element).visibility !== 'hidden';
         const buttons = [...document.querySelectorAll('button')].filter(element => visible(element) && !element.disabled).map(element => {
           const r = rect(element), hit = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
-          return { id: element.id || element.getAttribute('aria-label'), fits: fits(r), hit: element === hit || element.contains(hit), overlapsPluck: overlaps(r) };
+          return { id: element.id || element.getAttribute('aria-label'), bounds: r, hitTarget: hit ? { tag: hit.tagName, id: hit.id, bounds: rect(hit) } : null, fits: fits(r), hit: element === hit || element.contains(hit), overlapsPluck: overlaps(r) };
         });
         const labels = [...document.querySelectorAll('.score-block,.world-label,.coin-count,#toast,#idle')].filter(visible).map(element => ({
           id: element.id || element.className, bounds: rect(element), overlapsPluck: overlaps(rect(element)),
@@ -272,6 +296,7 @@ try {
           meter: { visible: Boolean(visible(meter)), fits: fits(bounds), fullText: meter.scrollWidth <= meter.clientWidth && meter.scrollHeight <= meter.clientHeight, bounds,
             feathers: [...document.querySelectorAll('#pluck-feathers clipPath rect')].map(rect => Number(rect.getAttribute('width'))) }, buttons, labels };
       });
+      if (result.buttons.some(button => !button.hit)) await page.locator('iframe').screenshot({ path: new URL(`health-obstructed-${width}x${height}-${theme}.png`, output).pathname });
       assert.equal(result.width, width); assert.equal(result.height, height); assert.equal(result.overflow, false);
       assert.equal(result.notice, width < 240 || height < 240);
       assert.ok(result.backgrounds.every(color => color === result.backgrounds[0]));
@@ -285,7 +310,7 @@ try {
       evidence.frames.push({ theme, ...result });
       await page.locator('iframe').screenshot({ path: new URL(`health-layout-${width}x${height}-${theme}.png`, output).pathname });
       if (!result.notice) {
-        await onGame(function () { this.mode = 'arcade'; this.time = 6; this.waveRow = this.groundY - 2; });
+        await onGame(function () { this.time = 6; this.waveRow = this.groundY - 2; });
         await advance(32);
         const warning = await frame.evaluate(() => {
           const panel = document.getElementById('idle'), r = panel.getBoundingClientRect();
@@ -294,10 +319,65 @@ try {
           }).map(element => element.id || element.className || element.getAttribute('aria-label'));
           return { visible: !panel.hidden, fits: r.x >= 0 && r.y >= 0 && r.right <= innerWidth + .5 && r.bottom <= innerHeight + .5, overlaps };
         });
-        assert.ok(warning.visible && warning.fits); assert.deepEqual(warning.overlaps, [], 'wave guidance clears the Pluck bar and existing HUD');
+        assert.equal(warning.visible, false, 'the active Stroll policy keeps the wave guidance hidden');
         evidence.frames.at(-1).waveWarning = warning;
-        await page.locator('iframe').screenshot({ path: new URL(`health-layout-wave-${width}x${height}-${theme}.png`, output).pathname });
       }
+    }
+  }
+  // DEV-only presentation regression; arranged owned card, actual production
+  // market purchase/render and visible controls. Original twelve cells above remain.
+  if (await frame.locator('#development-tools').count()) {
+    evidence.developmentLayouts = [];
+    for (const theme of ['light', 'dark']) for (const populated of [false, true]) for (const [width, height] of [[240, 240], [320, 240], [1000, 240]]) {
+      await frame.evaluate(theme => window.healthFixture.setTheme({ colors: {
+        background: theme === 'light' ? '#f4f2df' : '#242b32', text: theme === 'light' ? '#263c38' : '#f0eee5', primary: theme === 'light' ? '#477763' : '#9fc28a',
+      } }), theme);
+      await page.setViewportSize({ width: Math.max(width + 40, 1000), height: 700 });
+      await page.locator('iframe').evaluate((element, size) => { element.style.width = `${size.width}px`; element.style.height = `${size.height}px`; }, { width, height });
+      await onGame(function (populated) {
+        this.state = 'playing'; this.mode = 'stroll'; this.time = this.idle = 0;
+        this.run.cards = []; this.run.changed();
+        if (populated) {
+          this.run.creditCoins(1000);
+          const item = this.run.catalog.get('magnet'), market = this.run.market;
+          const offer = { id: `dev-layout-${this.run.revision}`, itemId: item.id, price: item.price, sold: false, section: 'cards' };
+          this.run.market = {milestone:50,remaining:30,offers:[offer]}; this.run.open();
+          const result = this.run.buy(offer.id); if (!result.ok) throw Error(result.message);
+          this.run.close(); this.run.market = market; this.run.revision++;
+        }
+        this.syncEffects();
+      }, populated);
+      await advance(48);
+      const layout = await frame.evaluate(() => {
+        const rect = element => { const r = element.getBoundingClientRect(); return { x:r.x, y:r.y, right:r.right, bottom:r.bottom, width:r.width, height:r.height }; };
+        const visible = element => element.offsetParent && getComputedStyle(element).visibility !== 'hidden';
+        const dev = document.getElementById('development-toggle'), bounds = rect(dev);
+        const buttons = [...document.querySelectorAll('button')].filter(element => visible(element) && !element.disabled).map(element => {
+          const r = rect(element), hit = document.elementFromPoint(r.x + r.width/2, r.y + r.height/2);
+          return {id:element.id || element.getAttribute('aria-label'), bounds:r, hit:element === hit || element.contains(hit), fits:r.x>=0 && r.y>=0 && r.right<=innerWidth+.5 && r.bottom<=innerHeight+.5,
+            overlapsDev:element!==dev && bounds.x<r.right && bounds.right>r.x && bounds.y<r.bottom && bounds.bottom>r.y};
+        });
+        const labels = [...document.querySelectorAll('.score-block,.world-label,.coin-count,#pluck,#character-power,#toast,#idle')].filter(visible).map(element => {
+          const r=rect(element); return {id:element.id || element.className,bounds:r,overlapsDev:bounds.x<r.right && bounds.right>r.x && bounds.y<r.bottom && bounds.bottom>r.y};
+        });
+        const power = document.getElementById('character-power'), powerBounds = rect(power);
+        const status = document.getElementById('character-power-status'), statusBounds = rect(status);
+        const track = power.querySelector('.character-power-track'), trackBounds = rect(track);
+        return {buttons,labels,dev:bounds,handVisible:document.getElementById('app').dataset.handVisible,
+          power:{bounds:powerBounds,gap:bounds.x-powerBounds.right,status:status.textContent,statusBounds,
+            statusFits:statusBounds.x>=powerBounds.x && statusBounds.right<=powerBounds.right && statusBounds.y>=powerBounds.y && statusBounds.bottom<=powerBounds.bottom && status.scrollWidth<=status.clientWidth,
+            track:trackBounds,trackFits:trackBounds.width>0 && trackBounds.x>=powerBounds.x && trackBounds.right<=powerBounds.right && trackBounds.y>=powerBounds.y && trackBounds.bottom<=powerBounds.bottom}};
+      });
+      evidence.developmentLayouts.push({theme,populated,width,height,...layout});
+      await page.locator('iframe').screenshot({path:new URL(`health-development-${populated?'hand':'empty'}-${width}x${height}-${theme}.png`,output).pathname});
+      assert.ok(layout.buttons.every(button => button.fits && button.hit && !button.overlapsDev),JSON.stringify(layout));
+      assert.ok(layout.labels.every(label => !label.overlapsDev),JSON.stringify(layout));
+      assert.ok(layout.power.gap >= 0 && layout.power.statusFits && layout.power.trackFits,JSON.stringify(layout.power));
+      assert.equal(layout.handVisible === 'true',populated);
+      await frame.locator('#development-toggle').click();
+      assert.equal(await frame.locator('#development-panel').isVisible(),true);
+      await frame.locator('#development-close').click();
+      assert.equal(await frame.locator('#development-panel').isVisible(),false);
     }
   }
   assert.deepEqual(evidence.errors, []); assert.deepEqual(evidence.external, []);
@@ -305,7 +385,7 @@ try {
   await writeFile(new URL('health-runtime.json', output), JSON.stringify(evidence, null, 2) + '\n');
   console.log('PASS: built Pluck integration — rear/side damage, half-feather milestone, pause protection, fatal audio, retry, SDK result save and 12 frame/theme layouts.');
 } finally {
-  await browser?.close();
-  await new Promise(resolve => server.close(resolve));
+  try { if (frame) await collectRealm(frame, identity); }
+  finally { await browser?.close(); await new Promise(resolve => server.close(resolve)); }
 }
 

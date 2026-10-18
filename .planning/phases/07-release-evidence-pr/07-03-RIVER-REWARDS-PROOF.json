@@ -1,0 +1,1274 @@
+{
+  "purpose": "Actual built moving-reward and off-grid bank collection;source-identical diagnostic gains,not full enforcement",
+  "runId": "6ae1161c-8403-4ac1-b204-3ad39230807e",
+  "ordinaryExit": 0,
+  "ordinaryCases": 4,
+  "canonicalExit": 0,
+  "canonicalCases": 8,
+  "browserRealms": 8,
+  "nodeParents": 2,
+  "all170PriorJobsPreserved": true,
+  "productionSourceChanged": false,
+  "newProductRed": false,
+  "fixtureCorrections": [
+    "ordinary01 read nonexistent coinGravity instead of coinRadius",
+    "ordinary03 tried hidden P2 identity while P1 details were open;corrected by public Close details navigation"
+  ],
+  "inventoryByteSha256": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+  "testSha256": "c8a1d0c81ffcd0ce2d961cf611e42567c4fa9be8ffc0c2a03ef06525ac0a8186",
+  "hashes": {
+    "artifacts/release-coverage/river-rewards-03-proof/ordinary-01.log": "003b62e7de49605834f6f86c71a2479ac5289ed63252a39dfc49efa950da55a9",
+    "artifacts/release-coverage/river-rewards-03-proof/ordinary-02.log": "14d4a5be09929fd6c32b7542960f4258101c2995f4f1f5a0c05c53ee8dcfec0f",
+    "artifacts/release-coverage/river-rewards-03-proof/ordinary-03.log": "ff77e4baffe90f1e17f39138fe5223ae59ea374e75cec5049a607e0ddc993da9",
+    "artifacts/release-coverage/river-rewards-03-proof/ordinary-04.log": "7eaf4013c767938b71ede5f110b040c7527d28459e1cd4dadbb5e78df82187ad",
+    "artifacts/release-coverage/river-rewards-03-proof/canonical.log": "5c405f61a743798f3e16f9af0c67252f0d91febeadf1bb1444f5dae74783fe7a",
+    "artifacts/release-coverage/river-rewards-03/manifest.json": "c16da1eaf31fe7ecf32a54414e412a3b3ddeea37ccd3c6c8f0a654e715be90d5",
+    "artifacts/release-coverage/river-rewards-03/attribution.json": "f2feb3bef25eb29eefb06a29a3dde0599d5f75351dc5469fd40db2daa7c0d5c4",
+    "artifacts/release-coverage/river-rewards-03/report/coverage-final.json": "7db7fa3e867555410ae7e8d098c7f2206481f01b2e87c6e0043adba86745e3e0",
+    "package.json": "d0fac6f07aec0879543f88ba0325f652bd6c918a3f0ef2fcde49326728863b3e",
+    "tools/release-coverage/suites.json": "58b801f7fdca2747b5eb20254d30ad13943b5861aa76286847715365784bc54d"
+  },
+  "results": {
+    "global": {
+      "completeBaseline": {
+        "covered": 9168,
+        "total": 9998
+      },
+      "priorDiagnosticGains": 5,
+      "newWitnesses": 1,
+      "diagnosticCovered": 9174,
+      "total": 9998,
+      "remainingAt85": 0,
+      "rows": [
+        {
+          "path": "src/render.ts",
+          "sourceHash": "b6b5ae2ff1a4af8e3f6a0bf2c96bfcc3e83b11e95e38892ccaa6f33f3c2122c2",
+          "mapHash": "6a08518dab13de2e56cf750dd86d607d766b2caf9ca4f3bdbb9570dfde6ac67a",
+          "branchId": "84",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 298,
+              "column": 97
+            },
+            "end": {
+              "line": 298,
+              "column": 118
+            }
+          },
+          "line": 298,
+          "hits": 3113,
+          "text": "const x = coin.x, coinY = coin.y, surface = lane.coinPull?.z ?? (lane.kind === 'river' ? platformSurface(lane) : 0);"
+        }
+      ]
+    },
+    "browser-presentation-owner-lifecycle": {
+      "completeBaseline": {
+        "covered": 8336,
+        "total": 9867
+      },
+      "priorDiagnosticGains": 5,
+      "newWitnesses": 20,
+      "diagnosticCovered": 8361,
+      "total": 9867,
+      "remainingAt85": 26,
+      "rows": [
+        {
+          "path": "src/actors.ts",
+          "sourceHash": "8802f29be9e39003f6cdbf46c8ba08d61d2a01aaac91206ed6f236b8c65a1394",
+          "mapHash": "08c17e1ca994c4b4227da22d7ac9040d72fc51e9dcdfa19beaa7c9678fd05f91",
+          "branchId": "26",
+          "arm": 1,
+          "location": {
+            "start": {},
+            "end": {}
+          },
+          "line": 146,
+          "hits": 3480,
+          "text": "if (pattern?.kind !== 'platforms') return null;"
+        },
+        {
+          "path": "src/actors.ts",
+          "sourceHash": "8802f29be9e39003f6cdbf46c8ba08d61d2a01aaac91206ed6f236b8c65a1394",
+          "mapHash": "08c17e1ca994c4b4227da22d7ac9040d72fc51e9dcdfa19beaa7c9678fd05f91",
+          "branchId": "27",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 152,
+              "column": 38
+            },
+            "end": {
+              "line": 152,
+              "column": 39
+            }
+          },
+          "line": 152,
+          "hits": 1997,
+          "text": "return Math.abs(x) <= RENDER_EDGE ? x : null;"
+        },
+        {
+          "path": "src/actors.ts",
+          "sourceHash": "8802f29be9e39003f6cdbf46c8ba08d61d2a01aaac91206ed6f236b8c65a1394",
+          "mapHash": "08c17e1ca994c4b4227da22d7ac9040d72fc51e9dcdfa19beaa7c9678fd05f91",
+          "branchId": "27",
+          "arm": 1,
+          "location": {
+            "start": {
+              "line": 152,
+              "column": 42
+            },
+            "end": {
+              "line": 152,
+              "column": 46
+            }
+          },
+          "line": 152,
+          "hits": 1483,
+          "text": "return Math.abs(x) <= RENDER_EDGE ? x : null;"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "15",
+          "arm": 1,
+          "location": {
+            "start": {},
+            "end": {}
+          },
+          "line": 96,
+          "hits": 7317,
+          "text": "if (lane.coinActor === undefined) return { x: lane.coin, y: lane.index };"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "16",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 97,
+              "column": 2
+            },
+            "end": {
+              "line": 100,
+              "column": 3
+            }
+          },
+          "line": 97,
+          "hits": 3480,
+          "text": "if (lane.actors && lane.kind === 'river') {"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "16",
+          "arm": 1,
+          "location": {
+            "start": {},
+            "end": {}
+          },
+          "line": 97,
+          "hits": 3837,
+          "text": "if (lane.actors && lane.kind === 'river') {"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "17",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 97,
+              "column": 6
+            },
+            "end": {
+              "line": 97,
+              "column": 17
+            }
+          },
+          "line": 97,
+          "hits": 7317,
+          "text": "if (lane.actors && lane.kind === 'river') {"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "17",
+          "arm": 1,
+          "location": {
+            "start": {
+              "line": 97,
+              "column": 21
+            },
+            "end": {
+              "line": 97,
+              "column": 42
+            }
+          },
+          "line": 97,
+          "hits": 3480,
+          "text": "if (lane.actors && lane.kind === 'river') {"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "18",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 99,
+              "column": 24
+            },
+            "end": {
+              "line": 99,
+              "column": 28
+            }
+          },
+          "line": 99,
+          "hits": 1483,
+          "text": "return x === null ? null : { x, y: lane.index };"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "18",
+          "arm": 1,
+          "location": {
+            "start": {
+              "line": 99,
+              "column": 31
+            },
+            "end": {
+              "line": 99,
+              "column": 51
+            }
+          },
+          "line": 99,
+          "hits": 1997,
+          "text": "return x === null ? null : { x, y: lane.index };"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "19",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 106,
+              "column": 59
+            },
+            "end": {
+              "line": 106,
+              "column": 79
+            }
+          },
+          "line": 106,
+          "hits": 3390,
+          "text": "return x >= Math.max(-11, firstActor - 1e-9) && x < 11 ? { x, y: lane.index } : null;"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "19",
+          "arm": 1,
+          "location": {
+            "start": {
+              "line": 106,
+              "column": 82
+            },
+            "end": {
+              "line": 106,
+              "column": 86
+            }
+          },
+          "line": 106,
+          "hits": 447,
+          "text": "return x >= Math.max(-11, firstActor - 1e-9) && x < 11 ? { x, y: lane.index } : null;"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "20",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 106,
+              "column": 9
+            },
+            "end": {
+              "line": 106,
+              "column": 46
+            }
+          },
+          "line": 106,
+          "hits": 3837,
+          "text": "return x >= Math.max(-11, firstActor - 1e-9) && x < 11 ? { x, y: lane.index } : null;"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "20",
+          "arm": 1,
+          "location": {
+            "start": {
+              "line": 106,
+              "column": 50
+            },
+            "end": {
+              "line": 106,
+              "column": 56
+            }
+          },
+          "line": 106,
+          "hits": 3693,
+          "text": "return x >= Math.max(-11, firstActor - 1e-9) && x < 11 ? { x, y: lane.index } : null;"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "134",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 407,
+              "column": 43
+            },
+            "end": {
+              "line": 413,
+              "column": 5
+            }
+          },
+          "line": 407,
+          "hits": 4,
+          "text": "for (const lane of this.rows.values()) if (lane.coinActor === null && lane.index <= frontier + this.rules.retention.pickupBindingAhead) {"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "135",
+          "arm": 1,
+          "location": {
+            "start": {
+              "line": 407,
+              "column": 74
+            },
+            "end": {
+              "line": 407,
+              "column": 138
+            }
+          },
+          "line": 407,
+          "hits": 4,
+          "text": "for (const lane of this.rows.values()) if (lane.coinActor === null && lane.index <= frontier + this.rules.retention.pickupBindingAhead) {"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "136",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 411,
+              "column": 10
+            },
+            "end": {
+              "line": 411,
+              "column": 98
+            }
+          },
+          "line": 411,
+          "hits": 2,
+          "text": "? laneActors(lane, this.time).sort((a, b) => Math.abs(a.x) - Math.abs(b.x))[0]?.id ?? null"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "136",
+          "arm": 1,
+          "location": {
+            "start": {
+              "line": 412,
+              "column": 10
+            },
+            "end": {
+              "line": 412,
+              "column": 75
+            }
+          },
+          "line": 412,
+          "hits": 2,
+          "text": ": -Math.round((lane.phase + this.time * lane.speed) / lane.spacing);"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "137",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 411,
+              "column": 10
+            },
+            "end": {
+              "line": 411,
+              "column": 90
+            }
+          },
+          "line": 411,
+          "hits": 2,
+          "text": "? laneActors(lane, this.time).sort((a, b) => Math.abs(a.x) - Math.abs(b.x))[0]?.id ?? null"
+        },
+        {
+          "path": "src/render.ts",
+          "sourceHash": "b6b5ae2ff1a4af8e3f6a0bf2c96bfcc3e83b11e95e38892ccaa6f33f3c2122c2",
+          "mapHash": "6a08518dab13de2e56cf750dd86d607d766b2caf9ca4f3bdbb9570dfde6ac67a",
+          "branchId": "84",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 298,
+              "column": 97
+            },
+            "end": {
+              "line": 298,
+              "column": 118
+            }
+          },
+          "line": 298,
+          "hits": 1557,
+          "text": "const x = coin.x, coinY = coin.y, surface = lane.coinPull?.z ?? (lane.kind === 'river' ? platformSurface(lane) : 0);"
+        }
+      ]
+    },
+    "development": {
+      "completeBaseline": {
+        "covered": 2253,
+        "total": 2805
+      },
+      "priorDiagnosticGains": 24,
+      "newWitnesses": 19,
+      "diagnosticCovered": 2296,
+      "total": 2805,
+      "remainingAt85": 89,
+      "rows": [
+        {
+          "path": "src/actors.ts",
+          "sourceHash": "8802f29be9e39003f6cdbf46c8ba08d61d2a01aaac91206ed6f236b8c65a1394",
+          "mapHash": "08c17e1ca994c4b4227da22d7ac9040d72fc51e9dcdfa19beaa7c9678fd05f91",
+          "branchId": "26",
+          "arm": 1,
+          "location": {
+            "start": {},
+            "end": {}
+          },
+          "line": 146,
+          "hits": 3480,
+          "text": "if (pattern?.kind !== 'platforms') return null;"
+        },
+        {
+          "path": "src/actors.ts",
+          "sourceHash": "8802f29be9e39003f6cdbf46c8ba08d61d2a01aaac91206ed6f236b8c65a1394",
+          "mapHash": "08c17e1ca994c4b4227da22d7ac9040d72fc51e9dcdfa19beaa7c9678fd05f91",
+          "branchId": "27",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 152,
+              "column": 38
+            },
+            "end": {
+              "line": 152,
+              "column": 39
+            }
+          },
+          "line": 152,
+          "hits": 1997,
+          "text": "return Math.abs(x) <= RENDER_EDGE ? x : null;"
+        },
+        {
+          "path": "src/actors.ts",
+          "sourceHash": "8802f29be9e39003f6cdbf46c8ba08d61d2a01aaac91206ed6f236b8c65a1394",
+          "mapHash": "08c17e1ca994c4b4227da22d7ac9040d72fc51e9dcdfa19beaa7c9678fd05f91",
+          "branchId": "27",
+          "arm": 1,
+          "location": {
+            "start": {
+              "line": 152,
+              "column": 42
+            },
+            "end": {
+              "line": 152,
+              "column": 46
+            }
+          },
+          "line": 152,
+          "hits": 1483,
+          "text": "return Math.abs(x) <= RENDER_EDGE ? x : null;"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "15",
+          "arm": 1,
+          "location": {
+            "start": {},
+            "end": {}
+          },
+          "line": 96,
+          "hits": 7314,
+          "text": "if (lane.coinActor === undefined) return { x: lane.coin, y: lane.index };"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "16",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 97,
+              "column": 2
+            },
+            "end": {
+              "line": 100,
+              "column": 3
+            }
+          },
+          "line": 97,
+          "hits": 3480,
+          "text": "if (lane.actors && lane.kind === 'river') {"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "16",
+          "arm": 1,
+          "location": {
+            "start": {},
+            "end": {}
+          },
+          "line": 97,
+          "hits": 3834,
+          "text": "if (lane.actors && lane.kind === 'river') {"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "17",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 97,
+              "column": 6
+            },
+            "end": {
+              "line": 97,
+              "column": 17
+            }
+          },
+          "line": 97,
+          "hits": 7314,
+          "text": "if (lane.actors && lane.kind === 'river') {"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "17",
+          "arm": 1,
+          "location": {
+            "start": {
+              "line": 97,
+              "column": 21
+            },
+            "end": {
+              "line": 97,
+              "column": 42
+            }
+          },
+          "line": 97,
+          "hits": 3480,
+          "text": "if (lane.actors && lane.kind === 'river') {"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "18",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 99,
+              "column": 24
+            },
+            "end": {
+              "line": 99,
+              "column": 28
+            }
+          },
+          "line": 99,
+          "hits": 1483,
+          "text": "return x === null ? null : { x, y: lane.index };"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "18",
+          "arm": 1,
+          "location": {
+            "start": {
+              "line": 99,
+              "column": 31
+            },
+            "end": {
+              "line": 99,
+              "column": 51
+            }
+          },
+          "line": 99,
+          "hits": 1997,
+          "text": "return x === null ? null : { x, y: lane.index };"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "19",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 106,
+              "column": 59
+            },
+            "end": {
+              "line": 106,
+              "column": 79
+            }
+          },
+          "line": 106,
+          "hits": 3383,
+          "text": "return x >= Math.max(-11, firstActor - 1e-9) && x < 11 ? { x, y: lane.index } : null;"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "19",
+          "arm": 1,
+          "location": {
+            "start": {
+              "line": 106,
+              "column": 82
+            },
+            "end": {
+              "line": 106,
+              "column": 86
+            }
+          },
+          "line": 106,
+          "hits": 451,
+          "text": "return x >= Math.max(-11, firstActor - 1e-9) && x < 11 ? { x, y: lane.index } : null;"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "20",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 106,
+              "column": 9
+            },
+            "end": {
+              "line": 106,
+              "column": 46
+            }
+          },
+          "line": 106,
+          "hits": 3834,
+          "text": "return x >= Math.max(-11, firstActor - 1e-9) && x < 11 ? { x, y: lane.index } : null;"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "20",
+          "arm": 1,
+          "location": {
+            "start": {
+              "line": 106,
+              "column": 50
+            },
+            "end": {
+              "line": 106,
+              "column": 56
+            }
+          },
+          "line": 106,
+          "hits": 3690,
+          "text": "return x >= Math.max(-11, firstActor - 1e-9) && x < 11 ? { x, y: lane.index } : null;"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "134",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 407,
+              "column": 43
+            },
+            "end": {
+              "line": 413,
+              "column": 5
+            }
+          },
+          "line": 407,
+          "hits": 4,
+          "text": "for (const lane of this.rows.values()) if (lane.coinActor === null && lane.index <= frontier + this.rules.retention.pickupBindingAhead) {"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "135",
+          "arm": 1,
+          "location": {
+            "start": {
+              "line": 407,
+              "column": 74
+            },
+            "end": {
+              "line": 407,
+              "column": 138
+            }
+          },
+          "line": 407,
+          "hits": 4,
+          "text": "for (const lane of this.rows.values()) if (lane.coinActor === null && lane.index <= frontier + this.rules.retention.pickupBindingAhead) {"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "136",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 411,
+              "column": 10
+            },
+            "end": {
+              "line": 411,
+              "column": 98
+            }
+          },
+          "line": 411,
+          "hits": 2,
+          "text": "? laneActors(lane, this.time).sort((a, b) => Math.abs(a.x) - Math.abs(b.x))[0]?.id ?? null"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "136",
+          "arm": 1,
+          "location": {
+            "start": {
+              "line": 412,
+              "column": 10
+            },
+            "end": {
+              "line": 412,
+              "column": 75
+            }
+          },
+          "line": 412,
+          "hits": 2,
+          "text": ": -Math.round((lane.phase + this.time * lane.speed) / lane.spacing);"
+        },
+        {
+          "path": "src/game.ts",
+          "sourceHash": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd",
+          "mapHash": "6e0a74f2e53da4260dbd47b282cbb80dacb3b694bc417526eb28d7e7dc37e499",
+          "branchId": "137",
+          "arm": 0,
+          "location": {
+            "start": {
+              "line": 411,
+              "column": 10
+            },
+            "end": {
+              "line": 411,
+              "column": 90
+            }
+          },
+          "line": 411,
+          "hits": 2,
+          "text": "? laneActors(lane, this.time).sort((a, b) => Math.abs(a.x) - Math.abs(b.x))[0]?.id ?? null"
+        }
+      ]
+    }
+  },
+  "scenarios": {
+    "river-rewards-runtime": {
+      "buildScope": "production",
+      "cases": [
+        {
+          "mode": "relay",
+          "base": "arcade",
+          "recipe": "legacy",
+          "direction": 1,
+          "gravity": 0.1,
+          "landed": [
+            0.019000000000000048,
+            1,
+            1
+          ],
+          "carried": [
+            0.4890000000000024,
+            1,
+            1
+          ],
+          "bank": [
+            0.4890000000000024,
+            2,
+            2,
+            2,
+            2
+          ],
+          "otherWallet": 0,
+          "visibleWallets": [
+            {
+              "seat": "p1",
+              "text": "2 coins \u00b7 0 cards"
+            },
+            {
+              "seat": "p2",
+              "text": "0 coins \u00b7 0 cards"
+            }
+          ],
+          "deaths": [
+            0,
+            0
+          ],
+          "innateUses": [
+            0,
+            0
+          ],
+          "errors": [],
+          "external": []
+        },
+        {
+          "mode": "relay",
+          "base": "stroll",
+          "recipe": "varied",
+          "direction": -1,
+          "gravity": 0.1,
+          "landed": [
+            -0.011019999999999983,
+            1,
+            25
+          ],
+          "carried": [
+            -0.4901000000000079,
+            1,
+            25
+          ],
+          "bank": [
+            -0.4901000000000079,
+            2,
+            26,
+            2,
+            2
+          ],
+          "otherWallet": 0,
+          "visibleWallets": [
+            {
+              "seat": "p1",
+              "text": "26 coins \u00b7 0 cards"
+            },
+            {
+              "seat": "p2",
+              "text": "0 coins \u00b7 0 cards"
+            }
+          ],
+          "deaths": [
+            0,
+            0
+          ],
+          "innateUses": [
+            0,
+            0
+          ],
+          "errors": [],
+          "external": []
+        },
+        {
+          "mode": "race",
+          "base": "arcade",
+          "recipe": "varied",
+          "direction": 1,
+          "gravity": 0.1,
+          "landed": [
+            0.01900000000000005,
+            1,
+            25
+          ],
+          "carried": [
+            0.4910000000000025,
+            1,
+            25
+          ],
+          "bank": [
+            0.4910000000000025,
+            2,
+            26,
+            2,
+            2
+          ],
+          "otherWallet": 0,
+          "visibleWallets": [
+            {
+              "seat": "p1",
+              "text": "26 coins \u00b7 Leader \u00b7 2 tiles"
+            },
+            {
+              "seat": "p2",
+              "text": "0 coins \u00b7 0 tiles"
+            }
+          ],
+          "deaths": [
+            0,
+            0
+          ],
+          "innateUses": [
+            0,
+            0
+          ],
+          "errors": [],
+          "external": []
+        },
+        {
+          "mode": "race",
+          "base": "stroll",
+          "recipe": "legacy",
+          "direction": -1,
+          "gravity": 0.1,
+          "landed": [
+            -0.011019999999999983,
+            1,
+            1
+          ],
+          "carried": [
+            -0.4901000000000079,
+            1,
+            1
+          ],
+          "bank": [
+            -0.4901000000000079,
+            2,
+            2,
+            2,
+            2
+          ],
+          "otherWallet": 0,
+          "visibleWallets": [
+            {
+              "seat": "p1",
+              "text": "2 coins \u00b7 Leader \u00b7 2 tiles"
+            },
+            {
+              "seat": "p2",
+              "text": "0 coins \u00b7 0 tiles"
+            }
+          ],
+          "deaths": [
+            0,
+            0
+          ],
+          "innateUses": [
+            0,
+            0
+          ],
+          "errors": [],
+          "external": []
+        }
+      ],
+      "jsonSha256": "346e6a910f768a9c144dfa05e327735dca6361c89bea72295d696687d7d14ebc"
+    },
+    "river-rewards-runtime-development": {
+      "buildScope": "development",
+      "cases": [
+        {
+          "mode": "relay",
+          "base": "arcade",
+          "recipe": "legacy",
+          "direction": 1,
+          "gravity": 0.1,
+          "landed": [
+            0.019000000000000048,
+            1,
+            1
+          ],
+          "carried": [
+            0.4890000000000024,
+            1,
+            1
+          ],
+          "bank": [
+            0.4890000000000024,
+            2,
+            2,
+            2,
+            2
+          ],
+          "otherWallet": 0,
+          "visibleWallets": [
+            {
+              "seat": "p1",
+              "text": "2 coins \u00b7 0 cards"
+            },
+            {
+              "seat": "p2",
+              "text": "0 coins \u00b7 0 cards"
+            }
+          ],
+          "deaths": [
+            0,
+            0
+          ],
+          "innateUses": [
+            0,
+            0
+          ],
+          "errors": [],
+          "external": []
+        },
+        {
+          "mode": "relay",
+          "base": "stroll",
+          "recipe": "varied",
+          "direction": -1,
+          "gravity": 0.1,
+          "landed": [
+            -0.011019999999999983,
+            1,
+            25
+          ],
+          "carried": [
+            -0.4901000000000079,
+            1,
+            25
+          ],
+          "bank": [
+            -0.4901000000000079,
+            2,
+            26,
+            2,
+            2
+          ],
+          "otherWallet": 0,
+          "visibleWallets": [
+            {
+              "seat": "p1",
+              "text": "26 coins \u00b7 0 cards"
+            },
+            {
+              "seat": "p2",
+              "text": "0 coins \u00b7 0 cards"
+            }
+          ],
+          "deaths": [
+            0,
+            0
+          ],
+          "innateUses": [
+            0,
+            0
+          ],
+          "errors": [],
+          "external": []
+        },
+        {
+          "mode": "race",
+          "base": "arcade",
+          "recipe": "varied",
+          "direction": 1,
+          "gravity": 0.1,
+          "landed": [
+            0.01900000000000005,
+            1,
+            25
+          ],
+          "carried": [
+            0.4890000000000024,
+            1,
+            25
+          ],
+          "bank": [
+            0.4890000000000024,
+            2,
+            26,
+            2,
+            2
+          ],
+          "otherWallet": 0,
+          "visibleWallets": [
+            {
+              "seat": "p1",
+              "text": "26 coins \u00b7 Leader \u00b7 2 tiles"
+            },
+            {
+              "seat": "p2",
+              "text": "0 coins \u00b7 0 tiles"
+            }
+          ],
+          "deaths": [
+            0,
+            0
+          ],
+          "innateUses": [
+            0,
+            0
+          ],
+          "errors": [],
+          "external": []
+        },
+        {
+          "mode": "race",
+          "base": "stroll",
+          "recipe": "legacy",
+          "direction": -1,
+          "gravity": 0.1,
+          "landed": [
+            -0.011019999999999983,
+            1,
+            1
+          ],
+          "carried": [
+            -0.490100000000008,
+            1,
+            1
+          ],
+          "bank": [
+            -0.490100000000008,
+            2,
+            2,
+            2,
+            2
+          ],
+          "otherWallet": 0,
+          "visibleWallets": [
+            {
+              "seat": "p1",
+              "text": "2 coins \u00b7 Leader \u00b7 2 tiles"
+            },
+            {
+              "seat": "p2",
+              "text": "0 coins \u00b7 0 tiles"
+            }
+          ],
+          "deaths": [
+            0,
+            0
+          ],
+          "innateUses": [
+            0,
+            0
+          ],
+          "errors": [],
+          "external": []
+        }
+      ],
+      "jsonSha256": "3dd35f9db2b0551080f5dc1c9ab5471810d97a215c7db6545bfe190b4a507ae5"
+    }
+  },
+  "images": {
+    "artifacts/release-coverage/river-rewards-03/6ae1161c-8403-4ac1-b204-3ad39230807e/suite-artifacts/river-rewards-runtime/relay-arcade-legacy-approach.png": "c9e1cf6cfd7434c90f1522a45f7e4663014e95a46100bf901b87f526972dbbb3",
+    "artifacts/release-coverage/river-rewards-03/6ae1161c-8403-4ac1-b204-3ad39230807e/suite-artifacts/river-rewards-runtime/relay-arcade-legacy-bank.png": "8b5af0c293b588da27a3275cd524e5046aabe8ead56277bd8e630d23486950c1",
+    "artifacts/release-coverage/river-rewards-03/6ae1161c-8403-4ac1-b204-3ad39230807e/suite-artifacts/river-rewards-runtime/relay-arcade-legacy-wallet.png": "1ec6c05d8b7301ef12608ed60d87d7d021102c0ddea418bc3d88a13454b64836",
+    "artifacts/release-coverage/river-rewards-03/6ae1161c-8403-4ac1-b204-3ad39230807e/suite-artifacts/river-rewards-runtime/relay-stroll-varied-approach.png": "2694ab85494ce65384c2a838512b0e9b9bb61b3c2ef1a5cb3163bdca371bedfa",
+    "artifacts/release-coverage/river-rewards-03/6ae1161c-8403-4ac1-b204-3ad39230807e/suite-artifacts/river-rewards-runtime/relay-stroll-varied-bank.png": "66f0472910acbe9509c9c71b50fa19cf687674e06e8849e50a777742f2dfb321",
+    "artifacts/release-coverage/river-rewards-03/6ae1161c-8403-4ac1-b204-3ad39230807e/suite-artifacts/river-rewards-runtime/relay-stroll-varied-wallet.png": "14152a0a194cdca6c811053afb7ea637f19e85da45c75f0199c4dcad855c2b3c",
+    "artifacts/release-coverage/river-rewards-03/6ae1161c-8403-4ac1-b204-3ad39230807e/suite-artifacts/river-rewards-runtime/race-arcade-varied-approach.png": "ea07fa8916ea265379becf0dca25e331126950e4bbddde3e8a7a54f183f1cfcb",
+    "artifacts/release-coverage/river-rewards-03/6ae1161c-8403-4ac1-b204-3ad39230807e/suite-artifacts/river-rewards-runtime/race-arcade-varied-bank.png": "a676a4c36031878150a43a2d0304f8897203e5a8211de0c3c1b074ddd9c889bb",
+    "artifacts/release-coverage/river-rewards-03/6ae1161c-8403-4ac1-b204-3ad39230807e/suite-artifacts/river-rewards-runtime/race-arcade-varied-wallet.png": "daf03c42ffe81716e697488324127add3f743f6ae64237369c112bd1f69c5a66",
+    "artifacts/release-coverage/river-rewards-03/6ae1161c-8403-4ac1-b204-3ad39230807e/suite-artifacts/river-rewards-runtime/race-stroll-legacy-approach.png": "a42102d293d3df4c5b30fdea0c2a76ccb6e08fc842a80a5c77e627c40910e5bf",
+    "artifacts/release-coverage/river-rewards-03/6ae1161c-8403-4ac1-b204-3ad39230807e/suite-artifacts/river-rewards-runtime/race-stroll-legacy-bank.png": "52704fc5746f17474a88a5b2d17f9427307f38c362b211bae977501a251d06d0",
+    "artifacts/release-coverage/river-rewards-03/6ae1161c-8403-4ac1-b204-3ad39230807e/suite-artifacts/river-rewards-runtime/race-stroll-legacy-wallet.png": "ea4c5a8fc0e92f30d9ba525be92eabfa6f929d42a8ec63bd3e147a101791b051",
+    "artifacts/release-coverage/river-rewards-03/6ae1161c-8403-4ac1-b204-3ad39230807e/suite-artifacts/river-rewards-runtime-development/relay-arcade-legacy-approach.png": "7f5d629f8c1673c05a73164922bdb067c914fdf0be182ab410df309254caa4bc",
+    "artifacts/release-coverage/river-rewards-03/6ae1161c-8403-4ac1-b204-3ad39230807e/suite-artifacts/river-rewards-runtime-development/relay-arcade-legacy-bank.png": "3c8aed15176bab0c5f23885bd04803541a425444c16804a477b021196899617f",
+    "artifacts/release-coverage/river-rewards-03/6ae1161c-8403-4ac1-b204-3ad39230807e/suite-artifacts/river-rewards-runtime-development/relay-arcade-legacy-wallet.png": "90ce80ab2b6ec7f3e325c26dc962987ec60895ec5a2c8402d144d805509e15a4",
+    "artifacts/release-coverage/river-rewards-03/6ae1161c-8403-4ac1-b204-3ad39230807e/suite-artifacts/river-rewards-runtime-development/relay-stroll-varied-approach.png": "ae279932698fd1480e3df5d161bdb8528b02d128a26c4c9bf8c986b215868f56",
+    "artifacts/release-coverage/river-rewards-03/6ae1161c-8403-4ac1-b204-3ad39230807e/suite-artifacts/river-rewards-runtime-development/relay-stroll-varied-bank.png": "025daacd681bd06f6ef76cbd143f2bb7fc5d1435a93f36f290ce4c0d91d6234e",
+    "artifacts/release-coverage/river-rewards-03/6ae1161c-8403-4ac1-b204-3ad39230807e/suite-artifacts/river-rewards-runtime-development/relay-stroll-varied-wallet.png": "92448b163a4b735073bad08e5f7680ce211f5bd46adfc5e65b4be77841c8c4a3",
+    "artifacts/release-coverage/river-rewards-03/6ae1161c-8403-4ac1-b204-3ad39230807e/suite-artifacts/river-rewards-runtime-development/race-arcade-varied-approach.png": "6a00bcd9b7563e2d8c517437665069b3767167fb62c2c0c248fcda64dd70398e",
+    "artifacts/release-coverage/river-rewards-03/6ae1161c-8403-4ac1-b204-3ad39230807e/suite-artifacts/river-rewards-runtime-development/race-arcade-varied-bank.png": "5a859403390b4bd1a6d382c0d4ce6c3c736b5d3dade2a7f852318c8deaaed3d0",
+    "artifacts/release-coverage/river-rewards-03/6ae1161c-8403-4ac1-b204-3ad39230807e/suite-artifacts/river-rewards-runtime-development/race-arcade-varied-wallet.png": "1534c30d1a5b75a2b249026377afa092537749631c25eb3aeb34195779d7b628",
+    "artifacts/release-coverage/river-rewards-03/6ae1161c-8403-4ac1-b204-3ad39230807e/suite-artifacts/river-rewards-runtime-development/race-stroll-legacy-approach.png": "e4d9fd5b0418dbc113746e1bbc2685ff9ce8bdeeeee63d1973f5c54de3d9e9d7",
+    "artifacts/release-coverage/river-rewards-03/6ae1161c-8403-4ac1-b204-3ad39230807e/suite-artifacts/river-rewards-runtime-development/race-stroll-legacy-bank.png": "4d8fa0ae2d119dc6e9a58432c087d9008c989af9704ec1a10ce49f190f79be98",
+    "artifacts/release-coverage/river-rewards-03/6ae1161c-8403-4ac1-b204-3ad39230807e/suite-artifacts/river-rewards-runtime-development/race-stroll-legacy-wallet.png": "f5b74ce2a62a80a3afe8e409ea2f1cb541026e729e6e3cfbf06a3d0e5d9a400d"
+  },
+  "limitations": "Lane/reward geometry and Node-created platform assets are arranged. No player pose/clock/inventory/gravity/callback injection. No Relay/Race interval credit,physical hardware claim or complete visual/release pass.",
+  "comparisonScriptSha256": "ddb71f8c19729e488975faf9d068b4f261ea7984f08c8567f82204afdac9deb1",
+  "comparisonSha256": "3da8126fc24af36fa10d9f26c86c0e0dc0831ce11ddb722050071a46f5e1d49c",
+  "comparisonLogSha256": "31cc3ad4361978fa6eb59ee83b0b7919ac686033b951924b32876011c84ebec9",
+  "dispatchAudit": {
+    "entries": 158,
+    "closure": 165,
+    "jobs": 172,
+    "controls": 10,
+    "nodeRealms": 98,
+    "fullManifestValid": true
+  },
+  "dispatchAuditSha256": "6a946a47707680855b5d3643b9a0b7afc2a34d41fe25b423a67cadeb23b5451f",
+  "controls": {
+    "exit": 0,
+    "tests": 8,
+    "logSha256": "5e22d842820ae3c5d4de89b822952e4aadcd577cd9970d81596b2813ce5718f6"
+  },
+  "normalRawSha256": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
+  "rootLockRawSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "initialLedgerWitness": {
+    "path": "src/render.ts",
+    "branchId": "84",
+    "arm": 0,
+    "line": 298,
+    "sourceHash": "b6b5ae2ff1a4af8e3f6a0bf2c96bfcc3e83b11e95e38892ccaa6f33f3c2122c2",
+    "mapHash": "6a08518dab13de2e56cf750dd86d607d766b2caf9ca4f3bdbb9570dfde6ac67a",
+    "baselineCounts": [
+      0,
+      812948
+    ],
+    "currentFocusedCounts": [
+      3113,
+      6238
+    ],
+    "allMappedSchemasEqual": true,
+    "meaning": "The actual renderer paints an unpulled river reward at the physical platform surface."
+  }
+}

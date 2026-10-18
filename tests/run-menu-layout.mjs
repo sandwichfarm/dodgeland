@@ -6,6 +6,7 @@ const output = new URL('../artifacts/', import.meta.url); await mkdir(output, { 
 const evidence = { artifact: 'Built app in an opaque allow-scripts iframe', frames: [], scenarios: [], errors: [], external: [] };
 const fixture = await createMarketGameFixture(evidence), { page, frame, iframe, advance, resize, key, onGame } = fixture;
 let current = 'setup';
+let backwardReaderChecked = false;
 const colors = { dark: { background:'#242b32', text:'#f0eee5', primary:'#9fc28a' }, light: { background:'#f4f2df', text:'#263c38', primary:'#477953' } };
 async function layout(name) {
   current = name;
@@ -16,7 +17,9 @@ async function layout(name) {
     const nodes = [panel,...panel.querySelectorAll('*')].filter(visible);
     return { center: [r.x+r.width/2-innerWidth/2,r.y+r.height/2-innerHeight/2], fits:r.x>=0&&r.y>=0&&r.right<=innerWidth&&r.bottom<=innerHeight,
       font:style.fontFamily, paper:style.backgroundColor, wood:style.borderTopColor, tint:getComputedStyle(document.querySelector('.game-surface'),'::after').backgroundColor,
-      controls:nodes.filter(node=>node.matches('button,textarea')).map(node=>{const b=node.getBoundingClientRect(),hit=document.elementFromPoint(b.x+b.width/2,b.y+b.height/2); return {id:node.id||node.dataset.runTopic,width:b.width,height:b.height, fits:b.x>=r.x&&b.y>=r.y&&b.right<=r.right&&b.bottom<=r.bottom,hit:hit===node||node.contains(hit)};}),
+      state:document.querySelector('#app').dataset.runState,page:document.querySelector('#app').dataset.runMenuPage,viewport:[innerWidth,innerHeight],panel:{x:r.x,y:r.y,width:r.width,height:r.height},
+      text:nodes.filter(node=>node.matches('button')).flatMap(node=>[...function*(){const walker=document.createTreeWalker(node,NodeFilter.SHOW_TEXT);while(walker.nextNode())if(walker.currentNode.textContent.trim()&&visible(walker.currentNode.parentElement))yield walker.currentNode;}()].map(n=>{const range=document.createRange();range.selectNodeContents(n);const b=node.getBoundingClientRect();return{id:node.id||node.dataset.runTopic, fits:[...range.getClientRects()].every(t=>t.left>=b.left&&t.right<=b.right&&t.top>=b.top&&t.bottom<=b.bottom)};})),
+      controls:nodes.filter(node=>node.matches('button,textarea')).map(node=>{const b=node.getBoundingClientRect(),hit=document.elementFromPoint(b.x+b.width/2,b.y+b.height/2); return {id:node.id||node.dataset.runTopic,x:b.x,y:b.y,right:b.right,bottom:b.bottom,width:b.width,height:b.height, fits:b.x>=r.x&&b.y>=r.y&&b.right<=r.right&&b.bottom<=r.bottom,hit:hit===node||node.contains(hit)};}),
       overflow:nodes.filter(node=>node.clientWidth&&node.clientHeight&&!node.matches('img,svg,svg *')).filter(node=>node.scrollWidth>node.clientWidth+2||node.scrollHeight>node.clientHeight+2||['auto','scroll'].includes(getComputedStyle(node).overflowY)).map(node=>({id:node.id||node.className,width:node.clientWidth,height:node.clientHeight,sw:node.scrollWidth,sh:node.scrollHeight})),
       focused:document.activeElement?.id,
     };
@@ -24,6 +27,12 @@ async function layout(name) {
   evidence.last = { name, ...result };
   assert.ok(result.center.every(value=>Math.abs(value)<1),`${name} centered`); assert.ok(result.fits,`${name} fits`);
   assert.match(result.font,/Lilita One/); assert.notEqual(result.tint,'rgba(0, 0, 0, 0)');
+  const readyActions = result.state === 'ready' && (result.page === 'options' || (result.page === 'home' && result.viewport[0] >= 320 && result.viewport[1] >= 460));
+  if (readyActions) for(const id of ['play','choose','local-play','mode']) assert.ok(result.controls.some(c=>c.id===id), `${name}: ready action ${id} remains visible`);
+  if (result.state === 'dead') assert.ok(!result.controls.some(c=>c.id==='local-play'), `${name}: results preserve original Local Play absence`);
+  assert.deepEqual(result.text.filter(t=>!t.fits),[],`${name} complete control text fits`);
+  assert.deepEqual(result.controls.flatMap((a,i)=>result.controls.slice(i+1).filter(b=>a.x<b.right&&a.right>b.x&&a.y<b.bottom&&a.bottom>b.y).map(b=>[a.id,b.id])),[],`${name} action rectangles do not overlap`);
+  (evidence.observations ??= []).push({name,...result});
   assert.deepEqual(result.overflow,[],`${name} overflow: ${JSON.stringify(result.overflow)}`);
   assert.ok(result.controls.every(c=>c.width>=43.9&&c.height>=43.9&&c.fits&&c.hit),`${name} controls: ${JSON.stringify(result.controls)}`);
   return result;
@@ -34,6 +43,14 @@ async function read(topicName) {
   await topic(topicName); const chunks=[];
   for(let i=0;i<50;i++) {
     await layout(`${current}/${topicName}/${i}`);chunks.push(await frame.locator(topicName==='stats'?'#run-menu-stat-page':'#run-menu-copy').innerText());
+    if (i > 0 && !backwardReaderChecked) {
+      const content = frame.locator(topicName === 'stats' ? '#run-menu-stat-page' : '#run-menu-copy');
+      await frame.locator('#run-menu-prev').click(); await advance(20);
+      assert.equal(await content.innerText(), chunks.at(-2), 'backward reader paging restores the exact previous text');
+      await frame.locator('#run-menu-next').click(); await advance(20);
+      assert.equal(await content.innerText(), chunks.at(-1), 'forward paging returns to the same text');
+      backwardReaderChecked = true;
+    }
     if(await frame.locator('#run-menu-next').isDisabled()) break;
     await frame.locator('#run-menu-next').click();await advance(20);assert.ok(i<49);
   }
@@ -68,7 +85,7 @@ try {
           const token=await frame.locator('#run-seed-code').inputValue();assert.match(token,/^ph3-/);
           assert.equal(await frame.locator('#play').isVisible(),true);await home();
         }
-        if(await frame.locator('[data-run-topic="options"]:visible').count()) {await topic('options');await layout('options');assert.equal(await frame.locator('#choose').isVisible(),true);assert.equal(await frame.locator('#mode').isVisible(),true);await home();}
+        if(await frame.locator('[data-run-topic="options"]:visible').count()) {await topic('options');await layout('options');if(width<=390)await iframe.screenshot({path:new URL(`run-menu-options-${state}-${theme}-${width}x${height}.png`,output).pathname});assert.equal(await frame.locator('#choose').isVisible(),true);assert.equal(await frame.locator('#mode').isVisible(),true);await home();}
         await iframe.screenshot({path:new URL(`run-menu-${state}-${theme}-${width}x${height}.png`,output).pathname});
         evidence.frames.push({state,theme,width,height,controls:metrics.controls.length});
       }
@@ -77,10 +94,25 @@ try {
   await resize(240,240);
   await topic('stats');await key('back-menu');assert.equal(await frame.locator('[data-run-topic="stats"]').isVisible(),true);
   await frame.locator('[data-run-topic="seed"]').focus();await key('play');assert.equal(await frame.locator('#run-seed-code').isVisible(),true);
-  for(let n=0;n<8;n++){await page.keyboard.press('Tab');assert.equal(await frame.evaluate(()=>document.getElementById('run-panel').contains(document.activeElement)),true);}
+  for(let n=0;n<8;n++){await page.keyboard.press(n<4?'Tab':'Shift+Tab');assert.equal(await frame.evaluate(()=>document.getElementById('run-panel').contains(document.activeElement)),true);}
+  assert.equal(backwardReaderChecked, true, 'a compact reader exercised previous-page navigation');
+  // Seed text retains text-input ownership; test menu directions on buttons.
+  await home();
+  const endedRun = await onGame(function(){return {state:this.state,time:this.time,x:this.x,y:this.y};});
+  for (const direction of ['forward', 'left', 'back', 'right']) {
+    const focused = await frame.evaluate(() => document.activeElement?.id || document.activeElement?.dataset.runTopic);
+    await key(direction);
+    assert.notEqual(await frame.evaluate(() => document.activeElement?.id || document.activeElement?.dataset.runTopic), focused, `${direction} navigates the run menu`);
+    assert.deepEqual(await onGame(function(){return {state:this.state,time:this.time,x:this.x,y:this.y};}), endedRun, 'menu navigation cannot advance a finished run');
+  }
   await page.emulateMedia({reducedMotion:'reduce'});await advance(20);assert.equal(await frame.locator('#run-panel').evaluate(node=>getComputedStyle(node).animationName),'none');
   await home();await resize(900,600);const deadMaterial=await layout('result material');
-  await frame.locator('#play').click();await key('pause');await advance(250);
+  await frame.locator('#result-heading').click();
+  assert.equal(await frame.evaluate(() => document.activeElement instanceof HTMLButtonElement), false);
+  await key('play');
+  // Retry creates a new Game; onGame intentionally retains the old owner.
+  assert.equal(await frame.locator('#app').getAttribute('data-run-state'), 'playing', 'confirm with no focused button starts the next run');
+  await key('pause');await advance(250);
   const pauseMaterial=await frame.locator('#run-panel').evaluate(node=>({paper:getComputedStyle(node).backgroundColor,wood:getComputedStyle(node).borderTopColor,font:getComputedStyle(node).fontFamily}));
   assert.equal(deadMaterial.paper,pauseMaterial.paper);assert.equal(deadMaterial.wood,pauseMaterial.wood);assert.equal(deadMaterial.font,pauseMaterial.font);
   evidence.scenarios.push('Ready/results centered and tinted in 36 frame/theme/state cases, every control ≥44px, no scrolling, complete compact text/stat/seed pages, live resize; real run values; same font/paper/wood as pause; focus and SDK Enter/Back; reduced motion.');

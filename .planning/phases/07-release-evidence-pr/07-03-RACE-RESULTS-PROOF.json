@@ -1,0 +1,543 @@
+{
+  "status": "whole focused job passed; report-only, not enforcing release acceptance",
+  "runId": "494cd687-8a7e-4d88-986f-40adac3a0510",
+  "session": 91151,
+  "exitCode": 0,
+  "ordinary": {
+    "cases": 44,
+    "pass": 44,
+    "fail": 0,
+    "cancelled": 0
+  },
+  "canonical": {
+    "cases": 44,
+    "pass": 44,
+    "fail": 0,
+    "cancelled": 0
+  },
+  "jobs": [
+    {
+      "id": "race-results-test",
+      "file": "tests/race-results.test.mjs",
+      "role": "mixed",
+      "requiredRealms": [
+        "node",
+        "browser"
+      ],
+      "defaultBuildScope": "production",
+      "artifactPatterns": [
+        "artifacts/race-results"
+      ],
+      "modelAttribution": [
+        {
+          "mode": "race",
+          "lifetimes": 12,
+          "phases": [
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "settled"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "settled"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "settled"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "settled"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "settled"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "settled"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "settled"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "settled"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "settled"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "settled"
+            ],
+            [
+              "acquiring",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "playing"
+            ],
+            [
+              "playing",
+              "settled"
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "independentParents": 7,
+  "nodeParents": 1,
+  "browserRealms": 6,
+  "actualLifetimes": 12,
+  "intervals": 40,
+  "phasePairs": [
+    [
+      "acquiring",
+      "playing"
+    ],
+    [
+      "playing",
+      "playing"
+    ],
+    [
+      "playing",
+      "settled"
+    ],
+    [
+      "acquiring",
+      "playing"
+    ],
+    [
+      "playing",
+      "playing"
+    ],
+    [
+      "acquiring",
+      "playing"
+    ],
+    [
+      "playing",
+      "settled"
+    ],
+    [
+      "acquiring",
+      "playing"
+    ],
+    [
+      "playing",
+      "settled"
+    ],
+    [
+      "acquiring",
+      "playing"
+    ],
+    [
+      "playing",
+      "settled"
+    ],
+    [
+      "acquiring",
+      "playing"
+    ],
+    [
+      "playing",
+      "playing"
+    ],
+    [
+      "playing",
+      "playing"
+    ],
+    [
+      "playing",
+      "settled"
+    ],
+    [
+      "acquiring",
+      "playing"
+    ],
+    [
+      "playing",
+      "playing"
+    ],
+    [
+      "playing",
+      "playing"
+    ],
+    [
+      "playing",
+      "settled"
+    ],
+    [
+      "acquiring",
+      "playing"
+    ],
+    [
+      "playing",
+      "playing"
+    ],
+    [
+      "playing",
+      "playing"
+    ],
+    [
+      "playing",
+      "playing"
+    ],
+    [
+      "playing",
+      "settled"
+    ],
+    [
+      "acquiring",
+      "playing"
+    ],
+    [
+      "playing",
+      "playing"
+    ],
+    [
+      "playing",
+      "playing"
+    ],
+    [
+      "playing",
+      "playing"
+    ],
+    [
+      "playing",
+      "settled"
+    ],
+    [
+      "acquiring",
+      "playing"
+    ],
+    [
+      "playing",
+      "playing"
+    ],
+    [
+      "playing",
+      "settled"
+    ],
+    [
+      "acquiring",
+      "playing"
+    ],
+    [
+      "playing",
+      "playing"
+    ],
+    [
+      "playing",
+      "playing"
+    ],
+    [
+      "playing",
+      "settled"
+    ],
+    [
+      "acquiring",
+      "playing"
+    ],
+    [
+      "playing",
+      "playing"
+    ],
+    [
+      "playing",
+      "playing"
+    ],
+    [
+      "playing",
+      "settled"
+    ]
+  ],
+  "componentBase": "Original Arcade base for all twelve current component lifetimes",
+  "standalone": {
+    "lines": {
+      "covered": 1166,
+      "total": 2222
+    },
+    "functions": {
+      "covered": 463,
+      "total": 769
+    },
+    "branches": {
+      "covered": 1329,
+      "total": 3141
+    }
+  },
+  "staticPreservationAudit": {
+    "baseHead": "e93adc9c0076a8d0a172db1219fe82d600653931",
+    "assertions": 136,
+    "screenshotSites": 5,
+    "sixBrowserCasesAndGenericMarketByteIdentical": true,
+    "exactJobCopies": [
+      "race-results-12",
+      "race-results-03"
+    ],
+    "role": "mixed"
+  },
+  "frozenFiles": {
+    "dist/index.html": "a34fd21258f80302593c584f5a9566f7511af49798c0b0cac6dacc1beb478bc1",
+    "pnpm-lock.yaml": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+    "tests/race-results.test.mjs": "1394fc7160c75628e6a429467ffb443e47fc1ab61bb2c87f1a02f49ec1ec9ec5",
+    "tools/release-coverage/suites.json": "7b2829af798127df4d08fe7eeac3d01538165575430e0bf7b2a7c931f1e7a80a",
+    "src/game.ts": "fb5d9224e46c19b3745099429f06bd141d9b738bb2d8786ed3266e1b6a7d95f6",
+    "src/session.ts": "f8ce62cdc5c87557636cce62f0b15005bfa5f9cde42c708d67915b4c1ebcec39",
+    "src/main.ts": "33be7291c0e3c14910039fdb8a1d44e895273f79e132f9a0c9873b3d3166add4",
+    "src/co-op-market.ts": "037a96c9f9436346f06306cac74808aab5e92e205ce2c42bebb1dbd16ca24c22"
+  },
+  "originalOutputPresent": false,
+  "originalOutputFiles": 0,
+  "originalOutputAbsencePreserved": true,
+  "capturedPngs": 78,
+  "cells": 46,
+  "reports": {
+    "left-report.json": {
+      "complete": true,
+      "stages": [
+        "setup",
+        "terminal outcome",
+        "compact and regular inspection",
+        "cleanup"
+      ],
+      "cells": 2,
+      "captures": 2
+    },
+    "tiers-4-distinct-report.json": {
+      "complete": true,
+      "stages": [
+        "actual finish order",
+        "dark matrix",
+        "light matrix",
+        "cleanup"
+      ],
+      "cells": 10,
+      "captures": 22
+    },
+    "ordered-report.json": {
+      "complete": true,
+      "stages": [
+        "ordered finish",
+        "dark matrix",
+        "light matrix",
+        "selected participant and retry",
+        "cleanup"
+      ],
+      "cells": 12,
+      "captures": 32
+    },
+    "tiers-3-tie-report.json": {
+      "complete": true,
+      "stages": [
+        "actual finish order",
+        "dark matrix",
+        "light matrix",
+        "cleanup"
+      ],
+      "cells": 10,
+      "captures": 10
+    },
+    "tiers-4-tie-report.json": {
+      "complete": true,
+      "stages": [
+        "actual finish order",
+        "dark matrix",
+        "light matrix",
+        "cleanup"
+      ],
+      "cells": 10,
+      "captures": 10
+    },
+    "time-report.json": {
+      "complete": true,
+      "stages": [
+        "setup",
+        "terminal outcome",
+        "compact and regular inspection",
+        "cleanup"
+      ],
+      "cells": 2,
+      "captures": 2
+    }
+  },
+  "cleanupMs": {
+    "left-cleanup.json": 4485.469999999972,
+    "tiers-3-tie-cleanup.json": 4504.965874999994,
+    "time-cleanup.json": 4105.717500000028,
+    "tiers-4-distinct-cleanup.json": 5419.080832999956,
+    "tiers-4-tie-cleanup.json": 3802.1343330000527,
+    "ordered-cleanup.json": 3529.7807090000133
+  },
+  "priorFailure": {
+    "session": 45229,
+    "exitCode": 1,
+    "ordinaryCases": 44,
+    "pass": 42,
+    "fail": 1,
+    "cancelled": 1,
+    "failure": "Timed-results cleanup child timed out at30022ms after all outcome/layout assertions; parent AbortError",
+    "canonicalLaunched": false,
+    "restored": true,
+    "cause": "Not established; retained as an isolated shutdown timeout. Observer-only retry did not reproduce it. No gameplay RED or claimed product fix."
+  },
+  "diagnostic": {
+    "purpose": "Exact source/map/all-site-schema union; not enforcing acceptance",
+    "comparisonRun": "51a4bea2-21e7-4b74-9eae-b185f6401911",
+    "additionalPriorGroup": "turn-lifecycle-03",
+    "race": {
+      "lines": {
+        "covered": 2004,
+        "total": 2222
+      },
+      "statements": {
+        "covered": 2887,
+        "total": 3509
+      },
+      "functions": {
+        "covered": 675,
+        "total": 769
+      },
+      "branches": {
+        "covered": 2243,
+        "total": 3141
+      }
+    },
+    "newLines": 10,
+    "newFunctions": 4,
+    "newBranches": 24,
+    "remainingToModeFloors": {
+      "lines": 0,
+      "functions": 18,
+      "branches": 427
+    }
+  },
+  "requirements": [
+    "RACE-02",
+    "RACE-04",
+    "RACE-05",
+    "RACE-06",
+    "UI-03",
+    "UI-04",
+    "UI-05",
+    "TEST-02",
+    "TEST-03"
+  ],
+  "scope": "Twelve actual coordinator lifetimes with arranged terrain/funds/cooldown/positions outside action intervals. Pure ledger/rank/generic market components remain global-only. Six actual browser journeys remain independent. No whole mixed-worker mode credit, exclusions, assertion/timeout reduction, product-code change, hardware claim or protocol-conformance claim.",
+  "log": "/tmp/down-to-duck-07-03-race-results-close-chain.log",
+  "preservation": "/tmp/down-to-duck-07-03-race-results-close-state.json"
+}

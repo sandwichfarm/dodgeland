@@ -1,0 +1,83 @@
+{
+  "status": "Reviewed source profiles and108 controls pass;one fresh actual Relay cohort passes. Full current-source release coverage remains open",
+  "utc": "2026-10-17T19:21:07.591940+00:00",
+  "sourceTransition": {
+    "comparisonCommit": "bcd79e7",
+    "executableCount": 158,
+    "changes": [
+      {
+        "path": "src/game.ts",
+        "before": "04d7556c96b37b03539f270c2ce2c8e2b620c301d729a1fd6238be8e66d9413b",
+        "after": "8836f978c5afa8df069b51d9a72ea3bdbd5025b3cb6540d747dbaf14b2aa38cd"
+      }
+    ],
+    "executablePairDigest": "97f037fa041e738d931c54fb47f98d85632b8c0e4eaa7275f500e9c300787bd6",
+    "developmentAuthorityDigest": "d1b631456c6a698df30488f1a64f5fcb1c5d29346d499e40982dee3ba64b2b89",
+    "normalArtifactRawSha256": "e9800fc8f06e848c933243def3783d23f630042543fe523a3e7fd25fd4925542",
+    "rootLockRawSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+    "allTrackedSurfaceCount": 176,
+    "sourceCount": 159
+  },
+  "profileFiles": {
+    "tools/release-coverage/turn-applicability.mjs": "1d61a5580a804751d3b9d2c1c8519defbe8bb9b9a63d2ddc9a278f0d16170edf",
+    "tools/release-coverage/turn-applicability.test.mjs": "6b2b307813653ff24efb6bef0bb0ddd5e880067e175c228531fca4ffce90db22",
+    "tools/release-coverage/solo-applicability.mjs": "9820a9dc76d81aec0c147bc735011b0e679ce41abe9be245e7f8330e8112ef90",
+    "tools/release-coverage/solo-applicability.test.mjs": "a082554e9865d7ea39ff875de07aa5dedc76cd16aba246d101c919f85d3e6cb5",
+    "tools/release-coverage/builtin-rule-applicability.mjs": "1fb088bcd381cafd014eadf45b4e47c9bf9451e4d8d7255b25963447dfab03d4",
+    "tools/release-coverage/development-applicability.mjs": "d3149a92d8ee65637712cefd0a9629ff3ae4a75032bd4a06911c56ea65c4b628"
+  },
+  "allControls": {
+    "passed": 108,
+    "failed": 0,
+    "skipped": 0,
+    "exit": 0,
+    "purpose": "Tool calibration only,no gameplay credit"
+  },
+  "newGuardSites": "All mapped new Game.move guard/call/arms stay counted in solo and turn profiles;positive synthetic probes accepted by official evaluator",
+  "canonicalCohort": {
+    "directory": "artifacts/release-coverage/relay-generation-effects-03",
+    "runId": "e99b8e37-a0f9-482a-9161-9cb07bc36f8c",
+    "inventoryByteSha256": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+    "tests": 16,
+    "payloads": 1,
+    "componentLifetimes": 16,
+    "componentIntervals": 48,
+    "publicIntervals": 0,
+    "thresholdsEvaluated": false,
+    "applicableRelayMetrics": {
+      "lines": {
+        "covered": 1164,
+        "total": 2104
+      },
+      "functions": {
+        "covered": 385,
+        "total": 715
+      },
+      "branches": {
+        "covered": 1145,
+        "total": 2763
+      }
+    }
+  },
+  "dispatch": {
+    "entries": 155,
+    "closure": 162,
+    "productionJobs": 167,
+    "controlPaths": 10
+  },
+  "proofArtifacts": {
+    "artifacts/release-coverage/relay-generation-effects/all-controls.log": "c231893959efe93ebf22efb365ed128aa9f485cef56d93c822922dfed0e119c8",
+    "artifacts/release-coverage/relay-generation-effects/profiles-focused.log": "a749d83a94761cea624e07db5add8c757037542acb5c03eea4673da5e652c7d3",
+    "artifacts/release-coverage/relay-generation-effects/canonical-first.log": "a8aa9edb7d3707cb8cd55aea8a56b07705b47805089c9756836056d44b2ad014",
+    "artifacts/release-coverage/relay-generation-effects/dispatch-audit.json": "6b1070a15932eb8c895cb3ce595bad44e33c4388d884cf93779cedc6d987d9d5",
+    "artifacts/release-coverage/relay-generation-effects-03/manifest.json": "11279443d236094e868ba5c1f135598aebc39813188fff47f83751afd531f0bb",
+    "artifacts/release-coverage/relay-generation-effects-03/attribution.json": "608299554e856a6160f7c1af8ec9f360f6f3d47bb938d35157d06bc2ed44242f"
+  },
+  "limits": [
+    "No old Game04 counters are merged into Game8836",
+    "Previous19-cohort union and74/98 gaps are historical",
+    "Numeric floors unchanged;no new exclusions",
+    "Semantic/global/per-file review and fresh enforcing full collection remain open",
+    "Final conformance/visual/clause/PR work remains open"
+  ]
+}

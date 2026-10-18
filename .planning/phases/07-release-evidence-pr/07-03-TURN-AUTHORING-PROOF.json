@@ -1,0 +1,322 @@
+{
+  "status": "Expanded existing four setup-and-correction cases pass ordinary/canonical authoring validation;not full release acceptance",
+  "runId": "3248a738-2f47-4a86-a2aa-e438ed3c7c1b",
+  "payloadCount": 1,
+  "lifetimes": 4,
+  "intervals": 12,
+  "invalidAuthoringAttemptsPerLifetime": 38,
+  "invalidAuthoringAttemptsTotal": 152,
+  "correctedPackDefinitionsPerLifetime": 4,
+  "thresholdsEvaluated": false,
+  "testSourceSha256": "ea459ee556b720e9e70709add65eae6efc1c52960b25e7a2b001cb5864a89a94",
+  "manifestSha256": "d9e81d461a04b50c45694b984242caad319f90690d304e7cc262f43f377ec43e",
+  "canonicalInventorySha256": "37f806f85a06a771ca5e1302b2e5aa996fd725c29e66175ef2d150a8c0f31404",
+  "currentDiagnosticModes": {
+    "relay": {
+      "raw": {
+        "statements": {
+          "covered": 2958,
+          "total": 3735
+        },
+        "functions": {
+          "covered": 660,
+          "total": 817
+        },
+        "branches": {
+          "covered": 2264,
+          "total": 3204
+        },
+        "lines": {
+          "covered": 1993,
+          "total": 2352
+        }
+      },
+      "applicable": {
+        "statements": {
+          "covered": 2958,
+          "total": 3271
+        },
+        "functions": {
+          "covered": 660,
+          "total": 708
+        },
+        "branches": {
+          "covered": 2264,
+          "total": 2744
+        },
+        "lines": {
+          "covered": 1993,
+          "total": 2079
+        }
+      },
+      "remaining": {
+        "lines": 0,
+        "functions": 0,
+        "branches": 69
+      },
+      "componentLifetimes": 108,
+      "componentIntervals": 373,
+      "publicIntervals": 2
+    },
+    "race": {
+      "raw": {
+        "statements": {
+          "covered": 3051,
+          "total": 3645
+        },
+        "functions": {
+          "covered": 703,
+          "total": 818
+        },
+        "branches": {
+          "covered": 2480,
+          "total": 3261
+        },
+        "lines": {
+          "covered": 2065,
+          "total": 2305
+        }
+      },
+      "applicable": {
+        "statements": {
+          "covered": 3051,
+          "total": 3406
+        },
+        "functions": {
+          "covered": 703,
+          "total": 758
+        },
+        "branches": {
+          "covered": 2480,
+          "total": 3032
+        },
+        "lines": {
+          "covered": 2065,
+          "total": 2163
+        }
+      },
+      "remaining": {
+        "lines": 0,
+        "functions": 0,
+        "branches": 98
+      },
+      "componentLifetimes": 139,
+      "componentIntervals": 486,
+      "publicIntervals": 8
+    }
+  },
+  "newBranchWitnesses": {
+    "relay": 14,
+    "race": 11
+  },
+  "newInitialWitnesses": [
+    {
+      "path": "src/market/run.ts",
+      "sourceHash": "ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f",
+      "mapHash": "ad818814e8ce4d89d771a2b069dd5596a7f2bdd32f4267c7948959b6bde29acd",
+      "id": "16",
+      "arm": 0,
+      "initialCount": 0,
+      "count": 32,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 103,
+            "column": 6
+          },
+          "end": {
+            "line": 103,
+            "column": 158
+          }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": {
+              "line": 103,
+              "column": 6
+            },
+            "end": {
+              "line": 103,
+              "column": 158
+            }
+          },
+          {
+            "start": {},
+            "end": {}
+          }
+        ]
+      },
+      "meaning": "Invalid authored item ID,price or rarity rejects real Game construction before adoption without altering inputs or the existing course"
+    },
+    {
+      "path": "src/market/run.ts",
+      "sourceHash": "ba755b3573ca4acaf2a11ce7b77c277df526a16b2801cca612ee55feee36de6f",
+      "mapHash": "ad818814e8ce4d89d771a2b069dd5596a7f2bdd32f4267c7948959b6bde29acd",
+      "id": "27",
+      "arm": 0,
+      "initialCount": 0,
+      "count": 16,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 111,
+            "column": 6
+          },
+          "end": {
+            "line": 111,
+            "column": 146
+          }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": {
+              "line": 111,
+              "column": 6
+            },
+            "end": {
+              "line": 111,
+              "column": 146
+            }
+          },
+          {
+            "start": {},
+            "end": {}
+          }
+        ]
+      },
+      "meaning": "Nonpositive or nonfinite authored power duration rejects real Game construction;corrected catalogue starts the actual mode"
+    }
+  ],
+  "alreadyReviewedInitialHits": [
+    {
+      "path": "src/race.ts",
+      "sourceHash": "d2ecf7bbc185520fdad9b441c52775297b4929f455e665e38caabebebacb62da",
+      "mapHash": "359d1befb5381d2a2df7d84e71de36101ec61193601e694e8af77ddd2f617fb8",
+      "id": "108",
+      "arm": 0,
+      "initialCount": 0,
+      "count": 2,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 248,
+            "column": 2
+          },
+          "end": {
+            "line": 248,
+            "column": 92
+          }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": {
+              "line": 248,
+              "column": 2
+            },
+            "end": {
+              "line": 248,
+              "column": 92
+            }
+          },
+          {
+            "start": {},
+            "end": {}
+          }
+        ]
+      }
+    },
+    {
+      "path": "src/relay.ts",
+      "sourceHash": "f5c1eea5b82e6e42d7b6bbc6a95f7f0d28aa7ad7468c4464e0217ab9f89e6c02",
+      "mapHash": "f20ca8a0dcea141035a8a302915ac67da56d9be55a470a4655e1a01e4bf78fa7",
+      "id": "98",
+      "arm": 0,
+      "initialCount": 0,
+      "count": 2,
+      "site": {
+        "loc": {
+          "start": {
+            "line": 293,
+            "column": 2
+          },
+          "end": {
+            "line": 293,
+            "column": 93
+          }
+        },
+        "type": "if",
+        "locations": [
+          {
+            "start": {
+              "line": 293,
+              "column": 2
+            },
+            "end": {
+              "line": 293,
+              "column": 93
+            }
+          },
+          {
+            "start": {},
+            "end": {}
+          }
+        ]
+      }
+    }
+  ],
+  "executionInventory": {
+    "valid": true,
+    "entries": 153,
+    "closure": 160,
+    "jobs": 165,
+    "controls": 10
+  },
+  "normalArtifactRawSha256": "9036d9a1f179b136569a3b400c412d954d783987c751832afbbbfda287c63539",
+  "rootLockRawSha256": "5ac3c476e3049e2e9c3261b7a34b3b709d88fad3382277d4b38e0546f06ab58d",
+  "allEarlierSuiteAndFullJobDeclarationsUnchanged": true,
+  "initialLedger": {
+    "newSourceIdenticalWitnesses": 2,
+    "reviewed": 190,
+    "covered": 189,
+    "privateDefault": 1,
+    "pending": 861
+  },
+  "gates": {
+    "type-check": 0,
+    "build": 0,
+    "guidance": {
+      "exit": 0,
+      "passed": 7
+    },
+    "conformance": {
+      "exit": 0,
+      "passed": 5,
+      "failed": 0,
+      "unmeasured": 5
+    }
+  },
+  "artifacts": {
+    "artifacts/release-coverage/turn-authoring-review/canonical.log": "22c30689f3ad0b8938766aa2d7a462d4be93c6a68c1f633015f64d1be4da7a26",
+    "artifacts/release-coverage/turn-authoring-review/current-mode-misses.json": "cbbddc428c11de4b2e2d74fbd9494966a47a16b2a5b1a52459f5142e5ae1efed",
+    "artifacts/release-coverage/turn-authoring-review/execution-inventory.json": "0e359fb6ee30d1f26b51089ee589767ac23e8433b8150fbef36c79499a9da6c5",
+    "artifacts/release-coverage/turn-authoring-review/gates.log": "85e56b2fb23b4352a36710c0aa8476b5bc4597d3d576dc8ea1c030d8467c01f9",
+    "artifacts/release-coverage/turn-authoring-review/initial-witnesses.json": "8b1c8e99a995b9539dae55e4428bf1a9ec41455cd05908e0214b25c8ac0c2092",
+    "artifacts/release-coverage/turn-authoring-review/mode-union.json": "b05cda8989a269061c73442d718c3cdedd98adfcd074206262af72826e6b2fbc",
+    "artifacts/release-coverage/turn-authoring-review/mode-union.log": "bd2dde169adb011e8688165c845e5e40b3672467b2288ebd300b8ea62c5f6fbc",
+    "artifacts/release-coverage/turn-authoring-review/mode-union.py": "36ded64d8e7392d234bcb1c800e8f927e064c24174c86a59c75acfdcf8797e4d",
+    "artifacts/release-coverage/turn-authoring-review/ordinary.log": "361f9fb997989d72cd56e69b94ecb8b689519c88cced5ffa91815059ff66f5ce",
+    "artifacts/release-coverage/turn-authoring-review/unknown-suite-launch.log": "f3eac19d673726b62fe552f6b91c26073cb32d8b90768f3abe8872a004710287"
+  },
+  "limits": [
+    "Component authoring/acquisition proof,not a public UI configuration flow or pure validation-helper attribution",
+    "Invalid constructors cannot rewrite frozen input or mutate reference course/world/player;corrected real Game is the one adopted by Relay/Race",
+    "Corrected catalogue checks constructor acceptance of pack limits/bonus endpoints;does not claim every authored pack has enough eligible cards to purchase",
+    "Original proposal/staging rollback,actual first hop,owner isolation and immutable results remain in the same four test bodies",
+    "Diagnostic union replaces original setup-retry cohort with expanded current job;does not count both executions as extra lifetimes",
+    "Initial unknown-suite launch failed before collection;retained separately,no product RED or passing evidence inferred",
+    "No production,oracle,dependency,package,scope,numeric floor or complete-release acceptance change"
+  ]
+}

@@ -58,10 +58,10 @@ test('each real loss supplies its cause before onEnd and later updates cannot re
     ['water', g => lane(g, 'river', { phase: 3, length: 2 })],
     ['wave', g => { g.waveRow = 0; }],
     ['swept', g => { g.x = 5.51; lane(g, 'river', { phase: 5.51, speed: 0 }); }],
-    ['trail', g => { g.mode = 'stroll'; g.maxY = 8; }],
+    ['trail', g => { g.maxY = 8; }],
   ];
   for (const [cause, setup] of cases) {
-    const g = new Game(10);
+    const g = new Game(10, 'pond', cause === 'trail' ? 'stroll' : 'arcade');
     if (cause === 'water' || cause === 'swept') g.setCharacter('sunny');
     g.state = 'playing'; setup(g);
     let heard; let ends = 0; g.onEnd = () => { heard = g.deathCause; ends++; };
