@@ -193,7 +193,7 @@ Plans:
 - [x] 07-10-PLAN.md — Eight package component owners20/20,12 canonical browser payloads.
 - [x] 07-11-PLAN.md — Seven built owners, eight jobs and56 canonical browser payloads.
 - [x] 07-12-PLAN.md — Collect audio jobs, reconcile full inventory and produce valid attributed initial report.
-- [ ] 07-03-PLAN.md — Close meaningful measured coverage and behavioral gaps.
+- [x] 07-03-PLAN.md — Close meaningful measured coverage and behavioral gaps.
 - [ ] 07-04-PLAN.md — Measure scoped wire, teardown and current-manifest conformance.
 - [ ] 07-05-PLAN.md — Commit current visual proof and complete original-clause traceability.
 - [ ] 07-06-PLAN.md — Run unchanged inherited plus additive gates and open the authorized PR.
