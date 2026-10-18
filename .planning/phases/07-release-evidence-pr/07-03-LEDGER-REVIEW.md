@@ -389,3 +389,19 @@ artifact hashes,current test bytes,complete report schemas and all four initial
 identities. This adds semantic annotations,not execution or coverage credit.
 The same current cohort also proves Session299/0,whose changed historical
 initial Session source remains unmodified.
+
+## Recovery and market residual conditions
+
+**COOP-03/04/05,ITEM-03/04/05,INPUT-04,UI-03,RELAY-04,RACE-04.**
+Ten current-source zero arms now have explicit condition/consequence,actual
+behavior suite and bounded value/order dispositions. The sole shipped market
+host provides catalogue/can-act policy and initialized state;pending-pack's
+second check follows the earlier identical refusal. Recovery subjects are bound
+before exposure;death handlers receive committed dead participants;the private
+apply follows revalidation and the shipped synchronous charge-only debit.
+Generic custom callbacks remain outside that bounded claim. All ten remain
+counted,with no execution or exclusion credit.
+[Review](07-03-RECOVERY-MARKET-RESIDUAL-REVIEW.md) and
+[proof](07-03-RECOVERY-MARKET-RESIDUAL-PROOF.json) bind ten exact raw identities,
+nine registered test sources,the159-source/six-target audit and410 unchanged
+frozen paths. Current partial index is218 reviewed/612 pending.

@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Fresh full05 enforcing collection live; semantic audit remains active
-last_updated: "2026-10-18T01:19:54.152515+00:00"
+last_updated: "2026-10-18T01:24:55.955Z"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,29 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Full05 verified live exec70321/PID1821:19 controls/76 production jobs pass;relay-layout active after01:19:07. All410 frozen paths unchanged. Current semantic208 reviewed/622 pending with18 existing witnesses/190 counted residuals. Separate scene cases,remaining semantic audit,07-04/05/06/PR remain.
+last_activity_desc: Full05 confirmed live exec70321;19 controls/78 production jobs pass;relay-results-test active. Recovery/market residual review adds10 exact source-bound cases;current index218 reviewed/612 pending. All410 frozen paths unchanged. Remaining audit,standalone scene cases,07-04/05/06 and PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+Recovery/market residual review binds10 original zero arms across co-op-market,
+session-recovery and survive-together to explicit consequence/value/order and
+registered behavior source evidence. Read-only159-source/six-target audit:
+one shipped market constructor,three recovery death calls,one private apply,
+subject's direct and map callback references,one Survive death callback. Generic
+mutating debit callbacks remain outside the shipped synchronous argument.
+All10 remain counted;no execution/hit/exclusion or threshold change. Proof
+checks all410 frozen source/test/tool/config/build/lock paths unchanged.
+Current semantic-ledger-05 verifies218 reviewed/612 pending,18 existing positive
+witness links and200 counted residuals. Initial reader's groups-only registry
+assumption failure retained;corrected reader checks execution.jobs and verifies
+allnine cited test sources are scheduled. No production failure inferred.
+Full05 exec70321 confirmed live by actual poll;78 production jobs and19 controls
+pass withno failures observed;relay-results-test active after01:24:07UTC.
+Continue this same chain. Remaining semantic review,standalone scene cases after
+terminal full run,07-04/05/06 and PR remain unfinished.
 
 Latest verified full05 checkpoint:exec70321 still running,parent1821;
 19 executable controls and76 production jobs passed;relay-layout active after

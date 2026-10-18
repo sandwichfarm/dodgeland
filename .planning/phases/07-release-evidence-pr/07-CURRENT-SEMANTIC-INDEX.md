@@ -1,9 +1,9 @@
 # Partial current-source semantic index
 
 The retained complete current-source enforcing-fail report0b8f818d has830 raw
-zero arms. This index records208 reviewed arms and622 pending. Eighteen reviewed
+zero arms. This index records218 reviewed arms and612 pending. Eighteen reviewed
 arms have source/schema-identical positive witnesses from later passing cohorts;
-190 are retained counted residuals. These counts are a semantic review partition,
+200 are retained counted residuals. These counts are a semantic review partition,
 not coverage percentages,additional execution or whole-release progress.
 
 | Review | Arms | Scope |
@@ -12,6 +12,7 @@ not coverage percentages,additional execution or whole-release progress.
 |TURN-RESIDUAL-REVIEW|33|Relay/Race ownership,item and ledger conditions;four existing reclaim witnesses,29 retained counted guards/fallbacks.|
 |SESSION-RESIDUAL-REVIEW|71|Shared construction/identity,item transactions,safe placement,progress and lifecycle;five existing Flare andone reclaim witness,65 counted residuals.|
 |SCHEMA-RECOVERY-SEMANTIC-REVIEW|9|Eight actual invalid-schema/clock/cell witnesses andone private omitted-salt default;source identities match initial/current schemas.|
+|RECOVERY-MARKET-RESIDUAL-REVIEW|10|Owner market defaults and duplicated pack refusal;recovery binding,death notification and synchronous apply guards. All remain counted.|
 |CONTROLLER-GUARD-REVIEW private52/0|1|Private omitted context remains raw zero;fresh159-file/2-target audit revalidates the existing exact application value-flow proof.|
 
 The refreshed router audit independently finds one main constructor with a
@@ -24,7 +25,7 @@ frozen sources;it does not claim all arbitrary external callbacks behave so.
 
 `07-CURRENT-SEMANTIC-INDEX.json` binds review proof/doc hashes,raw inventory,
 current410-path freeze and router audit. Detailed per-arm index and assembly
-script are retained under `artifacts/release-coverage/current-semantic-ledger-04`.
+script are retained under `artifacts/release-coverage/current-semantic-ledger-05`.
 Assembly checks source/map identity and a unique nonoverlapping key for every
 reviewed row. It cannot supply the human condition/consequence review or turn a
 zero counter positive. Raw/global/per-file reports and all floors are unchanged.

@@ -1,0 +1,612 @@
+{
+  "purpose": "Consequence/value-order review of ten retained counted market/recovery guards and fallbacks;no new execution,coverage credit,scope or floor change",
+  "sourceRun": "0b8f818d-62a2-4922-ab83-242886778c0c",
+  "currentInventoryRawSha256": "f46f696b03eaea5e765d8499f6602fb4028ee7733c1b172ca4b85c6a885c89e2",
+  "freshFullRun": "cb52774e-975e-4388-a064-5162ef3807d8",
+  "freshFullStatus": "active;result not inferred",
+  "frozenPathsVerified": 410,
+  "audit": {
+    "sources": 159,
+    "targets": 6,
+    "limit": "Resolved references supplement manual source/value/ordering review;generic callbacks and reflection are not declared unreachable"
+  },
+  "behaviorSources": [
+    {
+      "path": "tests/survive-economy.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/survive-economy-boundaries.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/session-recovery.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/survive-recovery-terminal.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/recovery-target-identity.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/survive-together.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/recovery-plan-boundaries.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/consumable-world-boundaries.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    },
+    {
+      "path": "tests/survive-recovery-boundaries.test.mjs",
+      "registered": true,
+      "sourceInspected": true,
+      "newExecutionClaim": false
+    }
+  ],
+  "rows": [
+    {
+      "path": "src/co-op-market.ts",
+      "sourceHash": "037a96c9f9436346f06306cac74808aab5e92e205ce2c42bebb1dbd16ca24c22",
+      "mapHash": "059f2c4a97a7a2b1d22f66d5b34ebec99e624f01557f299b63f045b102788d3c",
+      "id": "3",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 81,
+          "column": 105
+        },
+        "end": {
+          "line": 81,
+          "column": 116
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 81,
+          "column": 68
+        },
+        "end": {
+          "line": 81,
+          "column": 116
+        }
+      },
+      "sourceText": "CONSUMABLES",
+      "owner": "CoOpMarketAdapter.catalogue",
+      "sourceContext": "CONSUMABLES",
+      "scopeProofs": [
+        {
+          "mode": "solo-arcade",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-CALL-CLOSURE.md",
+          "callReason": "CoOpMarketAdapter instance execution requires LocalSession construction/attachment.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-CALL-CLOSURE.md",
+          "callReason": "CoOpMarketAdapter instance execution requires LocalSession construction/attachment.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        }
+      ],
+      "status": "reviewed-counted-shared-contract-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-04",
+        "ITEM-05",
+        "INPUT-04",
+        "UI-03"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-RECOVERY-MARKET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/co-op-market.ts",
+      "sourceHash": "037a96c9f9436346f06306cac74808aab5e92e205ce2c42bebb1dbd16ca24c22",
+      "mapHash": "059f2c4a97a7a2b1d22f66d5b34ebec99e624f01557f299b63f045b102788d3c",
+      "id": "9",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 100,
+          "column": 4
+        },
+        "end": {
+          "line": 100,
+          "column": 39
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 100,
+          "column": 4
+        },
+        "end": {
+          "line": 100,
+          "column": 39
+        }
+      },
+      "sourceText": "if (!consumables) return undefined;",
+      "owner": "CoOpMarketAdapter.snapshot",
+      "sourceContext": "if (!consumables) return undefined;",
+      "scopeProofs": [
+        {
+          "mode": "solo-arcade",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-CALL-CLOSURE.md",
+          "callReason": "CoOpMarketAdapter instance execution requires LocalSession construction/attachment.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-CALL-CLOSURE.md",
+          "callReason": "CoOpMarketAdapter instance execution requires LocalSession construction/attachment.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        }
+      ],
+      "status": "reviewed-counted-shared-contract-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-04",
+        "ITEM-05",
+        "INPUT-04",
+        "UI-03"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-RECOVERY-MARKET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/co-op-market.ts",
+      "sourceHash": "037a96c9f9436346f06306cac74808aab5e92e205ce2c42bebb1dbd16ca24c22",
+      "mapHash": "059f2c4a97a7a2b1d22f66d5b34ebec99e624f01557f299b63f045b102788d3c",
+      "id": "33",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 145,
+          "column": 101
+        },
+        "end": {
+          "line": 145,
+          "column": 105
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 145,
+          "column": 61
+        },
+        "end": {
+          "line": 145,
+          "column": 187
+        }
+      },
+      "sourceText": "true",
+      "owner": "CoOpMarketAdapter.eligible",
+      "sourceContext": "true",
+      "scopeProofs": [
+        {
+          "mode": "solo-arcade",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-CALL-CLOSURE.md",
+          "callReason": "CoOpMarketAdapter instance execution requires LocalSession construction/attachment.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-CALL-CLOSURE.md",
+          "callReason": "CoOpMarketAdapter instance execution requires LocalSession construction/attachment.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        }
+      ],
+      "status": "reviewed-counted-shared-contract-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-04",
+        "ITEM-05",
+        "INPUT-04",
+        "UI-03"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-RECOVERY-MARKET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/co-op-market.ts",
+      "sourceHash": "037a96c9f9436346f06306cac74808aab5e92e205ce2c42bebb1dbd16ca24c22",
+      "mapHash": "059f2c4a97a7a2b1d22f66d5b34ebec99e624f01557f299b63f045b102788d3c",
+      "id": "35",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 149,
+          "column": 62
+        },
+        "end": {
+          "line": 149,
+          "column": 87
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 149,
+          "column": 62
+        },
+        "end": {
+          "line": 149,
+          "column": 87
+        }
+      },
+      "sourceText": "if (!state) return false;",
+      "owner": "CoOpMarketAdapter.itemEligible",
+      "sourceContext": "if (!state) return false;",
+      "scopeProofs": [
+        {
+          "mode": "solo-arcade",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-CALL-CLOSURE.md",
+          "callReason": "CoOpMarketAdapter instance execution requires LocalSession construction/attachment.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-CALL-CLOSURE.md",
+          "callReason": "CoOpMarketAdapter instance execution requires LocalSession construction/attachment.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        }
+      ],
+      "status": "reviewed-counted-shared-contract-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-04",
+        "ITEM-05",
+        "INPUT-04",
+        "UI-03"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-RECOVERY-MARKET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/co-op-market.ts",
+      "sourceHash": "037a96c9f9436346f06306cac74808aab5e92e205ce2c42bebb1dbd16ca24c22",
+      "mapHash": "059f2c4a97a7a2b1d22f66d5b34ebec99e624f01557f299b63f045b102788d3c",
+      "id": "56",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 173,
+          "column": 4
+        },
+        "end": {
+          "line": 173,
+          "column": 94
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 173,
+          "column": 4
+        },
+        "end": {
+          "line": 173,
+          "column": 94
+        }
+      },
+      "sourceText": "if (owner.run.pendingPack) return { ok: false, message: 'Choose your pack cards first.' };",
+      "owner": "CoOpMarketAdapter.dispatch",
+      "sourceContext": "if (owner.run.pendingPack) return { ok: false, message: 'Choose your pack cards first.' };",
+      "scopeProofs": [
+        {
+          "mode": "solo-arcade",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-CALL-CLOSURE.md",
+          "callReason": "CoOpMarketAdapter instance execution requires LocalSession construction/attachment.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        },
+        {
+          "mode": "solo-flow",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-SOLO-CALL-CLOSURE.md",
+          "callReason": "CoOpMarketAdapter instance execution requires LocalSession construction/attachment.",
+          "stateReason": "Stable solo interval requires independently observed absence of session ownership AND Local Play staging/transition; no session-acquisition or mixed-mode counters are credited here; actual primary solo Game construction remains applicable."
+        }
+      ],
+      "status": "reviewed-counted-shared-contract-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-04",
+        "ITEM-05",
+        "INPUT-04",
+        "UI-03"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-RECOVERY-MARKET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/session-recovery.ts",
+      "sourceHash": "35119abd8ac6551d253ec0ada320c934fd5a9cf20c142444e3afdb4094093b9c",
+      "mapHash": "a33d6c9608854d850000e1eb7237b541f0b423655df8306b8e60914495dc14e8",
+      "id": "0",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 11,
+          "column": 57
+        },
+        "end": {
+          "line": 11,
+          "column": 58
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 11,
+          "column": 21
+        },
+        "end": {
+          "line": 11,
+          "column": 58
+        }
+      },
+      "sourceText": "0",
+      "owner": "subject",
+      "sourceContext": "0",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shared-contract-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "RELAY-04",
+        "RACE-04",
+        "ITEM-03",
+        "ITEM-04"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-RECOVERY-MARKET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/session-recovery.ts",
+      "sourceHash": "35119abd8ac6551d253ec0ada320c934fd5a9cf20c142444e3afdb4094093b9c",
+      "mapHash": "a33d6c9608854d850000e1eb7237b541f0b423655df8306b8e60914495dc14e8",
+      "id": "4",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 25,
+          "column": 4
+        },
+        "end": {
+          "line": 25,
+          "column": 91
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 25,
+          "column": 4
+        },
+        "end": {
+          "line": 25,
+          "column": 91
+        }
+      },
+      "sourceText": "if (!session || !player || !player.recovery || player.participation !== 'dead') return;",
+      "owner": "SessionRecoveryController.death",
+      "sourceContext": "if (!session || !player || !player.recovery || player.participation !== 'dead') return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shared-contract-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "RELAY-04",
+        "RACE-04",
+        "ITEM-03",
+        "ITEM-04"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-RECOVERY-MARKET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/session-recovery.ts",
+      "sourceHash": "35119abd8ac6551d253ec0ada320c934fd5a9cf20c142444e3afdb4094093b9c",
+      "mapHash": "a33d6c9608854d850000e1eb7237b541f0b423655df8306b8e60914495dc14e8",
+      "id": "21",
+      "arm": 1,
+      "type": "binary-expr",
+      "location": {
+        "start": {
+          "line": 52,
+          "column": 176
+        },
+        "end": {
+          "line": 52,
+          "column": 178
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 52,
+          "column": 160
+        },
+        "end": {
+          "line": 52,
+          "column": 178
+        }
+      },
+      "sourceText": "[]",
+      "owner": "SessionRecoveryController.recover.callback@51",
+      "sourceContext": "[]",
+      "scopeProofs": [
+        {
+          "mode": "relay",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-SCOPE-FINDINGS.md",
+          "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope."
+        },
+        {
+          "mode": "race",
+          "authority": ".planning/phases/07-release-evidence-pr/07-03-TURN-SCOPE-FINDINGS.md",
+          "callReason": "Both pinned coordinators construct the default personal-only SessionRecoveryController; recover rejects other kinds before planning. No independent generic planner execution is attributed to these modes.",
+          "stateReason": "Exact unchanged Relay/Race composition across actual acquisition, play, pause and terminal intervals; both Arcade and Flow remain applicable. Module initialization, guards and crossing spans remain in scope."
+        }
+      ],
+      "status": "reviewed-counted-shared-contract-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "RELAY-04",
+        "RACE-04",
+        "ITEM-03",
+        "ITEM-04"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-RECOVERY-MARKET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/session-recovery.ts",
+      "sourceHash": "35119abd8ac6551d253ec0ada320c934fd5a9cf20c142444e3afdb4094093b9c",
+      "mapHash": "a33d6c9608854d850000e1eb7237b541f0b423655df8306b8e60914495dc14e8",
+      "id": "26",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 61,
+          "column": 6
+        },
+        "end": {
+          "line": 61,
+          "column": 92
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 61,
+          "column": 6
+        },
+        "end": {
+          "line": 61,
+          "column": 92
+        }
+      },
+      "sourceText": "if (!player || player.recovery?.deathGeneration !== placement.deathGeneration) return;",
+      "owner": "SessionRecoveryController.apply",
+      "sourceContext": "if (!player || player.recovery?.deathGeneration !== placement.deathGeneration) return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shared-contract-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-04",
+        "COOP-05",
+        "RELAY-04",
+        "RACE-04",
+        "ITEM-03",
+        "ITEM-04"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-RECOVERY-MARKET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    },
+    {
+      "path": "src/survive-together.ts",
+      "sourceHash": "dbc77f00e9c37ee845920c3b63da30f8f661582e37da4f30bb2d2f72c3c4b69b",
+      "mapHash": "90a2e2a2af9c770dd2bad622a360cff63001ecf66eaf37158e49dac38eee4bb4",
+      "id": "0",
+      "arm": 0,
+      "type": "if",
+      "location": {
+        "start": {
+          "line": 13,
+          "column": 4
+        },
+        "end": {
+          "line": 13,
+          "column": 91
+        }
+      },
+      "conditionLocation": {
+        "start": {
+          "line": 13,
+          "column": 4
+        },
+        "end": {
+          "line": 13,
+          "column": 91
+        }
+      },
+      "sourceText": "if (!session || !player || !player.recovery || player.participation !== 'dead') return;",
+      "owner": "SurviveTogetherController.death",
+      "sourceContext": "if (!session || !player || !player.recovery || player.participation !== 'dead') return;",
+      "scopeProofs": [],
+      "status": "reviewed-counted-shared-contract-guard-or-fallback",
+      "baseline": "Current complete enforcing-fail report;later positive witnesses must be independently checked,not assumed.",
+      "requirements": [
+        "COOP-03",
+        "COOP-05"
+      ],
+      "semanticAuthority": ".planning/phases/07-release-evidence-pr/07-03-RECOVERY-MARKET-RESIDUAL-REVIEW.md",
+      "newCounterCredit": false,
+      "newExclusion": false
+    }
+  ],
+  "hashes": {
+    "artifacts/release-coverage/semantic-current-03/raw-zero-review.json": "c8297f9591dcbe604c1ff06f2e67ca6575ac9570a94838dec747530dcfda5fc4",
+    ".planning/phases/07-release-evidence-pr/07-03-SCHEMA-RECOVERY-SEMANTIC-PROOF.json": "8a5bfe67e7b38a5b107cef1ab65e13a01131247c05265c0d68bd57e471a83a09",
+    "artifacts/release-coverage/current-full-05-proof/freeze.json": "c72459fff67275b20c5b67c1076d781f825a00cec405fada8743cb2f350111a3",
+    "artifacts/release-coverage/recovery-market-residual-05/reference-audit.json": "55b7a6b61ee86c2cf17b9815e52b0655fc9ffeac2b1d372143ef5e6eced85112",
+    "tools/release-coverage/suites.json": "02e81d3e4320ed8a2d0901fd0eee532e051d1c0b27b606c011fedbc3674ab88d",
+    "tests/survive-economy.test.mjs": "47de3c47477849cf7b182f5deea0a13f0d72514ad2067118063e1431230608ee",
+    "tests/survive-economy-boundaries.test.mjs": "aa7351c6e27261707fbfa2def9a1fc65a57bc959107910caa89f5aff96396edd",
+    "tests/session-recovery.test.mjs": "32ad2bc545854c4dc035950e62ed20d4e81d3d7dd28b9054acab1d49f1f1dfc7",
+    "tests/survive-recovery-terminal.test.mjs": "f9150b94eb6afe1e9e18bb7143f8d7604b72954be285875a9b9de17e0009f658",
+    "tests/recovery-target-identity.test.mjs": "eeacc872dc981ea3763cc46ec693d719d82ce89998bca36fdf93d052da467df4",
+    "tests/survive-together.test.mjs": "0ade09436949b3a2552b14956fc37f4418c8fedc5642fe1481d2e82f90423eb2",
+    "tests/recovery-plan-boundaries.test.mjs": "cfe0cb395791a289d86c327a26f50dfb79580e9aaabf85b7df10e8b7d0119d8e",
+    "tests/consumable-world-boundaries.test.mjs": "5aa76f1b029a0efa90a6f585b2464dd5eead9067a867999a5a2528b5c41e330b",
+    "tests/survive-recovery-boundaries.test.mjs": "25ea5390a30e4a91c4b6d3b8267dab978683815b4b41704da9d03b0a3a0ec5c0",
+    ".planning/phases/07-release-evidence-pr/07-03-RECOVERY-MARKET-RESIDUAL-REVIEW.md": "952e8259d815de70f8166aca777c06787dec055c0d625ed07ea9a3072ead822f",
+    "artifacts/release-coverage/recovery-market-residual-05/reference-audit.mjs": "68a25e47150f8975ce3448a9cf0563b099f98b055c9d1679dd5f369a9857e923",
+    "artifacts/release-coverage/recovery-market-residual-05/reference-audit.log": "0d202fbbeebf4ecebcb01bbcb19bb8d402f35a9119de761991298979646f9ce2",
+    "artifacts/release-coverage/recovery-market-residual-05/verify.mjs": "32958fdd2cdde2413ef09bd041537af4da55a0fbc394a16547f05ad105400441",
+    "src/co-op-market.ts": "037a96c9f9436346f06306cac74808aab5e92e205ce2c42bebb1dbd16ca24c22",
+    "src/session-recovery.ts": "35119abd8ac6551d253ec0ada320c934fd5a9cf20c142444e3afdb4094093b9c",
+    "src/survive-together.ts": "dbc77f00e9c37ee845920c3b63da30f8f661582e37da4f30bb2d2f72c3c4b69b"
+  }
+}
