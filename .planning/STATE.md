@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Fresh full05 enforcing collection live; semantic audit remains active
-last_updated: "2026-10-18T00:59:08.303766+00:00"
+last_updated: "2026-10-18T01:06:30.295528+00:00"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,25 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Full05 still live exec70321;all19 controls and51 production jobs passed,market-layout active.119 completed-owner payloads losslessly compressed with terminal receipts/unique names/source-destination-final SHA;all410 freeze hashes unchanged. No live outputs or counters changed. Semantic audit,standalone scene,07-04/05/06/PR remain.
+last_activity_desc: Full05 remains live exec70321;Race item suite passed,production at race-layout. Session audit71 arms:6 prior real witnesses/65 counted residuals,159-source15-target audit and all410 frozen paths verified. No new hits/exclusions/source changes. Other semantic audit,standalone scene,07-04/05/06/PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+Session residual review now binds71 original current-full arms:five existing
+Flare safety witnesses plusone existing reclaim-offer witness;65 counted shared
+contract guards/fallbacks remain. SESSION-RESIDUAL-REVIEW/PROOF links item/schema/
+credit/debit,constructor/identity,safe placement,personal progress,lifecycle and
+stage cases to exact required behavior suites and bounded caller/value arguments.
+159-source/15-target audit:private rescue getter has two guarded property reads;
+unused commitAdmission has declaration only;credit/debit/placement/recovery paths
+have resolved owned calls. All410 frozen source/test/tool/config/build/lock hashes
+reverified. No new execution,hits,exclusion,policy,denominator,floor or app change.
+Full05 still live exec70321,parent1821,last observed race-layout after race-items
+passed at01:04:31UTC. Continue same chain. Other changed-source semantic review,
+standalone two-case market-scene after chain,07-04/05/06 and PR remain.
 
 Full05 storage maintenance:119 immutable payloads from51 terminal exit0 jobs
 compressed transparently while market-layout remained active. No active outputs/
