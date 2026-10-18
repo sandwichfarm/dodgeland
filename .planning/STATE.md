@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Fresh full05 enforcing collection live; semantic audit remains active
-last_updated: "2026-10-18T01:41:52.660Z"
+last_updated: "2026-10-18T01:44:48.376Z"
 progress:
   total_phases: 7
   completed_phases: 6
@@ -12,12 +12,28 @@ progress:
   completed_plans: 41
 current_phase: 07
 current_phase_name: release-evidence-pr
-last_activity_desc: Full05 live exec70321;19 controls/106 production jobs pass;sound-firefox active. Hand/inventory/market review adds121 counted cases;index508 reviewed/322 pending,only main. All410 frozen inputs unchanged. Remaining audit,standalone scene cases,07-04/05/06 and PR remain.
+last_activity_desc: Full05 live exec70321;19 controls/118 production jobs pass;survive-market-fresh-context active. Main owner/modal review adds97 counted cases;index605 reviewed/225 pending after main line650. All410 frozen inputs unchanged. Remaining audit,standalone scene cases,07-04/05/06 and PR remain.
 ---
 
 # Project State
 
 ## Current work
+
+Main owner/modal/router review binds97 original zeros through source line650.
+Explicit consequences and19 registered behavior sources distinguish live
+transaction/participant authority from displayed owner state. selectedOwnerKey
+is session+seat only;RunInventory identity and captured participant/generation/
+revision checks independently reject reused-seat stale actions. This qualifies
+earlier component owner-key shorthand. Read-only159-source/12-target audit
+retains structural option callback uses despite zero resolved direct calls.
+All97 table identities and410 frozen paths verified. No new execution/hits/
+exclusion/floor/app change;all97 remain counted. Current-semantic-ledger-13
+verifies605 reviewed/225 pending,18 existing witnesses and587 counted residuals.
+Pending main ranges:651–1200 has76;1201–1900 has149. Full05 same70321 live;
+118 production jobs/19 controls pass,no failures observed;last observed
+survive-market-fresh-context after controller-owner passed01:44:21UTC.
+Continue same chain. Remaining main review,standalone scene cases after
+terminal,07-04/05/06 and PR remain unfinished.
 
 Hand/inventory/market UI residual review binds121 original zeros:run-hand39,
 market/run10,market-ui72. Explicit consequences/behavior boundaries retain all

@@ -509,3 +509,20 @@ sources,the same construction audit and sole explicit currentEntries(run,all)
 call. All72 market table sites are mechanically accounted for in the document.
 All410 frozen paths unchanged;no execution,hits,exclusions or threshold changes.
 Current partial index508 reviewed/322 pending;main is the remaining raw group.
+
+## Main owner,modal and router conditions
+
+**COOP-03/04/05,ITEM-03/04/05,INPUT-03/04/05,UI-02/03/04/05/06,
+RELAY-03/04,RACE-03/04,SOLO-01,TEST-02/03/04/05.** Ninety-seven original
+main zero arms through line650 have explicit consequences/behavior boundaries
+for owner transactions,Race/Survive item and departure modals,recovery capture,
+shared Controls and router precedence. selectedOwnerKey is session+seat,not a
+participant grant;RunInventory identity,captured participant IDs and generation/
+revision checks independently guard reused-seat transactions. This qualifies
+earlier component shorthand about owner keys. Structural option callbacks
+remain applicable despite no directly resolved call,e.g.selectNextHudOwner.
+[Review](07-03-MAIN-OWNER-UI-RESIDUAL-REVIEW.md) and
+[proof](07-03-MAIN-OWNER-UI-RESIDUAL-PROOF.json) bind97 exact sites,a159-source/
+12-target audit,19 registered behavior sources and410 unchanged frozen paths.
+All97 table identities accounted for;all remain counted. No new execution,hits,
+exclusion or floor change. Current partial index605 reviewed/225 pending inmain.
